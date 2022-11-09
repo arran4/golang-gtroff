@@ -21,7 +21,7 @@ func (t TokenText) String() string {
 }
 
 // TokenTH Set the title of the man page to title and the section to
-// section, which must have a value between 1 and 8.  The value
+// section, which must have a value between 1 and 8.  The value
 // of section may also have a string appended, e.g. ‘.pm’, to
 // indicate a specific subsection of the man pages.
 //
@@ -37,7 +37,7 @@ func (t TokenText) String() string {
 // completely suppressed.
 //
 // Additionally, this macro starts a new page; the new line number
-// is 1 again (except if the -rC1 option is given on the
+// is 1 again (except if the -rC1 option is given on the
 // command line) – this feature is intended only for formatting multiple
 // man pages; a single man page should contain exactly one TH macro
 // at the beginning of the file.
@@ -187,7 +187,7 @@ func (t *TokenRB) String() string {
 
 var _ Token = (*TokenRB)(nil)
 
-// TokenDT Set tabs every 0.5 inches.  Since this macro is always executed
+// TokenDT Set tabs every 0.5 inches.  Since this macro is always executed
 // during a call to the TH macro, it makes sense to call it only if
 // the tab positions have been changed.
 type TokenDT struct { /*  */
@@ -201,8 +201,8 @@ var _ Token = (*TokenDT)(nil)
 
 // TokenPD Adjust the empty space before a new paragraph (or section).  The
 // optional argument gives the amount of space (default unit is ‘v’);
-// without parameter, the value is reset to its default value (1 line
-// in nroff mode, 0.4v otherwise).
+// without parameter, the value is reset to its default value (1 line
+// in nroff mode, 0.4v otherwise).
 //
 // This affects the macros SH, SS, TP, LP (as
 // well as PP and P), IP, and HP.
@@ -411,7 +411,7 @@ func (t *TokenRN) String() string {
 
 var _ Token = (*TokenRN)(nil)
 
-// TokenVS Start printing a change bar in the margin if the number 4 is
+// TokenVS Start printing a change bar in the margin if the number 4 is
 // specified.  Otherwise, this macro does nothing.
 type TokenVS struct { /* [4] */
 }
@@ -434,11 +434,11 @@ var _ Token = (*TokenVE)(nil)
 
 // TokenRP Specifies the report format for your document.  The report format
 // creates a separate cover page.  The default action (no RP macro)
-// is to print a subset of the cover page on page 1 of your document.
+// is to print a subset of the cover page on page 1 of your document.
 //
 // If you use the word no as an optional argument, groff
 // prints a title page but does not repeat any of the title page
-// information (title, author, abstract, etc.) on page 1 of the
+// information (title, author, abstract, etc.) on page 1 of the
 // document.
 type TokenRP struct { /* [no] */
 }
@@ -449,7 +449,7 @@ func (t *TokenRP) String() string {
 
 var _ Token = (*TokenRP)(nil)
 
-// TokenP1 (P-one) Prints the header on page 1.  The default is to suppress
+// TokenP1 (P-one) Prints the header on page 1.  The default is to suppress
 // the header.
 type TokenP1 struct { /*  */
 }
@@ -626,7 +626,7 @@ func (t *TokenXP) String() string {
 var _ Token = (*TokenXP)(nil)
 
 // TokenNH Numbered heading.  The argument is either a numeric argument to indicate
-// the level of the heading, or the letter S followed by
+// the level of the heading, or the letter S followed by
 // numeric arguments to set the heading level explicitly.
 //
 // If you specify heading levels out of sequence, such as invoking
@@ -691,7 +691,7 @@ func (t *TokenB) String() string {
 var _ Token = (*TokenB)(nil)
 
 // TokenR Sets its first argument in roman (or regular) type.  It operates
-// similarly to the B macro otherwise.
+// similarly to the B macro otherwise.
 // Switch to roman font and turn off any underlining in effect.
 type TokenR struct { /* [txt | undefined */
 }
@@ -703,7 +703,7 @@ func (t *TokenR) String() string {
 var _ Token = (*TokenR)(nil)
 
 // TokenI Sets its first argument in italic type.  It operates similarly
-// to the B macro otherwise.
+// to the B macro otherwise.
 // Set text in italic.  If no text is present on the line where the
 // macro is called, then the text of the next line appears in italic.
 type TokenI struct { /* [txt | [text] */
@@ -716,7 +716,7 @@ func (t *TokenI) String() string {
 var _ Token = (*TokenI)(nil)
 
 // TokenBI Sets its first argument in bold italic type.  It operates similarly to
-// the B macro otherwise.
+// the B macro otherwise.
 // Set its arguments alternately in bold face and italic, without a space
 // between the arguments.  Thus,
 //
@@ -820,7 +820,7 @@ var _ Token = (*TokenNL)(nil)
 // IP.
 //
 // For example, to start a paragraph with bullets as the designator and
-// 4 en indentation, write
+// 4 en indentation, write
 //
 // .IP \(bu 4
 type TokenIP struct { /* [marker | [designator */
@@ -855,8 +855,8 @@ var _ Token = (*TokenRS)(nil)
 // up under hanging and indented paragraphs.
 // Move the left margin back to level nnn, restoring the previous
 // left margin.  If no argument is given, it moves one level back.  The
-// first level (i.e., no call to RS yet) has number 1, and each
-// call to RS increases the level by 1.
+// first level (i.e., no call to RS yet) has number 1, and each
+// call to RS increases the level by 1.
 type TokenRE struct { /* undefined | [nnn] */
 }
 
@@ -1068,7 +1068,7 @@ func (t *TokenTS) String() string {
 var _ Token = (*TokenTS)(nil)
 
 // TokenTE Denotes a table, to be processed by the tbl preprocessor.  The
-// optional argument H to TS instructs groff to
+// optional argument H to TS instructs groff to
 // create a running header with the information up to the TH macro.
 // groff prints the header at the beginning of the table; if the
 // table runs onto another page, groff prints the header on the next
@@ -1119,7 +1119,7 @@ var _ Token = (*TokenEQ)(nil)
 
 // TokenEN Denotes an equation, to be processed by the eqn preprocessor.
 // The optional align argument can be C, L,
-// or I to center (the default), left-justify, or indent the
+// or I to center (the default), left-justify, or indent the
 // equation.
 type TokenEN struct { /*  */
 }
@@ -1372,7 +1372,7 @@ func (t *TokenXE) String() string {
 var _ Token = (*TokenXE)(nil)
 
 // TokenTC Prints the table of contents on a new page, setting the page number
-// to i (Roman lowercase numeral one).  You should usually
+// to i (Roman lowercase numeral one).  You should usually
 // place this macro at the end of the file, since groff is a
 // single-pass formatter and can only print what has been collected up to
 // the point that the TC macro appears.
@@ -1436,7 +1436,7 @@ var _ Token = (*TokenDS)(nil)
 
 // TokenCW Print text in constant width (Courier) font.
 // Sets its first argument in a constant width face.  It operates
-// similarly to the B macro otherwise.
+// similarly to the B macro otherwise.
 // Print subsequent text using the constant width (Courier) typeface.
 type TokenCW struct { /* undefined | [txt | undefined */
 }
