@@ -44,7 +44,7 @@ func (t TokenText) String() string {
 type TokenTH struct {/* title */}
 
 func (t *TokenTH) String() string {
-	return "TH"
+	return ".TH" /* title */
 }
 
 var _ Token = (*TokenTH)(nil)
@@ -58,7 +58,7 @@ var _ Token = (*TokenTH)(nil)
 type TokenSS struct {/* [heading] */}
 
 func (t *TokenSS) String() string {
-	return "SS"
+	return ".SS" /* [heading] */
 }
 
 var _ Token = (*TokenSS)(nil)
@@ -83,7 +83,7 @@ var _ Token = (*TokenSS)(nil)
 type TokenTP struct {/* [nnn] */}
 
 func (t *TokenTP) String() string {
-	return "TP"
+	return ".TP" /* [nnn] */
 }
 
 var _ Token = (*TokenTP)(nil)
@@ -97,7 +97,7 @@ var _ Token = (*TokenTP)(nil)
 type TokenP struct {/*  */}
 
 func (t *TokenP) String() string {
-	return "P"
+	return ".P" /*  */
 }
 
 var _ Token = (*TokenP)(nil)
@@ -111,7 +111,7 @@ var _ Token = (*TokenP)(nil)
 type TokenHP struct {/* [nnn] */}
 
 func (t *TokenHP) String() string {
-	return "HP"
+	return ".HP" /* [nnn] */
 }
 
 var _ Token = (*TokenHP)(nil)
@@ -121,7 +121,7 @@ var _ Token = (*TokenHP)(nil)
 type TokenSB struct {/* [text] */}
 
 func (t *TokenSB) String() string {
-	return "SB"
+	return ".SB" /* [text] */
 }
 
 var _ Token = (*TokenSB)(nil)
@@ -131,7 +131,7 @@ var _ Token = (*TokenSB)(nil)
 type TokenIB struct {/* text */}
 
 func (t *TokenIB) String() string {
-	return "IB"
+	return ".IB" /* text */
 }
 
 var _ Token = (*TokenIB)(nil)
@@ -141,7 +141,7 @@ var _ Token = (*TokenIB)(nil)
 type TokenRI struct {/* text */}
 
 func (t *TokenRI) String() string {
-	return "RI"
+	return ".RI" /* text */
 }
 
 var _ Token = (*TokenRI)(nil)
@@ -151,7 +151,7 @@ var _ Token = (*TokenRI)(nil)
 type TokenIR struct {/* text */}
 
 func (t *TokenIR) String() string {
-	return "IR"
+	return ".IR" /* text */
 }
 
 var _ Token = (*TokenIR)(nil)
@@ -161,7 +161,7 @@ var _ Token = (*TokenIR)(nil)
 type TokenBR struct {/* text */}
 
 func (t *TokenBR) String() string {
-	return "BR"
+	return ".BR" /* text */
 }
 
 var _ Token = (*TokenBR)(nil)
@@ -171,7 +171,7 @@ var _ Token = (*TokenBR)(nil)
 type TokenRB struct {/* text */}
 
 func (t *TokenRB) String() string {
-	return "RB"
+	return ".RB" /* text */
 }
 
 var _ Token = (*TokenRB)(nil)
@@ -182,7 +182,7 @@ var _ Token = (*TokenRB)(nil)
 type TokenDT struct {/*  */}
 
 func (t *TokenDT) String() string {
-	return "DT"
+	return ".DT" /*  */
 }
 
 var _ Token = (*TokenDT)(nil)
@@ -197,7 +197,7 @@ var _ Token = (*TokenDT)(nil)
 type TokenPD struct {/* [nnn] */}
 
 func (t *TokenPD) String() string {
-	return "PD"
+	return ".PD" /* [nnn] */
 }
 
 var _ Token = (*TokenPD)(nil)
@@ -225,7 +225,7 @@ var _ Token = (*TokenPD)(nil)
 type TokenAT struct {/* [system */}
 
 func (t *TokenAT) String() string {
-	return "AT"
+	return ".AT" /* [system */
 }
 
 var _ Token = (*TokenAT)(nil)
@@ -255,7 +255,7 @@ var _ Token = (*TokenAT)(nil)
 type TokenUC struct {/* [version] */}
 
 func (t *TokenUC) String() string {
-	return "UC"
+	return ".UC" /* [version] */
 }
 
 var _ Token = (*TokenUC)(nil)
@@ -264,7 +264,7 @@ var _ Token = (*TokenUC)(nil)
 type TokenCT struct {/* key */}
 
 func (t *TokenCT) String() string {
-	return "CT"
+	return ".CT" /* key */
 }
 
 var _ Token = (*TokenCT)(nil)
@@ -274,7 +274,7 @@ var _ Token = (*TokenCT)(nil)
 type TokenEX struct {/* [indent] */}
 
 func (t *TokenEX) String() string {
-	return "EX"
+	return ".EX" /* [indent] */
 }
 
 var _ Token = (*TokenEX)(nil)
@@ -283,7 +283,7 @@ var _ Token = (*TokenEX)(nil)
 type TokenEE struct {/*  */}
 
 func (t *TokenEE) String() string {
-	return "EE"
+	return ".EE" /*  */
 }
 
 var _ Token = (*TokenEE)(nil)
@@ -294,7 +294,7 @@ var _ Token = (*TokenEE)(nil)
 type TokenG struct {/* [text] */}
 
 func (t *TokenG) String() string {
-	return "G"
+	return ".G" /* [text] */
 }
 
 var _ Token = (*TokenG)(nil)
@@ -305,7 +305,7 @@ var _ Token = (*TokenG)(nil)
 type TokenGL struct {/* [text] */}
 
 func (t *TokenGL) String() string {
-	return "GL"
+	return ".GL" /* [text] */
 }
 
 var _ Token = (*TokenGL)(nil)
@@ -316,7 +316,7 @@ var _ Token = (*TokenGL)(nil)
 type TokenHB struct {/* [text] */}
 
 func (t *TokenHB) String() string {
-	return "HB"
+	return ".HB" /* [text] */
 }
 
 var _ Token = (*TokenHB)(nil)
@@ -325,7 +325,7 @@ var _ Token = (*TokenHB)(nil)
 type TokenTB struct {/* [text] */}
 
 func (t *TokenTB) String() string {
-	return "TB"
+	return ".TB" /* [text] */
 }
 
 var _ Token = (*TokenTB)(nil)
@@ -336,7 +336,7 @@ var _ Token = (*TokenTB)(nil)
 type TokenMS struct {/* title */}
 
 func (t *TokenMS) String() string {
-	return "MS"
+	return ".MS" /* title */
 }
 
 var _ Token = (*TokenMS)(nil)
@@ -349,7 +349,7 @@ var _ Token = (*TokenMS)(nil)
 type TokenNT struct {/* [C] */}
 
 func (t *TokenNT) String() string {
-	return "NT"
+	return ".NT" /* [C] */
 }
 
 var _ Token = (*TokenNT)(nil)
@@ -358,7 +358,7 @@ var _ Token = (*TokenNT)(nil)
 type TokenNE struct {/*  */}
 
 func (t *TokenNE) String() string {
-	return "NE"
+	return ".NE" /*  */
 }
 
 var _ Token = (*TokenNE)(nil)
@@ -368,7 +368,7 @@ var _ Token = (*TokenNE)(nil)
 type TokenPN struct {/* path */}
 
 func (t *TokenPN) String() string {
-	return "PN"
+	return ".PN" /* path */
 }
 
 var _ Token = (*TokenPN)(nil)
@@ -379,7 +379,7 @@ var _ Token = (*TokenPN)(nil)
 type TokenPn struct {/* [punct] */}
 
 func (t *TokenPn) String() string {
-	return "Pn"
+	return ".Pn" /* [punct] */
 }
 
 var _ Token = (*TokenPn)(nil)
@@ -388,7 +388,7 @@ var _ Token = (*TokenPn)(nil)
 type TokenRN struct {/*  */}
 
 func (t *TokenRN) String() string {
-	return "RN"
+	return ".RN" /*  */
 }
 
 var _ Token = (*TokenRN)(nil)
@@ -398,7 +398,7 @@ var _ Token = (*TokenRN)(nil)
 type TokenVS struct {/* [4] */}
 
 func (t *TokenVS) String() string {
-	return "VS"
+	return ".VS" /* [4] */
 }
 
 var _ Token = (*TokenVS)(nil)
@@ -407,7 +407,7 @@ var _ Token = (*TokenVS)(nil)
 type TokenVE struct {/*  */}
 
 func (t *TokenVE) String() string {
-	return "VE"
+	return ".VE" /*  */
 }
 
 var _ Token = (*TokenVE)(nil)
@@ -423,7 +423,7 @@ var _ Token = (*TokenVE)(nil)
 type TokenRP struct {/* [no] */}
 
 func (t *TokenRP) String() string {
-	return "RP"
+	return ".RP" /* [no] */
 }
 
 var _ Token = (*TokenRP)(nil)
@@ -433,7 +433,7 @@ var _ Token = (*TokenRP)(nil)
 type TokenP1 struct {/*  */}
 
 func (t *TokenP1) String() string {
-	return "P1"
+	return ".P1" /*  */
 }
 
 var _ Token = (*TokenP1)(nil)
@@ -444,7 +444,7 @@ var _ Token = (*TokenP1)(nil)
 type TokenDA struct {/* […] */}
 
 func (t *TokenDA) String() string {
-	return "DA"
+	return ".DA" /* […] */
 }
 
 var _ Token = (*TokenDA)(nil)
@@ -455,7 +455,7 @@ var _ Token = (*TokenDA)(nil)
 type TokenND struct {/* […] */}
 
 func (t *TokenND) String() string {
-	return "ND"
+	return ".ND" /* […] */
 }
 
 var _ Token = (*TokenND)(nil)
@@ -466,7 +466,7 @@ var _ Token = (*TokenND)(nil)
 type TokenTL struct {/*  */}
 
 func (t *TokenTL) String() string {
-	return "TL"
+	return ".TL" /*  */
 }
 
 var _ Token = (*TokenTL)(nil)
@@ -488,7 +488,7 @@ var _ Token = (*TokenTL)(nil)
 type TokenAU struct {/*  */}
 
 func (t *TokenAU) String() string {
-	return "AU"
+	return ".AU" /*  */
 }
 
 var _ Token = (*TokenAU)(nil)
@@ -498,7 +498,7 @@ var _ Token = (*TokenAU)(nil)
 type TokenAI struct {/*  */}
 
 func (t *TokenAI) String() string {
-	return "AI"
+	return ".AI" /*  */
 }
 
 var _ Token = (*TokenAI)(nil)
@@ -510,7 +510,7 @@ var _ Token = (*TokenAI)(nil)
 type TokenAB struct {/* [no] */}
 
 func (t *TokenAB) String() string {
-	return "AB"
+	return ".AB" /* [no] */
 }
 
 var _ Token = (*TokenAB)(nil)
@@ -519,7 +519,7 @@ var _ Token = (*TokenAB)(nil)
 type TokenAE struct {/*  */}
 
 func (t *TokenAE) String() string {
-	return "AE"
+	return ".AE" /*  */
 }
 
 var _ Token = (*TokenAE)(nil)
@@ -529,7 +529,7 @@ var _ Token = (*TokenAE)(nil)
 type TokenPP struct {/*  */}
 
 func (t *TokenPP) String() string {
-	return "PP"
+	return ".PP" /*  */
 }
 
 var _ Token = (*TokenPP)(nil)
@@ -539,7 +539,7 @@ var _ Token = (*TokenPP)(nil)
 type TokenLP struct {/*  */}
 
 func (t *TokenLP) String() string {
-	return "LP"
+	return ".LP" /*  */
 }
 
 var _ Token = (*TokenLP)(nil)
@@ -553,7 +553,7 @@ var _ Token = (*TokenLP)(nil)
 type TokenQP struct {/*  */}
 
 func (t *TokenQP) String() string {
-	return "QP"
+	return ".QP" /*  */
 }
 
 var _ Token = (*TokenQP)(nil)
@@ -563,7 +563,7 @@ var _ Token = (*TokenQP)(nil)
 type TokenQS struct {/*  */}
 
 func (t *TokenQS) String() string {
-	return "QS"
+	return ".QS" /*  */
 }
 
 var _ Token = (*TokenQS)(nil)
@@ -578,7 +578,7 @@ var _ Token = (*TokenQS)(nil)
 type TokenQE struct {/*  */}
 
 func (t *TokenQE) String() string {
-	return "QE"
+	return ".QE" /*  */
 }
 
 var _ Token = (*TokenQE)(nil)
@@ -588,7 +588,7 @@ var _ Token = (*TokenQE)(nil)
 type TokenXP struct {/*  */}
 
 func (t *TokenXP) String() string {
-	return "XP"
+	return ".XP" /*  */
 }
 
 var _ Token = (*TokenXP)(nil)
@@ -604,7 +604,7 @@ var _ Token = (*TokenXP)(nil)
 type TokenNH struct {/* S | curr-level */}
 
 func (t *TokenNH) String() string {
-	return "NH"
+	return ".NH" /* S | curr-level */
 }
 
 var _ Token = (*TokenNH)(nil)
@@ -626,7 +626,7 @@ var _ Token = (*TokenNH)(nil)
 type TokenSH struct {/* [match-level] | [heading] */}
 
 func (t *TokenSH) String() string {
-	return "SH"
+	return ".SH" /* [match-level] | [heading] */
 }
 
 var _ Token = (*TokenSH)(nil)
@@ -653,7 +653,7 @@ var _ Token = (*TokenSH)(nil)
 type TokenB struct {/* [txt | [text] */}
 
 func (t *TokenB) String() string {
-	return "B"
+	return ".B" /* [txt | [text] */
 }
 
 var _ Token = (*TokenB)(nil)
@@ -664,7 +664,7 @@ var _ Token = (*TokenB)(nil)
 type TokenR struct {/* [txt | undefined */}
 
 func (t *TokenR) String() string {
-	return "R"
+	return ".R" /* [txt | undefined */
 }
 
 var _ Token = (*TokenR)(nil)
@@ -676,7 +676,7 @@ var _ Token = (*TokenR)(nil)
 type TokenI struct {/* [txt | [text] */}
 
 func (t *TokenI) String() string {
-	return "I"
+	return ".I" /* [txt | [text] */
 }
 
 var _ Token = (*TokenI)(nil)
@@ -695,7 +695,7 @@ var _ Token = (*TokenI)(nil)
 type TokenBI struct {/* [txt | text */}
 
 func (t *TokenBI) String() string {
-	return "BI"
+	return ".BI" /* [txt | text */
 }
 
 var _ Token = (*TokenBI)(nil)
@@ -705,7 +705,7 @@ var _ Token = (*TokenBI)(nil)
 type TokenBX struct {/* [txt] */}
 
 func (t *TokenBX) String() string {
-	return "BX"
+	return ".BX" /* [txt] */
 }
 
 var _ Token = (*TokenBX)(nil)
@@ -716,7 +716,7 @@ var _ Token = (*TokenBX)(nil)
 type TokenUL struct {/* [txt */}
 
 func (t *TokenUL) String() string {
-	return "UL"
+	return ".UL" /* [txt */
 }
 
 var _ Token = (*TokenUL)(nil)
@@ -728,7 +728,7 @@ var _ Token = (*TokenUL)(nil)
 type TokenLG struct {/*  */}
 
 func (t *TokenLG) String() string {
-	return "LG"
+	return ".LG" /*  */
 }
 
 var _ Token = (*TokenLG)(nil)
@@ -742,7 +742,7 @@ var _ Token = (*TokenLG)(nil)
 type TokenSM struct {/* undefined | [text] */}
 
 func (t *TokenSM) String() string {
-	return "SM"
+	return ".SM" /* undefined | [text] */
 }
 
 var _ Token = (*TokenSM)(nil)
@@ -752,7 +752,7 @@ var _ Token = (*TokenSM)(nil)
 type TokenNL struct {/*  */}
 
 func (t *TokenNL) String() string {
-	return "NL"
+	return ".NL" /*  */
 }
 
 var _ Token = (*TokenNL)(nil)
@@ -789,7 +789,7 @@ var _ Token = (*TokenNL)(nil)
 type TokenIP struct {/* [marker | [designator */}
 
 func (t *TokenIP) String() string {
-	return "IP"
+	return ".IP" /* [marker | [designator */
 }
 
 var _ Token = (*TokenIP)(nil)
@@ -806,7 +806,7 @@ var _ Token = (*TokenIP)(nil)
 type TokenRS struct {/* undefined | [nnn] */}
 
 func (t *TokenRS) String() string {
-	return "RS"
+	return ".RS" /* undefined | [nnn] */
 }
 
 var _ Token = (*TokenRS)(nil)
@@ -821,7 +821,7 @@ var _ Token = (*TokenRS)(nil)
 type TokenRE struct {/* undefined | [nnn] */}
 
 func (t *TokenRE) String() string {
-	return "RE"
+	return ".RE" /* undefined | [nnn] */
 }
 
 var _ Token = (*TokenRE)(nil)
@@ -832,7 +832,7 @@ var _ Token = (*TokenRE)(nil)
 type TokenTA struct {/*  */}
 
 func (t *TokenTA) String() string {
-	return "TA"
+	return ".TA" /*  */
 }
 
 var _ Token = (*TokenTA)(nil)
@@ -842,7 +842,7 @@ var _ Token = (*TokenTA)(nil)
 type TokenLD struct {/*  */}
 
 func (t *TokenLD) String() string {
-	return "LD"
+	return ".LD" /*  */
 }
 
 var _ Token = (*TokenLD)(nil)
@@ -852,7 +852,7 @@ var _ Token = (*TokenLD)(nil)
 type TokenID struct {/*  */}
 
 func (t *TokenID) String() string {
-	return "ID"
+	return ".ID" /*  */
 }
 
 var _ Token = (*TokenID)(nil)
@@ -862,7 +862,7 @@ var _ Token = (*TokenID)(nil)
 type TokenBD struct {/*  */}
 
 func (t *TokenBD) String() string {
-	return "BD"
+	return ".BD" /*  */
 }
 
 var _ Token = (*TokenBD)(nil)
@@ -872,7 +872,7 @@ var _ Token = (*TokenBD)(nil)
 type TokenCD struct {/*  */}
 
 func (t *TokenCD) String() string {
-	return "CD"
+	return ".CD" /*  */
 }
 
 var _ Token = (*TokenCD)(nil)
@@ -882,7 +882,7 @@ var _ Token = (*TokenCD)(nil)
 type TokenRD struct {/*  */}
 
 func (t *TokenRD) String() string {
-	return "RD"
+	return ".RD" /*  */
 }
 
 var _ Token = (*TokenRD)(nil)
@@ -911,7 +911,7 @@ var _ Token = (*TokenRD)(nil)
 type TokenDE struct {/*  */}
 
 func (t *TokenDE) String() string {
-	return "DE"
+	return ".DE" /*  */
 }
 
 var _ Token = (*TokenDE)(nil)
@@ -922,7 +922,7 @@ var _ Token = (*TokenDE)(nil)
 type TokenDs struct {/*  */}
 
 func (t *TokenDs) String() string {
-	return "Ds"
+	return ".Ds" /*  */
 }
 
 var _ Token = (*TokenDs)(nil)
@@ -938,7 +938,7 @@ var _ Token = (*TokenDs)(nil)
 type TokenDe struct {/*  */}
 
 func (t *TokenDe) String() string {
-	return "De"
+	return ".De" /*  */
 }
 
 var _ Token = (*TokenDe)(nil)
@@ -948,7 +948,7 @@ var _ Token = (*TokenDe)(nil)
 type TokenKS struct {/*  */}
 
 func (t *TokenKS) String() string {
-	return "KS"
+	return ".KS" /*  */
 }
 
 var _ Token = (*TokenKS)(nil)
@@ -958,7 +958,7 @@ var _ Token = (*TokenKS)(nil)
 type TokenKF struct {/*  */}
 
 func (t *TokenKF) String() string {
-	return "KF"
+	return ".KF" /*  */
 }
 
 var _ Token = (*TokenKF)(nil)
@@ -976,7 +976,7 @@ var _ Token = (*TokenKF)(nil)
 type TokenKE struct {/*  */}
 
 func (t *TokenKE) String() string {
-	return "KE"
+	return ".KE" /*  */
 }
 
 var _ Token = (*TokenKE)(nil)
@@ -986,7 +986,7 @@ var _ Token = (*TokenKE)(nil)
 type TokenB1 struct {/*  */}
 
 func (t *TokenB1) String() string {
-	return "B1"
+	return ".B1" /*  */
 }
 
 var _ Token = (*TokenB1)(nil)
@@ -997,7 +997,7 @@ var _ Token = (*TokenB1)(nil)
 type TokenB2 struct {/*  */}
 
 func (t *TokenB2) String() string {
-	return "B2"
+	return ".B2" /*  */
 }
 
 var _ Token = (*TokenB2)(nil)
@@ -1007,7 +1007,7 @@ var _ Token = (*TokenB2)(nil)
 type TokenTS struct {/* [H] */}
 
 func (t *TokenTS) String() string {
-	return "TS"
+	return ".TS" /* [H] */
 }
 
 var _ Token = (*TokenTS)(nil)
@@ -1021,7 +1021,7 @@ var _ Token = (*TokenTS)(nil)
 type TokenTE struct {/*  */}
 
 func (t *TokenTE) String() string {
-	return "TE"
+	return ".TE" /*  */
 }
 
 var _ Token = (*TokenTE)(nil)
@@ -1031,7 +1031,7 @@ var _ Token = (*TokenTE)(nil)
 type TokenPS struct {/*  */}
 
 func (t *TokenPS) String() string {
-	return "PS"
+	return ".PS" /*  */
 }
 
 var _ Token = (*TokenPS)(nil)
@@ -1043,7 +1043,7 @@ var _ Token = (*TokenPS)(nil)
 type TokenPE struct {/*  */}
 
 func (t *TokenPE) String() string {
-	return "PE"
+	return ".PE" /*  */
 }
 
 var _ Token = (*TokenPE)(nil)
@@ -1053,7 +1053,7 @@ var _ Token = (*TokenPE)(nil)
 type TokenEQ struct {/* [align] */}
 
 func (t *TokenEQ) String() string {
-	return "EQ"
+	return ".EQ" /* [align] */
 }
 
 var _ Token = (*TokenEQ)(nil)
@@ -1065,7 +1065,7 @@ var _ Token = (*TokenEQ)(nil)
 type TokenEN struct {/*  */}
 
 func (t *TokenEN) String() string {
-	return "EN"
+	return ".EN" /*  */
 }
 
 var _ Token = (*TokenEN)(nil)
@@ -1075,7 +1075,7 @@ var _ Token = (*TokenEN)(nil)
 type Token[ struct {/*  */}
 
 func (t *Token[) String() string {
-	return "["
+	return ".[" /*  */
 }
 
 var _ Token = (*Token[)(nil)
@@ -1086,7 +1086,7 @@ var _ Token = (*Token[)(nil)
 type Token] struct {/*  */}
 
 func (t *Token]) String() string {
-	return "]"
+	return ".]" /*  */
 }
 
 var _ Token = (*Token])(nil)
@@ -1096,7 +1096,7 @@ var _ Token = (*Token])(nil)
 type TokenFS struct {/*  */}
 
 func (t *TokenFS) String() string {
-	return "FS"
+	return ".FS" /*  */
 }
 
 var _ Token = (*TokenFS)(nil)
@@ -1109,7 +1109,7 @@ var _ Token = (*TokenFS)(nil)
 type TokenFE struct {/*  */}
 
 func (t *TokenFE) String() string {
-	return "FE"
+	return ".FE" /*  */
 }
 
 var _ Token = (*TokenFE)(nil)
@@ -1119,7 +1119,7 @@ var _ Token = (*TokenFE)(nil)
 type TokenOH struct {/* 'left'center'right' */}
 
 func (t *TokenOH) String() string {
-	return "OH"
+	return ".OH" /* 'left'center'right' */
 }
 
 var _ Token = (*TokenOH)(nil)
@@ -1129,7 +1129,7 @@ var _ Token = (*TokenOH)(nil)
 type TokenEH struct {/* 'left'center'right' */}
 
 func (t *TokenEH) String() string {
-	return "EH"
+	return ".EH" /* 'left'center'right' */
 }
 
 var _ Token = (*TokenEH)(nil)
@@ -1139,7 +1139,7 @@ var _ Token = (*TokenEH)(nil)
 type TokenOF struct {/* 'left'center'right' */}
 
 func (t *TokenOF) String() string {
-	return "OF"
+	return ".OF" /* 'left'center'right' */
 }
 
 var _ Token = (*TokenOF)(nil)
@@ -1153,7 +1153,7 @@ var _ Token = (*TokenOF)(nil)
 type TokenEF struct {/* 'left'center'right' */}
 
 func (t *TokenEF) String() string {
-	return "EF"
+	return ".EF" /* 'left'center'right' */
 }
 
 var _ Token = (*TokenEF)(nil)
@@ -1166,7 +1166,7 @@ var _ Token = (*TokenEF)(nil)
 type TokenPT struct {/*  */}
 
 func (t *TokenPT) String() string {
-	return "PT"
+	return ".PT" /*  */
 }
 
 var _ Token = (*TokenPT)(nil)
@@ -1176,7 +1176,7 @@ var _ Token = (*TokenPT)(nil)
 type TokenHD struct {/*  */}
 
 func (t *TokenHD) String() string {
-	return "HD"
+	return ".HD" /*  */
 }
 
 var _ Token = (*TokenHD)(nil)
@@ -1195,7 +1195,7 @@ var _ Token = (*TokenHD)(nil)
 type TokenBT struct {/*  */}
 
 func (t *TokenBT) String() string {
-	return "BT"
+	return ".BT" /*  */
 }
 
 var _ Token = (*TokenBT)(nil)
@@ -1204,7 +1204,7 @@ var _ Token = (*TokenBT)(nil)
 type Token1C struct {/*  */}
 
 func (t *Token1C) String() string {
-	return "1C"
+	return ".1C" /*  */
 }
 
 var _ Token = (*Token1C)(nil)
@@ -1213,7 +1213,7 @@ var _ Token = (*Token1C)(nil)
 type Token2C struct {/*  */}
 
 func (t *Token2C) String() string {
-	return "2C"
+	return ".2C" /*  */
 }
 
 var _ Token = (*Token2C)(nil)
@@ -1225,7 +1225,7 @@ var _ Token = (*Token2C)(nil)
 type TokenMC struct {/* [width */}
 
 func (t *TokenMC) String() string {
-	return "MC"
+	return ".MC" /* [width */
 }
 
 var _ Token = (*TokenMC)(nil)
@@ -1235,7 +1235,7 @@ var _ Token = (*TokenMC)(nil)
 type TokenXS struct {/* [page] */}
 
 func (t *TokenXS) String() string {
-	return "XS"
+	return ".XS" /* [page] */
 }
 
 var _ Token = (*TokenXS)(nil)
@@ -1245,7 +1245,7 @@ var _ Token = (*TokenXS)(nil)
 type TokenXA struct {/* [page] */}
 
 func (t *TokenXA) String() string {
-	return "XA"
+	return ".XA" /* [page] */
 }
 
 var _ Token = (*TokenXA)(nil)
@@ -1295,7 +1295,7 @@ var _ Token = (*TokenXA)(nil)
 type TokenXE struct {/*  */}
 
 func (t *TokenXE) String() string {
-	return "XE"
+	return ".XE" /*  */
 }
 
 var _ Token = (*TokenXE)(nil)
@@ -1311,7 +1311,7 @@ var _ Token = (*TokenXE)(nil)
 type TokenTC struct {/* [no] */}
 
 func (t *TokenTC) String() string {
-	return "TC"
+	return ".TC" /* [no] */
 }
 
 var _ Token = (*TokenTC)(nil)
@@ -1325,7 +1325,7 @@ var _ Token = (*TokenTC)(nil)
 type TokenPX struct {/* [no] */}
 
 func (t *TokenPX) String() string {
-	return "PX"
+	return ".PX" /* [no] */
 }
 
 var _ Token = (*TokenPX)(nil)
@@ -1343,7 +1343,7 @@ var _ Token = (*TokenPX)(nil)
 type TokenAM struct {/*  */}
 
 func (t *TokenAM) String() string {
-	return "AM"
+	return ".AM" /*  */
 }
 
 var _ Token = (*TokenAM)(nil)
@@ -1359,7 +1359,7 @@ var _ Token = (*TokenAM)(nil)
 type TokenDS struct {/* I | R | C | B | I | L */}
 
 func (t *TokenDS) String() string {
-	return "DS"
+	return ".DS" /* I | R | C | B | I | L */
 }
 
 var _ Token = (*TokenDS)(nil)
@@ -1371,7 +1371,7 @@ var _ Token = (*TokenDS)(nil)
 type TokenCW struct {/* undefined | [txt | undefined */}
 
 func (t *TokenCW) String() string {
-	return "CW"
+	return ".CW" /* undefined | [txt | undefined */
 }
 
 var _ Token = (*TokenCW)(nil)
@@ -1381,7 +1381,7 @@ var _ Token = (*TokenCW)(nil)
 type TokenIX struct {/*  */}
 
 func (t *TokenIX) String() string {
-	return "IX"
+	return ".IX" /*  */
 }
 
 var _ Token = (*TokenIX)(nil)
