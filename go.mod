@@ -1,4 +1,4 @@
-module golang-groff
+module github.com/arran4/golang-gtroff
 
 go 1.19
 
