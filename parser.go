@@ -41,7 +41,8 @@ func (t TokenText) String() string {
 // command line) – this feature is intended only for formatting multiple
 // man pages; a single man page should contain exactly one TH macro
 // at the beginning of the file.
-type TokenTH struct {/* title */}
+type TokenTH struct { /* title */
+}
 
 func (t *TokenTH) String() string {
 	return ".TH" /* title */
@@ -55,7 +56,8 @@ var _ Token = (*TokenTH)(nil)
 // specified by the string HF), at the same size as the base
 // document size.  Additionally, the left margin and the indentation for
 // the following text is reset to its default value.
-type TokenSS struct {/* [heading] */}
+type TokenSS struct { /* [heading] */
+}
 
 func (t *TokenSS) String() string {
 	return ".SS" /* [heading] */
@@ -80,7 +82,8 @@ var _ Token = (*TokenSS)(nil)
 // Note that neither font shape nor font size of the label is set to a
 // default value; on the other hand, the rest of the text has default font
 // settings.
-type TokenTP struct {/* [nnn] */}
+type TokenTP struct { /* [nnn] */
+}
 
 func (t *TokenTP) String() string {
 	return ".TP" /* [nnn] */
@@ -94,7 +97,8 @@ var _ Token = (*TokenTP)(nil)
 // the default value (10pt roman if no -rS option is given
 // on the command line).  Finally, the current left margin and the
 // indentation is restored.
-type TokenP struct {/*  */}
+type TokenP struct { /*  */
+}
 
 func (t *TokenP) String() string {
 	return ".P" /*  */
@@ -108,7 +112,8 @@ var _ Token = (*TokenP)(nil)
 // specified with TP, IP, or HP (or the default value
 // if non of them have been used yet).  Font size and face are reset to
 // their default values.
-type TokenHP struct {/* [nnn] */}
+type TokenHP struct { /* [nnn] */
+}
 
 func (t *TokenHP) String() string {
 	return ".HP" /* [nnn] */
@@ -118,7 +123,8 @@ var _ Token = (*TokenHP)(nil)
 
 // TokenSB Set the text on the same line or the text on the next line in bold face
 // font, one point size smaller than the default font.
-type TokenSB struct {/* [text] */}
+type TokenSB struct { /* [text] */
+}
 
 func (t *TokenSB) String() string {
 	return ".SB" /* [text] */
@@ -128,7 +134,8 @@ var _ Token = (*TokenSB)(nil)
 
 // TokenIB Set its arguments alternately in italic and bold face, without a space
 // between the arguments.
-type TokenIB struct {/* text */}
+type TokenIB struct { /* text */
+}
 
 func (t *TokenIB) String() string {
 	return ".IB" /* text */
@@ -138,7 +145,8 @@ var _ Token = (*TokenIB)(nil)
 
 // TokenRI Set its arguments alternately in roman and italic, without a space
 // between the arguments.
-type TokenRI struct {/* text */}
+type TokenRI struct { /* text */
+}
 
 func (t *TokenRI) String() string {
 	return ".RI" /* text */
@@ -148,7 +156,8 @@ var _ Token = (*TokenRI)(nil)
 
 // TokenIR Set its arguments alternately in italic and roman, without a space
 // between the arguments.
-type TokenIR struct {/* text */}
+type TokenIR struct { /* text */
+}
 
 func (t *TokenIR) String() string {
 	return ".IR" /* text */
@@ -158,7 +167,8 @@ var _ Token = (*TokenIR)(nil)
 
 // TokenBR Set its arguments alternately in bold face and roman, without a space
 // between the arguments.
-type TokenBR struct {/* text */}
+type TokenBR struct { /* text */
+}
 
 func (t *TokenBR) String() string {
 	return ".BR" /* text */
@@ -168,7 +178,8 @@ var _ Token = (*TokenBR)(nil)
 
 // TokenRB Set its arguments alternately in roman and bold face, without a space
 // between the arguments.
-type TokenRB struct {/* text */}
+type TokenRB struct { /* text */
+}
 
 func (t *TokenRB) String() string {
 	return ".RB" /* text */
@@ -179,7 +190,8 @@ var _ Token = (*TokenRB)(nil)
 // TokenDT Set tabs every 0.5 inches.  Since this macro is always executed
 // during a call to the TH macro, it makes sense to call it only if
 // the tab positions have been changed.
-type TokenDT struct {/*  */}
+type TokenDT struct { /*  */
+}
 
 func (t *TokenDT) String() string {
 	return ".DT" /*  */
@@ -194,7 +206,8 @@ var _ Token = (*TokenDT)(nil)
 //
 // This affects the macros SH, SS, TP, LP (as
 // well as PP and P), IP, and HP.
-type TokenPD struct {/* [nnn] */}
+type TokenPD struct { /* [nnn] */
+}
 
 func (t *TokenPD) String() string {
 	return ".PD" /* [nnn] */
@@ -206,23 +219,19 @@ var _ Token = (*TokenPD)(nil)
 // exists only for compatibility; don’t use it.  The first argument
 // system can be:
 //
-//
 // 3
 // 7th Edition (the default)
-//
 //
 // 4
 // System III
 //
-//
 // 5
 // System V
 //
-//
-//
 // An optional second argument release to AT specifies the
 // release number (such as “System V Release 3”).
-type TokenAT struct {/* [system */}
+type TokenAT struct { /* [system */
+}
 
 func (t *TokenAT) String() string {
 	return ".AT" /* [system */
@@ -233,26 +242,22 @@ var _ Token = (*TokenAT)(nil)
 // TokenUC Alters the footer for use with BSD manpages.  This command exists only
 // for compatibility; don’t use it.  The argument can be:
 //
-//
 // 3
 // 3rd Berkeley Distribution (the default)
-//
 //
 // 4
 // 4th Berkeley Distribution
 //
-//
 // 5
 // 4.2 Berkeley Distribution
-//
 //
 // 6
 // 4.3 Berkeley Distribution
 //
-//
 // 7
 // 4.4 Berkeley Distribution
-type TokenUC struct {/* [version] */}
+type TokenUC struct { /* [version] */
+}
 
 func (t *TokenUC) String() string {
 	return ".UC" /* [version] */
@@ -261,7 +266,8 @@ func (t *TokenUC) String() string {
 var _ Token = (*TokenUC)(nil)
 
 // TokenCT Print ‘<CTRL/key>’.
-type TokenCT struct {/* key */}
+type TokenCT struct { /* key */
+}
 
 func (t *TokenCT) String() string {
 	return ".CT" /* key */
@@ -271,7 +277,8 @@ var _ Token = (*TokenCT)(nil)
 
 // TokenEX Begin a non-filled display using the constant width (Courier) typeface.
 // Use the optional indent argument to indent the display.
-type TokenEX struct {/* [indent] */}
+type TokenEX struct { /* [indent] */
+}
 
 func (t *TokenEX) String() string {
 	return ".EX" /* [indent] */
@@ -280,7 +287,8 @@ func (t *TokenEX) String() string {
 var _ Token = (*TokenEX)(nil)
 
 // TokenEE End a non-filled display started with EX.
-type TokenEE struct {/*  */}
+type TokenEE struct { /*  */
+}
 
 func (t *TokenEE) String() string {
 	return ".EE" /*  */
@@ -291,7 +299,8 @@ var _ Token = (*TokenEE)(nil)
 // TokenG Set text in Helvetica.  If no text is present on the line where
 // the macro is called, then the text of the next line appears in
 // Helvetica.
-type TokenG struct {/* [text] */}
+type TokenG struct { /* [text] */
+}
 
 func (t *TokenG) String() string {
 	return ".G" /* [text] */
@@ -302,7 +311,8 @@ var _ Token = (*TokenG)(nil)
 // TokenGL Set text in Helvetica Oblique.  If no text is present on the line
 // where the macro is called, then the text of the next line appears in
 // Helvetica Oblique.
-type TokenGL struct {/* [text] */}
+type TokenGL struct { /* [text] */
+}
 
 func (t *TokenGL) String() string {
 	return ".GL" /* [text] */
@@ -313,7 +323,8 @@ var _ Token = (*TokenGL)(nil)
 // TokenHB Set text in Helvetica Bold.  If no text is present on the line
 // where the macro is called, then all text up to the next HB
 // appears in Helvetica Bold.
-type TokenHB struct {/* [text] */}
+type TokenHB struct { /* [text] */
+}
 
 func (t *TokenHB) String() string {
 	return ".HB" /* [text] */
@@ -322,7 +333,8 @@ func (t *TokenHB) String() string {
 var _ Token = (*TokenHB)(nil)
 
 // TokenTB Identical to HB.
-type TokenTB struct {/* [text] */}
+type TokenTB struct { /* [text] */
+}
 
 func (t *TokenTB) String() string {
 	return ".TB" /* [text] */
@@ -333,7 +345,8 @@ var _ Token = (*TokenTB)(nil)
 // TokenMS Set a manpage reference in Ultrix format.  The title is in Courier
 // instead of italic.  Optional punctuation follows the section number
 // without an intervening space.
-type TokenMS struct {/* title */}
+type TokenMS struct { /* title */
+}
 
 func (t *TokenMS) String() string {
 	return ".MS" /* title */
@@ -346,7 +359,8 @@ var _ Token = (*TokenMS)(nil)
 // note, and is indented on both sides.  If the first argument is C,
 // the body of the note is printed centered (the second argument replaces
 // the word “Note” if specified).
-type TokenNT struct {/* [C] */}
+type TokenNT struct { /* [C] */
+}
 
 func (t *TokenNT) String() string {
 	return ".NT" /* [C] */
@@ -355,7 +369,8 @@ func (t *TokenNT) String() string {
 var _ Token = (*TokenNT)(nil)
 
 // TokenNE End a note begun with NT.
-type TokenNE struct {/*  */}
+type TokenNE struct { /*  */
+}
 
 func (t *TokenNE) String() string {
 	return ".NE" /*  */
@@ -365,7 +380,8 @@ var _ Token = (*TokenNE)(nil)
 
 // TokenPN Set the path name in constant width (Courier), followed by optional
 // punctuation.
-type TokenPN struct {/* path */}
+type TokenPN struct { /* path */
+}
 
 func (t *TokenPN) String() string {
 	return ".PN" /* path */
@@ -376,7 +392,8 @@ var _ Token = (*TokenPN)(nil)
 // TokenPn If called with two arguments, identical to PN.  If called with
 // three arguments, set the second argument in constant width (Courier),
 // bracketed by the first and third arguments in the current font.
-type TokenPn struct {/* [punct] */}
+type TokenPn struct { /* [punct] */
+}
 
 func (t *TokenPn) String() string {
 	return ".Pn" /* [punct] */
@@ -385,7 +402,8 @@ func (t *TokenPn) String() string {
 var _ Token = (*TokenPn)(nil)
 
 // TokenRN Print the string ‘<RETURN>’.
-type TokenRN struct {/*  */}
+type TokenRN struct { /*  */
+}
 
 func (t *TokenRN) String() string {
 	return ".RN" /*  */
@@ -395,7 +413,8 @@ var _ Token = (*TokenRN)(nil)
 
 // TokenVS Start printing a change bar in the margin if the number 4 is
 // specified.  Otherwise, this macro does nothing.
-type TokenVS struct {/* [4] */}
+type TokenVS struct { /* [4] */
+}
 
 func (t *TokenVS) String() string {
 	return ".VS" /* [4] */
@@ -404,7 +423,8 @@ func (t *TokenVS) String() string {
 var _ Token = (*TokenVS)(nil)
 
 // TokenVE End printing the change bar begun by VS.
-type TokenVE struct {/*  */}
+type TokenVE struct { /*  */
+}
 
 func (t *TokenVE) String() string {
 	return ".VE" /*  */
@@ -420,7 +440,8 @@ var _ Token = (*TokenVE)(nil)
 // prints a title page but does not repeat any of the title page
 // information (title, author, abstract, etc.) on page 1 of the
 // document.
-type TokenRP struct {/* [no] */}
+type TokenRP struct { /* [no] */
+}
 
 func (t *TokenRP) String() string {
 	return ".RP" /* [no] */
@@ -430,7 +451,8 @@ var _ Token = (*TokenRP)(nil)
 
 // TokenP1 (P-one) Prints the header on page 1.  The default is to suppress
 // the header.
-type TokenP1 struct {/*  */}
+type TokenP1 struct { /*  */
+}
 
 func (t *TokenP1) String() string {
 	return ".P1" /*  */
@@ -441,7 +463,8 @@ var _ Token = (*TokenP1)(nil)
 // TokenDA (optional) Prints the current date, or the arguments to the macro if
 // any, on the title page (if specified) and in the footers.  This is the
 // default for nroff.
-type TokenDA struct {/* […] */}
+type TokenDA struct { /* […] */
+}
 
 func (t *TokenDA) String() string {
 	return ".DA" /* […] */
@@ -452,7 +475,8 @@ var _ Token = (*TokenDA)(nil)
 // TokenND (optional) Prints the current date, or the arguments to the macro if
 // any, on the title page (if specified) but not in the footers.  This is
 // the default for troff.
-type TokenND struct {/* […] */}
+type TokenND struct { /* […] */
+}
 
 func (t *TokenND) String() string {
 	return ".ND" /* […] */
@@ -463,7 +487,8 @@ var _ Token = (*TokenND)(nil)
 // TokenTL Specifies the document title.  groff collects text following the
 // TL macro into the title, until reaching the author name or
 // abstract.
-type TokenTL struct {/*  */}
+type TokenTL struct { /*  */
+}
 
 func (t *TokenTL) String() string {
 	return ".TL" /*  */
@@ -473,7 +498,6 @@ var _ Token = (*TokenTL)(nil)
 
 // TokenAU Specifies the author’s name, which appears on the line (or lines)
 // immediately following.  You can specify multiple authors as follows:
-//
 //
 // .AU
 // John Doe
@@ -485,7 +509,8 @@ var _ Token = (*TokenTL)(nil)
 // Monolithic Corporation
 //
 // ...
-type TokenAU struct {/*  */}
+type TokenAU struct { /*  */
+}
 
 func (t *TokenAU) String() string {
 	return ".AU" /*  */
@@ -495,7 +520,8 @@ var _ Token = (*TokenAU)(nil)
 
 // TokenAI Specifies the author’s institution.  You can specify multiple
 // institutions in the same way that you specify multiple authors.
-type TokenAI struct {/*  */}
+type TokenAI struct { /*  */
+}
 
 func (t *TokenAI) String() string {
 	return ".AI" /*  */
@@ -507,7 +533,8 @@ var _ Token = (*TokenAI)(nil)
 // ABSTRACT, centered and in italics, above the text of the
 // abstract.  The word no as an optional argument suppresses this
 // heading.
-type TokenAB struct {/* [no] */}
+type TokenAB struct { /* [no] */
+}
 
 func (t *TokenAB) String() string {
 	return ".AB" /* [no] */
@@ -516,7 +543,8 @@ func (t *TokenAB) String() string {
 var _ Token = (*TokenAB)(nil)
 
 // TokenAE Ends the abstract.
-type TokenAE struct {/*  */}
+type TokenAE struct { /*  */
+}
 
 func (t *TokenAE) String() string {
 	return ".AE" /*  */
@@ -525,8 +553,8 @@ func (t *TokenAE) String() string {
 var _ Token = (*TokenAE)(nil)
 
 // TokenPP Sets a paragraph with an initial indentation.
-//
-type TokenPP struct {/*  */}
+type TokenPP struct { /*  */
+}
 
 func (t *TokenPP) String() string {
 	return ".PP" /*  */
@@ -535,8 +563,8 @@ func (t *TokenPP) String() string {
 var _ Token = (*TokenPP)(nil)
 
 // TokenLP Sets a paragraph without an initial indentation.
-//
-type TokenLP struct {/*  */}
+type TokenLP struct { /*  */
+}
 
 func (t *TokenLP) String() string {
 	return ".LP" /*  */
@@ -550,7 +578,8 @@ var _ Token = (*TokenLP)(nil)
 // The next paragraph or heading returns margins to normal.
 // QP inserts vertical space of amount set by register PD
 // before the paragraph.
-type TokenQP struct {/*  */}
+type TokenQP struct { /*  */
+}
 
 func (t *TokenQP) String() string {
 	return ".QP" /*  */
@@ -560,7 +589,8 @@ var _ Token = (*TokenQP)(nil)
 
 // TokenQS Indexing term (printed on standard error).  You can write a script to
 // capture and process an index generated in this manner.
-type TokenQS struct {/*  */}
+type TokenQS struct { /*  */
+}
 
 func (t *TokenQS) String() string {
 	return ".QS" /*  */
@@ -575,7 +605,8 @@ var _ Token = (*TokenQS)(nil)
 // set by register PD.
 // The text between QS and QE can be structured further
 // by use of the macros LP or PP.
-type TokenQE struct {/*  */}
+type TokenQE struct { /*  */
+}
 
 func (t *TokenQE) String() string {
 	return ".QE" /*  */
@@ -585,7 +616,8 @@ var _ Token = (*TokenQE)(nil)
 
 // TokenXP Sets a paragraph whose lines are indented, except for the first line.
 // This is a Berkeley extension.
-type TokenXP struct {/*  */}
+type TokenXP struct { /*  */
+}
 
 func (t *TokenXP) String() string {
 	return ".XP" /*  */
@@ -600,8 +632,8 @@ var _ Token = (*TokenXP)(nil)
 // If you specify heading levels out of sequence, such as invoking
 // ‘.NH 3’ after ‘.NH 1’, groff prints a warning on
 // standard error.
-//
-type TokenNH struct {/* S | curr-level */}
+type TokenNH struct { /* S | curr-level */
+}
 
 func (t *TokenNH) String() string {
 	return ".NH" /* S | curr-level */
@@ -623,7 +655,8 @@ var _ Token = (*TokenNH)(nil)
 // (or the font specified by the string HF), one size larger than
 // the base document size.  Additionally, the left margin and the
 // indentation for the following text is reset to its default value.
-type TokenSH struct {/* [match-level] | [heading] */}
+type TokenSH struct { /* [match-level] | [heading] */
+}
 
 func (t *TokenSH) String() string {
 	return ".SH" /* [match-level] | [heading] */
@@ -638,9 +671,7 @@ var _ Token = (*TokenSH)(nil)
 // Similarly, it prints the third argument (if any) in the previous font
 // before the first argument.  For example,
 //
-//
 // .B foo ) (
-//
 //
 // prints (foo).
 //
@@ -650,7 +681,8 @@ var _ Token = (*TokenSH)(nil)
 // Set text in bold face.  If no text is present on the line where
 // the macro is called, then the text of the next line appears in bold
 // face.
-type TokenB struct {/* [txt | [text] */}
+type TokenB struct { /* [txt | [text] */
+}
 
 func (t *TokenB) String() string {
 	return ".B" /* [txt | [text] */
@@ -661,7 +693,8 @@ var _ Token = (*TokenB)(nil)
 // TokenR Sets its first argument in roman (or regular) type.  It operates
 // similarly to the B macro otherwise.
 // Switch to roman font and turn off any underlining in effect.
-type TokenR struct {/* [txt | undefined */}
+type TokenR struct { /* [txt | undefined */
+}
 
 func (t *TokenR) String() string {
 	return ".R" /* [txt | undefined */
@@ -673,7 +706,8 @@ var _ Token = (*TokenR)(nil)
 // to the B macro otherwise.
 // Set text in italic.  If no text is present on the line where the
 // macro is called, then the text of the next line appears in italic.
-type TokenI struct {/* [txt | [text] */}
+type TokenI struct { /* [txt | [text] */
+}
 
 func (t *TokenI) String() string {
 	return ".I" /* [txt | [text] */
@@ -686,13 +720,12 @@ var _ Token = (*TokenI)(nil)
 // Set its arguments alternately in bold face and italic, without a space
 // between the arguments.  Thus,
 //
-//
 // .BI this "word and" that
-//
 //
 // produces “thisword andthat” with “this” and “that” in bold face,
 // and “word and” in italics.
-type TokenBI struct {/* [txt | text */}
+type TokenBI struct { /* [txt | text */
+}
 
 func (t *TokenBI) String() string {
 	return ".BI" /* [txt | text */
@@ -702,7 +735,8 @@ var _ Token = (*TokenBI)(nil)
 
 // TokenBX Prints its argument and draws a box around it.  If you want to box a
 // string that contains spaces, use a digit-width space (\0).
-type TokenBX struct {/* [txt] */}
+type TokenBX struct { /* [txt] */
+}
 
 func (t *TokenBX) String() string {
 	return ".BX" /* [txt] */
@@ -713,7 +747,8 @@ var _ Token = (*TokenBX)(nil)
 // TokenUL Prints its first argument with an underline.  If you specify a second
 // argument, groff prints it in the previous font after the
 // underlined text, with no intervening space.
-type TokenUL struct {/* [txt */}
+type TokenUL struct { /* [txt */
+}
 
 func (t *TokenUL) String() string {
 	return ".UL" /* [txt */
@@ -725,7 +760,8 @@ var _ Token = (*TokenUL)(nil)
 // current point size) until the next font size, highlighting, paragraph,
 // or heading macro.  You can specify this macro multiple times to
 // enlarge the point size as needed.
-type TokenLG struct {/*  */}
+type TokenLG struct { /*  */
+}
 
 func (t *TokenLG) String() string {
 	return ".LG" /*  */
@@ -739,7 +775,8 @@ var _ Token = (*TokenLG)(nil)
 // the point size as needed.
 // Set the text on the same line or the text on the next line in a font
 // that is one point size smaller than the default font.
-type TokenSM struct {/* undefined | [text] */}
+type TokenSM struct { /* undefined | [text] */
+}
 
 func (t *TokenSM) String() string {
 	return ".SM" /* undefined | [text] */
@@ -749,7 +786,8 @@ var _ Token = (*TokenSM)(nil)
 
 // TokenNL Prints all text following in the normal point size (that is, the value
 // of the PS register).
-type TokenNL struct {/*  */}
+type TokenNL struct { /*  */
+}
 
 func (t *TokenNL) String() string {
 	return ".NL" /*  */
@@ -784,9 +822,9 @@ var _ Token = (*TokenNL)(nil)
 // For example, to start a paragraph with bullets as the designator and
 // 4 en indentation, write
 //
-//
 // .IP \(bu 4
-type TokenIP struct {/* [marker | [designator */}
+type TokenIP struct { /* [marker | [designator */
+}
 
 func (t *TokenIP) String() string {
 	return ".IP" /* [marker | [designator */
@@ -803,7 +841,8 @@ var _ Token = (*TokenIP)(nil)
 // indentation value is then set to the default.
 //
 // Calls to the RS macro can be nested.
-type TokenRS struct {/* undefined | [nnn] */}
+type TokenRS struct { /* undefined | [nnn] */
+}
 
 func (t *TokenRS) String() string {
 	return ".RS" /* undefined | [nnn] */
@@ -818,7 +857,8 @@ var _ Token = (*TokenRS)(nil)
 // left margin.  If no argument is given, it moves one level back.  The
 // first level (i.e., no call to RS yet) has number 1, and each
 // call to RS increases the level by 1.
-type TokenRE struct {/* undefined | [nnn] */}
+type TokenRE struct { /* undefined | [nnn] */
+}
 
 func (t *TokenRE) String() string {
 	return ".RE" /* undefined | [nnn] */
@@ -829,7 +869,8 @@ var _ Token = (*TokenRE)(nil)
 // TokenTA Use this macro to reset the tab stops to the default for ms
 // (every 5n).  You can redefine the TA macro to create a different
 // set of default tab stops.
-type TokenTA struct {/*  */}
+type TokenTA struct { /*  */
+}
 
 func (t *TokenTA) String() string {
 	return ".TA" /*  */
@@ -839,7 +880,8 @@ var _ Token = (*TokenTA)(nil)
 
 // TokenLD Indexing term (printed on standard error).  You can write a script to
 // capture and process an index generated in this manner.
-type TokenLD struct {/*  */}
+type TokenLD struct { /*  */
+}
 
 func (t *TokenLD) String() string {
 	return ".LD" /*  */
@@ -849,7 +891,8 @@ var _ Token = (*TokenLD)(nil)
 
 // TokenID Indexing term (printed on standard error).  You can write a script to
 // capture and process an index generated in this manner.
-type TokenID struct {/*  */}
+type TokenID struct { /*  */
+}
 
 func (t *TokenID) String() string {
 	return ".ID" /*  */
@@ -859,7 +902,8 @@ var _ Token = (*TokenID)(nil)
 
 // TokenBD Indexing term (printed on standard error).  You can write a script to
 // capture and process an index generated in this manner.
-type TokenBD struct {/*  */}
+type TokenBD struct { /*  */
+}
 
 func (t *TokenBD) String() string {
 	return ".BD" /*  */
@@ -869,7 +913,8 @@ var _ Token = (*TokenBD)(nil)
 
 // TokenCD Indexing term (printed on standard error).  You can write a script to
 // capture and process an index generated in this manner.
-type TokenCD struct {/*  */}
+type TokenCD struct { /*  */
+}
 
 func (t *TokenCD) String() string {
 	return ".CD" /*  */
@@ -879,7 +924,8 @@ var _ Token = (*TokenCD)(nil)
 
 // TokenRD Indexing term (printed on standard error).  You can write a script to
 // capture and process an index generated in this manner.
-type TokenRD struct {/*  */}
+type TokenRD struct { /*  */
+}
 
 func (t *TokenRD) String() string {
 	return ".RD" /*  */
@@ -908,7 +954,8 @@ var _ Token = (*TokenRD)(nil)
 // if necessary, to keep the entire display on one page.  The LD
 // macro allows the display to break across pages.  The DE macro
 // ends the display.
-type TokenDE struct {/*  */}
+type TokenDE struct { /*  */
+}
 
 func (t *TokenDE) String() string {
 	return ".DE" /*  */
@@ -919,7 +966,8 @@ var _ Token = (*TokenDE)(nil)
 // TokenDs Indexing term (printed on standard error).  You can write a script to
 // capture and process an index generated in this manner.
 // Begin a non-filled display.
-type TokenDs struct {/*  */}
+type TokenDs struct { /*  */
+}
 
 func (t *TokenDs) String() string {
 	return ".Ds" /*  */
@@ -935,7 +983,8 @@ var _ Token = (*TokenDs)(nil)
 // distribution (macros.t) that provides proper definitions for the
 // two macros.
 // End a non-filled display started with Ds.
-type TokenDe struct {/*  */}
+type TokenDe struct { /*  */
+}
 
 func (t *TokenDe) String() string {
 	return ".De" /*  */
@@ -945,7 +994,8 @@ var _ Token = (*TokenDe)(nil)
 
 // TokenKS Indexing term (printed on standard error).  You can write a script to
 // capture and process an index generated in this manner.
-type TokenKS struct {/*  */}
+type TokenKS struct { /*  */
+}
 
 func (t *TokenKS) String() string {
 	return ".KS" /*  */
@@ -955,7 +1005,8 @@ var _ Token = (*TokenKS)(nil)
 
 // TokenKF Indexing term (printed on standard error).  You can write a script to
 // capture and process an index generated in this manner.
-type TokenKF struct {/*  */}
+type TokenKF struct { /*  */
+}
 
 func (t *TokenKF) String() string {
 	return ".KF" /*  */
@@ -973,7 +1024,8 @@ var _ Token = (*TokenKF)(nil)
 // specified.
 // The KS macro begins a block of text to be kept on a single page,
 // and the KE macro ends the block.
-type TokenKE struct {/*  */}
+type TokenKE struct { /*  */
+}
 
 func (t *TokenKE) String() string {
 	return ".KE" /*  */
@@ -983,7 +1035,8 @@ var _ Token = (*TokenKE)(nil)
 
 // TokenB1 Indexing term (printed on standard error).  You can write a script to
 // capture and process an index generated in this manner.
-type TokenB1 struct {/*  */}
+type TokenB1 struct { /*  */
+}
 
 func (t *TokenB1) String() string {
 	return ".B1" /*  */
@@ -994,7 +1047,8 @@ var _ Token = (*TokenB1)(nil)
 // TokenB2 Marks the beginning and ending of text that is to have a box drawn
 // around it.  The B1 macro begins the box; the B2 macro ends
 // it.  Text in the box is automatically placed in a diversion (keep).
-type TokenB2 struct {/*  */}
+type TokenB2 struct { /*  */
+}
 
 func (t *TokenB2) String() string {
 	return ".B2" /*  */
@@ -1004,7 +1058,8 @@ var _ Token = (*TokenB2)(nil)
 
 // TokenTS Indexing term (printed on standard error).  You can write a script to
 // capture and process an index generated in this manner.
-type TokenTS struct {/* [H] */}
+type TokenTS struct { /* [H] */
+}
 
 func (t *TokenTS) String() string {
 	return ".TS" /* [H] */
@@ -1018,7 +1073,8 @@ var _ Token = (*TokenTS)(nil)
 // groff prints the header at the beginning of the table; if the
 // table runs onto another page, groff prints the header on the next
 // page as well.
-type TokenTE struct {/*  */}
+type TokenTE struct { /*  */
+}
 
 func (t *TokenTE) String() string {
 	return ".TE" /*  */
@@ -1028,7 +1084,8 @@ var _ Token = (*TokenTE)(nil)
 
 // TokenPS Indexing term (printed on standard error).  You can write a script to
 // capture and process an index generated in this manner.
-type TokenPS struct {/*  */}
+type TokenPS struct { /*  */
+}
 
 func (t *TokenPS) String() string {
 	return ".PS" /*  */
@@ -1040,7 +1097,8 @@ var _ Token = (*TokenPS)(nil)
 // can create a pic file by hand, using the AT&T
 // pic manual available on the Web as a reference, or by using a
 // graphics program such as xfig.
-type TokenPE struct {/*  */}
+type TokenPE struct { /*  */
+}
 
 func (t *TokenPE) String() string {
 	return ".PE" /*  */
@@ -1050,7 +1108,8 @@ var _ Token = (*TokenPE)(nil)
 
 // TokenEQ Indexing term (printed on standard error).  You can write a script to
 // capture and process an index generated in this manner.
-type TokenEQ struct {/* [align] */}
+type TokenEQ struct { /* [align] */
+}
 
 func (t *TokenEQ) String() string {
 	return ".EQ" /* [align] */
@@ -1062,7 +1121,8 @@ var _ Token = (*TokenEQ)(nil)
 // The optional align argument can be C, L,
 // or I to center (the default), left-justify, or indent the
 // equation.
-type TokenEN struct {/*  */}
+type TokenEN struct { /*  */
+}
 
 func (t *TokenEN) String() string {
 	return ".EN" /*  */
@@ -1072,28 +1132,31 @@ var _ Token = (*TokenEN)(nil)
 
 // Token[ Indexing term (printed on standard error).  You can write a script to
 // capture and process an index generated in this manner.
-type Token[ struct {/*  */}
+type TokenReferOpen struct { /*  */
+}
 
-func (t *Token[) String() string {
+func (t *TokenReferOpen) String() string {
 	return ".[" /*  */
 }
 
-var _ Token = (*Token[)(nil)
+var _ Token = (*TokenReferOpen)(nil)
 
 // Token] Denotes a reference, to be processed by the refer preprocessor.
 // The GNU refer(1) man page provides a comprehensive reference to
 // the preprocessor and the format of the bibliographic database.
-type Token] struct {/*  */}
+type TokenReferClose struct { /*  */
+}
 
-func (t *Token]) String() string {
+func (t *TokenReferClose) String() string {
 	return ".]" /*  */
 }
 
-var _ Token = (*Token])(nil)
+var _ Token = (*TokenReferClose)(nil)
 
 // TokenFS Indexing term (printed on standard error).  You can write a script to
 // capture and process an index generated in this manner.
-type TokenFS struct {/*  */}
+type TokenFS struct { /*  */
+}
 
 func (t *TokenFS) String() string {
 	return ".FS" /*  */
@@ -1106,7 +1169,8 @@ var _ Token = (*TokenFS)(nil)
 // mark glyph (such as \[dg] for the dagger glyph) in the body
 // text and as an argument to the FS macro, followed by the text of
 // the footnote and the FE macro.
-type TokenFE struct {/*  */}
+type TokenFE struct { /*  */
+}
 
 func (t *TokenFE) String() string {
 	return ".FE" /*  */
@@ -1116,7 +1180,8 @@ var _ Token = (*TokenFE)(nil)
 
 // TokenOH Indexing term (printed on standard error).  You can write a script to
 // capture and process an index generated in this manner.
-type TokenOH struct {/* 'left'center'right' */}
+type TokenOH struct { /* 'left'center'right' */
+}
 
 func (t *TokenOH) String() string {
 	return ".OH" /* 'left'center'right' */
@@ -1126,7 +1191,8 @@ var _ Token = (*TokenOH)(nil)
 
 // TokenEH Indexing term (printed on standard error).  You can write a script to
 // capture and process an index generated in this manner.
-type TokenEH struct {/* 'left'center'right' */}
+type TokenEH struct { /* 'left'center'right' */
+}
 
 func (t *TokenEH) String() string {
 	return ".EH" /* 'left'center'right' */
@@ -1136,7 +1202,8 @@ var _ Token = (*TokenEH)(nil)
 
 // TokenOF Indexing term (printed on standard error).  You can write a script to
 // capture and process an index generated in this manner.
-type TokenOF struct {/* 'left'center'right' */}
+type TokenOF struct { /* 'left'center'right' */
+}
 
 func (t *TokenOF) String() string {
 	return ".OF" /* 'left'center'right' */
@@ -1150,7 +1217,8 @@ var _ Token = (*TokenOF)(nil)
 //
 // You can replace the quote (') marks with any character not
 // appearing in the header or footer text.
-type TokenEF struct {/* 'left'center'right' */}
+type TokenEF struct { /* 'left'center'right' */
+}
 
 func (t *TokenEF) String() string {
 	return ".EF" /* 'left'center'right' */
@@ -1163,7 +1231,8 @@ var _ Token = (*TokenEF)(nil)
 // Control the content of the headers.  Normally, the header prints the
 // command name and section number on either side, and the optional fifth
 // argument to TH in the center.
-type TokenPT struct {/*  */}
+type TokenPT struct { /*  */
+}
 
 func (t *TokenPT) String() string {
 	return ".PT" /*  */
@@ -1173,7 +1242,8 @@ var _ Token = (*TokenPT)(nil)
 
 // TokenHD Indexing term (printed on standard error).  You can write a script to
 // capture and process an index generated in this manner.
-type TokenHD struct {/*  */}
+type TokenHD struct { /*  */
+}
 
 func (t *TokenHD) String() string {
 	return ".HD" /*  */
@@ -1192,7 +1262,8 @@ var _ Token = (*TokenHD)(nil)
 //
 // Use the FT number register to specify the footer position.  The
 // default is -0.5i.
-type TokenBT struct {/*  */}
+type TokenBT struct { /*  */
+}
 
 func (t *TokenBT) String() string {
 	return ".BT" /*  */
@@ -1201,7 +1272,8 @@ func (t *TokenBT) String() string {
 var _ Token = (*TokenBT)(nil)
 
 // Token1C Single-column mode.
-type Token1C struct {/*  */}
+type Token1C struct { /*  */
+}
 
 func (t *Token1C) String() string {
 	return ".1C" /*  */
@@ -1210,7 +1282,8 @@ func (t *Token1C) String() string {
 var _ Token = (*Token1C)(nil)
 
 // Token2C Two-column mode.
-type Token2C struct {/*  */}
+type Token2C struct { /*  */
+}
 
 func (t *Token2C) String() string {
 	return ".2C" /*  */
@@ -1222,7 +1295,8 @@ var _ Token = (*Token2C)(nil)
 // 2C macro.  Otherwise, width is the width of each column and
 // gutter is the space between columns.  The MINGW number
 // register controls the default gutter width.
-type TokenMC struct {/* [width */}
+type TokenMC struct { /* [width */
+}
 
 func (t *TokenMC) String() string {
 	return ".MC" /* [width */
@@ -1232,7 +1306,8 @@ var _ Token = (*TokenMC)(nil)
 
 // TokenXS Indexing term (printed on standard error).  You can write a script to
 // capture and process an index generated in this manner.
-type TokenXS struct {/* [page] */}
+type TokenXS struct { /* [page] */
+}
 
 func (t *TokenXS) String() string {
 	return ".XS" /* [page] */
@@ -1242,7 +1317,8 @@ var _ Token = (*TokenXS)(nil)
 
 // TokenXA Indexing term (printed on standard error).  You can write a script to
 // capture and process an index generated in this manner.
-type TokenXA struct {/* [page] */}
+type TokenXA struct { /* [page] */
+}
 
 func (t *TokenXA) String() string {
 	return ".XA" /* [page] */
@@ -1255,8 +1331,6 @@ var _ Token = (*TokenXA)(nil)
 // they cannot indent a heading based on its level.  The easiest way to
 // work around this is to add tabs to the table of contents string.  The
 // following is an example:
-//
-//
 //
 // .NH 1
 // Introduction
@@ -1274,15 +1348,11 @@ var _ Token = (*TokenXA)(nil)
 // .LP
 // ...
 //
-//
-//
 // You can manually create a table of contents by beginning with the
 // XS macro for the first entry, specifying the page number for that
 // entry as the argument to XS.  Add subsequent entries using the
 // XA macro, specifying the page number for that entry as the
 // argument to XA.  The following is an example:
-//
-//
 //
 // .XS 1
 // Introduction
@@ -1292,7 +1362,8 @@ var _ Token = (*TokenXA)(nil)
 // Details of Galactic Formation
 // ...
 // .XE
-type TokenXE struct {/*  */}
+type TokenXE struct { /*  */
+}
 
 func (t *TokenXE) String() string {
 	return ".XE" /*  */
@@ -1308,7 +1379,8 @@ var _ Token = (*TokenXE)(nil)
 //
 // The optional argument no suppresses printing the title specified
 // by the string register TOC.
-type TokenTC struct {/* [no] */}
+type TokenTC struct { /* [no] */
+}
 
 func (t *TokenTC) String() string {
 	return ".TC" /* [no] */
@@ -1322,7 +1394,8 @@ var _ Token = (*TokenTC)(nil)
 //
 // The optional argument no suppresses printing the title specified
 // by the string register TOC.
-type TokenPX struct {/* [no] */}
+type TokenPX struct { /* [no] */
+}
 
 func (t *TokenPX) String() string {
 	return ".PX" /* [no] */
@@ -1340,7 +1413,8 @@ var _ Token = (*TokenPX)(nil)
 //
 // Note that groff’s native support for accents is superior to the
 // following definitions.
-type TokenAM struct {/*  */}
+type TokenAM struct { /*  */
+}
 
 func (t *TokenAM) String() string {
 	return ".AM" /*  */
@@ -1351,12 +1425,8 @@ var _ Token = (*TokenAM)(nil)
 // TokenDS Indented display.  The default behavior of AT&T troff
 // -ms was to indent; the groff default prints displays flush left
 // with the body text.
-//
-//
-//
-//
-//
-type TokenDS struct {/* I | R | C | B | I | L */}
+type TokenDS struct { /* I | R | C | B | I | L */
+}
 
 func (t *TokenDS) String() string {
 	return ".DS" /* I | R | C | B | I | L */
@@ -1368,7 +1438,8 @@ var _ Token = (*TokenDS)(nil)
 // Sets its first argument in a constant width face.  It operates
 // similarly to the B macro otherwise.
 // Print subsequent text using the constant width (Courier) typeface.
-type TokenCW struct {/* undefined | [txt | undefined */}
+type TokenCW struct { /* undefined | [txt | undefined */
+}
 
 func (t *TokenCW) String() string {
 	return ".CW" /* undefined | [txt | undefined */
@@ -1378,7 +1449,8 @@ var _ Token = (*TokenCW)(nil)
 
 // TokenIX Indexing term (printed on standard error).  You can write a script to
 // capture and process an index generated in this manner.
-type TokenIX struct {/*  */}
+type TokenIX struct { /*  */
+}
 
 func (t *TokenIX) String() string {
 	return ".IX" /*  */
