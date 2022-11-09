@@ -43,14 +43,6 @@ func (t TokenText) String() string {
 //at the beginning of the file.
 type TokenTH struct {/* title */}
 
-// Set up an unnumbered section heading sticking out to the left.  Prints
-//out all the text following SH up to the end of the line (or the
-//text in the next line if there is no argument to SH) in bold face
-//(or the font specified by the string HF), one size larger than
-//the base document size.  Additionally, the left margin and the
-//indentation for the following text is reset to its default value.
-type TokenSH struct {/* [heading] */}
-
 // Set up an unnumbered (sub)section heading.  Prints out all the text
 //following SS up to the end of the line (or the text in the next
 //line if there is no argument to SS) in bold face (or the font
@@ -78,14 +70,6 @@ type TokenSS struct {/* [heading] */}
 //settings.
 type TokenTP struct {/* [nnn] */}
 
-// Indexing term (printed on standard error).  You can write a script to
-//capture and process an index generated in this manner.
-type TokenLP struct {/*  */}
-
-// Indexing term (printed on standard error).  You can write a script to
-//capture and process an index generated in this manner.
-type TokenPP struct {/*  */}
-
 // These macros are mutual aliases.  Any of them causes a line break at the
 //current position, followed by a vertical space downwards by the amount
 //specified by the PD macro.  The font size and shape are reset to
@@ -93,25 +77,6 @@ type TokenPP struct {/*  */}
 //on the command line).  Finally, the current left margin and the
 //indentation is restored.
 type TokenP struct {/*  */}
-
-// Set up an indented paragraph, using designator as a tag to mark
-//its beginning.  The indentation is set to nnn if that argument is
-//supplied (default unit is ‘n’), otherwise it is set to the previous
-//indentation value specified with TP, IP, or HP (or
-//the default value if none of them have been used yet).  Font size and
-//face of the paragraph (but not the designator) are reset to their
-//default values.
-//
-//To start an indented paragraph with a particular indentation but without
-//a designator, use ‘""’ (two double quotes) as the first argument of
-//IP.
-//
-//For example, to start a paragraph with bullets as the designator and
-//4 en indentation, write
-//
-//
-//.IP \(bu 4
-type TokenIP struct {/* [designator */}
 
 // Set up a paragraph with hanging left indentation.  The indentation is
 //set to nnn if that argument is supplied (default unit is
@@ -121,39 +86,9 @@ type TokenIP struct {/* [designator */}
 //their default values.
 type TokenHP struct {/* [nnn] */}
 
-// Move the left margin to the right by the value nnn if specified
-//(default unit is ‘n’); otherwise it is set to the previous
-//indentation value specified with TP, IP, or HP (or
-//to the default value if none of them have been used yet).  The
-//indentation value is then set to the default.
-//
-//Calls to the RS macro can be nested.
-type TokenRS struct {/* [nnn] */}
-
-// Move the left margin back to level nnn, restoring the previous
-//left margin.  If no argument is given, it moves one level back.  The
-//first level (i.e., no call to RS yet) has number 1, and each
-//call to RS increases the level by 1.
-type TokenRE struct {/* [nnn] */}
-
-// Set the text on the same line or the text on the next line in a font
-//that is one point size smaller than the default font.
-type TokenSM struct {/* [text] */}
-
 // Set the text on the same line or the text on the next line in bold face
 //font, one point size smaller than the default font.
 type TokenSB struct {/* [text] */}
-
-// Set its arguments alternately in bold face and italic, without a space
-//between the arguments.  Thus,
-//
-//
-//.BI this "word and" that
-//
-//
-//produces “thisword andthat” with “this” and “that” in bold face,
-//and “word and” in italics.
-type TokenBI struct {/* text */}
 
 // Set its arguments alternately in italic and bold face, without a space
 //between the arguments.
@@ -174,15 +109,6 @@ type TokenBR struct {/* text */}
 // Set its arguments alternately in roman and bold face, without a space
 //between the arguments.
 type TokenRB struct {/* text */}
-
-// Set text in bold face.  If no text is present on the line where
-//the macro is called, then the text of the next line appears in bold
-//face.
-type TokenB struct {/* [text] */}
-
-// Set text in italic.  If no text is present on the line where the
-//macro is called, then the text of the next line appears in italic.
-type TokenI struct {/* [text] */}
 
 // Set tabs every 0.5 inches.  Since this macro is always executed
 //during a call to the TH macro, it makes sense to call it only if
@@ -244,29 +170,8 @@ type TokenAT struct {/* [system */}
 //4.4 Berkeley Distribution
 type TokenUC struct {/* [version] */}
 
-// Control the content of the headers.  Normally, the header prints the
-//command name and section number on either side, and the optional fifth
-//argument to TH in the center.
-type TokenPT struct {/*  */}
-
-// Control the content of the footers.  Normally, the footer prints the
-//page number and the third and fourth arguments to TH.
-//
-//Use the FT number register to specify the footer position.  The
-//default is -0.5i.
-type TokenBT struct {/*  */}
-
 // Print ‘<CTRL/key>’.
 type TokenCT struct {/* key */}
-
-// Print subsequent text using the constant width (Courier) typeface.
-type TokenCW struct {/*  */}
-
-// Begin a non-filled display.
-type TokenDs struct {/*  */}
-
-// End a non-filled display started with Ds.
-type TokenDe struct {/*  */}
 
 // Begin a non-filled display using the constant width (Courier) typeface.
 //Use the optional indent argument to indent the display.
@@ -316,9 +221,6 @@ type TokenPN struct {/* path */}
 //three arguments, set the second argument in constant width (Courier),
 //bracketed by the first and third arguments in the current font.
 type TokenPn struct {/* [punct] */}
-
-// Switch to roman font and turn off any underlining in effect.
-type TokenR struct {/*  */}
 
 // Print the string ‘<RETURN>’.
 type TokenRN struct {/*  */}
@@ -389,9 +291,11 @@ type TokenAB struct {/* [no] */}
 type TokenAE struct {/*  */}
 
 // Sets a paragraph with an initial indentation.
+//
 type TokenPP struct {/*  */}
 
 // Sets a paragraph without an initial indentation.
+//
 type TokenLP struct {/*  */}
 
 // Sets a paragraph that is indented at both left and right margins
@@ -419,10 +323,6 @@ type TokenQE struct {/*  */}
 //This is a Berkeley extension.
 type TokenXP struct {/*  */}
 
-// Indexing term (printed on standard error).  You can write a script to
-//capture and process an index generated in this manner.
-type TokenNH struct {/* curr-level */}
-
 // Numbered heading.  The argument is either a numeric argument to indicate
 //the level of the heading, or the letter S followed by
 //numeric arguments to set the heading level explicitly.
@@ -430,7 +330,8 @@ type TokenNH struct {/* curr-level */}
 //If you specify heading levels out of sequence, such as invoking
 //‘.NH 3’ after ‘.NH 1’, groff prints a warning on
 //standard error.
-type TokenNH struct {/* S */}
+//
+type TokenNH struct {/* S | curr-level */}
 
 // Unnumbered subheading.
 //
@@ -440,7 +341,13 @@ type TokenNH struct {/* S */}
 //point size, at which the heading is printed, to the size of a numbered
 //heading at the same level, when the GROWPS and PSINCR
 //heading size adjustment mechanism is in effect.  See ms Document Control Registers.
-type TokenSH struct {/* [match-level] */}
+//Set up an unnumbered section heading sticking out to the left.  Prints
+//out all the text following SH up to the end of the line (or the
+//text in the next line if there is no argument to SH) in bold face
+//(or the font specified by the string HF), one size larger than
+//the base document size.  Additionally, the left margin and the
+//indentation for the following text is reset to its default value.
+type TokenSH struct {/* [match-level] | [heading] */}
 
 // Sets its first argument in bold type.  If you specify a second
 //argument, groff prints it in the previous font after the bold
@@ -458,23 +365,34 @@ type TokenSH struct {/* [match-level] */}
 //If you give this macro no arguments, groff prints all text
 //following in bold until the next highlighting, paragraph, or heading
 //macro.
-type TokenB struct {/* [txt */}
+//Set text in bold face.  If no text is present on the line where
+//the macro is called, then the text of the next line appears in bold
+//face.
+type TokenB struct {/* [txt | [text] */}
 
 // Sets its first argument in roman (or regular) type.  It operates
 //similarly to the B macro otherwise.
-type TokenR struct {/* [txt */}
+//Switch to roman font and turn off any underlining in effect.
+type TokenR struct {/* [txt | undefined */}
 
 // Sets its first argument in italic type.  It operates similarly
 //to the B macro otherwise.
-type TokenI struct {/* [txt */}
-
-// Sets its first argument in a constant width face.  It operates
-//similarly to the B macro otherwise.
-type TokenCW struct {/* [txt */}
+//Set text in italic.  If no text is present on the line where the
+//macro is called, then the text of the next line appears in italic.
+type TokenI struct {/* [txt | [text] */}
 
 // Sets its first argument in bold italic type.  It operates similarly to
 //the B macro otherwise.
-type TokenBI struct {/* [txt */}
+//Set its arguments alternately in bold face and italic, without a space
+//between the arguments.  Thus,
+//
+//
+//.BI this "word and" that
+//
+//
+//produces “thisword andthat” with “this” and “that” in bold face,
+//and “word and” in italics.
+type TokenBI struct {/* [txt | text */}
 
 // Prints its argument and draws a box around it.  If you want to box a
 //string that contains spaces, use a digit-width space (\0).
@@ -495,7 +413,9 @@ type TokenLG struct {/*  */}
 //current point size) until the next type size, highlighting, paragraph,
 //or heading macro.  You can specify this macro multiple times to reduce
 //the point size as needed.
-type TokenSM struct {/*  */}
+//Set the text on the same line or the text on the next line in a font
+//that is one point size smaller than the default font.
+type TokenSM struct {/* undefined | [text] */}
 
 // Prints all text following in the normal point size (that is, the value
 //of the PS register).
@@ -513,16 +433,44 @@ type TokenNL struct {/*  */}
 //The PORPHANS register (see ms Document Control Registers)
 //operates in conjunction with the IP macro, to inhibit the
 //printing of orphaned list markers at the bottom of any page.
-type TokenIP struct {/* [marker */}
+//Set up an indented paragraph, using designator as a tag to mark
+//its beginning.  The indentation is set to nnn if that argument is
+//supplied (default unit is ‘n’), otherwise it is set to the previous
+//indentation value specified with TP, IP, or HP (or
+//the default value if none of them have been used yet).  Font size and
+//face of the paragraph (but not the designator) are reset to their
+//default values.
+//
+//To start an indented paragraph with a particular indentation but without
+//a designator, use ‘""’ (two double quotes) as the first argument of
+//IP.
+//
+//For example, to start a paragraph with bullets as the designator and
+//4 en indentation, write
+//
+//
+//.IP \(bu 4
+type TokenIP struct {/* [marker | [designator */}
 
 // Indexing term (printed on standard error).  You can write a script to
 //capture and process an index generated in this manner.
-type TokenRS struct {/*  */}
+//Move the left margin to the right by the value nnn if specified
+//(default unit is ‘n’); otherwise it is set to the previous
+//indentation value specified with TP, IP, or HP (or
+//to the default value if none of them have been used yet).  The
+//indentation value is then set to the default.
+//
+//Calls to the RS macro can be nested.
+type TokenRS struct {/* undefined | [nnn] */}
 
 // These macros begin and end an indented section.  The PI register
 //controls the amount of indentation, allowing the indented text to line
 //up under hanging and indented paragraphs.
-type TokenRE struct {/*  */}
+//Move the left margin back to level nnn, restoring the previous
+//left margin.  If no argument is given, it moves one level back.  The
+//first level (i.e., no call to RS yet) has number 1, and each
+//call to RS increases the level by 1.
+type TokenRE struct {/* undefined | [nnn] */}
 
 // Use this macro to reset the tab stops to the default for ms
 //(every 5n).  You can redefine the TA macro to create a different
@@ -531,64 +479,19 @@ type TokenTA struct {/*  */}
 
 // Indexing term (printed on standard error).  You can write a script to
 //capture and process an index generated in this manner.
-type TokenDS struct {/* L */}
-
-// Indexing term (printed on standard error).  You can write a script to
-//capture and process an index generated in this manner.
 type TokenLD struct {/*  */}
-
-// Left-justified display.  The ‘.DS L’ call generates a page break,
-//if necessary, to keep the entire display on one page.  The LD
-//macro allows the display to break across pages.  The DE macro
-//ends the display.
-type TokenDE struct {/*  */}
-
-// Indexing term (printed on standard error).  You can write a script to
-//capture and process an index generated in this manner.
-type TokenDS struct {/* I */}
 
 // Indexing term (printed on standard error).  You can write a script to
 //capture and process an index generated in this manner.
 type TokenID struct {/*  */}
 
-// Indents the display as defined by the DI register.  The ‘.DS
-//I’ call generates a page break, if necessary, to keep the entire display
-//on one page.  The ID macro allows the display to break across
-//pages.  The DE macro ends the display.
-type TokenDE struct {/*  */}
-
-// Indexing term (printed on standard error).  You can write a script to
-//capture and process an index generated in this manner.
-type TokenDS struct {/* B */}
-
 // Indexing term (printed on standard error).  You can write a script to
 //capture and process an index generated in this manner.
 type TokenBD struct {/*  */}
 
-// Sets a block-centered display: the entire display is left-justified, but
-//indented so that the longest line in the display is centered on the
-//page.  The ‘.DS B’ call generates a page break, if necessary, to
-//keep the entire display on one page.  The BD macro allows the
-//display to break across pages.  The DE macro ends the display.
-type TokenDE struct {/*  */}
-
-// Indexing term (printed on standard error).  You can write a script to
-//capture and process an index generated in this manner.
-type TokenDS struct {/* C */}
-
 // Indexing term (printed on standard error).  You can write a script to
 //capture and process an index generated in this manner.
 type TokenCD struct {/*  */}
-
-// Sets a centered display: each line in the display is centered.  The
-//‘.DS C’ call generates a page break, if necessary, to keep the
-//entire display on one page.  The CD macro allows the display to
-//break across pages.  The DE macro ends the display.
-type TokenDE struct {/*  */}
-
-// Indexing term (printed on standard error).  You can write a script to
-//capture and process an index generated in this manner.
-type TokenDS struct {/* R */}
 
 // Indexing term (printed on standard error).  You can write a script to
 //capture and process an index generated in this manner.
@@ -598,10 +501,28 @@ type TokenRD struct {/*  */}
 //generates a page break, if necessary, to keep the entire display on one
 //page.  The RD macro allows the display to break across pages.
 //The DE macro ends the display.
+//Sets a centered display: each line in the display is centered.  The
+//‘.DS C’ call generates a page break, if necessary, to keep the
+//entire display on one page.  The CD macro allows the display to
+//break across pages.  The DE macro ends the display.
+//Sets a block-centered display: the entire display is left-justified, but
+//indented so that the longest line in the display is centered on the
+//page.  The ‘.DS B’ call generates a page break, if necessary, to
+//keep the entire display on one page.  The BD macro allows the
+//display to break across pages.  The DE macro ends the display.
+//Indents the display as defined by the DI register.  The ‘.DS
+//I’ call generates a page break, if necessary, to keep the entire display
+//on one page.  The ID macro allows the display to break across
+//pages.  The DE macro ends the display.
+//Left-justified display.  The ‘.DS L’ call generates a page break,
+//if necessary, to keep the entire display on one page.  The LD
+//macro allows the display to break across pages.  The DE macro
+//ends the display.
 type TokenDE struct {/*  */}
 
 // Indexing term (printed on standard error).  You can write a script to
 //capture and process an index generated in this manner.
+//Begin a non-filled display.
 type TokenDs struct {/*  */}
 
 // These two macros were formerly provided as aliases for DS and
@@ -611,15 +532,12 @@ type TokenDs struct {/*  */}
 //Ds and De always load a specific macro file from the X11
 //distribution (macros.t) that provides proper definitions for the
 //two macros.
+//End a non-filled display started with Ds.
 type TokenDe struct {/*  */}
 
 // Indexing term (printed on standard error).  You can write a script to
 //capture and process an index generated in this manner.
 type TokenKS struct {/*  */}
-
-// The KS macro begins a block of text to be kept on a single page,
-//and the KE macro ends the block.
-type TokenKE struct {/*  */}
 
 // Indexing term (printed on standard error).  You can write a script to
 //capture and process an index generated in this manner.
@@ -633,6 +551,8 @@ type TokenKF struct {/*  */}
 //floating keep at the top of the new page.  This is useful for printing
 //large graphics or tables that do not need to appear exactly where
 //specified.
+//The KS macro begins a block of text to be kept on a single page,
+//and the KE macro ends the block.
 type TokenKE struct {/*  */}
 
 // Indexing term (printed on standard error).  You can write a script to
@@ -718,6 +638,9 @@ type TokenEF struct {/* 'left'center'right' */}
 
 // Indexing term (printed on standard error).  You can write a script to
 //capture and process an index generated in this manner.
+//Control the content of the headers.  Normally, the header prints the
+//command name and section number on either side, and the optional fifth
+//argument to TH in the center.
 type TokenPT struct {/*  */}
 
 // Indexing term (printed on standard error).  You can write a script to
@@ -730,6 +653,11 @@ type TokenHD struct {/*  */}
 //
 //The HD macro defines additional header processing to take place
 //after executing the PT macro.
+//Control the content of the footers.  Normally, the footer prints the
+//page number and the third and fourth arguments to TH.
+//
+//Use the FT number register to specify the footer position.  The
+//default is -0.5i.
 type TokenBT struct {/*  */}
 
 // Single-column mode.
@@ -814,7 +742,9 @@ type TokenTC struct {/* [no] */}
 //by the string register TOC.
 type TokenPX struct {/* [no] */}
 
-// Specify this macro at the beginning of your document to enable extended
+// Improved accent marks.  See ms Strings and Special Characters, for
+//details.
+//Specify this macro at the beginning of your document to enable extended
 //accent marks and special characters.  This is a Berkeley extension.
 //
 //To use the accent marks, place them after the character being
@@ -824,17 +754,21 @@ type TokenPX struct {/* [no] */}
 //following definitions.
 type TokenAM struct {/*  */}
 
-// Improved accent marks.  See ms Strings and Special Characters, for
-//details.
-type TokenAM struct {/*  */}
-
 // Indented display.  The default behavior of AT&T troff
 //-ms was to indent; the groff default prints displays flush left
 //with the body text.
-type TokenDS struct {/* I */}
+//
+//
+//
+//
+//
+type TokenDS struct {/* I | R | C | B | I | L */}
 
 // Print text in constant width (Courier) font.
-type TokenCW struct {/*  */}
+//Sets its first argument in a constant width face.  It operates
+//similarly to the B macro otherwise.
+//Print subsequent text using the constant width (Courier) typeface.
+type TokenCW struct {/* undefined | [txt | undefined */}
 
 // Indexing term (printed on standard error).  You can write a script to
 //capture and process an index generated in this manner.
