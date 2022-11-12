@@ -23,7 +23,7 @@ func (t TokenText) String() string {
 
 var _ Token = (TokenText)("")
 
-var wsRe = regexp.MustCompile("\\w")
+var wsRe = regexp.MustCompile("\\s+")
 
 func ParseLine(line string) (Token, error) {
 	if !strings.HasPrefix(line, ".") {
