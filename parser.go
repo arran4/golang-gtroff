@@ -1860,6 +1860,14 @@ func (t *TokenIX) String() string {
 
 var _ Token = (*TokenIX)(nil)
 
+type TokenText string
+
+func (t TokenText) String() string {
+	return string(t)
+}
+
+var _ Token = (TokenText)("")
+
 func ParseLine(line string) (Token, error) {
 	if !strings.HasPrefix(line, ".") {
 		return TokenText(line), nil
@@ -2076,4 +2084,8 @@ func ParseLine(line string) (Token, error) {
 		return ParseTokenIX(ss[1])
 	}
 	return nil, fmt.Errorf("%w: %s", ErrNoTokenMatch, line)
+}
+
+func ParseComment(s string) (Token, error) {
+	return nil, nil
 }
