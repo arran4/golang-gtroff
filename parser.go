@@ -14,14 +14,8 @@ type Token interface {
 	String() string
 }
 
-type TokenText string
-
-func (t TokenText) String() string {
-	return string(t)
-}
-
 // TokenTH Set the title of the man page to title and the section to
-// section, which must have a value between 1 and 8.  The value
+// section, which must have a value between 1 and 8.  The value
 // of section may also have a string appended, e.g. ‘.pm’, to
 // indicate a specific subsection of the man pages.
 //
@@ -37,11 +31,15 @@ func (t TokenText) String() string {
 // completely suppressed.
 //
 // Additionally, this macro starts a new page; the new line number
-// is 1 again (except if the -rC1 option is given on the
+// is 1 again (except if the -rC1 option is given on the
 // command line) – this feature is intended only for formatting multiple
 // man pages; a single man page should contain exactly one TH macro
 // at the beginning of the file.
 type TokenTH struct { /* title */
+}
+
+func ParseTokenTH(args string) (Token, error) {
+	return &TokenTH{ /* title */ }, nil
 }
 
 func (t *TokenTH) String() string {
@@ -57,6 +55,10 @@ var _ Token = (*TokenTH)(nil)
 // document size.  Additionally, the left margin and the indentation for
 // the following text is reset to its default value.
 type TokenSS struct { /* [heading] */
+}
+
+func ParseTokenSS(args string) (Token, error) {
+	return &TokenSS{ /* [heading] */ }, nil
 }
 
 func (t *TokenSS) String() string {
@@ -85,6 +87,10 @@ var _ Token = (*TokenSS)(nil)
 type TokenTP struct { /* [nnn] */
 }
 
+func ParseTokenTP(args string) (Token, error) {
+	return &TokenTP{ /* [nnn] */ }, nil
+}
+
 func (t *TokenTP) String() string {
 	return ".TP" /* [nnn] */
 }
@@ -98,6 +104,10 @@ var _ Token = (*TokenTP)(nil)
 // on the command line).  Finally, the current left margin and the
 // indentation is restored.
 type TokenP struct { /*  */
+}
+
+func ParseTokenP(args string) (Token, error) {
+	return &TokenP{ /*  */ }, nil
 }
 
 func (t *TokenP) String() string {
@@ -115,6 +125,10 @@ var _ Token = (*TokenP)(nil)
 type TokenHP struct { /* [nnn] */
 }
 
+func ParseTokenHP(args string) (Token, error) {
+	return &TokenHP{ /* [nnn] */ }, nil
+}
+
 func (t *TokenHP) String() string {
 	return ".HP" /* [nnn] */
 }
@@ -124,6 +138,10 @@ var _ Token = (*TokenHP)(nil)
 // TokenSB Set the text on the same line or the text on the next line in bold face
 // font, one point size smaller than the default font.
 type TokenSB struct { /* [text] */
+}
+
+func ParseTokenSB(args string) (Token, error) {
+	return &TokenSB{ /* [text] */ }, nil
 }
 
 func (t *TokenSB) String() string {
@@ -137,6 +155,10 @@ var _ Token = (*TokenSB)(nil)
 type TokenIB struct { /* text */
 }
 
+func ParseTokenIB(args string) (Token, error) {
+	return &TokenIB{ /* text */ }, nil
+}
+
 func (t *TokenIB) String() string {
 	return ".IB" /* text */
 }
@@ -146,6 +168,10 @@ var _ Token = (*TokenIB)(nil)
 // TokenRI Set its arguments alternately in roman and italic, without a space
 // between the arguments.
 type TokenRI struct { /* text */
+}
+
+func ParseTokenRI(args string) (Token, error) {
+	return &TokenRI{ /* text */ }, nil
 }
 
 func (t *TokenRI) String() string {
@@ -159,6 +185,10 @@ var _ Token = (*TokenRI)(nil)
 type TokenIR struct { /* text */
 }
 
+func ParseTokenIR(args string) (Token, error) {
+	return &TokenIR{ /* text */ }, nil
+}
+
 func (t *TokenIR) String() string {
 	return ".IR" /* text */
 }
@@ -168,6 +198,10 @@ var _ Token = (*TokenIR)(nil)
 // TokenBR Set its arguments alternately in bold face and roman, without a space
 // between the arguments.
 type TokenBR struct { /* text */
+}
+
+func ParseTokenBR(args string) (Token, error) {
+	return &TokenBR{ /* text */ }, nil
 }
 
 func (t *TokenBR) String() string {
@@ -181,16 +215,24 @@ var _ Token = (*TokenBR)(nil)
 type TokenRB struct { /* text */
 }
 
+func ParseTokenRB(args string) (Token, error) {
+	return &TokenRB{ /* text */ }, nil
+}
+
 func (t *TokenRB) String() string {
 	return ".RB" /* text */
 }
 
 var _ Token = (*TokenRB)(nil)
 
-// TokenDT Set tabs every 0.5 inches.  Since this macro is always executed
+// TokenDT Set tabs every 0.5 inches.  Since this macro is always executed
 // during a call to the TH macro, it makes sense to call it only if
 // the tab positions have been changed.
 type TokenDT struct { /*  */
+}
+
+func ParseTokenDT(args string) (Token, error) {
+	return &TokenDT{ /*  */ }, nil
 }
 
 func (t *TokenDT) String() string {
@@ -201,12 +243,16 @@ var _ Token = (*TokenDT)(nil)
 
 // TokenPD Adjust the empty space before a new paragraph (or section).  The
 // optional argument gives the amount of space (default unit is ‘v’);
-// without parameter, the value is reset to its default value (1 line
-// in nroff mode, 0.4v otherwise).
+// without parameter, the value is reset to its default value (1 line
+// in nroff mode, 0.4v otherwise).
 //
 // This affects the macros SH, SS, TP, LP (as
 // well as PP and P), IP, and HP.
 type TokenPD struct { /* [nnn] */
+}
+
+func ParseTokenPD(args string) (Token, error) {
+	return &TokenPD{ /* [nnn] */ }, nil
 }
 
 func (t *TokenPD) String() string {
@@ -231,6 +277,10 @@ var _ Token = (*TokenPD)(nil)
 // An optional second argument release to AT specifies the
 // release number (such as “System V Release 3”).
 type TokenAT struct { /* [system */
+}
+
+func ParseTokenAT(args string) (Token, error) {
+	return &TokenAT{ /* [system */ }, nil
 }
 
 func (t *TokenAT) String() string {
@@ -259,6 +309,10 @@ var _ Token = (*TokenAT)(nil)
 type TokenUC struct { /* [version] */
 }
 
+func ParseTokenUC(args string) (Token, error) {
+	return &TokenUC{ /* [version] */ }, nil
+}
+
 func (t *TokenUC) String() string {
 	return ".UC" /* [version] */
 }
@@ -267,6 +321,10 @@ var _ Token = (*TokenUC)(nil)
 
 // TokenCT Print ‘<CTRL/key>’.
 type TokenCT struct { /* key */
+}
+
+func ParseTokenCT(args string) (Token, error) {
+	return &TokenCT{ /* key */ }, nil
 }
 
 func (t *TokenCT) String() string {
@@ -280,6 +338,10 @@ var _ Token = (*TokenCT)(nil)
 type TokenEX struct { /* [indent] */
 }
 
+func ParseTokenEX(args string) (Token, error) {
+	return &TokenEX{ /* [indent] */ }, nil
+}
+
 func (t *TokenEX) String() string {
 	return ".EX" /* [indent] */
 }
@@ -288,6 +350,10 @@ var _ Token = (*TokenEX)(nil)
 
 // TokenEE End a non-filled display started with EX.
 type TokenEE struct { /*  */
+}
+
+func ParseTokenEE(args string) (Token, error) {
+	return &TokenEE{ /*  */ }, nil
 }
 
 func (t *TokenEE) String() string {
@@ -302,6 +368,10 @@ var _ Token = (*TokenEE)(nil)
 type TokenG struct { /* [text] */
 }
 
+func ParseTokenG(args string) (Token, error) {
+	return &TokenG{ /* [text] */ }, nil
+}
+
 func (t *TokenG) String() string {
 	return ".G" /* [text] */
 }
@@ -312,6 +382,10 @@ var _ Token = (*TokenG)(nil)
 // where the macro is called, then the text of the next line appears in
 // Helvetica Oblique.
 type TokenGL struct { /* [text] */
+}
+
+func ParseTokenGL(args string) (Token, error) {
+	return &TokenGL{ /* [text] */ }, nil
 }
 
 func (t *TokenGL) String() string {
@@ -326,6 +400,10 @@ var _ Token = (*TokenGL)(nil)
 type TokenHB struct { /* [text] */
 }
 
+func ParseTokenHB(args string) (Token, error) {
+	return &TokenHB{ /* [text] */ }, nil
+}
+
 func (t *TokenHB) String() string {
 	return ".HB" /* [text] */
 }
@@ -334,6 +412,10 @@ var _ Token = (*TokenHB)(nil)
 
 // TokenTB Identical to HB.
 type TokenTB struct { /* [text] */
+}
+
+func ParseTokenTB(args string) (Token, error) {
+	return &TokenTB{ /* [text] */ }, nil
 }
 
 func (t *TokenTB) String() string {
@@ -346,6 +428,10 @@ var _ Token = (*TokenTB)(nil)
 // instead of italic.  Optional punctuation follows the section number
 // without an intervening space.
 type TokenMS struct { /* title */
+}
+
+func ParseTokenMS(args string) (Token, error) {
+	return &TokenMS{ /* title */ }, nil
 }
 
 func (t *TokenMS) String() string {
@@ -362,6 +448,10 @@ var _ Token = (*TokenMS)(nil)
 type TokenNT struct { /* [C] */
 }
 
+func ParseTokenNT(args string) (Token, error) {
+	return &TokenNT{ /* [C] */ }, nil
+}
+
 func (t *TokenNT) String() string {
 	return ".NT" /* [C] */
 }
@@ -370,6 +460,10 @@ var _ Token = (*TokenNT)(nil)
 
 // TokenNE End a note begun with NT.
 type TokenNE struct { /*  */
+}
+
+func ParseTokenNE(args string) (Token, error) {
+	return &TokenNE{ /*  */ }, nil
 }
 
 func (t *TokenNE) String() string {
@@ -381,6 +475,10 @@ var _ Token = (*TokenNE)(nil)
 // TokenPN Set the path name in constant width (Courier), followed by optional
 // punctuation.
 type TokenPN struct { /* path */
+}
+
+func ParseTokenPN(args string) (Token, error) {
+	return &TokenPN{ /* path */ }, nil
 }
 
 func (t *TokenPN) String() string {
@@ -395,6 +493,10 @@ var _ Token = (*TokenPN)(nil)
 type TokenPn struct { /* [punct] */
 }
 
+func ParseTokenPn(args string) (Token, error) {
+	return &TokenPn{ /* [punct] */ }, nil
+}
+
 func (t *TokenPn) String() string {
 	return ".Pn" /* [punct] */
 }
@@ -405,15 +507,23 @@ var _ Token = (*TokenPn)(nil)
 type TokenRN struct { /*  */
 }
 
+func ParseTokenRN(args string) (Token, error) {
+	return &TokenRN{ /*  */ }, nil
+}
+
 func (t *TokenRN) String() string {
 	return ".RN" /*  */
 }
 
 var _ Token = (*TokenRN)(nil)
 
-// TokenVS Start printing a change bar in the margin if the number 4 is
+// TokenVS Start printing a change bar in the margin if the number 4 is
 // specified.  Otherwise, this macro does nothing.
 type TokenVS struct { /* [4] */
+}
+
+func ParseTokenVS(args string) (Token, error) {
+	return &TokenVS{ /* [4] */ }, nil
 }
 
 func (t *TokenVS) String() string {
@@ -426,6 +536,10 @@ var _ Token = (*TokenVS)(nil)
 type TokenVE struct { /*  */
 }
 
+func ParseTokenVE(args string) (Token, error) {
+	return &TokenVE{ /*  */ }, nil
+}
+
 func (t *TokenVE) String() string {
 	return ".VE" /*  */
 }
@@ -434,13 +548,17 @@ var _ Token = (*TokenVE)(nil)
 
 // TokenRP Specifies the report format for your document.  The report format
 // creates a separate cover page.  The default action (no RP macro)
-// is to print a subset of the cover page on page 1 of your document.
+// is to print a subset of the cover page on page 1 of your document.
 //
 // If you use the word no as an optional argument, groff
 // prints a title page but does not repeat any of the title page
-// information (title, author, abstract, etc.) on page 1 of the
+// information (title, author, abstract, etc.) on page 1 of the
 // document.
 type TokenRP struct { /* [no] */
+}
+
+func ParseTokenRP(args string) (Token, error) {
+	return &TokenRP{ /* [no] */ }, nil
 }
 
 func (t *TokenRP) String() string {
@@ -449,9 +567,13 @@ func (t *TokenRP) String() string {
 
 var _ Token = (*TokenRP)(nil)
 
-// TokenP1 (P-one) Prints the header on page 1.  The default is to suppress
+// TokenP1 (P-one) Prints the header on page 1.  The default is to suppress
 // the header.
 type TokenP1 struct { /*  */
+}
+
+func ParseTokenP1(args string) (Token, error) {
+	return &TokenP1{ /*  */ }, nil
 }
 
 func (t *TokenP1) String() string {
@@ -466,6 +588,10 @@ var _ Token = (*TokenP1)(nil)
 type TokenDA struct { /* […] */
 }
 
+func ParseTokenDA(args string) (Token, error) {
+	return &TokenDA{ /* […] */ }, nil
+}
+
 func (t *TokenDA) String() string {
 	return ".DA" /* […] */
 }
@@ -478,6 +604,10 @@ var _ Token = (*TokenDA)(nil)
 type TokenND struct { /* […] */
 }
 
+func ParseTokenND(args string) (Token, error) {
+	return &TokenND{ /* […] */ }, nil
+}
+
 func (t *TokenND) String() string {
 	return ".ND" /* […] */
 }
@@ -488,6 +618,10 @@ var _ Token = (*TokenND)(nil)
 // TL macro into the title, until reaching the author name or
 // abstract.
 type TokenTL struct { /*  */
+}
+
+func ParseTokenTL(args string) (Token, error) {
+	return &TokenTL{ /*  */ }, nil
 }
 
 func (t *TokenTL) String() string {
@@ -512,6 +646,10 @@ var _ Token = (*TokenTL)(nil)
 type TokenAU struct { /*  */
 }
 
+func ParseTokenAU(args string) (Token, error) {
+	return &TokenAU{ /*  */ }, nil
+}
+
 func (t *TokenAU) String() string {
 	return ".AU" /*  */
 }
@@ -521,6 +659,10 @@ var _ Token = (*TokenAU)(nil)
 // TokenAI Specifies the author’s institution.  You can specify multiple
 // institutions in the same way that you specify multiple authors.
 type TokenAI struct { /*  */
+}
+
+func ParseTokenAI(args string) (Token, error) {
+	return &TokenAI{ /*  */ }, nil
 }
 
 func (t *TokenAI) String() string {
@@ -536,6 +678,10 @@ var _ Token = (*TokenAI)(nil)
 type TokenAB struct { /* [no] */
 }
 
+func ParseTokenAB(args string) (Token, error) {
+	return &TokenAB{ /* [no] */ }, nil
+}
+
 func (t *TokenAB) String() string {
 	return ".AB" /* [no] */
 }
@@ -544,6 +690,10 @@ var _ Token = (*TokenAB)(nil)
 
 // TokenAE Ends the abstract.
 type TokenAE struct { /*  */
+}
+
+func ParseTokenAE(args string) (Token, error) {
+	return &TokenAE{ /*  */ }, nil
 }
 
 func (t *TokenAE) String() string {
@@ -556,6 +706,10 @@ var _ Token = (*TokenAE)(nil)
 type TokenPP struct { /*  */
 }
 
+func ParseTokenPP(args string) (Token, error) {
+	return &TokenPP{ /*  */ }, nil
+}
+
 func (t *TokenPP) String() string {
 	return ".PP" /*  */
 }
@@ -564,6 +718,10 @@ var _ Token = (*TokenPP)(nil)
 
 // TokenLP Sets a paragraph without an initial indentation.
 type TokenLP struct { /*  */
+}
+
+func ParseTokenLP(args string) (Token, error) {
+	return &TokenLP{ /*  */ }, nil
 }
 
 func (t *TokenLP) String() string {
@@ -581,6 +739,10 @@ var _ Token = (*TokenLP)(nil)
 type TokenQP struct { /*  */
 }
 
+func ParseTokenQP(args string) (Token, error) {
+	return &TokenQP{ /*  */ }, nil
+}
+
 func (t *TokenQP) String() string {
 	return ".QP" /*  */
 }
@@ -590,6 +752,10 @@ var _ Token = (*TokenQP)(nil)
 // TokenQS Indexing term (printed on standard error).  You can write a script to
 // capture and process an index generated in this manner.
 type TokenQS struct { /*  */
+}
+
+func ParseTokenQS(args string) (Token, error) {
+	return &TokenQS{ /*  */ }, nil
 }
 
 func (t *TokenQS) String() string {
@@ -608,6 +774,10 @@ var _ Token = (*TokenQS)(nil)
 type TokenQE struct { /*  */
 }
 
+func ParseTokenQE(args string) (Token, error) {
+	return &TokenQE{ /*  */ }, nil
+}
+
 func (t *TokenQE) String() string {
 	return ".QE" /*  */
 }
@@ -619,6 +789,10 @@ var _ Token = (*TokenQE)(nil)
 type TokenXP struct { /*  */
 }
 
+func ParseTokenXP(args string) (Token, error) {
+	return &TokenXP{ /*  */ }, nil
+}
+
 func (t *TokenXP) String() string {
 	return ".XP" /*  */
 }
@@ -626,13 +800,17 @@ func (t *TokenXP) String() string {
 var _ Token = (*TokenXP)(nil)
 
 // TokenNH Numbered heading.  The argument is either a numeric argument to indicate
-// the level of the heading, or the letter S followed by
+// the level of the heading, or the letter S followed by
 // numeric arguments to set the heading level explicitly.
 //
 // If you specify heading levels out of sequence, such as invoking
 // ‘.NH 3’ after ‘.NH 1’, groff prints a warning on
 // standard error.
 type TokenNH struct { /* S | curr-level */
+}
+
+func ParseTokenNH(args string) (Token, error) {
+	return &TokenNH{ /* S | curr-level */ }, nil
 }
 
 func (t *TokenNH) String() string {
@@ -656,6 +834,10 @@ var _ Token = (*TokenNH)(nil)
 // the base document size.  Additionally, the left margin and the
 // indentation for the following text is reset to its default value.
 type TokenSH struct { /* [match-level] | [heading] */
+}
+
+func ParseTokenSH(args string) (Token, error) {
+	return &TokenSH{ /* [match-level] | [heading] */ }, nil
 }
 
 func (t *TokenSH) String() string {
@@ -684,6 +866,10 @@ var _ Token = (*TokenSH)(nil)
 type TokenB struct { /* [txt | [text] */
 }
 
+func ParseTokenB(args string) (Token, error) {
+	return &TokenB{ /* [txt | [text] */ }, nil
+}
+
 func (t *TokenB) String() string {
 	return ".B" /* [txt | [text] */
 }
@@ -691,9 +877,13 @@ func (t *TokenB) String() string {
 var _ Token = (*TokenB)(nil)
 
 // TokenR Sets its first argument in roman (or regular) type.  It operates
-// similarly to the B macro otherwise.
+// similarly to the B macro otherwise.
 // Switch to roman font and turn off any underlining in effect.
 type TokenR struct { /* [txt | undefined */
+}
+
+func ParseTokenR(args string) (Token, error) {
+	return &TokenR{ /* [txt | undefined */ }, nil
 }
 
 func (t *TokenR) String() string {
@@ -703,10 +893,14 @@ func (t *TokenR) String() string {
 var _ Token = (*TokenR)(nil)
 
 // TokenI Sets its first argument in italic type.  It operates similarly
-// to the B macro otherwise.
+// to the B macro otherwise.
 // Set text in italic.  If no text is present on the line where the
 // macro is called, then the text of the next line appears in italic.
 type TokenI struct { /* [txt | [text] */
+}
+
+func ParseTokenI(args string) (Token, error) {
+	return &TokenI{ /* [txt | [text] */ }, nil
 }
 
 func (t *TokenI) String() string {
@@ -716,7 +910,7 @@ func (t *TokenI) String() string {
 var _ Token = (*TokenI)(nil)
 
 // TokenBI Sets its first argument in bold italic type.  It operates similarly to
-// the B macro otherwise.
+// the B macro otherwise.
 // Set its arguments alternately in bold face and italic, without a space
 // between the arguments.  Thus,
 //
@@ -725,6 +919,10 @@ var _ Token = (*TokenI)(nil)
 // produces “thisword andthat” with “this” and “that” in bold face,
 // and “word and” in italics.
 type TokenBI struct { /* [txt | text */
+}
+
+func ParseTokenBI(args string) (Token, error) {
+	return &TokenBI{ /* [txt | text */ }, nil
 }
 
 func (t *TokenBI) String() string {
@@ -736,6 +934,10 @@ var _ Token = (*TokenBI)(nil)
 // TokenBX Prints its argument and draws a box around it.  If you want to box a
 // string that contains spaces, use a digit-width space (\0).
 type TokenBX struct { /* [txt] */
+}
+
+func ParseTokenBX(args string) (Token, error) {
+	return &TokenBX{ /* [txt] */ }, nil
 }
 
 func (t *TokenBX) String() string {
@@ -750,6 +952,10 @@ var _ Token = (*TokenBX)(nil)
 type TokenUL struct { /* [txt */
 }
 
+func ParseTokenUL(args string) (Token, error) {
+	return &TokenUL{ /* [txt */ }, nil
+}
+
 func (t *TokenUL) String() string {
 	return ".UL" /* [txt */
 }
@@ -761,6 +967,10 @@ var _ Token = (*TokenUL)(nil)
 // or heading macro.  You can specify this macro multiple times to
 // enlarge the point size as needed.
 type TokenLG struct { /*  */
+}
+
+func ParseTokenLG(args string) (Token, error) {
+	return &TokenLG{ /*  */ }, nil
 }
 
 func (t *TokenLG) String() string {
@@ -778,6 +988,10 @@ var _ Token = (*TokenLG)(nil)
 type TokenSM struct { /* undefined | [text] */
 }
 
+func ParseTokenSM(args string) (Token, error) {
+	return &TokenSM{ /* undefined | [text] */ }, nil
+}
+
 func (t *TokenSM) String() string {
 	return ".SM" /* undefined | [text] */
 }
@@ -787,6 +1001,10 @@ var _ Token = (*TokenSM)(nil)
 // TokenNL Prints all text following in the normal point size (that is, the value
 // of the PS register).
 type TokenNL struct { /*  */
+}
+
+func ParseTokenNL(args string) (Token, error) {
+	return &TokenNL{ /*  */ }, nil
 }
 
 func (t *TokenNL) String() string {
@@ -820,10 +1038,14 @@ var _ Token = (*TokenNL)(nil)
 // IP.
 //
 // For example, to start a paragraph with bullets as the designator and
-// 4 en indentation, write
+// 4 en indentation, write
 //
 // .IP \(bu 4
 type TokenIP struct { /* [marker | [designator */
+}
+
+func ParseTokenIP(args string) (Token, error) {
+	return &TokenIP{ /* [marker | [designator */ }, nil
 }
 
 func (t *TokenIP) String() string {
@@ -844,6 +1066,10 @@ var _ Token = (*TokenIP)(nil)
 type TokenRS struct { /* undefined | [nnn] */
 }
 
+func ParseTokenRS(args string) (Token, error) {
+	return &TokenRS{ /* undefined | [nnn] */ }, nil
+}
+
 func (t *TokenRS) String() string {
 	return ".RS" /* undefined | [nnn] */
 }
@@ -855,9 +1081,13 @@ var _ Token = (*TokenRS)(nil)
 // up under hanging and indented paragraphs.
 // Move the left margin back to level nnn, restoring the previous
 // left margin.  If no argument is given, it moves one level back.  The
-// first level (i.e., no call to RS yet) has number 1, and each
-// call to RS increases the level by 1.
+// first level (i.e., no call to RS yet) has number 1, and each
+// call to RS increases the level by 1.
 type TokenRE struct { /* undefined | [nnn] */
+}
+
+func ParseTokenRE(args string) (Token, error) {
+	return &TokenRE{ /* undefined | [nnn] */ }, nil
 }
 
 func (t *TokenRE) String() string {
@@ -872,6 +1102,10 @@ var _ Token = (*TokenRE)(nil)
 type TokenTA struct { /*  */
 }
 
+func ParseTokenTA(args string) (Token, error) {
+	return &TokenTA{ /*  */ }, nil
+}
+
 func (t *TokenTA) String() string {
 	return ".TA" /*  */
 }
@@ -881,6 +1115,10 @@ var _ Token = (*TokenTA)(nil)
 // TokenLD Indexing term (printed on standard error).  You can write a script to
 // capture and process an index generated in this manner.
 type TokenLD struct { /*  */
+}
+
+func ParseTokenLD(args string) (Token, error) {
+	return &TokenLD{ /*  */ }, nil
 }
 
 func (t *TokenLD) String() string {
@@ -894,6 +1132,10 @@ var _ Token = (*TokenLD)(nil)
 type TokenID struct { /*  */
 }
 
+func ParseTokenID(args string) (Token, error) {
+	return &TokenID{ /*  */ }, nil
+}
+
 func (t *TokenID) String() string {
 	return ".ID" /*  */
 }
@@ -903,6 +1145,10 @@ var _ Token = (*TokenID)(nil)
 // TokenBD Indexing term (printed on standard error).  You can write a script to
 // capture and process an index generated in this manner.
 type TokenBD struct { /*  */
+}
+
+func ParseTokenBD(args string) (Token, error) {
+	return &TokenBD{ /*  */ }, nil
 }
 
 func (t *TokenBD) String() string {
@@ -916,6 +1162,10 @@ var _ Token = (*TokenBD)(nil)
 type TokenCD struct { /*  */
 }
 
+func ParseTokenCD(args string) (Token, error) {
+	return &TokenCD{ /*  */ }, nil
+}
+
 func (t *TokenCD) String() string {
 	return ".CD" /*  */
 }
@@ -925,6 +1175,10 @@ var _ Token = (*TokenCD)(nil)
 // TokenRD Indexing term (printed on standard error).  You can write a script to
 // capture and process an index generated in this manner.
 type TokenRD struct { /*  */
+}
+
+func ParseTokenRD(args string) (Token, error) {
+	return &TokenRD{ /*  */ }, nil
 }
 
 func (t *TokenRD) String() string {
@@ -957,6 +1211,10 @@ var _ Token = (*TokenRD)(nil)
 type TokenDE struct { /*  */
 }
 
+func ParseTokenDE(args string) (Token, error) {
+	return &TokenDE{ /*  */ }, nil
+}
+
 func (t *TokenDE) String() string {
 	return ".DE" /*  */
 }
@@ -967,6 +1225,10 @@ var _ Token = (*TokenDE)(nil)
 // capture and process an index generated in this manner.
 // Begin a non-filled display.
 type TokenDs struct { /*  */
+}
+
+func ParseTokenDs(args string) (Token, error) {
+	return &TokenDs{ /*  */ }, nil
 }
 
 func (t *TokenDs) String() string {
@@ -986,6 +1248,10 @@ var _ Token = (*TokenDs)(nil)
 type TokenDe struct { /*  */
 }
 
+func ParseTokenDe(args string) (Token, error) {
+	return &TokenDe{ /*  */ }, nil
+}
+
 func (t *TokenDe) String() string {
 	return ".De" /*  */
 }
@@ -997,6 +1263,10 @@ var _ Token = (*TokenDe)(nil)
 type TokenKS struct { /*  */
 }
 
+func ParseTokenKS(args string) (Token, error) {
+	return &TokenKS{ /*  */ }, nil
+}
+
 func (t *TokenKS) String() string {
 	return ".KS" /*  */
 }
@@ -1006,6 +1276,10 @@ var _ Token = (*TokenKS)(nil)
 // TokenKF Indexing term (printed on standard error).  You can write a script to
 // capture and process an index generated in this manner.
 type TokenKF struct { /*  */
+}
+
+func ParseTokenKF(args string) (Token, error) {
+	return &TokenKF{ /*  */ }, nil
 }
 
 func (t *TokenKF) String() string {
@@ -1027,6 +1301,10 @@ var _ Token = (*TokenKF)(nil)
 type TokenKE struct { /*  */
 }
 
+func ParseTokenKE(args string) (Token, error) {
+	return &TokenKE{ /*  */ }, nil
+}
+
 func (t *TokenKE) String() string {
 	return ".KE" /*  */
 }
@@ -1036,6 +1314,10 @@ var _ Token = (*TokenKE)(nil)
 // TokenB1 Indexing term (printed on standard error).  You can write a script to
 // capture and process an index generated in this manner.
 type TokenB1 struct { /*  */
+}
+
+func ParseTokenB1(args string) (Token, error) {
+	return &TokenB1{ /*  */ }, nil
 }
 
 func (t *TokenB1) String() string {
@@ -1050,6 +1332,10 @@ var _ Token = (*TokenB1)(nil)
 type TokenB2 struct { /*  */
 }
 
+func ParseTokenB2(args string) (Token, error) {
+	return &TokenB2{ /*  */ }, nil
+}
+
 func (t *TokenB2) String() string {
 	return ".B2" /*  */
 }
@@ -1061,6 +1347,10 @@ var _ Token = (*TokenB2)(nil)
 type TokenTS struct { /* [H] */
 }
 
+func ParseTokenTS(args string) (Token, error) {
+	return &TokenTS{ /* [H] */ }, nil
+}
+
 func (t *TokenTS) String() string {
 	return ".TS" /* [H] */
 }
@@ -1068,12 +1358,16 @@ func (t *TokenTS) String() string {
 var _ Token = (*TokenTS)(nil)
 
 // TokenTE Denotes a table, to be processed by the tbl preprocessor.  The
-// optional argument H to TS instructs groff to
+// optional argument H to TS instructs groff to
 // create a running header with the information up to the TH macro.
 // groff prints the header at the beginning of the table; if the
 // table runs onto another page, groff prints the header on the next
 // page as well.
 type TokenTE struct { /*  */
+}
+
+func ParseTokenTE(args string) (Token, error) {
+	return &TokenTE{ /*  */ }, nil
 }
 
 func (t *TokenTE) String() string {
@@ -1085,6 +1379,10 @@ var _ Token = (*TokenTE)(nil)
 // TokenPS Indexing term (printed on standard error).  You can write a script to
 // capture and process an index generated in this manner.
 type TokenPS struct { /*  */
+}
+
+func ParseTokenPS(args string) (Token, error) {
+	return &TokenPS{ /*  */ }, nil
 }
 
 func (t *TokenPS) String() string {
@@ -1100,6 +1398,10 @@ var _ Token = (*TokenPS)(nil)
 type TokenPE struct { /*  */
 }
 
+func ParseTokenPE(args string) (Token, error) {
+	return &TokenPE{ /*  */ }, nil
+}
+
 func (t *TokenPE) String() string {
 	return ".PE" /*  */
 }
@@ -1111,6 +1413,10 @@ var _ Token = (*TokenPE)(nil)
 type TokenEQ struct { /* [align] */
 }
 
+func ParseTokenEQ(args string) (Token, error) {
+	return &TokenEQ{ /* [align] */ }, nil
+}
+
 func (t *TokenEQ) String() string {
 	return ".EQ" /* [align] */
 }
@@ -1119,9 +1425,13 @@ var _ Token = (*TokenEQ)(nil)
 
 // TokenEN Denotes an equation, to be processed by the eqn preprocessor.
 // The optional align argument can be C, L,
-// or I to center (the default), left-justify, or indent the
+// or I to center (the default), left-justify, or indent the
 // equation.
 type TokenEN struct { /*  */
+}
+
+func ParseTokenEN(args string) (Token, error) {
+	return &TokenEN{ /*  */ }, nil
 }
 
 func (t *TokenEN) String() string {
@@ -1133,6 +1443,10 @@ var _ Token = (*TokenEN)(nil)
 // Token[ Indexing term (printed on standard error).  You can write a script to
 // capture and process an index generated in this manner.
 type TokenReferOpen struct { /*  */
+}
+
+func ParseTokenReferOpen(args string) (Token, error) {
+	return &TokenReferOpen{ /*  */ }, nil
 }
 
 func (t *TokenReferOpen) String() string {
@@ -1147,6 +1461,10 @@ var _ Token = (*TokenReferOpen)(nil)
 type TokenReferClose struct { /*  */
 }
 
+func ParseTokenReferClose(args string) (Token, error) {
+	return &TokenReferClose{ /*  */ }, nil
+}
+
 func (t *TokenReferClose) String() string {
 	return ".]" /*  */
 }
@@ -1156,6 +1474,10 @@ var _ Token = (*TokenReferClose)(nil)
 // TokenFS Indexing term (printed on standard error).  You can write a script to
 // capture and process an index generated in this manner.
 type TokenFS struct { /*  */
+}
+
+func ParseTokenFS(args string) (Token, error) {
+	return &TokenFS{ /*  */ }, nil
 }
 
 func (t *TokenFS) String() string {
@@ -1172,6 +1494,10 @@ var _ Token = (*TokenFS)(nil)
 type TokenFE struct { /*  */
 }
 
+func ParseTokenFE(args string) (Token, error) {
+	return &TokenFE{ /*  */ }, nil
+}
+
 func (t *TokenFE) String() string {
 	return ".FE" /*  */
 }
@@ -1181,6 +1507,10 @@ var _ Token = (*TokenFE)(nil)
 // TokenOH Indexing term (printed on standard error).  You can write a script to
 // capture and process an index generated in this manner.
 type TokenOH struct { /* 'left'center'right' */
+}
+
+func ParseTokenOH(args string) (Token, error) {
+	return &TokenOH{ /* 'left'center'right' */ }, nil
 }
 
 func (t *TokenOH) String() string {
@@ -1194,6 +1524,10 @@ var _ Token = (*TokenOH)(nil)
 type TokenEH struct { /* 'left'center'right' */
 }
 
+func ParseTokenEH(args string) (Token, error) {
+	return &TokenEH{ /* 'left'center'right' */ }, nil
+}
+
 func (t *TokenEH) String() string {
 	return ".EH" /* 'left'center'right' */
 }
@@ -1203,6 +1537,10 @@ var _ Token = (*TokenEH)(nil)
 // TokenOF Indexing term (printed on standard error).  You can write a script to
 // capture and process an index generated in this manner.
 type TokenOF struct { /* 'left'center'right' */
+}
+
+func ParseTokenOF(args string) (Token, error) {
+	return &TokenOF{ /* 'left'center'right' */ }, nil
 }
 
 func (t *TokenOF) String() string {
@@ -1220,6 +1558,10 @@ var _ Token = (*TokenOF)(nil)
 type TokenEF struct { /* 'left'center'right' */
 }
 
+func ParseTokenEF(args string) (Token, error) {
+	return &TokenEF{ /* 'left'center'right' */ }, nil
+}
+
 func (t *TokenEF) String() string {
 	return ".EF" /* 'left'center'right' */
 }
@@ -1234,6 +1576,10 @@ var _ Token = (*TokenEF)(nil)
 type TokenPT struct { /*  */
 }
 
+func ParseTokenPT(args string) (Token, error) {
+	return &TokenPT{ /*  */ }, nil
+}
+
 func (t *TokenPT) String() string {
 	return ".PT" /*  */
 }
@@ -1243,6 +1589,10 @@ var _ Token = (*TokenPT)(nil)
 // TokenHD Indexing term (printed on standard error).  You can write a script to
 // capture and process an index generated in this manner.
 type TokenHD struct { /*  */
+}
+
+func ParseTokenHD(args string) (Token, error) {
+	return &TokenHD{ /*  */ }, nil
 }
 
 func (t *TokenHD) String() string {
@@ -1265,6 +1615,10 @@ var _ Token = (*TokenHD)(nil)
 type TokenBT struct { /*  */
 }
 
+func ParseTokenBT(args string) (Token, error) {
+	return &TokenBT{ /*  */ }, nil
+}
+
 func (t *TokenBT) String() string {
 	return ".BT" /*  */
 }
@@ -1275,6 +1629,10 @@ var _ Token = (*TokenBT)(nil)
 type Token1C struct { /*  */
 }
 
+func ParseToken1C(args string) (Token, error) {
+	return &Token1C{ /*  */ }, nil
+}
+
 func (t *Token1C) String() string {
 	return ".1C" /*  */
 }
@@ -1283,6 +1641,10 @@ var _ Token = (*Token1C)(nil)
 
 // Token2C Two-column mode.
 type Token2C struct { /*  */
+}
+
+func ParseToken2C(args string) (Token, error) {
+	return &Token2C{ /*  */ }, nil
 }
 
 func (t *Token2C) String() string {
@@ -1298,6 +1660,10 @@ var _ Token = (*Token2C)(nil)
 type TokenMC struct { /* [width */
 }
 
+func ParseTokenMC(args string) (Token, error) {
+	return &TokenMC{ /* [width */ }, nil
+}
+
 func (t *TokenMC) String() string {
 	return ".MC" /* [width */
 }
@@ -1309,6 +1675,10 @@ var _ Token = (*TokenMC)(nil)
 type TokenXS struct { /* [page] */
 }
 
+func ParseTokenXS(args string) (Token, error) {
+	return &TokenXS{ /* [page] */ }, nil
+}
+
 func (t *TokenXS) String() string {
 	return ".XS" /* [page] */
 }
@@ -1318,6 +1688,10 @@ var _ Token = (*TokenXS)(nil)
 // TokenXA Indexing term (printed on standard error).  You can write a script to
 // capture and process an index generated in this manner.
 type TokenXA struct { /* [page] */
+}
+
+func ParseTokenXA(args string) (Token, error) {
+	return &TokenXA{ /* [page] */ }, nil
 }
 
 func (t *TokenXA) String() string {
@@ -1365,6 +1739,10 @@ var _ Token = (*TokenXA)(nil)
 type TokenXE struct { /*  */
 }
 
+func ParseTokenXE(args string) (Token, error) {
+	return &TokenXE{ /*  */ }, nil
+}
+
 func (t *TokenXE) String() string {
 	return ".XE" /*  */
 }
@@ -1372,7 +1750,7 @@ func (t *TokenXE) String() string {
 var _ Token = (*TokenXE)(nil)
 
 // TokenTC Prints the table of contents on a new page, setting the page number
-// to i (Roman lowercase numeral one).  You should usually
+// to i (Roman lowercase numeral one).  You should usually
 // place this macro at the end of the file, since groff is a
 // single-pass formatter and can only print what has been collected up to
 // the point that the TC macro appears.
@@ -1380,6 +1758,10 @@ var _ Token = (*TokenXE)(nil)
 // The optional argument no suppresses printing the title specified
 // by the string register TOC.
 type TokenTC struct { /* [no] */
+}
+
+func ParseTokenTC(args string) (Token, error) {
+	return &TokenTC{ /* [no] */ }, nil
 }
 
 func (t *TokenTC) String() string {
@@ -1395,6 +1777,10 @@ var _ Token = (*TokenTC)(nil)
 // The optional argument no suppresses printing the title specified
 // by the string register TOC.
 type TokenPX struct { /* [no] */
+}
+
+func ParseTokenPX(args string) (Token, error) {
+	return &TokenPX{ /* [no] */ }, nil
 }
 
 func (t *TokenPX) String() string {
@@ -1416,6 +1802,10 @@ var _ Token = (*TokenPX)(nil)
 type TokenAM struct { /*  */
 }
 
+func ParseTokenAM(args string) (Token, error) {
+	return &TokenAM{ /*  */ }, nil
+}
+
 func (t *TokenAM) String() string {
 	return ".AM" /*  */
 }
@@ -1428,6 +1818,10 @@ var _ Token = (*TokenAM)(nil)
 type TokenDS struct { /* I | R | C | B | I | L */
 }
 
+func ParseTokenDS(args string) (Token, error) {
+	return &TokenDS{ /* I | R | C | B | I | L */ }, nil
+}
+
 func (t *TokenDS) String() string {
 	return ".DS" /* I | R | C | B | I | L */
 }
@@ -1436,9 +1830,13 @@ var _ Token = (*TokenDS)(nil)
 
 // TokenCW Print text in constant width (Courier) font.
 // Sets its first argument in a constant width face.  It operates
-// similarly to the B macro otherwise.
+// similarly to the B macro otherwise.
 // Print subsequent text using the constant width (Courier) typeface.
 type TokenCW struct { /* undefined | [txt | undefined */
+}
+
+func ParseTokenCW(args string) (Token, error) {
+	return &TokenCW{ /* undefined | [txt | undefined */ }, nil
 }
 
 func (t *TokenCW) String() string {
@@ -1450,6 +1848,10 @@ var _ Token = (*TokenCW)(nil)
 // TokenIX Indexing term (printed on standard error).  You can write a script to
 // capture and process an index generated in this manner.
 type TokenIX struct { /*  */
+}
+
+func ParseTokenIX(args string) (Token, error) {
+	return &TokenIX{ /*  */ }, nil
 }
 
 func (t *TokenIX) String() string {
@@ -1467,7 +1869,211 @@ func ParseLine(line string) (Token, error) {
 	line = ss[1]
 	switch ss[0] {
 	case `\\"`:
-
+		return ParseComment(ss[1])
+	case "TH":
+		return ParseTokenTH(ss[1])
+	case "SS":
+		return ParseTokenSS(ss[1])
+	case "TP":
+		return ParseTokenTP(ss[1])
+	case "P":
+		return ParseTokenP(ss[1])
+	case "HP":
+		return ParseTokenHP(ss[1])
+	case "SB":
+		return ParseTokenSB(ss[1])
+	case "IB":
+		return ParseTokenIB(ss[1])
+	case "RI":
+		return ParseTokenRI(ss[1])
+	case "IR":
+		return ParseTokenIR(ss[1])
+	case "BR":
+		return ParseTokenBR(ss[1])
+	case "RB":
+		return ParseTokenRB(ss[1])
+	case "DT":
+		return ParseTokenDT(ss[1])
+	case "PD":
+		return ParseTokenPD(ss[1])
+	case "AT":
+		return ParseTokenAT(ss[1])
+	case "UC":
+		return ParseTokenUC(ss[1])
+	case "CT":
+		return ParseTokenCT(ss[1])
+	case "EX":
+		return ParseTokenEX(ss[1])
+	case "EE":
+		return ParseTokenEE(ss[1])
+	case "G":
+		return ParseTokenG(ss[1])
+	case "GL":
+		return ParseTokenGL(ss[1])
+	case "HB":
+		return ParseTokenHB(ss[1])
+	case "TB":
+		return ParseTokenTB(ss[1])
+	case "MS":
+		return ParseTokenMS(ss[1])
+	case "NT":
+		return ParseTokenNT(ss[1])
+	case "NE":
+		return ParseTokenNE(ss[1])
+	case "PN":
+		return ParseTokenPN(ss[1])
+	case "Pn":
+		return ParseTokenPn(ss[1])
+	case "RN":
+		return ParseTokenRN(ss[1])
+	case "VS":
+		return ParseTokenVS(ss[1])
+	case "VE":
+		return ParseTokenVE(ss[1])
+	case "RP":
+		return ParseTokenRP(ss[1])
+	case "P1":
+		return ParseTokenP1(ss[1])
+	case "DA":
+		return ParseTokenDA(ss[1])
+	case "ND":
+		return ParseTokenND(ss[1])
+	case "TL":
+		return ParseTokenTL(ss[1])
+	case "AU":
+		return ParseTokenAU(ss[1])
+	case "AI":
+		return ParseTokenAI(ss[1])
+	case "AB":
+		return ParseTokenAB(ss[1])
+	case "AE":
+		return ParseTokenAE(ss[1])
+	case "PP":
+		return ParseTokenPP(ss[1])
+	case "LP":
+		return ParseTokenLP(ss[1])
+	case "QP":
+		return ParseTokenQP(ss[1])
+	case "QS":
+		return ParseTokenQS(ss[1])
+	case "QE":
+		return ParseTokenQE(ss[1])
+	case "XP":
+		return ParseTokenXP(ss[1])
+	case "NH":
+		return ParseTokenNH(ss[1])
+	case "SH":
+		return ParseTokenSH(ss[1])
+	case "B":
+		return ParseTokenB(ss[1])
+	case "R":
+		return ParseTokenR(ss[1])
+	case "I":
+		return ParseTokenI(ss[1])
+	case "BI":
+		return ParseTokenBI(ss[1])
+	case "BX":
+		return ParseTokenBX(ss[1])
+	case "UL":
+		return ParseTokenUL(ss[1])
+	case "LG":
+		return ParseTokenLG(ss[1])
+	case "SM":
+		return ParseTokenSM(ss[1])
+	case "NL":
+		return ParseTokenNL(ss[1])
+	case "IP":
+		return ParseTokenIP(ss[1])
+	case "RS":
+		return ParseTokenRS(ss[1])
+	case "RE":
+		return ParseTokenRE(ss[1])
+	case "TA":
+		return ParseTokenTA(ss[1])
+	case "LD":
+		return ParseTokenLD(ss[1])
+	case "ID":
+		return ParseTokenID(ss[1])
+	case "BD":
+		return ParseTokenBD(ss[1])
+	case "CD":
+		return ParseTokenCD(ss[1])
+	case "RD":
+		return ParseTokenRD(ss[1])
+	case "DE":
+		return ParseTokenDE(ss[1])
+	case "Ds":
+		return ParseTokenDs(ss[1])
+	case "De":
+		return ParseTokenDe(ss[1])
+	case "KS":
+		return ParseTokenKS(ss[1])
+	case "KF":
+		return ParseTokenKF(ss[1])
+	case "KE":
+		return ParseTokenKE(ss[1])
+	case "B1":
+		return ParseTokenB1(ss[1])
+	case "B2":
+		return ParseTokenB2(ss[1])
+	case "TS":
+		return ParseTokenTS(ss[1])
+	case "TE":
+		return ParseTokenTE(ss[1])
+	case "PS":
+		return ParseTokenPS(ss[1])
+	case "PE":
+		return ParseTokenPE(ss[1])
+	case "EQ":
+		return ParseTokenEQ(ss[1])
+	case "EN":
+		return ParseTokenEN(ss[1])
+	case "[":
+		return ParseTokenReferOpen(ss[1])
+	case "]":
+		return ParseTokenReferClose(ss[1])
+	case "FS":
+		return ParseTokenFS(ss[1])
+	case "FE":
+		return ParseTokenFE(ss[1])
+	case "OH":
+		return ParseTokenOH(ss[1])
+	case "EH":
+		return ParseTokenEH(ss[1])
+	case "OF":
+		return ParseTokenOF(ss[1])
+	case "EF":
+		return ParseTokenEF(ss[1])
+	case "PT":
+		return ParseTokenPT(ss[1])
+	case "HD":
+		return ParseTokenHD(ss[1])
+	case "BT":
+		return ParseTokenBT(ss[1])
+	case "1C":
+		return ParseToken1C(ss[1])
+	case "2C":
+		return ParseToken2C(ss[1])
+	case "MC":
+		return ParseTokenMC(ss[1])
+	case "XS":
+		return ParseTokenXS(ss[1])
+	case "XA":
+		return ParseTokenXA(ss[1])
+	case "XE":
+		return ParseTokenXE(ss[1])
+	case "TC":
+		return ParseTokenTC(ss[1])
+	case "PX":
+		return ParseTokenPX(ss[1])
+	case "AM":
+		return ParseTokenAM(ss[1])
+	case "DS":
+		return ParseTokenDS(ss[1])
+	case "CW":
+		return ParseTokenCW(ss[1])
+	case "IX":
+		return ParseTokenIX(ss[1])
 	}
 	return nil, fmt.Errorf("%w: %s", ErrNoTokenMatch, line)
 }
