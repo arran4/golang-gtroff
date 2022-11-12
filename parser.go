@@ -3,6 +3,7 @@ package groff
 import (
 	"errors"
 	"fmt"
+	"regexp"
 	"strings"
 )
 
@@ -22,580 +23,586 @@ func (t TokenText) String() string {
 
 var _ Token = (TokenText)("")
 
+var wsRe = regexp.MustCompile("\\w")
+
 func ParseLine(line string) (Token, error) {
 	if !strings.HasPrefix(line, ".") {
 		return TokenText(line), nil
 	}
 	line = line[1:]
-	ss := strings.SplitN(line, " ", 2)
-	line = ss[1]
+	ss := wsRe.Split(line, 2)
+	if len(ss) > 1 {
+		line = ss[1]
+	} else {
+		line = ""
+	}
 	switch ss[0] {
 	case `\"`:
-		return ParseComment(ss[1])
+		return ParseComment(line)
 	case "TH":
-		return ParseTokenTH(ss[1])
+		return ParseTokenTH(line)
 	case "SS":
-		return ParseTokenSS(ss[1])
+		return ParseTokenSS(line)
 	case "TP":
-		return ParseTokenTP(ss[1])
+		return ParseTokenTP(line)
 	case "P":
-		return ParseTokenP(ss[1])
+		return ParseTokenP(line)
 	case "HP":
-		return ParseTokenHP(ss[1])
+		return ParseTokenHP(line)
 	case "SB":
-		return ParseTokenSB(ss[1])
+		return ParseTokenSB(line)
 	case "IB":
-		return ParseTokenIB(ss[1])
+		return ParseTokenIB(line)
 	case "RI":
-		return ParseTokenRI(ss[1])
+		return ParseTokenRI(line)
 	case "IR":
-		return ParseTokenIR(ss[1])
+		return ParseTokenIR(line)
 	case "BR":
-		return ParseTokenBR(ss[1])
+		return ParseTokenBR(line)
 	case "RB":
-		return ParseTokenRB(ss[1])
+		return ParseTokenRB(line)
 	case "DT":
-		return ParseTokenDT(ss[1])
+		return ParseTokenDT(line)
 	case "PD":
-		return ParseTokenPD(ss[1])
+		return ParseTokenPD(line)
 	case "AT":
-		return ParseTokenAT(ss[1])
+		return ParseTokenAT(line)
 	case "UC":
-		return ParseTokenUC(ss[1])
+		return ParseTokenUC(line)
 	case "CT":
-		return ParseTokenCT(ss[1])
+		return ParseTokenCT(line)
 	case "EX":
-		return ParseTokenEX(ss[1])
+		return ParseTokenEX(line)
 	case "EE":
-		return ParseTokenEE(ss[1])
+		return ParseTokenEE(line)
 	case "G":
-		return ParseTokenG(ss[1])
+		return ParseTokenG(line)
 	case "GL":
-		return ParseTokenGL(ss[1])
+		return ParseTokenGL(line)
 	case "HB":
-		return ParseTokenHB(ss[1])
+		return ParseTokenHB(line)
 	case "TB":
-		return ParseTokenTB(ss[1])
+		return ParseTokenTB(line)
 	case "MS":
-		return ParseTokenMS(ss[1])
+		return ParseTokenMS(line)
 	case "NT":
-		return ParseTokenNT(ss[1])
+		return ParseTokenNT(line)
 	case "NE":
-		return ParseTokenNE(ss[1])
+		return ParseTokenNE(line)
 	case "PN":
-		return ParseTokenPN(ss[1])
+		return ParseTokenPN(line)
 	case "Pn":
-		return ParseTokenPn(ss[1])
+		return ParseTokenPn(line)
 	case "RN":
-		return ParseTokenRN(ss[1])
+		return ParseTokenRN(line)
 	case "VS":
-		return ParseTokenVS(ss[1])
+		return ParseTokenVS(line)
 	case "VE":
-		return ParseTokenVE(ss[1])
+		return ParseTokenVE(line)
 	case "RP":
-		return ParseTokenRP(ss[1])
+		return ParseTokenRP(line)
 	case "P1":
-		return ParseTokenP1(ss[1])
+		return ParseTokenP1(line)
 	case "DA":
-		return ParseTokenDA(ss[1])
+		return ParseTokenDA(line)
 	case "ND":
-		return ParseTokenND(ss[1])
+		return ParseTokenND(line)
 	case "TL":
-		return ParseTokenTL(ss[1])
+		return ParseTokenTL(line)
 	case "AU":
-		return ParseTokenAU(ss[1])
+		return ParseTokenAU(line)
 	case "AI":
-		return ParseTokenAI(ss[1])
+		return ParseTokenAI(line)
 	case "AB":
-		return ParseTokenAB(ss[1])
+		return ParseTokenAB(line)
 	case "AE":
-		return ParseTokenAE(ss[1])
+		return ParseTokenAE(line)
 	case "PP":
-		return ParseTokenPP(ss[1])
+		return ParseTokenPP(line)
 	case "LP":
-		return ParseTokenLP(ss[1])
+		return ParseTokenLP(line)
 	case "QP":
-		return ParseTokenQP(ss[1])
+		return ParseTokenQP(line)
 	case "QS":
-		return ParseTokenQS(ss[1])
+		return ParseTokenQS(line)
 	case "QE":
-		return ParseTokenQE(ss[1])
+		return ParseTokenQE(line)
 	case "XP":
-		return ParseTokenXP(ss[1])
+		return ParseTokenXP(line)
 	case "NH":
-		return ParseTokenNH(ss[1])
+		return ParseTokenNH(line)
 	case "SH":
-		return ParseTokenSH(ss[1])
+		return ParseTokenSH(line)
 	case "B":
-		return ParseTokenB(ss[1])
+		return ParseTokenB(line)
 	case "R":
-		return ParseTokenR(ss[1])
+		return ParseTokenR(line)
 	case "I":
-		return ParseTokenI(ss[1])
+		return ParseTokenI(line)
 	case "BI":
-		return ParseTokenBI(ss[1])
+		return ParseTokenBI(line)
 	case "BX":
-		return ParseTokenBX(ss[1])
+		return ParseTokenBX(line)
 	case "UL":
-		return ParseTokenUL(ss[1])
+		return ParseTokenUL(line)
 	case "LG":
-		return ParseTokenLG(ss[1])
+		return ParseTokenLG(line)
 	case "SM":
-		return ParseTokenSM(ss[1])
+		return ParseTokenSM(line)
 	case "NL":
-		return ParseTokenNL(ss[1])
+		return ParseTokenNL(line)
 	case "IP":
-		return ParseTokenIP(ss[1])
+		return ParseTokenIP(line)
 	case "RS":
-		return ParseTokenRS(ss[1])
+		return ParseTokenRS(line)
 	case "RE":
-		return ParseTokenRE(ss[1])
+		return ParseTokenRE(line)
 	case "TA":
-		return ParseTokenTA(ss[1])
+		return ParseTokenTA(line)
 	case "LD":
-		return ParseTokenLD(ss[1])
+		return ParseTokenLD(line)
 	case "ID":
-		return ParseTokenID(ss[1])
+		return ParseTokenID(line)
 	case "BD":
-		return ParseTokenBD(ss[1])
+		return ParseTokenBD(line)
 	case "CD":
-		return ParseTokenCD(ss[1])
+		return ParseTokenCD(line)
 	case "RD":
-		return ParseTokenRD(ss[1])
+		return ParseTokenRD(line)
 	case "DE":
-		return ParseTokenDE(ss[1])
+		return ParseTokenDE(line)
 	case "Ds":
-		return ParseTokenDs(ss[1])
+		return ParseTokenDs(line)
 	case "De":
-		return ParseTokenDe(ss[1])
+		return ParseTokenDe(line)
 	case "KS":
-		return ParseTokenKS(ss[1])
+		return ParseTokenKS(line)
 	case "KF":
-		return ParseTokenKF(ss[1])
+		return ParseTokenKF(line)
 	case "KE":
-		return ParseTokenKE(ss[1])
+		return ParseTokenKE(line)
 	case "B1":
-		return ParseTokenB1(ss[1])
+		return ParseTokenB1(line)
 	case "B2":
-		return ParseTokenB2(ss[1])
+		return ParseTokenB2(line)
 	case "TS":
-		return ParseTokenTS(ss[1])
+		return ParseTokenTS(line)
 	case "TE":
-		return ParseTokenTE(ss[1])
+		return ParseTokenTE(line)
 	case "PS":
-		return ParseTokenPS(ss[1])
+		return ParseTokenPS(line)
 	case "PE":
-		return ParseTokenPE(ss[1])
+		return ParseTokenPE(line)
 	case "EQ":
-		return ParseTokenEQ(ss[1])
+		return ParseTokenEQ(line)
 	case "EN":
-		return ParseTokenEN(ss[1])
+		return ParseTokenEN(line)
 	case "[":
-		return ParseTokenReferOpen(ss[1])
+		return ParseTokenReferOpen(line)
 	case "]":
-		return ParseTokenReferClose(ss[1])
+		return ParseTokenReferClose(line)
 	case "FS":
-		return ParseTokenFS(ss[1])
+		return ParseTokenFS(line)
 	case "FE":
-		return ParseTokenFE(ss[1])
+		return ParseTokenFE(line)
 	case "OH":
-		return ParseTokenOH(ss[1])
+		return ParseTokenOH(line)
 	case "EH":
-		return ParseTokenEH(ss[1])
+		return ParseTokenEH(line)
 	case "OF":
-		return ParseTokenOF(ss[1])
+		return ParseTokenOF(line)
 	case "EF":
-		return ParseTokenEF(ss[1])
+		return ParseTokenEF(line)
 	case "PT":
-		return ParseTokenPT(ss[1])
+		return ParseTokenPT(line)
 	case "HD":
-		return ParseTokenHD(ss[1])
+		return ParseTokenHD(line)
 	case "BT":
-		return ParseTokenBT(ss[1])
+		return ParseTokenBT(line)
 	case "1C":
-		return ParseToken1C(ss[1])
+		return ParseToken1C(line)
 	case "2C":
-		return ParseToken2C(ss[1])
+		return ParseToken2C(line)
 	case "MC":
-		return ParseTokenMC(ss[1])
+		return ParseTokenMC(line)
 	case "XS":
-		return ParseTokenXS(ss[1])
+		return ParseTokenXS(line)
 	case "XA":
-		return ParseTokenXA(ss[1])
+		return ParseTokenXA(line)
 	case "XE":
-		return ParseTokenXE(ss[1])
+		return ParseTokenXE(line)
 	case "TC":
-		return ParseTokenTC(ss[1])
+		return ParseTokenTC(line)
 	case "PX":
-		return ParseTokenPX(ss[1])
+		return ParseTokenPX(line)
 	case "AM":
-		return ParseTokenAM(ss[1])
+		return ParseTokenAM(line)
 	case "DS":
-		return ParseTokenDS(ss[1])
+		return ParseTokenDS(line)
 	case "CW":
-		return ParseTokenCW(ss[1])
+		return ParseTokenCW(line)
 	case "IX":
-		return ParseTokenIX(ss[1])
+		return ParseTokenIX(line)
 	case "ig":
-		return ParseTokenig(ss[1])
+		return ParseTokenig(line)
 	case "rr":
-		return ParseTokenrr(ss[1])
+		return ParseTokenrr(line)
 	case "rnn":
-		return ParseTokenrnn(ss[1])
+		return ParseTokenrnn(line)
 	case "aln":
-		return ParseTokenaln(ss[1])
+		return ParseTokenaln(line)
 	case "nr":
-		return ParseTokennr(ss[1])
+		return ParseTokennr(line)
 	case "af":
-		return ParseTokenaf(ss[1])
+		return ParseTokenaf(line)
 	case "br":
-		return ParseTokenbr(ss[1])
+		return ParseTokenbr(line)
 	case "fi":
-		return ParseTokenfi(ss[1])
+		return ParseTokenfi(line)
 	case "nf":
-		return ParseTokennf(ss[1])
+		return ParseTokennf(line)
 	case "ad":
-		return ParseTokenad(ss[1])
+		return ParseTokenad(line)
 	case "na":
-		return ParseTokenna(ss[1])
+		return ParseTokenna(line)
 	case "brp":
-		return ParseTokenbrp(ss[1])
+		return ParseTokenbrp(line)
 	case "ss":
-		return ParseTokenss(ss[1])
+		return ParseTokenss(line)
 	case "ce":
-		return ParseTokence(ss[1])
+		return ParseTokence(line)
 	case "rj":
-		return ParseTokenrj(ss[1])
+		return ParseTokenrj(line)
 	case "hy":
-		return ParseTokenhy(ss[1])
+		return ParseTokenhy(line)
 	case "nh":
-		return ParseTokennh(ss[1])
+		return ParseTokennh(line)
 	case "hlm":
-		return ParseTokenhlm(ss[1])
+		return ParseTokenhlm(line)
 	case "hw":
-		return ParseTokenhw(ss[1])
+		return ParseTokenhw(line)
 	case "hc":
-		return ParseTokenhc(ss[1])
+		return ParseTokenhc(line)
 	case "hpf":
-		return ParseTokenhpf(ss[1])
+		return ParseTokenhpf(line)
 	case "hpfa":
-		return ParseTokenhpfa(ss[1])
+		return ParseTokenhpfa(line)
 	case "hpfcode":
-		return ParseTokenhpfcode(ss[1])
+		return ParseTokenhpfcode(line)
 	case "hcode":
-		return ParseTokenhcode(ss[1])
+		return ParseTokenhcode(line)
 	case "hym":
-		return ParseTokenhym(ss[1])
+		return ParseTokenhym(line)
 	case "hys":
-		return ParseTokenhys(ss[1])
+		return ParseTokenhys(line)
 	case "shc":
-		return ParseTokenshc(ss[1])
+		return ParseTokenshc(line)
 	case "hla":
-		return ParseTokenhla(ss[1])
+		return ParseTokenhla(line)
 	case "sp":
-		return ParseTokensp(ss[1])
+		return ParseTokensp(line)
 	case "ls":
-		return ParseTokenls(ss[1])
+		return ParseTokenls(line)
 	case "ns":
-		return ParseTokenns(ss[1])
+		return ParseTokenns(line)
 	case "rs":
-		return ParseTokenrs(ss[1])
+		return ParseTokenrs(line)
 	case "ta":
-		return ParseTokenta(ss[1])
+		return ParseTokenta(line)
 	case "tc":
-		return ParseTokentc(ss[1])
+		return ParseTokentc(line)
 	case "linetabs":
-		return ParseTokenlinetabs(ss[1])
+		return ParseTokenlinetabs(line)
 	case "lc":
-		return ParseTokenlc(ss[1])
+		return ParseTokenlc(line)
 	case "fc":
-		return ParseTokenfc(ss[1])
+		return ParseTokenfc(line)
 	case "cc":
-		return ParseTokencc(ss[1])
+		return ParseTokencc(line)
 	case "c2":
-		return ParseTokenc2(ss[1])
+		return ParseTokenc2(line)
 	case "eo":
-		return ParseTokeneo(ss[1])
+		return ParseTokeneo(line)
 	case "ec":
-		return ParseTokenec(ss[1])
+		return ParseTokenec(line)
 	case "ecs":
-		return ParseTokenecs(ss[1])
+		return ParseTokenecs(line)
 	case "ecr":
-		return ParseTokenecr(ss[1])
+		return ParseTokenecr(line)
 	case "tr":
-		return ParseTokentr(ss[1])
+		return ParseTokentr(line)
 	case "trin":
-		return ParseTokentrin(ss[1])
+		return ParseTokentrin(line)
 	case "trnt":
-		return ParseTokentrnt(ss[1])
+		return ParseTokentrnt(line)
 	case "troff":
-		return ParseTokentroff(ss[1])
+		return ParseTokentroff(line)
 	case "nroff":
-		return ParseTokennroff(ss[1])
+		return ParseTokennroff(line)
 	case "po":
-		return ParseTokenpo(ss[1])
+		return ParseTokenpo(line)
 	case "in":
-		return ParseTokenin(ss[1])
+		return ParseTokenin(line)
 	case "ti":
-		return ParseTokenti(ss[1])
+		return ParseTokenti(line)
 	case "ll":
-		return ParseTokenll(ss[1])
+		return ParseTokenll(line)
 	case "pl":
-		return ParseTokenpl(ss[1])
+		return ParseTokenpl(line)
 	case "tl":
-		return ParseTokentl(ss[1])
+		return ParseTokentl(line)
 	case "lt":
-		return ParseTokenlt(ss[1])
+		return ParseTokenlt(line)
 	case "pn":
-		return ParseTokenpn(ss[1])
+		return ParseTokenpn(line)
 	case "pc":
-		return ParseTokenpc(ss[1])
+		return ParseTokenpc(line)
 	case "bp":
-		return ParseTokenbp(ss[1])
+		return ParseTokenbp(line)
 	case "ne":
-		return ParseTokenne(ss[1])
+		return ParseTokenne(line)
 	case "sv":
-		return ParseTokensv(ss[1])
+		return ParseTokensv(line)
 	case "os":
-		return ParseTokenos(ss[1])
+		return ParseTokenos(line)
 	case "ftr":
-		return ParseTokenftr(ss[1])
+		return ParseTokenftr(line)
 	case "fzoom":
-		return ParseTokenfzoom(ss[1])
+		return ParseTokenfzoom(line)
 	case "fam":
-		return ParseTokenfam(ss[1])
+		return ParseTokenfam(line)
 	case "sty":
-		return ParseTokensty(ss[1])
+		return ParseTokensty(line)
 	case "fp":
-		return ParseTokenfp(ss[1])
+		return ParseTokenfp(line)
 	case "ft":
-		return ParseTokenft(ss[1])
+		return ParseTokenft(line)
 	case "composite":
-		return ParseTokencomposite(ss[1])
+		return ParseTokencomposite(line)
 	case "cflags":
-		return ParseTokencflags(ss[1])
+		return ParseTokencflags(line)
 	case "char":
-		return ParseTokenchar(ss[1])
+		return ParseTokenchar(line)
 	case "fchar":
-		return ParseTokenfchar(ss[1])
+		return ParseTokenfchar(line)
 	case "fschar":
-		return ParseTokenfschar(ss[1])
+		return ParseTokenfschar(line)
 	case "schar":
-		return ParseTokenschar(ss[1])
+		return ParseTokenschar(line)
 	case "rchar":
-		return ParseTokenrchar(ss[1])
+		return ParseTokenrchar(line)
 	case "rfschar":
-		return ParseTokenrfschar(ss[1])
+		return ParseTokenrfschar(line)
 	case "class":
-		return ParseTokenclass(ss[1])
+		return ParseTokenclass(line)
 	case "special":
-		return ParseTokenspecial(ss[1])
+		return ParseTokenspecial(line)
 	case "fspecial":
-		return ParseTokenfspecial(ss[1])
+		return ParseTokenfspecial(line)
 	case "ul":
-		return ParseTokenul(ss[1])
+		return ParseTokenul(line)
 	case "cu":
-		return ParseTokencu(ss[1])
+		return ParseTokencu(line)
 	case "uf":
-		return ParseTokenuf(ss[1])
+		return ParseTokenuf(line)
 	case "bd":
-		return ParseTokenbd(ss[1])
+		return ParseTokenbd(line)
 	case "cs":
-		return ParseTokencs(ss[1])
+		return ParseTokencs(line)
 	case "lg":
-		return ParseTokenlg(ss[1])
+		return ParseTokenlg(line)
 	case "kern":
-		return ParseTokenkern(ss[1])
+		return ParseTokenkern(line)
 	case "tkf":
-		return ParseTokentkf(ss[1])
+		return ParseTokentkf(line)
 	case "ps":
-		return ParseTokenps(ss[1])
+		return ParseTokenps(line)
 	case "sizes":
-		return ParseTokensizes(ss[1])
+		return ParseTokensizes(line)
 	case "vs":
-		return ParseTokenvs(ss[1])
+		return ParseTokenvs(line)
 	case "pvs":
-		return ParseTokenpvs(ss[1])
+		return ParseTokenpvs(line)
 	case "ds":
-		return ParseTokends(ss[1])
+		return ParseTokends(line)
 	case "ds1":
-		return ParseTokends1(ss[1])
+		return ParseTokends1(line)
 	case "as":
-		return ParseTokenas(ss[1])
+		return ParseTokenas(line)
 	case "as1":
-		return ParseTokenas1(ss[1])
+		return ParseTokenas1(line)
 	case "substring":
-		return ParseTokensubstring(ss[1])
+		return ParseTokensubstring(line)
 	case "length":
-		return ParseTokenlength(ss[1])
+		return ParseTokenlength(line)
 	case "rn":
-		return ParseTokenrn(ss[1])
+		return ParseTokenrn(line)
 	case "rm":
-		return ParseTokenrm(ss[1])
+		return ParseTokenrm(line)
 	case "als":
-		return ParseTokenals(ss[1])
+		return ParseTokenals(line)
 	case "chop":
-		return ParseTokenchop(ss[1])
+		return ParseTokenchop(line)
 	case "if":
-		return ParseTokenif(ss[1])
+		return ParseTokenif(line)
 	case "nop":
-		return ParseTokennop(ss[1])
+		return ParseTokennop(line)
 	case "ie":
-		return ParseTokenie(ss[1])
+		return ParseTokenie(line)
 	case "el":
-		return ParseTokenel(ss[1])
+		return ParseTokenel(line)
 	case "while":
-		return ParseTokenwhile(ss[1])
+		return ParseTokenwhile(line)
 	case "break":
-		return ParseTokenbreak(ss[1])
+		return ParseTokenbreak(line)
 	case "continue":
-		return ParseTokencontinue(ss[1])
+		return ParseTokencontinue(line)
 	case "de":
-		return ParseTokende(ss[1])
+		return ParseTokende(line)
 	case "de1":
-		return ParseTokende1(ss[1])
+		return ParseTokende1(line)
 	case "dei":
-		return ParseTokendei(ss[1])
+		return ParseTokendei(line)
 	case "dei1":
-		return ParseTokendei1(ss[1])
+		return ParseTokendei1(line)
 	case "am":
-		return ParseTokenam(ss[1])
+		return ParseTokenam(line)
 	case "am1":
-		return ParseTokenam1(ss[1])
+		return ParseTokenam1(line)
 	case "ami":
-		return ParseTokenami(ss[1])
+		return ParseTokenami(line)
 	case "ami1":
-		return ParseTokenami1(ss[1])
+		return ParseTokenami1(line)
 	case "return":
-		return ParseTokenreturn(ss[1])
+		return ParseTokenreturn(line)
 	case "shift":
-		return ParseTokenshift(ss[1])
+		return ParseTokenshift(line)
 	case "mk":
-		return ParseTokenmk(ss[1])
+		return ParseTokenmk(line)
 	case "rt":
-		return ParseTokenrt(ss[1])
+		return ParseTokenrt(line)
 	case "vpt":
-		return ParseTokenvpt(ss[1])
+		return ParseTokenvpt(line)
 	case "wh":
-		return ParseTokenwh(ss[1])
+		return ParseTokenwh(line)
 	case "ch":
-		return ParseTokench(ss[1])
+		return ParseTokench(line)
 	case "dt":
-		return ParseTokendt(ss[1])
+		return ParseTokendt(line)
 	case "it":
-		return ParseTokenit(ss[1])
+		return ParseTokenit(line)
 	case "itc":
-		return ParseTokenitc(ss[1])
+		return ParseTokenitc(line)
 	case "blm":
-		return ParseTokenblm(ss[1])
+		return ParseTokenblm(line)
 	case "lsm":
-		return ParseTokenlsm(ss[1])
+		return ParseTokenlsm(line)
 	case "em":
-		return ParseTokenem(ss[1])
+		return ParseTokenem(line)
 	case "di":
-		return ParseTokendi(ss[1])
+		return ParseTokendi(line)
 	case "da":
-		return ParseTokenda(ss[1])
+		return ParseTokenda(line)
 	case "box":
-		return ParseTokenbox(ss[1])
+		return ParseTokenbox(line)
 	case "boxa":
-		return ParseTokenboxa(ss[1])
+		return ParseTokenboxa(line)
 	case "output":
-		return ParseTokenoutput(ss[1])
+		return ParseTokenoutput(line)
 	case "asciify":
-		return ParseTokenasciify(ss[1])
+		return ParseTokenasciify(line)
 	case "unformat":
-		return ParseTokenunformat(ss[1])
+		return ParseTokenunformat(line)
 	case "ev":
-		return ParseTokenev(ss[1])
+		return ParseTokenev(line)
 	case "evc":
-		return ParseTokenevc(ss[1])
+		return ParseTokenevc(line)
 	case "color":
-		return ParseTokencolor(ss[1])
+		return ParseTokencolor(line)
 	case "defcolor":
-		return ParseTokendefcolor(ss[1])
+		return ParseTokendefcolor(line)
 	case "gcolor":
-		return ParseTokengcolor(ss[1])
+		return ParseTokengcolor(line)
 	case "fcolor":
-		return ParseTokenfcolor(ss[1])
+		return ParseTokenfcolor(line)
 	case "so":
-		return ParseTokenso(ss[1])
+		return ParseTokenso(line)
 	case "pso":
-		return ParseTokenpso(ss[1])
+		return ParseTokenpso(line)
 	case "mso":
-		return ParseTokenmso(ss[1])
+		return ParseTokenmso(line)
 	case "trf":
-		return ParseTokentrf(ss[1])
+		return ParseTokentrf(line)
 	case "cf":
-		return ParseTokencf(ss[1])
+		return ParseTokencf(line)
 	case "nx":
-		return ParseTokennx(ss[1])
+		return ParseTokennx(line)
 	case "rd":
-		return ParseTokenrd(ss[1])
+		return ParseTokenrd(line)
 	case "pi":
-		return ParseTokenpi(ss[1])
+		return ParseTokenpi(line)
 	case "sy":
-		return ParseTokensy(ss[1])
+		return ParseTokensy(line)
 	case "open":
-		return ParseTokenopen(ss[1])
+		return ParseTokenopen(line)
 	case "opena":
-		return ParseTokenopena(ss[1])
+		return ParseTokenopena(line)
 	case "write":
-		return ParseTokenwrite(ss[1])
+		return ParseTokenwrite(line)
 	case "writec":
-		return ParseTokenwritec(ss[1])
+		return ParseTokenwritec(line)
 	case "writem":
-		return ParseTokenwritem(ss[1])
+		return ParseTokenwritem(line)
 	case "close":
-		return ParseTokenclose(ss[1])
+		return ParseTokenclose(line)
 	case "device":
-		return ParseTokendevice(ss[1])
+		return ParseTokendevice(line)
 	case "devicem":
-		return ParseTokendevicem(ss[1])
+		return ParseTokendevicem(line)
 	case "nm":
-		return ParseTokennm(ss[1])
+		return ParseTokennm(line)
 	case "nn":
-		return ParseTokennn(ss[1])
+		return ParseTokennn(line)
 	case "mc":
-		return ParseTokenmc(ss[1])
+		return ParseTokenmc(line)
 	case "psbb":
-		return ParseTokenpsbb(ss[1])
+		return ParseTokenpsbb(line)
 	case "lf":
-		return ParseTokenlf(ss[1])
+		return ParseTokenlf(line)
 	case "tm":
-		return ParseTokentm(ss[1])
+		return ParseTokentm(line)
 	case "tm1":
-		return ParseTokentm1(ss[1])
+		return ParseTokentm1(line)
 	case "tmc":
-		return ParseTokentmc(ss[1])
+		return ParseTokentmc(line)
 	case "ab":
-		return ParseTokenab(ss[1])
+		return ParseTokenab(line)
 	case "ex":
-		return ParseTokenex(ss[1])
+		return ParseTokenex(line)
 	case "pev":
-		return ParseTokenpev(ss[1])
+		return ParseTokenpev(line)
 	case "pm":
-		return ParseTokenpm(ss[1])
+		return ParseTokenpm(line)
 	case "pnr":
-		return ParseTokenpnr(ss[1])
+		return ParseTokenpnr(line)
 	case "ptr":
-		return ParseTokenptr(ss[1])
+		return ParseTokenptr(line)
 	case "fl":
-		return ParseTokenfl(ss[1])
+		return ParseTokenfl(line)
 	case "backtrace":
-		return ParseTokenbacktrace(ss[1])
+		return ParseTokenbacktrace(line)
 	case "warnscale":
-		return ParseTokenwarnscale(ss[1])
+		return ParseTokenwarnscale(line)
 	case "spreadwarn":
-		return ParseTokenspreadwarn(ss[1])
+		return ParseTokenspreadwarn(line)
 	case "warn":
-		return ParseTokenwarn(ss[1])
+		return ParseTokenwarn(line)
 	case "cp":
-		return ParseTokencp(ss[1])
+		return ParseTokencp(line)
 	case "do":
-		return ParseTokendo(ss[1])
+		return ParseTokendo(line)
 	}
-	return nil, fmt.Errorf("%w: %s", ErrNoTokenMatch, line)
+	return nil, fmt.Errorf("%w: %#v: %s", ErrNoTokenMatch, ss[0], line)
 }
 
 type TokenComment string
