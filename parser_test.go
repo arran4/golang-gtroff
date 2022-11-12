@@ -14,7 +14,7 @@ func TestParseLine(t *testing.T) {
 		{
 			name: "comment",
 			line: ".\\\" This manual is distributed in the hope that it will be useful,\n",
-			want: TokenComment{Arg1: "This manual is distributed in the hope that it will be useful,",}
+			want: TokenComment("This manual is distributed in the hope that it will be useful,"),
 		},
 	}
 	for _, tt := range tests {

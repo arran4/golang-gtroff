@@ -2086,6 +2086,14 @@ func ParseLine(line string) (Token, error) {
 	return nil, fmt.Errorf("%w: %s", ErrNoTokenMatch, line)
 }
 
+type TokenComment string
+
+func (t TokenComment) String() string {
+	return `.\" ` + string(t)
+}
+
+var _ Token = (TokenComment)("")
+
 func ParseComment(s string) (Token, error) {
-	return nil, nil
+	return TokenComment(s), nil
 }
