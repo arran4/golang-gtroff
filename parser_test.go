@@ -13,7 +13,7 @@ func TestParseLine(t *testing.T) {
 	}{
 		{
 			name: "comment",
-			line: ".\\\" This manual is distributed in the hope that it will be useful,\n",
+			line: `.\" This manual is distributed in the hope that it will be useful,`,
 			want: TokenComment("This manual is distributed in the hope that it will be useful,"),
 		},
 	}
@@ -24,7 +24,7 @@ func TestParseLine(t *testing.T) {
 				t.Error(err)
 			}
 			if diff := cmp.Diff(got, tt.want); diff != "" {
-				t.Errorf("ParseLine() = %v, want %v", got, tt.want)
+				t.Errorf("ParseLine() = \n%s", diff)
 			}
 		})
 	}

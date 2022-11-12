@@ -1876,7 +1876,7 @@ func ParseLine(line string) (Token, error) {
 	ss := strings.SplitN(line, " ", 2)
 	line = ss[1]
 	switch ss[0] {
-	case `\\"`:
+	case `\"`:
 		return ParseComment(ss[1])
 	case "TH":
 		return ParseTokenTH(ss[1])
