@@ -643,12 +643,20 @@ func ArgumentParser(l string) ([]string, int, error) {
 				continue
 			}
 		case '"':
+			if len(a) > 0 && len(stack) == 0 {
+				break
+			}
 			if len(stack) > 0 && stack[len(stack)-1] == '"' {
 				stack = stack[:len(stack)-1]
-			} else {
+				if len(stack) == 0 && len(a) != 0 {
+					result = append(result, a)
+					a = ""
+				}
+				continue
+			} else if len(a) == 0 {
 				stack = append(stack, '"')
+				continue
 			}
-			continue
 		}
 		a += string([]byte{byte(rs[i])})
 	}

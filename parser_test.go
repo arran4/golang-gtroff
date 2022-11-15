@@ -59,6 +59,13 @@ func TestArgumentParser(t *testing.T) {
 			wantErr: false,
 			i:       len("The\\ Mouse\\ Problem"),
 		},
+		{
+			name:    "a\" \"b c\" \"de\"fg\"",
+			l:       "a\" \"b c\" \"de\"fg\"",
+			want:    []string{`a"`, `b c`, `de`, `fg"`},
+			wantErr: false,
+			i:       len("a\" \"b c\" \"de\"fg\""),
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
