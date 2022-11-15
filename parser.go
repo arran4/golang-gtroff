@@ -8,7 +8,8 @@ import (
 )
 
 var (
-	ErrNoTokenMatch = errors.New("no token match")
+	ErrNoTokenMatch  = errors.New("no token match")
+	ErrUnclosedQuote = errors.New("quote wasn't closed")
 )
 
 type Token interface {
@@ -615,4 +616,47 @@ var _ Token = (TokenComment)("")
 
 func ParseComment(s string) (Token, error) {
 	return TokenComment(s), nil
+}
+
+func ArgumentParser(l string) ([]string, int, error) {
+	stack := []rune{}
+	result := []string{}
+	a := ""
+	acomment := false
+	i := 0
+	rs := []rune(l)
+	for ; i < len(rs) && !acomment; i++ {
+		switch rs[i] {
+		case ' ':
+			if len(stack) == 0 {
+				if len(a) != 0 {
+					result = append(result, a)
+				}
+				a = ""
+				continue
+			}
+		case '\\':
+			i++
+			if len(stack) == 0 && rs[i] == '"' {
+				acomment = true
+				i -= 2
+				continue
+			}
+		case '"':
+			if len(stack) > 0 && stack[len(stack)-1] == '"' {
+				stack = stack[:len(stack)-1]
+			} else {
+				stack = append(stack, '"')
+			}
+			continue
+		}
+		a += string([]byte{byte(rs[i])})
+	}
+	if len(stack) > 0 {
+		return nil, i, fmt.Errorf("%w: stack %s", ErrUnclosedQuote, string(stack))
+	}
+	if len(a) > 0 {
+		result = append(result, a)
+	}
+	return result, i, nil
 }
