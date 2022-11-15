@@ -86,6 +86,26 @@ func (t *TokenTP) String() string {
 
 var _ Token = (*TokenTP)(nil)
 
+// TokenP These macros are mutual aliases.  Any of them causes a line break at the
+// current position, followed by a vertical space downwards by the amount
+// specified by the PD macro.  The font size and shape are reset to
+// the default value (10pt roman if no -rS option is given
+// on the command line).  Finally, the current left margin and the
+// indentation is restored.
+type TokenP struct {
+	/*  */
+}
+
+func ParseTokenP(args string) (Token, error) {
+	return &TokenP{ /*  */ }, nil
+}
+
+func (t *TokenP) String() string {
+	return ".P" /*  */
+}
+
+var _ Token = (*TokenP)(nil)
+
 // TokenHP Set up a paragraph with hanging left indentation.  The indentation is
 // set to nnn if that argument is supplied (default unit is
 // ‘n’), otherwise it is set to the previous indentation value
@@ -105,61 +125,6 @@ func (t *TokenHP) String() string {
 }
 
 var _ Token = (*TokenHP)(nil)
-
-// TokenRS Move the left margin to the right by the value nnn if specified
-// (default unit is ‘n’); otherwise it is set to the previous
-// indentation value specified with TP, IP, or HP (or
-// to the default value if none of them have been used yet).  The
-// indentation value is then set to the default.
-//
-// Calls to the RS macro can be nested.
-type TokenRS struct {
-	/* [nnn] */
-}
-
-func ParseTokenRS(args string) (Token, error) {
-	return &TokenRS{ /* [nnn] */ }, nil
-}
-
-func (t *TokenRS) String() string {
-	return ".RS" /* [nnn] */
-}
-
-var _ Token = (*TokenRS)(nil)
-
-// TokenRE Move the left margin back to level nnn, restoring the previous
-// left margin.  If no argument is given, it moves one level back.  The
-// first level (i.e., no call to RS yet) has number 1, and each
-// call to RS increases the level by 1.
-type TokenRE struct {
-	/* [nnn] */
-}
-
-func ParseTokenRE(args string) (Token, error) {
-	return &TokenRE{ /* [nnn] */ }, nil
-}
-
-func (t *TokenRE) String() string {
-	return ".RE" /* [nnn] */
-}
-
-var _ Token = (*TokenRE)(nil)
-
-// TokenSM Set the text on the same line or the text on the next line in a font
-// that is one point size smaller than the default font.
-type TokenSM struct {
-	/* [text] */
-}
-
-func ParseTokenSM(args string) (Token, error) {
-	return &TokenSM{ /* [text] */ }, nil
-}
-
-func (t *TokenSM) String() string {
-	return ".SM" /* [text] */
-}
-
-var _ Token = (*TokenSM)(nil)
 
 // TokenSB Set the text on the same line or the text on the next line in bold face
 // font, one point size smaller than the default font.
@@ -256,6 +221,23 @@ func (t *TokenRB) String() string {
 }
 
 var _ Token = (*TokenRB)(nil)
+
+// TokenDT Set tabs every 0.5 inches.  Since this macro is always executed
+// during a call to the TH macro, it makes sense to call it only if
+// the tab positions have been changed.
+type TokenDT struct {
+	/*  */
+}
+
+func ParseTokenDT(args string) (Token, error) {
+	return &TokenDT{ /*  */ }, nil
+}
+
+func (t *TokenDT) String() string {
+	return ".DT" /*  */
+}
+
+var _ Token = (*TokenDT)(nil)
 
 // TokenPD Adjust the empty space before a new paragraph (or section).  The
 // optional argument gives the amount of space (default unit is ‘v’);
@@ -369,6 +351,21 @@ func (t *TokenEX) String() string {
 
 var _ Token = (*TokenEX)(nil)
 
+// TokenEE End a non-filled display started with EX.
+type TokenEE struct {
+	/*  */
+}
+
+func ParseTokenEE(args string) (Token, error) {
+	return &TokenEE{ /*  */ }, nil
+}
+
+func (t *TokenEE) String() string {
+	return ".EE" /*  */
+}
+
+var _ Token = (*TokenEE)(nil)
+
 // TokenG Set text in Helvetica.  If no text is present on the line where
 // the macro is called, then the text of the next line appears in
 // Helvetica.
@@ -471,6 +468,21 @@ func (t *TokenNT) String() string {
 
 var _ Token = (*TokenNT)(nil)
 
+// TokenNE End a note begun with NT.
+type TokenNE struct {
+	/*  */
+}
+
+func ParseTokenNE(args string) (Token, error) {
+	return &TokenNE{ /*  */ }, nil
+}
+
+func (t *TokenNE) String() string {
+	return ".NE" /*  */
+}
+
+var _ Token = (*TokenNE)(nil)
+
 // TokenPN Set the path name in constant width (Courier), followed by optional
 // punctuation.
 type TokenPN struct {
@@ -504,6 +516,21 @@ func (t *TokenPn) String() string {
 
 var _ Token = (*TokenPn)(nil)
 
+// TokenRN Print the string ‘<RETURN>’.
+type TokenRN struct {
+	/*  */
+}
+
+func ParseTokenRN(args string) (Token, error) {
+	return &TokenRN{ /*  */ }, nil
+}
+
+func (t *TokenRN) String() string {
+	return ".RN" /*  */
+}
+
+var _ Token = (*TokenRN)(nil)
+
 // TokenVS Start printing a change bar in the margin if the number 4 is
 // specified.  Otherwise, this macro does nothing.
 type TokenVS struct {
@@ -519,6 +546,21 @@ func (t *TokenVS) String() string {
 }
 
 var _ Token = (*TokenVS)(nil)
+
+// TokenVE End printing the change bar begun by VS.
+type TokenVE struct {
+	/*  */
+}
+
+func ParseTokenVE(args string) (Token, error) {
+	return &TokenVE{ /*  */ }, nil
+}
+
+func (t *TokenVE) String() string {
+	return ".VE" /*  */
+}
+
+var _ Token = (*TokenVE)(nil)
 
 // TokenRP Specifies the report format for your document.  The report format
 // creates a separate cover page.  The default action (no RP macro)
@@ -541,6 +583,22 @@ func (t *TokenRP) String() string {
 }
 
 var _ Token = (*TokenRP)(nil)
+
+// TokenP1 (P-one) Prints the header on page 1.  The default is to suppress
+// the header.
+type TokenP1 struct {
+	/*  */
+}
+
+func ParseTokenP1(args string) (Token, error) {
+	return &TokenP1{ /*  */ }, nil
+}
+
+func (t *TokenP1) String() string {
+	return ".P1" /*  */
+}
+
+var _ Token = (*TokenP1)(nil)
 
 // TokenDA (optional) Prints the current date, or the arguments to the macro if
 // any, on the title page (if specified) and in the footers.  This is the
@@ -576,6 +634,66 @@ func (t *TokenND) String() string {
 
 var _ Token = (*TokenND)(nil)
 
+// TokenTL Specifies the document title.  groff collects text following the
+// TL macro into the title, until reaching the author name or
+// abstract.
+type TokenTL struct {
+	/*  */
+}
+
+func ParseTokenTL(args string) (Token, error) {
+	return &TokenTL{ /*  */ }, nil
+}
+
+func (t *TokenTL) String() string {
+	return ".TL" /*  */
+}
+
+var _ Token = (*TokenTL)(nil)
+
+// TokenAU Specifies the author’s name, which appears on the line (or lines)
+// immediately following.  You can specify multiple authors as follows:
+//
+// .AU
+// John Doe
+// .AI
+// University of West Bumblefuzz
+// .AU
+// Martha Buck
+// .AI
+// Monolithic Corporation
+//
+// ...
+type TokenAU struct {
+	/*  */
+}
+
+func ParseTokenAU(args string) (Token, error) {
+	return &TokenAU{ /*  */ }, nil
+}
+
+func (t *TokenAU) String() string {
+	return ".AU" /*  */
+}
+
+var _ Token = (*TokenAU)(nil)
+
+// TokenAI Specifies the author’s institution.  You can specify multiple
+// institutions in the same way that you specify multiple authors.
+type TokenAI struct {
+	/*  */
+}
+
+func ParseTokenAI(args string) (Token, error) {
+	return &TokenAI{ /*  */ }, nil
+}
+
+func (t *TokenAI) String() string {
+	return ".AI" /*  */
+}
+
+var _ Token = (*TokenAI)(nil)
+
 // TokenAB Begins the abstract.  The default is to print the word
 // ABSTRACT, centered and in italics, above the text of the
 // abstract.  The word no as an optional argument suppresses this
@@ -593,6 +711,122 @@ func (t *TokenAB) String() string {
 }
 
 var _ Token = (*TokenAB)(nil)
+
+// TokenAE Ends the abstract.
+type TokenAE struct {
+	/*  */
+}
+
+func ParseTokenAE(args string) (Token, error) {
+	return &TokenAE{ /*  */ }, nil
+}
+
+func (t *TokenAE) String() string {
+	return ".AE" /*  */
+}
+
+var _ Token = (*TokenAE)(nil)
+
+// TokenPP Sets a paragraph with an initial indentation.
+type TokenPP struct {
+	/*  */
+}
+
+func ParseTokenPP(args string) (Token, error) {
+	return &TokenPP{ /*  */ }, nil
+}
+
+func (t *TokenPP) String() string {
+	return ".PP" /*  */
+}
+
+var _ Token = (*TokenPP)(nil)
+
+// TokenLP Sets a paragraph without an initial indentation.
+type TokenLP struct {
+	/*  */
+}
+
+func ParseTokenLP(args string) (Token, error) {
+	return &TokenLP{ /*  */ }, nil
+}
+
+func (t *TokenLP) String() string {
+	return ".LP" /*  */
+}
+
+var _ Token = (*TokenLP)(nil)
+
+// TokenQP Sets a paragraph that is indented at both left and right margins
+// by the amount of the register QI.
+// The effect is identical to the HTML <BLOCKQUOTE> element.
+// The next paragraph or heading returns margins to normal.
+// QP inserts vertical space of amount set by register PD
+// before the paragraph.
+type TokenQP struct {
+	/*  */
+}
+
+func ParseTokenQP(args string) (Token, error) {
+	return &TokenQP{ /*  */ }, nil
+}
+
+func (t *TokenQP) String() string {
+	return ".QP" /*  */
+}
+
+var _ Token = (*TokenQP)(nil)
+
+type TokenQS struct {
+	/*  */
+}
+
+func ParseTokenQS(args string) (Token, error) {
+	return &TokenQS{ /*  */ }, nil
+}
+
+func (t *TokenQS) String() string {
+	return ".QS" /*  */
+}
+
+var _ Token = (*TokenQS)(nil)
+
+// TokenQE These macros begin and end a quoted section.
+// The QI register
+// controls the amount of indentation.
+// Both QS and QE insert inter-paragraph vertical space
+// set by register PD.
+// The text between QS and QE can be structured further
+// by use of the macros LP or PP.
+type TokenQE struct {
+	/*  */
+}
+
+func ParseTokenQE(args string) (Token, error) {
+	return &TokenQE{ /*  */ }, nil
+}
+
+func (t *TokenQE) String() string {
+	return ".QE" /*  */
+}
+
+var _ Token = (*TokenQE)(nil)
+
+// TokenXP Sets a paragraph whose lines are indented, except for the first line.
+// This is a Berkeley extension.
+type TokenXP struct {
+	/*  */
+}
+
+func ParseTokenXP(args string) (Token, error) {
+	return &TokenXP{ /*  */ }, nil
+}
+
+func (t *TokenXP) String() string {
+	return ".XP" /*  */
+}
+
+var _ Token = (*TokenXP)(nil)
 
 // TokenNH Numbered heading.  The argument is either a numeric argument to indicate
 // the level of the heading, or the letter S followed by
@@ -676,16 +910,17 @@ var _ Token = (*TokenB)(nil)
 
 // TokenR Sets its first argument in roman (or regular) type.  It operates
 // similarly to the B macro otherwise.
+// Switch to roman font and turn off any underlining in effect.
 type TokenR struct {
-	/* [txt [post [pre]]] */
+	/* [txt [post [pre]]] |  */
 }
 
 func ParseTokenR(args string) (Token, error) {
-	return &TokenR{ /* [txt [post [pre]]] */ }, nil
+	return &TokenR{ /* [txt [post [pre]]] |  */ }, nil
 }
 
 func (t *TokenR) String() string {
-	return ".R" /* [txt [post [pre]]] */
+	return ".R" /* [txt [post [pre]]] |  */
 }
 
 var _ Token = (*TokenR)(nil)
@@ -707,22 +942,6 @@ func (t *TokenI) String() string {
 }
 
 var _ Token = (*TokenI)(nil)
-
-// TokenCW Sets its first argument in a constant width face.  It operates
-// similarly to the B macro otherwise.
-type TokenCW struct {
-	/* [txt [post [pre]]] */
-}
-
-func ParseTokenCW(args string) (Token, error) {
-	return &TokenCW{ /* [txt [post [pre]]] */ }, nil
-}
-
-func (t *TokenCW) String() string {
-	return ".CW" /* [txt [post [pre]]] */
-}
-
-var _ Token = (*TokenCW)(nil)
 
 // TokenBI Sets its first argument in bold italic type.  It operates similarly to
 // the B macro otherwise.
@@ -780,6 +999,60 @@ func (t *TokenUL) String() string {
 
 var _ Token = (*TokenUL)(nil)
 
+// TokenLG Prints all text following in larger type (two points larger than the
+// current point size) until the next font size, highlighting, paragraph,
+// or heading macro.  You can specify this macro multiple times to
+// enlarge the point size as needed.
+type TokenLG struct {
+	/*  */
+}
+
+func ParseTokenLG(args string) (Token, error) {
+	return &TokenLG{ /*  */ }, nil
+}
+
+func (t *TokenLG) String() string {
+	return ".LG" /*  */
+}
+
+var _ Token = (*TokenLG)(nil)
+
+// TokenSM Prints all text following in smaller type (two points smaller than the
+// current point size) until the next type size, highlighting, paragraph,
+// or heading macro.  You can specify this macro multiple times to reduce
+// the point size as needed.
+// Set the text on the same line or the text on the next line in a font
+// that is one point size smaller than the default font.
+type TokenSM struct {
+	/*  | [text] */
+}
+
+func ParseTokenSM(args string) (Token, error) {
+	return &TokenSM{ /*  | [text] */ }, nil
+}
+
+func (t *TokenSM) String() string {
+	return ".SM" /*  | [text] */
+}
+
+var _ Token = (*TokenSM)(nil)
+
+// TokenNL Prints all text following in the normal point size (that is, the value
+// of the PS register).
+type TokenNL struct {
+	/*  */
+}
+
+func ParseTokenNL(args string) (Token, error) {
+	return &TokenNL{ /*  */ }, nil
+}
+
+func (t *TokenNL) String() string {
+	return ".NL" /*  */
+}
+
+var _ Token = (*TokenNL)(nil)
+
 // TokenIP The marker is usually a bullet glyph (\[bu]) for unordered
 // lists, a number (or auto-incrementing number register) for numbered
 // lists, or a word or phrase for indented (glossary-style) lists.
@@ -822,6 +1095,292 @@ func (t *TokenIP) String() string {
 
 var _ Token = (*TokenIP)(nil)
 
+// TokenRS
+// Move the left margin to the right by the value nnn if specified
+// (default unit is ‘n’); otherwise it is set to the previous
+// indentation value specified with TP, IP, or HP (or
+// to the default value if none of them have been used yet).  The
+// indentation value is then set to the default.
+//
+// Calls to the RS macro can be nested.
+type TokenRS struct {
+	/*  | [nnn] */
+}
+
+func ParseTokenRS(args string) (Token, error) {
+	return &TokenRS{ /*  | [nnn] */ }, nil
+}
+
+func (t *TokenRS) String() string {
+	return ".RS" /*  | [nnn] */
+}
+
+var _ Token = (*TokenRS)(nil)
+
+// TokenRE These macros begin and end an indented section.  The PI register
+// controls the amount of indentation, allowing the indented text to line
+// up under hanging and indented paragraphs.
+// Move the left margin back to level nnn, restoring the previous
+// left margin.  If no argument is given, it moves one level back.  The
+// first level (i.e., no call to RS yet) has number 1, and each
+// call to RS increases the level by 1.
+type TokenRE struct {
+	/*  | [nnn] */
+}
+
+func ParseTokenRE(args string) (Token, error) {
+	return &TokenRE{ /*  | [nnn] */ }, nil
+}
+
+func (t *TokenRE) String() string {
+	return ".RE" /*  | [nnn] */
+}
+
+var _ Token = (*TokenRE)(nil)
+
+// TokenTA Use this macro to reset the tab stops to the default for ms
+// (every 5n).  You can redefine the TA macro to create a different
+// set of default tab stops.
+type TokenTA struct {
+	/*  */
+}
+
+func ParseTokenTA(args string) (Token, error) {
+	return &TokenTA{ /*  */ }, nil
+}
+
+func (t *TokenTA) String() string {
+	return ".TA" /*  */
+}
+
+var _ Token = (*TokenTA)(nil)
+
+type TokenLD struct {
+	/*  */
+}
+
+func ParseTokenLD(args string) (Token, error) {
+	return &TokenLD{ /*  */ }, nil
+}
+
+func (t *TokenLD) String() string {
+	return ".LD" /*  */
+}
+
+var _ Token = (*TokenLD)(nil)
+
+type TokenID struct {
+	/*  */
+}
+
+func ParseTokenID(args string) (Token, error) {
+	return &TokenID{ /*  */ }, nil
+}
+
+func (t *TokenID) String() string {
+	return ".ID" /*  */
+}
+
+var _ Token = (*TokenID)(nil)
+
+type TokenBD struct {
+	/*  */
+}
+
+func ParseTokenBD(args string) (Token, error) {
+	return &TokenBD{ /*  */ }, nil
+}
+
+func (t *TokenBD) String() string {
+	return ".BD" /*  */
+}
+
+var _ Token = (*TokenBD)(nil)
+
+type TokenCD struct {
+	/*  */
+}
+
+func ParseTokenCD(args string) (Token, error) {
+	return &TokenCD{ /*  */ }, nil
+}
+
+func (t *TokenCD) String() string {
+	return ".CD" /*  */
+}
+
+var _ Token = (*TokenCD)(nil)
+
+type TokenRD struct {
+	/*  */
+}
+
+func ParseTokenRD(args string) (Token, error) {
+	return &TokenRD{ /*  */ }, nil
+}
+
+func (t *TokenRD) String() string {
+	return ".RD" /*  */
+}
+
+var _ Token = (*TokenRD)(nil)
+
+// TokenDE Right-justifies each line in the display.  The ‘.DS R’ call
+// generates a page break, if necessary, to keep the entire display on one
+// page.  The RD macro allows the display to break across pages.
+// The DE macro ends the display.
+// Sets a centered display: each line in the display is centered.  The
+// ‘.DS C’ call generates a page break, if necessary, to keep the
+// entire display on one page.  The CD macro allows the display to
+// break across pages.  The DE macro ends the display.
+// Sets a block-centered display: the entire display is left-justified, but
+// indented so that the longest line in the display is centered on the
+// page.  The ‘.DS B’ call generates a page break, if necessary, to
+// keep the entire display on one page.  The BD macro allows the
+// display to break across pages.  The DE macro ends the display.
+// Indents the display as defined by the DI register.  The ‘.DS
+// I’ call generates a page break, if necessary, to keep the entire display
+// on one page.  The ID macro allows the display to break across
+// pages.  The DE macro ends the display.
+// Left-justified display.  The ‘.DS L’ call generates a page break,
+// if necessary, to keep the entire display on one page.  The LD
+// macro allows the display to break across pages.  The DE macro
+// ends the display.
+type TokenDE struct {
+	/*  */
+}
+
+func ParseTokenDE(args string) (Token, error) {
+	return &TokenDE{ /*  */ }, nil
+}
+
+func (t *TokenDE) String() string {
+	return ".DE" /*  */
+}
+
+var _ Token = (*TokenDE)(nil)
+
+// TokenDs
+// Begin a non-filled display.
+type TokenDs struct {
+	/*  */
+}
+
+func ParseTokenDs(args string) (Token, error) {
+	return &TokenDs{ /*  */ }, nil
+}
+
+func (t *TokenDs) String() string {
+	return ".Ds" /*  */
+}
+
+var _ Token = (*TokenDs)(nil)
+
+// TokenDe These two macros were formerly provided as aliases for DS and
+// DE, respectively.  They have been removed, and should no longer
+// be used.  The original implementations of DS and DE are
+// retained, and should be used instead.  X11 documents that actually use
+// Ds and De always load a specific macro file from the X11
+// distribution (macros.t) that provides proper definitions for the
+// two macros.
+// End a non-filled display started with Ds.
+type TokenDe struct {
+	/*  */
+}
+
+func ParseTokenDe(args string) (Token, error) {
+	return &TokenDe{ /*  */ }, nil
+}
+
+func (t *TokenDe) String() string {
+	return ".De" /*  */
+}
+
+var _ Token = (*TokenDe)(nil)
+
+type TokenKS struct {
+	/*  */
+}
+
+func ParseTokenKS(args string) (Token, error) {
+	return &TokenKS{ /*  */ }, nil
+}
+
+func (t *TokenKS) String() string {
+	return ".KS" /*  */
+}
+
+var _ Token = (*TokenKS)(nil)
+
+type TokenKF struct {
+	/*  */
+}
+
+func ParseTokenKF(args string) (Token, error) {
+	return &TokenKF{ /*  */ }, nil
+}
+
+func (t *TokenKF) String() string {
+	return ".KF" /*  */
+}
+
+var _ Token = (*TokenKF)(nil)
+
+// TokenKE Specifies a floating keep; if the keep cannot fit on the current
+// page, groff holds the contents of the keep and allows text
+// following the keep (in the source file) to fill in the remainder of the
+// current page.  When the page breaks, whether by an explicit bp
+// request or by reaching the end of the page, groff prints the
+// floating keep at the top of the new page.  This is useful for printing
+// large graphics or tables that do not need to appear exactly where
+// specified.
+// The KS macro begins a block of text to be kept on a single page,
+// and the KE macro ends the block.
+type TokenKE struct {
+	/*  */
+}
+
+func ParseTokenKE(args string) (Token, error) {
+	return &TokenKE{ /*  */ }, nil
+}
+
+func (t *TokenKE) String() string {
+	return ".KE" /*  */
+}
+
+var _ Token = (*TokenKE)(nil)
+
+type TokenB1 struct {
+	/*  */
+}
+
+func ParseTokenB1(args string) (Token, error) {
+	return &TokenB1{ /*  */ }, nil
+}
+
+func (t *TokenB1) String() string {
+	return ".B1" /*  */
+}
+
+var _ Token = (*TokenB1)(nil)
+
+// TokenB2 Marks the beginning and ending of text that is to have a box drawn
+// around it.  The B1 macro begins the box; the B2 macro ends
+// it.  Text in the box is automatically placed in a diversion (keep).
+type TokenB2 struct {
+	/*  */
+}
+
+func ParseTokenB2(args string) (Token, error) {
+	return &TokenB2{ /*  */ }, nil
+}
+
+func (t *TokenB2) String() string {
+	return ".B2" /*  */
+}
+
+var _ Token = (*TokenB2)(nil)
+
 type TokenTS struct {
 	/* [H] */
 }
@@ -836,6 +1395,58 @@ func (t *TokenTS) String() string {
 
 var _ Token = (*TokenTS)(nil)
 
+// TokenTE Denotes a table, to be processed by the tbl preprocessor.  The
+// optional argument H to TS instructs groff to
+// create a running header with the information up to the TH macro.
+// groff prints the header at the beginning of the table; if the
+// table runs onto another page, groff prints the header on the next
+// page as well.
+type TokenTE struct {
+	/*  */
+}
+
+func ParseTokenTE(args string) (Token, error) {
+	return &TokenTE{ /*  */ }, nil
+}
+
+func (t *TokenTE) String() string {
+	return ".TE" /*  */
+}
+
+var _ Token = (*TokenTE)(nil)
+
+type TokenPS struct {
+	/*  */
+}
+
+func ParseTokenPS(args string) (Token, error) {
+	return &TokenPS{ /*  */ }, nil
+}
+
+func (t *TokenPS) String() string {
+	return ".PS" /*  */
+}
+
+var _ Token = (*TokenPS)(nil)
+
+// TokenPE Denotes a graphic, to be processed by the pic preprocessor.  You
+// can create a pic file by hand, using the AT&T
+// pic manual available on the Web as a reference, or by using a
+// graphics program such as xfig.
+type TokenPE struct {
+	/*  */
+}
+
+func ParseTokenPE(args string) (Token, error) {
+	return &TokenPE{ /*  */ }, nil
+}
+
+func (t *TokenPE) String() string {
+	return ".PE" /*  */
+}
+
+var _ Token = (*TokenPE)(nil)
+
 type TokenEQ struct {
 	/* [align] */
 }
@@ -849,6 +1460,88 @@ func (t *TokenEQ) String() string {
 }
 
 var _ Token = (*TokenEQ)(nil)
+
+// TokenEN Denotes an equation, to be processed by the eqn preprocessor.
+// The optional align argument can be C, L,
+// or I to center (the default), left-justify, or indent the
+// equation.
+type TokenEN struct {
+	/*  */
+}
+
+func ParseTokenEN(args string) (Token, error) {
+	return &TokenEN{ /*  */ }, nil
+}
+
+func (t *TokenEN) String() string {
+	return ".EN" /*  */
+}
+
+var _ Token = (*TokenEN)(nil)
+
+type TokenReferOpen struct {
+	/*  */
+}
+
+func ParseTokenReferOpen(args string) (Token, error) {
+	return &TokenReferOpen{ /*  */ }, nil
+}
+
+func (t *TokenReferOpen) String() string {
+	return ".[" /*  */
+}
+
+var _ Token = (*TokenReferOpen)(nil)
+
+// Token] Denotes a reference, to be processed by the refer preprocessor.
+// The GNU refer(1) man page provides a comprehensive reference to
+// the preprocessor and the format of the bibliographic database.
+type TokenReferClose struct {
+	/*  */
+}
+
+func ParseTokenReferClose(args string) (Token, error) {
+	return &TokenReferClose{ /*  */ }, nil
+}
+
+func (t *TokenReferClose) String() string {
+	return ".]" /*  */
+}
+
+var _ Token = (*TokenReferClose)(nil)
+
+type TokenFS struct {
+	/*  */
+}
+
+func ParseTokenFS(args string) (Token, error) {
+	return &TokenFS{ /*  */ }, nil
+}
+
+func (t *TokenFS) String() string {
+	return ".FS" /*  */
+}
+
+var _ Token = (*TokenFS)(nil)
+
+// TokenFE Specifies the text of the footnote.  The default action is to create a
+// numbered footnote; you can create a symbolic footnote by specifying a
+// mark glyph (such as \[dg] for the dagger glyph) in the body
+// text and as an argument to the FS macro, followed by the text of
+// the footnote and the FE macro.
+type TokenFE struct {
+	/*  */
+}
+
+func ParseTokenFE(args string) (Token, error) {
+	return &TokenFE{ /*  */ }, nil
+}
+
+func (t *TokenFE) String() string {
+	return ".FE" /*  */
+}
+
+var _ Token = (*TokenFE)(nil)
 
 type TokenOH struct {
 	/* 'left'center'right' */
@@ -912,6 +1605,93 @@ func (t *TokenEF) String() string {
 
 var _ Token = (*TokenEF)(nil)
 
+// TokenPT
+// Control the content of the headers.  Normally, the header prints the
+// command name and section number on either side, and the optional fifth
+// argument to TH in the center.
+type TokenPT struct {
+	/*  */
+}
+
+func ParseTokenPT(args string) (Token, error) {
+	return &TokenPT{ /*  */ }, nil
+}
+
+func (t *TokenPT) String() string {
+	return ".PT" /*  */
+}
+
+var _ Token = (*TokenPT)(nil)
+
+type TokenHD struct {
+	/*  */
+}
+
+func ParseTokenHD(args string) (Token, error) {
+	return &TokenHD{ /*  */ }, nil
+}
+
+func (t *TokenHD) String() string {
+	return ".HD" /*  */
+}
+
+var _ Token = (*TokenHD)(nil)
+
+// TokenBT The PT macro defines a custom header; the BT macro defines
+// a custom footer.  These macros must handle odd/even/first page
+// differences if necessary.
+//
+// The HD macro defines additional header processing to take place
+// after executing the PT macro.
+// Control the content of the footers.  Normally, the footer prints the
+// page number and the third and fourth arguments to TH.
+//
+// Use the FT number register to specify the footer position.  The
+// default is -0.5i.
+type TokenBT struct {
+	/*  */
+}
+
+func ParseTokenBT(args string) (Token, error) {
+	return &TokenBT{ /*  */ }, nil
+}
+
+func (t *TokenBT) String() string {
+	return ".BT" /*  */
+}
+
+var _ Token = (*TokenBT)(nil)
+
+// Token1C Single-column mode.
+type Token1C struct {
+	/*  */
+}
+
+func ParseToken1C(args string) (Token, error) {
+	return &Token1C{ /*  */ }, nil
+}
+
+func (t *Token1C) String() string {
+	return ".1C" /*  */
+}
+
+var _ Token = (*Token1C)(nil)
+
+// Token2C Two-column mode.
+type Token2C struct {
+	/*  */
+}
+
+func ParseToken2C(args string) (Token, error) {
+	return &Token2C{ /*  */ }, nil
+}
+
+func (t *Token2C) String() string {
+	return ".2C" /*  */
+}
+
+var _ Token = (*Token2C)(nil)
+
 // TokenMC Multi-column mode.  If you specify no arguments, it is equivalent to the
 // 2C macro.  Otherwise, width is the width of each column and
 // gutter is the space between columns.  The MINGW number
@@ -958,6 +1738,56 @@ func (t *TokenXA) String() string {
 
 var _ Token = (*TokenXA)(nil)
 
+// TokenXE These macros define a table of contents or an individual entry in the
+// table of contents, depending on their use.  The macros are very simple;
+// they cannot indent a heading based on its level.  The easiest way to
+// work around this is to add tabs to the table of contents string.  The
+// following is an example:
+//
+// .NH 1
+// Introduction
+// .XS
+// Introduction
+// .XE
+// .LP
+// ...
+// .CW
+// .NH 2
+// Methodology
+// .XS
+// Methodology
+// .XE
+// .LP
+// ...
+//
+// You can manually create a table of contents by beginning with the
+// XS macro for the first entry, specifying the page number for that
+// entry as the argument to XS.  Add subsequent entries using the
+// XA macro, specifying the page number for that entry as the
+// argument to XA.  The following is an example:
+//
+// .XS 1
+// Introduction
+// .XA 2
+// A Brief History of the Universe
+// .XA 729
+// Details of Galactic Formation
+// ...
+// .XE
+type TokenXE struct {
+	/*  */
+}
+
+func ParseTokenXE(args string) (Token, error) {
+	return &TokenXE{ /*  */ }, nil
+}
+
+func (t *TokenXE) String() string {
+	return ".XE" /*  */
+}
+
+var _ Token = (*TokenXE)(nil)
+
 // TokenTC Prints the table of contents on a new page, setting the page number
 // to i (Roman lowercase numeral one).  You should usually
 // place this macro at the end of the file, since groff is a
@@ -1000,6 +1830,30 @@ func (t *TokenPX) String() string {
 
 var _ Token = (*TokenPX)(nil)
 
+// TokenAM Improved accent marks.  See ms Strings and Special Characters, for
+// details.
+// Specify this macro at the beginning of your document to enable extended
+// accent marks and special characters.  This is a Berkeley extension.
+//
+// To use the accent marks, place them after the character being
+// accented.
+//
+// Note that groff’s native support for accents is superior to the
+// following definitions.
+type TokenAM struct {
+	/*  */
+}
+
+func ParseTokenAM(args string) (Token, error) {
+	return &TokenAM{ /*  */ }, nil
+}
+
+func (t *TokenAM) String() string {
+	return ".AM" /*  */
+}
+
+var _ Token = (*TokenAM)(nil)
+
 // TokenDS Indented display.  The default behavior of AT&T troff
 // -ms was to indent; the groff default prints displays flush left
 // with the body text.
@@ -1016,6 +1870,40 @@ func (t *TokenDS) String() string {
 }
 
 var _ Token = (*TokenDS)(nil)
+
+// TokenCW Print text in constant width (Courier) font.
+// Sets its first argument in a constant width face.  It operates
+// similarly to the B macro otherwise.
+// Print subsequent text using the constant width (Courier) typeface.
+type TokenCW struct {
+	/*  | [txt [post [pre]]] |  */
+}
+
+func ParseTokenCW(args string) (Token, error) {
+	return &TokenCW{ /*  | [txt [post [pre]]] |  */ }, nil
+}
+
+func (t *TokenCW) String() string {
+	return ".CW" /*  | [txt [post [pre]]] |  */
+}
+
+var _ Token = (*TokenCW)(nil)
+
+// TokenIX Indexing term (printed on standard error).  You can write a script to
+// capture and process an index generated in this manner.
+type TokenIX struct {
+	/*  */
+}
+
+func ParseTokenIX(args string) (Token, error) {
+	return &TokenIX{ /*  */ }, nil
+}
+
+func (t *TokenIX) String() string {
+	return ".IX" /*  */
+}
+
+var _ Token = (*TokenIX)(nil)
 
 // Tokenig Ignore all input until gtroff encounters the macro named
 // .end on a line by itself (or .. if end is not
@@ -1196,6 +2084,68 @@ func (t *Tokenaf) String() string {
 
 var _ Token = (*Tokenaf)(nil)
 
+// Tokenbr Break the current line, i.e., the input collected so far is emitted
+// without adjustment.
+//
+// If the no-break control character is used, gtroff suppresses the
+// break:
+//
+// a
+// 'br
+// b
+//
+//	⇒ a b
+type Tokenbr struct {
+	/*  */
+}
+
+func ParseTokenbr(args string) (Token, error) {
+	return &Tokenbr{ /*  */ }, nil
+}
+
+func (t *Tokenbr) String() string {
+	return ".br" /*  */
+}
+
+var _ Token = (*Tokenbr)(nil)
+
+type Tokenfi struct {
+	/*  */
+}
+
+func ParseTokenfi(args string) (Token, error) {
+	return &Tokenfi{ /*  */ }, nil
+}
+
+func (t *Tokenfi) String() string {
+	return ".fi" /*  */
+}
+
+var _ Token = (*Tokenfi)(nil)
+
+// Tokennf Activate no-fill mode.  Input lines are output as-is, retaining line
+// breaks and ignoring the current line length.  This command implicitly
+// disables adjusting; it also causes a break.  The number register
+// .u is set to 0.
+//
+// The fill mode status is associated with the current environment
+// (see Environments).
+//
+// See Line Control, for interaction with the \c escape.
+type Tokennf struct {
+	/*  */
+}
+
+func ParseTokennf(args string) (Token, error) {
+	return &Tokennf{ /*  */ }, nil
+}
+
+func (t *Tokennf) String() string {
+	return ".nf" /*  */
+}
+
+var _ Token = (*Tokennf)(nil)
+
 type Tokenad struct {
 	/* [mode] */
 }
@@ -1209,6 +2159,40 @@ func (t *Tokenad) String() string {
 }
 
 var _ Token = (*Tokenad)(nil)
+
+// Tokenna Disable adjusting.  This request won’t change the current adjustment
+// mode: A subsequent call to ad uses the previous adjustment
+// setting.
+//
+// The adjustment mode status is associated with the current environment
+// (see Environments).
+type Tokenna struct {
+	/*  */
+}
+
+func ParseTokenna(args string) (Token, error) {
+	return &Tokenna{ /*  */ }, nil
+}
+
+func (t *Tokenna) String() string {
+	return ".na" /*  */
+}
+
+var _ Token = (*Tokenna)(nil)
+
+type Tokenbrp struct {
+	/*  */
+}
+
+func ParseTokenbrp(args string) (Token, error) {
+	return &Tokenbrp{ /*  */ }, nil
+}
+
+func (t *Tokenbrp) String() string {
+	return ".brp" /*  */
+}
+
+var _ Token = (*Tokenbrp)(nil)
 
 type Tokenss struct {
 	/* word_space_size [sentence_space_size] */
@@ -1265,6 +2249,25 @@ func (t *Tokenhy) String() string {
 }
 
 var _ Token = (*Tokenhy)(nil)
+
+// Tokennh Disable hyphenation (i.e., set the hyphenation mode to zero).  Note that
+// the hyphenation mode of the last call to hy is not remembered.
+//
+// The hyphenation mode is associated with the current environment
+// (see Environments).
+type Tokennh struct {
+	/*  */
+}
+
+func ParseTokennh(args string) (Token, error) {
+	return &Tokennh{ /*  */ }, nil
+}
+
+func (t *Tokennh) String() string {
+	return ".nh" /*  */
+}
+
+var _ Token = (*Tokennh)(nil)
 
 type Tokenhlm struct {
 	/* [nnn] */
@@ -1636,6 +2639,34 @@ func (t *Tokenls) String() string {
 
 var _ Token = (*Tokenls)(nil)
 
+type Tokenns struct {
+	/*  */
+}
+
+func ParseTokenns(args string) (Token, error) {
+	return &Tokenns{ /*  */ }, nil
+}
+
+func (t *Tokenns) String() string {
+	return ".ns" /*  */
+}
+
+var _ Token = (*Tokenns)(nil)
+
+type Tokenrs struct {
+	/*  */
+}
+
+func ParseTokenrs(args string) (Token, error) {
+	return &Tokenrs{ /*  */ }, nil
+}
+
+func (t *Tokenrs) String() string {
+	return ".rs" /*  */
+}
+
+var _ Token = (*Tokenrs)(nil)
+
 type Tokenta struct {
 	/* [n1 n2 … nn T r1 r2 … rn] */
 }
@@ -1771,6 +2802,40 @@ func (t *Tokenc2) String() string {
 
 var _ Token = (*Tokenc2)(nil)
 
+// Tokeneo Disable the escape mechanism completely.  After executing this request,
+// the backslash character ‘\’ no longer starts an escape sequence.
+//
+// This request can be very helpful in writing macros since it is not
+// necessary then to double the escape character.  Here an example:
+//
+// .\" This is a simplified version of the
+// .\" .BR request from the man macro package
+// .eo
+// .de BR
+// .  ds result \&
+// .  while (\n[.$] >= 2) \{\
+// .    as result \fB\$1\fR\$2
+// .    shift 2
+// .  \}
+// .  if \n[.$] .as result \fB\$1
+// \*[result]
+// .  ft R
+// ..
+// .ec
+type Tokeneo struct {
+	/*  */
+}
+
+func ParseTokeneo(args string) (Token, error) {
+	return &Tokeneo{ /*  */ }, nil
+}
+
+func (t *Tokeneo) String() string {
+	return ".eo" /*  */
+}
+
+var _ Token = (*Tokeneo)(nil)
+
 // Tokenec Set the escape character to c.  With no argument the default
 // escape character ‘\’ is restored.  It can be also used to re-enable
 // the escape mechanism after an eo request.
@@ -1793,6 +2858,41 @@ func (t *Tokenec) String() string {
 }
 
 var _ Token = (*Tokenec)(nil)
+
+type Tokenecs struct {
+	/*  */
+}
+
+func ParseTokenecs(args string) (Token, error) {
+	return &Tokenecs{ /*  */ }, nil
+}
+
+func (t *Tokenecs) String() string {
+	return ".ecs" /*  */
+}
+
+var _ Token = (*Tokenecs)(nil)
+
+// Tokenecr The ecs request saves the current escape character in an internal
+// register.  Use this request in combination with the ec request to
+// temporarily change the escape character.
+//
+// The ecr request restores the escape character saved with
+// ecs.  Without a previous call to ecs, this request sets
+// the escape character to \.
+type Tokenecr struct {
+	/*  */
+}
+
+func ParseTokenecr(args string) (Token, error) {
+	return &Tokenecr{ /*  */ }, nil
+}
+
+func (t *Tokenecr) String() string {
+	return ".ecr" /*  */
+}
+
+var _ Token = (*Tokenecr)(nil)
 
 type Tokentr struct {
 	/* abcd… */
@@ -1939,6 +3039,46 @@ func (t *Tokentrnt) String() string {
 }
 
 var _ Token = (*Tokentrnt)(nil)
+
+// Tokentroff Make the ‘t’ built-in condition true (and the ‘n’ built-in
+// condition false) for if, ie, and while conditional
+// requests.  This is the default if gtroff (not
+// groff) is started with the -R switch to avoid loading of
+// the start-up files troffrc and troffrc-end.  Without
+// -R, gtroff stays in troff mode if the output device is
+// not a TTY (e.g. ‘ps’).
+type Tokentroff struct {
+	/*  */
+}
+
+func ParseTokentroff(args string) (Token, error) {
+	return &Tokentroff{ /*  */ }, nil
+}
+
+func (t *Tokentroff) String() string {
+	return ".troff" /*  */
+}
+
+var _ Token = (*Tokentroff)(nil)
+
+// Tokennroff Make the ‘n’ built-in condition true (and the ‘t’ built-in
+// condition false) for if, ie, and while conditional
+// requests.  This is the default if gtroff uses a TTY output
+// device; the code for switching to nroff mode is in the file
+// tty.tmac, which is loaded by the start-up file troffrc.
+type Tokennroff struct {
+	/*  */
+}
+
+func ParseTokennroff(args string) (Token, error) {
+	return &Tokennroff{ /*  */ }, nil
+}
+
+func (t *Tokennroff) String() string {
+	return ".nroff" /*  */
+}
+
+var _ Token = (*Tokennroff)(nil)
 
 // Tokenpo Register: \n[.o]
 // Request: .po -offset
@@ -2174,6 +3314,30 @@ func (t *Tokensv) String() string {
 }
 
 var _ Token = (*Tokensv)(nil)
+
+// Tokenos sv is similar to the ne request; it reserves the specified
+// amount of vertical space.  If the desired amount of space exists before
+// the next trap (or the bottom page boundary if no trap is set), the space
+// is output immediately (ignoring a partially filled line, which stays
+// untouched).  If there is not enough space, it is stored for later output
+// via the os request.  The default value is 1v if no
+// argument is given; the default scaling indicator is ‘v’.
+//
+// Both sv and os ignore no-space mode.  While the sv
+// request allows negative values for space, os ignores them.
+type Tokenos struct {
+	/*  */
+}
+
+func ParseTokenos(args string) (Token, error) {
+	return &Tokenos{ /*  */ }, nil
+}
+
+func (t *Tokenos) String() string {
+	return ".os" /*  */
+}
+
+var _ Token = (*Tokenos)(nil)
 
 // Tokenftr Translate font f to font g.  Whenever a font
 // named f is referred to in a \f escape sequence, in the
@@ -3310,6 +4474,38 @@ func (t *Tokenwhile) String() string {
 }
 
 var _ Token = (*Tokenwhile)(nil)
+
+// Tokenbreak Break out of a while loop.  Be sure not to confuse this with the
+// br request (causing a line break).
+type Tokenbreak struct {
+	/*  */
+}
+
+func ParseTokenbreak(args string) (Token, error) {
+	return &Tokenbreak{ /*  */ }, nil
+}
+
+func (t *Tokenbreak) String() string {
+	return ".break" /*  */
+}
+
+var _ Token = (*Tokenbreak)(nil)
+
+// Tokencontinue Finish the current iteration of a while loop, immediately
+// restarting the next iteration.
+type Tokencontinue struct {
+	/*  */
+}
+
+func ParseTokencontinue(args string) (Token, error) {
+	return &Tokencontinue{ /*  */ }, nil
+}
+
+func (t *Tokencontinue) String() string {
+	return ".continue" /*  */
+}
+
+var _ Token = (*Tokencontinue)(nil)
 
 type Tokende struct {
 	/* name [end] */
@@ -4990,6 +6186,151 @@ func (t *Tokenab) String() string {
 }
 
 var _ Token = (*Tokenab)(nil)
+
+// Tokenex The ex request also causes gtroff to stop processing; see
+// also I/O.
+type Tokenex struct {
+	/*  */
+}
+
+func ParseTokenex(args string) (Token, error) {
+	return &Tokenex{ /*  */ }, nil
+}
+
+func (t *Tokenex) String() string {
+	return ".ex" /*  */
+}
+
+var _ Token = (*Tokenex)(nil)
+
+// Tokenpev Print the contents of the current environment and all the currently
+// defined environments (both named and numbered) on stderr.
+type Tokenpev struct {
+	/*  */
+}
+
+func ParseTokenpev(args string) (Token, error) {
+	return &Tokenpev{ /*  */ }, nil
+}
+
+func (t *Tokenpev) String() string {
+	return ".pev" /*  */
+}
+
+var _ Token = (*Tokenpev)(nil)
+
+// Tokenpm Print the entire symbol table on stderr.  Names of all defined
+// macros, strings, and diversions are print together with their size in
+// bytes.  Since gtroff sometimes adds nodes by itself, the returned
+// size can be larger than expected.
+//
+// This request differs from Unix troff: gtroff reports the
+// sizes of diversions, ignores an additional argument to print only the
+// total of the sizes, and the size isn’t returned in blocks of 128
+// characters.
+type Tokenpm struct {
+	/*  */
+}
+
+func ParseTokenpm(args string) (Token, error) {
+	return &Tokenpm{ /*  */ }, nil
+}
+
+func (t *Tokenpm) String() string {
+	return ".pm" /*  */
+}
+
+var _ Token = (*Tokenpm)(nil)
+
+// Tokenpnr Print the names and contents of all currently defined number registers
+// on stderr.
+type Tokenpnr struct {
+	/*  */
+}
+
+func ParseTokenpnr(args string) (Token, error) {
+	return &Tokenpnr{ /*  */ }, nil
+}
+
+func (t *Tokenpnr) String() string {
+	return ".pnr" /*  */
+}
+
+var _ Token = (*Tokenpnr)(nil)
+
+// Tokenptr Print the names and positions of all traps (not including input line
+// traps and diversion traps) on stderr.  Empty slots in the page
+// trap list are printed as well, because they can affect the priority of
+// subsequently planted traps.
+type Tokenptr struct {
+	/*  */
+}
+
+func ParseTokenptr(args string) (Token, error) {
+	return &Tokenptr{ /*  */ }, nil
+}
+
+func (t *Tokenptr) String() string {
+	return ".ptr" /*  */
+}
+
+var _ Token = (*Tokenptr)(nil)
+
+// Tokenfl Instruct gtroff to flush its output immediately.  The intent is
+// for interactive use, but this behaviour is currently not implemented in
+// gtroff.  Contrary to Unix troff, TTY output is sent to a
+// device driver also (grotty), making it non-trivial to communicate
+// interactively.
+//
+// This request causes a line break.
+type Tokenfl struct {
+	/*  */
+}
+
+func ParseTokenfl(args string) (Token, error) {
+	return &Tokenfl{ /*  */ }, nil
+}
+
+func (t *Tokenfl) String() string {
+	return ".fl" /*  */
+}
+
+var _ Token = (*Tokenfl)(nil)
+
+// Tokenbacktrace Print a backtrace of the input stack to the standard error stream.
+//
+// Consider the following in file test:
+//
+// .de xxx
+// .  backtrace
+// ..
+// .de yyy
+// .  xxx
+// ..
+// .
+// .yyy
+//
+// On execution, gtroff prints the following:
+//
+// test:2: backtrace: macro `xxx'
+// test:5: backtrace: macro `yyy'
+// test:8: backtrace: file `test'
+//
+// The option -b of gtroff internally calls a variant of
+// this request on each error and warning.
+type Tokenbacktrace struct {
+	/*  */
+}
+
+func ParseTokenbacktrace(args string) (Token, error) {
+	return &Tokenbacktrace{ /*  */ }, nil
+}
+
+func (t *Tokenbacktrace) String() string {
+	return ".backtrace" /*  */
+}
+
+var _ Token = (*Tokenbacktrace)(nil)
 
 // Tokenwarnscale Set the scaling indicator used in warnings to si.  Valid values
 // for si are ‘u’, ‘i’, ‘c’, ‘p’, and ‘P’.
