@@ -52,6 +52,13 @@ func TestArgumentParser(t *testing.T) {
 			wantErr: false,
 			i:       len("do-nothing  "),
 		},
+		{
+			name:    "The\\ Mouse\\ Problem",
+			l:       "The\\ Mouse\\ Problem",
+			want:    []string{"The Mouse Problem"},
+			wantErr: false,
+			i:       len("The\\ Mouse\\ Problem"),
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
