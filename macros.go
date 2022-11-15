@@ -21,7 +21,8 @@ package groff
 // command line) – this feature is intended only for formatting multiple
 // man pages; a single man page should contain exactly one TH macro
 // at the beginning of the file.
-type TokenTH struct { /* title section [extra1 [extra2 [extra3]]] */
+type TokenTH struct {
+	/* title section [extra1 [extra2 [extra3]]] */
 }
 
 func ParseTokenTH(args string) (Token, error) {
@@ -40,7 +41,8 @@ var _ Token = (*TokenTH)(nil)
 // specified by the string HF), at the same size as the base
 // document size.  Additionally, the left margin and the indentation for
 // the following text is reset to its default value.
-type TokenSS struct { /* [heading] */
+type TokenSS struct {
+	/* [heading] */
 }
 
 func ParseTokenSS(args string) (Token, error) {
@@ -70,7 +72,8 @@ var _ Token = (*TokenSS)(nil)
 // Note that neither font shape nor font size of the label is set to a
 // default value; on the other hand, the rest of the text has default font
 // settings.
-type TokenTP struct { /* [nnn] */
+type TokenTP struct {
+	/* [nnn] */
 }
 
 func ParseTokenTP(args string) (Token, error) {
@@ -89,7 +92,8 @@ var _ Token = (*TokenTP)(nil)
 // specified with TP, IP, or HP (or the default value
 // if non of them have been used yet).  Font size and face are reset to
 // their default values.
-type TokenHP struct { /* [nnn] */
+type TokenHP struct {
+	/* [nnn] */
 }
 
 func ParseTokenHP(args string) (Token, error) {
@@ -109,7 +113,8 @@ var _ Token = (*TokenHP)(nil)
 // indentation value is then set to the default.
 //
 // Calls to the RS macro can be nested.
-type TokenRS struct { /* [nnn] */
+type TokenRS struct {
+	/* [nnn] */
 }
 
 func ParseTokenRS(args string) (Token, error) {
@@ -126,7 +131,8 @@ var _ Token = (*TokenRS)(nil)
 // left margin.  If no argument is given, it moves one level back.  The
 // first level (i.e., no call to RS yet) has number 1, and each
 // call to RS increases the level by 1.
-type TokenRE struct { /* [nnn] */
+type TokenRE struct {
+	/* [nnn] */
 }
 
 func ParseTokenRE(args string) (Token, error) {
@@ -141,7 +147,8 @@ var _ Token = (*TokenRE)(nil)
 
 // TokenSM Set the text on the same line or the text on the next line in a font
 // that is one point size smaller than the default font.
-type TokenSM struct { /* [text] */
+type TokenSM struct {
+	/* [text] */
 }
 
 func ParseTokenSM(args string) (Token, error) {
@@ -156,7 +163,8 @@ var _ Token = (*TokenSM)(nil)
 
 // TokenSB Set the text on the same line or the text on the next line in bold face
 // font, one point size smaller than the default font.
-type TokenSB struct { /* [text] */
+type TokenSB struct {
+	/* [text] */
 }
 
 func ParseTokenSB(args string) (Token, error) {
@@ -171,7 +179,8 @@ var _ Token = (*TokenSB)(nil)
 
 // TokenIB Set its arguments alternately in italic and bold face, without a space
 // between the arguments.
-type TokenIB struct { /* text */
+type TokenIB struct {
+	/* text */
 }
 
 func ParseTokenIB(args string) (Token, error) {
@@ -186,7 +195,8 @@ var _ Token = (*TokenIB)(nil)
 
 // TokenRI Set its arguments alternately in roman and italic, without a space
 // between the arguments.
-type TokenRI struct { /* text */
+type TokenRI struct {
+	/* text */
 }
 
 func ParseTokenRI(args string) (Token, error) {
@@ -201,7 +211,8 @@ var _ Token = (*TokenRI)(nil)
 
 // TokenIR Set its arguments alternately in italic and roman, without a space
 // between the arguments.
-type TokenIR struct { /* text */
+type TokenIR struct {
+	/* text */
 }
 
 func ParseTokenIR(args string) (Token, error) {
@@ -216,7 +227,8 @@ var _ Token = (*TokenIR)(nil)
 
 // TokenBR Set its arguments alternately in bold face and roman, without a space
 // between the arguments.
-type TokenBR struct { /* text */
+type TokenBR struct {
+	/* text */
 }
 
 func ParseTokenBR(args string) (Token, error) {
@@ -231,7 +243,8 @@ var _ Token = (*TokenBR)(nil)
 
 // TokenRB Set its arguments alternately in roman and bold face, without a space
 // between the arguments.
-type TokenRB struct { /* text */
+type TokenRB struct {
+	/* text */
 }
 
 func ParseTokenRB(args string) (Token, error) {
@@ -251,7 +264,8 @@ var _ Token = (*TokenRB)(nil)
 //
 // This affects the macros SH, SS, TP, LP (as
 // well as PP and P), IP, and HP.
-type TokenPD struct { /* [nnn] */
+type TokenPD struct {
+	/* [nnn] */
 }
 
 func ParseTokenPD(args string) (Token, error) {
@@ -279,7 +293,8 @@ var _ Token = (*TokenPD)(nil)
 //
 // An optional second argument release to AT specifies the
 // release number (such as “System V Release 3”).
-type TokenAT struct { /* [system [release]] */
+type TokenAT struct {
+	/* [system [release]] */
 }
 
 func ParseTokenAT(args string) (Token, error) {
@@ -309,7 +324,8 @@ var _ Token = (*TokenAT)(nil)
 //
 // 7
 // 4.4 Berkeley Distribution
-type TokenUC struct { /* [version] */
+type TokenUC struct {
+	/* [version] */
 }
 
 func ParseTokenUC(args string) (Token, error) {
@@ -323,7 +339,8 @@ func (t *TokenUC) String() string {
 var _ Token = (*TokenUC)(nil)
 
 // TokenCT Print ‘<CTRL/key>’.
-type TokenCT struct { /* key */
+type TokenCT struct {
+	/* key */
 }
 
 func ParseTokenCT(args string) (Token, error) {
@@ -338,7 +355,8 @@ var _ Token = (*TokenCT)(nil)
 
 // TokenEX Begin a non-filled display using the constant width (Courier) typeface.
 // Use the optional indent argument to indent the display.
-type TokenEX struct { /* [indent] */
+type TokenEX struct {
+	/* [indent] */
 }
 
 func ParseTokenEX(args string) (Token, error) {
@@ -354,7 +372,8 @@ var _ Token = (*TokenEX)(nil)
 // TokenG Set text in Helvetica.  If no text is present on the line where
 // the macro is called, then the text of the next line appears in
 // Helvetica.
-type TokenG struct { /* [text] */
+type TokenG struct {
+	/* [text] */
 }
 
 func ParseTokenG(args string) (Token, error) {
@@ -370,7 +389,8 @@ var _ Token = (*TokenG)(nil)
 // TokenGL Set text in Helvetica Oblique.  If no text is present on the line
 // where the macro is called, then the text of the next line appears in
 // Helvetica Oblique.
-type TokenGL struct { /* [text] */
+type TokenGL struct {
+	/* [text] */
 }
 
 func ParseTokenGL(args string) (Token, error) {
@@ -386,7 +406,8 @@ var _ Token = (*TokenGL)(nil)
 // TokenHB Set text in Helvetica Bold.  If no text is present on the line
 // where the macro is called, then all text up to the next HB
 // appears in Helvetica Bold.
-type TokenHB struct { /* [text] */
+type TokenHB struct {
+	/* [text] */
 }
 
 func ParseTokenHB(args string) (Token, error) {
@@ -400,7 +421,8 @@ func (t *TokenHB) String() string {
 var _ Token = (*TokenHB)(nil)
 
 // TokenTB Identical to HB.
-type TokenTB struct { /* [text] */
+type TokenTB struct {
+	/* [text] */
 }
 
 func ParseTokenTB(args string) (Token, error) {
@@ -416,7 +438,8 @@ var _ Token = (*TokenTB)(nil)
 // TokenMS Set a manpage reference in Ultrix format.  The title is in Courier
 // instead of italic.  Optional punctuation follows the section number
 // without an intervening space.
-type TokenMS struct { /* title sect [punct] */
+type TokenMS struct {
+	/* title sect [punct] */
 }
 
 func ParseTokenMS(args string) (Token, error) {
@@ -434,7 +457,8 @@ var _ Token = (*TokenMS)(nil)
 // note, and is indented on both sides.  If the first argument is C,
 // the body of the note is printed centered (the second argument replaces
 // the word “Note” if specified).
-type TokenNT struct { /* [C] [title] */
+type TokenNT struct {
+	/* [C] [title] */
 }
 
 func ParseTokenNT(args string) (Token, error) {
@@ -449,7 +473,8 @@ var _ Token = (*TokenNT)(nil)
 
 // TokenPN Set the path name in constant width (Courier), followed by optional
 // punctuation.
-type TokenPN struct { /* path [punct] */
+type TokenPN struct {
+	/* path [punct] */
 }
 
 func ParseTokenPN(args string) (Token, error) {
@@ -465,7 +490,8 @@ var _ Token = (*TokenPN)(nil)
 // TokenPn If called with two arguments, identical to PN.  If called with
 // three arguments, set the second argument in constant width (Courier),
 // bracketed by the first and third arguments in the current font.
-type TokenPn struct { /* [punct] path [punct] */
+type TokenPn struct {
+	/* [punct] path [punct] */
 }
 
 func ParseTokenPn(args string) (Token, error) {
@@ -480,7 +506,8 @@ var _ Token = (*TokenPn)(nil)
 
 // TokenVS Start printing a change bar in the margin if the number 4 is
 // specified.  Otherwise, this macro does nothing.
-type TokenVS struct { /* [4] */
+type TokenVS struct {
+	/* [4] */
 }
 
 func ParseTokenVS(args string) (Token, error) {
@@ -501,7 +528,8 @@ var _ Token = (*TokenVS)(nil)
 // prints a title page but does not repeat any of the title page
 // information (title, author, abstract, etc.) on page 1 of the
 // document.
-type TokenRP struct { /* [no] */
+type TokenRP struct {
+	/* [no] */
 }
 
 func ParseTokenRP(args string) (Token, error) {
@@ -517,7 +545,8 @@ var _ Token = (*TokenRP)(nil)
 // TokenDA (optional) Prints the current date, or the arguments to the macro if
 // any, on the title page (if specified) and in the footers.  This is the
 // default for nroff.
-type TokenDA struct { /* […] */
+type TokenDA struct {
+	/* […] */
 }
 
 func ParseTokenDA(args string) (Token, error) {
@@ -533,7 +562,8 @@ var _ Token = (*TokenDA)(nil)
 // TokenND (optional) Prints the current date, or the arguments to the macro if
 // any, on the title page (if specified) but not in the footers.  This is
 // the default for troff.
-type TokenND struct { /* […] */
+type TokenND struct {
+	/* […] */
 }
 
 func ParseTokenND(args string) (Token, error) {
@@ -550,7 +580,8 @@ var _ Token = (*TokenND)(nil)
 // ABSTRACT, centered and in italics, above the text of the
 // abstract.  The word no as an optional argument suppresses this
 // heading.
-type TokenAB struct { /* [no] */
+type TokenAB struct {
+	/* [no] */
 }
 
 func ParseTokenAB(args string) (Token, error) {
@@ -570,7 +601,8 @@ var _ Token = (*TokenAB)(nil)
 // If you specify heading levels out of sequence, such as invoking
 // ‘.NH 3’ after ‘.NH 1’, groff prints a warning on
 // standard error.
-type TokenNH struct { /* S level0 … | curr-level */
+type TokenNH struct {
+	/* S level0 … | curr-level */
 }
 
 func ParseTokenNH(args string) (Token, error) {
@@ -597,7 +629,8 @@ var _ Token = (*TokenNH)(nil)
 // (or the font specified by the string HF), one size larger than
 // the base document size.  Additionally, the left margin and the
 // indentation for the following text is reset to its default value.
-type TokenSH struct { /* [match-level] | [heading] */
+type TokenSH struct {
+	/* [match-level] | [heading] */
 }
 
 func ParseTokenSH(args string) (Token, error) {
@@ -627,7 +660,8 @@ var _ Token = (*TokenSH)(nil)
 // Set text in bold face.  If no text is present on the line where
 // the macro is called, then the text of the next line appears in bold
 // face.
-type TokenB struct { /* [txt [post [pre]]] | [text] */
+type TokenB struct {
+	/* [txt [post [pre]]] | [text] */
 }
 
 func ParseTokenB(args string) (Token, error) {
@@ -642,7 +676,8 @@ var _ Token = (*TokenB)(nil)
 
 // TokenR Sets its first argument in roman (or regular) type.  It operates
 // similarly to the B macro otherwise.
-type TokenR struct { /* [txt [post [pre]]] */
+type TokenR struct {
+	/* [txt [post [pre]]] */
 }
 
 func ParseTokenR(args string) (Token, error) {
@@ -659,7 +694,8 @@ var _ Token = (*TokenR)(nil)
 // to the B macro otherwise.
 // Set text in italic.  If no text is present on the line where the
 // macro is called, then the text of the next line appears in italic.
-type TokenI struct { /* [txt [post [pre]]] | [text] */
+type TokenI struct {
+	/* [txt [post [pre]]] | [text] */
 }
 
 func ParseTokenI(args string) (Token, error) {
@@ -674,7 +710,8 @@ var _ Token = (*TokenI)(nil)
 
 // TokenCW Sets its first argument in a constant width face.  It operates
 // similarly to the B macro otherwise.
-type TokenCW struct { /* [txt [post [pre]]] */
+type TokenCW struct {
+	/* [txt [post [pre]]] */
 }
 
 func ParseTokenCW(args string) (Token, error) {
@@ -696,7 +733,8 @@ var _ Token = (*TokenCW)(nil)
 //
 // produces “thisword andthat” with “this” and “that” in bold face,
 // and “word and” in italics.
-type TokenBI struct { /* [txt [post [pre]]] | text */
+type TokenBI struct {
+	/* [txt [post [pre]]] | text */
 }
 
 func ParseTokenBI(args string) (Token, error) {
@@ -711,7 +749,8 @@ var _ Token = (*TokenBI)(nil)
 
 // TokenBX Prints its argument and draws a box around it.  If you want to box a
 // string that contains spaces, use a digit-width space (\0).
-type TokenBX struct { /* [txt] */
+type TokenBX struct {
+	/* [txt] */
 }
 
 func ParseTokenBX(args string) (Token, error) {
@@ -727,7 +766,8 @@ var _ Token = (*TokenBX)(nil)
 // TokenUL Prints its first argument with an underline.  If you specify a second
 // argument, groff prints it in the previous font after the
 // underlined text, with no intervening space.
-type TokenUL struct { /* [txt [post]] */
+type TokenUL struct {
+	/* [txt [post]] */
 }
 
 func ParseTokenUL(args string) (Token, error) {
@@ -768,7 +808,8 @@ var _ Token = (*TokenUL)(nil)
 // 4 en indentation, write
 //
 // .IP \(bu 4
-type TokenIP struct { /* [marker [width]] | [designator [nnn]] */
+type TokenIP struct {
+	/* [marker [width]] | [designator [nnn]] */
 }
 
 func ParseTokenIP(args string) (Token, error) {
@@ -781,7 +822,8 @@ func (t *TokenIP) String() string {
 
 var _ Token = (*TokenIP)(nil)
 
-type TokenTS struct { /* [H] */
+type TokenTS struct {
+	/* [H] */
 }
 
 func ParseTokenTS(args string) (Token, error) {
@@ -794,7 +836,8 @@ func (t *TokenTS) String() string {
 
 var _ Token = (*TokenTS)(nil)
 
-type TokenEQ struct { /* [align] */
+type TokenEQ struct {
+	/* [align] */
 }
 
 func ParseTokenEQ(args string) (Token, error) {
@@ -807,7 +850,8 @@ func (t *TokenEQ) String() string {
 
 var _ Token = (*TokenEQ)(nil)
 
-type TokenOH struct { /* 'left'center'right' */
+type TokenOH struct {
+	/* 'left'center'right' */
 }
 
 func ParseTokenOH(args string) (Token, error) {
@@ -820,7 +864,8 @@ func (t *TokenOH) String() string {
 
 var _ Token = (*TokenOH)(nil)
 
-type TokenEH struct { /* 'left'center'right' */
+type TokenEH struct {
+	/* 'left'center'right' */
 }
 
 func ParseTokenEH(args string) (Token, error) {
@@ -833,7 +878,8 @@ func (t *TokenEH) String() string {
 
 var _ Token = (*TokenEH)(nil)
 
-type TokenOF struct { /* 'left'center'right' */
+type TokenOF struct {
+	/* 'left'center'right' */
 }
 
 func ParseTokenOF(args string) (Token, error) {
@@ -852,7 +898,8 @@ var _ Token = (*TokenOF)(nil)
 //
 // You can replace the quote (') marks with any character not
 // appearing in the header or footer text.
-type TokenEF struct { /* 'left'center'right' */
+type TokenEF struct {
+	/* 'left'center'right' */
 }
 
 func ParseTokenEF(args string) (Token, error) {
@@ -869,7 +916,8 @@ var _ Token = (*TokenEF)(nil)
 // 2C macro.  Otherwise, width is the width of each column and
 // gutter is the space between columns.  The MINGW number
 // register controls the default gutter width.
-type TokenMC struct { /* [width [gutter]] */
+type TokenMC struct {
+	/* [width [gutter]] */
 }
 
 func ParseTokenMC(args string) (Token, error) {
@@ -882,7 +930,8 @@ func (t *TokenMC) String() string {
 
 var _ Token = (*TokenMC)(nil)
 
-type TokenXS struct { /* [page] */
+type TokenXS struct {
+	/* [page] */
 }
 
 func ParseTokenXS(args string) (Token, error) {
@@ -895,7 +944,8 @@ func (t *TokenXS) String() string {
 
 var _ Token = (*TokenXS)(nil)
 
-type TokenXA struct { /* [page] */
+type TokenXA struct {
+	/* [page] */
 }
 
 func ParseTokenXA(args string) (Token, error) {
@@ -916,7 +966,8 @@ var _ Token = (*TokenXA)(nil)
 //
 // The optional argument no suppresses printing the title specified
 // by the string register TOC.
-type TokenTC struct { /* [no] */
+type TokenTC struct {
+	/* [no] */
 }
 
 func ParseTokenTC(args string) (Token, error) {
@@ -935,7 +986,8 @@ var _ Token = (*TokenTC)(nil)
 //
 // The optional argument no suppresses printing the title specified
 // by the string register TOC.
-type TokenPX struct { /* [no] */
+type TokenPX struct {
+	/* [no] */
 }
 
 func ParseTokenPX(args string) (Token, error) {
@@ -951,7 +1003,8 @@ var _ Token = (*TokenPX)(nil)
 // TokenDS Indented display.  The default behavior of AT&T troff
 // -ms was to indent; the groff default prints displays flush left
 // with the body text.
-type TokenDS struct { /* I | R | C | B | I | L */
+type TokenDS struct {
+	/* I | R | C | B | I | L */
 }
 
 func ParseTokenDS(args string) (Token, error) {
@@ -988,7 +1041,8 @@ var _ Token = (*TokenDS)(nil)
 //
 // The input is read in copy-mode; auto-incremented registers are
 // affected (see Auto-increment).
-type Tokenig struct { /* [end] */
+type Tokenig struct {
+	/* [end] */
 }
 
 func ParseTokenig(args string) (Token, error) {
@@ -1003,7 +1057,8 @@ var _ Token = (*Tokenig)(nil)
 
 // Tokenrr Remove number register ident.  If ident doesn’t exist, the
 // request is ignored.
-type Tokenrr struct { /* ident */
+type Tokenrr struct {
+	/* ident */
 }
 
 func ParseTokenrr(args string) (Token, error) {
@@ -1018,7 +1073,8 @@ var _ Token = (*Tokenrr)(nil)
 
 // Tokenrnn Rename number register ident1 to ident2.  If either
 // ident1 or ident2 doesn’t exist, the request is ignored.
-type Tokenrnn struct { /* ident1 ident2 */
+type Tokenrnn struct {
+	/* ident1 ident2 */
 }
 
 func ParseTokenrnn(args string) (Token, error) {
@@ -1035,7 +1091,8 @@ var _ Token = (*Tokenrnn)(nil)
 // new name and the old name are exactly equivalent.  If ident1 is
 // undefined, a warning of type ‘reg’ is generated, and the request is
 // ignored.  See Debugging, for information about warnings.
-type Tokenaln struct { /* ident1 ident2 */
+type Tokenaln struct {
+	/* ident1 ident2 */
 }
 
 func ParseTokenaln(args string) (Token, error) {
@@ -1052,7 +1109,8 @@ var _ Token = (*Tokenaln)(nil)
 // auto-incrementing is set to incr.  Note that the \R escape
 // doesn’t support this notation.
 // Escape: \R'ident +value'
-type Tokennr struct { /* ident value incr | ident -value | ident +value | ident value */
+type Tokennr struct {
+	/* ident value incr | ident -value | ident +value | ident value */
 }
 
 func ParseTokennr(args string) (Token, error) {
@@ -1124,7 +1182,8 @@ var _ Token = (*Tokennr)(nil)
 // Changing the output format of a read-only register causes an error.  It
 // is necessary to first copy the register’s value to a writeable register,
 // then apply the af request to this other register.
-type Tokenaf struct { /* ident format */
+type Tokenaf struct {
+	/* ident format */
 }
 
 func ParseTokenaf(args string) (Token, error) {
@@ -1137,7 +1196,8 @@ func (t *Tokenaf) String() string {
 
 var _ Token = (*Tokenaf)(nil)
 
-type Tokenad struct { /* [mode] */
+type Tokenad struct {
+	/* [mode] */
 }
 
 func ParseTokenad(args string) (Token, error) {
@@ -1150,7 +1210,8 @@ func (t *Tokenad) String() string {
 
 var _ Token = (*Tokenad)(nil)
 
-type Tokenss struct { /* word_space_size [sentence_space_size] */
+type Tokenss struct {
+	/* word_space_size [sentence_space_size] */
 }
 
 func ParseTokenss(args string) (Token, error) {
@@ -1163,7 +1224,8 @@ func (t *Tokenss) String() string {
 
 var _ Token = (*Tokenss)(nil)
 
-type Tokence struct { /* [nnn] */
+type Tokence struct {
+	/* [nnn] */
 }
 
 func ParseTokence(args string) (Token, error) {
@@ -1176,7 +1238,8 @@ func (t *Tokence) String() string {
 
 var _ Token = (*Tokence)(nil)
 
-type Tokenrj struct { /* [nnn] */
+type Tokenrj struct {
+	/* [nnn] */
 }
 
 func ParseTokenrj(args string) (Token, error) {
@@ -1189,7 +1252,8 @@ func (t *Tokenrj) String() string {
 
 var _ Token = (*Tokenrj)(nil)
 
-type Tokenhy struct { /* [mode] */
+type Tokenhy struct {
+	/* [mode] */
 }
 
 func ParseTokenhy(args string) (Token, error) {
@@ -1202,7 +1266,8 @@ func (t *Tokenhy) String() string {
 
 var _ Token = (*Tokenhy)(nil)
 
-type Tokenhlm struct { /* [nnn] */
+type Tokenhlm struct {
+	/* [nnn] */
 }
 
 func ParseTokenhlm(args string) (Token, error) {
@@ -1238,7 +1303,8 @@ var _ Token = (*Tokenhlm)(nil)
 // In old versions of troff there was a limited amount of space to
 // store such information; fortunately, with gtroff, this is no
 // longer a restriction.
-type Tokenhw struct { /* word1 word2 … */
+type Tokenhw struct {
+	/* word1 word2 … */
 }
 
 func ParseTokenhw(args string) (Token, error) {
@@ -1258,7 +1324,8 @@ var _ Token = (*Tokenhw)(nil)
 //
 // The hyphenation character is associated with the current environment
 // (see Environments).
-type Tokenhc struct { /* [char] */
+type Tokenhc struct {
+	/* [char] */
 }
 
 func ParseTokenhc(args string) (Token, error) {
@@ -1271,7 +1338,8 @@ func (t *Tokenhc) String() string {
 
 var _ Token = (*Tokenhc)(nil)
 
-type Tokenhpf struct { /* pattern_file */
+type Tokenhpf struct {
+	/* pattern_file */
 }
 
 func ParseTokenhpf(args string) (Token, error) {
@@ -1284,7 +1352,8 @@ func (t *Tokenhpf) String() string {
 
 var _ Token = (*Tokenhpf)(nil)
 
-type Tokenhpfa struct { /* pattern_file */
+type Tokenhpfa struct {
+	/* pattern_file */
 }
 
 func ParseTokenhpfa(args string) (Token, error) {
@@ -1360,7 +1429,8 @@ var _ Token = (*Tokenhpfa)(nil)
 //
 // Invoking hpf causes an error if there is no current hyphenation
 // language.
-type Tokenhpfcode struct { /* a b [c d …] */
+type Tokenhpfcode struct {
+	/* a b [c d …] */
 }
 
 func ParseTokenhpfcode(args string) (Token, error) {
@@ -1404,7 +1474,8 @@ var _ Token = (*Tokenhpfcode)(nil)
 // The other two hyphenation points (‘kin-der-gär-ten’) are missed.
 //
 // This request is ignored if it has no parameter.
-type Tokenhcode struct { /* c1 code1 [c2 code2 …] */
+type Tokenhcode struct {
+	/* c1 code1 [c2 code2 …] */
 }
 
 func ParseTokenhcode(args string) (Token, error) {
@@ -1417,7 +1488,8 @@ func (t *Tokenhcode) String() string {
 
 var _ Token = (*Tokenhcode)(nil)
 
-type Tokenhym struct { /* [length] */
+type Tokenhym struct {
+	/* [length] */
 }
 
 func ParseTokenhym(args string) (Token, error) {
@@ -1430,7 +1502,8 @@ func (t *Tokenhym) String() string {
 
 var _ Token = (*Tokenhym)(nil)
 
-type Tokenhys struct { /* [hyphenation_space] */
+type Tokenhys struct {
+	/* [hyphenation_space] */
 }
 
 func ParseTokenhys(args string) (Token, error) {
@@ -1453,7 +1526,8 @@ var _ Token = (*Tokenhys)(nil)
 // (specified with the char request) nor translations (specified
 // with the tr request) are considered when finding the soft hyphen
 // character.
-type Tokenshc struct { /* [glyph] */
+type Tokenshc struct {
+	/* [glyph] */
 }
 
 func ParseTokenshc(args string) (Token, error) {
@@ -1466,7 +1540,8 @@ func (t *Tokenshc) String() string {
 
 var _ Token = (*Tokenshc)(nil)
 
-type Tokenhla struct { /* language */
+type Tokenhla struct {
+	/* language */
 }
 
 func ParseTokenhla(args string) (Token, error) {
@@ -1533,7 +1608,8 @@ var _ Token = (*Tokenhla)(nil)
 // .vpt 0
 // .sp -3
 // .vpt 1
-type Tokensp struct { /* [distance] */
+type Tokensp struct {
+	/* [distance] */
 }
 
 func ParseTokensp(args string) (Token, error) {
@@ -1546,7 +1622,8 @@ func (t *Tokensp) String() string {
 
 var _ Token = (*Tokensp)(nil)
 
-type Tokenls struct { /* [nnn] */
+type Tokenls struct {
+	/* [nnn] */
 }
 
 func ParseTokenls(args string) (Token, error) {
@@ -1559,7 +1636,8 @@ func (t *Tokenls) String() string {
 
 var _ Token = (*Tokenls)(nil)
 
-type Tokenta struct { /* [n1 n2 … nn T r1 r2 … rn] */
+type Tokenta struct {
+	/* [n1 n2 … nn T r1 r2 … rn] */
 }
 
 func ParseTokenta(args string) (Token, error) {
@@ -1577,7 +1655,8 @@ var _ Token = (*Tokenta)(nil)
 // argument gtroff reverts to using whitespace, which is the
 // default.  The value of this tab repetition character is associated
 // with the current environment (see Environments).15
-type Tokentc struct { /* [fill-glyph] */
+type Tokentc struct {
+	/* [fill-glyph] */
 }
 
 func ParseTokentc(args string) (Token, error) {
@@ -1590,7 +1669,8 @@ func (t *Tokentc) String() string {
 
 var _ Token = (*Tokentc)(nil)
 
-type Tokenlinetabs struct { /* n */
+type Tokenlinetabs struct {
+	/* n */
 }
 
 func ParseTokenlinetabs(args string) (Token, error) {
@@ -1608,7 +1688,8 @@ var _ Token = (*Tokenlinetabs)(nil)
 // whitespace for filling).  gtroff’s start-up value is a dot
 // (‘.’).  The value of the leader repetition character is associated
 // with the current environment (see Environments).
-type Tokenlc struct { /* [fill-glyph] */
+type Tokenlc struct {
+	/* [fill-glyph] */
 }
 
 func ParseTokenlc(args string) (Token, error) {
@@ -1640,7 +1721,8 @@ var _ Token = (*Tokenlc)(nil)
 //
 // foo         bar          smurf
 // foo            bar       smurf
-type Tokenfc struct { /* [delim-char [padding-char]] */
+type Tokenfc struct {
+	/* [delim-char [padding-char]] */
 }
 
 func ParseTokenfc(args string) (Token, error) {
@@ -1657,7 +1739,8 @@ var _ Token = (*Tokenfc)(nil)
 // control character ‘.’ is restored.  The value of the control
 // character is associated with the current environment
 // (see Environments).
-type Tokencc struct { /* [c] */
+type Tokencc struct {
+	/* [c] */
 }
 
 func ParseTokencc(args string) (Token, error) {
@@ -1674,7 +1757,8 @@ var _ Token = (*Tokencc)(nil)
 // the default control character ‘'’ is restored.  The value of the
 // no-break control character is associated with the current environment
 // (see Environments).
-type Tokenc2 struct { /* [c] */
+type Tokenc2 struct {
+	/* [c] */
 }
 
 func ParseTokenc2(args string) (Token, error) {
@@ -1696,7 +1780,8 @@ var _ Token = (*Tokenc2)(nil)
 // to convert a macro definition into an internal form that is independent
 // of its representation (TeX has this mechanism).  If a macro is
 // called, it is executed literally.
-type Tokenec struct { /* [c] */
+type Tokenec struct {
+	/* [c] */
 }
 
 func ParseTokenec(args string) (Token, error) {
@@ -1709,7 +1794,8 @@ func (t *Tokenec) String() string {
 
 var _ Token = (*Tokenec)(nil)
 
-type Tokentr struct { /* abcd… */
+type Tokentr struct {
+	/* abcd… */
 }
 
 func ParseTokentr(args string) (Token, error) {
@@ -1812,7 +1898,8 @@ var _ Token = (*Tokentr)(nil)
 // character or entity, and the second one a glyph entity.
 //
 //	Without an argument, the tr request is ignored.
-type Tokentrin struct { /* abcd… */
+type Tokentrin struct {
+	/* abcd… */
 }
 
 func ParseTokentrin(args string) (Token, error) {
@@ -1839,7 +1926,8 @@ var _ Token = (*Tokentrin)(nil)
 //
 // prints ‘b’ to the standard error stream; if trnt is used
 // instead of tr it prints ‘a’.
-type Tokentrnt struct { /* abcd… */
+type Tokentrnt struct {
+	/* abcd… */
 }
 
 func ParseTokentrnt(args string) (Token, error) {
@@ -1854,7 +1942,8 @@ var _ Token = (*Tokentrnt)(nil)
 
 // Tokenpo Register: \n[.o]
 // Request: .po -offset
-type Tokenpo struct { /* -offset | +offset | [offset] */
+type Tokenpo struct {
+	/* -offset | +offset | [offset] */
 }
 
 func ParseTokenpo(args string) (Token, error) {
@@ -1869,7 +1958,8 @@ var _ Token = (*Tokenpo)(nil)
 
 // Tokenin Register: \n[.i]
 // Request: .in -indent
-type Tokenin struct { /* -indent | +indent | [indent] */
+type Tokenin struct {
+	/* -indent | +indent | [indent] */
 }
 
 func ParseTokenin(args string) (Token, error) {
@@ -1884,7 +1974,8 @@ var _ Token = (*Tokenin)(nil)
 
 // Tokenti Register: \n[.in]
 // Request: .ti -offset
-type Tokenti struct { /* -offset | +offset | offset */
+type Tokenti struct {
+	/* -offset | +offset | offset */
 }
 
 func ParseTokenti(args string) (Token, error) {
@@ -1899,7 +1990,8 @@ var _ Token = (*Tokenti)(nil)
 
 // Tokenll Register: \n[.l]
 // Request: .ll -length
-type Tokenll struct { /* -length | +length | [length] */
+type Tokenll struct {
+	/* -length | +length | [length] */
 }
 
 func ParseTokenll(args string) (Token, error) {
@@ -1914,7 +2006,8 @@ var _ Token = (*Tokenll)(nil)
 
 // Tokenpl Register: \n[.p]
 // Request: .pl -length
-type Tokenpl struct { /* -length | +length | [length] */
+type Tokenpl struct {
+	/* -length | +length | [length] */
 }
 
 func ParseTokenpl(args string) (Token, error) {
@@ -1958,7 +2051,8 @@ var _ Token = (*Tokenpl)(nil)
 //	tl accepts the same parameter delimiting characters as the
 //
 // \A escape; see Escapes.
-type Tokentl struct { /* 'left'center'right' */
+type Tokentl struct {
+	/* 'left'center'right' */
 }
 
 func ParseTokentl(args string) (Token, error) {
@@ -1973,7 +2067,8 @@ var _ Token = (*Tokentl)(nil)
 
 // Tokenlt Register: \n[.lt]
 // Request: .lt -length
-type Tokenlt struct { /* -length | +length | [length] */
+type Tokenlt struct {
+	/* -length | +length | [length] */
 }
 
 func ParseTokenlt(args string) (Token, error) {
@@ -1988,7 +2083,8 @@ var _ Token = (*Tokenlt)(nil)
 
 // Tokenpn Register: \n[.pn]
 // Request: .pn -page
-type Tokenpn struct { /* -page | +page | page */
+type Tokenpn struct {
+	/* -page | +page | page */
 }
 
 func ParseTokenpn(args string) (Token, error) {
@@ -2004,7 +2100,8 @@ var _ Token = (*Tokenpn)(nil)
 // Tokenpc Change the page number character (used by the tl request) to a
 // different character.  With no argument, this mechanism is disabled.
 // Note that this doesn’t affect the number register %.
-type Tokenpc struct { /* [char] */
+type Tokenpc struct {
+	/* [char] */
 }
 
 func ParseTokenpc(args string) (Token, error) {
@@ -2019,7 +2116,8 @@ var _ Token = (*Tokenpc)(nil)
 
 // Tokenbp Register: \n[%]
 // Request: .bp -page
-type Tokenbp struct { /* -page | +page | [page] */
+type Tokenbp struct {
+	/* -page | +page | [page] */
 }
 
 func ParseTokenbp(args string) (Token, error) {
@@ -2049,7 +2147,8 @@ var _ Token = (*Tokenbp)(nil)
 //
 // ne then automatically causes a page break if there is space for
 // one line only.
-type Tokenne struct { /* [space] */
+type Tokenne struct {
+	/* [space] */
 }
 
 func ParseTokenne(args string) (Token, error) {
@@ -2062,7 +2161,8 @@ func (t *Tokenne) String() string {
 
 var _ Token = (*Tokenne)(nil)
 
-type Tokensv struct { /* [space] */
+type Tokensv struct {
+	/* [space] */
 }
 
 func ParseTokensv(args string) (Token, error) {
@@ -2090,7 +2190,8 @@ var _ Token = (*Tokensv)(nil)
 // .ft XXX
 //
 //	⇒ warning: can't find font `XXX'
-type Tokenftr struct { /* f [g] */
+type Tokenftr struct {
+	/* f [g] */
 }
 
 func ParseTokenftr(args string) (Token, error) {
@@ -2103,7 +2204,8 @@ func (t *Tokenftr) String() string {
 
 var _ Token = (*Tokenftr)(nil)
 
-type Tokenfzoom struct { /* f [zoom] */
+type Tokenfzoom struct {
+	/* f [zoom] */
 }
 
 func ParseTokenfzoom(args string) (Token, error) {
@@ -2116,7 +2218,8 @@ func (t *Tokenfzoom) String() string {
 
 var _ Token = (*Tokenfzoom)(nil)
 
-type Tokenfam struct { /* [family] */
+type Tokenfam struct {
+	/* [family] */
 }
 
 func ParseTokenfam(args string) (Token, error) {
@@ -2183,7 +2286,8 @@ var _ Token = (*Tokenfam)(nil)
 // .ft Bar           \" switch to font `FooBar'
 //
 // See Font Positions.
-type Tokensty struct { /* n style */
+type Tokensty struct {
+	/* n style */
 }
 
 func ParseTokensty(args string) (Token, error) {
@@ -2196,7 +2300,8 @@ func (t *Tokensty) String() string {
 
 var _ Token = (*Tokensty)(nil)
 
-type Tokenfp struct { /* pos font [external-name] */
+type Tokenfp struct {
+	/* pos font [external-name] */
 }
 
 func ParseTokenfp(args string) (Token, error) {
@@ -2210,7 +2315,8 @@ func (t *Tokenfp) String() string {
 var _ Token = (*Tokenfp)(nil)
 
 // Tokenft
-type Tokenft struct { /* nnn | [font] */
+type Tokenft struct {
+	/* nnn | [font] */
 }
 
 func ParseTokenft(args string) (Token, error) {
@@ -2231,7 +2337,8 @@ var _ Token = (*Tokenft)(nil)
 //
 // A set of default mappings for many accents can be found in the file
 // composite.tmac, which is loaded at start-up.
-type Tokencomposite struct { /* from to */
+type Tokencomposite struct {
+	/* from to */
 }
 
 func ParseTokencomposite(args string) (Token, error) {
@@ -2328,7 +2435,8 @@ var _ Token = (*Tokencomposite)(nil)
 // value 6 instead for the left character, a line break after the
 // character can’t be suppressed since the right neighbour character
 // doesn’t get examined.
-type Tokencflags struct { /* n c1 c2 … */
+type Tokencflags struct {
+	/* n c1 c2 … */
 }
 
 func ParseTokencflags(args string) (Token, error) {
@@ -2341,7 +2449,8 @@ func (t *Tokencflags) String() string {
 
 var _ Token = (*Tokencflags)(nil)
 
-type Tokenchar struct { /* g [string] */
+type Tokenchar struct {
+	/* g [string] */
 }
 
 func ParseTokenchar(args string) (Token, error) {
@@ -2354,7 +2463,8 @@ func (t *Tokenchar) String() string {
 
 var _ Token = (*Tokenchar)(nil)
 
-type Tokenfchar struct { /* g [string] */
+type Tokenfchar struct {
+	/* g [string] */
 }
 
 func ParseTokenfchar(args string) (Token, error) {
@@ -2367,7 +2477,8 @@ func (t *Tokenfchar) String() string {
 
 var _ Token = (*Tokenfchar)(nil)
 
-type Tokenfschar struct { /* f g [string] */
+type Tokenfschar struct {
+	/* f g [string] */
 }
 
 func ParseTokenfschar(args string) (Token, error) {
@@ -2438,7 +2549,8 @@ var _ Token = (*Tokenfschar)(nil)
 //
 // See Using Symbols, for a detailed description of the glyph searching
 // mechanism in gtroff.
-type Tokenschar struct { /* g [string] */
+type Tokenschar struct {
+	/* g [string] */
 }
 
 func ParseTokenschar(args string) (Token, error) {
@@ -2451,7 +2563,8 @@ func (t *Tokenschar) String() string {
 
 var _ Token = (*Tokenschar)(nil)
 
-type Tokenrchar struct { /* c1 c2 … */
+type Tokenrchar struct {
+	/* c1 c2 … */
 }
 
 func ParseTokenrchar(args string) (Token, error) {
@@ -2472,7 +2585,8 @@ var _ Token = (*Tokenrchar)(nil)
 //
 // The request rfschar removes glyph definitions defined with
 // fschar for glyph f.
-type Tokenrfschar struct { /* f c1 c2 … */
+type Tokenrfschar struct {
+	/* f c1 c2 … */
 }
 
 func ParseTokenrfschar(args string) (Token, error) {
@@ -2535,7 +2649,8 @@ var _ Token = (*Tokenrfschar)(nil)
 // .cflags 2 \C'[prepunctx]'
 //
 // See the cflags request in Using Symbols, for more details.
-type Tokenclass struct { /* n c1 c2 … */
+type Tokenclass struct {
+	/* n c1 c2 … */
 }
 
 func ParseTokenclass(args string) (Token, error) {
@@ -2548,7 +2663,8 @@ func (t *Tokenclass) String() string {
 
 var _ Token = (*Tokenclass)(nil)
 
-type Tokenspecial struct { /* [s1 s2 …] */
+type Tokenspecial struct {
+	/* [s1 s2 …] */
 }
 
 func ParseTokenspecial(args string) (Token, error) {
@@ -2575,7 +2691,8 @@ var _ Token = (*Tokenspecial)(nil)
 // are loaded.
 //
 // See Using Symbols, for the exact search order of glyphs.
-type Tokenfspecial struct { /* f [s1 s2 …] */
+type Tokenfspecial struct {
+	/* f [s1 s2 …] */
 }
 
 func ParseTokenfspecial(args string) (Token, error) {
@@ -2608,7 +2725,8 @@ var _ Token = (*Tokenfspecial)(nil)
 // changed with the uf request.
 //
 // The ul request does not underline spaces.
-type Tokenul struct { /* [lines] */
+type Tokenul struct {
+	/* [lines] */
 }
 
 func ParseTokenul(args string) (Token, error) {
@@ -2623,7 +2741,8 @@ var _ Token = (*Tokenul)(nil)
 
 // Tokencu The cu request is similar to ul but underlines spaces as
 // well (if a TTY output device is used).
-type Tokencu struct { /* [lines] */
+type Tokencu struct {
+	/* [lines] */
 }
 
 func ParseTokencu(args string) (Token, error) {
@@ -2639,7 +2758,8 @@ var _ Token = (*Tokencu)(nil)
 // Tokenuf Set the underline font (globally) used by ul and cu.  By
 // default, this is the font at position 2.  font can be either
 // a non-negative font position or the name of a font.
-type Tokenuf struct { /* font */
+type Tokenuf struct {
+	/* font */
 }
 
 func ParseTokenuf(args string) (Token, error) {
@@ -2653,7 +2773,8 @@ func (t *Tokenuf) String() string {
 var _ Token = (*Tokenuf)(nil)
 
 // Tokenbd Register: \n[.b]
-type Tokenbd struct { /* font1 font2 [offset] | font [offset] */
+type Tokenbd struct {
+	/* font1 font2 [offset] | font [offset] */
 }
 
 func ParseTokenbd(args string) (Token, error) {
@@ -2675,7 +2796,8 @@ var _ Token = (*Tokenbd)(nil)
 //
 // Default scaling indicator for em-size is ‘z’; width is
 // an integer.
-type Tokencs struct { /* font [width [em-size]] */
+type Tokencs struct {
+	/* font [width [em-size]] */
 }
 
 func ParseTokencs(args string) (Token, error) {
@@ -2688,7 +2810,8 @@ func (t *Tokencs) String() string {
 
 var _ Token = (*Tokencs)(nil)
 
-type Tokenlg struct { /* [flag] */
+type Tokenlg struct {
+	/* [flag] */
 }
 
 func ParseTokenlg(args string) (Token, error) {
@@ -2701,7 +2824,8 @@ func (t *Tokenlg) String() string {
 
 var _ Token = (*Tokenlg)(nil)
 
-type Tokenkern struct { /* [flag] */
+type Tokenkern struct {
+	/* [flag] */
 }
 
 func ParseTokenkern(args string) (Token, error) {
@@ -2729,7 +2853,8 @@ var _ Token = (*Tokenkern)(nil)
 // Note that the track kerning amount is added even to the rightmost glyph
 // in a line; for large values it is thus recommended to increase the line
 // length by the same amount to compensate it.
-type Tokentkf struct { /* f s1 n1 s2 n2 */
+type Tokentkf struct {
+	/* f s1 n1 s2 n2 */
 }
 
 func ParseTokentkf(args string) (Token, error) {
@@ -2744,7 +2869,8 @@ var _ Token = (*Tokentkf)(nil)
 
 // Tokenps Escape: \ssize
 // Request: .ps -size
-type Tokenps struct { /* -size | +size | [size] */
+type Tokenps struct {
+	/* -size | +size | [size] */
 }
 
 func ParseTokenps(args string) (Token, error) {
@@ -2770,7 +2896,8 @@ var _ Token = (*Tokenps)(nil)
 // Each argument can be a single point size (such as ‘12000’), or a
 // range of sizes (such as ‘4000-72000’).  You can optionally end the
 // list with a zero.
-type Tokensizes struct { /* s1 s2 … sn [0] */
+type Tokensizes struct {
+	/* s1 s2 … sn [0] */
 }
 
 func ParseTokensizes(args string) (Token, error) {
@@ -2785,7 +2912,8 @@ var _ Token = (*Tokensizes)(nil)
 
 // Tokenvs Register: \n[.v]
 // Request: .vs -space
-type Tokenvs struct { /* -space | +space | [space] */
+type Tokenvs struct {
+	/* -space | +space | [space] */
 }
 
 func ParseTokenvs(args string) (Token, error) {
@@ -2800,7 +2928,8 @@ var _ Token = (*Tokenvs)(nil)
 
 // Tokenpvs Register: \n[.pvs]
 // Request: .pvs -space
-type Tokenpvs struct { /* -space | +space | [space] */
+type Tokenpvs struct {
+	/* -space | +space | [space] */
 }
 
 func ParseTokenpvs(args string) (Token, error) {
@@ -2813,7 +2942,8 @@ func (t *Tokenpvs) String() string {
 
 var _ Token = (*Tokenpvs)(nil)
 
-type Tokends struct { /* name [string] */
+type Tokends struct {
+	/* name [string] */
 }
 
 func ParseTokends(args string) (Token, error) {
@@ -2826,7 +2956,8 @@ func (t *Tokends) String() string {
 
 var _ Token = (*Tokends)(nil)
 
-type Tokends1 struct { /* name [string] */
+type Tokends1 struct {
+	/* name [string] */
 }
 
 func ParseTokends1(args string) (Token, error) {
@@ -2839,7 +2970,8 @@ func (t *Tokends1) String() string {
 
 var _ Token = (*Tokends1)(nil)
 
-type Tokenas struct { /* name [string] */
+type Tokenas struct {
+	/* name [string] */
 }
 
 func ParseTokenas(args string) (Token, error) {
@@ -2863,7 +2995,8 @@ var _ Token = (*Tokenas)(nil)
 // precise, a compatibility save input token is inserted at the
 // beginning of the appended string, and a compatibility restore
 // input token at the end.
-type Tokenas1 struct { /* name [string] */
+type Tokenas1 struct {
+	/* name [string] */
 }
 
 func ParseTokenas1(args string) (Token, error) {
@@ -2894,7 +3027,8 @@ var _ Token = (*Tokenas1)(nil)
 // \*[xxx]
 //
 //	⇒ de
-type Tokensubstring struct { /* str n1 [n2] */
+type Tokensubstring struct {
+	/* str n1 [n2] */
 }
 
 func ParseTokensubstring(args string) (Token, error) {
@@ -2916,7 +3050,8 @@ var _ Token = (*Tokensubstring)(nil)
 // \n[yyy]
 //
 //	⇒ 14
-type Tokenlength struct { /* reg str */
+type Tokenlength struct {
+	/* reg str */
 }
 
 func ParseTokenlength(args string) (Token, error) {
@@ -2930,7 +3065,8 @@ func (t *Tokenlength) String() string {
 var _ Token = (*Tokenlength)(nil)
 
 // Tokenrn Rename the request, macro, diversion, or string xx to yy.
-type Tokenrn struct { /* xx yy */
+type Tokenrn struct {
+	/* xx yy */
 }
 
 func ParseTokenrn(args string) (Token, error) {
@@ -2945,7 +3081,8 @@ var _ Token = (*Tokenrn)(nil)
 
 // Tokenrm Remove the request, macro, diversion, or string xx.  gtroff
 // treats subsequent invocations as if the object had never been defined.
-type Tokenrm struct { /* xx */
+type Tokenrm struct {
+	/* xx */
 }
 
 func ParseTokenrm(args string) (Token, error) {
@@ -2995,7 +3132,8 @@ var _ Token = (*Tokenrm)(nil)
 //
 // To undo an alias, simply call rm on the aliased name.  The object
 // itself is not destroyed until there are no more aliases.
-type Tokenals struct { /* new old */
+type Tokenals struct {
+	/* new old */
 }
 
 func ParseTokenals(args string) (Token, error) {
@@ -3013,7 +3151,8 @@ var _ Token = (*Tokenals)(nil)
 // diversions that are to be interpolated as strings.  This command can be
 // used repeatedly; see Gtroff Internals, for details on nodes
 // inserted additionally by gtroff.
-type Tokenchop struct { /* xx */
+type Tokenchop struct {
+	/* xx */
 }
 
 func ParseTokenchop(args string) (Token, error) {
@@ -3037,7 +3176,8 @@ var _ Token = (*Tokenchop)(nil)
 // .if ((\n[xxx] == 1) & (\n[yyy] == 2)) true
 //
 //	⇒ true
-type Tokenif struct { /* expr anything */
+type Tokenif struct {
+	/* expr anything */
 }
 
 func ParseTokenif(args string) (Token, error) {
@@ -3051,7 +3191,8 @@ func (t *Tokenif) String() string {
 var _ Token = (*Tokenif)(nil)
 
 // Tokennop Executes anything.  This is similar to .if 1.
-type Tokennop struct { /* anything */
+type Tokennop struct {
+	/* anything */
 }
 
 func ParseTokennop(args string) (Token, error) {
@@ -3064,7 +3205,8 @@ func (t *Tokennop) String() string {
 
 var _ Token = (*Tokennop)(nil)
 
-type Tokenie struct { /* expr anything */
+type Tokenie struct {
+	/* expr anything */
 }
 
 func ParseTokenie(args string) (Token, error) {
@@ -3082,7 +3224,8 @@ var _ Token = (*Tokenie)(nil)
 //
 // .ie n .ls 2 \" double-spacing in nroff
 // .el   .ls 1 \" single-spacing in troff
-type Tokenel struct { /* anything */
+type Tokenel struct {
+	/* anything */
 }
 
 func ParseTokenel(args string) (Token, error) {
@@ -3154,7 +3297,8 @@ var _ Token = (*Tokenel)(nil)
 // .\}\}
 //
 //	⇒ unbalanced \{ \}
-type Tokenwhile struct { /* expr anything */
+type Tokenwhile struct {
+	/* expr anything */
 }
 
 func ParseTokenwhile(args string) (Token, error) {
@@ -3167,7 +3311,8 @@ func (t *Tokenwhile) String() string {
 
 var _ Token = (*Tokenwhile)(nil)
 
-type Tokende struct { /* name [end] */
+type Tokende struct {
+	/* name [end] */
 }
 
 func ParseTokende(args string) (Token, error) {
@@ -3180,7 +3325,8 @@ func (t *Tokende) String() string {
 
 var _ Token = (*Tokende)(nil)
 
-type Tokende1 struct { /* name [end] */
+type Tokende1 struct {
+	/* name [end] */
 }
 
 func ParseTokende1(args string) (Token, error) {
@@ -3193,7 +3339,8 @@ func (t *Tokende1) String() string {
 
 var _ Token = (*Tokende1)(nil)
 
-type Tokendei struct { /* name [end] */
+type Tokendei struct {
+	/* name [end] */
 }
 
 func ParseTokendei(args string) (Token, error) {
@@ -3303,7 +3450,8 @@ var _ Token = (*Tokendei)(nil)
 //
 // See the description of the als request, for possible
 // pitfalls if redefining a macro that has been aliased.
-type Tokendei1 struct { /* name [end] */
+type Tokendei1 struct {
+	/* name [end] */
 }
 
 func ParseTokendei1(args string) (Token, error) {
@@ -3316,7 +3464,8 @@ func (t *Tokendei1) String() string {
 
 var _ Token = (*Tokendei1)(nil)
 
-type Tokenam struct { /* name [end] */
+type Tokenam struct {
+	/* name [end] */
 }
 
 func ParseTokenam(args string) (Token, error) {
@@ -3329,7 +3478,8 @@ func (t *Tokenam) String() string {
 
 var _ Token = (*Tokenam)(nil)
 
-type Tokenam1 struct { /* name [end] */
+type Tokenam1 struct {
+	/* name [end] */
 }
 
 func ParseTokenam1(args string) (Token, error) {
@@ -3342,7 +3492,8 @@ func (t *Tokenam1) String() string {
 
 var _ Token = (*Tokenam1)(nil)
 
-type Tokenami struct { /* name [end] */
+type Tokenami struct {
+	/* name [end] */
 }
 
 func ParseTokenami(args string) (Token, error) {
@@ -3378,7 +3529,8 @@ var _ Token = (*Tokenami)(nil)
 //
 // Using trace.tmac, you can trace calls to am and
 // am1.
-type Tokenami1 struct { /* name [end] */
+type Tokenami1 struct {
+	/* name [end] */
 }
 
 func ParseTokenami1(args string) (Token, error) {
@@ -3396,7 +3548,8 @@ var _ Token = (*Tokenami1)(nil)
 // If called with an argument, exit twice, namely the current macro and the
 // macro one level higher.  This is used to define a wrapper macro for
 // return in trace.tmac.
-type Tokenreturn struct { /* [anything] */
+type Tokenreturn struct {
+	/* [anything] */
 }
 
 func ParseTokenreturn(args string) (Token, error) {
@@ -3416,7 +3569,8 @@ var _ Token = (*Tokenreturn)(nil)
 // undefined.
 //
 // The register .$ is adjusted accordingly.
-type Tokenshift struct { /* [n] */
+type Tokenshift struct {
+	/* [n] */
 }
 
 func ParseTokenshift(args string) (Token, error) {
@@ -3429,7 +3583,8 @@ func (t *Tokenshift) String() string {
 
 var _ Token = (*Tokenshift)(nil)
 
-type Tokenmk struct { /* [reg] */
+type Tokenmk struct {
+	/* [reg] */
 }
 
 func ParseTokenmk(args string) (Token, error) {
@@ -3511,7 +3666,8 @@ var _ Token = (*Tokenmk)(nil)
 // in two columns.    suited  for   a
 // Note that  this    real two-column
 // implementation     macro.
-type Tokenrt struct { /* [dist] */
+type Tokenrt struct {
+	/* [dist] */
 }
 
 func ParseTokenrt(args string) (Token, error) {
@@ -3524,7 +3680,8 @@ func (t *Tokenrt) String() string {
 
 var _ Token = (*Tokenrt)(nil)
 
-type Tokenvpt struct { /* flag */
+type Tokenvpt struct {
+	/* flag */
 }
 
 func ParseTokenvpt(args string) (Token, error) {
@@ -3616,7 +3773,8 @@ var _ Token = (*Tokenvpt)(nil)
 // .bp
 //
 //	⇒ a b
-type Tokenwh struct { /* dist [macro] */
+type Tokenwh struct {
+	/* dist [macro] */
 }
 
 func ParseTokenwh(args string) (Token, error) {
@@ -3638,7 +3796,8 @@ var _ Token = (*Tokenwh)(nil)
 //
 // Default scaling indicator for dist is ‘v’.  If dist is
 // missing, the trap is removed.
-type Tokench struct { /* macro [dist] */
+type Tokench struct {
+	/* macro [dist] */
 }
 
 func ParseTokench(args string) (Token, error) {
@@ -3660,7 +3819,8 @@ var _ Token = (*Tokench)(nil)
 //
 // The number register .t still works within diversions.
 // See Diversions, for more information.
-type Tokendt struct { /* [dist macro] */
+type Tokendt struct {
+	/* [dist macro] */
 }
 
 func ParseTokendt(args string) (Token, error) {
@@ -3673,7 +3833,8 @@ func (t *Tokendt) String() string {
 
 var _ Token = (*Tokendt)(nil)
 
-type Tokenit struct { /* n macro */
+type Tokenit struct {
+	/* n macro */
 }
 
 func ParseTokenit(args string) (Token, error) {
@@ -3709,7 +3870,8 @@ var _ Token = (*Tokenit)(nil)
 // (see Environments); switching to another environment disables the
 // current input trap, and going back reactivates it, restoring the number
 // of already processed lines.
-type Tokenitc struct { /* n macro */
+type Tokenitc struct {
+	/* n macro */
 }
 
 func ParseTokenitc(args string) (Token, error) {
@@ -3724,7 +3886,8 @@ var _ Token = (*Tokenitc)(nil)
 
 // Tokenblm Set a blank line trap.  gtroff executes macro when it
 // encounters a blank line in the input file.
-type Tokenblm struct { /* macro */
+type Tokenblm struct {
+	/* macro */
 }
 
 func ParseTokenblm(args string) (Token, error) {
@@ -3737,7 +3900,8 @@ func (t *Tokenblm) String() string {
 
 var _ Token = (*Tokenblm)(nil)
 
-type Tokenlsm struct { /* macro */
+type Tokenlsm struct {
+	/* macro */
 }
 
 func ParseTokenlsm(args string) (Token, error) {
@@ -3843,7 +4007,8 @@ var _ Token = (*Tokenlsm)(nil)
 // may already use it, care must be taken not to break the mechanism.  A
 // simple solution would be to append the above macro to the macro
 // package’s end-of-input macro using the .am request.
-type Tokenem struct { /* macro */
+type Tokenem struct {
+	/* macro */
 }
 
 func ParseTokenem(args string) (Token, error) {
@@ -3856,7 +4021,8 @@ func (t *Tokenem) String() string {
 
 var _ Token = (*Tokenem)(nil)
 
-type Tokendi struct { /* macro */
+type Tokendi struct {
+	/* macro */
 }
 
 func ParseTokendi(args string) (Token, error) {
@@ -3879,7 +4045,8 @@ var _ Token = (*Tokendi)(nil)
 // the box request below for an example.  Note that switching to
 // another (empty) environment (with the ev request) avoids the
 // inclusion of the current partially filled line.
-type Tokenda struct { /* macro */
+type Tokenda struct {
+	/* macro */
 }
 
 func ParseTokenda(args string) (Token, error) {
@@ -3892,7 +4059,8 @@ func (t *Tokenda) String() string {
 
 var _ Token = (*Tokenda)(nil)
 
-type Tokenbox struct { /* macro */
+type Tokenbox struct {
+	/* macro */
 }
 
 func ParseTokenbox(args string) (Token, error) {
@@ -3942,7 +4110,8 @@ var _ Token = (*Tokenbox)(nil)
 //	⇒ Before the diversion.  In the diversion.
 //
 // box or boxa without an argument ends the diversion.
-type Tokenboxa struct { /* macro */
+type Tokenboxa struct {
+	/* macro */
 }
 
 func ParseTokenboxa(args string) (Token, error) {
@@ -3968,7 +4137,8 @@ var _ Token = (*Tokenboxa)(nil)
 // Use with caution!  It is normally only needed for mark-up used by a
 // postprocessor that does something with the output before sending it to
 // the output device, filtering out string again.
-type Tokenoutput struct { /* string */
+type Tokenoutput struct {
+	/* string */
 }
 
 func ParseTokenoutput(args string) (Token, error) {
@@ -4002,7 +4172,8 @@ var _ Token = (*Tokenoutput)(nil)
 // remain as nodes, so the result cannot be guaranteed to be a pure string.
 //
 // See Copy-in Mode.
-type Tokenasciify struct { /* div */
+type Tokenasciify struct {
+	/* div */
 }
 
 func ParseTokenasciify(args string) (Token, error) {
@@ -4022,7 +4193,8 @@ var _ Token = (*Tokenasciify)(nil)
 //
 // The vertical size of lines is not preserved; glyph information (font,
 // font size, space width, etc.) is retained.
-type Tokenunformat struct { /* div */
+type Tokenunformat struct {
+	/* div */
 }
 
 func ParseTokenunformat(args string) (Token, error) {
@@ -4035,7 +4207,8 @@ func (t *Tokenunformat) String() string {
 
 var _ Token = (*Tokenunformat)(nil)
 
-type Tokenev struct { /* [env] */
+type Tokenev struct {
+	/* [env] */
 }
 
 func ParseTokenev(args string) (Token, error) {
@@ -4067,7 +4240,8 @@ var _ Token = (*Tokenev)(nil)
 //	Line numbering mode is disabled; it can be reactivated with ‘.nm +0’.
 //
 //	The number of consecutive hyphenated lines (set to zero).
-type Tokenevc struct { /* env */
+type Tokenevc struct {
+	/* env */
 }
 
 func ParseTokenevc(args string) (Token, error) {
@@ -4080,7 +4254,8 @@ func (t *Tokenevc) String() string {
 
 var _ Token = (*Tokenevc)(nil)
 
-type Tokencolor struct { /* [n] */
+type Tokencolor struct {
+	/* [n] */
 }
 
 func ParseTokencolor(args string) (Token, error) {
@@ -4118,7 +4293,8 @@ var _ Token = (*Tokencolor)(nil)
 // defcolor request, thus the above statement is equivalent to
 //
 // .defcolor darkgreen rgb 0.1 0.5 0.2
-type Tokendefcolor struct { /* ident scheme color_components */
+type Tokendefcolor struct {
+	/* ident scheme color_components */
 }
 
 func ParseTokendefcolor(args string) (Token, error) {
@@ -4131,7 +4307,8 @@ func (t *Tokendefcolor) String() string {
 
 var _ Token = (*Tokendefcolor)(nil)
 
-type Tokengcolor struct { /* [color] */
+type Tokengcolor struct {
+	/* [color] */
 }
 
 func ParseTokengcolor(args string) (Token, error) {
@@ -4144,7 +4321,8 @@ func (t *Tokengcolor) String() string {
 
 var _ Token = (*Tokengcolor)(nil)
 
-type Tokenfcolor struct { /* [color] */
+type Tokenfcolor struct {
+	/* [color] */
 }
 
 func ParseTokenfcolor(args string) (Token, error) {
@@ -4175,7 +4353,8 @@ var _ Token = (*Tokenfcolor)(nil)
 //
 // The search path for file can be controlled with the -I
 // command-line option.
-type Tokenso struct { /* file */
+type Tokenso struct {
+	/* file */
 }
 
 func ParseTokenso(args string) (Token, error) {
@@ -4197,7 +4376,8 @@ var _ Token = (*Tokenso)(nil)
 //
 // The comment regarding a final newline for the so request is valid
 // for pso also.
-type Tokenpso struct { /* command */
+type Tokenpso struct {
+	/* command */
 }
 
 func ParseTokenpso(args string) (Token, error) {
@@ -4218,7 +4398,8 @@ var _ Token = (*Tokenpso)(nil)
 // versa.
 // If the file does not exist, a warning of type ‘file’ is emitted.
 // See Debugging, for information about warnings.
-type Tokenmso struct { /* file */
+type Tokenmso struct {
+	/* file */
 }
 
 func ParseTokenmso(args string) (Token, error) {
@@ -4231,7 +4412,8 @@ func (t *Tokenmso) String() string {
 
 var _ Token = (*Tokenmso)(nil)
 
-type Tokentrf struct { /* file */
+type Tokentrf struct {
+	/* file */
 }
 
 func ParseTokentrf(args string) (Token, error) {
@@ -4277,7 +4459,8 @@ var _ Token = (*Tokentrf)(nil)
 // \!\\!.
 //
 // Both requests cause a line break.
-type Tokencf struct { /* file */
+type Tokencf struct {
+	/* file */
 }
 
 func ParseTokencf(args string) (Token, error) {
@@ -4292,7 +4475,8 @@ var _ Token = (*Tokencf)(nil)
 
 // Tokennx Force gtroff to continue processing of the file specified as an
 // argument.  If no argument is given, immediately jump to the end of file.
-type Tokennx struct { /* [file] */
+type Tokennx struct {
+	/* [file] */
 }
 
 func ParseTokennx(args string) (Token, error) {
@@ -4320,7 +4504,8 @@ var _ Token = (*Tokennx)(nil)
 // with the input ‘This is \$2.’ prints
 //
 // This is bar.
-type Tokenrd struct { /* [prompt [arg1 arg2 …]] */
+type Tokenrd struct {
+	/* [prompt [arg1 arg2 …]] */
 }
 
 func ParseTokenrd(args string) (Token, error) {
@@ -4353,7 +4538,8 @@ var _ Token = (*Tokenrd)(nil)
 // Note that the intermediate output format of gtroff is piped to
 // the specified commands.  Consequently, calling groff without the
 // -Z option normally causes a fatal error.
-type Tokenpi struct { /* pipe */
+type Tokenpi struct {
+	/* pipe */
 }
 
 func ParseTokenpi(args string) (Token, error) {
@@ -4366,7 +4552,8 @@ func (t *Tokenpi) String() string {
 
 var _ Token = (*Tokenpi)(nil)
 
-type Tokensy struct { /* cmds */
+type Tokensy struct {
+	/* cmds */
 }
 
 func ParseTokensy(args string) (Token, error) {
@@ -4379,7 +4566,8 @@ func (t *Tokensy) String() string {
 
 var _ Token = (*Tokensy)(nil)
 
-type Tokenopen struct { /* stream file */
+type Tokenopen struct {
+	/* stream file */
 }
 
 func ParseTokenopen(args string) (Token, error) {
@@ -4401,7 +4589,8 @@ var _ Token = (*Tokenopen)(nil)
 // Both open and opena cause an error if used in safer mode
 // (which is the default).  Use groff’s or troff’s
 // -U option to activate unsafe mode.
-type Tokenopena struct { /* stream file */
+type Tokenopena struct {
+	/* stream file */
 }
 
 func ParseTokenopena(args string) (Token, error) {
@@ -4414,7 +4603,8 @@ func (t *Tokenopena) String() string {
 
 var _ Token = (*Tokenopena)(nil)
 
-type Tokenwrite struct { /* stream data */
+type Tokenwrite struct {
+	/* stream data */
 }
 
 func ParseTokenwrite(args string) (Token, error) {
@@ -4435,7 +4625,8 @@ var _ Token = (*Tokenwrite)(nil)
 //
 // The writec request is like write, but only write
 // appends a newline to the data.
-type Tokenwritec struct { /* stream data */
+type Tokenwritec struct {
+	/* stream data */
 }
 
 func ParseTokenwritec(args string) (Token, error) {
@@ -4455,7 +4646,8 @@ var _ Token = (*Tokenwritec)(nil)
 // ignored.  Consequently, diversions must be unformatted with the
 // asciify request before calling writem.  Usually, this
 // means a loss of information.
-type Tokenwritem struct { /* stream xx */
+type Tokenwritem struct {
+	/* stream xx */
 }
 
 func ParseTokenwritem(args string) (Token, error) {
@@ -4482,7 +4674,8 @@ var _ Token = (*Tokenwritem)(nil)
 // .IX test entry
 // .
 // .close idx
-type Tokenclose struct { /* stream */
+type Tokenclose struct {
+	/* stream */
 }
 
 func ParseTokenclose(args string) (Token, error) {
@@ -4495,7 +4688,8 @@ func (t *Tokenclose) String() string {
 
 var _ Token = (*Tokenclose)(nil)
 
-type Tokendevice struct { /* xxx */
+type Tokendevice struct {
+	/* xxx */
 }
 
 func ParseTokendevice(args string) (Token, error) {
@@ -4508,7 +4702,8 @@ func (t *Tokendevice) String() string {
 
 var _ Token = (*Tokendevice)(nil)
 
-type Tokendevicem struct { /* xx */
+type Tokendevicem struct {
+	/* xx */
 }
 
 func ParseTokendevicem(args string) (Token, error) {
@@ -4582,7 +4777,8 @@ var _ Token = (*Tokendevicem)(nil)
 // 1005  line      numbering
 //
 //	works with groff.
-type Tokennm struct { /* [start [inc [space [indent]]]] */
+type Tokennm struct {
+	/* [start [inc [space [indent]]]] */
 }
 
 func ParseTokennm(args string) (Token, error) {
@@ -4597,7 +4793,8 @@ var _ Token = (*Tokennm)(nil)
 
 // Tokennn Temporarily turn off line numbering.  The argument is the number of
 // lines not to be numbered; this defaults to 1.
-type Tokennn struct { /* [skip] */
+type Tokennn struct {
+	/* [skip] */
 }
 
 func ParseTokennn(args string) (Token, error) {
@@ -4669,7 +4866,8 @@ var _ Token = (*Tokennn)(nil)
 //	|
 //
 // But we can fake it with `\&'.  |
-type Tokenmc struct { /* glyph [dist] */
+type Tokenmc struct {
+	/* glyph [dist] */
 }
 
 func ParseTokenmc(args string) (Token, error) {
@@ -4682,7 +4880,8 @@ func (t *Tokenmc) String() string {
 
 var _ Token = (*Tokenmc)(nil)
 
-type Tokenpsbb struct { /* filename */
+type Tokenpsbb struct {
+	/* filename */
 }
 
 func ParseTokenpsbb(args string) (Token, error) {
@@ -4708,7 +4907,8 @@ var _ Token = (*Tokenpsbb)(nil)
 // Note that other troff implementations (including the original
 // AT&T version) handle lf differently.  For them,
 // line changes the line number of the current line.
-type Tokenlf struct { /* line [filename] */
+type Tokenlf struct {
+	/* line [filename] */
 }
 
 func ParseTokenlf(args string) (Token, error) {
@@ -4721,7 +4921,8 @@ func (t *Tokenlf) String() string {
 
 var _ Token = (*Tokenlf)(nil)
 
-type Tokentm struct { /* string */
+type Tokentm struct {
+	/* string */
 }
 
 func ParseTokentm(args string) (Token, error) {
@@ -4734,7 +4935,8 @@ func (t *Tokentm) String() string {
 
 var _ Token = (*Tokentm)(nil)
 
-type Tokentm1 struct { /* string */
+type Tokentm1 struct {
+	/* string */
 }
 
 func ParseTokentm1(args string) (Token, error) {
@@ -4758,7 +4960,8 @@ var _ Token = (*Tokentm1)(nil)
 //
 // The tmc request is similar to tm1 but does not append a
 // newline (as is done in tm and tm1).
-type Tokentmc struct { /* string */
+type Tokentmc struct {
+	/* string */
 }
 
 func ParseTokentmc(args string) (Token, error) {
@@ -4774,7 +4977,8 @@ var _ Token = (*Tokentmc)(nil)
 // Tokenab Similar to the tm request, except that it causes gtroff to
 // stop processing.  With no argument it prints ‘User Abort.’ to
 // standard error.
-type Tokenab struct { /* [string] */
+type Tokenab struct {
+	/* [string] */
 }
 
 func ParseTokenab(args string) (Token, error) {
@@ -4790,7 +4994,8 @@ var _ Token = (*Tokenab)(nil)
 // Tokenwarnscale Set the scaling indicator used in warnings to si.  Valid values
 // for si are ‘u’, ‘i’, ‘c’, ‘p’, and ‘P’.
 // At startup, it is set to ‘i’.
-type Tokenwarnscale struct { /* si */
+type Tokenwarnscale struct {
+	/* si */
 }
 
 func ParseTokenwarnscale(args string) (Token, error) {
@@ -4819,7 +5024,8 @@ var _ Token = (*Tokenwarnscale)(nil)
 //
 // This request is active only if text is justified to both margins (using
 // ‘.ad b’).
-type Tokenspreadwarn struct { /* [limit] */
+type Tokenspreadwarn struct {
+	/* [limit] */
 }
 
 func ParseTokenspreadwarn(args string) (Token, error) {
@@ -4832,7 +5038,8 @@ func (t *Tokenspreadwarn) String() string {
 
 var _ Token = (*Tokenspreadwarn)(nil)
 
-type Tokenwarn struct { /* [flags] */
+type Tokenwarn struct {
+	/* [flags] */
 }
 
 func ParseTokenwarn(args string) (Token, error) {
@@ -4845,7 +5052,8 @@ func (t *Tokenwarn) String() string {
 
 var _ Token = (*Tokenwarn)(nil)
 
-type Tokencp struct { /* [n] */
+type Tokencp struct {
+	/* [n] */
 }
 
 func ParseTokencp(args string) (Token, error) {
@@ -4858,7 +5066,8 @@ func (t *Tokencp) String() string {
 
 var _ Token = (*Tokencp)(nil)
 
-type Tokendo struct { /* cmd */
+type Tokendo struct {
+	/* cmd */
 }
 
 func ParseTokendo(args string) (Token, error) {
