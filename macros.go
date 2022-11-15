@@ -1,5 +1,10 @@
 package groff
 
+import (
+	"fmt"
+	"strconv"
+)
+
 // TokenTH Set the title of the man page to title and the section to
 // section, which must have a value between 1 and 8.  The value
 // of section may also have a string appended, e.g. ‘.pm’, to
@@ -22,11 +27,50 @@ package groff
 // man pages; a single man page should contain exactly one TH macro
 // at the beginning of the file.
 type TokenTH struct {
-	/* title section [extra1 [extra2 [extra3]]] */
+	title   string
+	section int
+	extra1  string
+	extra2  string
+	extra3  string
 }
 
-func ParseTokenTH(args string) (Token, error) {
-	return &TokenTH{ /* title section [extra1 [extra2 [extra3]]] */ }, nil
+func ParseTokenTH(argText string) (Token, error) {
+	args, _, err := ArgumentParser(argText)
+	if err != nil {
+		return nil, fmt.Errorf("argument syntax: %w", err)
+	}
+	if len(args) < 1 {
+		return nil, fmt.Errorf("missing title")
+	}
+	title := args[0]
+	if len(args) < 2 {
+		return nil, fmt.Errorf("missing section")
+	}
+	var section int
+	if n, err := strconv.ParseInt(args[1], 10, 64); err != nil {
+		return nil, fmt.Errorf("section parse: %w", err)
+	} else {
+		section = int(n)
+	}
+	extra1 := ""
+	if len(args) > 2 {
+		extra1 = args[2]
+	}
+	extra2 := ""
+	if len(args) > 3 {
+		extra2 = args[3]
+	}
+	extra3 := ""
+	if len(args) > 4 {
+		extra3 = args[4]
+	}
+	return &TokenTH{
+		title:   title,
+		section: section,
+		extra1:  extra1,
+		extra2:  extra2,
+		extra3:  extra3,
+	}, nil
 }
 
 func (t *TokenTH) String() string {
@@ -45,7 +89,7 @@ type TokenSS struct {
 	/* [heading] */
 }
 
-func ParseTokenSS(args string) (Token, error) {
+func ParseTokenSS(argText string) (Token, error) {
 	return &TokenSS{ /* [heading] */ }, nil
 }
 
@@ -76,7 +120,7 @@ type TokenTP struct {
 	/* [nnn] */
 }
 
-func ParseTokenTP(args string) (Token, error) {
+func ParseTokenTP(argText string) (Token, error) {
 	return &TokenTP{ /* [nnn] */ }, nil
 }
 
@@ -96,7 +140,7 @@ type TokenP struct {
 	/*  */
 }
 
-func ParseTokenP(args string) (Token, error) {
+func ParseTokenP(argText string) (Token, error) {
 	return &TokenP{ /*  */ }, nil
 }
 
@@ -116,7 +160,7 @@ type TokenHP struct {
 	/* [nnn] */
 }
 
-func ParseTokenHP(args string) (Token, error) {
+func ParseTokenHP(argText string) (Token, error) {
 	return &TokenHP{ /* [nnn] */ }, nil
 }
 
@@ -132,7 +176,7 @@ type TokenSB struct {
 	/* [text] */
 }
 
-func ParseTokenSB(args string) (Token, error) {
+func ParseTokenSB(argText string) (Token, error) {
 	return &TokenSB{ /* [text] */ }, nil
 }
 
@@ -148,7 +192,7 @@ type TokenIB struct {
 	/* text */
 }
 
-func ParseTokenIB(args string) (Token, error) {
+func ParseTokenIB(argText string) (Token, error) {
 	return &TokenIB{ /* text */ }, nil
 }
 
@@ -164,7 +208,7 @@ type TokenRI struct {
 	/* text */
 }
 
-func ParseTokenRI(args string) (Token, error) {
+func ParseTokenRI(argText string) (Token, error) {
 	return &TokenRI{ /* text */ }, nil
 }
 
@@ -180,7 +224,7 @@ type TokenIR struct {
 	/* text */
 }
 
-func ParseTokenIR(args string) (Token, error) {
+func ParseTokenIR(argText string) (Token, error) {
 	return &TokenIR{ /* text */ }, nil
 }
 
@@ -196,7 +240,7 @@ type TokenBR struct {
 	/* text */
 }
 
-func ParseTokenBR(args string) (Token, error) {
+func ParseTokenBR(argText string) (Token, error) {
 	return &TokenBR{ /* text */ }, nil
 }
 
@@ -212,7 +256,7 @@ type TokenRB struct {
 	/* text */
 }
 
-func ParseTokenRB(args string) (Token, error) {
+func ParseTokenRB(argText string) (Token, error) {
 	return &TokenRB{ /* text */ }, nil
 }
 
@@ -229,7 +273,7 @@ type TokenDT struct {
 	/*  */
 }
 
-func ParseTokenDT(args string) (Token, error) {
+func ParseTokenDT(argText string) (Token, error) {
 	return &TokenDT{ /*  */ }, nil
 }
 
@@ -250,7 +294,7 @@ type TokenPD struct {
 	/* [nnn] */
 }
 
-func ParseTokenPD(args string) (Token, error) {
+func ParseTokenPD(argText string) (Token, error) {
 	return &TokenPD{ /* [nnn] */ }, nil
 }
 
@@ -279,7 +323,7 @@ type TokenAT struct {
 	/* [system [release]] */
 }
 
-func ParseTokenAT(args string) (Token, error) {
+func ParseTokenAT(argText string) (Token, error) {
 	return &TokenAT{ /* [system [release]] */ }, nil
 }
 
@@ -310,7 +354,7 @@ type TokenUC struct {
 	/* [version] */
 }
 
-func ParseTokenUC(args string) (Token, error) {
+func ParseTokenUC(argText string) (Token, error) {
 	return &TokenUC{ /* [version] */ }, nil
 }
 
@@ -325,7 +369,7 @@ type TokenCT struct {
 	/* key */
 }
 
-func ParseTokenCT(args string) (Token, error) {
+func ParseTokenCT(argText string) (Token, error) {
 	return &TokenCT{ /* key */ }, nil
 }
 
@@ -341,7 +385,7 @@ type TokenEX struct {
 	/* [indent] */
 }
 
-func ParseTokenEX(args string) (Token, error) {
+func ParseTokenEX(argText string) (Token, error) {
 	return &TokenEX{ /* [indent] */ }, nil
 }
 
@@ -356,7 +400,7 @@ type TokenEE struct {
 	/*  */
 }
 
-func ParseTokenEE(args string) (Token, error) {
+func ParseTokenEE(argText string) (Token, error) {
 	return &TokenEE{ /*  */ }, nil
 }
 
@@ -373,7 +417,7 @@ type TokenG struct {
 	/* [text] */
 }
 
-func ParseTokenG(args string) (Token, error) {
+func ParseTokenG(argText string) (Token, error) {
 	return &TokenG{ /* [text] */ }, nil
 }
 
@@ -390,7 +434,7 @@ type TokenGL struct {
 	/* [text] */
 }
 
-func ParseTokenGL(args string) (Token, error) {
+func ParseTokenGL(argText string) (Token, error) {
 	return &TokenGL{ /* [text] */ }, nil
 }
 
@@ -407,7 +451,7 @@ type TokenHB struct {
 	/* [text] */
 }
 
-func ParseTokenHB(args string) (Token, error) {
+func ParseTokenHB(argText string) (Token, error) {
 	return &TokenHB{ /* [text] */ }, nil
 }
 
@@ -422,7 +466,7 @@ type TokenTB struct {
 	/* [text] */
 }
 
-func ParseTokenTB(args string) (Token, error) {
+func ParseTokenTB(argText string) (Token, error) {
 	return &TokenTB{ /* [text] */ }, nil
 }
 
@@ -439,7 +483,7 @@ type TokenMS struct {
 	/* title sect [punct] */
 }
 
-func ParseTokenMS(args string) (Token, error) {
+func ParseTokenMS(argText string) (Token, error) {
 	return &TokenMS{ /* title sect [punct] */ }, nil
 }
 
@@ -458,7 +502,7 @@ type TokenNT struct {
 	/* [C] [title] */
 }
 
-func ParseTokenNT(args string) (Token, error) {
+func ParseTokenNT(argText string) (Token, error) {
 	return &TokenNT{ /* [C] [title] */ }, nil
 }
 
@@ -473,7 +517,7 @@ type TokenNE struct {
 	/*  */
 }
 
-func ParseTokenNE(args string) (Token, error) {
+func ParseTokenNE(argText string) (Token, error) {
 	return &TokenNE{ /*  */ }, nil
 }
 
@@ -489,7 +533,7 @@ type TokenPN struct {
 	/* path [punct] */
 }
 
-func ParseTokenPN(args string) (Token, error) {
+func ParseTokenPN(argText string) (Token, error) {
 	return &TokenPN{ /* path [punct] */ }, nil
 }
 
@@ -506,7 +550,7 @@ type TokenPn struct {
 	/* [punct] path [punct] */
 }
 
-func ParseTokenPn(args string) (Token, error) {
+func ParseTokenPn(argText string) (Token, error) {
 	return &TokenPn{ /* [punct] path [punct] */ }, nil
 }
 
@@ -521,7 +565,7 @@ type TokenRN struct {
 	/*  */
 }
 
-func ParseTokenRN(args string) (Token, error) {
+func ParseTokenRN(argText string) (Token, error) {
 	return &TokenRN{ /*  */ }, nil
 }
 
@@ -537,7 +581,7 @@ type TokenVS struct {
 	/* [4] */
 }
 
-func ParseTokenVS(args string) (Token, error) {
+func ParseTokenVS(argText string) (Token, error) {
 	return &TokenVS{ /* [4] */ }, nil
 }
 
@@ -552,7 +596,7 @@ type TokenVE struct {
 	/*  */
 }
 
-func ParseTokenVE(args string) (Token, error) {
+func ParseTokenVE(argText string) (Token, error) {
 	return &TokenVE{ /*  */ }, nil
 }
 
@@ -574,7 +618,7 @@ type TokenRP struct {
 	/* [no] */
 }
 
-func ParseTokenRP(args string) (Token, error) {
+func ParseTokenRP(argText string) (Token, error) {
 	return &TokenRP{ /* [no] */ }, nil
 }
 
@@ -590,7 +634,7 @@ type TokenP1 struct {
 	/*  */
 }
 
-func ParseTokenP1(args string) (Token, error) {
+func ParseTokenP1(argText string) (Token, error) {
 	return &TokenP1{ /*  */ }, nil
 }
 
@@ -607,7 +651,7 @@ type TokenDA struct {
 	/* […] */
 }
 
-func ParseTokenDA(args string) (Token, error) {
+func ParseTokenDA(argText string) (Token, error) {
 	return &TokenDA{ /* […] */ }, nil
 }
 
@@ -624,7 +668,7 @@ type TokenND struct {
 	/* […] */
 }
 
-func ParseTokenND(args string) (Token, error) {
+func ParseTokenND(argText string) (Token, error) {
 	return &TokenND{ /* […] */ }, nil
 }
 
@@ -641,7 +685,7 @@ type TokenTL struct {
 	/*  */
 }
 
-func ParseTokenTL(args string) (Token, error) {
+func ParseTokenTL(argText string) (Token, error) {
 	return &TokenTL{ /*  */ }, nil
 }
 
@@ -668,7 +712,7 @@ type TokenAU struct {
 	/*  */
 }
 
-func ParseTokenAU(args string) (Token, error) {
+func ParseTokenAU(argText string) (Token, error) {
 	return &TokenAU{ /*  */ }, nil
 }
 
@@ -684,7 +728,7 @@ type TokenAI struct {
 	/*  */
 }
 
-func ParseTokenAI(args string) (Token, error) {
+func ParseTokenAI(argText string) (Token, error) {
 	return &TokenAI{ /*  */ }, nil
 }
 
@@ -702,7 +746,7 @@ type TokenAB struct {
 	/* [no] */
 }
 
-func ParseTokenAB(args string) (Token, error) {
+func ParseTokenAB(argText string) (Token, error) {
 	return &TokenAB{ /* [no] */ }, nil
 }
 
@@ -717,7 +761,7 @@ type TokenAE struct {
 	/*  */
 }
 
-func ParseTokenAE(args string) (Token, error) {
+func ParseTokenAE(argText string) (Token, error) {
 	return &TokenAE{ /*  */ }, nil
 }
 
@@ -732,7 +776,7 @@ type TokenPP struct {
 	/*  */
 }
 
-func ParseTokenPP(args string) (Token, error) {
+func ParseTokenPP(argText string) (Token, error) {
 	return &TokenPP{ /*  */ }, nil
 }
 
@@ -747,7 +791,7 @@ type TokenLP struct {
 	/*  */
 }
 
-func ParseTokenLP(args string) (Token, error) {
+func ParseTokenLP(argText string) (Token, error) {
 	return &TokenLP{ /*  */ }, nil
 }
 
@@ -767,7 +811,7 @@ type TokenQP struct {
 	/*  */
 }
 
-func ParseTokenQP(args string) (Token, error) {
+func ParseTokenQP(argText string) (Token, error) {
 	return &TokenQP{ /*  */ }, nil
 }
 
@@ -781,7 +825,7 @@ type TokenQS struct {
 	/*  */
 }
 
-func ParseTokenQS(args string) (Token, error) {
+func ParseTokenQS(argText string) (Token, error) {
 	return &TokenQS{ /*  */ }, nil
 }
 
@@ -802,7 +846,7 @@ type TokenQE struct {
 	/*  */
 }
 
-func ParseTokenQE(args string) (Token, error) {
+func ParseTokenQE(argText string) (Token, error) {
 	return &TokenQE{ /*  */ }, nil
 }
 
@@ -818,7 +862,7 @@ type TokenXP struct {
 	/*  */
 }
 
-func ParseTokenXP(args string) (Token, error) {
+func ParseTokenXP(argText string) (Token, error) {
 	return &TokenXP{ /*  */ }, nil
 }
 
@@ -839,7 +883,7 @@ type TokenNH struct {
 	/* S level0 … | curr-level */
 }
 
-func ParseTokenNH(args string) (Token, error) {
+func ParseTokenNH(argText string) (Token, error) {
 	return &TokenNH{ /* S level0 … | curr-level */ }, nil
 }
 
@@ -867,7 +911,7 @@ type TokenSH struct {
 	/* [match-level] | [heading] */
 }
 
-func ParseTokenSH(args string) (Token, error) {
+func ParseTokenSH(argText string) (Token, error) {
 	return &TokenSH{ /* [match-level] | [heading] */ }, nil
 }
 
@@ -898,7 +942,7 @@ type TokenB struct {
 	/* [txt [post [pre]]] | [text] */
 }
 
-func ParseTokenB(args string) (Token, error) {
+func ParseTokenB(argText string) (Token, error) {
 	return &TokenB{ /* [txt [post [pre]]] | [text] */ }, nil
 }
 
@@ -915,7 +959,7 @@ type TokenR struct {
 	/* [txt [post [pre]]] |  */
 }
 
-func ParseTokenR(args string) (Token, error) {
+func ParseTokenR(argText string) (Token, error) {
 	return &TokenR{ /* [txt [post [pre]]] |  */ }, nil
 }
 
@@ -933,7 +977,7 @@ type TokenI struct {
 	/* [txt [post [pre]]] | [text] */
 }
 
-func ParseTokenI(args string) (Token, error) {
+func ParseTokenI(argText string) (Token, error) {
 	return &TokenI{ /* [txt [post [pre]]] | [text] */ }, nil
 }
 
@@ -956,7 +1000,7 @@ type TokenBI struct {
 	/* [txt [post [pre]]] | text */
 }
 
-func ParseTokenBI(args string) (Token, error) {
+func ParseTokenBI(argText string) (Token, error) {
 	return &TokenBI{ /* [txt [post [pre]]] | text */ }, nil
 }
 
@@ -972,7 +1016,7 @@ type TokenBX struct {
 	/* [txt] */
 }
 
-func ParseTokenBX(args string) (Token, error) {
+func ParseTokenBX(argText string) (Token, error) {
 	return &TokenBX{ /* [txt] */ }, nil
 }
 
@@ -989,7 +1033,7 @@ type TokenUL struct {
 	/* [txt [post]] */
 }
 
-func ParseTokenUL(args string) (Token, error) {
+func ParseTokenUL(argText string) (Token, error) {
 	return &TokenUL{ /* [txt [post]] */ }, nil
 }
 
@@ -1007,7 +1051,7 @@ type TokenLG struct {
 	/*  */
 }
 
-func ParseTokenLG(args string) (Token, error) {
+func ParseTokenLG(argText string) (Token, error) {
 	return &TokenLG{ /*  */ }, nil
 }
 
@@ -1027,7 +1071,7 @@ type TokenSM struct {
 	/*  | [text] */
 }
 
-func ParseTokenSM(args string) (Token, error) {
+func ParseTokenSM(argText string) (Token, error) {
 	return &TokenSM{ /*  | [text] */ }, nil
 }
 
@@ -1043,7 +1087,7 @@ type TokenNL struct {
 	/*  */
 }
 
-func ParseTokenNL(args string) (Token, error) {
+func ParseTokenNL(argText string) (Token, error) {
 	return &TokenNL{ /*  */ }, nil
 }
 
@@ -1085,7 +1129,7 @@ type TokenIP struct {
 	/* [marker [width]] | [designator [nnn]] */
 }
 
-func ParseTokenIP(args string) (Token, error) {
+func ParseTokenIP(argText string) (Token, error) {
 	return &TokenIP{ /* [marker [width]] | [designator [nnn]] */ }, nil
 }
 
@@ -1107,7 +1151,7 @@ type TokenRS struct {
 	/*  | [nnn] */
 }
 
-func ParseTokenRS(args string) (Token, error) {
+func ParseTokenRS(argText string) (Token, error) {
 	return &TokenRS{ /*  | [nnn] */ }, nil
 }
 
@@ -1128,7 +1172,7 @@ type TokenRE struct {
 	/*  | [nnn] */
 }
 
-func ParseTokenRE(args string) (Token, error) {
+func ParseTokenRE(argText string) (Token, error) {
 	return &TokenRE{ /*  | [nnn] */ }, nil
 }
 
@@ -1145,7 +1189,7 @@ type TokenTA struct {
 	/*  */
 }
 
-func ParseTokenTA(args string) (Token, error) {
+func ParseTokenTA(argText string) (Token, error) {
 	return &TokenTA{ /*  */ }, nil
 }
 
@@ -1159,7 +1203,7 @@ type TokenLD struct {
 	/*  */
 }
 
-func ParseTokenLD(args string) (Token, error) {
+func ParseTokenLD(argText string) (Token, error) {
 	return &TokenLD{ /*  */ }, nil
 }
 
@@ -1173,7 +1217,7 @@ type TokenID struct {
 	/*  */
 }
 
-func ParseTokenID(args string) (Token, error) {
+func ParseTokenID(argText string) (Token, error) {
 	return &TokenID{ /*  */ }, nil
 }
 
@@ -1187,7 +1231,7 @@ type TokenBD struct {
 	/*  */
 }
 
-func ParseTokenBD(args string) (Token, error) {
+func ParseTokenBD(argText string) (Token, error) {
 	return &TokenBD{ /*  */ }, nil
 }
 
@@ -1201,7 +1245,7 @@ type TokenCD struct {
 	/*  */
 }
 
-func ParseTokenCD(args string) (Token, error) {
+func ParseTokenCD(argText string) (Token, error) {
 	return &TokenCD{ /*  */ }, nil
 }
 
@@ -1215,7 +1259,7 @@ type TokenRD struct {
 	/*  */
 }
 
-func ParseTokenRD(args string) (Token, error) {
+func ParseTokenRD(argText string) (Token, error) {
 	return &TokenRD{ /*  */ }, nil
 }
 
@@ -1250,7 +1294,7 @@ type TokenDE struct {
 	/*  */
 }
 
-func ParseTokenDE(args string) (Token, error) {
+func ParseTokenDE(argText string) (Token, error) {
 	return &TokenDE{ /*  */ }, nil
 }
 
@@ -1266,7 +1310,7 @@ type TokenDs struct {
 	/*  */
 }
 
-func ParseTokenDs(args string) (Token, error) {
+func ParseTokenDs(argText string) (Token, error) {
 	return &TokenDs{ /*  */ }, nil
 }
 
@@ -1288,7 +1332,7 @@ type TokenDe struct {
 	/*  */
 }
 
-func ParseTokenDe(args string) (Token, error) {
+func ParseTokenDe(argText string) (Token, error) {
 	return &TokenDe{ /*  */ }, nil
 }
 
@@ -1302,7 +1346,7 @@ type TokenKS struct {
 	/*  */
 }
 
-func ParseTokenKS(args string) (Token, error) {
+func ParseTokenKS(argText string) (Token, error) {
 	return &TokenKS{ /*  */ }, nil
 }
 
@@ -1316,7 +1360,7 @@ type TokenKF struct {
 	/*  */
 }
 
-func ParseTokenKF(args string) (Token, error) {
+func ParseTokenKF(argText string) (Token, error) {
 	return &TokenKF{ /*  */ }, nil
 }
 
@@ -1340,7 +1384,7 @@ type TokenKE struct {
 	/*  */
 }
 
-func ParseTokenKE(args string) (Token, error) {
+func ParseTokenKE(argText string) (Token, error) {
 	return &TokenKE{ /*  */ }, nil
 }
 
@@ -1354,7 +1398,7 @@ type TokenB1 struct {
 	/*  */
 }
 
-func ParseTokenB1(args string) (Token, error) {
+func ParseTokenB1(argText string) (Token, error) {
 	return &TokenB1{ /*  */ }, nil
 }
 
@@ -1371,7 +1415,7 @@ type TokenB2 struct {
 	/*  */
 }
 
-func ParseTokenB2(args string) (Token, error) {
+func ParseTokenB2(argText string) (Token, error) {
 	return &TokenB2{ /*  */ }, nil
 }
 
@@ -1385,7 +1429,7 @@ type TokenTS struct {
 	/* [H] */
 }
 
-func ParseTokenTS(args string) (Token, error) {
+func ParseTokenTS(argText string) (Token, error) {
 	return &TokenTS{ /* [H] */ }, nil
 }
 
@@ -1405,7 +1449,7 @@ type TokenTE struct {
 	/*  */
 }
 
-func ParseTokenTE(args string) (Token, error) {
+func ParseTokenTE(argText string) (Token, error) {
 	return &TokenTE{ /*  */ }, nil
 }
 
@@ -1419,7 +1463,7 @@ type TokenPS struct {
 	/*  */
 }
 
-func ParseTokenPS(args string) (Token, error) {
+func ParseTokenPS(argText string) (Token, error) {
 	return &TokenPS{ /*  */ }, nil
 }
 
@@ -1437,7 +1481,7 @@ type TokenPE struct {
 	/*  */
 }
 
-func ParseTokenPE(args string) (Token, error) {
+func ParseTokenPE(argText string) (Token, error) {
 	return &TokenPE{ /*  */ }, nil
 }
 
@@ -1451,7 +1495,7 @@ type TokenEQ struct {
 	/* [align] */
 }
 
-func ParseTokenEQ(args string) (Token, error) {
+func ParseTokenEQ(argText string) (Token, error) {
 	return &TokenEQ{ /* [align] */ }, nil
 }
 
@@ -1469,7 +1513,7 @@ type TokenEN struct {
 	/*  */
 }
 
-func ParseTokenEN(args string) (Token, error) {
+func ParseTokenEN(argText string) (Token, error) {
 	return &TokenEN{ /*  */ }, nil
 }
 
@@ -1483,7 +1527,7 @@ type TokenReferOpen struct {
 	/*  */
 }
 
-func ParseTokenReferOpen(args string) (Token, error) {
+func ParseTokenReferOpen(argText string) (Token, error) {
 	return &TokenReferOpen{ /*  */ }, nil
 }
 
@@ -1500,7 +1544,7 @@ type TokenReferClose struct {
 	/*  */
 }
 
-func ParseTokenReferClose(args string) (Token, error) {
+func ParseTokenReferClose(argText string) (Token, error) {
 	return &TokenReferClose{ /*  */ }, nil
 }
 
@@ -1514,7 +1558,7 @@ type TokenFS struct {
 	/*  */
 }
 
-func ParseTokenFS(args string) (Token, error) {
+func ParseTokenFS(argText string) (Token, error) {
 	return &TokenFS{ /*  */ }, nil
 }
 
@@ -1533,7 +1577,7 @@ type TokenFE struct {
 	/*  */
 }
 
-func ParseTokenFE(args string) (Token, error) {
+func ParseTokenFE(argText string) (Token, error) {
 	return &TokenFE{ /*  */ }, nil
 }
 
@@ -1547,7 +1591,7 @@ type TokenOH struct {
 	/* 'left'center'right' */
 }
 
-func ParseTokenOH(args string) (Token, error) {
+func ParseTokenOH(argText string) (Token, error) {
 	return &TokenOH{ /* 'left'center'right' */ }, nil
 }
 
@@ -1561,7 +1605,7 @@ type TokenEH struct {
 	/* 'left'center'right' */
 }
 
-func ParseTokenEH(args string) (Token, error) {
+func ParseTokenEH(argText string) (Token, error) {
 	return &TokenEH{ /* 'left'center'right' */ }, nil
 }
 
@@ -1575,7 +1619,7 @@ type TokenOF struct {
 	/* 'left'center'right' */
 }
 
-func ParseTokenOF(args string) (Token, error) {
+func ParseTokenOF(argText string) (Token, error) {
 	return &TokenOF{ /* 'left'center'right' */ }, nil
 }
 
@@ -1595,7 +1639,7 @@ type TokenEF struct {
 	/* 'left'center'right' */
 }
 
-func ParseTokenEF(args string) (Token, error) {
+func ParseTokenEF(argText string) (Token, error) {
 	return &TokenEF{ /* 'left'center'right' */ }, nil
 }
 
@@ -1613,7 +1657,7 @@ type TokenPT struct {
 	/*  */
 }
 
-func ParseTokenPT(args string) (Token, error) {
+func ParseTokenPT(argText string) (Token, error) {
 	return &TokenPT{ /*  */ }, nil
 }
 
@@ -1627,7 +1671,7 @@ type TokenHD struct {
 	/*  */
 }
 
-func ParseTokenHD(args string) (Token, error) {
+func ParseTokenHD(argText string) (Token, error) {
 	return &TokenHD{ /*  */ }, nil
 }
 
@@ -1652,7 +1696,7 @@ type TokenBT struct {
 	/*  */
 }
 
-func ParseTokenBT(args string) (Token, error) {
+func ParseTokenBT(argText string) (Token, error) {
 	return &TokenBT{ /*  */ }, nil
 }
 
@@ -1667,7 +1711,7 @@ type Token1C struct {
 	/*  */
 }
 
-func ParseToken1C(args string) (Token, error) {
+func ParseToken1C(argText string) (Token, error) {
 	return &Token1C{ /*  */ }, nil
 }
 
@@ -1682,7 +1726,7 @@ type Token2C struct {
 	/*  */
 }
 
-func ParseToken2C(args string) (Token, error) {
+func ParseToken2C(argText string) (Token, error) {
 	return &Token2C{ /*  */ }, nil
 }
 
@@ -1700,7 +1744,7 @@ type TokenMC struct {
 	/* [width [gutter]] */
 }
 
-func ParseTokenMC(args string) (Token, error) {
+func ParseTokenMC(argText string) (Token, error) {
 	return &TokenMC{ /* [width [gutter]] */ }, nil
 }
 
@@ -1714,7 +1758,7 @@ type TokenXS struct {
 	/* [page] */
 }
 
-func ParseTokenXS(args string) (Token, error) {
+func ParseTokenXS(argText string) (Token, error) {
 	return &TokenXS{ /* [page] */ }, nil
 }
 
@@ -1728,7 +1772,7 @@ type TokenXA struct {
 	/* [page] */
 }
 
-func ParseTokenXA(args string) (Token, error) {
+func ParseTokenXA(argText string) (Token, error) {
 	return &TokenXA{ /* [page] */ }, nil
 }
 
@@ -1778,7 +1822,7 @@ type TokenXE struct {
 	/*  */
 }
 
-func ParseTokenXE(args string) (Token, error) {
+func ParseTokenXE(argText string) (Token, error) {
 	return &TokenXE{ /*  */ }, nil
 }
 
@@ -1800,7 +1844,7 @@ type TokenTC struct {
 	/* [no] */
 }
 
-func ParseTokenTC(args string) (Token, error) {
+func ParseTokenTC(argText string) (Token, error) {
 	return &TokenTC{ /* [no] */ }, nil
 }
 
@@ -1820,7 +1864,7 @@ type TokenPX struct {
 	/* [no] */
 }
 
-func ParseTokenPX(args string) (Token, error) {
+func ParseTokenPX(argText string) (Token, error) {
 	return &TokenPX{ /* [no] */ }, nil
 }
 
@@ -1844,7 +1888,7 @@ type TokenAM struct {
 	/*  */
 }
 
-func ParseTokenAM(args string) (Token, error) {
+func ParseTokenAM(argText string) (Token, error) {
 	return &TokenAM{ /*  */ }, nil
 }
 
@@ -1861,7 +1905,7 @@ type TokenDS struct {
 	/* I | R | C | B | I | L */
 }
 
-func ParseTokenDS(args string) (Token, error) {
+func ParseTokenDS(argText string) (Token, error) {
 	return &TokenDS{ /* I | R | C | B | I | L */ }, nil
 }
 
@@ -1879,7 +1923,7 @@ type TokenCW struct {
 	/*  | [txt [post [pre]]] |  */
 }
 
-func ParseTokenCW(args string) (Token, error) {
+func ParseTokenCW(argText string) (Token, error) {
 	return &TokenCW{ /*  | [txt [post [pre]]] |  */ }, nil
 }
 
@@ -1895,7 +1939,7 @@ type TokenIX struct {
 	/*  */
 }
 
-func ParseTokenIX(args string) (Token, error) {
+func ParseTokenIX(argText string) (Token, error) {
 	return &TokenIX{ /*  */ }, nil
 }
 
@@ -1933,7 +1977,7 @@ type Tokenig struct {
 	/* [end] */
 }
 
-func ParseTokenig(args string) (Token, error) {
+func ParseTokenig(argText string) (Token, error) {
 	return &Tokenig{ /* [end] */ }, nil
 }
 
@@ -1949,7 +1993,7 @@ type Tokenrr struct {
 	/* ident */
 }
 
-func ParseTokenrr(args string) (Token, error) {
+func ParseTokenrr(argText string) (Token, error) {
 	return &Tokenrr{ /* ident */ }, nil
 }
 
@@ -1965,7 +2009,7 @@ type Tokenrnn struct {
 	/* ident1 ident2 */
 }
 
-func ParseTokenrnn(args string) (Token, error) {
+func ParseTokenrnn(argText string) (Token, error) {
 	return &Tokenrnn{ /* ident1 ident2 */ }, nil
 }
 
@@ -1983,7 +2027,7 @@ type Tokenaln struct {
 	/* ident1 ident2 */
 }
 
-func ParseTokenaln(args string) (Token, error) {
+func ParseTokenaln(argText string) (Token, error) {
 	return &Tokenaln{ /* ident1 ident2 */ }, nil
 }
 
@@ -2001,7 +2045,7 @@ type Tokennr struct {
 	/* ident value incr | ident -value | ident +value | ident value */
 }
 
-func ParseTokennr(args string) (Token, error) {
+func ParseTokennr(argText string) (Token, error) {
 	return &Tokennr{ /* ident value incr | ident -value | ident +value | ident value */ }, nil
 }
 
@@ -2074,7 +2118,7 @@ type Tokenaf struct {
 	/* ident format */
 }
 
-func ParseTokenaf(args string) (Token, error) {
+func ParseTokenaf(argText string) (Token, error) {
 	return &Tokenaf{ /* ident format */ }, nil
 }
 
@@ -2099,7 +2143,7 @@ type Tokenbr struct {
 	/*  */
 }
 
-func ParseTokenbr(args string) (Token, error) {
+func ParseTokenbr(argText string) (Token, error) {
 	return &Tokenbr{ /*  */ }, nil
 }
 
@@ -2113,7 +2157,7 @@ type Tokenfi struct {
 	/*  */
 }
 
-func ParseTokenfi(args string) (Token, error) {
+func ParseTokenfi(argText string) (Token, error) {
 	return &Tokenfi{ /*  */ }, nil
 }
 
@@ -2136,7 +2180,7 @@ type Tokennf struct {
 	/*  */
 }
 
-func ParseTokennf(args string) (Token, error) {
+func ParseTokennf(argText string) (Token, error) {
 	return &Tokennf{ /*  */ }, nil
 }
 
@@ -2150,7 +2194,7 @@ type Tokenad struct {
 	/* [mode] */
 }
 
-func ParseTokenad(args string) (Token, error) {
+func ParseTokenad(argText string) (Token, error) {
 	return &Tokenad{ /* [mode] */ }, nil
 }
 
@@ -2170,7 +2214,7 @@ type Tokenna struct {
 	/*  */
 }
 
-func ParseTokenna(args string) (Token, error) {
+func ParseTokenna(argText string) (Token, error) {
 	return &Tokenna{ /*  */ }, nil
 }
 
@@ -2184,7 +2228,7 @@ type Tokenbrp struct {
 	/*  */
 }
 
-func ParseTokenbrp(args string) (Token, error) {
+func ParseTokenbrp(argText string) (Token, error) {
 	return &Tokenbrp{ /*  */ }, nil
 }
 
@@ -2198,7 +2242,7 @@ type Tokenss struct {
 	/* word_space_size [sentence_space_size] */
 }
 
-func ParseTokenss(args string) (Token, error) {
+func ParseTokenss(argText string) (Token, error) {
 	return &Tokenss{ /* word_space_size [sentence_space_size] */ }, nil
 }
 
@@ -2212,7 +2256,7 @@ type Tokence struct {
 	/* [nnn] */
 }
 
-func ParseTokence(args string) (Token, error) {
+func ParseTokence(argText string) (Token, error) {
 	return &Tokence{ /* [nnn] */ }, nil
 }
 
@@ -2226,7 +2270,7 @@ type Tokenrj struct {
 	/* [nnn] */
 }
 
-func ParseTokenrj(args string) (Token, error) {
+func ParseTokenrj(argText string) (Token, error) {
 	return &Tokenrj{ /* [nnn] */ }, nil
 }
 
@@ -2240,7 +2284,7 @@ type Tokenhy struct {
 	/* [mode] */
 }
 
-func ParseTokenhy(args string) (Token, error) {
+func ParseTokenhy(argText string) (Token, error) {
 	return &Tokenhy{ /* [mode] */ }, nil
 }
 
@@ -2259,7 +2303,7 @@ type Tokennh struct {
 	/*  */
 }
 
-func ParseTokennh(args string) (Token, error) {
+func ParseTokennh(argText string) (Token, error) {
 	return &Tokennh{ /*  */ }, nil
 }
 
@@ -2273,7 +2317,7 @@ type Tokenhlm struct {
 	/* [nnn] */
 }
 
-func ParseTokenhlm(args string) (Token, error) {
+func ParseTokenhlm(argText string) (Token, error) {
 	return &Tokenhlm{ /* [nnn] */ }, nil
 }
 
@@ -2310,7 +2354,7 @@ type Tokenhw struct {
 	/* word1 word2 … */
 }
 
-func ParseTokenhw(args string) (Token, error) {
+func ParseTokenhw(argText string) (Token, error) {
 	return &Tokenhw{ /* word1 word2 … */ }, nil
 }
 
@@ -2331,7 +2375,7 @@ type Tokenhc struct {
 	/* [char] */
 }
 
-func ParseTokenhc(args string) (Token, error) {
+func ParseTokenhc(argText string) (Token, error) {
 	return &Tokenhc{ /* [char] */ }, nil
 }
 
@@ -2345,7 +2389,7 @@ type Tokenhpf struct {
 	/* pattern_file */
 }
 
-func ParseTokenhpf(args string) (Token, error) {
+func ParseTokenhpf(argText string) (Token, error) {
 	return &Tokenhpf{ /* pattern_file */ }, nil
 }
 
@@ -2359,7 +2403,7 @@ type Tokenhpfa struct {
 	/* pattern_file */
 }
 
-func ParseTokenhpfa(args string) (Token, error) {
+func ParseTokenhpfa(argText string) (Token, error) {
 	return &Tokenhpfa{ /* pattern_file */ }, nil
 }
 
@@ -2436,7 +2480,7 @@ type Tokenhpfcode struct {
 	/* a b [c d …] */
 }
 
-func ParseTokenhpfcode(args string) (Token, error) {
+func ParseTokenhpfcode(argText string) (Token, error) {
 	return &Tokenhpfcode{ /* a b [c d …] */ }, nil
 }
 
@@ -2481,7 +2525,7 @@ type Tokenhcode struct {
 	/* c1 code1 [c2 code2 …] */
 }
 
-func ParseTokenhcode(args string) (Token, error) {
+func ParseTokenhcode(argText string) (Token, error) {
 	return &Tokenhcode{ /* c1 code1 [c2 code2 …] */ }, nil
 }
 
@@ -2495,7 +2539,7 @@ type Tokenhym struct {
 	/* [length] */
 }
 
-func ParseTokenhym(args string) (Token, error) {
+func ParseTokenhym(argText string) (Token, error) {
 	return &Tokenhym{ /* [length] */ }, nil
 }
 
@@ -2509,7 +2553,7 @@ type Tokenhys struct {
 	/* [hyphenation_space] */
 }
 
-func ParseTokenhys(args string) (Token, error) {
+func ParseTokenhys(argText string) (Token, error) {
 	return &Tokenhys{ /* [hyphenation_space] */ }, nil
 }
 
@@ -2533,7 +2577,7 @@ type Tokenshc struct {
 	/* [glyph] */
 }
 
-func ParseTokenshc(args string) (Token, error) {
+func ParseTokenshc(argText string) (Token, error) {
 	return &Tokenshc{ /* [glyph] */ }, nil
 }
 
@@ -2547,7 +2591,7 @@ type Tokenhla struct {
 	/* language */
 }
 
-func ParseTokenhla(args string) (Token, error) {
+func ParseTokenhla(argText string) (Token, error) {
 	return &Tokenhla{ /* language */ }, nil
 }
 
@@ -2615,7 +2659,7 @@ type Tokensp struct {
 	/* [distance] */
 }
 
-func ParseTokensp(args string) (Token, error) {
+func ParseTokensp(argText string) (Token, error) {
 	return &Tokensp{ /* [distance] */ }, nil
 }
 
@@ -2629,7 +2673,7 @@ type Tokenls struct {
 	/* [nnn] */
 }
 
-func ParseTokenls(args string) (Token, error) {
+func ParseTokenls(argText string) (Token, error) {
 	return &Tokenls{ /* [nnn] */ }, nil
 }
 
@@ -2643,7 +2687,7 @@ type Tokenns struct {
 	/*  */
 }
 
-func ParseTokenns(args string) (Token, error) {
+func ParseTokenns(argText string) (Token, error) {
 	return &Tokenns{ /*  */ }, nil
 }
 
@@ -2657,7 +2701,7 @@ type Tokenrs struct {
 	/*  */
 }
 
-func ParseTokenrs(args string) (Token, error) {
+func ParseTokenrs(argText string) (Token, error) {
 	return &Tokenrs{ /*  */ }, nil
 }
 
@@ -2671,7 +2715,7 @@ type Tokenta struct {
 	/* [n1 n2 … nn T r1 r2 … rn] */
 }
 
-func ParseTokenta(args string) (Token, error) {
+func ParseTokenta(argText string) (Token, error) {
 	return &Tokenta{ /* [n1 n2 … nn T r1 r2 … rn] */ }, nil
 }
 
@@ -2690,7 +2734,7 @@ type Tokentc struct {
 	/* [fill-glyph] */
 }
 
-func ParseTokentc(args string) (Token, error) {
+func ParseTokentc(argText string) (Token, error) {
 	return &Tokentc{ /* [fill-glyph] */ }, nil
 }
 
@@ -2704,7 +2748,7 @@ type Tokenlinetabs struct {
 	/* n */
 }
 
-func ParseTokenlinetabs(args string) (Token, error) {
+func ParseTokenlinetabs(argText string) (Token, error) {
 	return &Tokenlinetabs{ /* n */ }, nil
 }
 
@@ -2723,7 +2767,7 @@ type Tokenlc struct {
 	/* [fill-glyph] */
 }
 
-func ParseTokenlc(args string) (Token, error) {
+func ParseTokenlc(argText string) (Token, error) {
 	return &Tokenlc{ /* [fill-glyph] */ }, nil
 }
 
@@ -2756,7 +2800,7 @@ type Tokenfc struct {
 	/* [delim-char [padding-char]] */
 }
 
-func ParseTokenfc(args string) (Token, error) {
+func ParseTokenfc(argText string) (Token, error) {
 	return &Tokenfc{ /* [delim-char [padding-char]] */ }, nil
 }
 
@@ -2774,7 +2818,7 @@ type Tokencc struct {
 	/* [c] */
 }
 
-func ParseTokencc(args string) (Token, error) {
+func ParseTokencc(argText string) (Token, error) {
 	return &Tokencc{ /* [c] */ }, nil
 }
 
@@ -2792,7 +2836,7 @@ type Tokenc2 struct {
 	/* [c] */
 }
 
-func ParseTokenc2(args string) (Token, error) {
+func ParseTokenc2(argText string) (Token, error) {
 	return &Tokenc2{ /* [c] */ }, nil
 }
 
@@ -2826,7 +2870,7 @@ type Tokeneo struct {
 	/*  */
 }
 
-func ParseTokeneo(args string) (Token, error) {
+func ParseTokeneo(argText string) (Token, error) {
 	return &Tokeneo{ /*  */ }, nil
 }
 
@@ -2849,7 +2893,7 @@ type Tokenec struct {
 	/* [c] */
 }
 
-func ParseTokenec(args string) (Token, error) {
+func ParseTokenec(argText string) (Token, error) {
 	return &Tokenec{ /* [c] */ }, nil
 }
 
@@ -2863,7 +2907,7 @@ type Tokenecs struct {
 	/*  */
 }
 
-func ParseTokenecs(args string) (Token, error) {
+func ParseTokenecs(argText string) (Token, error) {
 	return &Tokenecs{ /*  */ }, nil
 }
 
@@ -2884,7 +2928,7 @@ type Tokenecr struct {
 	/*  */
 }
 
-func ParseTokenecr(args string) (Token, error) {
+func ParseTokenecr(argText string) (Token, error) {
 	return &Tokenecr{ /*  */ }, nil
 }
 
@@ -2898,7 +2942,7 @@ type Tokentr struct {
 	/* abcd… */
 }
 
-func ParseTokentr(args string) (Token, error) {
+func ParseTokentr(argText string) (Token, error) {
 	return &Tokentr{ /* abcd… */ }, nil
 }
 
@@ -3002,7 +3046,7 @@ type Tokentrin struct {
 	/* abcd… */
 }
 
-func ParseTokentrin(args string) (Token, error) {
+func ParseTokentrin(argText string) (Token, error) {
 	return &Tokentrin{ /* abcd… */ }, nil
 }
 
@@ -3030,7 +3074,7 @@ type Tokentrnt struct {
 	/* abcd… */
 }
 
-func ParseTokentrnt(args string) (Token, error) {
+func ParseTokentrnt(argText string) (Token, error) {
 	return &Tokentrnt{ /* abcd… */ }, nil
 }
 
@@ -3051,7 +3095,7 @@ type Tokentroff struct {
 	/*  */
 }
 
-func ParseTokentroff(args string) (Token, error) {
+func ParseTokentroff(argText string) (Token, error) {
 	return &Tokentroff{ /*  */ }, nil
 }
 
@@ -3070,7 +3114,7 @@ type Tokennroff struct {
 	/*  */
 }
 
-func ParseTokennroff(args string) (Token, error) {
+func ParseTokennroff(argText string) (Token, error) {
 	return &Tokennroff{ /*  */ }, nil
 }
 
@@ -3086,7 +3130,7 @@ type Tokenpo struct {
 	/* -offset | +offset | [offset] */
 }
 
-func ParseTokenpo(args string) (Token, error) {
+func ParseTokenpo(argText string) (Token, error) {
 	return &Tokenpo{ /* -offset | +offset | [offset] */ }, nil
 }
 
@@ -3102,7 +3146,7 @@ type Tokenin struct {
 	/* -indent | +indent | [indent] */
 }
 
-func ParseTokenin(args string) (Token, error) {
+func ParseTokenin(argText string) (Token, error) {
 	return &Tokenin{ /* -indent | +indent | [indent] */ }, nil
 }
 
@@ -3118,7 +3162,7 @@ type Tokenti struct {
 	/* -offset | +offset | offset */
 }
 
-func ParseTokenti(args string) (Token, error) {
+func ParseTokenti(argText string) (Token, error) {
 	return &Tokenti{ /* -offset | +offset | offset */ }, nil
 }
 
@@ -3134,7 +3178,7 @@ type Tokenll struct {
 	/* -length | +length | [length] */
 }
 
-func ParseTokenll(args string) (Token, error) {
+func ParseTokenll(argText string) (Token, error) {
 	return &Tokenll{ /* -length | +length | [length] */ }, nil
 }
 
@@ -3150,7 +3194,7 @@ type Tokenpl struct {
 	/* -length | +length | [length] */
 }
 
-func ParseTokenpl(args string) (Token, error) {
+func ParseTokenpl(argText string) (Token, error) {
 	return &Tokenpl{ /* -length | +length | [length] */ }, nil
 }
 
@@ -3195,7 +3239,7 @@ type Tokentl struct {
 	/* 'left'center'right' */
 }
 
-func ParseTokentl(args string) (Token, error) {
+func ParseTokentl(argText string) (Token, error) {
 	return &Tokentl{ /* 'left'center'right' */ }, nil
 }
 
@@ -3211,7 +3255,7 @@ type Tokenlt struct {
 	/* -length | +length | [length] */
 }
 
-func ParseTokenlt(args string) (Token, error) {
+func ParseTokenlt(argText string) (Token, error) {
 	return &Tokenlt{ /* -length | +length | [length] */ }, nil
 }
 
@@ -3227,7 +3271,7 @@ type Tokenpn struct {
 	/* -page | +page | page */
 }
 
-func ParseTokenpn(args string) (Token, error) {
+func ParseTokenpn(argText string) (Token, error) {
 	return &Tokenpn{ /* -page | +page | page */ }, nil
 }
 
@@ -3244,7 +3288,7 @@ type Tokenpc struct {
 	/* [char] */
 }
 
-func ParseTokenpc(args string) (Token, error) {
+func ParseTokenpc(argText string) (Token, error) {
 	return &Tokenpc{ /* [char] */ }, nil
 }
 
@@ -3260,7 +3304,7 @@ type Tokenbp struct {
 	/* -page | +page | [page] */
 }
 
-func ParseTokenbp(args string) (Token, error) {
+func ParseTokenbp(argText string) (Token, error) {
 	return &Tokenbp{ /* -page | +page | [page] */ }, nil
 }
 
@@ -3291,7 +3335,7 @@ type Tokenne struct {
 	/* [space] */
 }
 
-func ParseTokenne(args string) (Token, error) {
+func ParseTokenne(argText string) (Token, error) {
 	return &Tokenne{ /* [space] */ }, nil
 }
 
@@ -3305,7 +3349,7 @@ type Tokensv struct {
 	/* [space] */
 }
 
-func ParseTokensv(args string) (Token, error) {
+func ParseTokensv(argText string) (Token, error) {
 	return &Tokensv{ /* [space] */ }, nil
 }
 
@@ -3329,7 +3373,7 @@ type Tokenos struct {
 	/*  */
 }
 
-func ParseTokenos(args string) (Token, error) {
+func ParseTokenos(argText string) (Token, error) {
 	return &Tokenos{ /*  */ }, nil
 }
 
@@ -3358,7 +3402,7 @@ type Tokenftr struct {
 	/* f [g] */
 }
 
-func ParseTokenftr(args string) (Token, error) {
+func ParseTokenftr(argText string) (Token, error) {
 	return &Tokenftr{ /* f [g] */ }, nil
 }
 
@@ -3372,7 +3416,7 @@ type Tokenfzoom struct {
 	/* f [zoom] */
 }
 
-func ParseTokenfzoom(args string) (Token, error) {
+func ParseTokenfzoom(argText string) (Token, error) {
 	return &Tokenfzoom{ /* f [zoom] */ }, nil
 }
 
@@ -3386,7 +3430,7 @@ type Tokenfam struct {
 	/* [family] */
 }
 
-func ParseTokenfam(args string) (Token, error) {
+func ParseTokenfam(argText string) (Token, error) {
 	return &Tokenfam{ /* [family] */ }, nil
 }
 
@@ -3454,7 +3498,7 @@ type Tokensty struct {
 	/* n style */
 }
 
-func ParseTokensty(args string) (Token, error) {
+func ParseTokensty(argText string) (Token, error) {
 	return &Tokensty{ /* n style */ }, nil
 }
 
@@ -3468,7 +3512,7 @@ type Tokenfp struct {
 	/* pos font [external-name] */
 }
 
-func ParseTokenfp(args string) (Token, error) {
+func ParseTokenfp(argText string) (Token, error) {
 	return &Tokenfp{ /* pos font [external-name] */ }, nil
 }
 
@@ -3483,7 +3527,7 @@ type Tokenft struct {
 	/* nnn | [font] */
 }
 
-func ParseTokenft(args string) (Token, error) {
+func ParseTokenft(argText string) (Token, error) {
 	return &Tokenft{ /* nnn | [font] */ }, nil
 }
 
@@ -3505,7 +3549,7 @@ type Tokencomposite struct {
 	/* from to */
 }
 
-func ParseTokencomposite(args string) (Token, error) {
+func ParseTokencomposite(argText string) (Token, error) {
 	return &Tokencomposite{ /* from to */ }, nil
 }
 
@@ -3603,7 +3647,7 @@ type Tokencflags struct {
 	/* n c1 c2 … */
 }
 
-func ParseTokencflags(args string) (Token, error) {
+func ParseTokencflags(argText string) (Token, error) {
 	return &Tokencflags{ /* n c1 c2 … */ }, nil
 }
 
@@ -3617,7 +3661,7 @@ type Tokenchar struct {
 	/* g [string] */
 }
 
-func ParseTokenchar(args string) (Token, error) {
+func ParseTokenchar(argText string) (Token, error) {
 	return &Tokenchar{ /* g [string] */ }, nil
 }
 
@@ -3631,7 +3675,7 @@ type Tokenfchar struct {
 	/* g [string] */
 }
 
-func ParseTokenfchar(args string) (Token, error) {
+func ParseTokenfchar(argText string) (Token, error) {
 	return &Tokenfchar{ /* g [string] */ }, nil
 }
 
@@ -3645,7 +3689,7 @@ type Tokenfschar struct {
 	/* f g [string] */
 }
 
-func ParseTokenfschar(args string) (Token, error) {
+func ParseTokenfschar(argText string) (Token, error) {
 	return &Tokenfschar{ /* f g [string] */ }, nil
 }
 
@@ -3717,7 +3761,7 @@ type Tokenschar struct {
 	/* g [string] */
 }
 
-func ParseTokenschar(args string) (Token, error) {
+func ParseTokenschar(argText string) (Token, error) {
 	return &Tokenschar{ /* g [string] */ }, nil
 }
 
@@ -3731,7 +3775,7 @@ type Tokenrchar struct {
 	/* c1 c2 … */
 }
 
-func ParseTokenrchar(args string) (Token, error) {
+func ParseTokenrchar(argText string) (Token, error) {
 	return &Tokenrchar{ /* c1 c2 … */ }, nil
 }
 
@@ -3753,7 +3797,7 @@ type Tokenrfschar struct {
 	/* f c1 c2 … */
 }
 
-func ParseTokenrfschar(args string) (Token, error) {
+func ParseTokenrfschar(argText string) (Token, error) {
 	return &Tokenrfschar{ /* f c1 c2 … */ }, nil
 }
 
@@ -3817,7 +3861,7 @@ type Tokenclass struct {
 	/* n c1 c2 … */
 }
 
-func ParseTokenclass(args string) (Token, error) {
+func ParseTokenclass(argText string) (Token, error) {
 	return &Tokenclass{ /* n c1 c2 … */ }, nil
 }
 
@@ -3831,7 +3875,7 @@ type Tokenspecial struct {
 	/* [s1 s2 …] */
 }
 
-func ParseTokenspecial(args string) (Token, error) {
+func ParseTokenspecial(argText string) (Token, error) {
 	return &Tokenspecial{ /* [s1 s2 …] */ }, nil
 }
 
@@ -3859,7 +3903,7 @@ type Tokenfspecial struct {
 	/* f [s1 s2 …] */
 }
 
-func ParseTokenfspecial(args string) (Token, error) {
+func ParseTokenfspecial(argText string) (Token, error) {
 	return &Tokenfspecial{ /* f [s1 s2 …] */ }, nil
 }
 
@@ -3893,7 +3937,7 @@ type Tokenul struct {
 	/* [lines] */
 }
 
-func ParseTokenul(args string) (Token, error) {
+func ParseTokenul(argText string) (Token, error) {
 	return &Tokenul{ /* [lines] */ }, nil
 }
 
@@ -3909,7 +3953,7 @@ type Tokencu struct {
 	/* [lines] */
 }
 
-func ParseTokencu(args string) (Token, error) {
+func ParseTokencu(argText string) (Token, error) {
 	return &Tokencu{ /* [lines] */ }, nil
 }
 
@@ -3926,7 +3970,7 @@ type Tokenuf struct {
 	/* font */
 }
 
-func ParseTokenuf(args string) (Token, error) {
+func ParseTokenuf(argText string) (Token, error) {
 	return &Tokenuf{ /* font */ }, nil
 }
 
@@ -3941,7 +3985,7 @@ type Tokenbd struct {
 	/* font1 font2 [offset] | font [offset] */
 }
 
-func ParseTokenbd(args string) (Token, error) {
+func ParseTokenbd(argText string) (Token, error) {
 	return &Tokenbd{ /* font1 font2 [offset] | font [offset] */ }, nil
 }
 
@@ -3964,7 +4008,7 @@ type Tokencs struct {
 	/* font [width [em-size]] */
 }
 
-func ParseTokencs(args string) (Token, error) {
+func ParseTokencs(argText string) (Token, error) {
 	return &Tokencs{ /* font [width [em-size]] */ }, nil
 }
 
@@ -3978,7 +4022,7 @@ type Tokenlg struct {
 	/* [flag] */
 }
 
-func ParseTokenlg(args string) (Token, error) {
+func ParseTokenlg(argText string) (Token, error) {
 	return &Tokenlg{ /* [flag] */ }, nil
 }
 
@@ -3992,7 +4036,7 @@ type Tokenkern struct {
 	/* [flag] */
 }
 
-func ParseTokenkern(args string) (Token, error) {
+func ParseTokenkern(argText string) (Token, error) {
 	return &Tokenkern{ /* [flag] */ }, nil
 }
 
@@ -4021,7 +4065,7 @@ type Tokentkf struct {
 	/* f s1 n1 s2 n2 */
 }
 
-func ParseTokentkf(args string) (Token, error) {
+func ParseTokentkf(argText string) (Token, error) {
 	return &Tokentkf{ /* f s1 n1 s2 n2 */ }, nil
 }
 
@@ -4037,7 +4081,7 @@ type Tokenps struct {
 	/* -size | +size | [size] */
 }
 
-func ParseTokenps(args string) (Token, error) {
+func ParseTokenps(argText string) (Token, error) {
 	return &Tokenps{ /* -size | +size | [size] */ }, nil
 }
 
@@ -4064,7 +4108,7 @@ type Tokensizes struct {
 	/* s1 s2 … sn [0] */
 }
 
-func ParseTokensizes(args string) (Token, error) {
+func ParseTokensizes(argText string) (Token, error) {
 	return &Tokensizes{ /* s1 s2 … sn [0] */ }, nil
 }
 
@@ -4080,7 +4124,7 @@ type Tokenvs struct {
 	/* -space | +space | [space] */
 }
 
-func ParseTokenvs(args string) (Token, error) {
+func ParseTokenvs(argText string) (Token, error) {
 	return &Tokenvs{ /* -space | +space | [space] */ }, nil
 }
 
@@ -4096,7 +4140,7 @@ type Tokenpvs struct {
 	/* -space | +space | [space] */
 }
 
-func ParseTokenpvs(args string) (Token, error) {
+func ParseTokenpvs(argText string) (Token, error) {
 	return &Tokenpvs{ /* -space | +space | [space] */ }, nil
 }
 
@@ -4110,7 +4154,7 @@ type Tokends struct {
 	/* name [string] */
 }
 
-func ParseTokends(args string) (Token, error) {
+func ParseTokends(argText string) (Token, error) {
 	return &Tokends{ /* name [string] */ }, nil
 }
 
@@ -4124,7 +4168,7 @@ type Tokends1 struct {
 	/* name [string] */
 }
 
-func ParseTokends1(args string) (Token, error) {
+func ParseTokends1(argText string) (Token, error) {
 	return &Tokends1{ /* name [string] */ }, nil
 }
 
@@ -4138,7 +4182,7 @@ type Tokenas struct {
 	/* name [string] */
 }
 
-func ParseTokenas(args string) (Token, error) {
+func ParseTokenas(argText string) (Token, error) {
 	return &Tokenas{ /* name [string] */ }, nil
 }
 
@@ -4163,7 +4207,7 @@ type Tokenas1 struct {
 	/* name [string] */
 }
 
-func ParseTokenas1(args string) (Token, error) {
+func ParseTokenas1(argText string) (Token, error) {
 	return &Tokenas1{ /* name [string] */ }, nil
 }
 
@@ -4195,7 +4239,7 @@ type Tokensubstring struct {
 	/* str n1 [n2] */
 }
 
-func ParseTokensubstring(args string) (Token, error) {
+func ParseTokensubstring(argText string) (Token, error) {
 	return &Tokensubstring{ /* str n1 [n2] */ }, nil
 }
 
@@ -4218,7 +4262,7 @@ type Tokenlength struct {
 	/* reg str */
 }
 
-func ParseTokenlength(args string) (Token, error) {
+func ParseTokenlength(argText string) (Token, error) {
 	return &Tokenlength{ /* reg str */ }, nil
 }
 
@@ -4233,7 +4277,7 @@ type Tokenrn struct {
 	/* xx yy */
 }
 
-func ParseTokenrn(args string) (Token, error) {
+func ParseTokenrn(argText string) (Token, error) {
 	return &Tokenrn{ /* xx yy */ }, nil
 }
 
@@ -4249,7 +4293,7 @@ type Tokenrm struct {
 	/* xx */
 }
 
-func ParseTokenrm(args string) (Token, error) {
+func ParseTokenrm(argText string) (Token, error) {
 	return &Tokenrm{ /* xx */ }, nil
 }
 
@@ -4300,7 +4344,7 @@ type Tokenals struct {
 	/* new old */
 }
 
-func ParseTokenals(args string) (Token, error) {
+func ParseTokenals(argText string) (Token, error) {
 	return &Tokenals{ /* new old */ }, nil
 }
 
@@ -4319,7 +4363,7 @@ type Tokenchop struct {
 	/* xx */
 }
 
-func ParseTokenchop(args string) (Token, error) {
+func ParseTokenchop(argText string) (Token, error) {
 	return &Tokenchop{ /* xx */ }, nil
 }
 
@@ -4344,7 +4388,7 @@ type Tokenif struct {
 	/* expr anything */
 }
 
-func ParseTokenif(args string) (Token, error) {
+func ParseTokenif(argText string) (Token, error) {
 	return &Tokenif{ /* expr anything */ }, nil
 }
 
@@ -4359,7 +4403,7 @@ type Tokennop struct {
 	/* anything */
 }
 
-func ParseTokennop(args string) (Token, error) {
+func ParseTokennop(argText string) (Token, error) {
 	return &Tokennop{ /* anything */ }, nil
 }
 
@@ -4373,7 +4417,7 @@ type Tokenie struct {
 	/* expr anything */
 }
 
-func ParseTokenie(args string) (Token, error) {
+func ParseTokenie(argText string) (Token, error) {
 	return &Tokenie{ /* expr anything */ }, nil
 }
 
@@ -4392,7 +4436,7 @@ type Tokenel struct {
 	/* anything */
 }
 
-func ParseTokenel(args string) (Token, error) {
+func ParseTokenel(argText string) (Token, error) {
 	return &Tokenel{ /* anything */ }, nil
 }
 
@@ -4465,7 +4509,7 @@ type Tokenwhile struct {
 	/* expr anything */
 }
 
-func ParseTokenwhile(args string) (Token, error) {
+func ParseTokenwhile(argText string) (Token, error) {
 	return &Tokenwhile{ /* expr anything */ }, nil
 }
 
@@ -4481,7 +4525,7 @@ type Tokenbreak struct {
 	/*  */
 }
 
-func ParseTokenbreak(args string) (Token, error) {
+func ParseTokenbreak(argText string) (Token, error) {
 	return &Tokenbreak{ /*  */ }, nil
 }
 
@@ -4497,7 +4541,7 @@ type Tokencontinue struct {
 	/*  */
 }
 
-func ParseTokencontinue(args string) (Token, error) {
+func ParseTokencontinue(argText string) (Token, error) {
 	return &Tokencontinue{ /*  */ }, nil
 }
 
@@ -4511,7 +4555,7 @@ type Tokende struct {
 	/* name [end] */
 }
 
-func ParseTokende(args string) (Token, error) {
+func ParseTokende(argText string) (Token, error) {
 	return &Tokende{ /* name [end] */ }, nil
 }
 
@@ -4525,7 +4569,7 @@ type Tokende1 struct {
 	/* name [end] */
 }
 
-func ParseTokende1(args string) (Token, error) {
+func ParseTokende1(argText string) (Token, error) {
 	return &Tokende1{ /* name [end] */ }, nil
 }
 
@@ -4539,7 +4583,7 @@ type Tokendei struct {
 	/* name [end] */
 }
 
-func ParseTokendei(args string) (Token, error) {
+func ParseTokendei(argText string) (Token, error) {
 	return &Tokendei{ /* name [end] */ }, nil
 }
 
@@ -4650,7 +4694,7 @@ type Tokendei1 struct {
 	/* name [end] */
 }
 
-func ParseTokendei1(args string) (Token, error) {
+func ParseTokendei1(argText string) (Token, error) {
 	return &Tokendei1{ /* name [end] */ }, nil
 }
 
@@ -4664,7 +4708,7 @@ type Tokenam struct {
 	/* name [end] */
 }
 
-func ParseTokenam(args string) (Token, error) {
+func ParseTokenam(argText string) (Token, error) {
 	return &Tokenam{ /* name [end] */ }, nil
 }
 
@@ -4678,7 +4722,7 @@ type Tokenam1 struct {
 	/* name [end] */
 }
 
-func ParseTokenam1(args string) (Token, error) {
+func ParseTokenam1(argText string) (Token, error) {
 	return &Tokenam1{ /* name [end] */ }, nil
 }
 
@@ -4692,7 +4736,7 @@ type Tokenami struct {
 	/* name [end] */
 }
 
-func ParseTokenami(args string) (Token, error) {
+func ParseTokenami(argText string) (Token, error) {
 	return &Tokenami{ /* name [end] */ }, nil
 }
 
@@ -4729,7 +4773,7 @@ type Tokenami1 struct {
 	/* name [end] */
 }
 
-func ParseTokenami1(args string) (Token, error) {
+func ParseTokenami1(argText string) (Token, error) {
 	return &Tokenami1{ /* name [end] */ }, nil
 }
 
@@ -4748,7 +4792,7 @@ type Tokenreturn struct {
 	/* [anything] */
 }
 
-func ParseTokenreturn(args string) (Token, error) {
+func ParseTokenreturn(argText string) (Token, error) {
 	return &Tokenreturn{ /* [anything] */ }, nil
 }
 
@@ -4769,7 +4813,7 @@ type Tokenshift struct {
 	/* [n] */
 }
 
-func ParseTokenshift(args string) (Token, error) {
+func ParseTokenshift(argText string) (Token, error) {
 	return &Tokenshift{ /* [n] */ }, nil
 }
 
@@ -4783,7 +4827,7 @@ type Tokenmk struct {
 	/* [reg] */
 }
 
-func ParseTokenmk(args string) (Token, error) {
+func ParseTokenmk(argText string) (Token, error) {
 	return &Tokenmk{ /* [reg] */ }, nil
 }
 
@@ -4866,7 +4910,7 @@ type Tokenrt struct {
 	/* [dist] */
 }
 
-func ParseTokenrt(args string) (Token, error) {
+func ParseTokenrt(argText string) (Token, error) {
 	return &Tokenrt{ /* [dist] */ }, nil
 }
 
@@ -4880,7 +4924,7 @@ type Tokenvpt struct {
 	/* flag */
 }
 
-func ParseTokenvpt(args string) (Token, error) {
+func ParseTokenvpt(argText string) (Token, error) {
 	return &Tokenvpt{ /* flag */ }, nil
 }
 
@@ -4973,7 +5017,7 @@ type Tokenwh struct {
 	/* dist [macro] */
 }
 
-func ParseTokenwh(args string) (Token, error) {
+func ParseTokenwh(argText string) (Token, error) {
 	return &Tokenwh{ /* dist [macro] */ }, nil
 }
 
@@ -4996,7 +5040,7 @@ type Tokench struct {
 	/* macro [dist] */
 }
 
-func ParseTokench(args string) (Token, error) {
+func ParseTokench(argText string) (Token, error) {
 	return &Tokench{ /* macro [dist] */ }, nil
 }
 
@@ -5019,7 +5063,7 @@ type Tokendt struct {
 	/* [dist macro] */
 }
 
-func ParseTokendt(args string) (Token, error) {
+func ParseTokendt(argText string) (Token, error) {
 	return &Tokendt{ /* [dist macro] */ }, nil
 }
 
@@ -5033,7 +5077,7 @@ type Tokenit struct {
 	/* n macro */
 }
 
-func ParseTokenit(args string) (Token, error) {
+func ParseTokenit(argText string) (Token, error) {
 	return &Tokenit{ /* n macro */ }, nil
 }
 
@@ -5070,7 +5114,7 @@ type Tokenitc struct {
 	/* n macro */
 }
 
-func ParseTokenitc(args string) (Token, error) {
+func ParseTokenitc(argText string) (Token, error) {
 	return &Tokenitc{ /* n macro */ }, nil
 }
 
@@ -5086,7 +5130,7 @@ type Tokenblm struct {
 	/* macro */
 }
 
-func ParseTokenblm(args string) (Token, error) {
+func ParseTokenblm(argText string) (Token, error) {
 	return &Tokenblm{ /* macro */ }, nil
 }
 
@@ -5100,7 +5144,7 @@ type Tokenlsm struct {
 	/* macro */
 }
 
-func ParseTokenlsm(args string) (Token, error) {
+func ParseTokenlsm(argText string) (Token, error) {
 	return &Tokenlsm{ /* macro */ }, nil
 }
 
@@ -5207,7 +5251,7 @@ type Tokenem struct {
 	/* macro */
 }
 
-func ParseTokenem(args string) (Token, error) {
+func ParseTokenem(argText string) (Token, error) {
 	return &Tokenem{ /* macro */ }, nil
 }
 
@@ -5221,7 +5265,7 @@ type Tokendi struct {
 	/* macro */
 }
 
-func ParseTokendi(args string) (Token, error) {
+func ParseTokendi(argText string) (Token, error) {
 	return &Tokendi{ /* macro */ }, nil
 }
 
@@ -5245,7 +5289,7 @@ type Tokenda struct {
 	/* macro */
 }
 
-func ParseTokenda(args string) (Token, error) {
+func ParseTokenda(argText string) (Token, error) {
 	return &Tokenda{ /* macro */ }, nil
 }
 
@@ -5259,7 +5303,7 @@ type Tokenbox struct {
 	/* macro */
 }
 
-func ParseTokenbox(args string) (Token, error) {
+func ParseTokenbox(argText string) (Token, error) {
 	return &Tokenbox{ /* macro */ }, nil
 }
 
@@ -5310,7 +5354,7 @@ type Tokenboxa struct {
 	/* macro */
 }
 
-func ParseTokenboxa(args string) (Token, error) {
+func ParseTokenboxa(argText string) (Token, error) {
 	return &Tokenboxa{ /* macro */ }, nil
 }
 
@@ -5337,7 +5381,7 @@ type Tokenoutput struct {
 	/* string */
 }
 
-func ParseTokenoutput(args string) (Token, error) {
+func ParseTokenoutput(argText string) (Token, error) {
 	return &Tokenoutput{ /* string */ }, nil
 }
 
@@ -5372,7 +5416,7 @@ type Tokenasciify struct {
 	/* div */
 }
 
-func ParseTokenasciify(args string) (Token, error) {
+func ParseTokenasciify(argText string) (Token, error) {
 	return &Tokenasciify{ /* div */ }, nil
 }
 
@@ -5393,7 +5437,7 @@ type Tokenunformat struct {
 	/* div */
 }
 
-func ParseTokenunformat(args string) (Token, error) {
+func ParseTokenunformat(argText string) (Token, error) {
 	return &Tokenunformat{ /* div */ }, nil
 }
 
@@ -5407,7 +5451,7 @@ type Tokenev struct {
 	/* [env] */
 }
 
-func ParseTokenev(args string) (Token, error) {
+func ParseTokenev(argText string) (Token, error) {
 	return &Tokenev{ /* [env] */ }, nil
 }
 
@@ -5440,7 +5484,7 @@ type Tokenevc struct {
 	/* env */
 }
 
-func ParseTokenevc(args string) (Token, error) {
+func ParseTokenevc(argText string) (Token, error) {
 	return &Tokenevc{ /* env */ }, nil
 }
 
@@ -5454,7 +5498,7 @@ type Tokencolor struct {
 	/* [n] */
 }
 
-func ParseTokencolor(args string) (Token, error) {
+func ParseTokencolor(argText string) (Token, error) {
 	return &Tokencolor{ /* [n] */ }, nil
 }
 
@@ -5493,7 +5537,7 @@ type Tokendefcolor struct {
 	/* ident scheme color_components */
 }
 
-func ParseTokendefcolor(args string) (Token, error) {
+func ParseTokendefcolor(argText string) (Token, error) {
 	return &Tokendefcolor{ /* ident scheme color_components */ }, nil
 }
 
@@ -5507,7 +5551,7 @@ type Tokengcolor struct {
 	/* [color] */
 }
 
-func ParseTokengcolor(args string) (Token, error) {
+func ParseTokengcolor(argText string) (Token, error) {
 	return &Tokengcolor{ /* [color] */ }, nil
 }
 
@@ -5521,7 +5565,7 @@ type Tokenfcolor struct {
 	/* [color] */
 }
 
-func ParseTokenfcolor(args string) (Token, error) {
+func ParseTokenfcolor(argText string) (Token, error) {
 	return &Tokenfcolor{ /* [color] */ }, nil
 }
 
@@ -5553,7 +5597,7 @@ type Tokenso struct {
 	/* file */
 }
 
-func ParseTokenso(args string) (Token, error) {
+func ParseTokenso(argText string) (Token, error) {
 	return &Tokenso{ /* file */ }, nil
 }
 
@@ -5576,7 +5620,7 @@ type Tokenpso struct {
 	/* command */
 }
 
-func ParseTokenpso(args string) (Token, error) {
+func ParseTokenpso(argText string) (Token, error) {
 	return &Tokenpso{ /* command */ }, nil
 }
 
@@ -5598,7 +5642,7 @@ type Tokenmso struct {
 	/* file */
 }
 
-func ParseTokenmso(args string) (Token, error) {
+func ParseTokenmso(argText string) (Token, error) {
 	return &Tokenmso{ /* file */ }, nil
 }
 
@@ -5612,7 +5656,7 @@ type Tokentrf struct {
 	/* file */
 }
 
-func ParseTokentrf(args string) (Token, error) {
+func ParseTokentrf(argText string) (Token, error) {
 	return &Tokentrf{ /* file */ }, nil
 }
 
@@ -5659,7 +5703,7 @@ type Tokencf struct {
 	/* file */
 }
 
-func ParseTokencf(args string) (Token, error) {
+func ParseTokencf(argText string) (Token, error) {
 	return &Tokencf{ /* file */ }, nil
 }
 
@@ -5675,7 +5719,7 @@ type Tokennx struct {
 	/* [file] */
 }
 
-func ParseTokennx(args string) (Token, error) {
+func ParseTokennx(argText string) (Token, error) {
 	return &Tokennx{ /* [file] */ }, nil
 }
 
@@ -5704,7 +5748,7 @@ type Tokenrd struct {
 	/* [prompt [arg1 arg2 …]] */
 }
 
-func ParseTokenrd(args string) (Token, error) {
+func ParseTokenrd(argText string) (Token, error) {
 	return &Tokenrd{ /* [prompt [arg1 arg2 …]] */ }, nil
 }
 
@@ -5738,7 +5782,7 @@ type Tokenpi struct {
 	/* pipe */
 }
 
-func ParseTokenpi(args string) (Token, error) {
+func ParseTokenpi(argText string) (Token, error) {
 	return &Tokenpi{ /* pipe */ }, nil
 }
 
@@ -5752,7 +5796,7 @@ type Tokensy struct {
 	/* cmds */
 }
 
-func ParseTokensy(args string) (Token, error) {
+func ParseTokensy(argText string) (Token, error) {
 	return &Tokensy{ /* cmds */ }, nil
 }
 
@@ -5766,7 +5810,7 @@ type Tokenopen struct {
 	/* stream file */
 }
 
-func ParseTokenopen(args string) (Token, error) {
+func ParseTokenopen(argText string) (Token, error) {
 	return &Tokenopen{ /* stream file */ }, nil
 }
 
@@ -5789,7 +5833,7 @@ type Tokenopena struct {
 	/* stream file */
 }
 
-func ParseTokenopena(args string) (Token, error) {
+func ParseTokenopena(argText string) (Token, error) {
 	return &Tokenopena{ /* stream file */ }, nil
 }
 
@@ -5803,7 +5847,7 @@ type Tokenwrite struct {
 	/* stream data */
 }
 
-func ParseTokenwrite(args string) (Token, error) {
+func ParseTokenwrite(argText string) (Token, error) {
 	return &Tokenwrite{ /* stream data */ }, nil
 }
 
@@ -5825,7 +5869,7 @@ type Tokenwritec struct {
 	/* stream data */
 }
 
-func ParseTokenwritec(args string) (Token, error) {
+func ParseTokenwritec(argText string) (Token, error) {
 	return &Tokenwritec{ /* stream data */ }, nil
 }
 
@@ -5846,7 +5890,7 @@ type Tokenwritem struct {
 	/* stream xx */
 }
 
-func ParseTokenwritem(args string) (Token, error) {
+func ParseTokenwritem(argText string) (Token, error) {
 	return &Tokenwritem{ /* stream xx */ }, nil
 }
 
@@ -5874,7 +5918,7 @@ type Tokenclose struct {
 	/* stream */
 }
 
-func ParseTokenclose(args string) (Token, error) {
+func ParseTokenclose(argText string) (Token, error) {
 	return &Tokenclose{ /* stream */ }, nil
 }
 
@@ -5888,7 +5932,7 @@ type Tokendevice struct {
 	/* xxx */
 }
 
-func ParseTokendevice(args string) (Token, error) {
+func ParseTokendevice(argText string) (Token, error) {
 	return &Tokendevice{ /* xxx */ }, nil
 }
 
@@ -5902,7 +5946,7 @@ type Tokendevicem struct {
 	/* xx */
 }
 
-func ParseTokendevicem(args string) (Token, error) {
+func ParseTokendevicem(argText string) (Token, error) {
 	return &Tokendevicem{ /* xx */ }, nil
 }
 
@@ -5977,7 +6021,7 @@ type Tokennm struct {
 	/* [start [inc [space [indent]]]] */
 }
 
-func ParseTokennm(args string) (Token, error) {
+func ParseTokennm(argText string) (Token, error) {
 	return &Tokennm{ /* [start [inc [space [indent]]]] */ }, nil
 }
 
@@ -5993,7 +6037,7 @@ type Tokennn struct {
 	/* [skip] */
 }
 
-func ParseTokennn(args string) (Token, error) {
+func ParseTokennn(argText string) (Token, error) {
 	return &Tokennn{ /* [skip] */ }, nil
 }
 
@@ -6066,7 +6110,7 @@ type Tokenmc struct {
 	/* glyph [dist] */
 }
 
-func ParseTokenmc(args string) (Token, error) {
+func ParseTokenmc(argText string) (Token, error) {
 	return &Tokenmc{ /* glyph [dist] */ }, nil
 }
 
@@ -6080,7 +6124,7 @@ type Tokenpsbb struct {
 	/* filename */
 }
 
-func ParseTokenpsbb(args string) (Token, error) {
+func ParseTokenpsbb(argText string) (Token, error) {
 	return &Tokenpsbb{ /* filename */ }, nil
 }
 
@@ -6107,7 +6151,7 @@ type Tokenlf struct {
 	/* line [filename] */
 }
 
-func ParseTokenlf(args string) (Token, error) {
+func ParseTokenlf(argText string) (Token, error) {
 	return &Tokenlf{ /* line [filename] */ }, nil
 }
 
@@ -6121,7 +6165,7 @@ type Tokentm struct {
 	/* string */
 }
 
-func ParseTokentm(args string) (Token, error) {
+func ParseTokentm(argText string) (Token, error) {
 	return &Tokentm{ /* string */ }, nil
 }
 
@@ -6135,7 +6179,7 @@ type Tokentm1 struct {
 	/* string */
 }
 
-func ParseTokentm1(args string) (Token, error) {
+func ParseTokentm1(argText string) (Token, error) {
 	return &Tokentm1{ /* string */ }, nil
 }
 
@@ -6160,7 +6204,7 @@ type Tokentmc struct {
 	/* string */
 }
 
-func ParseTokentmc(args string) (Token, error) {
+func ParseTokentmc(argText string) (Token, error) {
 	return &Tokentmc{ /* string */ }, nil
 }
 
@@ -6177,7 +6221,7 @@ type Tokenab struct {
 	/* [string] */
 }
 
-func ParseTokenab(args string) (Token, error) {
+func ParseTokenab(argText string) (Token, error) {
 	return &Tokenab{ /* [string] */ }, nil
 }
 
@@ -6193,7 +6237,7 @@ type Tokenex struct {
 	/*  */
 }
 
-func ParseTokenex(args string) (Token, error) {
+func ParseTokenex(argText string) (Token, error) {
 	return &Tokenex{ /*  */ }, nil
 }
 
@@ -6209,7 +6253,7 @@ type Tokenpev struct {
 	/*  */
 }
 
-func ParseTokenpev(args string) (Token, error) {
+func ParseTokenpev(argText string) (Token, error) {
 	return &Tokenpev{ /*  */ }, nil
 }
 
@@ -6232,7 +6276,7 @@ type Tokenpm struct {
 	/*  */
 }
 
-func ParseTokenpm(args string) (Token, error) {
+func ParseTokenpm(argText string) (Token, error) {
 	return &Tokenpm{ /*  */ }, nil
 }
 
@@ -6248,7 +6292,7 @@ type Tokenpnr struct {
 	/*  */
 }
 
-func ParseTokenpnr(args string) (Token, error) {
+func ParseTokenpnr(argText string) (Token, error) {
 	return &Tokenpnr{ /*  */ }, nil
 }
 
@@ -6266,7 +6310,7 @@ type Tokenptr struct {
 	/*  */
 }
 
-func ParseTokenptr(args string) (Token, error) {
+func ParseTokenptr(argText string) (Token, error) {
 	return &Tokenptr{ /*  */ }, nil
 }
 
@@ -6287,7 +6331,7 @@ type Tokenfl struct {
 	/*  */
 }
 
-func ParseTokenfl(args string) (Token, error) {
+func ParseTokenfl(argText string) (Token, error) {
 	return &Tokenfl{ /*  */ }, nil
 }
 
@@ -6322,7 +6366,7 @@ type Tokenbacktrace struct {
 	/*  */
 }
 
-func ParseTokenbacktrace(args string) (Token, error) {
+func ParseTokenbacktrace(argText string) (Token, error) {
 	return &Tokenbacktrace{ /*  */ }, nil
 }
 
@@ -6339,7 +6383,7 @@ type Tokenwarnscale struct {
 	/* si */
 }
 
-func ParseTokenwarnscale(args string) (Token, error) {
+func ParseTokenwarnscale(argText string) (Token, error) {
 	return &Tokenwarnscale{ /* si */ }, nil
 }
 
@@ -6369,7 +6413,7 @@ type Tokenspreadwarn struct {
 	/* [limit] */
 }
 
-func ParseTokenspreadwarn(args string) (Token, error) {
+func ParseTokenspreadwarn(argText string) (Token, error) {
 	return &Tokenspreadwarn{ /* [limit] */ }, nil
 }
 
@@ -6383,7 +6427,7 @@ type Tokenwarn struct {
 	/* [flags] */
 }
 
-func ParseTokenwarn(args string) (Token, error) {
+func ParseTokenwarn(argText string) (Token, error) {
 	return &Tokenwarn{ /* [flags] */ }, nil
 }
 
@@ -6397,7 +6441,7 @@ type Tokencp struct {
 	/* [n] */
 }
 
-func ParseTokencp(args string) (Token, error) {
+func ParseTokencp(argText string) (Token, error) {
 	return &Tokencp{ /* [n] */ }, nil
 }
 
@@ -6411,7 +6455,7 @@ type Tokendo struct {
 	/* cmd */
 }
 
-func ParseTokendo(args string) (Token, error) {
+func ParseTokendo(argText string) (Token, error) {
 	return &Tokendo{ /* cmd */ }, nil
 }
 
