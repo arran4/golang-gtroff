@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"regexp"
 	"strings"
 	"text/template"
 )
@@ -21,6 +22,11 @@ var (
 	outParselineLoc = flag.String("parselineloc", "parseline.go", "Output file for parse line")
 )
 
+type ArgStruct struct {
+	Name     string
+	Optional bool
+}
+
 type Macro struct {
 	Type  string
 	Token string
@@ -31,17 +37,43 @@ func (m *Macro) IsMacro() bool {
 	return m.Type == "Macro"
 }
 
-func (m *Macro) MacroGoTokenName() string {
-	return strings.TrimPrefix(m.Token, ".")
+func (m *Macro) ArgStruct() (result []*ArgStruct) {
+	// TODO
+	return
+}
+
+var (
+	GoTokenSearch = regexp.MustCompile("[[\\]]")
+)
+
+func (m *Macro) GoTokenName() string {
+	t := m.Token
+	t = GoTokenSearch.ReplaceAllStringFunc(t, func(s string) string {
+		switch s {
+		case "[":
+			return "SquareBracketOpen"
+		case "]":
+			return "SquareBracketClose"
+		default:
+			return s
+		}
+	})
+	switch m.Type {
+	case "Macro":
+		return strings.TrimPrefix(t, ".")
+	default:
+		return t
+	}
 }
 
 func (m *Macro) StructName() string {
-	return fmt.Sprintf("Token%s%s", m.Type, m.MacroGoTokenName())
+	return fmt.Sprintf("Token%s%s", m.Type, m.GoTokenName())
 }
 
 type FlatMacro struct {
 	*Macro
 	*MacroContainer
+	Grouped []*FlatMacro
 }
 
 type MacroContainer struct {
@@ -76,13 +108,48 @@ func (m Macros) FilterToJustMacros() (result Macros) {
 	return
 }
 
-func (m Macros) Flatten() (result []*FlatMacro) {
+func (m Macros) Flatten() (result FlatMacros) {
 	for _, emc := range m {
 		for _, em := range emc.Contents {
-			result = append(result, &FlatMacro{
+			fm := &FlatMacro{
 				Macro:          em,
 				MacroContainer: emc,
-			})
+				Grouped:        []*FlatMacro{},
+			}
+			fm.Grouped = append(fm.Grouped, fm)
+			result = append(result, fm)
+		}
+	}
+	return
+}
+
+type FlatMacros []*FlatMacro
+
+func (fm FlatMacros) DescriptionCommented() string {
+	if len(fm.Description()) == 0 {
+		return ""
+	}
+	return "// " + strings.Join(strings.Split(fm.Description(), "\n"), "\n// ")
+}
+
+func (fm FlatMacros) Description() (result string) {
+	for i, em := range fm {
+		if i > 0 {
+			result += "\n"
+		}
+		result += em.Description
+	}
+	return
+}
+
+func (fm FlatMacros) MergeDuplicates() (result FlatMacros) {
+	seen := map[string]int{}
+	for _, em := range fm {
+		if p, ok := seen[em.Token]; ok {
+			result[p].Grouped = append(result[p].Grouped, em)
+		} else {
+			seen[em.Token] = len(result)
+			result = append(result, em)
 		}
 	}
 	return
@@ -97,7 +164,7 @@ func main() {
 	}
 	templates := template.Must(template.ParseFS(goTemplates, "*.template"))
 	GenerateFile(templates, macros, "parseline.go.template", *outParselineLoc)
-	GenerateFile(templates, macros.FilterToJustMacros().Flatten(), "macros.go.template", *outMacrosLoc)
+	GenerateFile(templates, macros.FilterToJustMacros().Flatten().MergeDuplicates(), "macros.go.template", *outMacrosLoc)
 }
 
 func GenerateFile(templates *template.Template, data any, templateFilename, outputFilename string) {

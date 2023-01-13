@@ -5,8 +5,9 @@ import (
 	"strconv"
 )
 
-{{range $i, $e := $$}}
-{{$e.DescriptionCommented -}}
+{{range $i, $e := $}}
+// {{$e.StructName}}
+{{$e.DescriptionCommented}}
 type {{$e.StructName}} struct {
 {{range $argi, $arg := $e.ArgStruct}}
 {{if $arg.Comment}}
