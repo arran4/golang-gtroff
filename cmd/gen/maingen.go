@@ -13,7 +13,7 @@ import (
 var (
 	//go:embed "in.json"
 	inJson []byte
-	//go:embed "templates/"
+	//go:embed "*.template"
 	goTemplates     embed.FS
 	outMacrosLoc    = flag.String("macrosloc", "../../macros.go", "Output file for macros")
 	outParselineLoc = flag.String("parselineloc", "../../parseline.go", "Output file for parse line")
@@ -39,12 +39,12 @@ func main() {
 	if err := json.Unmarshal(inJson, &macros); err != nil {
 		log.Panic(err)
 	}
-	templates := template.Must(template.ParseFS(goTemplates))
+	templates := template.Must(template.ParseFS(goTemplates, "*.template"))
 	GenerateFile(templates, macros, "parseline.go.template", *outParselineLoc)
 	//GenerateFile(templates, macros, "macros.go.template", *outMacrosLoc)
 }
 
-func GenerateFile(templates *template.Template, macros *Macros, templateFilename, outputFilename string) {
+func GenerateFile(templates *template.Template, data any, templateFilename, outputFilename string) {
 	f, err := os.Create(outputFilename)
 	if err != nil {
 		log.Panic(err)
@@ -54,7 +54,7 @@ func GenerateFile(templates *template.Template, macros *Macros, templateFilename
 			log.Panic(err)
 		}
 	}()
-	if err := templates.ExecuteTemplate(f, templateFilename, macros); err != nil {
+	if err := templates.ExecuteTemplate(f, templateFilename, data); err != nil {
 		log.Panic(err)
 	}
 }
