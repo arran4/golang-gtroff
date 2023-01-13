@@ -27,7 +27,7 @@ import (
 // man pages; a single man page should contain exactly one TH macro
 // at the beginning of the file.
 type TokenTH struct {
-	title   string
+	Title   string
 	section int
 	extra1  string
 	extra2  string
@@ -65,7 +65,7 @@ func ParseTokenTH(argText string) (Token, error) {
 		extra3 = args[4]
 	}
 	return &TokenTH{
-		title:   title,
+		Title:   title,
 		section: section,
 		extra1:  extra1,
 		extra2:  extra2,
@@ -74,7 +74,7 @@ func ParseTokenTH(argText string) (Token, error) {
 }
 
 func (t *TokenTH) String() string {
-	return ".TH" /* title section [extra1 [extra2 [extra3]]] */
+	return ".TH" /* TODO title section [extra1 [extra2 [extra3]]] */
 }
 
 var _ Token = (*TokenTH)(nil)
@@ -90,11 +90,11 @@ type TokenSS struct {
 }
 
 func ParseTokenSS(argText string) (Token, error) {
-	return &TokenSS{ /* [heading] */ }, nil
+	return &TokenSS{ /* TODO [heading] */ }, nil
 }
 
 func (t *TokenSS) String() string {
-	return ".SS" /* [heading] */
+	return ".SS" /* TODO [heading] */
 }
 
 var _ Token = (*TokenSS)(nil)
@@ -121,11 +121,11 @@ type TokenTP struct {
 }
 
 func ParseTokenTP(argText string) (Token, error) {
-	return &TokenTP{ /* [nnn] */ }, nil
+	return &TokenTP{ /* TODO [nnn] */ }, nil
 }
 
 func (t *TokenTP) String() string {
-	return ".TP" /* [nnn] */
+	return ".TP" /* TODO [nnn] */
 }
 
 var _ Token = (*TokenTP)(nil)
@@ -141,11 +141,11 @@ type TokenP struct {
 }
 
 func ParseTokenP(argText string) (Token, error) {
-	return &TokenP{ /*  */ }, nil
+	return &TokenP{ /* TODO  */ }, nil
 }
 
 func (t *TokenP) String() string {
-	return ".P" /*  */
+	return ".P" /* TODO  */
 }
 
 var _ Token = (*TokenP)(nil)
@@ -161,11 +161,11 @@ type TokenHP struct {
 }
 
 func ParseTokenHP(argText string) (Token, error) {
-	return &TokenHP{ /* [nnn] */ }, nil
+	return &TokenHP{ /* TODO [nnn] */ }, nil
 }
 
 func (t *TokenHP) String() string {
-	return ".HP" /* [nnn] */
+	return ".HP" /* TODO [nnn] */
 }
 
 var _ Token = (*TokenHP)(nil)
@@ -177,11 +177,11 @@ type TokenSB struct {
 }
 
 func ParseTokenSB(argText string) (Token, error) {
-	return &TokenSB{ /* [text] */ }, nil
+	return &TokenSB{ /* TODO [text] */ }, nil
 }
 
 func (t *TokenSB) String() string {
-	return ".SB" /* [text] */
+	return ".SB" /* TODO [text] */
 }
 
 var _ Token = (*TokenSB)(nil)
@@ -193,11 +193,11 @@ type TokenIB struct {
 }
 
 func ParseTokenIB(argText string) (Token, error) {
-	return &TokenIB{ /* text */ }, nil
+	return &TokenIB{ /* TODO text */ }, nil
 }
 
 func (t *TokenIB) String() string {
-	return ".IB" /* text */
+	return ".IB" /* TODO text */
 }
 
 var _ Token = (*TokenIB)(nil)
@@ -209,11 +209,11 @@ type TokenRI struct {
 }
 
 func ParseTokenRI(argText string) (Token, error) {
-	return &TokenRI{ /* text */ }, nil
+	return &TokenRI{ /* TODO text */ }, nil
 }
 
 func (t *TokenRI) String() string {
-	return ".RI" /* text */
+	return ".RI" /* TODO text */
 }
 
 var _ Token = (*TokenRI)(nil)
@@ -225,11 +225,11 @@ type TokenIR struct {
 }
 
 func ParseTokenIR(argText string) (Token, error) {
-	return &TokenIR{ /* text */ }, nil
+	return &TokenIR{ /* TODO text */ }, nil
 }
 
 func (t *TokenIR) String() string {
-	return ".IR" /* text */
+	return ".IR" /* TODO text */
 }
 
 var _ Token = (*TokenIR)(nil)
@@ -241,11 +241,11 @@ type TokenBR struct {
 }
 
 func ParseTokenBR(argText string) (Token, error) {
-	return &TokenBR{ /* text */ }, nil
+	return &TokenBR{ /* TODO text */ }, nil
 }
 
 func (t *TokenBR) String() string {
-	return ".BR" /* text */
+	return ".BR" /* TODO text */
 }
 
 var _ Token = (*TokenBR)(nil)
@@ -257,11 +257,11 @@ type TokenRB struct {
 }
 
 func ParseTokenRB(argText string) (Token, error) {
-	return &TokenRB{ /* text */ }, nil
+	return &TokenRB{ /* TODO text */ }, nil
 }
 
 func (t *TokenRB) String() string {
-	return ".RB" /* text */
+	return ".RB" /* TODO text */
 }
 
 var _ Token = (*TokenRB)(nil)
@@ -274,11 +274,11 @@ type TokenDT struct {
 }
 
 func ParseTokenDT(argText string) (Token, error) {
-	return &TokenDT{ /*  */ }, nil
+	return &TokenDT{ /* TODO  */ }, nil
 }
 
 func (t *TokenDT) String() string {
-	return ".DT" /*  */
+	return ".DT" /* TODO  */
 }
 
 var _ Token = (*TokenDT)(nil)
@@ -295,11 +295,11 @@ type TokenPD struct {
 }
 
 func ParseTokenPD(argText string) (Token, error) {
-	return &TokenPD{ /* [nnn] */ }, nil
+	return &TokenPD{ /* TODO [nnn] */ }, nil
 }
 
 func (t *TokenPD) String() string {
-	return ".PD" /* [nnn] */
+	return ".PD" /* TODO [nnn] */
 }
 
 var _ Token = (*TokenPD)(nil)
@@ -324,11 +324,11 @@ type TokenAT struct {
 }
 
 func ParseTokenAT(argText string) (Token, error) {
-	return &TokenAT{ /* [system [release]] */ }, nil
+	return &TokenAT{ /* TODO [system [release]] */ }, nil
 }
 
 func (t *TokenAT) String() string {
-	return ".AT" /* [system [release]] */
+	return ".AT" /* TODO [system [release]] */
 }
 
 var _ Token = (*TokenAT)(nil)
@@ -355,11 +355,11 @@ type TokenUC struct {
 }
 
 func ParseTokenUC(argText string) (Token, error) {
-	return &TokenUC{ /* [version] */ }, nil
+	return &TokenUC{ /* TODO [version] */ }, nil
 }
 
 func (t *TokenUC) String() string {
-	return ".UC" /* [version] */
+	return ".UC" /* TODO [version] */
 }
 
 var _ Token = (*TokenUC)(nil)
@@ -370,11 +370,11 @@ type TokenCT struct {
 }
 
 func ParseTokenCT(argText string) (Token, error) {
-	return &TokenCT{ /* key */ }, nil
+	return &TokenCT{ /* TODO key */ }, nil
 }
 
 func (t *TokenCT) String() string {
-	return ".CT" /* key */
+	return ".CT" /* TODO key */
 }
 
 var _ Token = (*TokenCT)(nil)
@@ -386,11 +386,11 @@ type TokenEX struct {
 }
 
 func ParseTokenEX(argText string) (Token, error) {
-	return &TokenEX{ /* [indent] */ }, nil
+	return &TokenEX{ /* TODO [indent] */ }, nil
 }
 
 func (t *TokenEX) String() string {
-	return ".EX" /* [indent] */
+	return ".EX" /* TODO [indent] */
 }
 
 var _ Token = (*TokenEX)(nil)
@@ -401,11 +401,11 @@ type TokenEE struct {
 }
 
 func ParseTokenEE(argText string) (Token, error) {
-	return &TokenEE{ /*  */ }, nil
+	return &TokenEE{ /* TODO  */ }, nil
 }
 
 func (t *TokenEE) String() string {
-	return ".EE" /*  */
+	return ".EE" /* TODO  */
 }
 
 var _ Token = (*TokenEE)(nil)
@@ -418,11 +418,11 @@ type TokenG struct {
 }
 
 func ParseTokenG(argText string) (Token, error) {
-	return &TokenG{ /* [text] */ }, nil
+	return &TokenG{ /* TODO [text] */ }, nil
 }
 
 func (t *TokenG) String() string {
-	return ".G" /* [text] */
+	return ".G" /* TODO [text] */
 }
 
 var _ Token = (*TokenG)(nil)
@@ -435,11 +435,11 @@ type TokenGL struct {
 }
 
 func ParseTokenGL(argText string) (Token, error) {
-	return &TokenGL{ /* [text] */ }, nil
+	return &TokenGL{ /* TODO [text] */ }, nil
 }
 
 func (t *TokenGL) String() string {
-	return ".GL" /* [text] */
+	return ".GL" /* TODO [text] */
 }
 
 var _ Token = (*TokenGL)(nil)
@@ -452,11 +452,11 @@ type TokenHB struct {
 }
 
 func ParseTokenHB(argText string) (Token, error) {
-	return &TokenHB{ /* [text] */ }, nil
+	return &TokenHB{ /* TODO [text] */ }, nil
 }
 
 func (t *TokenHB) String() string {
-	return ".HB" /* [text] */
+	return ".HB" /* TODO [text] */
 }
 
 var _ Token = (*TokenHB)(nil)
@@ -467,11 +467,11 @@ type TokenTB struct {
 }
 
 func ParseTokenTB(argText string) (Token, error) {
-	return &TokenTB{ /* [text] */ }, nil
+	return &TokenTB{ /* TODO [text] */ }, nil
 }
 
 func (t *TokenTB) String() string {
-	return ".TB" /* [text] */
+	return ".TB" /* TODO [text] */
 }
 
 var _ Token = (*TokenTB)(nil)
@@ -484,11 +484,11 @@ type TokenMS struct {
 }
 
 func ParseTokenMS(argText string) (Token, error) {
-	return &TokenMS{ /* title sect [punct] */ }, nil
+	return &TokenMS{ /* TODO title sect [punct] */ }, nil
 }
 
 func (t *TokenMS) String() string {
-	return ".MS" /* title sect [punct] */
+	return ".MS" /* TODO title sect [punct] */
 }
 
 var _ Token = (*TokenMS)(nil)
@@ -503,11 +503,11 @@ type TokenNT struct {
 }
 
 func ParseTokenNT(argText string) (Token, error) {
-	return &TokenNT{ /* [C] [title] */ }, nil
+	return &TokenNT{ /* TODO [C] [title] */ }, nil
 }
 
 func (t *TokenNT) String() string {
-	return ".NT" /* [C] [title] */
+	return ".NT" /* TODO [C] [title] */
 }
 
 var _ Token = (*TokenNT)(nil)
@@ -518,11 +518,11 @@ type TokenNE struct {
 }
 
 func ParseTokenNE(argText string) (Token, error) {
-	return &TokenNE{ /*  */ }, nil
+	return &TokenNE{ /* TODO  */ }, nil
 }
 
 func (t *TokenNE) String() string {
-	return ".NE" /*  */
+	return ".NE" /* TODO  */
 }
 
 var _ Token = (*TokenNE)(nil)
@@ -534,11 +534,11 @@ type TokenPN struct {
 }
 
 func ParseTokenPN(argText string) (Token, error) {
-	return &TokenPN{ /* path [punct] */ }, nil
+	return &TokenPN{ /* TODO path [punct] */ }, nil
 }
 
 func (t *TokenPN) String() string {
-	return ".PN" /* path [punct] */
+	return ".PN" /* TODO path [punct] */
 }
 
 var _ Token = (*TokenPN)(nil)
@@ -551,11 +551,11 @@ type TokenPn struct {
 }
 
 func ParseTokenPn(argText string) (Token, error) {
-	return &TokenPn{ /* [punct] path [punct] */ }, nil
+	return &TokenPn{ /* TODO [punct] path [punct] */ }, nil
 }
 
 func (t *TokenPn) String() string {
-	return ".Pn" /* [punct] path [punct] */
+	return ".Pn" /* TODO [punct] path [punct] */
 }
 
 var _ Token = (*TokenPn)(nil)
@@ -566,11 +566,11 @@ type TokenRN struct {
 }
 
 func ParseTokenRN(argText string) (Token, error) {
-	return &TokenRN{ /*  */ }, nil
+	return &TokenRN{ /* TODO  */ }, nil
 }
 
 func (t *TokenRN) String() string {
-	return ".RN" /*  */
+	return ".RN" /* TODO  */
 }
 
 var _ Token = (*TokenRN)(nil)
@@ -582,11 +582,11 @@ type TokenVS struct {
 }
 
 func ParseTokenVS(argText string) (Token, error) {
-	return &TokenVS{ /* [4] */ }, nil
+	return &TokenVS{ /* TODO [4] */ }, nil
 }
 
 func (t *TokenVS) String() string {
-	return ".VS" /* [4] */
+	return ".VS" /* TODO [4] */
 }
 
 var _ Token = (*TokenVS)(nil)
@@ -597,11 +597,11 @@ type TokenVE struct {
 }
 
 func ParseTokenVE(argText string) (Token, error) {
-	return &TokenVE{ /*  */ }, nil
+	return &TokenVE{ /* TODO  */ }, nil
 }
 
 func (t *TokenVE) String() string {
-	return ".VE" /*  */
+	return ".VE" /* TODO  */
 }
 
 var _ Token = (*TokenVE)(nil)
@@ -619,11 +619,11 @@ type TokenRP struct {
 }
 
 func ParseTokenRP(argText string) (Token, error) {
-	return &TokenRP{ /* [no] */ }, nil
+	return &TokenRP{ /* TODO [no] */ }, nil
 }
 
 func (t *TokenRP) String() string {
-	return ".RP" /* [no] */
+	return ".RP" /* TODO [no] */
 }
 
 var _ Token = (*TokenRP)(nil)
@@ -635,11 +635,11 @@ type TokenP1 struct {
 }
 
 func ParseTokenP1(argText string) (Token, error) {
-	return &TokenP1{ /*  */ }, nil
+	return &TokenP1{ /* TODO  */ }, nil
 }
 
 func (t *TokenP1) String() string {
-	return ".P1" /*  */
+	return ".P1" /* TODO  */
 }
 
 var _ Token = (*TokenP1)(nil)
@@ -652,11 +652,11 @@ type TokenDA struct {
 }
 
 func ParseTokenDA(argText string) (Token, error) {
-	return &TokenDA{ /* […] */ }, nil
+	return &TokenDA{ /* TODO […] */ }, nil
 }
 
 func (t *TokenDA) String() string {
-	return ".DA" /* […] */
+	return ".DA" /* TODO […] */
 }
 
 var _ Token = (*TokenDA)(nil)
@@ -669,11 +669,11 @@ type TokenND struct {
 }
 
 func ParseTokenND(argText string) (Token, error) {
-	return &TokenND{ /* […] */ }, nil
+	return &TokenND{ /* TODO […] */ }, nil
 }
 
 func (t *TokenND) String() string {
-	return ".ND" /* […] */
+	return ".ND" /* TODO […] */
 }
 
 var _ Token = (*TokenND)(nil)
@@ -686,11 +686,11 @@ type TokenTL struct {
 }
 
 func ParseTokenTL(argText string) (Token, error) {
-	return &TokenTL{ /*  */ }, nil
+	return &TokenTL{ /* TODO  */ }, nil
 }
 
 func (t *TokenTL) String() string {
-	return ".TL" /*  */
+	return ".TL" /* TODO  */
 }
 
 var _ Token = (*TokenTL)(nil)
@@ -713,11 +713,11 @@ type TokenAU struct {
 }
 
 func ParseTokenAU(argText string) (Token, error) {
-	return &TokenAU{ /*  */ }, nil
+	return &TokenAU{ /* TODO  */ }, nil
 }
 
 func (t *TokenAU) String() string {
-	return ".AU" /*  */
+	return ".AU" /* TODO  */
 }
 
 var _ Token = (*TokenAU)(nil)
@@ -729,11 +729,11 @@ type TokenAI struct {
 }
 
 func ParseTokenAI(argText string) (Token, error) {
-	return &TokenAI{ /*  */ }, nil
+	return &TokenAI{ /* TODO  */ }, nil
 }
 
 func (t *TokenAI) String() string {
-	return ".AI" /*  */
+	return ".AI" /* TODO  */
 }
 
 var _ Token = (*TokenAI)(nil)
@@ -747,11 +747,11 @@ type TokenAB struct {
 }
 
 func ParseTokenAB(argText string) (Token, error) {
-	return &TokenAB{ /* [no] */ }, nil
+	return &TokenAB{ /* TODO [no] */ }, nil
 }
 
 func (t *TokenAB) String() string {
-	return ".AB" /* [no] */
+	return ".AB" /* TODO [no] */
 }
 
 var _ Token = (*TokenAB)(nil)
@@ -762,11 +762,11 @@ type TokenAE struct {
 }
 
 func ParseTokenAE(argText string) (Token, error) {
-	return &TokenAE{ /*  */ }, nil
+	return &TokenAE{ /* TODO  */ }, nil
 }
 
 func (t *TokenAE) String() string {
-	return ".AE" /*  */
+	return ".AE" /* TODO  */
 }
 
 var _ Token = (*TokenAE)(nil)
@@ -777,11 +777,11 @@ type TokenPP struct {
 }
 
 func ParseTokenPP(argText string) (Token, error) {
-	return &TokenPP{ /*  */ }, nil
+	return &TokenPP{ /* TODO  */ }, nil
 }
 
 func (t *TokenPP) String() string {
-	return ".PP" /*  */
+	return ".PP" /* TODO  */
 }
 
 var _ Token = (*TokenPP)(nil)
@@ -792,11 +792,11 @@ type TokenLP struct {
 }
 
 func ParseTokenLP(argText string) (Token, error) {
-	return &TokenLP{ /*  */ }, nil
+	return &TokenLP{ /* TODO  */ }, nil
 }
 
 func (t *TokenLP) String() string {
-	return ".LP" /*  */
+	return ".LP" /* TODO  */
 }
 
 var _ Token = (*TokenLP)(nil)
@@ -812,11 +812,11 @@ type TokenQP struct {
 }
 
 func ParseTokenQP(argText string) (Token, error) {
-	return &TokenQP{ /*  */ }, nil
+	return &TokenQP{ /* TODO  */ }, nil
 }
 
 func (t *TokenQP) String() string {
-	return ".QP" /*  */
+	return ".QP" /* TODO  */
 }
 
 var _ Token = (*TokenQP)(nil)
@@ -826,11 +826,11 @@ type TokenQS struct {
 }
 
 func ParseTokenQS(argText string) (Token, error) {
-	return &TokenQS{ /*  */ }, nil
+	return &TokenQS{ /* TODO  */ }, nil
 }
 
 func (t *TokenQS) String() string {
-	return ".QS" /*  */
+	return ".QS" /* TODO  */
 }
 
 var _ Token = (*TokenQS)(nil)
@@ -847,11 +847,11 @@ type TokenQE struct {
 }
 
 func ParseTokenQE(argText string) (Token, error) {
-	return &TokenQE{ /*  */ }, nil
+	return &TokenQE{ /* TODO  */ }, nil
 }
 
 func (t *TokenQE) String() string {
-	return ".QE" /*  */
+	return ".QE" /* TODO  */
 }
 
 var _ Token = (*TokenQE)(nil)
@@ -863,11 +863,11 @@ type TokenXP struct {
 }
 
 func ParseTokenXP(argText string) (Token, error) {
-	return &TokenXP{ /*  */ }, nil
+	return &TokenXP{ /* TODO  */ }, nil
 }
 
 func (t *TokenXP) String() string {
-	return ".XP" /*  */
+	return ".XP" /* TODO  */
 }
 
 var _ Token = (*TokenXP)(nil)
@@ -884,11 +884,11 @@ type TokenNH struct {
 }
 
 func ParseTokenNH(argText string) (Token, error) {
-	return &TokenNH{ /* S level0 … | curr-level */ }, nil
+	return &TokenNH{ /* TODO S level0 … | curr-level */ }, nil
 }
 
 func (t *TokenNH) String() string {
-	return ".NH" /* S level0 … | curr-level */
+	return ".NH" /* TODO S level0 … | curr-level */
 }
 
 var _ Token = (*TokenNH)(nil)
@@ -908,15 +908,15 @@ var _ Token = (*TokenNH)(nil)
 // the base document size.  Additionally, the left margin and the
 // indentation for the following text is reset to its default value.
 type TokenSH struct {
-	/* [match-level] | [heading] */
+	Heading string
 }
 
 func ParseTokenSH(argText string) (Token, error) {
-	return &TokenSH{ /* [match-level] | [heading] */ }, nil
+	return &TokenSH{ /* TODO [match-level] | [heading] */ }, nil
 }
 
 func (t *TokenSH) String() string {
-	return ".SH" /* [match-level] | [heading] */
+	return ".SH" /* TODO [match-level] | [heading] */
 }
 
 var _ Token = (*TokenSH)(nil)
@@ -943,11 +943,11 @@ type TokenB struct {
 }
 
 func ParseTokenB(argText string) (Token, error) {
-	return &TokenB{ /* [txt [post [pre]]] | [text] */ }, nil
+	return &TokenB{ /* TODO [txt [post [pre]]] | [text] */ }, nil
 }
 
 func (t *TokenB) String() string {
-	return ".B" /* [txt [post [pre]]] | [text] */
+	return ".B" /* TODO [txt [post [pre]]] | [text] */
 }
 
 var _ Token = (*TokenB)(nil)
@@ -960,11 +960,11 @@ type TokenR struct {
 }
 
 func ParseTokenR(argText string) (Token, error) {
-	return &TokenR{ /* [txt [post [pre]]] |  */ }, nil
+	return &TokenR{ /* TODO [txt [post [pre]]] |  */ }, nil
 }
 
 func (t *TokenR) String() string {
-	return ".R" /* [txt [post [pre]]] |  */
+	return ".R" /* TODO [txt [post [pre]]] |  */
 }
 
 var _ Token = (*TokenR)(nil)
@@ -978,11 +978,11 @@ type TokenI struct {
 }
 
 func ParseTokenI(argText string) (Token, error) {
-	return &TokenI{ /* [txt [post [pre]]] | [text] */ }, nil
+	return &TokenI{ /* TODO [txt [post [pre]]] | [text] */ }, nil
 }
 
 func (t *TokenI) String() string {
-	return ".I" /* [txt [post [pre]]] | [text] */
+	return ".I" /* TODO [txt [post [pre]]] | [text] */
 }
 
 var _ Token = (*TokenI)(nil)
@@ -1001,11 +1001,11 @@ type TokenBI struct {
 }
 
 func ParseTokenBI(argText string) (Token, error) {
-	return &TokenBI{ /* [txt [post [pre]]] | text */ }, nil
+	return &TokenBI{ /* TODO [txt [post [pre]]] | text */ }, nil
 }
 
 func (t *TokenBI) String() string {
-	return ".BI" /* [txt [post [pre]]] | text */
+	return ".BI" /* TODO [txt [post [pre]]] | text */
 }
 
 var _ Token = (*TokenBI)(nil)
@@ -1017,11 +1017,11 @@ type TokenBX struct {
 }
 
 func ParseTokenBX(argText string) (Token, error) {
-	return &TokenBX{ /* [txt] */ }, nil
+	return &TokenBX{ /* TODO [txt] */ }, nil
 }
 
 func (t *TokenBX) String() string {
-	return ".BX" /* [txt] */
+	return ".BX" /* TODO [txt] */
 }
 
 var _ Token = (*TokenBX)(nil)
@@ -1034,11 +1034,11 @@ type TokenUL struct {
 }
 
 func ParseTokenUL(argText string) (Token, error) {
-	return &TokenUL{ /* [txt [post]] */ }, nil
+	return &TokenUL{ /* TODO [txt [post]] */ }, nil
 }
 
 func (t *TokenUL) String() string {
-	return ".UL" /* [txt [post]] */
+	return ".UL" /* TODO [txt [post]] */
 }
 
 var _ Token = (*TokenUL)(nil)
@@ -1052,11 +1052,11 @@ type TokenLG struct {
 }
 
 func ParseTokenLG(argText string) (Token, error) {
-	return &TokenLG{ /*  */ }, nil
+	return &TokenLG{ /* TODO  */ }, nil
 }
 
 func (t *TokenLG) String() string {
-	return ".LG" /*  */
+	return ".LG" /* TODO  */
 }
 
 var _ Token = (*TokenLG)(nil)
@@ -1072,11 +1072,11 @@ type TokenSM struct {
 }
 
 func ParseTokenSM(argText string) (Token, error) {
-	return &TokenSM{ /*  | [text] */ }, nil
+	return &TokenSM{ /* TODO  | [text] */ }, nil
 }
 
 func (t *TokenSM) String() string {
-	return ".SM" /*  | [text] */
+	return ".SM" /* TODO  | [text] */
 }
 
 var _ Token = (*TokenSM)(nil)
@@ -1088,11 +1088,11 @@ type TokenNL struct {
 }
 
 func ParseTokenNL(argText string) (Token, error) {
-	return &TokenNL{ /*  */ }, nil
+	return &TokenNL{ /* TODO  */ }, nil
 }
 
 func (t *TokenNL) String() string {
-	return ".NL" /*  */
+	return ".NL" /* TODO  */
 }
 
 var _ Token = (*TokenNL)(nil)
@@ -1130,11 +1130,11 @@ type TokenIP struct {
 }
 
 func ParseTokenIP(argText string) (Token, error) {
-	return &TokenIP{ /* [marker [width]] | [designator [nnn]] */ }, nil
+	return &TokenIP{ /* TODO [marker [width]] | [designator [nnn]] */ }, nil
 }
 
 func (t *TokenIP) String() string {
-	return ".IP" /* [marker [width]] | [designator [nnn]] */
+	return ".IP" /* TODO [marker [width]] | [designator [nnn]] */
 }
 
 var _ Token = (*TokenIP)(nil)
@@ -1152,11 +1152,11 @@ type TokenRS struct {
 }
 
 func ParseTokenRS(argText string) (Token, error) {
-	return &TokenRS{ /*  | [nnn] */ }, nil
+	return &TokenRS{ /* TODO  | [nnn] */ }, nil
 }
 
 func (t *TokenRS) String() string {
-	return ".RS" /*  | [nnn] */
+	return ".RS" /* TODO  | [nnn] */
 }
 
 var _ Token = (*TokenRS)(nil)
@@ -1173,11 +1173,11 @@ type TokenRE struct {
 }
 
 func ParseTokenRE(argText string) (Token, error) {
-	return &TokenRE{ /*  | [nnn] */ }, nil
+	return &TokenRE{ /* TODO  | [nnn] */ }, nil
 }
 
 func (t *TokenRE) String() string {
-	return ".RE" /*  | [nnn] */
+	return ".RE" /* TODO  | [nnn] */
 }
 
 var _ Token = (*TokenRE)(nil)
@@ -1190,11 +1190,11 @@ type TokenTA struct {
 }
 
 func ParseTokenTA(argText string) (Token, error) {
-	return &TokenTA{ /*  */ }, nil
+	return &TokenTA{ /* TODO  */ }, nil
 }
 
 func (t *TokenTA) String() string {
-	return ".TA" /*  */
+	return ".TA" /* TODO  */
 }
 
 var _ Token = (*TokenTA)(nil)
@@ -1204,11 +1204,11 @@ type TokenLD struct {
 }
 
 func ParseTokenLD(argText string) (Token, error) {
-	return &TokenLD{ /*  */ }, nil
+	return &TokenLD{ /* TODO  */ }, nil
 }
 
 func (t *TokenLD) String() string {
-	return ".LD" /*  */
+	return ".LD" /* TODO  */
 }
 
 var _ Token = (*TokenLD)(nil)
@@ -1218,11 +1218,11 @@ type TokenID struct {
 }
 
 func ParseTokenID(argText string) (Token, error) {
-	return &TokenID{ /*  */ }, nil
+	return &TokenID{ /* TODO  */ }, nil
 }
 
 func (t *TokenID) String() string {
-	return ".ID" /*  */
+	return ".ID" /* TODO  */
 }
 
 var _ Token = (*TokenID)(nil)
@@ -1232,11 +1232,11 @@ type TokenBD struct {
 }
 
 func ParseTokenBD(argText string) (Token, error) {
-	return &TokenBD{ /*  */ }, nil
+	return &TokenBD{ /* TODO  */ }, nil
 }
 
 func (t *TokenBD) String() string {
-	return ".BD" /*  */
+	return ".BD" /* TODO  */
 }
 
 var _ Token = (*TokenBD)(nil)
@@ -1246,11 +1246,11 @@ type TokenCD struct {
 }
 
 func ParseTokenCD(argText string) (Token, error) {
-	return &TokenCD{ /*  */ }, nil
+	return &TokenCD{ /* TODO  */ }, nil
 }
 
 func (t *TokenCD) String() string {
-	return ".CD" /*  */
+	return ".CD" /* TODO  */
 }
 
 var _ Token = (*TokenCD)(nil)
@@ -1260,11 +1260,11 @@ type TokenRD struct {
 }
 
 func ParseTokenRD(argText string) (Token, error) {
-	return &TokenRD{ /*  */ }, nil
+	return &TokenRD{ /* TODO  */ }, nil
 }
 
 func (t *TokenRD) String() string {
-	return ".RD" /*  */
+	return ".RD" /* TODO  */
 }
 
 var _ Token = (*TokenRD)(nil)
@@ -1295,11 +1295,11 @@ type TokenDE struct {
 }
 
 func ParseTokenDE(argText string) (Token, error) {
-	return &TokenDE{ /*  */ }, nil
+	return &TokenDE{ /* TODO  */ }, nil
 }
 
 func (t *TokenDE) String() string {
-	return ".DE" /*  */
+	return ".DE" /* TODO  */
 }
 
 var _ Token = (*TokenDE)(nil)
@@ -1311,11 +1311,11 @@ type TokenDs struct {
 }
 
 func ParseTokenDs(argText string) (Token, error) {
-	return &TokenDs{ /*  */ }, nil
+	return &TokenDs{ /* TODO  */ }, nil
 }
 
 func (t *TokenDs) String() string {
-	return ".Ds" /*  */
+	return ".Ds" /* TODO  */
 }
 
 var _ Token = (*TokenDs)(nil)
@@ -1333,11 +1333,11 @@ type TokenDe struct {
 }
 
 func ParseTokenDe(argText string) (Token, error) {
-	return &TokenDe{ /*  */ }, nil
+	return &TokenDe{ /* TODO  */ }, nil
 }
 
 func (t *TokenDe) String() string {
-	return ".De" /*  */
+	return ".De" /* TODO  */
 }
 
 var _ Token = (*TokenDe)(nil)
@@ -1347,11 +1347,11 @@ type TokenKS struct {
 }
 
 func ParseTokenKS(argText string) (Token, error) {
-	return &TokenKS{ /*  */ }, nil
+	return &TokenKS{ /* TODO  */ }, nil
 }
 
 func (t *TokenKS) String() string {
-	return ".KS" /*  */
+	return ".KS" /* TODO  */
 }
 
 var _ Token = (*TokenKS)(nil)
@@ -1361,11 +1361,11 @@ type TokenKF struct {
 }
 
 func ParseTokenKF(argText string) (Token, error) {
-	return &TokenKF{ /*  */ }, nil
+	return &TokenKF{ /* TODO  */ }, nil
 }
 
 func (t *TokenKF) String() string {
-	return ".KF" /*  */
+	return ".KF" /* TODO  */
 }
 
 var _ Token = (*TokenKF)(nil)
@@ -1385,11 +1385,11 @@ type TokenKE struct {
 }
 
 func ParseTokenKE(argText string) (Token, error) {
-	return &TokenKE{ /*  */ }, nil
+	return &TokenKE{ /* TODO  */ }, nil
 }
 
 func (t *TokenKE) String() string {
-	return ".KE" /*  */
+	return ".KE" /* TODO  */
 }
 
 var _ Token = (*TokenKE)(nil)
@@ -1399,11 +1399,11 @@ type TokenB1 struct {
 }
 
 func ParseTokenB1(argText string) (Token, error) {
-	return &TokenB1{ /*  */ }, nil
+	return &TokenB1{ /* TODO  */ }, nil
 }
 
 func (t *TokenB1) String() string {
-	return ".B1" /*  */
+	return ".B1" /* TODO  */
 }
 
 var _ Token = (*TokenB1)(nil)
@@ -1416,11 +1416,11 @@ type TokenB2 struct {
 }
 
 func ParseTokenB2(argText string) (Token, error) {
-	return &TokenB2{ /*  */ }, nil
+	return &TokenB2{ /* TODO  */ }, nil
 }
 
 func (t *TokenB2) String() string {
-	return ".B2" /*  */
+	return ".B2" /* TODO  */
 }
 
 var _ Token = (*TokenB2)(nil)
@@ -1430,11 +1430,11 @@ type TokenTS struct {
 }
 
 func ParseTokenTS(argText string) (Token, error) {
-	return &TokenTS{ /* [H] */ }, nil
+	return &TokenTS{ /* TODO [H] */ }, nil
 }
 
 func (t *TokenTS) String() string {
-	return ".TS" /* [H] */
+	return ".TS" /* TODO [H] */
 }
 
 var _ Token = (*TokenTS)(nil)
@@ -1450,11 +1450,11 @@ type TokenTE struct {
 }
 
 func ParseTokenTE(argText string) (Token, error) {
-	return &TokenTE{ /*  */ }, nil
+	return &TokenTE{ /* TODO  */ }, nil
 }
 
 func (t *TokenTE) String() string {
-	return ".TE" /*  */
+	return ".TE" /* TODO  */
 }
 
 var _ Token = (*TokenTE)(nil)
@@ -1464,11 +1464,11 @@ type TokenPS struct {
 }
 
 func ParseTokenPS(argText string) (Token, error) {
-	return &TokenPS{ /*  */ }, nil
+	return &TokenPS{ /* TODO  */ }, nil
 }
 
 func (t *TokenPS) String() string {
-	return ".PS" /*  */
+	return ".PS" /* TODO  */
 }
 
 var _ Token = (*TokenPS)(nil)
@@ -1482,11 +1482,11 @@ type TokenPE struct {
 }
 
 func ParseTokenPE(argText string) (Token, error) {
-	return &TokenPE{ /*  */ }, nil
+	return &TokenPE{ /* TODO  */ }, nil
 }
 
 func (t *TokenPE) String() string {
-	return ".PE" /*  */
+	return ".PE" /* TODO  */
 }
 
 var _ Token = (*TokenPE)(nil)
@@ -1496,11 +1496,11 @@ type TokenEQ struct {
 }
 
 func ParseTokenEQ(argText string) (Token, error) {
-	return &TokenEQ{ /* [align] */ }, nil
+	return &TokenEQ{ /* TODO [align] */ }, nil
 }
 
 func (t *TokenEQ) String() string {
-	return ".EQ" /* [align] */
+	return ".EQ" /* TODO [align] */
 }
 
 var _ Token = (*TokenEQ)(nil)
@@ -1514,11 +1514,11 @@ type TokenEN struct {
 }
 
 func ParseTokenEN(argText string) (Token, error) {
-	return &TokenEN{ /*  */ }, nil
+	return &TokenEN{ /* TODO  */ }, nil
 }
 
 func (t *TokenEN) String() string {
-	return ".EN" /*  */
+	return ".EN" /* TODO  */
 }
 
 var _ Token = (*TokenEN)(nil)
@@ -1528,11 +1528,11 @@ type TokenReferOpen struct {
 }
 
 func ParseTokenReferOpen(argText string) (Token, error) {
-	return &TokenReferOpen{ /*  */ }, nil
+	return &TokenReferOpen{ /* TODO  */ }, nil
 }
 
 func (t *TokenReferOpen) String() string {
-	return ".[" /*  */
+	return ".[" /* TODO  */
 }
 
 var _ Token = (*TokenReferOpen)(nil)
@@ -1545,11 +1545,11 @@ type TokenReferClose struct {
 }
 
 func ParseTokenReferClose(argText string) (Token, error) {
-	return &TokenReferClose{ /*  */ }, nil
+	return &TokenReferClose{ /* TODO  */ }, nil
 }
 
 func (t *TokenReferClose) String() string {
-	return ".]" /*  */
+	return ".]" /* TODO  */
 }
 
 var _ Token = (*TokenReferClose)(nil)
@@ -1559,11 +1559,11 @@ type TokenFS struct {
 }
 
 func ParseTokenFS(argText string) (Token, error) {
-	return &TokenFS{ /*  */ }, nil
+	return &TokenFS{ /* TODO  */ }, nil
 }
 
 func (t *TokenFS) String() string {
-	return ".FS" /*  */
+	return ".FS" /* TODO  */
 }
 
 var _ Token = (*TokenFS)(nil)
@@ -1578,11 +1578,11 @@ type TokenFE struct {
 }
 
 func ParseTokenFE(argText string) (Token, error) {
-	return &TokenFE{ /*  */ }, nil
+	return &TokenFE{ /* TODO  */ }, nil
 }
 
 func (t *TokenFE) String() string {
-	return ".FE" /*  */
+	return ".FE" /* TODO  */
 }
 
 var _ Token = (*TokenFE)(nil)
@@ -1592,11 +1592,11 @@ type TokenOH struct {
 }
 
 func ParseTokenOH(argText string) (Token, error) {
-	return &TokenOH{ /* 'left'center'right' */ }, nil
+	return &TokenOH{ /* TODO 'left'center'right' */ }, nil
 }
 
 func (t *TokenOH) String() string {
-	return ".OH" /* 'left'center'right' */
+	return ".OH" /* TODO 'left'center'right' */
 }
 
 var _ Token = (*TokenOH)(nil)
@@ -1606,11 +1606,11 @@ type TokenEH struct {
 }
 
 func ParseTokenEH(argText string) (Token, error) {
-	return &TokenEH{ /* 'left'center'right' */ }, nil
+	return &TokenEH{ /* TODO 'left'center'right' */ }, nil
 }
 
 func (t *TokenEH) String() string {
-	return ".EH" /* 'left'center'right' */
+	return ".EH" /* TODO 'left'center'right' */
 }
 
 var _ Token = (*TokenEH)(nil)
@@ -1620,11 +1620,11 @@ type TokenOF struct {
 }
 
 func ParseTokenOF(argText string) (Token, error) {
-	return &TokenOF{ /* 'left'center'right' */ }, nil
+	return &TokenOF{ /* TODO 'left'center'right' */ }, nil
 }
 
 func (t *TokenOF) String() string {
-	return ".OF" /* 'left'center'right' */
+	return ".OF" /* TODO 'left'center'right' */
 }
 
 var _ Token = (*TokenOF)(nil)
@@ -1640,11 +1640,11 @@ type TokenEF struct {
 }
 
 func ParseTokenEF(argText string) (Token, error) {
-	return &TokenEF{ /* 'left'center'right' */ }, nil
+	return &TokenEF{ /* TODO 'left'center'right' */ }, nil
 }
 
 func (t *TokenEF) String() string {
-	return ".EF" /* 'left'center'right' */
+	return ".EF" /* TODO 'left'center'right' */
 }
 
 var _ Token = (*TokenEF)(nil)
@@ -1658,11 +1658,11 @@ type TokenPT struct {
 }
 
 func ParseTokenPT(argText string) (Token, error) {
-	return &TokenPT{ /*  */ }, nil
+	return &TokenPT{ /* TODO  */ }, nil
 }
 
 func (t *TokenPT) String() string {
-	return ".PT" /*  */
+	return ".PT" /* TODO  */
 }
 
 var _ Token = (*TokenPT)(nil)
@@ -1672,11 +1672,11 @@ type TokenHD struct {
 }
 
 func ParseTokenHD(argText string) (Token, error) {
-	return &TokenHD{ /*  */ }, nil
+	return &TokenHD{ /* TODO  */ }, nil
 }
 
 func (t *TokenHD) String() string {
-	return ".HD" /*  */
+	return ".HD" /* TODO  */
 }
 
 var _ Token = (*TokenHD)(nil)
@@ -1697,11 +1697,11 @@ type TokenBT struct {
 }
 
 func ParseTokenBT(argText string) (Token, error) {
-	return &TokenBT{ /*  */ }, nil
+	return &TokenBT{ /* TODO  */ }, nil
 }
 
 func (t *TokenBT) String() string {
-	return ".BT" /*  */
+	return ".BT" /* TODO  */
 }
 
 var _ Token = (*TokenBT)(nil)
@@ -1712,11 +1712,11 @@ type Token1C struct {
 }
 
 func ParseToken1C(argText string) (Token, error) {
-	return &Token1C{ /*  */ }, nil
+	return &Token1C{ /* TODO  */ }, nil
 }
 
 func (t *Token1C) String() string {
-	return ".1C" /*  */
+	return ".1C" /* TODO  */
 }
 
 var _ Token = (*Token1C)(nil)
@@ -1727,11 +1727,11 @@ type Token2C struct {
 }
 
 func ParseToken2C(argText string) (Token, error) {
-	return &Token2C{ /*  */ }, nil
+	return &Token2C{ /* TODO  */ }, nil
 }
 
 func (t *Token2C) String() string {
-	return ".2C" /*  */
+	return ".2C" /* TODO  */
 }
 
 var _ Token = (*Token2C)(nil)
@@ -1745,11 +1745,11 @@ type TokenMC struct {
 }
 
 func ParseTokenMC(argText string) (Token, error) {
-	return &TokenMC{ /* [width [gutter]] */ }, nil
+	return &TokenMC{ /* TODO [width [gutter]] */ }, nil
 }
 
 func (t *TokenMC) String() string {
-	return ".MC" /* [width [gutter]] */
+	return ".MC" /* TODO [width [gutter]] */
 }
 
 var _ Token = (*TokenMC)(nil)
@@ -1759,11 +1759,11 @@ type TokenXS struct {
 }
 
 func ParseTokenXS(argText string) (Token, error) {
-	return &TokenXS{ /* [page] */ }, nil
+	return &TokenXS{ /* TODO [page] */ }, nil
 }
 
 func (t *TokenXS) String() string {
-	return ".XS" /* [page] */
+	return ".XS" /* TODO [page] */
 }
 
 var _ Token = (*TokenXS)(nil)
@@ -1773,11 +1773,11 @@ type TokenXA struct {
 }
 
 func ParseTokenXA(argText string) (Token, error) {
-	return &TokenXA{ /* [page] */ }, nil
+	return &TokenXA{ /* TODO [page] */ }, nil
 }
 
 func (t *TokenXA) String() string {
-	return ".XA" /* [page] */
+	return ".XA" /* TODO [page] */
 }
 
 var _ Token = (*TokenXA)(nil)
@@ -1823,11 +1823,11 @@ type TokenXE struct {
 }
 
 func ParseTokenXE(argText string) (Token, error) {
-	return &TokenXE{ /*  */ }, nil
+	return &TokenXE{ /* TODO  */ }, nil
 }
 
 func (t *TokenXE) String() string {
-	return ".XE" /*  */
+	return ".XE" /* TODO  */
 }
 
 var _ Token = (*TokenXE)(nil)
@@ -1845,11 +1845,11 @@ type TokenTC struct {
 }
 
 func ParseTokenTC(argText string) (Token, error) {
-	return &TokenTC{ /* [no] */ }, nil
+	return &TokenTC{ /* TODO [no] */ }, nil
 }
 
 func (t *TokenTC) String() string {
-	return ".TC" /* [no] */
+	return ".TC" /* TODO [no] */
 }
 
 var _ Token = (*TokenTC)(nil)
@@ -1865,11 +1865,11 @@ type TokenPX struct {
 }
 
 func ParseTokenPX(argText string) (Token, error) {
-	return &TokenPX{ /* [no] */ }, nil
+	return &TokenPX{ /* TODO [no] */ }, nil
 }
 
 func (t *TokenPX) String() string {
-	return ".PX" /* [no] */
+	return ".PX" /* TODO [no] */
 }
 
 var _ Token = (*TokenPX)(nil)
@@ -1889,11 +1889,11 @@ type TokenAM struct {
 }
 
 func ParseTokenAM(argText string) (Token, error) {
-	return &TokenAM{ /*  */ }, nil
+	return &TokenAM{ /* TODO  */ }, nil
 }
 
 func (t *TokenAM) String() string {
-	return ".AM" /*  */
+	return ".AM" /* TODO  */
 }
 
 var _ Token = (*TokenAM)(nil)
@@ -1906,11 +1906,11 @@ type TokenDS struct {
 }
 
 func ParseTokenDS(argText string) (Token, error) {
-	return &TokenDS{ /* I | R | C | B | I | L */ }, nil
+	return &TokenDS{ /* TODO I | R | C | B | I | L */ }, nil
 }
 
 func (t *TokenDS) String() string {
-	return ".DS" /* I | R | C | B | I | L */
+	return ".DS" /* TODO I | R | C | B | I | L */
 }
 
 var _ Token = (*TokenDS)(nil)
@@ -1924,11 +1924,11 @@ type TokenCW struct {
 }
 
 func ParseTokenCW(argText string) (Token, error) {
-	return &TokenCW{ /*  | [txt [post [pre]]] |  */ }, nil
+	return &TokenCW{ /* TODO  | [txt [post [pre]]] |  */ }, nil
 }
 
 func (t *TokenCW) String() string {
-	return ".CW" /*  | [txt [post [pre]]] |  */
+	return ".CW" /* TODO  | [txt [post [pre]]] |  */
 }
 
 var _ Token = (*TokenCW)(nil)
@@ -1940,11 +1940,11 @@ type TokenIX struct {
 }
 
 func ParseTokenIX(argText string) (Token, error) {
-	return &TokenIX{ /*  */ }, nil
+	return &TokenIX{ /* TODO  */ }, nil
 }
 
 func (t *TokenIX) String() string {
-	return ".IX" /*  */
+	return ".IX" /* TODO  */
 }
 
 var _ Token = (*TokenIX)(nil)
@@ -1978,11 +1978,11 @@ type Tokenig struct {
 }
 
 func ParseTokenig(argText string) (Token, error) {
-	return &Tokenig{ /* [end] */ }, nil
+	return &Tokenig{ /* TODO [end] */ }, nil
 }
 
 func (t *Tokenig) String() string {
-	return ".ig" /* [end] */
+	return ".ig" /* TODO [end] */
 }
 
 var _ Token = (*Tokenig)(nil)
@@ -1994,11 +1994,11 @@ type Tokenrr struct {
 }
 
 func ParseTokenrr(argText string) (Token, error) {
-	return &Tokenrr{ /* ident */ }, nil
+	return &Tokenrr{ /* TODO ident */ }, nil
 }
 
 func (t *Tokenrr) String() string {
-	return ".rr" /* ident */
+	return ".rr" /* TODO ident */
 }
 
 var _ Token = (*Tokenrr)(nil)
@@ -2010,11 +2010,11 @@ type Tokenrnn struct {
 }
 
 func ParseTokenrnn(argText string) (Token, error) {
-	return &Tokenrnn{ /* ident1 ident2 */ }, nil
+	return &Tokenrnn{ /* TODO ident1 ident2 */ }, nil
 }
 
 func (t *Tokenrnn) String() string {
-	return ".rnn" /* ident1 ident2 */
+	return ".rnn" /* TODO ident1 ident2 */
 }
 
 var _ Token = (*Tokenrnn)(nil)
@@ -2028,11 +2028,11 @@ type Tokenaln struct {
 }
 
 func ParseTokenaln(argText string) (Token, error) {
-	return &Tokenaln{ /* ident1 ident2 */ }, nil
+	return &Tokenaln{ /* TODO ident1 ident2 */ }, nil
 }
 
 func (t *Tokenaln) String() string {
-	return ".aln" /* ident1 ident2 */
+	return ".aln" /* TODO ident1 ident2 */
 }
 
 var _ Token = (*Tokenaln)(nil)
@@ -2046,11 +2046,11 @@ type Tokennr struct {
 }
 
 func ParseTokennr(argText string) (Token, error) {
-	return &Tokennr{ /* ident value incr | ident -value | ident +value | ident value */ }, nil
+	return &Tokennr{ /* TODO ident value incr | ident -value | ident +value | ident value */ }, nil
 }
 
 func (t *Tokennr) String() string {
-	return ".nr" /* ident value incr | ident -value | ident +value | ident value */
+	return ".nr" /* TODO ident value incr | ident -value | ident +value | ident value */
 }
 
 var _ Token = (*Tokennr)(nil)
@@ -2119,11 +2119,11 @@ type Tokenaf struct {
 }
 
 func ParseTokenaf(argText string) (Token, error) {
-	return &Tokenaf{ /* ident format */ }, nil
+	return &Tokenaf{ /* TODO ident format */ }, nil
 }
 
 func (t *Tokenaf) String() string {
-	return ".af" /* ident format */
+	return ".af" /* TODO ident format */
 }
 
 var _ Token = (*Tokenaf)(nil)
@@ -2144,11 +2144,11 @@ type Tokenbr struct {
 }
 
 func ParseTokenbr(argText string) (Token, error) {
-	return &Tokenbr{ /*  */ }, nil
+	return &Tokenbr{ /* TODO  */ }, nil
 }
 
 func (t *Tokenbr) String() string {
-	return ".br" /*  */
+	return ".br" /* TODO  */
 }
 
 var _ Token = (*Tokenbr)(nil)
@@ -2158,11 +2158,11 @@ type Tokenfi struct {
 }
 
 func ParseTokenfi(argText string) (Token, error) {
-	return &Tokenfi{ /*  */ }, nil
+	return &Tokenfi{ /* TODO  */ }, nil
 }
 
 func (t *Tokenfi) String() string {
-	return ".fi" /*  */
+	return ".fi" /* TODO  */
 }
 
 var _ Token = (*Tokenfi)(nil)
@@ -2181,11 +2181,11 @@ type Tokennf struct {
 }
 
 func ParseTokennf(argText string) (Token, error) {
-	return &Tokennf{ /*  */ }, nil
+	return &Tokennf{ /* TODO  */ }, nil
 }
 
 func (t *Tokennf) String() string {
-	return ".nf" /*  */
+	return ".nf" /* TODO  */
 }
 
 var _ Token = (*Tokennf)(nil)
@@ -2195,11 +2195,11 @@ type Tokenad struct {
 }
 
 func ParseTokenad(argText string) (Token, error) {
-	return &Tokenad{ /* [mode] */ }, nil
+	return &Tokenad{ /* TODO [mode] */ }, nil
 }
 
 func (t *Tokenad) String() string {
-	return ".ad" /* [mode] */
+	return ".ad" /* TODO [mode] */
 }
 
 var _ Token = (*Tokenad)(nil)
@@ -2215,11 +2215,11 @@ type Tokenna struct {
 }
 
 func ParseTokenna(argText string) (Token, error) {
-	return &Tokenna{ /*  */ }, nil
+	return &Tokenna{ /* TODO  */ }, nil
 }
 
 func (t *Tokenna) String() string {
-	return ".na" /*  */
+	return ".na" /* TODO  */
 }
 
 var _ Token = (*Tokenna)(nil)
@@ -2229,11 +2229,11 @@ type Tokenbrp struct {
 }
 
 func ParseTokenbrp(argText string) (Token, error) {
-	return &Tokenbrp{ /*  */ }, nil
+	return &Tokenbrp{ /* TODO  */ }, nil
 }
 
 func (t *Tokenbrp) String() string {
-	return ".brp" /*  */
+	return ".brp" /* TODO  */
 }
 
 var _ Token = (*Tokenbrp)(nil)
@@ -2243,11 +2243,11 @@ type Tokenss struct {
 }
 
 func ParseTokenss(argText string) (Token, error) {
-	return &Tokenss{ /* word_space_size [sentence_space_size] */ }, nil
+	return &Tokenss{ /* TODO word_space_size [sentence_space_size] */ }, nil
 }
 
 func (t *Tokenss) String() string {
-	return ".ss" /* word_space_size [sentence_space_size] */
+	return ".ss" /* TODO word_space_size [sentence_space_size] */
 }
 
 var _ Token = (*Tokenss)(nil)
@@ -2257,11 +2257,11 @@ type Tokence struct {
 }
 
 func ParseTokence(argText string) (Token, error) {
-	return &Tokence{ /* [nnn] */ }, nil
+	return &Tokence{ /* TODO [nnn] */ }, nil
 }
 
 func (t *Tokence) String() string {
-	return ".ce" /* [nnn] */
+	return ".ce" /* TODO [nnn] */
 }
 
 var _ Token = (*Tokence)(nil)
@@ -2271,11 +2271,11 @@ type Tokenrj struct {
 }
 
 func ParseTokenrj(argText string) (Token, error) {
-	return &Tokenrj{ /* [nnn] */ }, nil
+	return &Tokenrj{ /* TODO [nnn] */ }, nil
 }
 
 func (t *Tokenrj) String() string {
-	return ".rj" /* [nnn] */
+	return ".rj" /* TODO [nnn] */
 }
 
 var _ Token = (*Tokenrj)(nil)
@@ -2285,11 +2285,11 @@ type Tokenhy struct {
 }
 
 func ParseTokenhy(argText string) (Token, error) {
-	return &Tokenhy{ /* [mode] */ }, nil
+	return &Tokenhy{ /* TODO [mode] */ }, nil
 }
 
 func (t *Tokenhy) String() string {
-	return ".hy" /* [mode] */
+	return ".hy" /* TODO [mode] */
 }
 
 var _ Token = (*Tokenhy)(nil)
@@ -2304,11 +2304,11 @@ type Tokennh struct {
 }
 
 func ParseTokennh(argText string) (Token, error) {
-	return &Tokennh{ /*  */ }, nil
+	return &Tokennh{ /* TODO  */ }, nil
 }
 
 func (t *Tokennh) String() string {
-	return ".nh" /*  */
+	return ".nh" /* TODO  */
 }
 
 var _ Token = (*Tokennh)(nil)
@@ -2318,11 +2318,11 @@ type Tokenhlm struct {
 }
 
 func ParseTokenhlm(argText string) (Token, error) {
-	return &Tokenhlm{ /* [nnn] */ }, nil
+	return &Tokenhlm{ /* TODO [nnn] */ }, nil
 }
 
 func (t *Tokenhlm) String() string {
-	return ".hlm" /* [nnn] */
+	return ".hlm" /* TODO [nnn] */
 }
 
 var _ Token = (*Tokenhlm)(nil)
@@ -2355,11 +2355,11 @@ type Tokenhw struct {
 }
 
 func ParseTokenhw(argText string) (Token, error) {
-	return &Tokenhw{ /* word1 word2 … */ }, nil
+	return &Tokenhw{ /* TODO word1 word2 … */ }, nil
 }
 
 func (t *Tokenhw) String() string {
-	return ".hw" /* word1 word2 … */
+	return ".hw" /* TODO word1 word2 … */
 }
 
 var _ Token = (*Tokenhw)(nil)
@@ -2376,11 +2376,11 @@ type Tokenhc struct {
 }
 
 func ParseTokenhc(argText string) (Token, error) {
-	return &Tokenhc{ /* [char] */ }, nil
+	return &Tokenhc{ /* TODO [char] */ }, nil
 }
 
 func (t *Tokenhc) String() string {
-	return ".hc" /* [char] */
+	return ".hc" /* TODO [char] */
 }
 
 var _ Token = (*Tokenhc)(nil)
@@ -2390,11 +2390,11 @@ type Tokenhpf struct {
 }
 
 func ParseTokenhpf(argText string) (Token, error) {
-	return &Tokenhpf{ /* pattern_file */ }, nil
+	return &Tokenhpf{ /* TODO pattern_file */ }, nil
 }
 
 func (t *Tokenhpf) String() string {
-	return ".hpf" /* pattern_file */
+	return ".hpf" /* TODO pattern_file */
 }
 
 var _ Token = (*Tokenhpf)(nil)
@@ -2404,11 +2404,11 @@ type Tokenhpfa struct {
 }
 
 func ParseTokenhpfa(argText string) (Token, error) {
-	return &Tokenhpfa{ /* pattern_file */ }, nil
+	return &Tokenhpfa{ /* TODO pattern_file */ }, nil
 }
 
 func (t *Tokenhpfa) String() string {
-	return ".hpfa" /* pattern_file */
+	return ".hpfa" /* TODO pattern_file */
 }
 
 var _ Token = (*Tokenhpfa)(nil)
@@ -2481,11 +2481,11 @@ type Tokenhpfcode struct {
 }
 
 func ParseTokenhpfcode(argText string) (Token, error) {
-	return &Tokenhpfcode{ /* a b [c d …] */ }, nil
+	return &Tokenhpfcode{ /* TODO a b [c d …] */ }, nil
 }
 
 func (t *Tokenhpfcode) String() string {
-	return ".hpfcode" /* a b [c d …] */
+	return ".hpfcode" /* TODO a b [c d …] */
 }
 
 var _ Token = (*Tokenhpfcode)(nil)
@@ -2526,11 +2526,11 @@ type Tokenhcode struct {
 }
 
 func ParseTokenhcode(argText string) (Token, error) {
-	return &Tokenhcode{ /* c1 code1 [c2 code2 …] */ }, nil
+	return &Tokenhcode{ /* TODO c1 code1 [c2 code2 …] */ }, nil
 }
 
 func (t *Tokenhcode) String() string {
-	return ".hcode" /* c1 code1 [c2 code2 …] */
+	return ".hcode" /* TODO c1 code1 [c2 code2 …] */
 }
 
 var _ Token = (*Tokenhcode)(nil)
@@ -2540,11 +2540,11 @@ type Tokenhym struct {
 }
 
 func ParseTokenhym(argText string) (Token, error) {
-	return &Tokenhym{ /* [length] */ }, nil
+	return &Tokenhym{ /* TODO [length] */ }, nil
 }
 
 func (t *Tokenhym) String() string {
-	return ".hym" /* [length] */
+	return ".hym" /* TODO [length] */
 }
 
 var _ Token = (*Tokenhym)(nil)
@@ -2554,11 +2554,11 @@ type Tokenhys struct {
 }
 
 func ParseTokenhys(argText string) (Token, error) {
-	return &Tokenhys{ /* [hyphenation_space] */ }, nil
+	return &Tokenhys{ /* TODO [hyphenation_space] */ }, nil
 }
 
 func (t *Tokenhys) String() string {
-	return ".hys" /* [hyphenation_space] */
+	return ".hys" /* TODO [hyphenation_space] */
 }
 
 var _ Token = (*Tokenhys)(nil)
@@ -2578,11 +2578,11 @@ type Tokenshc struct {
 }
 
 func ParseTokenshc(argText string) (Token, error) {
-	return &Tokenshc{ /* [glyph] */ }, nil
+	return &Tokenshc{ /* TODO [glyph] */ }, nil
 }
 
 func (t *Tokenshc) String() string {
-	return ".shc" /* [glyph] */
+	return ".shc" /* TODO [glyph] */
 }
 
 var _ Token = (*Tokenshc)(nil)
@@ -2592,11 +2592,11 @@ type Tokenhla struct {
 }
 
 func ParseTokenhla(argText string) (Token, error) {
-	return &Tokenhla{ /* language */ }, nil
+	return &Tokenhla{ /* TODO language */ }, nil
 }
 
 func (t *Tokenhla) String() string {
-	return ".hla" /* language */
+	return ".hla" /* TODO language */
 }
 
 var _ Token = (*Tokenhla)(nil)
@@ -2660,11 +2660,11 @@ type Tokensp struct {
 }
 
 func ParseTokensp(argText string) (Token, error) {
-	return &Tokensp{ /* [distance] */ }, nil
+	return &Tokensp{ /* TODO [distance] */ }, nil
 }
 
 func (t *Tokensp) String() string {
-	return ".sp" /* [distance] */
+	return ".sp" /* TODO [distance] */
 }
 
 var _ Token = (*Tokensp)(nil)
@@ -2674,11 +2674,11 @@ type Tokenls struct {
 }
 
 func ParseTokenls(argText string) (Token, error) {
-	return &Tokenls{ /* [nnn] */ }, nil
+	return &Tokenls{ /* TODO [nnn] */ }, nil
 }
 
 func (t *Tokenls) String() string {
-	return ".ls" /* [nnn] */
+	return ".ls" /* TODO [nnn] */
 }
 
 var _ Token = (*Tokenls)(nil)
@@ -2688,11 +2688,11 @@ type Tokenns struct {
 }
 
 func ParseTokenns(argText string) (Token, error) {
-	return &Tokenns{ /*  */ }, nil
+	return &Tokenns{ /* TODO  */ }, nil
 }
 
 func (t *Tokenns) String() string {
-	return ".ns" /*  */
+	return ".ns" /* TODO  */
 }
 
 var _ Token = (*Tokenns)(nil)
@@ -2702,11 +2702,11 @@ type Tokenrs struct {
 }
 
 func ParseTokenrs(argText string) (Token, error) {
-	return &Tokenrs{ /*  */ }, nil
+	return &Tokenrs{ /* TODO  */ }, nil
 }
 
 func (t *Tokenrs) String() string {
-	return ".rs" /*  */
+	return ".rs" /* TODO  */
 }
 
 var _ Token = (*Tokenrs)(nil)
@@ -2716,11 +2716,11 @@ type Tokenta struct {
 }
 
 func ParseTokenta(argText string) (Token, error) {
-	return &Tokenta{ /* [n1 n2 … nn T r1 r2 … rn] */ }, nil
+	return &Tokenta{ /* TODO [n1 n2 … nn T r1 r2 … rn] */ }, nil
 }
 
 func (t *Tokenta) String() string {
-	return ".ta" /* [n1 n2 … nn T r1 r2 … rn] */
+	return ".ta" /* TODO [n1 n2 … nn T r1 r2 … rn] */
 }
 
 var _ Token = (*Tokenta)(nil)
@@ -2735,11 +2735,11 @@ type Tokentc struct {
 }
 
 func ParseTokentc(argText string) (Token, error) {
-	return &Tokentc{ /* [fill-glyph] */ }, nil
+	return &Tokentc{ /* TODO [fill-glyph] */ }, nil
 }
 
 func (t *Tokentc) String() string {
-	return ".tc" /* [fill-glyph] */
+	return ".tc" /* TODO [fill-glyph] */
 }
 
 var _ Token = (*Tokentc)(nil)
@@ -2749,11 +2749,11 @@ type Tokenlinetabs struct {
 }
 
 func ParseTokenlinetabs(argText string) (Token, error) {
-	return &Tokenlinetabs{ /* n */ }, nil
+	return &Tokenlinetabs{ /* TODO n */ }, nil
 }
 
 func (t *Tokenlinetabs) String() string {
-	return ".linetabs" /* n */
+	return ".linetabs" /* TODO n */
 }
 
 var _ Token = (*Tokenlinetabs)(nil)
@@ -2768,11 +2768,11 @@ type Tokenlc struct {
 }
 
 func ParseTokenlc(argText string) (Token, error) {
-	return &Tokenlc{ /* [fill-glyph] */ }, nil
+	return &Tokenlc{ /* TODO [fill-glyph] */ }, nil
 }
 
 func (t *Tokenlc) String() string {
-	return ".lc" /* [fill-glyph] */
+	return ".lc" /* TODO [fill-glyph] */
 }
 
 var _ Token = (*Tokenlc)(nil)
@@ -2801,11 +2801,11 @@ type Tokenfc struct {
 }
 
 func ParseTokenfc(argText string) (Token, error) {
-	return &Tokenfc{ /* [delim-char [padding-char]] */ }, nil
+	return &Tokenfc{ /* TODO [delim-char [padding-char]] */ }, nil
 }
 
 func (t *Tokenfc) String() string {
-	return ".fc" /* [delim-char [padding-char]] */
+	return ".fc" /* TODO [delim-char [padding-char]] */
 }
 
 var _ Token = (*Tokenfc)(nil)
@@ -2819,11 +2819,11 @@ type Tokencc struct {
 }
 
 func ParseTokencc(argText string) (Token, error) {
-	return &Tokencc{ /* [c] */ }, nil
+	return &Tokencc{ /* TODO [c] */ }, nil
 }
 
 func (t *Tokencc) String() string {
-	return ".cc" /* [c] */
+	return ".cc" /* TODO [c] */
 }
 
 var _ Token = (*Tokencc)(nil)
@@ -2837,11 +2837,11 @@ type Tokenc2 struct {
 }
 
 func ParseTokenc2(argText string) (Token, error) {
-	return &Tokenc2{ /* [c] */ }, nil
+	return &Tokenc2{ /* TODO [c] */ }, nil
 }
 
 func (t *Tokenc2) String() string {
-	return ".c2" /* [c] */
+	return ".c2" /* TODO [c] */
 }
 
 var _ Token = (*Tokenc2)(nil)
@@ -2871,11 +2871,11 @@ type Tokeneo struct {
 }
 
 func ParseTokeneo(argText string) (Token, error) {
-	return &Tokeneo{ /*  */ }, nil
+	return &Tokeneo{ /* TODO  */ }, nil
 }
 
 func (t *Tokeneo) String() string {
-	return ".eo" /*  */
+	return ".eo" /* TODO  */
 }
 
 var _ Token = (*Tokeneo)(nil)
@@ -2894,11 +2894,11 @@ type Tokenec struct {
 }
 
 func ParseTokenec(argText string) (Token, error) {
-	return &Tokenec{ /* [c] */ }, nil
+	return &Tokenec{ /* TODO [c] */ }, nil
 }
 
 func (t *Tokenec) String() string {
-	return ".ec" /* [c] */
+	return ".ec" /* TODO [c] */
 }
 
 var _ Token = (*Tokenec)(nil)
@@ -2908,11 +2908,11 @@ type Tokenecs struct {
 }
 
 func ParseTokenecs(argText string) (Token, error) {
-	return &Tokenecs{ /*  */ }, nil
+	return &Tokenecs{ /* TODO  */ }, nil
 }
 
 func (t *Tokenecs) String() string {
-	return ".ecs" /*  */
+	return ".ecs" /* TODO  */
 }
 
 var _ Token = (*Tokenecs)(nil)
@@ -2929,11 +2929,11 @@ type Tokenecr struct {
 }
 
 func ParseTokenecr(argText string) (Token, error) {
-	return &Tokenecr{ /*  */ }, nil
+	return &Tokenecr{ /* TODO  */ }, nil
 }
 
 func (t *Tokenecr) String() string {
-	return ".ecr" /*  */
+	return ".ecr" /* TODO  */
 }
 
 var _ Token = (*Tokenecr)(nil)
@@ -2943,11 +2943,11 @@ type Tokentr struct {
 }
 
 func ParseTokentr(argText string) (Token, error) {
-	return &Tokentr{ /* abcd… */ }, nil
+	return &Tokentr{ /* TODO abcd… */ }, nil
 }
 
 func (t *Tokentr) String() string {
-	return ".tr" /* abcd… */
+	return ".tr" /* TODO abcd… */
 }
 
 var _ Token = (*Tokentr)(nil)
@@ -3047,11 +3047,11 @@ type Tokentrin struct {
 }
 
 func ParseTokentrin(argText string) (Token, error) {
-	return &Tokentrin{ /* abcd… */ }, nil
+	return &Tokentrin{ /* TODO abcd… */ }, nil
 }
 
 func (t *Tokentrin) String() string {
-	return ".trin" /* abcd… */
+	return ".trin" /* TODO abcd… */
 }
 
 var _ Token = (*Tokentrin)(nil)
@@ -3075,11 +3075,11 @@ type Tokentrnt struct {
 }
 
 func ParseTokentrnt(argText string) (Token, error) {
-	return &Tokentrnt{ /* abcd… */ }, nil
+	return &Tokentrnt{ /* TODO abcd… */ }, nil
 }
 
 func (t *Tokentrnt) String() string {
-	return ".trnt" /* abcd… */
+	return ".trnt" /* TODO abcd… */
 }
 
 var _ Token = (*Tokentrnt)(nil)
@@ -3096,11 +3096,11 @@ type Tokentroff struct {
 }
 
 func ParseTokentroff(argText string) (Token, error) {
-	return &Tokentroff{ /*  */ }, nil
+	return &Tokentroff{ /* TODO  */ }, nil
 }
 
 func (t *Tokentroff) String() string {
-	return ".troff" /*  */
+	return ".troff" /* TODO  */
 }
 
 var _ Token = (*Tokentroff)(nil)
@@ -3115,11 +3115,11 @@ type Tokennroff struct {
 }
 
 func ParseTokennroff(argText string) (Token, error) {
-	return &Tokennroff{ /*  */ }, nil
+	return &Tokennroff{ /* TODO  */ }, nil
 }
 
 func (t *Tokennroff) String() string {
-	return ".nroff" /*  */
+	return ".nroff" /* TODO  */
 }
 
 var _ Token = (*Tokennroff)(nil)
@@ -3131,11 +3131,11 @@ type Tokenpo struct {
 }
 
 func ParseTokenpo(argText string) (Token, error) {
-	return &Tokenpo{ /* -offset | +offset | [offset] */ }, nil
+	return &Tokenpo{ /* TODO -offset | +offset | [offset] */ }, nil
 }
 
 func (t *Tokenpo) String() string {
-	return ".po" /* -offset | +offset | [offset] */
+	return ".po" /* TODO -offset | +offset | [offset] */
 }
 
 var _ Token = (*Tokenpo)(nil)
@@ -3147,11 +3147,11 @@ type Tokenin struct {
 }
 
 func ParseTokenin(argText string) (Token, error) {
-	return &Tokenin{ /* -indent | +indent | [indent] */ }, nil
+	return &Tokenin{ /* TODO -indent | +indent | [indent] */ }, nil
 }
 
 func (t *Tokenin) String() string {
-	return ".in" /* -indent | +indent | [indent] */
+	return ".in" /* TODO -indent | +indent | [indent] */
 }
 
 var _ Token = (*Tokenin)(nil)
@@ -3163,11 +3163,11 @@ type Tokenti struct {
 }
 
 func ParseTokenti(argText string) (Token, error) {
-	return &Tokenti{ /* -offset | +offset | offset */ }, nil
+	return &Tokenti{ /* TODO -offset | +offset | offset */ }, nil
 }
 
 func (t *Tokenti) String() string {
-	return ".ti" /* -offset | +offset | offset */
+	return ".ti" /* TODO -offset | +offset | offset */
 }
 
 var _ Token = (*Tokenti)(nil)
@@ -3179,11 +3179,11 @@ type Tokenll struct {
 }
 
 func ParseTokenll(argText string) (Token, error) {
-	return &Tokenll{ /* -length | +length | [length] */ }, nil
+	return &Tokenll{ /* TODO -length | +length | [length] */ }, nil
 }
 
 func (t *Tokenll) String() string {
-	return ".ll" /* -length | +length | [length] */
+	return ".ll" /* TODO -length | +length | [length] */
 }
 
 var _ Token = (*Tokenll)(nil)
@@ -3195,11 +3195,11 @@ type Tokenpl struct {
 }
 
 func ParseTokenpl(argText string) (Token, error) {
-	return &Tokenpl{ /* -length | +length | [length] */ }, nil
+	return &Tokenpl{ /* TODO -length | +length | [length] */ }, nil
 }
 
 func (t *Tokenpl) String() string {
-	return ".pl" /* -length | +length | [length] */
+	return ".pl" /* TODO -length | +length | [length] */
 }
 
 var _ Token = (*Tokenpl)(nil)
@@ -3240,11 +3240,11 @@ type Tokentl struct {
 }
 
 func ParseTokentl(argText string) (Token, error) {
-	return &Tokentl{ /* 'left'center'right' */ }, nil
+	return &Tokentl{ /* TODO 'left'center'right' */ }, nil
 }
 
 func (t *Tokentl) String() string {
-	return ".tl" /* 'left'center'right' */
+	return ".tl" /* TODO 'left'center'right' */
 }
 
 var _ Token = (*Tokentl)(nil)
@@ -3256,11 +3256,11 @@ type Tokenlt struct {
 }
 
 func ParseTokenlt(argText string) (Token, error) {
-	return &Tokenlt{ /* -length | +length | [length] */ }, nil
+	return &Tokenlt{ /* TODO -length | +length | [length] */ }, nil
 }
 
 func (t *Tokenlt) String() string {
-	return ".lt" /* -length | +length | [length] */
+	return ".lt" /* TODO -length | +length | [length] */
 }
 
 var _ Token = (*Tokenlt)(nil)
@@ -3272,11 +3272,11 @@ type Tokenpn struct {
 }
 
 func ParseTokenpn(argText string) (Token, error) {
-	return &Tokenpn{ /* -page | +page | page */ }, nil
+	return &Tokenpn{ /* TODO -page | +page | page */ }, nil
 }
 
 func (t *Tokenpn) String() string {
-	return ".pn" /* -page | +page | page */
+	return ".pn" /* TODO -page | +page | page */
 }
 
 var _ Token = (*Tokenpn)(nil)
@@ -3289,11 +3289,11 @@ type Tokenpc struct {
 }
 
 func ParseTokenpc(argText string) (Token, error) {
-	return &Tokenpc{ /* [char] */ }, nil
+	return &Tokenpc{ /* TODO [char] */ }, nil
 }
 
 func (t *Tokenpc) String() string {
-	return ".pc" /* [char] */
+	return ".pc" /* TODO [char] */
 }
 
 var _ Token = (*Tokenpc)(nil)
@@ -3305,11 +3305,11 @@ type Tokenbp struct {
 }
 
 func ParseTokenbp(argText string) (Token, error) {
-	return &Tokenbp{ /* -page | +page | [page] */ }, nil
+	return &Tokenbp{ /* TODO -page | +page | [page] */ }, nil
 }
 
 func (t *Tokenbp) String() string {
-	return ".bp" /* -page | +page | [page] */
+	return ".bp" /* TODO -page | +page | [page] */
 }
 
 var _ Token = (*Tokenbp)(nil)
@@ -3336,11 +3336,11 @@ type Tokenne struct {
 }
 
 func ParseTokenne(argText string) (Token, error) {
-	return &Tokenne{ /* [space] */ }, nil
+	return &Tokenne{ /* TODO [space] */ }, nil
 }
 
 func (t *Tokenne) String() string {
-	return ".ne" /* [space] */
+	return ".ne" /* TODO [space] */
 }
 
 var _ Token = (*Tokenne)(nil)
@@ -3350,11 +3350,11 @@ type Tokensv struct {
 }
 
 func ParseTokensv(argText string) (Token, error) {
-	return &Tokensv{ /* [space] */ }, nil
+	return &Tokensv{ /* TODO [space] */ }, nil
 }
 
 func (t *Tokensv) String() string {
-	return ".sv" /* [space] */
+	return ".sv" /* TODO [space] */
 }
 
 var _ Token = (*Tokensv)(nil)
@@ -3374,11 +3374,11 @@ type Tokenos struct {
 }
 
 func ParseTokenos(argText string) (Token, error) {
-	return &Tokenos{ /*  */ }, nil
+	return &Tokenos{ /* TODO  */ }, nil
 }
 
 func (t *Tokenos) String() string {
-	return ".os" /*  */
+	return ".os" /* TODO  */
 }
 
 var _ Token = (*Tokenos)(nil)
@@ -3403,11 +3403,11 @@ type Tokenftr struct {
 }
 
 func ParseTokenftr(argText string) (Token, error) {
-	return &Tokenftr{ /* f [g] */ }, nil
+	return &Tokenftr{ /* TODO f [g] */ }, nil
 }
 
 func (t *Tokenftr) String() string {
-	return ".ftr" /* f [g] */
+	return ".ftr" /* TODO f [g] */
 }
 
 var _ Token = (*Tokenftr)(nil)
@@ -3417,11 +3417,11 @@ type Tokenfzoom struct {
 }
 
 func ParseTokenfzoom(argText string) (Token, error) {
-	return &Tokenfzoom{ /* f [zoom] */ }, nil
+	return &Tokenfzoom{ /* TODO f [zoom] */ }, nil
 }
 
 func (t *Tokenfzoom) String() string {
-	return ".fzoom" /* f [zoom] */
+	return ".fzoom" /* TODO f [zoom] */
 }
 
 var _ Token = (*Tokenfzoom)(nil)
@@ -3431,11 +3431,11 @@ type Tokenfam struct {
 }
 
 func ParseTokenfam(argText string) (Token, error) {
-	return &Tokenfam{ /* [family] */ }, nil
+	return &Tokenfam{ /* TODO [family] */ }, nil
 }
 
 func (t *Tokenfam) String() string {
-	return ".fam" /* [family] */
+	return ".fam" /* TODO [family] */
 }
 
 var _ Token = (*Tokenfam)(nil)
@@ -3499,11 +3499,11 @@ type Tokensty struct {
 }
 
 func ParseTokensty(argText string) (Token, error) {
-	return &Tokensty{ /* n style */ }, nil
+	return &Tokensty{ /* TODO n style */ }, nil
 }
 
 func (t *Tokensty) String() string {
-	return ".sty" /* n style */
+	return ".sty" /* TODO n style */
 }
 
 var _ Token = (*Tokensty)(nil)
@@ -3513,11 +3513,11 @@ type Tokenfp struct {
 }
 
 func ParseTokenfp(argText string) (Token, error) {
-	return &Tokenfp{ /* pos font [external-name] */ }, nil
+	return &Tokenfp{ /* TODO pos font [external-name] */ }, nil
 }
 
 func (t *Tokenfp) String() string {
-	return ".fp" /* pos font [external-name] */
+	return ".fp" /* TODO pos font [external-name] */
 }
 
 var _ Token = (*Tokenfp)(nil)
@@ -3528,11 +3528,11 @@ type Tokenft struct {
 }
 
 func ParseTokenft(argText string) (Token, error) {
-	return &Tokenft{ /* nnn | [font] */ }, nil
+	return &Tokenft{ /* TODO nnn | [font] */ }, nil
 }
 
 func (t *Tokenft) String() string {
-	return ".ft" /* nnn | [font] */
+	return ".ft" /* TODO nnn | [font] */
 }
 
 var _ Token = (*Tokenft)(nil)
@@ -3550,11 +3550,11 @@ type Tokencomposite struct {
 }
 
 func ParseTokencomposite(argText string) (Token, error) {
-	return &Tokencomposite{ /* from to */ }, nil
+	return &Tokencomposite{ /* TODO from to */ }, nil
 }
 
 func (t *Tokencomposite) String() string {
-	return ".composite" /* from to */
+	return ".composite" /* TODO from to */
 }
 
 var _ Token = (*Tokencomposite)(nil)
@@ -3648,11 +3648,11 @@ type Tokencflags struct {
 }
 
 func ParseTokencflags(argText string) (Token, error) {
-	return &Tokencflags{ /* n c1 c2 … */ }, nil
+	return &Tokencflags{ /* TODO n c1 c2 … */ }, nil
 }
 
 func (t *Tokencflags) String() string {
-	return ".cflags" /* n c1 c2 … */
+	return ".cflags" /* TODO n c1 c2 … */
 }
 
 var _ Token = (*Tokencflags)(nil)
@@ -3662,11 +3662,11 @@ type Tokenchar struct {
 }
 
 func ParseTokenchar(argText string) (Token, error) {
-	return &Tokenchar{ /* g [string] */ }, nil
+	return &Tokenchar{ /* TODO g [string] */ }, nil
 }
 
 func (t *Tokenchar) String() string {
-	return ".char" /* g [string] */
+	return ".char" /* TODO g [string] */
 }
 
 var _ Token = (*Tokenchar)(nil)
@@ -3676,11 +3676,11 @@ type Tokenfchar struct {
 }
 
 func ParseTokenfchar(argText string) (Token, error) {
-	return &Tokenfchar{ /* g [string] */ }, nil
+	return &Tokenfchar{ /* TODO g [string] */ }, nil
 }
 
 func (t *Tokenfchar) String() string {
-	return ".fchar" /* g [string] */
+	return ".fchar" /* TODO g [string] */
 }
 
 var _ Token = (*Tokenfchar)(nil)
@@ -3690,11 +3690,11 @@ type Tokenfschar struct {
 }
 
 func ParseTokenfschar(argText string) (Token, error) {
-	return &Tokenfschar{ /* f g [string] */ }, nil
+	return &Tokenfschar{ /* TODO f g [string] */ }, nil
 }
 
 func (t *Tokenfschar) String() string {
-	return ".fschar" /* f g [string] */
+	return ".fschar" /* TODO f g [string] */
 }
 
 var _ Token = (*Tokenfschar)(nil)
@@ -3762,11 +3762,11 @@ type Tokenschar struct {
 }
 
 func ParseTokenschar(argText string) (Token, error) {
-	return &Tokenschar{ /* g [string] */ }, nil
+	return &Tokenschar{ /* TODO g [string] */ }, nil
 }
 
 func (t *Tokenschar) String() string {
-	return ".schar" /* g [string] */
+	return ".schar" /* TODO g [string] */
 }
 
 var _ Token = (*Tokenschar)(nil)
@@ -3776,11 +3776,11 @@ type Tokenrchar struct {
 }
 
 func ParseTokenrchar(argText string) (Token, error) {
-	return &Tokenrchar{ /* c1 c2 … */ }, nil
+	return &Tokenrchar{ /* TODO c1 c2 … */ }, nil
 }
 
 func (t *Tokenrchar) String() string {
-	return ".rchar" /* c1 c2 … */
+	return ".rchar" /* TODO c1 c2 … */
 }
 
 var _ Token = (*Tokenrchar)(nil)
@@ -3798,11 +3798,11 @@ type Tokenrfschar struct {
 }
 
 func ParseTokenrfschar(argText string) (Token, error) {
-	return &Tokenrfschar{ /* f c1 c2 … */ }, nil
+	return &Tokenrfschar{ /* TODO f c1 c2 … */ }, nil
 }
 
 func (t *Tokenrfschar) String() string {
-	return ".rfschar" /* f c1 c2 … */
+	return ".rfschar" /* TODO f c1 c2 … */
 }
 
 var _ Token = (*Tokenrfschar)(nil)
@@ -3862,11 +3862,11 @@ type Tokenclass struct {
 }
 
 func ParseTokenclass(argText string) (Token, error) {
-	return &Tokenclass{ /* n c1 c2 … */ }, nil
+	return &Tokenclass{ /* TODO n c1 c2 … */ }, nil
 }
 
 func (t *Tokenclass) String() string {
-	return ".class" /* n c1 c2 … */
+	return ".class" /* TODO n c1 c2 … */
 }
 
 var _ Token = (*Tokenclass)(nil)
@@ -3876,11 +3876,11 @@ type Tokenspecial struct {
 }
 
 func ParseTokenspecial(argText string) (Token, error) {
-	return &Tokenspecial{ /* [s1 s2 …] */ }, nil
+	return &Tokenspecial{ /* TODO [s1 s2 …] */ }, nil
 }
 
 func (t *Tokenspecial) String() string {
-	return ".special" /* [s1 s2 …] */
+	return ".special" /* TODO [s1 s2 …] */
 }
 
 var _ Token = (*Tokenspecial)(nil)
@@ -3904,11 +3904,11 @@ type Tokenfspecial struct {
 }
 
 func ParseTokenfspecial(argText string) (Token, error) {
-	return &Tokenfspecial{ /* f [s1 s2 …] */ }, nil
+	return &Tokenfspecial{ /* TODO f [s1 s2 …] */ }, nil
 }
 
 func (t *Tokenfspecial) String() string {
-	return ".fspecial" /* f [s1 s2 …] */
+	return ".fspecial" /* TODO f [s1 s2 …] */
 }
 
 var _ Token = (*Tokenfspecial)(nil)
@@ -3938,11 +3938,11 @@ type Tokenul struct {
 }
 
 func ParseTokenul(argText string) (Token, error) {
-	return &Tokenul{ /* [lines] */ }, nil
+	return &Tokenul{ /* TODO [lines] */ }, nil
 }
 
 func (t *Tokenul) String() string {
-	return ".ul" /* [lines] */
+	return ".ul" /* TODO [lines] */
 }
 
 var _ Token = (*Tokenul)(nil)
@@ -3954,11 +3954,11 @@ type Tokencu struct {
 }
 
 func ParseTokencu(argText string) (Token, error) {
-	return &Tokencu{ /* [lines] */ }, nil
+	return &Tokencu{ /* TODO [lines] */ }, nil
 }
 
 func (t *Tokencu) String() string {
-	return ".cu" /* [lines] */
+	return ".cu" /* TODO [lines] */
 }
 
 var _ Token = (*Tokencu)(nil)
@@ -3971,11 +3971,11 @@ type Tokenuf struct {
 }
 
 func ParseTokenuf(argText string) (Token, error) {
-	return &Tokenuf{ /* font */ }, nil
+	return &Tokenuf{ /* TODO font */ }, nil
 }
 
 func (t *Tokenuf) String() string {
-	return ".uf" /* font */
+	return ".uf" /* TODO font */
 }
 
 var _ Token = (*Tokenuf)(nil)
@@ -3986,11 +3986,11 @@ type Tokenbd struct {
 }
 
 func ParseTokenbd(argText string) (Token, error) {
-	return &Tokenbd{ /* font1 font2 [offset] | font [offset] */ }, nil
+	return &Tokenbd{ /* TODO font1 font2 [offset] | font [offset] */ }, nil
 }
 
 func (t *Tokenbd) String() string {
-	return ".bd" /* font1 font2 [offset] | font [offset] */
+	return ".bd" /* TODO font1 font2 [offset] | font [offset] */
 }
 
 var _ Token = (*Tokenbd)(nil)
@@ -4009,11 +4009,11 @@ type Tokencs struct {
 }
 
 func ParseTokencs(argText string) (Token, error) {
-	return &Tokencs{ /* font [width [em-size]] */ }, nil
+	return &Tokencs{ /* TODO font [width [em-size]] */ }, nil
 }
 
 func (t *Tokencs) String() string {
-	return ".cs" /* font [width [em-size]] */
+	return ".cs" /* TODO font [width [em-size]] */
 }
 
 var _ Token = (*Tokencs)(nil)
@@ -4023,11 +4023,11 @@ type Tokenlg struct {
 }
 
 func ParseTokenlg(argText string) (Token, error) {
-	return &Tokenlg{ /* [flag] */ }, nil
+	return &Tokenlg{ /* TODO [flag] */ }, nil
 }
 
 func (t *Tokenlg) String() string {
-	return ".lg" /* [flag] */
+	return ".lg" /* TODO [flag] */
 }
 
 var _ Token = (*Tokenlg)(nil)
@@ -4037,11 +4037,11 @@ type Tokenkern struct {
 }
 
 func ParseTokenkern(argText string) (Token, error) {
-	return &Tokenkern{ /* [flag] */ }, nil
+	return &Tokenkern{ /* TODO [flag] */ }, nil
 }
 
 func (t *Tokenkern) String() string {
-	return ".kern" /* [flag] */
+	return ".kern" /* TODO [flag] */
 }
 
 var _ Token = (*Tokenkern)(nil)
@@ -4066,11 +4066,11 @@ type Tokentkf struct {
 }
 
 func ParseTokentkf(argText string) (Token, error) {
-	return &Tokentkf{ /* f s1 n1 s2 n2 */ }, nil
+	return &Tokentkf{ /* TODO f s1 n1 s2 n2 */ }, nil
 }
 
 func (t *Tokentkf) String() string {
-	return ".tkf" /* f s1 n1 s2 n2 */
+	return ".tkf" /* TODO f s1 n1 s2 n2 */
 }
 
 var _ Token = (*Tokentkf)(nil)
@@ -4082,11 +4082,11 @@ type Tokenps struct {
 }
 
 func ParseTokenps(argText string) (Token, error) {
-	return &Tokenps{ /* -size | +size | [size] */ }, nil
+	return &Tokenps{ /* TODO -size | +size | [size] */ }, nil
 }
 
 func (t *Tokenps) String() string {
-	return ".ps" /* -size | +size | [size] */
+	return ".ps" /* TODO -size | +size | [size] */
 }
 
 var _ Token = (*Tokenps)(nil)
@@ -4109,11 +4109,11 @@ type Tokensizes struct {
 }
 
 func ParseTokensizes(argText string) (Token, error) {
-	return &Tokensizes{ /* s1 s2 … sn [0] */ }, nil
+	return &Tokensizes{ /* TODO s1 s2 … sn [0] */ }, nil
 }
 
 func (t *Tokensizes) String() string {
-	return ".sizes" /* s1 s2 … sn [0] */
+	return ".sizes" /* TODO s1 s2 … sn [0] */
 }
 
 var _ Token = (*Tokensizes)(nil)
@@ -4125,11 +4125,11 @@ type Tokenvs struct {
 }
 
 func ParseTokenvs(argText string) (Token, error) {
-	return &Tokenvs{ /* -space | +space | [space] */ }, nil
+	return &Tokenvs{ /* TODO -space | +space | [space] */ }, nil
 }
 
 func (t *Tokenvs) String() string {
-	return ".vs" /* -space | +space | [space] */
+	return ".vs" /* TODO -space | +space | [space] */
 }
 
 var _ Token = (*Tokenvs)(nil)
@@ -4141,11 +4141,11 @@ type Tokenpvs struct {
 }
 
 func ParseTokenpvs(argText string) (Token, error) {
-	return &Tokenpvs{ /* -space | +space | [space] */ }, nil
+	return &Tokenpvs{ /* TODO -space | +space | [space] */ }, nil
 }
 
 func (t *Tokenpvs) String() string {
-	return ".pvs" /* -space | +space | [space] */
+	return ".pvs" /* TODO -space | +space | [space] */
 }
 
 var _ Token = (*Tokenpvs)(nil)
@@ -4155,11 +4155,11 @@ type Tokends struct {
 }
 
 func ParseTokends(argText string) (Token, error) {
-	return &Tokends{ /* name [string] */ }, nil
+	return &Tokends{ /* TODO name [string] */ }, nil
 }
 
 func (t *Tokends) String() string {
-	return ".ds" /* name [string] */
+	return ".ds" /* TODO name [string] */
 }
 
 var _ Token = (*Tokends)(nil)
@@ -4169,11 +4169,11 @@ type Tokends1 struct {
 }
 
 func ParseTokends1(argText string) (Token, error) {
-	return &Tokends1{ /* name [string] */ }, nil
+	return &Tokends1{ /* TODO name [string] */ }, nil
 }
 
 func (t *Tokends1) String() string {
-	return ".ds1" /* name [string] */
+	return ".ds1" /* TODO name [string] */
 }
 
 var _ Token = (*Tokends1)(nil)
@@ -4183,11 +4183,11 @@ type Tokenas struct {
 }
 
 func ParseTokenas(argText string) (Token, error) {
-	return &Tokenas{ /* name [string] */ }, nil
+	return &Tokenas{ /* TODO name [string] */ }, nil
 }
 
 func (t *Tokenas) String() string {
-	return ".as" /* name [string] */
+	return ".as" /* TODO name [string] */
 }
 
 var _ Token = (*Tokenas)(nil)
@@ -4208,11 +4208,11 @@ type Tokenas1 struct {
 }
 
 func ParseTokenas1(argText string) (Token, error) {
-	return &Tokenas1{ /* name [string] */ }, nil
+	return &Tokenas1{ /* TODO name [string] */ }, nil
 }
 
 func (t *Tokenas1) String() string {
-	return ".as1" /* name [string] */
+	return ".as1" /* TODO name [string] */
 }
 
 var _ Token = (*Tokenas1)(nil)
@@ -4240,11 +4240,11 @@ type Tokensubstring struct {
 }
 
 func ParseTokensubstring(argText string) (Token, error) {
-	return &Tokensubstring{ /* str n1 [n2] */ }, nil
+	return &Tokensubstring{ /* TODO str n1 [n2] */ }, nil
 }
 
 func (t *Tokensubstring) String() string {
-	return ".substring" /* str n1 [n2] */
+	return ".substring" /* TODO str n1 [n2] */
 }
 
 var _ Token = (*Tokensubstring)(nil)
@@ -4263,11 +4263,11 @@ type Tokenlength struct {
 }
 
 func ParseTokenlength(argText string) (Token, error) {
-	return &Tokenlength{ /* reg str */ }, nil
+	return &Tokenlength{ /* TODO reg str */ }, nil
 }
 
 func (t *Tokenlength) String() string {
-	return ".length" /* reg str */
+	return ".length" /* TODO reg str */
 }
 
 var _ Token = (*Tokenlength)(nil)
@@ -4278,11 +4278,11 @@ type Tokenrn struct {
 }
 
 func ParseTokenrn(argText string) (Token, error) {
-	return &Tokenrn{ /* xx yy */ }, nil
+	return &Tokenrn{ /* TODO xx yy */ }, nil
 }
 
 func (t *Tokenrn) String() string {
-	return ".rn" /* xx yy */
+	return ".rn" /* TODO xx yy */
 }
 
 var _ Token = (*Tokenrn)(nil)
@@ -4294,11 +4294,11 @@ type Tokenrm struct {
 }
 
 func ParseTokenrm(argText string) (Token, error) {
-	return &Tokenrm{ /* xx */ }, nil
+	return &Tokenrm{ /* TODO xx */ }, nil
 }
 
 func (t *Tokenrm) String() string {
-	return ".rm" /* xx */
+	return ".rm" /* TODO xx */
 }
 
 var _ Token = (*Tokenrm)(nil)
@@ -4345,11 +4345,11 @@ type Tokenals struct {
 }
 
 func ParseTokenals(argText string) (Token, error) {
-	return &Tokenals{ /* new old */ }, nil
+	return &Tokenals{ /* TODO new old */ }, nil
 }
 
 func (t *Tokenals) String() string {
-	return ".als" /* new old */
+	return ".als" /* TODO new old */
 }
 
 var _ Token = (*Tokenals)(nil)
@@ -4364,11 +4364,11 @@ type Tokenchop struct {
 }
 
 func ParseTokenchop(argText string) (Token, error) {
-	return &Tokenchop{ /* xx */ }, nil
+	return &Tokenchop{ /* TODO xx */ }, nil
 }
 
 func (t *Tokenchop) String() string {
-	return ".chop" /* xx */
+	return ".chop" /* TODO xx */
 }
 
 var _ Token = (*Tokenchop)(nil)
@@ -4389,11 +4389,11 @@ type Tokenif struct {
 }
 
 func ParseTokenif(argText string) (Token, error) {
-	return &Tokenif{ /* expr anything */ }, nil
+	return &Tokenif{ /* TODO expr anything */ }, nil
 }
 
 func (t *Tokenif) String() string {
-	return ".if" /* expr anything */
+	return ".if" /* TODO expr anything */
 }
 
 var _ Token = (*Tokenif)(nil)
@@ -4404,11 +4404,11 @@ type Tokennop struct {
 }
 
 func ParseTokennop(argText string) (Token, error) {
-	return &Tokennop{ /* anything */ }, nil
+	return &Tokennop{ /* TODO anything */ }, nil
 }
 
 func (t *Tokennop) String() string {
-	return ".nop" /* anything */
+	return ".nop" /* TODO anything */
 }
 
 var _ Token = (*Tokennop)(nil)
@@ -4418,11 +4418,11 @@ type Tokenie struct {
 }
 
 func ParseTokenie(argText string) (Token, error) {
-	return &Tokenie{ /* expr anything */ }, nil
+	return &Tokenie{ /* TODO expr anything */ }, nil
 }
 
 func (t *Tokenie) String() string {
-	return ".ie" /* expr anything */
+	return ".ie" /* TODO expr anything */
 }
 
 var _ Token = (*Tokenie)(nil)
@@ -4437,11 +4437,11 @@ type Tokenel struct {
 }
 
 func ParseTokenel(argText string) (Token, error) {
-	return &Tokenel{ /* anything */ }, nil
+	return &Tokenel{ /* TODO anything */ }, nil
 }
 
 func (t *Tokenel) String() string {
-	return ".el" /* anything */
+	return ".el" /* TODO anything */
 }
 
 var _ Token = (*Tokenel)(nil)
@@ -4510,11 +4510,11 @@ type Tokenwhile struct {
 }
 
 func ParseTokenwhile(argText string) (Token, error) {
-	return &Tokenwhile{ /* expr anything */ }, nil
+	return &Tokenwhile{ /* TODO expr anything */ }, nil
 }
 
 func (t *Tokenwhile) String() string {
-	return ".while" /* expr anything */
+	return ".while" /* TODO expr anything */
 }
 
 var _ Token = (*Tokenwhile)(nil)
@@ -4526,11 +4526,11 @@ type Tokenbreak struct {
 }
 
 func ParseTokenbreak(argText string) (Token, error) {
-	return &Tokenbreak{ /*  */ }, nil
+	return &Tokenbreak{ /* TODO  */ }, nil
 }
 
 func (t *Tokenbreak) String() string {
-	return ".break" /*  */
+	return ".break" /* TODO  */
 }
 
 var _ Token = (*Tokenbreak)(nil)
@@ -4542,11 +4542,11 @@ type Tokencontinue struct {
 }
 
 func ParseTokencontinue(argText string) (Token, error) {
-	return &Tokencontinue{ /*  */ }, nil
+	return &Tokencontinue{ /* TODO  */ }, nil
 }
 
 func (t *Tokencontinue) String() string {
-	return ".continue" /*  */
+	return ".continue" /* TODO  */
 }
 
 var _ Token = (*Tokencontinue)(nil)
@@ -4556,11 +4556,11 @@ type Tokende struct {
 }
 
 func ParseTokende(argText string) (Token, error) {
-	return &Tokende{ /* name [end] */ }, nil
+	return &Tokende{ /* TODO name [end] */ }, nil
 }
 
 func (t *Tokende) String() string {
-	return ".de" /* name [end] */
+	return ".de" /* TODO name [end] */
 }
 
 var _ Token = (*Tokende)(nil)
@@ -4570,11 +4570,11 @@ type Tokende1 struct {
 }
 
 func ParseTokende1(argText string) (Token, error) {
-	return &Tokende1{ /* name [end] */ }, nil
+	return &Tokende1{ /* TODO name [end] */ }, nil
 }
 
 func (t *Tokende1) String() string {
-	return ".de1" /* name [end] */
+	return ".de1" /* TODO name [end] */
 }
 
 var _ Token = (*Tokende1)(nil)
@@ -4584,11 +4584,11 @@ type Tokendei struct {
 }
 
 func ParseTokendei(argText string) (Token, error) {
-	return &Tokendei{ /* name [end] */ }, nil
+	return &Tokendei{ /* TODO name [end] */ }, nil
 }
 
 func (t *Tokendei) String() string {
-	return ".dei" /* name [end] */
+	return ".dei" /* TODO name [end] */
 }
 
 var _ Token = (*Tokendei)(nil)
@@ -4695,11 +4695,11 @@ type Tokendei1 struct {
 }
 
 func ParseTokendei1(argText string) (Token, error) {
-	return &Tokendei1{ /* name [end] */ }, nil
+	return &Tokendei1{ /* TODO name [end] */ }, nil
 }
 
 func (t *Tokendei1) String() string {
-	return ".dei1" /* name [end] */
+	return ".dei1" /* TODO name [end] */
 }
 
 var _ Token = (*Tokendei1)(nil)
@@ -4709,11 +4709,11 @@ type Tokenam struct {
 }
 
 func ParseTokenam(argText string) (Token, error) {
-	return &Tokenam{ /* name [end] */ }, nil
+	return &Tokenam{ /* TODO name [end] */ }, nil
 }
 
 func (t *Tokenam) String() string {
-	return ".am" /* name [end] */
+	return ".am" /* TODO name [end] */
 }
 
 var _ Token = (*Tokenam)(nil)
@@ -4723,11 +4723,11 @@ type Tokenam1 struct {
 }
 
 func ParseTokenam1(argText string) (Token, error) {
-	return &Tokenam1{ /* name [end] */ }, nil
+	return &Tokenam1{ /* TODO name [end] */ }, nil
 }
 
 func (t *Tokenam1) String() string {
-	return ".am1" /* name [end] */
+	return ".am1" /* TODO name [end] */
 }
 
 var _ Token = (*Tokenam1)(nil)
@@ -4737,11 +4737,11 @@ type Tokenami struct {
 }
 
 func ParseTokenami(argText string) (Token, error) {
-	return &Tokenami{ /* name [end] */ }, nil
+	return &Tokenami{ /* TODO name [end] */ }, nil
 }
 
 func (t *Tokenami) String() string {
-	return ".ami" /* name [end] */
+	return ".ami" /* TODO name [end] */
 }
 
 var _ Token = (*Tokenami)(nil)
@@ -4774,11 +4774,11 @@ type Tokenami1 struct {
 }
 
 func ParseTokenami1(argText string) (Token, error) {
-	return &Tokenami1{ /* name [end] */ }, nil
+	return &Tokenami1{ /* TODO name [end] */ }, nil
 }
 
 func (t *Tokenami1) String() string {
-	return ".ami1" /* name [end] */
+	return ".ami1" /* TODO name [end] */
 }
 
 var _ Token = (*Tokenami1)(nil)
@@ -4793,11 +4793,11 @@ type Tokenreturn struct {
 }
 
 func ParseTokenreturn(argText string) (Token, error) {
-	return &Tokenreturn{ /* [anything] */ }, nil
+	return &Tokenreturn{ /* TODO [anything] */ }, nil
 }
 
 func (t *Tokenreturn) String() string {
-	return ".return" /* [anything] */
+	return ".return" /* TODO [anything] */
 }
 
 var _ Token = (*Tokenreturn)(nil)
@@ -4814,11 +4814,11 @@ type Tokenshift struct {
 }
 
 func ParseTokenshift(argText string) (Token, error) {
-	return &Tokenshift{ /* [n] */ }, nil
+	return &Tokenshift{ /* TODO [n] */ }, nil
 }
 
 func (t *Tokenshift) String() string {
-	return ".shift" /* [n] */
+	return ".shift" /* TODO [n] */
 }
 
 var _ Token = (*Tokenshift)(nil)
@@ -4828,11 +4828,11 @@ type Tokenmk struct {
 }
 
 func ParseTokenmk(argText string) (Token, error) {
-	return &Tokenmk{ /* [reg] */ }, nil
+	return &Tokenmk{ /* TODO [reg] */ }, nil
 }
 
 func (t *Tokenmk) String() string {
-	return ".mk" /* [reg] */
+	return ".mk" /* TODO [reg] */
 }
 
 var _ Token = (*Tokenmk)(nil)
@@ -4911,11 +4911,11 @@ type Tokenrt struct {
 }
 
 func ParseTokenrt(argText string) (Token, error) {
-	return &Tokenrt{ /* [dist] */ }, nil
+	return &Tokenrt{ /* TODO [dist] */ }, nil
 }
 
 func (t *Tokenrt) String() string {
-	return ".rt" /* [dist] */
+	return ".rt" /* TODO [dist] */
 }
 
 var _ Token = (*Tokenrt)(nil)
@@ -4925,11 +4925,11 @@ type Tokenvpt struct {
 }
 
 func ParseTokenvpt(argText string) (Token, error) {
-	return &Tokenvpt{ /* flag */ }, nil
+	return &Tokenvpt{ /* TODO flag */ }, nil
 }
 
 func (t *Tokenvpt) String() string {
-	return ".vpt" /* flag */
+	return ".vpt" /* TODO flag */
 }
 
 var _ Token = (*Tokenvpt)(nil)
@@ -5018,11 +5018,11 @@ type Tokenwh struct {
 }
 
 func ParseTokenwh(argText string) (Token, error) {
-	return &Tokenwh{ /* dist [macro] */ }, nil
+	return &Tokenwh{ /* TODO dist [macro] */ }, nil
 }
 
 func (t *Tokenwh) String() string {
-	return ".wh" /* dist [macro] */
+	return ".wh" /* TODO dist [macro] */
 }
 
 var _ Token = (*Tokenwh)(nil)
@@ -5041,11 +5041,11 @@ type Tokench struct {
 }
 
 func ParseTokench(argText string) (Token, error) {
-	return &Tokench{ /* macro [dist] */ }, nil
+	return &Tokench{ /* TODO macro [dist] */ }, nil
 }
 
 func (t *Tokench) String() string {
-	return ".ch" /* macro [dist] */
+	return ".ch" /* TODO macro [dist] */
 }
 
 var _ Token = (*Tokench)(nil)
@@ -5064,11 +5064,11 @@ type Tokendt struct {
 }
 
 func ParseTokendt(argText string) (Token, error) {
-	return &Tokendt{ /* [dist macro] */ }, nil
+	return &Tokendt{ /* TODO [dist macro] */ }, nil
 }
 
 func (t *Tokendt) String() string {
-	return ".dt" /* [dist macro] */
+	return ".dt" /* TODO [dist macro] */
 }
 
 var _ Token = (*Tokendt)(nil)
@@ -5078,11 +5078,11 @@ type Tokenit struct {
 }
 
 func ParseTokenit(argText string) (Token, error) {
-	return &Tokenit{ /* n macro */ }, nil
+	return &Tokenit{ /* TODO n macro */ }, nil
 }
 
 func (t *Tokenit) String() string {
-	return ".it" /* n macro */
+	return ".it" /* TODO n macro */
 }
 
 var _ Token = (*Tokenit)(nil)
@@ -5115,11 +5115,11 @@ type Tokenitc struct {
 }
 
 func ParseTokenitc(argText string) (Token, error) {
-	return &Tokenitc{ /* n macro */ }, nil
+	return &Tokenitc{ /* TODO n macro */ }, nil
 }
 
 func (t *Tokenitc) String() string {
-	return ".itc" /* n macro */
+	return ".itc" /* TODO n macro */
 }
 
 var _ Token = (*Tokenitc)(nil)
@@ -5131,11 +5131,11 @@ type Tokenblm struct {
 }
 
 func ParseTokenblm(argText string) (Token, error) {
-	return &Tokenblm{ /* macro */ }, nil
+	return &Tokenblm{ /* TODO macro */ }, nil
 }
 
 func (t *Tokenblm) String() string {
-	return ".blm" /* macro */
+	return ".blm" /* TODO macro */
 }
 
 var _ Token = (*Tokenblm)(nil)
@@ -5145,11 +5145,11 @@ type Tokenlsm struct {
 }
 
 func ParseTokenlsm(argText string) (Token, error) {
-	return &Tokenlsm{ /* macro */ }, nil
+	return &Tokenlsm{ /* TODO macro */ }, nil
 }
 
 func (t *Tokenlsm) String() string {
-	return ".lsm" /* macro */
+	return ".lsm" /* TODO macro */
 }
 
 var _ Token = (*Tokenlsm)(nil)
@@ -5252,11 +5252,11 @@ type Tokenem struct {
 }
 
 func ParseTokenem(argText string) (Token, error) {
-	return &Tokenem{ /* macro */ }, nil
+	return &Tokenem{ /* TODO macro */ }, nil
 }
 
 func (t *Tokenem) String() string {
-	return ".em" /* macro */
+	return ".em" /* TODO macro */
 }
 
 var _ Token = (*Tokenem)(nil)
@@ -5266,11 +5266,11 @@ type Tokendi struct {
 }
 
 func ParseTokendi(argText string) (Token, error) {
-	return &Tokendi{ /* macro */ }, nil
+	return &Tokendi{ /* TODO macro */ }, nil
 }
 
 func (t *Tokendi) String() string {
-	return ".di" /* macro */
+	return ".di" /* TODO macro */
 }
 
 var _ Token = (*Tokendi)(nil)
@@ -5290,11 +5290,11 @@ type Tokenda struct {
 }
 
 func ParseTokenda(argText string) (Token, error) {
-	return &Tokenda{ /* macro */ }, nil
+	return &Tokenda{ /* TODO macro */ }, nil
 }
 
 func (t *Tokenda) String() string {
-	return ".da" /* macro */
+	return ".da" /* TODO macro */
 }
 
 var _ Token = (*Tokenda)(nil)
@@ -5304,11 +5304,11 @@ type Tokenbox struct {
 }
 
 func ParseTokenbox(argText string) (Token, error) {
-	return &Tokenbox{ /* macro */ }, nil
+	return &Tokenbox{ /* TODO macro */ }, nil
 }
 
 func (t *Tokenbox) String() string {
-	return ".box" /* macro */
+	return ".box" /* TODO macro */
 }
 
 var _ Token = (*Tokenbox)(nil)
@@ -5355,11 +5355,11 @@ type Tokenboxa struct {
 }
 
 func ParseTokenboxa(argText string) (Token, error) {
-	return &Tokenboxa{ /* macro */ }, nil
+	return &Tokenboxa{ /* TODO macro */ }, nil
 }
 
 func (t *Tokenboxa) String() string {
-	return ".boxa" /* macro */
+	return ".boxa" /* TODO macro */
 }
 
 var _ Token = (*Tokenboxa)(nil)
@@ -5382,11 +5382,11 @@ type Tokenoutput struct {
 }
 
 func ParseTokenoutput(argText string) (Token, error) {
-	return &Tokenoutput{ /* string */ }, nil
+	return &Tokenoutput{ /* TODO string */ }, nil
 }
 
 func (t *Tokenoutput) String() string {
-	return ".output" /* string */
+	return ".output" /* TODO string */
 }
 
 var _ Token = (*Tokenoutput)(nil)
@@ -5417,11 +5417,11 @@ type Tokenasciify struct {
 }
 
 func ParseTokenasciify(argText string) (Token, error) {
-	return &Tokenasciify{ /* div */ }, nil
+	return &Tokenasciify{ /* TODO div */ }, nil
 }
 
 func (t *Tokenasciify) String() string {
-	return ".asciify" /* div */
+	return ".asciify" /* TODO div */
 }
 
 var _ Token = (*Tokenasciify)(nil)
@@ -5438,11 +5438,11 @@ type Tokenunformat struct {
 }
 
 func ParseTokenunformat(argText string) (Token, error) {
-	return &Tokenunformat{ /* div */ }, nil
+	return &Tokenunformat{ /* TODO div */ }, nil
 }
 
 func (t *Tokenunformat) String() string {
-	return ".unformat" /* div */
+	return ".unformat" /* TODO div */
 }
 
 var _ Token = (*Tokenunformat)(nil)
@@ -5452,11 +5452,11 @@ type Tokenev struct {
 }
 
 func ParseTokenev(argText string) (Token, error) {
-	return &Tokenev{ /* [env] */ }, nil
+	return &Tokenev{ /* TODO [env] */ }, nil
 }
 
 func (t *Tokenev) String() string {
-	return ".ev" /* [env] */
+	return ".ev" /* TODO [env] */
 }
 
 var _ Token = (*Tokenev)(nil)
@@ -5485,11 +5485,11 @@ type Tokenevc struct {
 }
 
 func ParseTokenevc(argText string) (Token, error) {
-	return &Tokenevc{ /* env */ }, nil
+	return &Tokenevc{ /* TODO env */ }, nil
 }
 
 func (t *Tokenevc) String() string {
-	return ".evc" /* env */
+	return ".evc" /* TODO env */
 }
 
 var _ Token = (*Tokenevc)(nil)
@@ -5499,11 +5499,11 @@ type Tokencolor struct {
 }
 
 func ParseTokencolor(argText string) (Token, error) {
-	return &Tokencolor{ /* [n] */ }, nil
+	return &Tokencolor{ /* TODO [n] */ }, nil
 }
 
 func (t *Tokencolor) String() string {
-	return ".color" /* [n] */
+	return ".color" /* TODO [n] */
 }
 
 var _ Token = (*Tokencolor)(nil)
@@ -5538,11 +5538,11 @@ type Tokendefcolor struct {
 }
 
 func ParseTokendefcolor(argText string) (Token, error) {
-	return &Tokendefcolor{ /* ident scheme color_components */ }, nil
+	return &Tokendefcolor{ /* TODO ident scheme color_components */ }, nil
 }
 
 func (t *Tokendefcolor) String() string {
-	return ".defcolor" /* ident scheme color_components */
+	return ".defcolor" /* TODO ident scheme color_components */
 }
 
 var _ Token = (*Tokendefcolor)(nil)
@@ -5552,11 +5552,11 @@ type Tokengcolor struct {
 }
 
 func ParseTokengcolor(argText string) (Token, error) {
-	return &Tokengcolor{ /* [color] */ }, nil
+	return &Tokengcolor{ /* TODO [color] */ }, nil
 }
 
 func (t *Tokengcolor) String() string {
-	return ".gcolor" /* [color] */
+	return ".gcolor" /* TODO [color] */
 }
 
 var _ Token = (*Tokengcolor)(nil)
@@ -5566,11 +5566,11 @@ type Tokenfcolor struct {
 }
 
 func ParseTokenfcolor(argText string) (Token, error) {
-	return &Tokenfcolor{ /* [color] */ }, nil
+	return &Tokenfcolor{ /* TODO [color] */ }, nil
 }
 
 func (t *Tokenfcolor) String() string {
-	return ".fcolor" /* [color] */
+	return ".fcolor" /* TODO [color] */
 }
 
 var _ Token = (*Tokenfcolor)(nil)
@@ -5598,11 +5598,11 @@ type Tokenso struct {
 }
 
 func ParseTokenso(argText string) (Token, error) {
-	return &Tokenso{ /* file */ }, nil
+	return &Tokenso{ /* TODO file */ }, nil
 }
 
 func (t *Tokenso) String() string {
-	return ".so" /* file */
+	return ".so" /* TODO file */
 }
 
 var _ Token = (*Tokenso)(nil)
@@ -5621,11 +5621,11 @@ type Tokenpso struct {
 }
 
 func ParseTokenpso(argText string) (Token, error) {
-	return &Tokenpso{ /* command */ }, nil
+	return &Tokenpso{ /* TODO command */ }, nil
 }
 
 func (t *Tokenpso) String() string {
-	return ".pso" /* command */
+	return ".pso" /* TODO command */
 }
 
 var _ Token = (*Tokenpso)(nil)
@@ -5643,11 +5643,11 @@ type Tokenmso struct {
 }
 
 func ParseTokenmso(argText string) (Token, error) {
-	return &Tokenmso{ /* file */ }, nil
+	return &Tokenmso{ /* TODO file */ }, nil
 }
 
 func (t *Tokenmso) String() string {
-	return ".mso" /* file */
+	return ".mso" /* TODO file */
 }
 
 var _ Token = (*Tokenmso)(nil)
@@ -5657,11 +5657,11 @@ type Tokentrf struct {
 }
 
 func ParseTokentrf(argText string) (Token, error) {
-	return &Tokentrf{ /* file */ }, nil
+	return &Tokentrf{ /* TODO file */ }, nil
 }
 
 func (t *Tokentrf) String() string {
-	return ".trf" /* file */
+	return ".trf" /* TODO file */
 }
 
 var _ Token = (*Tokentrf)(nil)
@@ -5704,11 +5704,11 @@ type Tokencf struct {
 }
 
 func ParseTokencf(argText string) (Token, error) {
-	return &Tokencf{ /* file */ }, nil
+	return &Tokencf{ /* TODO file */ }, nil
 }
 
 func (t *Tokencf) String() string {
-	return ".cf" /* file */
+	return ".cf" /* TODO file */
 }
 
 var _ Token = (*Tokencf)(nil)
@@ -5720,11 +5720,11 @@ type Tokennx struct {
 }
 
 func ParseTokennx(argText string) (Token, error) {
-	return &Tokennx{ /* [file] */ }, nil
+	return &Tokennx{ /* TODO [file] */ }, nil
 }
 
 func (t *Tokennx) String() string {
-	return ".nx" /* [file] */
+	return ".nx" /* TODO [file] */
 }
 
 var _ Token = (*Tokennx)(nil)
@@ -5749,11 +5749,11 @@ type Tokenrd struct {
 }
 
 func ParseTokenrd(argText string) (Token, error) {
-	return &Tokenrd{ /* [prompt [arg1 arg2 …]] */ }, nil
+	return &Tokenrd{ /* TODO [prompt [arg1 arg2 …]] */ }, nil
 }
 
 func (t *Tokenrd) String() string {
-	return ".rd" /* [prompt [arg1 arg2 …]] */
+	return ".rd" /* TODO [prompt [arg1 arg2 …]] */
 }
 
 var _ Token = (*Tokenrd)(nil)
@@ -5783,11 +5783,11 @@ type Tokenpi struct {
 }
 
 func ParseTokenpi(argText string) (Token, error) {
-	return &Tokenpi{ /* pipe */ }, nil
+	return &Tokenpi{ /* TODO pipe */ }, nil
 }
 
 func (t *Tokenpi) String() string {
-	return ".pi" /* pipe */
+	return ".pi" /* TODO pipe */
 }
 
 var _ Token = (*Tokenpi)(nil)
@@ -5797,11 +5797,11 @@ type Tokensy struct {
 }
 
 func ParseTokensy(argText string) (Token, error) {
-	return &Tokensy{ /* cmds */ }, nil
+	return &Tokensy{ /* TODO cmds */ }, nil
 }
 
 func (t *Tokensy) String() string {
-	return ".sy" /* cmds */
+	return ".sy" /* TODO cmds */
 }
 
 var _ Token = (*Tokensy)(nil)
@@ -5811,11 +5811,11 @@ type Tokenopen struct {
 }
 
 func ParseTokenopen(argText string) (Token, error) {
-	return &Tokenopen{ /* stream file */ }, nil
+	return &Tokenopen{ /* TODO stream file */ }, nil
 }
 
 func (t *Tokenopen) String() string {
-	return ".open" /* stream file */
+	return ".open" /* TODO stream file */
 }
 
 var _ Token = (*Tokenopen)(nil)
@@ -5834,11 +5834,11 @@ type Tokenopena struct {
 }
 
 func ParseTokenopena(argText string) (Token, error) {
-	return &Tokenopena{ /* stream file */ }, nil
+	return &Tokenopena{ /* TODO stream file */ }, nil
 }
 
 func (t *Tokenopena) String() string {
-	return ".opena" /* stream file */
+	return ".opena" /* TODO stream file */
 }
 
 var _ Token = (*Tokenopena)(nil)
@@ -5848,11 +5848,11 @@ type Tokenwrite struct {
 }
 
 func ParseTokenwrite(argText string) (Token, error) {
-	return &Tokenwrite{ /* stream data */ }, nil
+	return &Tokenwrite{ /* TODO stream data */ }, nil
 }
 
 func (t *Tokenwrite) String() string {
-	return ".write" /* stream data */
+	return ".write" /* TODO stream data */
 }
 
 var _ Token = (*Tokenwrite)(nil)
@@ -5870,11 +5870,11 @@ type Tokenwritec struct {
 }
 
 func ParseTokenwritec(argText string) (Token, error) {
-	return &Tokenwritec{ /* stream data */ }, nil
+	return &Tokenwritec{ /* TODO stream data */ }, nil
 }
 
 func (t *Tokenwritec) String() string {
-	return ".writec" /* stream data */
+	return ".writec" /* TODO stream data */
 }
 
 var _ Token = (*Tokenwritec)(nil)
@@ -5891,11 +5891,11 @@ type Tokenwritem struct {
 }
 
 func ParseTokenwritem(argText string) (Token, error) {
-	return &Tokenwritem{ /* stream xx */ }, nil
+	return &Tokenwritem{ /* TODO stream xx */ }, nil
 }
 
 func (t *Tokenwritem) String() string {
-	return ".writem" /* stream xx */
+	return ".writem" /* TODO stream xx */
 }
 
 var _ Token = (*Tokenwritem)(nil)
@@ -5919,11 +5919,11 @@ type Tokenclose struct {
 }
 
 func ParseTokenclose(argText string) (Token, error) {
-	return &Tokenclose{ /* stream */ }, nil
+	return &Tokenclose{ /* TODO stream */ }, nil
 }
 
 func (t *Tokenclose) String() string {
-	return ".close" /* stream */
+	return ".close" /* TODO stream */
 }
 
 var _ Token = (*Tokenclose)(nil)
@@ -5933,11 +5933,11 @@ type Tokendevice struct {
 }
 
 func ParseTokendevice(argText string) (Token, error) {
-	return &Tokendevice{ /* xxx */ }, nil
+	return &Tokendevice{ /* TODO xxx */ }, nil
 }
 
 func (t *Tokendevice) String() string {
-	return ".device" /* xxx */
+	return ".device" /* TODO xxx */
 }
 
 var _ Token = (*Tokendevice)(nil)
@@ -5947,11 +5947,11 @@ type Tokendevicem struct {
 }
 
 func ParseTokendevicem(argText string) (Token, error) {
-	return &Tokendevicem{ /* xx */ }, nil
+	return &Tokendevicem{ /* TODO xx */ }, nil
 }
 
 func (t *Tokendevicem) String() string {
-	return ".devicem" /* xx */
+	return ".devicem" /* TODO xx */
 }
 
 var _ Token = (*Tokendevicem)(nil)
@@ -6022,11 +6022,11 @@ type Tokennm struct {
 }
 
 func ParseTokennm(argText string) (Token, error) {
-	return &Tokennm{ /* [start [inc [space [indent]]]] */ }, nil
+	return &Tokennm{ /* TODO [start [inc [space [indent]]]] */ }, nil
 }
 
 func (t *Tokennm) String() string {
-	return ".nm" /* [start [inc [space [indent]]]] */
+	return ".nm" /* TODO [start [inc [space [indent]]]] */
 }
 
 var _ Token = (*Tokennm)(nil)
@@ -6038,11 +6038,11 @@ type Tokennn struct {
 }
 
 func ParseTokennn(argText string) (Token, error) {
-	return &Tokennn{ /* [skip] */ }, nil
+	return &Tokennn{ /* TODO [skip] */ }, nil
 }
 
 func (t *Tokennn) String() string {
-	return ".nn" /* [skip] */
+	return ".nn" /* TODO [skip] */
 }
 
 var _ Token = (*Tokennn)(nil)
@@ -6111,11 +6111,11 @@ type Tokenmc struct {
 }
 
 func ParseTokenmc(argText string) (Token, error) {
-	return &Tokenmc{ /* glyph [dist] */ }, nil
+	return &Tokenmc{ /* TODO glyph [dist] */ }, nil
 }
 
 func (t *Tokenmc) String() string {
-	return ".mc" /* glyph [dist] */
+	return ".mc" /* TODO glyph [dist] */
 }
 
 var _ Token = (*Tokenmc)(nil)
@@ -6125,11 +6125,11 @@ type Tokenpsbb struct {
 }
 
 func ParseTokenpsbb(argText string) (Token, error) {
-	return &Tokenpsbb{ /* filename */ }, nil
+	return &Tokenpsbb{ /* TODO filename */ }, nil
 }
 
 func (t *Tokenpsbb) String() string {
-	return ".psbb" /* filename */
+	return ".psbb" /* TODO filename */
 }
 
 var _ Token = (*Tokenpsbb)(nil)
@@ -6152,11 +6152,11 @@ type Tokenlf struct {
 }
 
 func ParseTokenlf(argText string) (Token, error) {
-	return &Tokenlf{ /* line [filename] */ }, nil
+	return &Tokenlf{ /* TODO line [filename] */ }, nil
 }
 
 func (t *Tokenlf) String() string {
-	return ".lf" /* line [filename] */
+	return ".lf" /* TODO line [filename] */
 }
 
 var _ Token = (*Tokenlf)(nil)
@@ -6166,11 +6166,11 @@ type Tokentm struct {
 }
 
 func ParseTokentm(argText string) (Token, error) {
-	return &Tokentm{ /* string */ }, nil
+	return &Tokentm{ /* TODO string */ }, nil
 }
 
 func (t *Tokentm) String() string {
-	return ".tm" /* string */
+	return ".tm" /* TODO string */
 }
 
 var _ Token = (*Tokentm)(nil)
@@ -6180,11 +6180,11 @@ type Tokentm1 struct {
 }
 
 func ParseTokentm1(argText string) (Token, error) {
-	return &Tokentm1{ /* string */ }, nil
+	return &Tokentm1{ /* TODO string */ }, nil
 }
 
 func (t *Tokentm1) String() string {
-	return ".tm1" /* string */
+	return ".tm1" /* TODO string */
 }
 
 var _ Token = (*Tokentm1)(nil)
@@ -6205,11 +6205,11 @@ type Tokentmc struct {
 }
 
 func ParseTokentmc(argText string) (Token, error) {
-	return &Tokentmc{ /* string */ }, nil
+	return &Tokentmc{ /* TODO string */ }, nil
 }
 
 func (t *Tokentmc) String() string {
-	return ".tmc" /* string */
+	return ".tmc" /* TODO string */
 }
 
 var _ Token = (*Tokentmc)(nil)
@@ -6222,11 +6222,11 @@ type Tokenab struct {
 }
 
 func ParseTokenab(argText string) (Token, error) {
-	return &Tokenab{ /* [string] */ }, nil
+	return &Tokenab{ /* TODO [string] */ }, nil
 }
 
 func (t *Tokenab) String() string {
-	return ".ab" /* [string] */
+	return ".ab" /* TODO [string] */
 }
 
 var _ Token = (*Tokenab)(nil)
@@ -6238,11 +6238,11 @@ type Tokenex struct {
 }
 
 func ParseTokenex(argText string) (Token, error) {
-	return &Tokenex{ /*  */ }, nil
+	return &Tokenex{ /* TODO  */ }, nil
 }
 
 func (t *Tokenex) String() string {
-	return ".ex" /*  */
+	return ".ex" /* TODO  */
 }
 
 var _ Token = (*Tokenex)(nil)
@@ -6254,11 +6254,11 @@ type Tokenpev struct {
 }
 
 func ParseTokenpev(argText string) (Token, error) {
-	return &Tokenpev{ /*  */ }, nil
+	return &Tokenpev{ /* TODO  */ }, nil
 }
 
 func (t *Tokenpev) String() string {
-	return ".pev" /*  */
+	return ".pev" /* TODO  */
 }
 
 var _ Token = (*Tokenpev)(nil)
@@ -6277,11 +6277,11 @@ type Tokenpm struct {
 }
 
 func ParseTokenpm(argText string) (Token, error) {
-	return &Tokenpm{ /*  */ }, nil
+	return &Tokenpm{ /* TODO  */ }, nil
 }
 
 func (t *Tokenpm) String() string {
-	return ".pm" /*  */
+	return ".pm" /* TODO  */
 }
 
 var _ Token = (*Tokenpm)(nil)
@@ -6293,11 +6293,11 @@ type Tokenpnr struct {
 }
 
 func ParseTokenpnr(argText string) (Token, error) {
-	return &Tokenpnr{ /*  */ }, nil
+	return &Tokenpnr{ /* TODO  */ }, nil
 }
 
 func (t *Tokenpnr) String() string {
-	return ".pnr" /*  */
+	return ".pnr" /* TODO  */
 }
 
 var _ Token = (*Tokenpnr)(nil)
@@ -6311,11 +6311,11 @@ type Tokenptr struct {
 }
 
 func ParseTokenptr(argText string) (Token, error) {
-	return &Tokenptr{ /*  */ }, nil
+	return &Tokenptr{ /* TODO  */ }, nil
 }
 
 func (t *Tokenptr) String() string {
-	return ".ptr" /*  */
+	return ".ptr" /* TODO  */
 }
 
 var _ Token = (*Tokenptr)(nil)
@@ -6332,11 +6332,11 @@ type Tokenfl struct {
 }
 
 func ParseTokenfl(argText string) (Token, error) {
-	return &Tokenfl{ /*  */ }, nil
+	return &Tokenfl{ /* TODO  */ }, nil
 }
 
 func (t *Tokenfl) String() string {
-	return ".fl" /*  */
+	return ".fl" /* TODO  */
 }
 
 var _ Token = (*Tokenfl)(nil)
@@ -6367,11 +6367,11 @@ type Tokenbacktrace struct {
 }
 
 func ParseTokenbacktrace(argText string) (Token, error) {
-	return &Tokenbacktrace{ /*  */ }, nil
+	return &Tokenbacktrace{ /* TODO  */ }, nil
 }
 
 func (t *Tokenbacktrace) String() string {
-	return ".backtrace" /*  */
+	return ".backtrace" /* TODO  */
 }
 
 var _ Token = (*Tokenbacktrace)(nil)
@@ -6384,11 +6384,11 @@ type Tokenwarnscale struct {
 }
 
 func ParseTokenwarnscale(argText string) (Token, error) {
-	return &Tokenwarnscale{ /* si */ }, nil
+	return &Tokenwarnscale{ /* TODO si */ }, nil
 }
 
 func (t *Tokenwarnscale) String() string {
-	return ".warnscale" /* si */
+	return ".warnscale" /* TODO si */
 }
 
 var _ Token = (*Tokenwarnscale)(nil)
@@ -6414,11 +6414,11 @@ type Tokenspreadwarn struct {
 }
 
 func ParseTokenspreadwarn(argText string) (Token, error) {
-	return &Tokenspreadwarn{ /* [limit] */ }, nil
+	return &Tokenspreadwarn{ /* TODO [limit] */ }, nil
 }
 
 func (t *Tokenspreadwarn) String() string {
-	return ".spreadwarn" /* [limit] */
+	return ".spreadwarn" /* TODO [limit] */
 }
 
 var _ Token = (*Tokenspreadwarn)(nil)
@@ -6428,11 +6428,11 @@ type Tokenwarn struct {
 }
 
 func ParseTokenwarn(argText string) (Token, error) {
-	return &Tokenwarn{ /* [flags] */ }, nil
+	return &Tokenwarn{ /* TODO [flags] */ }, nil
 }
 
 func (t *Tokenwarn) String() string {
-	return ".warn" /* [flags] */
+	return ".warn" /* TODO [flags] */
 }
 
 var _ Token = (*Tokenwarn)(nil)
@@ -6442,11 +6442,11 @@ type Tokencp struct {
 }
 
 func ParseTokencp(argText string) (Token, error) {
-	return &Tokencp{ /* [n] */ }, nil
+	return &Tokencp{ /* TODO [n] */ }, nil
 }
 
 func (t *Tokencp) String() string {
-	return ".cp" /* [n] */
+	return ".cp" /* TODO [n] */
 }
 
 var _ Token = (*Tokencp)(nil)
@@ -6456,11 +6456,11 @@ type Tokendo struct {
 }
 
 func ParseTokendo(argText string) (Token, error) {
-	return &Tokendo{ /* cmd */ }, nil
+	return &Tokendo{ /* TODO cmd */ }, nil
 }
 
 func (t *Tokendo) String() string {
-	return ".do" /* cmd */
+	return ".do" /* TODO cmd */
 }
 
 var _ Token = (*Tokendo)(nil)
