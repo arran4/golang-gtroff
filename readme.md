@@ -9,3 +9,8 @@ macros and requests. Escapes and registers ignored for the moment.
 # Purpose
 
 Primarily for text extraction right now.
+
+# License
+
+https://www.gnu.org/software/groff/manual/groff.html#Copying-This-Manual Where applicable GPL everywhere else as to
+maintain compatability with the source material.
