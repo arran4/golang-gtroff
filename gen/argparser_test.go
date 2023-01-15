@@ -22,14 +22,14 @@ func Test_parseArgRun(t *testing.T) {
 		{
 			name:    "1 required",
 			in:      "a",
-			want:    &ArgStruct{Words: []*Word{{"a", false}}},
+			want:    &ArgStruct{Words: []*Word{{"a", false, ""}}},
 			wantErr: false,
 		},
 		{
 			name: "1 optional",
 			in:   "[a]",
 			want: &ArgStruct{
-				Words: []*Word{{"a", true}},
+				Words: []*Word{{"a", true, ""}},
 				OptionalRanges: [][2]int{
 					{0, 1},
 				},
@@ -41,7 +41,7 @@ func Test_parseArgRun(t *testing.T) {
 			name: "1 required 1 optional",
 			in:   "a [b]",
 			want: &ArgStruct{
-				Words: []*Word{{"a", false}, {"b", true}},
+				Words: []*Word{{"a", false, ""}, {"b", true, ""}},
 				OptionalRanges: [][2]int{
 					{1, 2},
 				},
@@ -53,7 +53,7 @@ func Test_parseArgRun(t *testing.T) {
 			name: "2 optional chained",
 			in:   "[a [b]]",
 			want: &ArgStruct{
-				Words: []*Word{{"a", true}, {"b", true}},
+				Words: []*Word{{"a", true, ""}, {"b", true, ""}},
 				OptionalRanges: [][2]int{
 					{0, 2},
 					{1, 2},
@@ -66,7 +66,7 @@ func Test_parseArgRun(t *testing.T) {
 			name: "2 optional alternative",
 			in:   "[a] [b]",
 			want: &ArgStruct{
-				Words: []*Word{{"a", true}, {"b", true}},
+				Words: []*Word{{"a", true, ""}, {"b", true, ""}},
 				OptionalRanges: [][2]int{
 					{0, 1},
 					{1, 2},
@@ -79,7 +79,7 @@ func Test_parseArgRun(t *testing.T) {
 			name: "2 same name",
 			in:   "a a",
 			want: &ArgStruct{
-				Words: []*Word{{"a", false}, {"a", false}},
+				Words: []*Word{{"a", false, ""}, {"a", false, ""}},
 			},
 			wantErr: false,
 		},
@@ -87,7 +87,7 @@ func Test_parseArgRun(t *testing.T) {
 			name: ".Pn",
 			in:   "[punct] path [punct]",
 			want: &ArgStruct{
-				Words: []*Word{{"punct", true}, {"path", false}, {"punct", true}},
+				Words: []*Word{{"punct", true, ""}, {"path", false, ""}, {"punct", true, ""}},
 				OptionalRanges: [][2]int{
 					{0, 1},
 					{2, 3},
@@ -99,7 +99,7 @@ func Test_parseArgRun(t *testing.T) {
 			name: "close mid word ignored",
 			in:   "as]df",
 			want: &ArgStruct{
-				Words: []*Word{{"as]df", false}},
+				Words: []*Word{{"as]df", false, ""}},
 			},
 			wantErr: false,
 		},
@@ -107,7 +107,7 @@ func Test_parseArgRun(t *testing.T) {
 			name: "open mid word ignored",
 			in:   "as[df",
 			want: &ArgStruct{
-				Words: []*Word{{"as[df", false}},
+				Words: []*Word{{"as[df", false, ""}},
 			},
 			wantErr: false,
 		},
@@ -115,7 +115,7 @@ func Test_parseArgRun(t *testing.T) {
 			name: "Multiple spaces either side ignored",
 			in:   "  asdf   ",
 			want: &ArgStruct{
-				Words: []*Word{{"asdf", false}},
+				Words: []*Word{{"asdf", false, ""}},
 			},
 			wantErr: false,
 		},
@@ -123,7 +123,7 @@ func Test_parseArgRun(t *testing.T) {
 			name: "Multiple spaces between ignored",
 			in:   "sdf    sdf",
 			want: &ArgStruct{
-				Words: []*Word{{"sdf", false}, {"sdf", false}},
+				Words: []*Word{{"sdf", false, ""}, {"sdf", false, ""}},
 			},
 			wantErr: false,
 		},
@@ -140,6 +140,46 @@ func Test_parseArgRun(t *testing.T) {
 			}
 			if d := cmp.Diff(got.Forwards(), tt.Forwards); d != "" {
 				t.Errorf("Forwards() = %s", d)
+			}
+		})
+	}
+}
+
+func TestParseArgs(t *testing.T) {
+	tests := []struct {
+		name       string
+		in         string
+		wantResult *ArgStruct
+		wantErr    bool
+	}{
+		{
+			name: ".Pn",
+			in:   "[punct] path [punct] [punct]",
+			wantResult: &ArgStruct{
+				Words: []*Word{
+					{"punct", true, "punct0"},
+					{"path", false, "path"},
+					{"punct", true, "punct1"},
+					{"punct", true, "punct2"},
+				},
+				OptionalRanges: [][2]int{
+					{0, 1},
+					{2, 3},
+					{3, 4},
+				},
+			},
+			wantErr: false,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			gotResult, err := ParseArgs(tt.in)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("ParseArgs() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			if diff := cmp.Diff(gotResult, tt.wantResult); diff != "" {
+				t.Errorf("ParseArgs() \n%s", diff)
 			}
 		})
 	}

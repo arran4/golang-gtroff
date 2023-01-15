@@ -7,6 +7,7 @@ import (
 type Word struct {
 	Word     string
 	Optional bool
+	Id       string
 }
 
 type ArgStruct struct {
@@ -16,6 +17,19 @@ type ArgStruct struct {
 
 func (ar *ArgStruct) HasOptional() bool {
 	return len(ar.OptionalRanges) > 0
+}
+
+func (ar *ArgStruct) AllOptional() bool {
+	return !ar.AllRequired()
+}
+
+func (ar *ArgStruct) AllRequired() bool {
+	for _, w := range ar.Words {
+		if w.Optional {
+			return false
+		}
+	}
+	return true
 }
 
 func (ar *ArgStruct) Forwards() bool {
@@ -46,7 +60,26 @@ func (ar *ArgStruct) Closings(n int) (r [][2]int) {
 }
 
 func ParseArgs(in string) (result *ArgStruct, err error) {
-	return parseArgRun(in)
+	result, err = parseArgRun(in)
+	if err != nil {
+		return
+	}
+	m := map[string][]int{}
+	for i, w := range result.Words {
+		word := w.Word // TODO make safe
+		countPos := append(m[w.Word], i)
+		m[word] = countPos
+		switch len(countPos) {
+		case 1:
+			result.Words[countPos[0]].Id = word
+		case 2:
+			result.Words[countPos[0]].Id += "0"
+			fallthrough
+		default:
+			result.Words[countPos[len(countPos)-1]].Id = fmt.Sprintf("%s%d", word, len(countPos)-1)
+		}
+	}
+	return
 }
 
 func parseArgRun(in string) (*ArgStruct, error) {
