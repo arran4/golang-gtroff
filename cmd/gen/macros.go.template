@@ -9,16 +9,23 @@ import (
 // {{$e.StructName}}
 {{$e.DescriptionCommented}}
 type {{$e.StructName}} struct {
-{{range $argi, $arg := $e.ArgStruct}}
+{{range $argi, $arg := $e.ArgStruct.Words}}
 {{if $arg.Comment}}
     // {{$arg.Comment}}
 {{- end}}
-    {{$arg.Name}} {{$arg.Type}}
+    {{$arg.Id}} {{$arg.Type}}
 {{end}}
 }
 
 func Parse{{$e.StructName}}(argText string) (Token, error) {
-	return &{{$e.StructName}}{ }, nil
+	{{range $argi, $arg := $e.ArgStruct.Words}}
+        var arg{{$arg.Id}} {{$arg.Type}}
+    {{end}}
+	return &{{$e.StructName}}{
+	{{range $argi, $arg := $e.ArgStruct.Words}}
+        {{$arg.Id}}: arg{{$arg.Id}},
+    {{end}}
+	}, nil
 }
 
 func (t *{{$e.StructName}}) String() string {

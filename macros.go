@@ -23,10 +23,41 @@ package groff
 // man pages; a single man page should contain exactly one TH macro
 // at the beginning of the file.
 type TokenMacroTH struct {
+	title string
+
+	section string
+
+	extra1 string
+
+	extra2 string
+
+	extra3 string
 }
 
 func ParseTokenMacroTH(argText string) (Token, error) {
-	return &TokenMacroTH{}, nil
+
+	var argtitle string
+
+	var argsection string
+
+	var argextra1 string
+
+	var argextra2 string
+
+	var argextra3 string
+
+	return &TokenMacroTH{
+
+		title: argtitle,
+
+		section: argsection,
+
+		extra1: argextra1,
+
+		extra2: argextra2,
+
+		extra3: argextra3,
+	}, nil
 }
 
 func (t *TokenMacroTH) String() string {
@@ -41,10 +72,17 @@ func (t *TokenMacroTH) String() string {
 // the base document size.  Additionally, the left margin and the
 // indentation for the following text is reset to its default value.
 type TokenMacroSH struct {
+	heading string
 }
 
 func ParseTokenMacroSH(argText string) (Token, error) {
-	return &TokenMacroSH{}, nil
+
+	var argheading string
+
+	return &TokenMacroSH{
+
+		heading: argheading,
+	}, nil
 }
 
 func (t *TokenMacroSH) String() string {
@@ -59,10 +97,17 @@ func (t *TokenMacroSH) String() string {
 // document size.  Additionally, the left margin and the indentation for
 // the following text is reset to its default value.
 type TokenMacroSS struct {
+	heading string
 }
 
 func ParseTokenMacroSS(argText string) (Token, error) {
-	return &TokenMacroSS{}, nil
+
+	var argheading string
+
+	return &TokenMacroSS{
+
+		heading: argheading,
+	}, nil
 }
 
 func (t *TokenMacroSS) String() string {
@@ -88,10 +133,17 @@ func (t *TokenMacroSS) String() string {
 // default value; on the other hand, the rest of the text has default font
 // settings.
 type TokenMacroTP struct {
+	nnn string
 }
 
 func ParseTokenMacroTP(argText string) (Token, error) {
-	return &TokenMacroTP{}, nil
+
+	var argnnn string
+
+	return &TokenMacroTP{
+
+		nnn: argnnn,
+	}, nil
 }
 
 func (t *TokenMacroTP) String() string {
@@ -109,6 +161,7 @@ type TokenMacroP struct {
 }
 
 func ParseTokenMacroP(argText string) (Token, error) {
+
 	return &TokenMacroP{}, nil
 }
 
@@ -134,10 +187,23 @@ func (t *TokenMacroP) String() string {
 //
 // .IP \(bu 4
 type TokenMacroIP struct {
+	designator string
+
+	nnn string
 }
 
 func ParseTokenMacroIP(argText string) (Token, error) {
-	return &TokenMacroIP{}, nil
+
+	var argdesignator string
+
+	var argnnn string
+
+	return &TokenMacroIP{
+
+		designator: argdesignator,
+
+		nnn: argnnn,
+	}, nil
 }
 
 func (t *TokenMacroIP) String() string {
@@ -152,10 +218,17 @@ func (t *TokenMacroIP) String() string {
 // if non of them have been used yet).  Font size and face are reset to
 // their default values.
 type TokenMacroHP struct {
+	nnn string
 }
 
 func ParseTokenMacroHP(argText string) (Token, error) {
-	return &TokenMacroHP{}, nil
+
+	var argnnn string
+
+	return &TokenMacroHP{
+
+		nnn: argnnn,
+	}, nil
 }
 
 func (t *TokenMacroHP) String() string {
@@ -171,10 +244,17 @@ func (t *TokenMacroHP) String() string {
 //
 // Calls to the RS macro can be nested.
 type TokenMacroRS struct {
+	nnn string
 }
 
 func ParseTokenMacroRS(argText string) (Token, error) {
-	return &TokenMacroRS{}, nil
+
+	var argnnn string
+
+	return &TokenMacroRS{
+
+		nnn: argnnn,
+	}, nil
 }
 
 func (t *TokenMacroRS) String() string {
@@ -187,10 +267,17 @@ func (t *TokenMacroRS) String() string {
 // first level (i.e., no call to RS yet) has number 1, and each
 // call to RS increases the level by 1.
 type TokenMacroRE struct {
+	nnn string
 }
 
 func ParseTokenMacroRE(argText string) (Token, error) {
-	return &TokenMacroRE{}, nil
+
+	var argnnn string
+
+	return &TokenMacroRE{
+
+		nnn: argnnn,
+	}, nil
 }
 
 func (t *TokenMacroRE) String() string {
@@ -201,10 +288,17 @@ func (t *TokenMacroRE) String() string {
 // Set the text on the same line or the text on the next line in a font
 // that is one point size smaller than the default font.
 type TokenMacroSM struct {
+	text string
 }
 
 func ParseTokenMacroSM(argText string) (Token, error) {
-	return &TokenMacroSM{}, nil
+
+	var argtext string
+
+	return &TokenMacroSM{
+
+		text: argtext,
+	}, nil
 }
 
 func (t *TokenMacroSM) String() string {
@@ -215,10 +309,17 @@ func (t *TokenMacroSM) String() string {
 // Set the text on the same line or the text on the next line in bold face
 // font, one point size smaller than the default font.
 type TokenMacroSB struct {
+	text string
 }
 
 func ParseTokenMacroSB(argText string) (Token, error) {
-	return &TokenMacroSB{}, nil
+
+	var argtext string
+
+	return &TokenMacroSB{
+
+		text: argtext,
+	}, nil
 }
 
 func (t *TokenMacroSB) String() string {
@@ -234,10 +335,17 @@ func (t *TokenMacroSB) String() string {
 // produces “thisword andthat” with “this” and “that” in bold face,
 // and “word and” in italics.
 type TokenMacroBI struct {
+	text string
 }
 
 func ParseTokenMacroBI(argText string) (Token, error) {
-	return &TokenMacroBI{}, nil
+
+	var argtext string
+
+	return &TokenMacroBI{
+
+		text: argtext,
+	}, nil
 }
 
 func (t *TokenMacroBI) String() string {
@@ -248,10 +356,17 @@ func (t *TokenMacroBI) String() string {
 // Set its arguments alternately in italic and bold face, without a space
 // between the arguments.
 type TokenMacroIB struct {
+	text string
 }
 
 func ParseTokenMacroIB(argText string) (Token, error) {
-	return &TokenMacroIB{}, nil
+
+	var argtext string
+
+	return &TokenMacroIB{
+
+		text: argtext,
+	}, nil
 }
 
 func (t *TokenMacroIB) String() string {
@@ -262,10 +377,17 @@ func (t *TokenMacroIB) String() string {
 // Set its arguments alternately in roman and italic, without a space
 // between the arguments.
 type TokenMacroRI struct {
+	text string
 }
 
 func ParseTokenMacroRI(argText string) (Token, error) {
-	return &TokenMacroRI{}, nil
+
+	var argtext string
+
+	return &TokenMacroRI{
+
+		text: argtext,
+	}, nil
 }
 
 func (t *TokenMacroRI) String() string {
@@ -276,10 +398,17 @@ func (t *TokenMacroRI) String() string {
 // Set its arguments alternately in italic and roman, without a space
 // between the arguments.
 type TokenMacroIR struct {
+	text string
 }
 
 func ParseTokenMacroIR(argText string) (Token, error) {
-	return &TokenMacroIR{}, nil
+
+	var argtext string
+
+	return &TokenMacroIR{
+
+		text: argtext,
+	}, nil
 }
 
 func (t *TokenMacroIR) String() string {
@@ -290,10 +419,17 @@ func (t *TokenMacroIR) String() string {
 // Set its arguments alternately in bold face and roman, without a space
 // between the arguments.
 type TokenMacroBR struct {
+	text string
 }
 
 func ParseTokenMacroBR(argText string) (Token, error) {
-	return &TokenMacroBR{}, nil
+
+	var argtext string
+
+	return &TokenMacroBR{
+
+		text: argtext,
+	}, nil
 }
 
 func (t *TokenMacroBR) String() string {
@@ -304,10 +440,17 @@ func (t *TokenMacroBR) String() string {
 // Set its arguments alternately in roman and bold face, without a space
 // between the arguments.
 type TokenMacroRB struct {
+	text string
 }
 
 func ParseTokenMacroRB(argText string) (Token, error) {
-	return &TokenMacroRB{}, nil
+
+	var argtext string
+
+	return &TokenMacroRB{
+
+		text: argtext,
+	}, nil
 }
 
 func (t *TokenMacroRB) String() string {
@@ -319,10 +462,17 @@ func (t *TokenMacroRB) String() string {
 // the macro is called, then the text of the next line appears in bold
 // face.
 type TokenMacroB struct {
+	text string
 }
 
 func ParseTokenMacroB(argText string) (Token, error) {
-	return &TokenMacroB{}, nil
+
+	var argtext string
+
+	return &TokenMacroB{
+
+		text: argtext,
+	}, nil
 }
 
 func (t *TokenMacroB) String() string {
@@ -333,10 +483,17 @@ func (t *TokenMacroB) String() string {
 // Set text in italic.  If no text is present on the line where the
 // macro is called, then the text of the next line appears in italic.
 type TokenMacroI struct {
+	text string
 }
 
 func ParseTokenMacroI(argText string) (Token, error) {
-	return &TokenMacroI{}, nil
+
+	var argtext string
+
+	return &TokenMacroI{
+
+		text: argtext,
+	}, nil
 }
 
 func (t *TokenMacroI) String() string {
@@ -351,6 +508,7 @@ type TokenMacroDT struct {
 }
 
 func ParseTokenMacroDT(argText string) (Token, error) {
+
 	return &TokenMacroDT{}, nil
 }
 
@@ -367,10 +525,17 @@ func (t *TokenMacroDT) String() string {
 // This affects the macros SH, SS, TP, LP (as
 // well as PP and P), IP, and HP.
 type TokenMacroPD struct {
+	nnn string
 }
 
 func ParseTokenMacroPD(argText string) (Token, error) {
-	return &TokenMacroPD{}, nil
+
+	var argnnn string
+
+	return &TokenMacroPD{
+
+		nnn: argnnn,
+	}, nil
 }
 
 func (t *TokenMacroPD) String() string {
@@ -394,10 +559,23 @@ func (t *TokenMacroPD) String() string {
 // An optional second argument release to AT specifies the
 // release number (such as “System V Release 3”).
 type TokenMacroAT struct {
+	system string
+
+	release string
 }
 
 func ParseTokenMacroAT(argText string) (Token, error) {
-	return &TokenMacroAT{}, nil
+
+	var argsystem string
+
+	var argrelease string
+
+	return &TokenMacroAT{
+
+		system: argsystem,
+
+		release: argrelease,
+	}, nil
 }
 
 func (t *TokenMacroAT) String() string {
@@ -423,10 +601,17 @@ func (t *TokenMacroAT) String() string {
 // 7
 // 4.4 Berkeley Distribution
 type TokenMacroUC struct {
+	version string
 }
 
 func ParseTokenMacroUC(argText string) (Token, error) {
-	return &TokenMacroUC{}, nil
+
+	var argversion string
+
+	return &TokenMacroUC{
+
+		version: argversion,
+	}, nil
 }
 
 func (t *TokenMacroUC) String() string {
@@ -441,6 +626,7 @@ type TokenMacroPT struct {
 }
 
 func ParseTokenMacroPT(argText string) (Token, error) {
+
 	return &TokenMacroPT{}, nil
 }
 
@@ -458,6 +644,7 @@ type TokenMacroBT struct {
 }
 
 func ParseTokenMacroBT(argText string) (Token, error) {
+
 	return &TokenMacroBT{}, nil
 }
 
@@ -468,10 +655,17 @@ func (t *TokenMacroBT) String() string {
 // TokenMacroCT
 // Print ‘<CTRL/key>’.
 type TokenMacroCT struct {
+	key string
 }
 
 func ParseTokenMacroCT(argText string) (Token, error) {
-	return &TokenMacroCT{}, nil
+
+	var argkey string
+
+	return &TokenMacroCT{
+
+		key: argkey,
+	}, nil
 }
 
 func (t *TokenMacroCT) String() string {
@@ -484,6 +678,7 @@ type TokenMacroCW struct {
 }
 
 func ParseTokenMacroCW(argText string) (Token, error) {
+
 	return &TokenMacroCW{}, nil
 }
 
@@ -497,6 +692,7 @@ type TokenMacroDs struct {
 }
 
 func ParseTokenMacroDs(argText string) (Token, error) {
+
 	return &TokenMacroDs{}, nil
 }
 
@@ -510,6 +706,7 @@ type TokenMacroDe struct {
 }
 
 func ParseTokenMacroDe(argText string) (Token, error) {
+
 	return &TokenMacroDe{}, nil
 }
 
@@ -521,10 +718,17 @@ func (t *TokenMacroDe) String() string {
 // Begin a non-filled display using the constant width (Courier) typeface.
 // Use the optional indent argument to indent the display.
 type TokenMacroEX struct {
+	indent string
 }
 
 func ParseTokenMacroEX(argText string) (Token, error) {
-	return &TokenMacroEX{}, nil
+
+	var argindent string
+
+	return &TokenMacroEX{
+
+		indent: argindent,
+	}, nil
 }
 
 func (t *TokenMacroEX) String() string {
@@ -537,6 +741,7 @@ type TokenMacroEE struct {
 }
 
 func ParseTokenMacroEE(argText string) (Token, error) {
+
 	return &TokenMacroEE{}, nil
 }
 
@@ -549,10 +754,17 @@ func (t *TokenMacroEE) String() string {
 // the macro is called, then the text of the next line appears in
 // Helvetica.
 type TokenMacroG struct {
+	text string
 }
 
 func ParseTokenMacroG(argText string) (Token, error) {
-	return &TokenMacroG{}, nil
+
+	var argtext string
+
+	return &TokenMacroG{
+
+		text: argtext,
+	}, nil
 }
 
 func (t *TokenMacroG) String() string {
@@ -564,10 +776,17 @@ func (t *TokenMacroG) String() string {
 // where the macro is called, then the text of the next line appears in
 // Helvetica Oblique.
 type TokenMacroGL struct {
+	text string
 }
 
 func ParseTokenMacroGL(argText string) (Token, error) {
-	return &TokenMacroGL{}, nil
+
+	var argtext string
+
+	return &TokenMacroGL{
+
+		text: argtext,
+	}, nil
 }
 
 func (t *TokenMacroGL) String() string {
@@ -579,10 +798,17 @@ func (t *TokenMacroGL) String() string {
 // where the macro is called, then all text up to the next HB
 // appears in Helvetica Bold.
 type TokenMacroHB struct {
+	text string
 }
 
 func ParseTokenMacroHB(argText string) (Token, error) {
-	return &TokenMacroHB{}, nil
+
+	var argtext string
+
+	return &TokenMacroHB{
+
+		text: argtext,
+	}, nil
 }
 
 func (t *TokenMacroHB) String() string {
@@ -592,10 +818,17 @@ func (t *TokenMacroHB) String() string {
 // TokenMacroTB
 // Identical to HB.
 type TokenMacroTB struct {
+	text string
 }
 
 func ParseTokenMacroTB(argText string) (Token, error) {
-	return &TokenMacroTB{}, nil
+
+	var argtext string
+
+	return &TokenMacroTB{
+
+		text: argtext,
+	}, nil
 }
 
 func (t *TokenMacroTB) String() string {
@@ -607,10 +840,29 @@ func (t *TokenMacroTB) String() string {
 // instead of italic.  Optional punctuation follows the section number
 // without an intervening space.
 type TokenMacroMS struct {
+	title string
+
+	sect string
+
+	punct string
 }
 
 func ParseTokenMacroMS(argText string) (Token, error) {
-	return &TokenMacroMS{}, nil
+
+	var argtitle string
+
+	var argsect string
+
+	var argpunct string
+
+	return &TokenMacroMS{
+
+		title: argtitle,
+
+		sect: argsect,
+
+		punct: argpunct,
+	}, nil
 }
 
 func (t *TokenMacroMS) String() string {
@@ -624,10 +876,23 @@ func (t *TokenMacroMS) String() string {
 // the body of the note is printed centered (the second argument replaces
 // the word “Note” if specified).
 type TokenMacroNT struct {
+	C string
+
+	title string
 }
 
 func ParseTokenMacroNT(argText string) (Token, error) {
-	return &TokenMacroNT{}, nil
+
+	var argC string
+
+	var argtitle string
+
+	return &TokenMacroNT{
+
+		C: argC,
+
+		title: argtitle,
+	}, nil
 }
 
 func (t *TokenMacroNT) String() string {
@@ -640,6 +905,7 @@ type TokenMacroNE struct {
 }
 
 func ParseTokenMacroNE(argText string) (Token, error) {
+
 	return &TokenMacroNE{}, nil
 }
 
@@ -651,10 +917,23 @@ func (t *TokenMacroNE) String() string {
 // Set the path name in constant width (Courier), followed by optional
 // punctuation.
 type TokenMacroPN struct {
+	path string
+
+	punct string
 }
 
 func ParseTokenMacroPN(argText string) (Token, error) {
-	return &TokenMacroPN{}, nil
+
+	var argpath string
+
+	var argpunct string
+
+	return &TokenMacroPN{
+
+		path: argpath,
+
+		punct: argpunct,
+	}, nil
 }
 
 func (t *TokenMacroPN) String() string {
@@ -666,10 +945,29 @@ func (t *TokenMacroPN) String() string {
 // three arguments, set the second argument in constant width (Courier),
 // bracketed by the first and third arguments in the current font.
 type TokenMacroPn struct {
+	punct0 string
+
+	path string
+
+	punct1 string
 }
 
 func ParseTokenMacroPn(argText string) (Token, error) {
-	return &TokenMacroPn{}, nil
+
+	var argpunct0 string
+
+	var argpath string
+
+	var argpunct1 string
+
+	return &TokenMacroPn{
+
+		punct0: argpunct0,
+
+		path: argpath,
+
+		punct1: argpunct1,
+	}, nil
 }
 
 func (t *TokenMacroPn) String() string {
@@ -682,6 +980,7 @@ type TokenMacroR struct {
 }
 
 func ParseTokenMacroR(argText string) (Token, error) {
+
 	return &TokenMacroR{}, nil
 }
 
@@ -695,6 +994,7 @@ type TokenMacroRN struct {
 }
 
 func ParseTokenMacroRN(argText string) (Token, error) {
+
 	return &TokenMacroRN{}, nil
 }
 
@@ -706,10 +1006,17 @@ func (t *TokenMacroRN) String() string {
 // Start printing a change bar in the margin if the number 4 is
 // specified.  Otherwise, this macro does nothing.
 type TokenMacroVS struct {
+	Four string
 }
 
 func ParseTokenMacroVS(argText string) (Token, error) {
-	return &TokenMacroVS{}, nil
+
+	var argFour string
+
+	return &TokenMacroVS{
+
+		Four: argFour,
+	}, nil
 }
 
 func (t *TokenMacroVS) String() string {
@@ -722,6 +1029,7 @@ type TokenMacroVE struct {
 }
 
 func ParseTokenMacroVE(argText string) (Token, error) {
+
 	return &TokenMacroVE{}, nil
 }
 
@@ -739,10 +1047,17 @@ func (t *TokenMacroVE) String() string {
 // information (title, author, abstract, etc.) on page 1 of the
 // document.
 type TokenMacroRP struct {
+	no string
 }
 
 func ParseTokenMacroRP(argText string) (Token, error) {
-	return &TokenMacroRP{}, nil
+
+	var argno string
+
+	return &TokenMacroRP{
+
+		no: argno,
+	}, nil
 }
 
 func (t *TokenMacroRP) String() string {
@@ -756,6 +1071,7 @@ type TokenMacroP1 struct {
 }
 
 func ParseTokenMacroP1(argText string) (Token, error) {
+
 	return &TokenMacroP1{}, nil
 }
 
@@ -768,10 +1084,17 @@ func (t *TokenMacroP1) String() string {
 // any, on the title page (if specified) and in the footers.  This is the
 // default for nroff.
 type TokenMacroDA struct {
+	Ellipse string
 }
 
 func ParseTokenMacroDA(argText string) (Token, error) {
-	return &TokenMacroDA{}, nil
+
+	var argEllipse string
+
+	return &TokenMacroDA{
+
+		Ellipse: argEllipse,
+	}, nil
 }
 
 func (t *TokenMacroDA) String() string {
@@ -783,10 +1106,17 @@ func (t *TokenMacroDA) String() string {
 // any, on the title page (if specified) but not in the footers.  This is
 // the default for troff.
 type TokenMacroND struct {
+	Ellipse string
 }
 
 func ParseTokenMacroND(argText string) (Token, error) {
-	return &TokenMacroND{}, nil
+
+	var argEllipse string
+
+	return &TokenMacroND{
+
+		Ellipse: argEllipse,
+	}, nil
 }
 
 func (t *TokenMacroND) String() string {
@@ -801,6 +1131,7 @@ type TokenMacroTL struct {
 }
 
 func ParseTokenMacroTL(argText string) (Token, error) {
+
 	return &TokenMacroTL{}, nil
 }
 
@@ -826,6 +1157,7 @@ type TokenMacroAU struct {
 }
 
 func ParseTokenMacroAU(argText string) (Token, error) {
+
 	return &TokenMacroAU{}, nil
 }
 
@@ -840,6 +1172,7 @@ type TokenMacroAI struct {
 }
 
 func ParseTokenMacroAI(argText string) (Token, error) {
+
 	return &TokenMacroAI{}, nil
 }
 
@@ -853,10 +1186,17 @@ func (t *TokenMacroAI) String() string {
 // abstract.  The word no as an optional argument suppresses this
 // heading.
 type TokenMacroAB struct {
+	no string
 }
 
 func ParseTokenMacroAB(argText string) (Token, error) {
-	return &TokenMacroAB{}, nil
+
+	var argno string
+
+	return &TokenMacroAB{
+
+		no: argno,
+	}, nil
 }
 
 func (t *TokenMacroAB) String() string {
@@ -869,6 +1209,7 @@ type TokenMacroAE struct {
 }
 
 func ParseTokenMacroAE(argText string) (Token, error) {
+
 	return &TokenMacroAE{}, nil
 }
 
@@ -882,6 +1223,7 @@ type TokenMacroPP struct {
 }
 
 func ParseTokenMacroPP(argText string) (Token, error) {
+
 	return &TokenMacroPP{}, nil
 }
 
@@ -895,6 +1237,7 @@ type TokenMacroLP struct {
 }
 
 func ParseTokenMacroLP(argText string) (Token, error) {
+
 	return &TokenMacroLP{}, nil
 }
 
@@ -913,6 +1256,7 @@ type TokenMacroQP struct {
 }
 
 func ParseTokenMacroQP(argText string) (Token, error) {
+
 	return &TokenMacroQP{}, nil
 }
 
@@ -932,6 +1276,7 @@ type TokenMacroQE struct {
 }
 
 func ParseTokenMacroQE(argText string) (Token, error) {
+
 	return &TokenMacroQE{}, nil
 }
 
@@ -946,6 +1291,7 @@ type TokenMacroXP struct {
 }
 
 func ParseTokenMacroXP(argText string) (Token, error) {
+
 	return &TokenMacroXP{}, nil
 }
 
@@ -962,10 +1308,29 @@ func (t *TokenMacroXP) String() string {
 // ‘.NH 3’ after ‘.NH 1’, groff prints a warning on
 // standard error.
 type TokenMacroNH struct {
+	S string
+
+	level0 string
+
+	Ellipse string
 }
 
 func ParseTokenMacroNH(argText string) (Token, error) {
-	return &TokenMacroNH{}, nil
+
+	var argS string
+
+	var arglevel0 string
+
+	var argEllipse string
+
+	return &TokenMacroNH{
+
+		S: argS,
+
+		level0: arglevel0,
+
+		Ellipse: argEllipse,
+	}, nil
 }
 
 func (t *TokenMacroNH) String() string {
@@ -976,10 +1341,17 @@ func (t *TokenMacroNH) String() string {
 // Prints its argument and draws a box around it.  If you want to box a
 // string that contains spaces, use a digit-width space (\0).
 type TokenMacroBX struct {
+	txt string
 }
 
 func ParseTokenMacroBX(argText string) (Token, error) {
-	return &TokenMacroBX{}, nil
+
+	var argtxt string
+
+	return &TokenMacroBX{
+
+		txt: argtxt,
+	}, nil
 }
 
 func (t *TokenMacroBX) String() string {
@@ -991,10 +1363,23 @@ func (t *TokenMacroBX) String() string {
 // argument, groff prints it in the previous font after the
 // underlined text, with no intervening space.
 type TokenMacroUL struct {
+	txt string
+
+	post string
 }
 
 func ParseTokenMacroUL(argText string) (Token, error) {
-	return &TokenMacroUL{}, nil
+
+	var argtxt string
+
+	var argpost string
+
+	return &TokenMacroUL{
+
+		txt: argtxt,
+
+		post: argpost,
+	}, nil
 }
 
 func (t *TokenMacroUL) String() string {
@@ -1010,6 +1395,7 @@ type TokenMacroLG struct {
 }
 
 func ParseTokenMacroLG(argText string) (Token, error) {
+
 	return &TokenMacroLG{}, nil
 }
 
@@ -1024,6 +1410,7 @@ type TokenMacroNL struct {
 }
 
 func ParseTokenMacroNL(argText string) (Token, error) {
+
 	return &TokenMacroNL{}, nil
 }
 
@@ -1039,6 +1426,7 @@ type TokenMacroTA struct {
 }
 
 func ParseTokenMacroTA(argText string) (Token, error) {
+
 	return &TokenMacroTA{}, nil
 }
 
@@ -1055,6 +1443,7 @@ type TokenMacroDE struct {
 }
 
 func ParseTokenMacroDE(argText string) (Token, error) {
+
 	return &TokenMacroDE{}, nil
 }
 
@@ -1069,6 +1458,7 @@ type TokenMacroKE struct {
 }
 
 func ParseTokenMacroKE(argText string) (Token, error) {
+
 	return &TokenMacroKE{}, nil
 }
 
@@ -1084,6 +1474,7 @@ type TokenMacroB2 struct {
 }
 
 func ParseTokenMacroB2(argText string) (Token, error) {
+
 	return &TokenMacroB2{}, nil
 }
 
@@ -1102,6 +1493,7 @@ type TokenMacroTE struct {
 }
 
 func ParseTokenMacroTE(argText string) (Token, error) {
+
 	return &TokenMacroTE{}, nil
 }
 
@@ -1118,6 +1510,7 @@ type TokenMacroPE struct {
 }
 
 func ParseTokenMacroPE(argText string) (Token, error) {
+
 	return &TokenMacroPE{}, nil
 }
 
@@ -1134,6 +1527,7 @@ type TokenMacroEN struct {
 }
 
 func ParseTokenMacroEN(argText string) (Token, error) {
+
 	return &TokenMacroEN{}, nil
 }
 
@@ -1149,6 +1543,7 @@ type TokenMacroSquareBracketClose struct {
 }
 
 func ParseTokenMacroSquareBracketClose(argText string) (Token, error) {
+
 	return &TokenMacroSquareBracketClose{}, nil
 }
 
@@ -1166,6 +1561,7 @@ type TokenMacroFE struct {
 }
 
 func ParseTokenMacroFE(argText string) (Token, error) {
+
 	return &TokenMacroFE{}, nil
 }
 
@@ -1181,10 +1577,17 @@ func (t *TokenMacroFE) String() string {
 // You can replace the quote (') marks with any character not
 // appearing in the header or footer text.
 type TokenMacroEF struct {
+	QuoteleftQuotecenterQuoterightQuote string
 }
 
 func ParseTokenMacroEF(argText string) (Token, error) {
-	return &TokenMacroEF{}, nil
+
+	var argQuoteleftQuotecenterQuoterightQuote string
+
+	return &TokenMacroEF{
+
+		QuoteleftQuotecenterQuoterightQuote: argQuoteleftQuotecenterQuoterightQuote,
+	}, nil
 }
 
 func (t *TokenMacroEF) String() string {
@@ -1197,6 +1600,7 @@ type TokenMacro1C struct {
 }
 
 func ParseTokenMacro1C(argText string) (Token, error) {
+
 	return &TokenMacro1C{}, nil
 }
 
@@ -1210,6 +1614,7 @@ type TokenMacro2C struct {
 }
 
 func ParseTokenMacro2C(argText string) (Token, error) {
+
 	return &TokenMacro2C{}, nil
 }
 
@@ -1223,10 +1628,23 @@ func (t *TokenMacro2C) String() string {
 // gutter is the space between columns.  The MINGW number
 // register controls the default gutter width.
 type TokenMacroMC struct {
+	width string
+
+	gutter string
 }
 
 func ParseTokenMacroMC(argText string) (Token, error) {
-	return &TokenMacroMC{}, nil
+
+	var argwidth string
+
+	var arggutter string
+
+	return &TokenMacroMC{
+
+		width: argwidth,
+
+		gutter: arggutter,
+	}, nil
 }
 
 func (t *TokenMacroMC) String() string {
@@ -1274,6 +1692,7 @@ type TokenMacroXE struct {
 }
 
 func ParseTokenMacroXE(argText string) (Token, error) {
+
 	return &TokenMacroXE{}, nil
 }
 
@@ -1291,10 +1710,17 @@ func (t *TokenMacroXE) String() string {
 // The optional argument no suppresses printing the title specified
 // by the string register TOC.
 type TokenMacroTC struct {
+	no string
 }
 
 func ParseTokenMacroTC(argText string) (Token, error) {
-	return &TokenMacroTC{}, nil
+
+	var argno string
+
+	return &TokenMacroTC{
+
+		no: argno,
+	}, nil
 }
 
 func (t *TokenMacroTC) String() string {
@@ -1309,10 +1735,17 @@ func (t *TokenMacroTC) String() string {
 // The optional argument no suppresses printing the title specified
 // by the string register TOC.
 type TokenMacroPX struct {
+	no string
 }
 
 func ParseTokenMacroPX(argText string) (Token, error) {
-	return &TokenMacroPX{}, nil
+
+	var argno string
+
+	return &TokenMacroPX{
+
+		no: argno,
+	}, nil
 }
 
 func (t *TokenMacroPX) String() string {
@@ -1332,6 +1765,7 @@ type TokenMacroAM struct {
 }
 
 func ParseTokenMacroAM(argText string) (Token, error) {
+
 	return &TokenMacroAM{}, nil
 }
 
@@ -1344,10 +1778,17 @@ func (t *TokenMacroAM) String() string {
 // -ms was to indent; the groff default prints displays flush left
 // with the body text.
 type TokenMacroDS struct {
+	I string
 }
 
 func ParseTokenMacroDS(argText string) (Token, error) {
-	return &TokenMacroDS{}, nil
+
+	var argI string
+
+	return &TokenMacroDS{
+
+		I: argI,
+	}, nil
 }
 
 func (t *TokenMacroDS) String() string {
@@ -1361,6 +1802,7 @@ type TokenMacroIX struct {
 }
 
 func ParseTokenMacroIX(argText string) (Token, error) {
+
 	return &TokenMacroIX{}, nil
 }
 
@@ -1393,10 +1835,17 @@ func (t *TokenMacroIX) String() string {
 // The register www-image-template is set to the user specified
 // template name or the default name.
 type TokenMacroXA struct {
+	page string
 }
 
 func ParseTokenMacroXA(argText string) (Token, error) {
-	return &TokenMacroXA{}, nil
+
+	var argpage string
+
+	return &TokenMacroXA{
+
+		page: argpage,
+	}, nil
 }
 
 func (t *TokenMacroXA) String() string {
@@ -1428,10 +1877,17 @@ func (t *TokenMacroXA) String() string {
 // The register www-image-template is set to the user specified
 // template name or the default name.
 type TokenMacroXS struct {
+	page string
 }
 
 func ParseTokenMacroXS(argText string) (Token, error) {
-	return &TokenMacroXS{}, nil
+
+	var argpage string
+
+	return &TokenMacroXS{
+
+		page: argpage,
+	}, nil
 }
 
 func (t *TokenMacroXS) String() string {
@@ -1466,6 +1922,7 @@ type TokenMacroHD struct {
 }
 
 func ParseTokenMacroHD(argText string) (Token, error) {
+
 	return &TokenMacroHD{}, nil
 }
 
@@ -1498,10 +1955,17 @@ func (t *TokenMacroHD) String() string {
 // The register www-image-template is set to the user specified
 // template name or the default name.
 type TokenMacroOF struct {
+	QuoteleftQuotecenterQuoterightQuote string
 }
 
 func ParseTokenMacroOF(argText string) (Token, error) {
-	return &TokenMacroOF{}, nil
+
+	var argQuoteleftQuotecenterQuoterightQuote string
+
+	return &TokenMacroOF{
+
+		QuoteleftQuotecenterQuoterightQuote: argQuoteleftQuotecenterQuoterightQuote,
+	}, nil
 }
 
 func (t *TokenMacroOF) String() string {
@@ -1533,10 +1997,17 @@ func (t *TokenMacroOF) String() string {
 // The register www-image-template is set to the user specified
 // template name or the default name.
 type TokenMacroEH struct {
+	QuoteleftQuotecenterQuoterightQuote string
 }
 
 func ParseTokenMacroEH(argText string) (Token, error) {
-	return &TokenMacroEH{}, nil
+
+	var argQuoteleftQuotecenterQuoterightQuote string
+
+	return &TokenMacroEH{
+
+		QuoteleftQuotecenterQuoterightQuote: argQuoteleftQuotecenterQuoterightQuote,
+	}, nil
 }
 
 func (t *TokenMacroEH) String() string {
@@ -1568,10 +2039,17 @@ func (t *TokenMacroEH) String() string {
 // The register www-image-template is set to the user specified
 // template name or the default name.
 type TokenMacroOH struct {
+	QuoteleftQuotecenterQuoterightQuote string
 }
 
 func ParseTokenMacroOH(argText string) (Token, error) {
-	return &TokenMacroOH{}, nil
+
+	var argQuoteleftQuotecenterQuoterightQuote string
+
+	return &TokenMacroOH{
+
+		QuoteleftQuotecenterQuoterightQuote: argQuoteleftQuotecenterQuoterightQuote,
+	}, nil
 }
 
 func (t *TokenMacroOH) String() string {
@@ -1606,6 +2084,7 @@ type TokenMacroFS struct {
 }
 
 func ParseTokenMacroFS(argText string) (Token, error) {
+
 	return &TokenMacroFS{}, nil
 }
 
@@ -1641,6 +2120,7 @@ type TokenMacroSquareBracketOpen struct {
 }
 
 func ParseTokenMacroSquareBracketOpen(argText string) (Token, error) {
+
 	return &TokenMacroSquareBracketOpen{}, nil
 }
 
@@ -1673,10 +2153,17 @@ func (t *TokenMacroSquareBracketOpen) String() string {
 // The register www-image-template is set to the user specified
 // template name or the default name.
 type TokenMacroEQ struct {
+	align string
 }
 
 func ParseTokenMacroEQ(argText string) (Token, error) {
-	return &TokenMacroEQ{}, nil
+
+	var argalign string
+
+	return &TokenMacroEQ{
+
+		align: argalign,
+	}, nil
 }
 
 func (t *TokenMacroEQ) String() string {
@@ -1711,6 +2198,7 @@ type TokenMacroPS struct {
 }
 
 func ParseTokenMacroPS(argText string) (Token, error) {
+
 	return &TokenMacroPS{}, nil
 }
 
@@ -1743,10 +2231,17 @@ func (t *TokenMacroPS) String() string {
 // The register www-image-template is set to the user specified
 // template name or the default name.
 type TokenMacroTS struct {
+	H string
 }
 
 func ParseTokenMacroTS(argText string) (Token, error) {
-	return &TokenMacroTS{}, nil
+
+	var argH string
+
+	return &TokenMacroTS{
+
+		H: argH,
+	}, nil
 }
 
 func (t *TokenMacroTS) String() string {
@@ -1781,6 +2276,7 @@ type TokenMacroB1 struct {
 }
 
 func ParseTokenMacroB1(argText string) (Token, error) {
+
 	return &TokenMacroB1{}, nil
 }
 
@@ -1816,6 +2312,7 @@ type TokenMacroKF struct {
 }
 
 func ParseTokenMacroKF(argText string) (Token, error) {
+
 	return &TokenMacroKF{}, nil
 }
 
@@ -1851,6 +2348,7 @@ type TokenMacroKS struct {
 }
 
 func ParseTokenMacroKS(argText string) (Token, error) {
+
 	return &TokenMacroKS{}, nil
 }
 
@@ -1886,6 +2384,7 @@ type TokenMacroRD struct {
 }
 
 func ParseTokenMacroRD(argText string) (Token, error) {
+
 	return &TokenMacroRD{}, nil
 }
 
@@ -1921,6 +2420,7 @@ type TokenMacroCD struct {
 }
 
 func ParseTokenMacroCD(argText string) (Token, error) {
+
 	return &TokenMacroCD{}, nil
 }
 
@@ -1956,6 +2456,7 @@ type TokenMacroBD struct {
 }
 
 func ParseTokenMacroBD(argText string) (Token, error) {
+
 	return &TokenMacroBD{}, nil
 }
 
@@ -1991,6 +2492,7 @@ type TokenMacroID struct {
 }
 
 func ParseTokenMacroID(argText string) (Token, error) {
+
 	return &TokenMacroID{}, nil
 }
 
@@ -2026,6 +2528,7 @@ type TokenMacroLD struct {
 }
 
 func ParseTokenMacroLD(argText string) (Token, error) {
+
 	return &TokenMacroLD{}, nil
 }
 
@@ -2061,6 +2564,7 @@ type TokenMacroQS struct {
 }
 
 func ParseTokenMacroQS(argText string) (Token, error) {
+
 	return &TokenMacroQS{}, nil
 }
 

@@ -2,12 +2,25 @@ package gen
 
 import (
 	"fmt"
+	"strings"
 )
 
 type Word struct {
 	Word     string
 	Optional bool
 	Id       string
+}
+
+func (w *Word) Name() string {
+	return w.Word
+}
+
+func (w *Word) Type() string {
+	return "string"
+}
+
+func (w *Word) Comment() string {
+	return ""
 }
 
 type ArgStruct struct {
@@ -59,6 +72,14 @@ func (ar *ArgStruct) Closings(n int) (r [][2]int) {
 	return
 }
 
+var (
+	saferer = strings.NewReplacer(
+		"'", "Quote",
+		"4", "Four",
+		"…", "Ellipse",
+	)
+)
+
 func ParseArgs(in string) (result *ArgStruct, err error) {
 	result, err = parseArgRun(in)
 	if err != nil {
@@ -66,7 +87,7 @@ func ParseArgs(in string) (result *ArgStruct, err error) {
 	}
 	m := map[string][]int{}
 	for i, w := range result.Words {
-		word := w.Word // TODO make safe
+		word := saferer.Replace(w.Word)
 		countPos := append(m[w.Word], i)
 		m[word] = countPos
 		switch len(countPos) {
