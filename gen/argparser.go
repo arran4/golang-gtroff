@@ -78,34 +78,49 @@ func ParseArgs(in string) (result Args, err error) {
 		return nil, err
 	}
 	i := 0
-	result, i = ar.parseArgs(i, len(ar.Words), 0)
+	result, i = ar.parseArgs(i, len(ar.Words), 0, false, -1)
 	if i != len(ar.Words) {
 		return nil, fmt.Errorf("end difference %d != %d", i, len(ar.Words))
 	}
 	return
 }
 
-func (ar *argRun) parseArgs(i int, end int, depth int) (Args, int) {
+func (ar *argRun) parseArgs(start int, end int, depth int, pastOptional bool, fixedPastOptional int) (Args, int) {
 	var result []*ArgStruct
-	for loops := 0; i < end; loops++ {
+	i := start
+	stop := false
+	for loops := 0; i < end && !stop; loops++ {
+		fpo := fixedPastOptional
+		optionalEnd := ar.GetLongestOptionalEndIfIsAStart(i)
 		as := &ArgStruct{
 			Name:     ar.Words[i],
-			Optional: ar.OptionalStart(i) > 0,
-			Position: depth + loops,
+			Optional: optionalEnd >= 0 && fpo < 0,
+			Position: depth,
 		}
 		result = append(result, as)
+		if !as.Optional && pastOptional && fpo < 0 {
+			fpo = i
+		}
 		i++
-		if v := ar.OptionalStart(i); v >= i {
-			as.Next, i = ar.parseArgs(i, v, depth+loops+1)
+		if optionalEnd >= i {
+			var ni int
+			oen, ni := ar.parseArgs(i, end, depth+1, true, fpo)
+			as.Next = oen
+			if optionalEnd > i+1 {
+				var tte []*ArgStruct
+				tte, ni = ar.parseArgs(i, optionalEnd, depth+1, true, fpo)
+				result = append(result, tte...)
+				i = ni
+			}
 		} else {
-			as.Next, i = ar.parseArgs(i, end, depth+loops+1)
-			break
+			as.Next, i = ar.parseArgs(i, end, depth+1, pastOptional, fpo)
+			stop = true
 		}
 	}
 	return result, i
 }
 
-func (ar *argRun) OptionalStart(n int) int {
+func (ar *argRun) GetLongestOptionalEndIfIsAStart(n int) int {
 	var result []int
 	for i := range ar.OptionalRanges {
 		e := ar.OptionalRanges[i]

@@ -86,7 +86,7 @@ func TestParseArgs(t *testing.T) {
 			wantResult: []*ArgStruct{
 				{
 					Name:     "a",
-					Optional: true,
+					Optional: false,
 					Position: 0,
 					Next: []*ArgStruct{
 						{
@@ -139,7 +139,7 @@ func TestParseArgs(t *testing.T) {
 							Next: []*ArgStruct{
 								{
 									Name:     "punct",
-									Optional: true,
+									Optional: false,
 									Position: 2,
 								},
 							},
