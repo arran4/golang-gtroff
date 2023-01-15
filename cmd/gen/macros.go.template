@@ -1,8 +1,7 @@
 package groff
 
 import (
-	"fmt"
-	"strconv"
+    "fmt"
 )
 
 {{range $i, $e := $}}
@@ -21,6 +20,10 @@ func Parse{{$e.StructName}}(argText string) (Token, error) {
 	{{range $argi, $arg := $e.ArgStruct.Words}}
         var arg{{$arg.Id}} {{$arg.Type}}
     {{end}}
+    args, _, err := ArgumentParser(argText)
+    if err != nil {
+        return nil, fmt.Errorf("parse {{$e.StructName}} arguments: %s, %w", argText, err)
+    }
 	return &{{$e.StructName}}{
 	{{range $argi, $arg := $e.ArgStruct.Words}}
         {{$arg.Id}}: arg{{$arg.Id}},

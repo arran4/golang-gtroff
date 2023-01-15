@@ -1,5 +1,9 @@
 package groff
 
+import (
+	"fmt"
+)
+
 // TokenMacroTH
 // Set the title of the man page to title and the section to
 // section, which must have a value between 1 and 8.  The value
@@ -46,6 +50,10 @@ func ParseTokenMacroTH(argText string) (Token, error) {
 
 	var argextra3 string
 
+	args, _, err := ArgumentParser(argText)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroTH arguments: %s, %w", argText, err)
+	}
 	return &TokenMacroTH{
 
 		title: argtitle,
@@ -79,6 +87,10 @@ func ParseTokenMacroSH(argText string) (Token, error) {
 
 	var argheading string
 
+	args, _, err := ArgumentParser(argText)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroSH arguments: %s, %w", argText, err)
+	}
 	return &TokenMacroSH{
 
 		heading: argheading,
@@ -104,6 +116,10 @@ func ParseTokenMacroSS(argText string) (Token, error) {
 
 	var argheading string
 
+	args, _, err := ArgumentParser(argText)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroSS arguments: %s, %w", argText, err)
+	}
 	return &TokenMacroSS{
 
 		heading: argheading,
@@ -140,6 +156,10 @@ func ParseTokenMacroTP(argText string) (Token, error) {
 
 	var argnnn string
 
+	args, _, err := ArgumentParser(argText)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroTP arguments: %s, %w", argText, err)
+	}
 	return &TokenMacroTP{
 
 		nnn: argnnn,
@@ -162,6 +182,10 @@ type TokenMacroP struct {
 
 func ParseTokenMacroP(argText string) (Token, error) {
 
+	args, _, err := ArgumentParser(argText)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroP arguments: %s, %w", argText, err)
+	}
 	return &TokenMacroP{}, nil
 }
 
@@ -198,6 +222,10 @@ func ParseTokenMacroIP(argText string) (Token, error) {
 
 	var argnnn string
 
+	args, _, err := ArgumentParser(argText)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroIP arguments: %s, %w", argText, err)
+	}
 	return &TokenMacroIP{
 
 		designator: argdesignator,
@@ -225,6 +253,10 @@ func ParseTokenMacroHP(argText string) (Token, error) {
 
 	var argnnn string
 
+	args, _, err := ArgumentParser(argText)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroHP arguments: %s, %w", argText, err)
+	}
 	return &TokenMacroHP{
 
 		nnn: argnnn,
@@ -251,6 +283,10 @@ func ParseTokenMacroRS(argText string) (Token, error) {
 
 	var argnnn string
 
+	args, _, err := ArgumentParser(argText)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroRS arguments: %s, %w", argText, err)
+	}
 	return &TokenMacroRS{
 
 		nnn: argnnn,
@@ -274,6 +310,10 @@ func ParseTokenMacroRE(argText string) (Token, error) {
 
 	var argnnn string
 
+	args, _, err := ArgumentParser(argText)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroRE arguments: %s, %w", argText, err)
+	}
 	return &TokenMacroRE{
 
 		nnn: argnnn,
@@ -295,6 +335,10 @@ func ParseTokenMacroSM(argText string) (Token, error) {
 
 	var argtext string
 
+	args, _, err := ArgumentParser(argText)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroSM arguments: %s, %w", argText, err)
+	}
 	return &TokenMacroSM{
 
 		text: argtext,
@@ -316,6 +360,10 @@ func ParseTokenMacroSB(argText string) (Token, error) {
 
 	var argtext string
 
+	args, _, err := ArgumentParser(argText)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroSB arguments: %s, %w", argText, err)
+	}
 	return &TokenMacroSB{
 
 		text: argtext,
@@ -342,6 +390,10 @@ func ParseTokenMacroBI(argText string) (Token, error) {
 
 	var argtext string
 
+	args, _, err := ArgumentParser(argText)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroBI arguments: %s, %w", argText, err)
+	}
 	return &TokenMacroBI{
 
 		text: argtext,
@@ -363,6 +415,10 @@ func ParseTokenMacroIB(argText string) (Token, error) {
 
 	var argtext string
 
+	args, _, err := ArgumentParser(argText)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroIB arguments: %s, %w", argText, err)
+	}
 	return &TokenMacroIB{
 
 		text: argtext,
@@ -384,6 +440,10 @@ func ParseTokenMacroRI(argText string) (Token, error) {
 
 	var argtext string
 
+	args, _, err := ArgumentParser(argText)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroRI arguments: %s, %w", argText, err)
+	}
 	return &TokenMacroRI{
 
 		text: argtext,
@@ -405,6 +465,10 @@ func ParseTokenMacroIR(argText string) (Token, error) {
 
 	var argtext string
 
+	args, _, err := ArgumentParser(argText)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroIR arguments: %s, %w", argText, err)
+	}
 	return &TokenMacroIR{
 
 		text: argtext,
@@ -426,6 +490,10 @@ func ParseTokenMacroBR(argText string) (Token, error) {
 
 	var argtext string
 
+	args, _, err := ArgumentParser(argText)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroBR arguments: %s, %w", argText, err)
+	}
 	return &TokenMacroBR{
 
 		text: argtext,
@@ -447,6 +515,10 @@ func ParseTokenMacroRB(argText string) (Token, error) {
 
 	var argtext string
 
+	args, _, err := ArgumentParser(argText)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroRB arguments: %s, %w", argText, err)
+	}
 	return &TokenMacroRB{
 
 		text: argtext,
@@ -469,6 +541,10 @@ func ParseTokenMacroB(argText string) (Token, error) {
 
 	var argtext string
 
+	args, _, err := ArgumentParser(argText)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroB arguments: %s, %w", argText, err)
+	}
 	return &TokenMacroB{
 
 		text: argtext,
@@ -490,6 +566,10 @@ func ParseTokenMacroI(argText string) (Token, error) {
 
 	var argtext string
 
+	args, _, err := ArgumentParser(argText)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroI arguments: %s, %w", argText, err)
+	}
 	return &TokenMacroI{
 
 		text: argtext,
@@ -509,6 +589,10 @@ type TokenMacroDT struct {
 
 func ParseTokenMacroDT(argText string) (Token, error) {
 
+	args, _, err := ArgumentParser(argText)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroDT arguments: %s, %w", argText, err)
+	}
 	return &TokenMacroDT{}, nil
 }
 
@@ -532,6 +616,10 @@ func ParseTokenMacroPD(argText string) (Token, error) {
 
 	var argnnn string
 
+	args, _, err := ArgumentParser(argText)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroPD arguments: %s, %w", argText, err)
+	}
 	return &TokenMacroPD{
 
 		nnn: argnnn,
@@ -570,6 +658,10 @@ func ParseTokenMacroAT(argText string) (Token, error) {
 
 	var argrelease string
 
+	args, _, err := ArgumentParser(argText)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroAT arguments: %s, %w", argText, err)
+	}
 	return &TokenMacroAT{
 
 		system: argsystem,
@@ -608,6 +700,10 @@ func ParseTokenMacroUC(argText string) (Token, error) {
 
 	var argversion string
 
+	args, _, err := ArgumentParser(argText)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroUC arguments: %s, %w", argText, err)
+	}
 	return &TokenMacroUC{
 
 		version: argversion,
@@ -627,6 +723,10 @@ type TokenMacroPT struct {
 
 func ParseTokenMacroPT(argText string) (Token, error) {
 
+	args, _, err := ArgumentParser(argText)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroPT arguments: %s, %w", argText, err)
+	}
 	return &TokenMacroPT{}, nil
 }
 
@@ -645,6 +745,10 @@ type TokenMacroBT struct {
 
 func ParseTokenMacroBT(argText string) (Token, error) {
 
+	args, _, err := ArgumentParser(argText)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroBT arguments: %s, %w", argText, err)
+	}
 	return &TokenMacroBT{}, nil
 }
 
@@ -662,6 +766,10 @@ func ParseTokenMacroCT(argText string) (Token, error) {
 
 	var argkey string
 
+	args, _, err := ArgumentParser(argText)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroCT arguments: %s, %w", argText, err)
+	}
 	return &TokenMacroCT{
 
 		key: argkey,
@@ -679,6 +787,10 @@ type TokenMacroCW struct {
 
 func ParseTokenMacroCW(argText string) (Token, error) {
 
+	args, _, err := ArgumentParser(argText)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroCW arguments: %s, %w", argText, err)
+	}
 	return &TokenMacroCW{}, nil
 }
 
@@ -693,6 +805,10 @@ type TokenMacroDs struct {
 
 func ParseTokenMacroDs(argText string) (Token, error) {
 
+	args, _, err := ArgumentParser(argText)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroDs arguments: %s, %w", argText, err)
+	}
 	return &TokenMacroDs{}, nil
 }
 
@@ -707,6 +823,10 @@ type TokenMacroDe struct {
 
 func ParseTokenMacroDe(argText string) (Token, error) {
 
+	args, _, err := ArgumentParser(argText)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroDe arguments: %s, %w", argText, err)
+	}
 	return &TokenMacroDe{}, nil
 }
 
@@ -725,6 +845,10 @@ func ParseTokenMacroEX(argText string) (Token, error) {
 
 	var argindent string
 
+	args, _, err := ArgumentParser(argText)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroEX arguments: %s, %w", argText, err)
+	}
 	return &TokenMacroEX{
 
 		indent: argindent,
@@ -742,6 +866,10 @@ type TokenMacroEE struct {
 
 func ParseTokenMacroEE(argText string) (Token, error) {
 
+	args, _, err := ArgumentParser(argText)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroEE arguments: %s, %w", argText, err)
+	}
 	return &TokenMacroEE{}, nil
 }
 
@@ -761,6 +889,10 @@ func ParseTokenMacroG(argText string) (Token, error) {
 
 	var argtext string
 
+	args, _, err := ArgumentParser(argText)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroG arguments: %s, %w", argText, err)
+	}
 	return &TokenMacroG{
 
 		text: argtext,
@@ -783,6 +915,10 @@ func ParseTokenMacroGL(argText string) (Token, error) {
 
 	var argtext string
 
+	args, _, err := ArgumentParser(argText)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroGL arguments: %s, %w", argText, err)
+	}
 	return &TokenMacroGL{
 
 		text: argtext,
@@ -805,6 +941,10 @@ func ParseTokenMacroHB(argText string) (Token, error) {
 
 	var argtext string
 
+	args, _, err := ArgumentParser(argText)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroHB arguments: %s, %w", argText, err)
+	}
 	return &TokenMacroHB{
 
 		text: argtext,
@@ -825,6 +965,10 @@ func ParseTokenMacroTB(argText string) (Token, error) {
 
 	var argtext string
 
+	args, _, err := ArgumentParser(argText)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroTB arguments: %s, %w", argText, err)
+	}
 	return &TokenMacroTB{
 
 		text: argtext,
@@ -855,6 +999,10 @@ func ParseTokenMacroMS(argText string) (Token, error) {
 
 	var argpunct string
 
+	args, _, err := ArgumentParser(argText)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroMS arguments: %s, %w", argText, err)
+	}
 	return &TokenMacroMS{
 
 		title: argtitle,
@@ -887,6 +1035,10 @@ func ParseTokenMacroNT(argText string) (Token, error) {
 
 	var argtitle string
 
+	args, _, err := ArgumentParser(argText)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroNT arguments: %s, %w", argText, err)
+	}
 	return &TokenMacroNT{
 
 		C: argC,
@@ -906,6 +1058,10 @@ type TokenMacroNE struct {
 
 func ParseTokenMacroNE(argText string) (Token, error) {
 
+	args, _, err := ArgumentParser(argText)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroNE arguments: %s, %w", argText, err)
+	}
 	return &TokenMacroNE{}, nil
 }
 
@@ -928,6 +1084,10 @@ func ParseTokenMacroPN(argText string) (Token, error) {
 
 	var argpunct string
 
+	args, _, err := ArgumentParser(argText)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroPN arguments: %s, %w", argText, err)
+	}
 	return &TokenMacroPN{
 
 		path: argpath,
@@ -960,6 +1120,10 @@ func ParseTokenMacroPn(argText string) (Token, error) {
 
 	var argpunct1 string
 
+	args, _, err := ArgumentParser(argText)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroPn arguments: %s, %w", argText, err)
+	}
 	return &TokenMacroPn{
 
 		punct0: argpunct0,
@@ -981,6 +1145,10 @@ type TokenMacroR struct {
 
 func ParseTokenMacroR(argText string) (Token, error) {
 
+	args, _, err := ArgumentParser(argText)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroR arguments: %s, %w", argText, err)
+	}
 	return &TokenMacroR{}, nil
 }
 
@@ -995,6 +1163,10 @@ type TokenMacroRN struct {
 
 func ParseTokenMacroRN(argText string) (Token, error) {
 
+	args, _, err := ArgumentParser(argText)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroRN arguments: %s, %w", argText, err)
+	}
 	return &TokenMacroRN{}, nil
 }
 
@@ -1013,6 +1185,10 @@ func ParseTokenMacroVS(argText string) (Token, error) {
 
 	var argFour string
 
+	args, _, err := ArgumentParser(argText)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroVS arguments: %s, %w", argText, err)
+	}
 	return &TokenMacroVS{
 
 		Four: argFour,
@@ -1030,6 +1206,10 @@ type TokenMacroVE struct {
 
 func ParseTokenMacroVE(argText string) (Token, error) {
 
+	args, _, err := ArgumentParser(argText)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroVE arguments: %s, %w", argText, err)
+	}
 	return &TokenMacroVE{}, nil
 }
 
@@ -1054,6 +1234,10 @@ func ParseTokenMacroRP(argText string) (Token, error) {
 
 	var argno string
 
+	args, _, err := ArgumentParser(argText)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroRP arguments: %s, %w", argText, err)
+	}
 	return &TokenMacroRP{
 
 		no: argno,
@@ -1072,6 +1256,10 @@ type TokenMacroP1 struct {
 
 func ParseTokenMacroP1(argText string) (Token, error) {
 
+	args, _, err := ArgumentParser(argText)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroP1 arguments: %s, %w", argText, err)
+	}
 	return &TokenMacroP1{}, nil
 }
 
@@ -1091,6 +1279,10 @@ func ParseTokenMacroDA(argText string) (Token, error) {
 
 	var argEllipse string
 
+	args, _, err := ArgumentParser(argText)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroDA arguments: %s, %w", argText, err)
+	}
 	return &TokenMacroDA{
 
 		Ellipse: argEllipse,
@@ -1113,6 +1305,10 @@ func ParseTokenMacroND(argText string) (Token, error) {
 
 	var argEllipse string
 
+	args, _, err := ArgumentParser(argText)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroND arguments: %s, %w", argText, err)
+	}
 	return &TokenMacroND{
 
 		Ellipse: argEllipse,
@@ -1132,6 +1328,10 @@ type TokenMacroTL struct {
 
 func ParseTokenMacroTL(argText string) (Token, error) {
 
+	args, _, err := ArgumentParser(argText)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroTL arguments: %s, %w", argText, err)
+	}
 	return &TokenMacroTL{}, nil
 }
 
@@ -1158,6 +1358,10 @@ type TokenMacroAU struct {
 
 func ParseTokenMacroAU(argText string) (Token, error) {
 
+	args, _, err := ArgumentParser(argText)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroAU arguments: %s, %w", argText, err)
+	}
 	return &TokenMacroAU{}, nil
 }
 
@@ -1173,6 +1377,10 @@ type TokenMacroAI struct {
 
 func ParseTokenMacroAI(argText string) (Token, error) {
 
+	args, _, err := ArgumentParser(argText)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroAI arguments: %s, %w", argText, err)
+	}
 	return &TokenMacroAI{}, nil
 }
 
@@ -1193,6 +1401,10 @@ func ParseTokenMacroAB(argText string) (Token, error) {
 
 	var argno string
 
+	args, _, err := ArgumentParser(argText)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroAB arguments: %s, %w", argText, err)
+	}
 	return &TokenMacroAB{
 
 		no: argno,
@@ -1210,6 +1422,10 @@ type TokenMacroAE struct {
 
 func ParseTokenMacroAE(argText string) (Token, error) {
 
+	args, _, err := ArgumentParser(argText)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroAE arguments: %s, %w", argText, err)
+	}
 	return &TokenMacroAE{}, nil
 }
 
@@ -1224,6 +1440,10 @@ type TokenMacroPP struct {
 
 func ParseTokenMacroPP(argText string) (Token, error) {
 
+	args, _, err := ArgumentParser(argText)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroPP arguments: %s, %w", argText, err)
+	}
 	return &TokenMacroPP{}, nil
 }
 
@@ -1238,6 +1458,10 @@ type TokenMacroLP struct {
 
 func ParseTokenMacroLP(argText string) (Token, error) {
 
+	args, _, err := ArgumentParser(argText)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroLP arguments: %s, %w", argText, err)
+	}
 	return &TokenMacroLP{}, nil
 }
 
@@ -1257,6 +1481,10 @@ type TokenMacroQP struct {
 
 func ParseTokenMacroQP(argText string) (Token, error) {
 
+	args, _, err := ArgumentParser(argText)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroQP arguments: %s, %w", argText, err)
+	}
 	return &TokenMacroQP{}, nil
 }
 
@@ -1277,6 +1505,10 @@ type TokenMacroQE struct {
 
 func ParseTokenMacroQE(argText string) (Token, error) {
 
+	args, _, err := ArgumentParser(argText)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroQE arguments: %s, %w", argText, err)
+	}
 	return &TokenMacroQE{}, nil
 }
 
@@ -1292,6 +1524,10 @@ type TokenMacroXP struct {
 
 func ParseTokenMacroXP(argText string) (Token, error) {
 
+	args, _, err := ArgumentParser(argText)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroXP arguments: %s, %w", argText, err)
+	}
 	return &TokenMacroXP{}, nil
 }
 
@@ -1323,6 +1559,10 @@ func ParseTokenMacroNH(argText string) (Token, error) {
 
 	var argEllipse string
 
+	args, _, err := ArgumentParser(argText)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroNH arguments: %s, %w", argText, err)
+	}
 	return &TokenMacroNH{
 
 		S: argS,
@@ -1348,6 +1588,10 @@ func ParseTokenMacroBX(argText string) (Token, error) {
 
 	var argtxt string
 
+	args, _, err := ArgumentParser(argText)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroBX arguments: %s, %w", argText, err)
+	}
 	return &TokenMacroBX{
 
 		txt: argtxt,
@@ -1374,6 +1618,10 @@ func ParseTokenMacroUL(argText string) (Token, error) {
 
 	var argpost string
 
+	args, _, err := ArgumentParser(argText)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroUL arguments: %s, %w", argText, err)
+	}
 	return &TokenMacroUL{
 
 		txt: argtxt,
@@ -1396,6 +1644,10 @@ type TokenMacroLG struct {
 
 func ParseTokenMacroLG(argText string) (Token, error) {
 
+	args, _, err := ArgumentParser(argText)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroLG arguments: %s, %w", argText, err)
+	}
 	return &TokenMacroLG{}, nil
 }
 
@@ -1411,6 +1663,10 @@ type TokenMacroNL struct {
 
 func ParseTokenMacroNL(argText string) (Token, error) {
 
+	args, _, err := ArgumentParser(argText)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroNL arguments: %s, %w", argText, err)
+	}
 	return &TokenMacroNL{}, nil
 }
 
@@ -1427,6 +1683,10 @@ type TokenMacroTA struct {
 
 func ParseTokenMacroTA(argText string) (Token, error) {
 
+	args, _, err := ArgumentParser(argText)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroTA arguments: %s, %w", argText, err)
+	}
 	return &TokenMacroTA{}, nil
 }
 
@@ -1444,6 +1704,10 @@ type TokenMacroDE struct {
 
 func ParseTokenMacroDE(argText string) (Token, error) {
 
+	args, _, err := ArgumentParser(argText)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroDE arguments: %s, %w", argText, err)
+	}
 	return &TokenMacroDE{}, nil
 }
 
@@ -1459,6 +1723,10 @@ type TokenMacroKE struct {
 
 func ParseTokenMacroKE(argText string) (Token, error) {
 
+	args, _, err := ArgumentParser(argText)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroKE arguments: %s, %w", argText, err)
+	}
 	return &TokenMacroKE{}, nil
 }
 
@@ -1475,6 +1743,10 @@ type TokenMacroB2 struct {
 
 func ParseTokenMacroB2(argText string) (Token, error) {
 
+	args, _, err := ArgumentParser(argText)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroB2 arguments: %s, %w", argText, err)
+	}
 	return &TokenMacroB2{}, nil
 }
 
@@ -1494,6 +1766,10 @@ type TokenMacroTE struct {
 
 func ParseTokenMacroTE(argText string) (Token, error) {
 
+	args, _, err := ArgumentParser(argText)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroTE arguments: %s, %w", argText, err)
+	}
 	return &TokenMacroTE{}, nil
 }
 
@@ -1511,6 +1787,10 @@ type TokenMacroPE struct {
 
 func ParseTokenMacroPE(argText string) (Token, error) {
 
+	args, _, err := ArgumentParser(argText)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroPE arguments: %s, %w", argText, err)
+	}
 	return &TokenMacroPE{}, nil
 }
 
@@ -1528,6 +1808,10 @@ type TokenMacroEN struct {
 
 func ParseTokenMacroEN(argText string) (Token, error) {
 
+	args, _, err := ArgumentParser(argText)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroEN arguments: %s, %w", argText, err)
+	}
 	return &TokenMacroEN{}, nil
 }
 
@@ -1544,6 +1828,10 @@ type TokenMacroSquareBracketClose struct {
 
 func ParseTokenMacroSquareBracketClose(argText string) (Token, error) {
 
+	args, _, err := ArgumentParser(argText)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroSquareBracketClose arguments: %s, %w", argText, err)
+	}
 	return &TokenMacroSquareBracketClose{}, nil
 }
 
@@ -1562,6 +1850,10 @@ type TokenMacroFE struct {
 
 func ParseTokenMacroFE(argText string) (Token, error) {
 
+	args, _, err := ArgumentParser(argText)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroFE arguments: %s, %w", argText, err)
+	}
 	return &TokenMacroFE{}, nil
 }
 
@@ -1584,6 +1876,10 @@ func ParseTokenMacroEF(argText string) (Token, error) {
 
 	var argQuoteleftQuotecenterQuoterightQuote string
 
+	args, _, err := ArgumentParser(argText)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroEF arguments: %s, %w", argText, err)
+	}
 	return &TokenMacroEF{
 
 		QuoteleftQuotecenterQuoterightQuote: argQuoteleftQuotecenterQuoterightQuote,
@@ -1601,6 +1897,10 @@ type TokenMacro1C struct {
 
 func ParseTokenMacro1C(argText string) (Token, error) {
 
+	args, _, err := ArgumentParser(argText)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacro1C arguments: %s, %w", argText, err)
+	}
 	return &TokenMacro1C{}, nil
 }
 
@@ -1615,6 +1915,10 @@ type TokenMacro2C struct {
 
 func ParseTokenMacro2C(argText string) (Token, error) {
 
+	args, _, err := ArgumentParser(argText)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacro2C arguments: %s, %w", argText, err)
+	}
 	return &TokenMacro2C{}, nil
 }
 
@@ -1639,6 +1943,10 @@ func ParseTokenMacroMC(argText string) (Token, error) {
 
 	var arggutter string
 
+	args, _, err := ArgumentParser(argText)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroMC arguments: %s, %w", argText, err)
+	}
 	return &TokenMacroMC{
 
 		width: argwidth,
@@ -1693,6 +2001,10 @@ type TokenMacroXE struct {
 
 func ParseTokenMacroXE(argText string) (Token, error) {
 
+	args, _, err := ArgumentParser(argText)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroXE arguments: %s, %w", argText, err)
+	}
 	return &TokenMacroXE{}, nil
 }
 
@@ -1717,6 +2029,10 @@ func ParseTokenMacroTC(argText string) (Token, error) {
 
 	var argno string
 
+	args, _, err := ArgumentParser(argText)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroTC arguments: %s, %w", argText, err)
+	}
 	return &TokenMacroTC{
 
 		no: argno,
@@ -1742,6 +2058,10 @@ func ParseTokenMacroPX(argText string) (Token, error) {
 
 	var argno string
 
+	args, _, err := ArgumentParser(argText)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroPX arguments: %s, %w", argText, err)
+	}
 	return &TokenMacroPX{
 
 		no: argno,
@@ -1766,6 +2086,10 @@ type TokenMacroAM struct {
 
 func ParseTokenMacroAM(argText string) (Token, error) {
 
+	args, _, err := ArgumentParser(argText)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroAM arguments: %s, %w", argText, err)
+	}
 	return &TokenMacroAM{}, nil
 }
 
@@ -1785,6 +2109,10 @@ func ParseTokenMacroDS(argText string) (Token, error) {
 
 	var argI string
 
+	args, _, err := ArgumentParser(argText)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroDS arguments: %s, %w", argText, err)
+	}
 	return &TokenMacroDS{
 
 		I: argI,
@@ -1803,6 +2131,10 @@ type TokenMacroIX struct {
 
 func ParseTokenMacroIX(argText string) (Token, error) {
 
+	args, _, err := ArgumentParser(argText)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroIX arguments: %s, %w", argText, err)
+	}
 	return &TokenMacroIX{}, nil
 }
 
@@ -1842,6 +2174,10 @@ func ParseTokenMacroXA(argText string) (Token, error) {
 
 	var argpage string
 
+	args, _, err := ArgumentParser(argText)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroXA arguments: %s, %w", argText, err)
+	}
 	return &TokenMacroXA{
 
 		page: argpage,
@@ -1884,6 +2220,10 @@ func ParseTokenMacroXS(argText string) (Token, error) {
 
 	var argpage string
 
+	args, _, err := ArgumentParser(argText)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroXS arguments: %s, %w", argText, err)
+	}
 	return &TokenMacroXS{
 
 		page: argpage,
@@ -1923,6 +2263,10 @@ type TokenMacroHD struct {
 
 func ParseTokenMacroHD(argText string) (Token, error) {
 
+	args, _, err := ArgumentParser(argText)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroHD arguments: %s, %w", argText, err)
+	}
 	return &TokenMacroHD{}, nil
 }
 
@@ -1962,6 +2306,10 @@ func ParseTokenMacroOF(argText string) (Token, error) {
 
 	var argQuoteleftQuotecenterQuoterightQuote string
 
+	args, _, err := ArgumentParser(argText)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroOF arguments: %s, %w", argText, err)
+	}
 	return &TokenMacroOF{
 
 		QuoteleftQuotecenterQuoterightQuote: argQuoteleftQuotecenterQuoterightQuote,
@@ -2004,6 +2352,10 @@ func ParseTokenMacroEH(argText string) (Token, error) {
 
 	var argQuoteleftQuotecenterQuoterightQuote string
 
+	args, _, err := ArgumentParser(argText)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroEH arguments: %s, %w", argText, err)
+	}
 	return &TokenMacroEH{
 
 		QuoteleftQuotecenterQuoterightQuote: argQuoteleftQuotecenterQuoterightQuote,
@@ -2046,6 +2398,10 @@ func ParseTokenMacroOH(argText string) (Token, error) {
 
 	var argQuoteleftQuotecenterQuoterightQuote string
 
+	args, _, err := ArgumentParser(argText)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroOH arguments: %s, %w", argText, err)
+	}
 	return &TokenMacroOH{
 
 		QuoteleftQuotecenterQuoterightQuote: argQuoteleftQuotecenterQuoterightQuote,
@@ -2085,6 +2441,10 @@ type TokenMacroFS struct {
 
 func ParseTokenMacroFS(argText string) (Token, error) {
 
+	args, _, err := ArgumentParser(argText)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroFS arguments: %s, %w", argText, err)
+	}
 	return &TokenMacroFS{}, nil
 }
 
@@ -2121,6 +2481,10 @@ type TokenMacroSquareBracketOpen struct {
 
 func ParseTokenMacroSquareBracketOpen(argText string) (Token, error) {
 
+	args, _, err := ArgumentParser(argText)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroSquareBracketOpen arguments: %s, %w", argText, err)
+	}
 	return &TokenMacroSquareBracketOpen{}, nil
 }
 
@@ -2160,6 +2524,10 @@ func ParseTokenMacroEQ(argText string) (Token, error) {
 
 	var argalign string
 
+	args, _, err := ArgumentParser(argText)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroEQ arguments: %s, %w", argText, err)
+	}
 	return &TokenMacroEQ{
 
 		align: argalign,
@@ -2199,6 +2567,10 @@ type TokenMacroPS struct {
 
 func ParseTokenMacroPS(argText string) (Token, error) {
 
+	args, _, err := ArgumentParser(argText)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroPS arguments: %s, %w", argText, err)
+	}
 	return &TokenMacroPS{}, nil
 }
 
@@ -2238,6 +2610,10 @@ func ParseTokenMacroTS(argText string) (Token, error) {
 
 	var argH string
 
+	args, _, err := ArgumentParser(argText)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroTS arguments: %s, %w", argText, err)
+	}
 	return &TokenMacroTS{
 
 		H: argH,
@@ -2277,6 +2653,10 @@ type TokenMacroB1 struct {
 
 func ParseTokenMacroB1(argText string) (Token, error) {
 
+	args, _, err := ArgumentParser(argText)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroB1 arguments: %s, %w", argText, err)
+	}
 	return &TokenMacroB1{}, nil
 }
 
@@ -2313,6 +2693,10 @@ type TokenMacroKF struct {
 
 func ParseTokenMacroKF(argText string) (Token, error) {
 
+	args, _, err := ArgumentParser(argText)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroKF arguments: %s, %w", argText, err)
+	}
 	return &TokenMacroKF{}, nil
 }
 
@@ -2349,6 +2733,10 @@ type TokenMacroKS struct {
 
 func ParseTokenMacroKS(argText string) (Token, error) {
 
+	args, _, err := ArgumentParser(argText)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroKS arguments: %s, %w", argText, err)
+	}
 	return &TokenMacroKS{}, nil
 }
 
@@ -2385,6 +2773,10 @@ type TokenMacroRD struct {
 
 func ParseTokenMacroRD(argText string) (Token, error) {
 
+	args, _, err := ArgumentParser(argText)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroRD arguments: %s, %w", argText, err)
+	}
 	return &TokenMacroRD{}, nil
 }
 
@@ -2421,6 +2813,10 @@ type TokenMacroCD struct {
 
 func ParseTokenMacroCD(argText string) (Token, error) {
 
+	args, _, err := ArgumentParser(argText)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroCD arguments: %s, %w", argText, err)
+	}
 	return &TokenMacroCD{}, nil
 }
 
@@ -2457,6 +2853,10 @@ type TokenMacroBD struct {
 
 func ParseTokenMacroBD(argText string) (Token, error) {
 
+	args, _, err := ArgumentParser(argText)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroBD arguments: %s, %w", argText, err)
+	}
 	return &TokenMacroBD{}, nil
 }
 
@@ -2493,6 +2893,10 @@ type TokenMacroID struct {
 
 func ParseTokenMacroID(argText string) (Token, error) {
 
+	args, _, err := ArgumentParser(argText)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroID arguments: %s, %w", argText, err)
+	}
 	return &TokenMacroID{}, nil
 }
 
@@ -2529,6 +2933,10 @@ type TokenMacroLD struct {
 
 func ParseTokenMacroLD(argText string) (Token, error) {
 
+	args, _, err := ArgumentParser(argText)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroLD arguments: %s, %w", argText, err)
+	}
 	return &TokenMacroLD{}, nil
 }
 
@@ -2565,6 +2973,10 @@ type TokenMacroQS struct {
 
 func ParseTokenMacroQS(argText string) (Token, error) {
 
+	args, _, err := ArgumentParser(argText)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroQS arguments: %s, %w", argText, err)
+	}
 	return &TokenMacroQS{}, nil
 }
 
