@@ -2,56 +2,19 @@ package gen
 
 import (
 	"fmt"
-	"sort"
 )
 
-type ArgStruct struct {
-	Name     string
+type Word struct {
+	Word     string
 	Optional bool
-	Position int
-	Next     []*ArgStruct
 }
 
-var _ fmt.Stringer = (*ArgStruct)(nil)
-
-func (a *ArgStruct) String() string {
-	c := Args(a.Next).String()
-	if len(c) > 0 {
-		c = " " + c
-	}
-	if a.Optional {
-		return "[" + a.Name + c + "]"
-	}
-	return a.Name + c
-}
-
-type Args []*ArgStruct
-
-func (a Args) String() string {
-	c := ""
-	for ni, next := range a {
-		if ni > 0 {
-			c += " "
-		}
-		forceOptional := ni < len(a)-2
-		ns := next.String()
-		if forceOptional {
-			c += "[" + ns + "]"
-		} else {
-			c += ns
-		}
-	}
-	return c
-}
-
-var _ fmt.Stringer = (Args)(nil)
-
-type argRun struct {
-	Words          []string
+type ArgStruct struct {
+	Words          []*Word
 	OptionalRanges [][2]int
 }
 
-func (ar *argRun) Openings(n int) (r [][2]int) {
+func (ar *ArgStruct) Openings(n int) (r [][2]int) {
 	for i := range ar.OptionalRanges {
 		e := ar.OptionalRanges[i]
 		if e[0] == n {
@@ -61,7 +24,7 @@ func (ar *argRun) Openings(n int) (r [][2]int) {
 	return
 }
 
-func (ar *argRun) Closings(n int) (r [][2]int) {
+func (ar *ArgStruct) Closings(n int) (r [][2]int) {
 	for i := range ar.OptionalRanges {
 		e := ar.OptionalRanges[i]
 		if e[1] == n {
@@ -71,87 +34,12 @@ func (ar *argRun) Closings(n int) (r [][2]int) {
 	return
 }
 
-func ParseArgs(in string) (result Args, err error) {
-	result = make(Args, 0)
-	ar, err := parseArgRun(in)
-	if err != nil {
-		return nil, err
-	}
-	i := 0
-	result, i = ar.parseArgs(i, len(ar.Words), 0, false, -1)
-	if i != len(ar.Words) {
-		return nil, fmt.Errorf("end difference %d != %d", i, len(ar.Words))
-	}
-	return
+func ParseArgs(in string) (result *ArgStruct, err error) {
+	return parseArgRun(in)
 }
 
-func (ar *argRun) parseArgs(start int, end int, depth int, pastOptional bool, fixedPastOptional int) (Args, int) {
-	var result []*ArgStruct
-	i := start
-	stop := false
-	for loops := 0; i < end && !stop; loops++ {
-		fpo := fixedPastOptional
-		optionalEnd := ar.GetLongestOptionalEndIfIsAStart(i)
-		as := &ArgStruct{
-			Name:     ar.Words[i],
-			Optional: optionalEnd >= 0 && fpo < 0,
-			Position: depth,
-		}
-		result = append(result, as)
-		if !as.Optional && pastOptional && fpo < 0 {
-			fpo = i
-		}
-		i++
-		if optionalEnd >= i {
-			var ni int
-			oen, ni := ar.parseArgs(i, end, depth+1, true, fpo)
-			as.Next = oen
-			if optionalEnd > i+1 {
-				var tte []*ArgStruct
-				tte, ni = ar.parseArgs(i, optionalEnd, depth+1, true, fpo)
-				result = append(result, tte...)
-				i = ni
-			}
-		} else {
-			as.Next, i = ar.parseArgs(i, end, depth+1, pastOptional, fpo)
-			stop = true
-		}
-	}
-	return result, i
-}
-
-func (ar *argRun) GetLongestOptionalEndIfIsAStart(n int) int {
-	var result []int
-	for i := range ar.OptionalRanges {
-		e := ar.OptionalRanges[i]
-		if e[0] == n {
-			result = append(result, e[1])
-		}
-	}
-	if len(result) == 0 {
-		return -1
-	}
-	sort.Ints(result)
-	return result[len(result)-1]
-}
-
-func (ar *argRun) OptionalStartMany(n int) int {
-	var result []int
-	for i := range ar.OptionalRanges {
-		e := ar.OptionalRanges[i]
-		if e[0] == n && e[1] > n+1 {
-			result = append(result, e[1])
-		}
-	}
-	if len(result) == 0 {
-		return -1
-	}
-	sort.Ints(result)
-	return result[len(result)-1]
-}
-
-func parseArgRun(in string) (*argRun, error) {
-	ar := &argRun{}
+func parseArgRun(in string) (*ArgStruct, error) {
+	ar := &ArgStruct{}
 	closeStack := []int{}
 	openStack := []int{}
 	wordBegin := 0
@@ -173,7 +61,10 @@ func parseArgRun(in string) (*argRun, error) {
 			closeStack = append(closeStack, rp)
 		case ' ':
 			if wordBegin != wordEnd {
-				ar.Words = append(ar.Words, string(rin[wordBegin:wordEnd]))
+				ar.Words = append(ar.Words, &Word{
+					Word:     string(rin[wordBegin:wordEnd]),
+					Optional: len(openStack) > 0,
+				})
 				for len(closeStack) > len(openStack) {
 					return nil, fmt.Errorf("more closes than opens")
 				}
