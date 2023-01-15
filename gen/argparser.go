@@ -78,6 +78,12 @@ func parseArgRun(in string) (*argRun, error) {
 		case ' ':
 			if wordBegin != wordEnd {
 				ar.Words = append(ar.Words, string(rin[wordBegin:wordEnd]))
+				for len(closeStack) > 0 && len(openStack) > 0 {
+					open := openStack[len(openStack)-1]
+					closeStack = closeStack[:len(closeStack)-1]
+					openStack = openStack[:len(openStack)-1]
+					ar.OptionalRanges = append(ar.OptionalRanges, [2]int{open, len(ar.Words)})
+				}
 				closeStack = nil
 			}
 			wordBegin = rp + 1

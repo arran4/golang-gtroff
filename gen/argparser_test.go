@@ -212,7 +212,7 @@ func Test_parseArgRun(t *testing.T) {
 			want: &argRun{
 				Words: []string{"a"},
 				OptionalRanges: [][2]int{
-					{0, 0},
+					{0, 1},
 				},
 			},
 			wantErr: false,
@@ -223,7 +223,7 @@ func Test_parseArgRun(t *testing.T) {
 			want: &argRun{
 				Words: []string{"a", "b"},
 				OptionalRanges: [][2]int{
-					{1, 1},
+					{1, 2},
 				},
 			},
 			wantErr: false,
@@ -234,8 +234,8 @@ func Test_parseArgRun(t *testing.T) {
 			want: &argRun{
 				Words: []string{"a", "b"},
 				OptionalRanges: [][2]int{
-					{0, 1},
-					{1, 1},
+					{0, 2},
+					{1, 2},
 				},
 			},
 			wantErr: false,
@@ -246,8 +246,8 @@ func Test_parseArgRun(t *testing.T) {
 			want: &argRun{
 				Words: []string{"a", "b"},
 				OptionalRanges: [][2]int{
-					{0, 0},
-					{1, 1},
+					{0, 1},
+					{1, 2},
 				},
 			},
 			wantErr: false,
@@ -264,8 +264,8 @@ func Test_parseArgRun(t *testing.T) {
 			want: &argRun{
 				Words: []string{"punct", "path", "punct"},
 				OptionalRanges: [][2]int{
-					{0, 0},
-					{2, 2},
+					{0, 1},
+					{2, 3},
 				},
 			},
 			wantErr: false,
