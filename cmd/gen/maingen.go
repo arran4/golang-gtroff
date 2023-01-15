@@ -27,15 +27,22 @@ type Macro struct {
 	Type  string
 	Token string
 	Args  string
+	args  *gen.ArgStruct
 }
 
 func (m *Macro) IsMacro() bool {
 	return m.Type == "Macro"
 }
 
-func (m *Macro) ArgStruct() (result []*gen.ArgStruct, err error) {
-	// TODO
-	return
+func (m *Macro) ArgStruct() (result *gen.ArgStruct, err error) {
+	if m.args == nil {
+		a, err := gen.ParseArgs(m.Args)
+		if err != nil {
+			return nil, err
+		}
+		m.args = a
+	}
+	return m.args, nil
 }
 
 var (
