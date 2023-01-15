@@ -2,7 +2,7 @@ package gen
 
 import (
 	"fmt"
-	"strings"
+	"sort"
 )
 
 type ArgStruct struct {
@@ -27,10 +27,13 @@ type Args []*ArgStruct
 func (a Args) String() string {
 	c := ""
 	for ni, next := range a {
-		forceOptional := ni < len(a)-1
+		if ni > 0 {
+			c += " "
+		}
+		forceOptional := ni < len(a)-2
 		ns := next.String()
-		if forceOptional && !strings.HasPrefix(ns, "[") {
-			c += " [" + ns + "]"
+		if forceOptional {
+			c += "[" + ns + "]"
 		} else {
 			c += ns
 		}
@@ -45,13 +48,80 @@ type argRun struct {
 	OptionalRanges [][2]int
 }
 
+func (ar *argRun) Openings(n int) (r [][2]int) {
+	for i := range ar.OptionalRanges {
+		e := ar.OptionalRanges[i]
+		if e[0] == n {
+			r = append(r, e)
+		}
+	}
+	return
+}
+
+func (ar *argRun) Closings(n int) (r [][2]int) {
+	for i := range ar.OptionalRanges {
+		e := ar.OptionalRanges[i]
+		if e[1] == n {
+			r = append(r, e)
+		}
+	}
+	return
+}
+
 func ParseArgs(in string) (result Args, err error) {
 	result = make(Args, 0)
-	_, err = parseArgRun(in)
+	ar, err := parseArgRun(in)
 	if err != nil {
 		return nil, err
 	}
+	i := 0
+	result, i = ar.parseArgs(i, len(ar.Words), 0)
+	if i != len(ar.Words) {
+		return nil, fmt.Errorf("end difference %d != %d", i, len(ar.Words))
+	}
 	return
+}
+
+func (ar *argRun) parseArgs(i int, end int, depth int) (Args, int) {
+	var result []*ArgStruct
+	for loops := 0; i < end; loops++ {
+		as := &ArgStruct{
+			Name:     ar.Words[i],
+			Optional: ar.OptionalStart(i),
+			Position: depth + loops,
+		}
+		result = append(result, as)
+		i++
+		if v := ar.OptionalStartMany(i); v >= 0 {
+			as.Next, i = ar.parseArgs(i, 1, depth+loops)
+		}
+	}
+	return result, i
+}
+
+func (ar *argRun) OptionalStart(n int) bool {
+	for i := range ar.OptionalRanges {
+		e := ar.OptionalRanges[i]
+		if e[0] == n {
+			return true
+		}
+	}
+	return false
+}
+
+func (ar *argRun) OptionalStartMany(n int) int {
+	var result []int
+	for i := range ar.OptionalRanges {
+		e := ar.OptionalRanges[i]
+		if e[0] == n && e[1] > n+1 {
+			result = append(result, e[1])
+		}
+	}
+	if len(result) == 0 {
+		return -1
+	}
+	sort.Ints(result)
+	return result[len(result)-1]
 }
 
 func parseArgRun(in string) (*argRun, error) {

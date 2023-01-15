@@ -9,13 +9,13 @@ func TestParseArgs(t *testing.T) {
 	tests := []struct {
 		name       string
 		in         string
-		wantResult []*ArgStruct
+		wantResult Args
 		wantErr    bool
 	}{
 		{
 			name:       "Empty",
 			in:         "",
-			wantResult: []*ArgStruct{},
+			wantResult: nil,
 			wantErr:    false,
 		},
 		{
@@ -26,7 +26,6 @@ func TestParseArgs(t *testing.T) {
 					Name:     "a",
 					Optional: false,
 					Position: 0,
-					Next:     []*ArgStruct{},
 				},
 			},
 			wantErr: false,
@@ -39,7 +38,6 @@ func TestParseArgs(t *testing.T) {
 					Name:     "a",
 					Optional: true,
 					Position: 0,
-					Next:     []*ArgStruct{},
 				},
 			},
 			wantErr: false,
@@ -57,7 +55,6 @@ func TestParseArgs(t *testing.T) {
 							Name:     "b",
 							Optional: true,
 							Position: 1,
-							Next:     []*ArgStruct{},
 						},
 					},
 				},
@@ -77,7 +74,6 @@ func TestParseArgs(t *testing.T) {
 							Name:     "b",
 							Optional: true,
 							Position: 1,
-							Next:     []*ArgStruct{},
 						},
 					},
 				},
@@ -97,7 +93,6 @@ func TestParseArgs(t *testing.T) {
 							Name:     "b",
 							Optional: true,
 							Position: 1,
-							Next:     []*ArgStruct{},
 						},
 					},
 				},
@@ -105,7 +100,6 @@ func TestParseArgs(t *testing.T) {
 					Name:     "b",
 					Optional: true,
 					Position: 0,
-					Next:     []*ArgStruct{},
 				},
 			},
 			wantErr: false,
@@ -116,15 +110,15 @@ func TestParseArgs(t *testing.T) {
 			wantResult: []*ArgStruct{
 				{
 					Name:     "a",
-					Optional: true,
+					Optional: false,
 					Position: 0,
-					Next:     []*ArgStruct{},
-				},
-				{
-					Name:     "a",
-					Optional: true,
-					Position: 1,
-					Next:     []*ArgStruct{},
+					Next: []*ArgStruct{
+						{
+							Name:     "a",
+							Optional: false,
+							Position: 1,
+						},
+					},
 				},
 			},
 			wantErr: false,
@@ -147,7 +141,6 @@ func TestParseArgs(t *testing.T) {
 									Name:     "punct",
 									Optional: true,
 									Position: 2,
-									Next:     []*ArgStruct{},
 								},
 							},
 						},
@@ -162,7 +155,6 @@ func TestParseArgs(t *testing.T) {
 							Name:     "punct",
 							Optional: true,
 							Position: 1,
-							Next:     []*ArgStruct{},
 						},
 					},
 				},
@@ -177,7 +169,7 @@ func TestParseArgs(t *testing.T) {
 				t.Errorf("ParseArgs() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
-			if d := cmp.Diff(gotResult, tt.wantResult); d != "" {
+			if d := cmp.Diff(([]*ArgStruct)(gotResult), ([]*ArgStruct)(tt.wantResult)); d != "" {
 				t.Errorf("ParseArgs()\n%s", d)
 			}
 			if d := cmp.Diff(gotResult.String(), tt.in); d != "" {
