@@ -6,6 +6,7 @@ import (
 	"encoding/json"
 	"flag"
 	"fmt"
+	"github.com/arran4/golang-gtroff/gen"
 	"log"
 	"os"
 	"regexp"
@@ -22,11 +23,6 @@ var (
 	outParselineLoc = flag.String("parselineloc", "parseline.go", "Output file for parse line")
 )
 
-type ArgStruct struct {
-	Name     string
-	Optional bool
-}
-
 type Macro struct {
 	Type  string
 	Token string
@@ -37,7 +33,7 @@ func (m *Macro) IsMacro() bool {
 	return m.Type == "Macro"
 }
 
-func (m *Macro) ArgStruct() (result []*ArgStruct) {
+func (m *Macro) ArgStruct() (result []*gen.ArgStruct, err error) {
 	// TODO
 	return
 }
@@ -163,7 +159,7 @@ func main() {
 		log.Panic(err)
 	}
 	templates := template.Must(template.ParseFS(goTemplates, "*.template"))
-	GenerateFile(templates, macros, "parseline.go.template", *outParselineLoc)
+	GenerateFile(templates, macros.FilterToJustMacros().Flatten().MergeDuplicates(), "parseline.go.template", *outParselineLoc)
 	GenerateFile(templates, macros.FilterToJustMacros().Flatten().MergeDuplicates(), "macros.go.template", *outMacrosLoc)
 }
 
