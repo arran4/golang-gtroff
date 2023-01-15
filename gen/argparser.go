@@ -16,6 +16,9 @@ var _ fmt.Stringer = (*ArgStruct)(nil)
 
 func (a *ArgStruct) String() string {
 	c := Args(a.Next).String()
+	if len(c) > 0 {
+		c = " " + c
+	}
 	if a.Optional {
 		return "[" + a.Name + c + "]"
 	}
@@ -87,26 +90,34 @@ func (ar *argRun) parseArgs(i int, end int, depth int) (Args, int) {
 	for loops := 0; i < end; loops++ {
 		as := &ArgStruct{
 			Name:     ar.Words[i],
-			Optional: ar.OptionalStart(i),
+			Optional: ar.OptionalStart(i) > 0,
 			Position: depth + loops,
 		}
 		result = append(result, as)
 		i++
-		if v := ar.OptionalStartMany(i); v >= 0 {
-			as.Next, i = ar.parseArgs(i, 1, depth+loops)
+		if v := ar.OptionalStart(i); v >= i {
+			as.Next, i = ar.parseArgs(i, v, depth+loops+1)
+		} else {
+			as.Next, i = ar.parseArgs(i, end, depth+loops+1)
+			break
 		}
 	}
 	return result, i
 }
 
-func (ar *argRun) OptionalStart(n int) bool {
+func (ar *argRun) OptionalStart(n int) int {
+	var result []int
 	for i := range ar.OptionalRanges {
 		e := ar.OptionalRanges[i]
 		if e[0] == n {
-			return true
+			result = append(result, e[1])
 		}
 	}
-	return false
+	if len(result) == 0 {
+		return -1
+	}
+	sort.Ints(result)
+	return result[len(result)-1]
 }
 
 func (ar *argRun) OptionalStartMany(n int) int {

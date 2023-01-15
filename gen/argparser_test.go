@@ -170,10 +170,10 @@ func TestParseArgs(t *testing.T) {
 				return
 			}
 			if d := cmp.Diff(([]*ArgStruct)(gotResult), ([]*ArgStruct)(tt.wantResult)); d != "" {
-				t.Errorf("ParseArgs()\n%s", d)
+				t.Errorf("ParseArgs(%#v)\n%s", tt.in, d)
 			}
 			if d := cmp.Diff(gotResult.String(), tt.in); d != "" {
-				t.Errorf(".String()\n%s", d)
+				t.Errorf("ParseArgs(%#v).String()\n%s", tt.in, d)
 			}
 		})
 	}
