@@ -207,27 +207,49 @@ func Test_parseArgRun(t *testing.T) {
 			wantErr: false,
 		},
 		{
-			name:    "1 optional",
-			in:      "[a]",
-			want:    &argRun{Words: []string{"a"}},
+			name: "1 optional",
+			in:   "[a]",
+			want: &argRun{
+				Words: []string{"a"},
+				OptionalRanges: [][2]int{
+					{0, 0},
+				},
+			},
 			wantErr: false,
 		},
 		{
-			name:    "1 required 1 optional",
-			in:      "a [b]",
-			want:    &argRun{Words: []string{"a", "b"}},
+			name: "1 required 1 optional",
+			in:   "a [b]",
+			want: &argRun{
+				Words: []string{"a", "b"},
+				OptionalRanges: [][2]int{
+					{1, 1},
+				},
+			},
 			wantErr: false,
 		},
 		{
-			name:    "2 optional chained",
-			in:      "[a [b]]",
-			want:    &argRun{Words: []string{"a", "b"}},
+			name: "2 optional chained",
+			in:   "[a [b]]",
+			want: &argRun{
+				Words: []string{"a", "b"},
+				OptionalRanges: [][2]int{
+					{0, 1},
+					{1, 1},
+				},
+			},
 			wantErr: false,
 		},
 		{
-			name:    "2 optional alternative",
-			in:      "[a] [b]",
-			want:    &argRun{Words: []string{"a", "b"}},
+			name: "2 optional alternative",
+			in:   "[a] [b]",
+			want: &argRun{
+				Words: []string{"a", "b"},
+				OptionalRanges: [][2]int{
+					{0, 0},
+					{1, 1},
+				},
+			},
 			wantErr: false,
 		},
 		{
@@ -237,9 +259,15 @@ func Test_parseArgRun(t *testing.T) {
 			wantErr: false,
 		},
 		{
-			name:    ".Pn",
-			in:      "[punct] path [punct]",
-			want:    &argRun{Words: []string{"punct", "path", "punct"}},
+			name: ".Pn",
+			in:   "[punct] path [punct]",
+			want: &argRun{
+				Words: []string{"punct", "path", "punct"},
+				OptionalRanges: [][2]int{
+					{0, 0},
+					{2, 2},
+				},
+			},
 			wantErr: false,
 		},
 		{
