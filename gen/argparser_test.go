@@ -7,10 +7,11 @@ import (
 
 func Test_parseArgRun(t *testing.T) {
 	tests := []struct {
-		name    string
-		in      string
-		want    *ArgStruct
-		wantErr bool
+		name     string
+		in       string
+		want     *ArgStruct
+		wantErr  bool
+		Forwards bool
 	}{
 		{
 			name:    "Empty",
@@ -33,7 +34,8 @@ func Test_parseArgRun(t *testing.T) {
 					{0, 1},
 				},
 			},
-			wantErr: false,
+			Forwards: true,
+			wantErr:  false,
 		},
 		{
 			name: "1 required 1 optional",
@@ -44,7 +46,8 @@ func Test_parseArgRun(t *testing.T) {
 					{1, 2},
 				},
 			},
-			wantErr: false,
+			Forwards: true,
+			wantErr:  false,
 		},
 		{
 			name: "2 optional chained",
@@ -56,7 +59,8 @@ func Test_parseArgRun(t *testing.T) {
 					{1, 2},
 				},
 			},
-			wantErr: false,
+			Forwards: true,
+			wantErr:  false,
 		},
 		{
 			name: "2 optional alternative",
@@ -68,7 +72,8 @@ func Test_parseArgRun(t *testing.T) {
 					{1, 2},
 				},
 			},
-			wantErr: false,
+			Forwards: true,
+			wantErr:  false,
 		},
 		{
 			name: "2 same name",
@@ -132,6 +137,9 @@ func Test_parseArgRun(t *testing.T) {
 			}
 			if d := cmp.Diff(got, tt.want); d != "" {
 				t.Errorf("ParseArgs()\n%s", d)
+			}
+			if d := cmp.Diff(got.Forwards(), tt.Forwards); d != "" {
+				t.Errorf("Forwards() = %s", d)
 			}
 		})
 	}

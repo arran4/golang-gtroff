@@ -14,6 +14,17 @@ type ArgStruct struct {
 	OptionalRanges [][2]int
 }
 
+func (ar *ArgStruct) HasOptional() bool {
+	return len(ar.OptionalRanges) > 0
+}
+
+func (ar *ArgStruct) Forwards() bool {
+	if len(ar.Words) == 0 {
+		return false
+	}
+	return len(ar.Closings(len(ar.Words))) > len(ar.Openings(0)) || len(ar.Words) == len(ar.OptionalRanges)
+}
+
 func (ar *ArgStruct) Openings(n int) (r [][2]int) {
 	for i := range ar.OptionalRanges {
 		e := ar.OptionalRanges[i]
