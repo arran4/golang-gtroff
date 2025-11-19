@@ -9,7 +9,6 @@ func ParseLine(line string) (Token, error) {
 	if !strings.HasPrefix(line, ".") {
 		return TokenText(line), nil
 	}
-	line = line[1:]
 	ss := wsRe.Split(line, 2)
 	if len(ss) > 1 {
 		line = ss[1]
@@ -17,6 +16,8 @@ func ParseLine(line string) (Token, error) {
 		line = ""
 	}
 	switch ss[0] {
+	case `.\"`:
+		return ParseComment(line)
 {{range $i, $e := $}}
 	case `{{$e.Token}}`:
 		return Parse{{$e.StructName}}(line)

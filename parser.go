@@ -23,7 +23,7 @@ func (t TokenText) String() string {
 
 var _ Token = (TokenText)("")
 
-var wsRe = regexp.MustCompile("\\s+")
+var wsRe = regexp.MustCompile(`\s+`)
 
 type TokenComment string
 

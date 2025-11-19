@@ -2,6 +2,7 @@ package groff
 
 import (
     "fmt"
+    "strings"
 )
 
 {{range $i, $e := $}}
@@ -22,12 +23,12 @@ func Parse{{$e.StructName}}(argText string) (Token, error) {
         return nil, fmt.Errorf("parse {{$e.StructName}} arguments: %s, %w", argText, err)
     }
     {{if $e.ArgStruct.Forwards}}
-      matched, err :=  ForwardMatcher(args,
+      {{if $e.ArgStruct.Words}}matched, err :={{else}}_, err ={{end}}  ForwardMatcher(args,
             {{range $argi, $arg := $e.ArgStruct.Words}}
             {{$arg.Optional}},
             {{end}})
     {{else}}
-      matched, err :=  BackwardMatcher(args,
+      {{if $e.ArgStruct.Words}}matched, err :={{else}}_, err ={{end}}  BackwardMatcher(args,
             {{range $argi, $arg := $e.ArgStruct.Words}}
             {{$arg.Optional}},
             {{end}})
@@ -46,7 +47,20 @@ func Parse{{$e.StructName}}(argText string) (Token, error) {
 }
 
 func (t *{{$e.StructName}}) String() string {
-	return "{{$e.Token}}" /* TODO {{$e.Args}} */
+	var args []string
+	{{range $argi, $arg := $e.ArgStruct.Words}}
+	args = append(args, t.{{$arg.Id}})
+	{{end}}
+	for len(args) > 0 && args[len(args)-1] == "" {
+		args = args[:len(args)-1]
+	}
+	for i, arg := range args {
+		args[i] = Quote(arg)
+	}
+	if len(args) == 0 {
+		return "{{$e.Token}}"
+	}
+	return "{{$e.Token}} " + strings.Join(args, " ")
 }
 
 {{end}}
