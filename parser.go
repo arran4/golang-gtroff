@@ -61,6 +61,9 @@ func ArgumentParser(l string) ([]string, int, error) {
 				i -= 2
 				continue
 			}
+			if rs[i] != ' ' && rs[i] != '"' {
+				a += "\\"
+			}
 		case '"':
 			if len(a) > 0 && len(stack) == 0 {
 				break

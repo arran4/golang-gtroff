@@ -325,6 +325,33 @@ func ParseLine(line string) (Token, error) {
 	case `.QS`:
 		return ParseTokenMacroQS(line)
 
+	case `.SY`:
+		return ParseTokenMacroSY(line)
+
+	case `.YS`:
+		return ParseTokenMacroYS(line)
+
+	case `.MR`:
+		return ParseTokenMacroMR(line)
+
+	case `.MT`:
+		return ParseTokenMacroMT(line)
+
+	case `.ME`:
+		return ParseTokenMacroME(line)
+
+	case `.UR`:
+		return ParseTokenMacroUR(line)
+
+	case `.UE`:
+		return ParseTokenMacroUE(line)
+
+	case `.TQ`:
+		return ParseTokenMacroTQ(line)
+
+	case `.OP`:
+		return ParseTokenMacroOP(line)
+
 	}
 	return nil, fmt.Errorf("%w: %#v: %s", ErrNoTokenMatch, ss[0], line)
 }

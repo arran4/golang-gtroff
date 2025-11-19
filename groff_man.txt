@@ -1,0 +1,707 @@
+groff_man(7)	       Miscellaneous Information Manual		  groff_man(7)
+
+Name
+       groff_man - compose manual pages with GNU roff
+
+Synopsis
+       groff -man [option ...] [file ...]
+       groff -m man [option ...] [file ...]
+
+Description
+       The GNU implementation of the man macro package is part of the groff
+       document formatting system.  It is used to produce manual pages
+       (“man pages”) like the one you are reading.
+
+       This document presents the macros thematically; for those needing only
+       a quick reference, the following table lists them alphabetically, with
+       cross references to appropriate subsections below.
+
+       Man page authors and maintainers who are not already experienced groff
+       users should consult groff_man_style(7), an expanded version of this
+       document, for additional explanations and advice.  It covers only those
+       concepts required for man page document maintenance, and not the full
+       breadth of the groff typesetting system.
+
+       Macro   Meaning			    Subsection
+       ───────────────────────────────────────────────────────────────
+       .B      Bold			    Font style macros
+       .BI     Bold, italic alternating	    Font style macros
+       .BR     Bold, roman alternating	    Font style macros
+       .EE     Example end		    Document structure macros
+       .EX     Example begin		    Document structure macros
+       .I      Italic			    Font style macros
+       .IB     Italic, bold alternating	    Font style macros
+       .IP     Indented paragraph	    Paragraphing macros
+       .IR     Italic, roman alternating    Font style macros
+       .LP     Begin paragraph		    Paragraphing macros
+       .ME     Mail-to end		    Hyperlink macros
+       .MR     Man page cross reference	    Hyperlink macros
+       .MT     Mail-to start		    Hyperlink macros
+       .P      Begin paragraph		    Paragraphing macros
+       .PP     Begin paragraph		    Paragraphing macros
+       .RB     Roman, bold alternating	    Font style macros
+       .RE     Relative inset end	    Document structure macros
+       .RI     Roman, italic alternating    Font style macros
+       .RS     Relative inset start	    Document structure macros
+       .SB     Small bold		    Font style macros
+       .SH     Section heading		    Document structure macros
+       .SM     Small			    Font style macros
+       .SS     Subsection heading	    Document structure macros
+       .SY     Synopsis start		    Command synopsis macros
+       .TH     Title heading		    Document structure macros
+       .TP     Tagged paragraph		    Paragraphing macros
+       .TQ     Supplemental paragraph tag   Paragraphing macros
+       .UE     URI end			    Hyperlink macros
+       .UR     URI start		    Hyperlink macros
+       .YS     Synopsis end		    Command synopsis macros
+
+       We discuss other macros (.AT, .DT, .HP, .OP, .PD, and .UC) in
+       subsection “Deprecated features” below.
+
+       Throughout Unix documentation, a manual entry is referred to simply as
+       a “man page”, regardless of its length, without gendered implication,
+       and irrespective of the macro package selected for its composition.
+
+   Macro reference preliminaries
+       A tagged paragraph describes each macro.	 We present coupled pairs
+       together, as with .EX and .EE.
+
+       An empty macro argument can be specified with a pair of double-quotes
+       (""), but the man package is designed such that this should seldom be
+       necessary.  Most macro arguments will be formatted as text in the
+       output; exceptions are noted.
+
+   Document structure macros
+       Document structure macros organize a man page's content.	 All of them
+       break the output line.  .TH (title heading) identifies the document as
+       a man page and configures the page headers and footers.	Section
+       headings (.SH), one of which is mandatory and many of which are
+       conventionally expected, facilitate location of material by the reader
+       and aid the man page writer to discuss all essential aspects of the
+       topic.  Subsection headings (.SS) are optional and permit sections that
+       grow long to develop in a controlled way.  Many technical discussions
+       benefit from examples; lengthy ones, especially those reflecting
+       multiple lines of input to or output from the system, are usefully
+       bracketed by .EX and .EE.  When none of the foregoing meets a
+       structural demand, use .RS/.RE to inset a region within a (sub)section.
+
+       .TH topic section [footer-middle] [footer-inside] [header-middle]
+	      Determine the contents of the page header and footer.  The
+	      subject of the man page is topic and the section of the manual
+	      to which it belongs is section.  See man(1) or intro(1) for the
+	      manual sectioning applicable to your system.  topic and section
+	      are positioned together at the left and right in the header
+	      (with section in parentheses immediately appended to topic).
+	      footer-middle is centered in the footer.	The arrangement of the
+	      rest of the footer depends on whether double-sided layout is
+	      enabled with the option -rD1.  When disabled (the default),
+	      footer-inside is positioned at the bottom left.  Otherwise,
+	      footer-inside appears at the bottom left on recto (odd-numbered)
+	      pages, and at the bottom right on verso (even-numbered) pages.
+	      The outside footer is the page number, except in the continuous-
+	      rendering mode enabled by the option -rcR=1, in which case it is
+	      the topic and section, as in the header.	header-middle is
+	      centered in the header.  If section is an integer between 1
+	      and 9 (inclusive), there is no need to specify header-middle;
+	      an.tmac will supply text for it.	The macro package may also
+	      abbreviate topic and footer-inside with ellipses if they would
+	      overrun the space available in the header and footer,
+	      respectively.  For HTML output, headers and footers are
+	      suppressed.
+
+	      Additionally, this macro breaks the page, resetting the number
+	      to 1 (unless the -rC1 option is given).  This feature is
+	      intended only for formatting multiple man documents in sequence.
+
+	      A valid man document calls .TH once, early in the file, prior to
+	      any other macro calls.
+
+       .SH [heading-text]
+	      Set heading-text as a section heading.  If no argument is given,
+	      a one-line input trap is planted; text on the next line becomes
+	      heading-text.  The left margin is reset to zero to set the
+	      heading text in bold (or the font specified by the string HF),
+	      and, on typesetting devices, slightly larger than the base type
+	      size.  If the heading font \*[HF] is bold, use of an italic
+	      style in heading-text is mapped to the bold-italic style if
+	      available in the font family.  The inset level is reset to 1,
+	      setting the left margin to the value of the IN register.	Text
+	      after heading-text is set as an ordinary paragraph (.P).
+
+	      The content of heading-text and ordering of sections follows a
+	      set of common practices, as has much of the layout of material
+	      within sections.	For example, a section called “Name” or “NAME”
+	      must exist, must be the first section after the .TH call, and
+	      must contain only text of the form
+		     topic[, another-topic]... \- summary-description
+	      for a man page to be properly indexed.  See groff_man_style(7)
+	      for suggestions and man(7) for the conventions prevailing on
+	      your system.
+
+       .SS [subheading-text]
+	      Set subheading-text as a subsection heading indented between a
+	      section heading and an ordinary paragraph (.P).  If no argument
+	      is given, a one-line input trap is planted; text on the next
+	      line becomes subheading-text.  The left margin is reset to the
+	      value of the SN register to set the heading text in bold (or the
+	      font specified by the string HF).	 If the heading font \*[HF] is
+	      bold, use of an italic style in subheading-text is mapped to the
+	      bold-italic style if available in the font family.  The inset
+	      level is reset to 1, setting the left margin to the value of the
+	      IN register.  Text after subheading-text is set as an ordinary
+	      paragraph (.P).
+
+       .EX
+       .EE    Begin and end example.  After .EX, filling is disabled and a
+	      constant-width (monospaced) font is selected.  Calling .EE
+	      enables filling and restores the previous font.
+
+	      These macros are extensions introduced in Ninth Edition Research
+	      Unix.  Systems running that troff, or those from Documenter's
+	      Workbench, Heirloom Doctools, or Plan 9 troff support them.  To
+	      be certain your page will be portable to systems that do not,
+	      copy their definitions from the an-ext.tmac file of a groff
+	      installation.
+
+       .RS [inset-amount]
+	      Start a new relative inset level.	 The position of the left
+	      margin is saved, then moved right by inset-amount, if specified,
+	      and by the amount of the IN register otherwise.  Calls to .RS
+	      can be nested; each increments by 1 the inset level used by .RE.
+	      The level prior to any .RS calls is 1.
+
+       .RE [level]
+	      End a relative inset.  The left margin corresponding to inset
+	      level level is restored.	If no argument is given, the inset
+	      level is reduced by 1.
+
+   Paragraphing macros
+       An ordinary paragraph (.P) is set without a first-line indentation at
+       the current left margin.	 In man pages and other technical literature,
+       definition lists are frequently encountered; these can be set as
+       “tagged paragraphs”, which have one (.TP) or more (.TQ) leading tags
+       followed by a paragraph that has an additional indentation.  The
+       indented paragraph (.IP) macro is useful to continue the indented
+       content of a narrative started with .TP, or to present an itemized or
+       ordered list.  All of these macros break the output line.  If another
+       paragraph macro has occurred since the previous .SH or .SS, they
+       (except for .TQ) follow the break with a default amount of vertical
+       space, which can be changed by the deprecated .PD macro; see subsection
+       “Horizontal and vertical spacing” below.	 They also reset the type size
+       and font style to defaults (.TQ again excepted); see subsection “Font
+       style macros” below.
+
+       .P
+       .LP
+       .PP    Begin a new paragraph; these macros are synonymous.  The
+	      indentation is reset to the default value; the left margin, as
+	      affected by .RS and .RE, is not.
+
+       .TP [indentation]
+	      Set a paragraph with a leading tag, and the remainder of the
+	      paragraph indented.  A one-line input trap is planted; text on
+	      the next line, which can be formatted with a macro, becomes the
+	      tag, which is placed at the current left margin.	The tag can be
+	      extended with the \c escape sequence.  Subsequent text is
+	      indented by indentation, if specified, and by the amount of the
+	      IN register otherwise.  If the tag is not as wide as the
+	      indentation, the paragraph starts on the same line as the tag,
+	      at the applicable indentation, and continues on the following
+	      lines.  Otherwise, the descriptive part of the paragraph begins
+	      on the line following the tag.
+
+       .TQ    Set an additional tag for a paragraph tagged with .TP.  An input
+	      trap is planted as with .TP.
+
+	      This macro is a GNU extension not defined on systems running
+	      AT&T, Plan 9, or Solaris troff; see an-ext.tmac in section
+	      “Files” below.
+
+       .IP [tag] [indentation]
+	      Set an indented paragraph with an optional tag.  The tag and
+	      indentation arguments, if present, are handled as with .TP, with
+	      the exception that the tag argument to .IP cannot include a
+	      macro call.
+
+   Command synopsis macros
+       .SY and .YS aid you to construct a command synopsis that has the
+       classical Unix appearance.  They break the output line.
+
+       These macros are GNU extensions not defined on systems running AT&T,
+       Plan 9, or Solaris troff; see an-ext.tmac in section “Files” below.
+
+       .SY command
+	      Begin synopsis.  A new paragraph begins at the left margin
+	      unless .SY has already been called without a corresponding .YS,
+	      in which case only a break is performed.	Adjustment and
+	      automatic hyphenation are disabled.  command is set in bold.  If
+	      a break is required, lines after the first are indented by the
+	      width of command plus a space.
+
+       .YS    End synopsis.  Indentation, adjustment, and hyphenation are
+	      restored to their previous states.
+
+   Hyperlink macros
+       Man page cross references are best presented with .MR.  Text may be
+       hyperlinked to email addresses with .MT/.ME or other URIs with .UR/.UE.
+       Hyperlinked text is supported on HTML and terminal output devices;
+       terminals and pager programs must support ECMA-48 OSC 8 escape
+       sequences (see grotty(1)).  When device support is unavailable or
+       disabled with the U register (see section “Options” below), .MT and .UR
+       URIs are rendered between angle brackets after the linked text.
+
+       .MT, .ME, .UR, and .UE are GNU extensions not defined on systems
+       running AT&T, Plan 9, or Solaris troff; see an-ext.tmac in section
+       “Files” below.  Plan 9 from User Space's troff implements .MR.
+
+       The arguments to .MR, .MT, and .UR should be prepared for typesetting
+       since they can appear in the output.  Use special character escape
+       sequences to encode Unicode basic Latin characters where necessary,
+       particularly the hyphen-minus.  The formatter removes \: escape
+       sequences from hyperlinks when supplying device control commands to
+       output drivers.
+
+       .MR topic manual-section [trailing-text]
+	      (since groff 1.23) Set a man page cross reference as
+	      “topic(manual-section)”.	If trailing-text (typically
+	      punctuation) is specified, it follows the closing parenthesis
+	      without intervening space.  Hyphenation is disabled while the
+	      cross reference is set.  topic is set in the font specified by
+	      the MF string.  The cross reference hyperlinks to a URI of the
+	      form “man:topic(manual-section)”.
+
+       .MT address
+       .ME [trailing-text]
+	      Identify address as an RFC 6068 addr-spec for a “mailto:” URI
+	      with the text between the two macro calls as the link text.  An
+	      argument to .ME is placed after the link text without
+	      intervening space.  address may not be visible in the rendered
+	      document if hyperlinks are enabled and supported by the output
+	      driver.  If they are not, address is set in angle brackets after
+	      the link text and before trailing-text.  If hyperlinking is
+	      enabled but there is no link text, address is formatted and
+	      hyperlinked without angle brackets.
+
+       .UR uri
+       .UE [trailing-text]
+	      Identify uri as an RFC 3986 URI hyperlink with the text between
+	      the two macro calls as the link text.  An argument to .UE is
+	      placed after the link text without intervening space.  uri may
+	      not be visible in the rendered document if hyperlinks are
+	      enabled and supported by the output driver.  If they are not,
+	      uri is set in angle brackets after the link text and before
+	      trailing-text.  If hyperlinking is enabled but there is no link
+	      text, uri is formatted and hyperlinked without angle brackets.
+
+       The hyperlinking of .TP paragraph tags with .UR/.UE and .MT/.ME is not
+       yet supported; if attempted, the hyperlink will be typeset at the
+       beginning of the indented paragraph even on hyperlink-supporting
+       devices.
+
+   Font style macros
+       The man macro package is limited in its font styling options, offering
+       only bold (.B), italic (.I), and roman.	Italic text is usually set
+       underscored instead on terminal devices.	 The .SM and .SB macros set
+       text in roman or bold, respectively, at a smaller type size; these
+       differ visually from regular-sized roman or bold text only on
+       typesetting devices.  It is often necessary to set text in different
+       styles without intervening space.  The macros .BI, .BR, .IB, .IR, .RB,
+       and .RI, where “B”, “I”, and “R” indicate bold, italic, and roman,
+       respectively, set their odd- and even-numbered arguments in alternating
+       styles, with no space separating them.
+
+       The default type size and family for typesetting devices is 10-point
+       Times, except on the X75-12 and X100-12 devices where the type size is
+       12 points.  The default style is roman.
+
+       .B [text]
+	      Set text in bold.	 If no argument is given, a one-line input
+	      trap is planted; text on the next line, which can be further
+	      formatted with a macro, is set in bold.
+
+       .I [text]
+	      Set text in an italic or oblique face.  If no argument is given,
+	      a one-line input trap is planted; text on the next line, which
+	      can be further formatted with a macro, is set in an italic or
+	      oblique face.
+
+       .SM [text]
+	      Set text one point smaller than the default type size on
+	      typesetting devices.  If no argument is given, a one-line input
+	      trap is planted; text on the next line, which can be further
+	      formatted with a macro, is set smaller.
+
+       .SB [text]
+	      Set text in bold and (on typesetting devices) one point smaller
+	      than the default type size.  If no argument is given, a one-line
+	      input trap is planted; text on the next line, which can be
+	      further formatted with a macro, is set smaller and in bold.
+	      This macro is an extension introduced in SunOS 4.0.
+
+       Unlike the above font style macros, the font style alternation macros
+       below set no input traps; they must be given arguments to have effect.
+       Italic corrections are applied as appropriate.
+
+       .BI bold-text italic-text ...
+	      Set each argument in bold and italics, alternately.
+
+       .BR bold-text roman-text ...
+	      Set each argument in bold and roman, alternately.
+
+       .IB italic-text bold-text ...
+	      Set each argument in italics and bold, alternately.
+
+       .IR italic-text roman-text ...
+	      Set each argument in italics and roman, alternately.
+
+       .RB roman-text bold-text ...
+	      Set each argument in roman and bold, alternately.
+
+       .RI roman-text italic-text ...
+	      Set each argument in roman and italics, alternately.
+
+   Horizontal and vertical spacing
+       The indentation argument accepted by .IP, .TP, and the deprecated .HP
+       is a number plus an optional scaling unit, as is .RS's inset-amount.
+       If no scaling unit is given, the man package assumes “n”.  An
+       indentation specified in a call to .IP, .TP, or the deprecated .HP
+       persists until (1) another of these macros is called with an
+       indentation argument, or (2) .SH, .SS, or .P or its synonyms is called;
+       these clear the indentation entirely.
+
+       The left margin used by ordinary paragraphs set with .P (and its
+       synonyms) not within an .RS/.RE relative inset is 7.2n for typesetting
+       devices and 7n for terminal devices (but see the -rIN option).
+       Headers, footers (both set with .TH), and section headings (.SH) are
+       set at the page offset (see groff(7)) and subsection headings (.SS)
+       indented from it by 3n (but see the -rSN option).
+
+       Several macros insert vertical space: .SH, .SS, .TP, .P (and its
+       synonyms), .IP, and the deprecated .HP.	The default inter-section and
+       inter-paragraph spacing is is 1v for terminal devices and 0.4v for
+       typesetting devices.  (The deprecated macro .PD can change this
+       vertical spacing, but its use is discouraged.)  Between .EX and .EE
+       calls, the inter-paragraph spacing is 1v regardless of output device.
+
+   Registers
+       Registers are described in section “Options” below.  They can be set
+       not only on the command line but in the site man.local file as well;
+       see section “Files” below.
+
+   Strings
+       The following strings are defined for use in man pages.	None of these
+       is necessary in a contemporary man page; see groff_man_style(7).
+       Others are supported for configuration of rendering parameters; see
+       section “Options” below.
+
+       \*R    interpolates a special character escape sequence for the
+	      “registered sign” glyph, \(rg, if available, and “(Reg.)”
+	      otherwise.
+
+       \*S    interpolates an escape sequence setting the type size to the
+	      document default.
+
+       \*(lq
+       \*(rq  interpolate special character escape sequences for left and
+	      right double-quotation marks, \(lq and \(rq, respectively.
+
+       \*(Tm  interpolates a special character escape sequence for the “trade
+	      mark sign” glyph, \(tm, if available, and “(TM)” otherwise.
+
+   Hooks
+       Two macros, both GNU extensions, are called internally by the groff man
+       package to format page headers and footers and can be redefined by the
+       administrator in a site's man.local file (see section “Files” below).
+       The presentation of .TH above describes the default headers and
+       footers.	 Because these macros are hooks for groff man internals, man
+       pages have no reason to call them.  Such hook definitions will likely
+       consist of “.sp” and “.tl” requests.  They must also increase the page
+       length with “.pl” requests in continuous rendering mode; .PT
+       furthermore has the responsibility of emitting a PDF bookmark after
+       writing the first page header in a document.  Consult the existing
+       implementations in an.tmac when drafting replacements.
+
+       .BT    Set the page footer text (“bottom trap”).
+
+       .PT    Set the page header text (“page trap”).
+
+       To remove a page header or footer entirely, define the appropriate
+       macro as empty rather than deleting it.
+
+   Deprecated features
+       Use of the following in man pages for public distribution is
+       discouraged.
+
+       .AT [system [release]]
+	      Alter the footer for use with legacy AT&T man pages, overriding
+	      any definition of the footer-inside argument to .TH.  This macro
+	      exists only to render man pages from historical systems.
+
+	      system can be any of the following.
+
+		     3	    7th edition (default)
+
+		     4	    System III
+
+		     5	    System V
+
+	      The optional release argument specifies the release number, as
+	      in “System V Release 3”.
+
+       .DT    Reset tab stops to the default (every 0.5i).
+
+	      Use of this presentation-oriented macro is deprecated.  It
+	      translates poorly to HTML, under which exact space control and
+	      tabulation are not readily available.  Thus, information or
+	      distinctions that you use tab stops to express are likely to be
+	      lost.  If you feel tempted to change the tab stops such that
+	      calling this macro later is desirable to restore them, you
+	      should probably be composing a table using tbl(1) instead.
+
+       .HP [indentation]
+	      Set up a paragraph with a hanging left indentation.  The
+	      indentation argument, if present, is handled as with .TP.
+
+	      Use of this presentation-oriented macro is deprecated.  A
+	      hanging indentation cannot be expressed naturally under HTML,
+	      and non-roff-based man page interpreters may treat .HP as an
+	      ordinary paragraph.  Thus, information or distinctions you mean
+	      to express with indentation may be lost.
+
+       .OP option-name [option-argument]
+	      Indicate an optional command parameter called option-name, which
+	      is set in bold.  If the option takes an argument, specify
+	      option-argument using a noun, abbreviation, or hyphenated noun
+	      phrase.  If present, option-argument is preceded by a space and
+	      set in italics.  Square brackets in roman surround both
+	      arguments.
+
+	      Use of this quasi-semantic macro, an extension originating in
+	      Documenter's Workbench troff, is deprecated.  It cannot easily
+	      be used to annotate options that take optional arguments or
+	      options whose arguments have internal structure (such as a
+	      mixture of literal and variable components).  One could work
+	      around these limitations with font selection escape sequences,
+	      but it is preferable to use font style alternation macros, which
+	      afford greater flexibility.
+
+       .PD [vertical-space]
+	      Define the vertical space between paragraphs or (sub)sections.
+	      The optional argument vertical-space specifies the amount; the
+	      default scaling unit is “v”.  Without an argument, the spacing
+	      is reset to its default value; see subsection “Horizontal and
+	      vertical spacing” above.
+
+	      Use of this presentation-oriented macro is deprecated.  It
+	      translates poorly to HTML, under which exact control of inter-
+	      paragraph spacing is not readily available.  Thus, information
+	      or distinctions that you use .PD to express are likely to be
+	      lost.
+
+       .UC [version]
+	      Alter the footer for use with legacy BSD man pages, overriding
+	      any definition of the footer-inside argument to .TH.  This macro
+	      exists only to render man pages from historical systems.
+
+	      version can be any of the following.
+
+		     3	    3rd Berkeley Distribution (default)
+
+		     4	    4th Berkeley Distribution
+
+		     5	    4.2 Berkeley Distribution
+
+		     6	    4.3 Berkeley Distribution
+
+		     7	    4.4 Berkeley Distribution
+
+   History
+       M. Douglas McIlroy <m.douglas.mcilroy@dartmouth.edu> designed,
+       implemented, and documented the AT&T man macros for Unix Version 7
+       (1979) and employed them to edit the first volume of its Programmer's
+       Manual, a compilation of all man pages supplied by the system.  That
+       man supported the macros listed in this page not described as
+       extensions, except .P and the deprecated .AT and .UC.  The only strings
+       defined were R and S; no registers were documented.
+
+       .UC appeared in 3BSD (1980).  Unix System III (1980) introduced .P and
+       exposed the registers IN and LL, which had been internal to Seventh
+       Edition Unix man.  PWB/UNIX 2.0 (1980) added the Tm string.  4BSD
+       (1980) added lq and rq strings.	SunOS 2.0 (1985) recognized C, D, P,
+       and X registers.	 4.3BSD (1986) added .AT and .P.  Ninth Edition
+       Research Unix (1986) introduced .EX and .EE.  SunOS 4.0 (1988) added
+       .SB.
+
+       The foregoing features were what James Clark implemented in early
+       versions of groff.  Later, groff 1.20 (2009) originated .SY/.YS, .TQ,
+       .MT/.ME, and .UR/.UE.  Plan 9 from User Space's troff introduced .MR in
+       2020.
+
+Options
+       The following groff options set registers (with -r) and strings (with
+       -d) recognized and used by the man macro package.  To ensure rendering
+       consistent with output device capabilities and reader preferences, man
+       pages should never manipulate them.
+
+       -dAD=adjustment-mode
+	      Set line adjustment to adjustment-mode, which is typically “b”
+	      for adjustment to both margins (the default), or “l” for left
+	      alignment (ragged right margin).	Any valid argument to groff's
+	      “.ad” request may be used.  See groff(7) for less-common
+	      choices.
+
+       -rcR=1 Enable continuous rendering.  Output is not paginated; instead,
+	      one (potentially very long) page is produced.  This is the
+	      default for terminal and HTML devices.  Use -rcR=0 to disable it
+	      on terminal devices; on HTML devices, it cannot be disabled.
+
+       -rC1   Number output pages consecutively, in strictly increasing
+	      sequence, rather than resetting the page number to 1 (or the
+	      value of register P) with each new man document.
+
+       -rCS=1 Set section headings (the argument(s) to .SH) in full capitals.
+	      This transformation is off by default because it discards case
+	      distinction information.
+
+       -rCT=1 Set the man page topic (the first argument to .TH) in full
+	      capitals in headers and footers.	This transformation is off by
+	      default because it discards case distinction information.
+
+       -rD1   Enable double-sided layout, formatting footers for even and odd
+	      pages differently; see the description of .TH in subsection
+	      “Document structure macros” above.
+
+       -rFT=footer-distance
+	      Set distance of the footer relative to the bottom of the page to
+	      footer-distance; this amount is always negative.	At one half-
+	      inch above this location, the page text is broken before writing
+	      the footer.  Ignored if continuous rendering is enabled.	The
+	      default is -0.5i.
+
+       -dHF=heading-font
+	      Set the font used for section and subsection headings; the
+	      default is “B” (bold style of the default family).  Any valid
+	      argument to groff's “.ft” request may be used.  See groff(7).
+
+       -rHY=0 Disable automatic hyphenation.  Normally, it is enabled (1).
+	      The hyphenation mode is determined by the groff locale; see
+	      section “Localization“ of groff(7).
+
+       -rIN=standard-indentation
+	      Set the amount of indentation used for ordinary paragraphs (.P
+	      and its synonyms) and the default indentation amount used by
+	      .IP, .RS, .TP, and the deprecated .HP.  See subsection
+	      “Horizontal and vertical spacing” above for the default.	For
+	      terminal devices, standard-indentation should always be an
+	      integer multiple of unit “n” to get consistent indentation.
+
+       -rLL=line-length
+	      Set line length; the default is 78n for terminal devices and
+	      6.5i for typesetting devices.
+
+       -rLT=title-length
+	      Set the line length for titles.  By default, it is set to the
+	      line length (see -rLL above).
+
+       -dMF=man-page-topic-font
+	      Set the font used for man page topics named in .TH and .MR
+	      calls; the default is “I” (italic style of the default family).
+	      Any valid argument to groff's “.ft” request may be used.	If the
+	      MF string ends in “I”, it is assumed to be an oblique typeface,
+	      and italic corrections are applied before and after man page
+	      topics.
+
+       -rPn   Start enumeration of pages at n.	The default is 1.
+
+       -rStype-size
+	      Use type-size for the document's body text; acceptable values
+	      are 10, 11, or 12 points.	 See subsection “Font style macros”
+	      above for the default.
+
+       -rSN=subsection-indentation
+	      Set indentation of subsection headings to
+	      subsection-indentation.  See subsection “Horizontal and vertical
+	      spacing” above for the default.
+
+       -rU1   Enable generation of URI hyperlinks in the grohtml and grotty
+	      output drivers.  grohtml enables them by default; grotty does
+	      not, pending more widespread pager support for OSC 8 escape
+	      sequences.  Use -rU0 to disable hyperlinks; this will make the
+	      arguments to MT and UR calls visible in the document text
+	      produced by link-capable drivers.
+
+       -rXp   Number successors of page p as pa, pb, pc, and so forth.	The
+	      register tracking the suffixed page letter uses format “a” (see
+	      the “.af” request in groff(7)).
+
+Files
+       /usr/share/groff/1.23.0/tmac/an.tmac
+	      Most man macros are defined in this file.	 It also loads
+	      extensions from an-ext.tmac (see below).
+
+       /usr/share/groff/1.23.0/tmac/andoc.tmac
+	      This brief groff program detects whether the man or mdoc macro
+	      package is being used by a document and loads the correct macro
+	      definitions, taking advantage of the fact that pages using them
+	      must call .TH or .Dd, respectively, before any other macros.  A
+	      man program or user typing, for example, “groff -mandoc page.1”,
+	      need not know which package the file page.1 uses.	 Multiple man
+	      pages, in either format, can be handled; andoc reloads each
+	      macro package as necessary.
+
+       /usr/share/groff/1.23.0/tmac/an-ext.tmac
+	      Except for .SB, definitions of macros described above as
+	      extensions are contained in this file; in some cases, they are
+	      simpler versions of definitions appearing in an.tmac, and are
+	      ignored if the formatter is GNU troff.  They are written to be
+	      compatible with AT&T troff and permissively licensed—not
+	      copylefted.  To reduce the risk of name space collisions, string
+	      and register names begin only with “m”.  We encourage man page
+	      authors who are concerned about portability to legacy Unix
+	      systems to copy these definitions into their pages, and
+	      maintainers of troff implementations or work-alike systems that
+	      format man pages to re-use them.
+
+	      The definitions for these macros are read after a page calls
+	      .TH, so they will replace any macros of the same names preceding
+	      it in your file.	If you use your own implementations of these
+	      macros, they must be defined after .TH is called to have any
+	      effect.  Furthermore, it is wise to define such page-local
+	      macros (if at all) after the “Name” section to accommodate timid
+	      makewhatis or mandb implementations that may give up their scan
+	      for indexing material early.
+
+       /usr/share/groff/1.23.0/tmac/man.tmac
+	      This is a wrapper that loads an.tmac.
+
+       /usr/share/groff/1.23.0/tmac/mandoc.tmac
+	      This is a wrapper that loads andoc.tmac.
+
+       /usr/share/groff/site-tmac/man.local
+	      Put site-local changes and customizations into this file.
+
+Authors
+       The initial GNU implementation of the man macro package was written by
+       James Clark.  Later, Werner Lemberg <wl@gnu.org> supplied the S, LT,
+       and cR registers, the last a 4.3BSD-Reno mdoc(7) feature.  Larry Kollar
+       <kollar@alltel.net> added the FT, HY, and SN registers; the HF string;
+       and the PT and BT macros.  G. Branden Robinson
+       <g.branden.robinson@gmail.com> implemented the AD and MF strings; CS,
+       CT, and U registers; and the MR macro.  Except for .SB, the extension
+       macros were written by Lemberg, Eric S. Raymond <esr@thyrsus.com>, and
+       Robinson.
+
+       This document was originally written for the Debian GNU/Linux system by
+       Susan G. Kleinmann <sgk@debian.org>.  It was corrected and updated by
+       Lemberg and Robinson.  The extension macros were documented by Raymond
+       and Robinson.
+
+See also
+       tbl(1), eqn(1), and refer(1) are preprocessors used with man pages.
+       man(1) describes the man page librarian on your system.	groff_mdoc(7)
+       details the groff version of the BSD-originated alternative macro
+       package for man pages.
+
+       groff_man_style(7), groff(7), groff_char(7), man(7)
+
+groff 1.23.0			31 October 2025			  groff_man(7)

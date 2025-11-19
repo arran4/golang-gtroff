@@ -7,27 +7,32 @@ import (
 
 
 // TokenMacroTH
-// Set the title of the man page to title and the section to
-// section, which must have a value between 1 and 8.  The value
-// of section may also have a string appended, e.g. ‘.pm’, to
-// indicate a specific subsection of the man pages.
+// Determine the contents of the page header and footer. The subject of the
+// man page is topic and the section of the manual to which it belongs is
+// section. See man(1) or intro(1) for the manual sectioning applicable to
+// your system. topic and section are positioned together at the left and
+// right in the header (with section in parentheses immediately appended to
+// topic). footer-middle is centered in the footer. The arrangement of the
+// rest of the footer depends on whether double-sided layout is enabled
+// with the option -rD1. When disabled (the default), footer-inside is
+// positioned at the bottom left. Otherwise, footer-inside appears at the
+// bottom left on recto (odd-numbered) pages, and at the bottom right on
+// verso (even-numbered) pages. The outside footer is the page number,
+// except in the continuous-rendering mode enabled by the option -rcR=1, in
+// which case it is the topic and section, as in the header. header-middle
+// is centered in the header. If section is an integer between 1 and 9
+// (inclusive), there is no need to specify header-middle; an.tmac will
+// supply text for it. The macro package may also abbreviate topic and
+// footer-inside with ellipses if they would overrun the space available in
+// the header and footer, respectively. For HTML output, headers and
+// footers are suppressed.
 // 
-// Both title and section are positioned at the left and right
-// in the header line (with section in parentheses immediately
-// appended to title.  extra1 is positioned in the middle of
-// the footer line.  extra2 is positioned at the left in the footer
-// line (or at the left on even pages and at the right on odd pages if
-// double-sided printing is active).  extra3 is centered in the
-// header line.
+// Additionally, this macro breaks the page, resetting the number to 1
+// (unless the -rC1 option is given). This feature is intended only for
+// formatting multiple man documents in sequence.
 // 
-// For HTML and XHTML output, headers and footers are
-// completely suppressed.
-// 
-// Additionally, this macro starts a new page; the new line number
-// is 1 again (except if the -rC1 option is given on the
-// command line) – this feature is intended only for formatting multiple
-// man pages; a single man page should contain exactly one TH macro
-// at the beginning of the file.
+// A valid man document calls .TH once, early in the file, prior to any
+// other macro calls.
 type TokenMacroTH struct {
 
 
@@ -122,12 +127,15 @@ func (t *TokenMacroTH) String() string {
 
 
 // TokenMacroSH
-// Set up an unnumbered section heading sticking out to the left.  Prints
-// out all the text following SH up to the end of the line (or the
-// text in the next line if there is no argument to SH) in bold face
-// (or the font specified by the string HF), one size larger than
-// the base document size.  Additionally, the left margin and the
-// indentation for the following text is reset to its default value.
+// Set heading-text as a section heading. If no argument is given, a
+// one-line input trap is planted; text on the next line becomes
+// heading-text. The left margin is reset to zero to set the heading text
+// in bold (or the font specified by the string HF), and, on typesetting
+// devices, slightly larger than the base type size. If the heading font
+// *[HF] is bold, use of an italic style in heading-text is mapped to the
+// bold-italic style if available in the font family. The inset level is
+// reset to 1, setting the left margin to the value of the IN register.
+// Text after heading-text is set as an ordinary paragraph (.P).
 type TokenMacroSH struct {
 
 
@@ -178,12 +186,16 @@ func (t *TokenMacroSH) String() string {
 
 
 // TokenMacroSS
-// Set up an unnumbered (sub)section heading.  Prints out all the text
-// following SS up to the end of the line (or the text in the next
-// line if there is no argument to SS) in bold face (or the font
-// specified by the string HF), at the same size as the base
-// document size.  Additionally, the left margin and the indentation for
-// the following text is reset to its default value.
+// Set subheading-text as a subsection heading indented between a section
+// heading and an ordinary paragraph (.P). If no argument is given, a
+// one-line input trap is planted; text on the next line becomes
+// subheading-text. The left margin is reset to the value of the SN
+// register to set the heading text in bold (or the font specified by the
+// string HF). If the heading font *[HF] is bold, use of an italic style in
+// subheading-text is mapped to the bold-italic style if available in the
+// font family. The inset level is reset to 1, setting the left margin to
+// the value of the IN register. Text after subheading-text is set as an
+// ordinary paragraph (.P).
 type TokenMacroSS struct {
 
 
@@ -234,23 +246,16 @@ func (t *TokenMacroSS) String() string {
 
 
 // TokenMacroTP
-// Set up an indented paragraph with label.  The indentation is set to
-// nnn if that argument is supplied (the default unit is ‘n’ if
-// omitted), otherwise it is set to the previous indentation value
-// specified with TP, IP, or HP (or to the default
-// value if none of them have been used yet).
-// 
-// The first line of text following this macro is interpreted as a string
-// to be printed flush-left, as it is appropriate for a label.  It is not
-// interpreted as part of a paragraph, so there is no attempt to fill the
-// first line with text from the following input lines.  Nevertheless, if
-// the label is not as wide as the indentation the paragraph starts at the
-// same line (but indented), continuing on the following lines.  If the
-// label is wider than the indentation the descriptive part of the
-// paragraph begins on the line following the label, entirely indented.
-// Note that neither font shape nor font size of the label is set to a
-// default value; on the other hand, the rest of the text has default font
-// settings.
+// Set a paragraph with a leading tag, and the remainder of the paragraph
+// indented. A one-line input trap is planted; text on the next line, which
+// can be formatted with a macro, becomes the tag, which is placed at the
+// current left margin. The tag can be extended with the \c escape
+// sequence. Subsequent text is indented by indentation, if specified, and
+// by the amount of the IN register otherwise. If the tag is not as wide as
+// the indentation, the paragraph starts on the same line as the tag, at
+// the applicable indentation, and continues on the following lines.
+// Otherwise, the descriptive part of the paragraph begins on the line
+// following the tag.
 type TokenMacroTP struct {
 
 
@@ -301,12 +306,9 @@ func (t *TokenMacroTP) String() string {
 
 
 // TokenMacroP
-// These macros are mutual aliases.  Any of them causes a line break at the
-// current position, followed by a vertical space downwards by the amount
-// specified by the PD macro.  The font size and shape are reset to
-// the default value (10pt roman if no -rS option is given
-// on the command line).  Finally, the current left margin and the
-// indentation is restored.
+// Begin a new paragraph; these macros are synonymous. The indentation is
+// reset to the default value; the left margin, as affected by .RS and .RE,
+// is not.
 type TokenMacroP struct {
 
 }
@@ -346,23 +348,9 @@ func (t *TokenMacroP) String() string {
 
 
 // TokenMacroIP
-// Set up an indented paragraph, using designator as a tag to mark
-// its beginning.  The indentation is set to nnn if that argument is
-// supplied (default unit is ‘n’), otherwise it is set to the previous
-// indentation value specified with TP, IP, or HP (or
-// the default value if none of them have been used yet).  Font size and
-// face of the paragraph (but not the designator) are reset to their
-// default values.
-// 
-// To start an indented paragraph with a particular indentation but without
-// a designator, use ‘""’ (two double quotes) as the first argument of
-// IP.
-// 
-// For example, to start a paragraph with bullets as the designator and
-// 4 en indentation, write
-// 
-// 
-// .IP \(bu 4
+// Set an indented paragraph with an optional tag. The tag and indentation
+// arguments, if present, are handled as with .TP, with the exception that
+// the tag argument to .IP cannot include a macro call.
 type TokenMacroIP struct {
 
 
@@ -424,12 +412,14 @@ func (t *TokenMacroIP) String() string {
 
 
 // TokenMacroHP
-// Set up a paragraph with hanging left indentation.  The indentation is
-// set to nnn if that argument is supplied (default unit is
-// ‘n’), otherwise it is set to the previous indentation value
-// specified with TP, IP, or HP (or the default value
-// if non of them have been used yet).  Font size and face are reset to
-// their default values.
+// Set up a paragraph with a hanging left indentation. The indentation
+// argument, if present, is handled as with .TP.
+// 
+// Use of this presentation-oriented macro is deprecated. A hanging
+// indentation cannot be expressed naturally under HTML, and non-roff-based
+// man page interpreters may treat .HP as an ordinary paragraph. Thus,
+// information or distinctions you mean to express with indentation may be
+// lost.
 type TokenMacroHP struct {
 
 
@@ -480,13 +470,11 @@ func (t *TokenMacroHP) String() string {
 
 
 // TokenMacroRS
-// Move the left margin to the right by the value nnn if specified
-// (default unit is ‘n’); otherwise it is set to the previous
-// indentation value specified with TP, IP, or HP (or
-// to the default value if none of them have been used yet).  The
-// indentation value is then set to the default.
-// 
-// Calls to the RS macro can be nested.
+// Start a new relative inset level. The position of the left margin is
+// saved, then moved right by inset-amount, if specified, and by the amount
+// of the IN register otherwise. Calls to .RS can be nested; each
+// increments by 1 the inset level used by .RE. The level prior to any .RS
+// calls is 1.
 type TokenMacroRS struct {
 
 
@@ -537,10 +525,8 @@ func (t *TokenMacroRS) String() string {
 
 
 // TokenMacroRE
-// Move the left margin back to level nnn, restoring the previous
-// left margin.  If no argument is given, it moves one level back.  The
-// first level (i.e., no call to RS yet) has number 1, and each
-// call to RS increases the level by 1.
+// End a relative inset. The left margin corresponding to inset level level
+// is restored. If no argument is given, the inset level is reduced by 1.
 type TokenMacroRE struct {
 
 
@@ -591,8 +577,10 @@ func (t *TokenMacroRE) String() string {
 
 
 // TokenMacroSM
-// Set the text on the same line or the text on the next line in a font
-// that is one point size smaller than the default font.
+// Set text one point smaller than the default type size on typesetting
+// devices. If no argument is given, a one-line input trap is planted; text
+// on the next line, which can be further formatted with a macro, is set
+// smaller.
 type TokenMacroSM struct {
 
 
@@ -643,8 +631,11 @@ func (t *TokenMacroSM) String() string {
 
 
 // TokenMacroSB
-// Set the text on the same line or the text on the next line in bold face
-// font, one point size smaller than the default font.
+// Set text in bold and (on typesetting devices) one point smaller than the
+// default type size. If no argument is given, a one-line input trap is
+// planted; text on the next line, which can be further formatted with a
+// macro, is set smaller and in bold. This macro is an extension introduced
+// in SunOS 4.0.
 type TokenMacroSB struct {
 
 
@@ -695,15 +686,7 @@ func (t *TokenMacroSB) String() string {
 
 
 // TokenMacroBI
-// Set its arguments alternately in bold face and italic, without a space
-// between the arguments.  Thus,
-// 
-// 
-// .BI this "word and" that
-// 
-// 
-// produces “thisword andthat” with “this” and “that” in bold face,
-// and “word and” in italics.
+// Set each argument in bold and italics, alternately.
 type TokenMacroBI struct {
 
 
@@ -754,8 +737,7 @@ func (t *TokenMacroBI) String() string {
 
 
 // TokenMacroIB
-// Set its arguments alternately in italic and bold face, without a space
-// between the arguments.
+// Set each argument in italics and bold, alternately.
 type TokenMacroIB struct {
 
 
@@ -806,8 +788,7 @@ func (t *TokenMacroIB) String() string {
 
 
 // TokenMacroRI
-// Set its arguments alternately in roman and italic, without a space
-// between the arguments.
+// Set each argument in roman and italics, alternately.
 type TokenMacroRI struct {
 
 
@@ -858,8 +839,7 @@ func (t *TokenMacroRI) String() string {
 
 
 // TokenMacroIR
-// Set its arguments alternately in italic and roman, without a space
-// between the arguments.
+// Set each argument in italics and roman, alternately.
 type TokenMacroIR struct {
 
 
@@ -910,8 +890,7 @@ func (t *TokenMacroIR) String() string {
 
 
 // TokenMacroBR
-// Set its arguments alternately in bold face and roman, without a space
-// between the arguments.
+// Set each argument in bold and roman, alternately.
 type TokenMacroBR struct {
 
 
@@ -962,8 +941,7 @@ func (t *TokenMacroBR) String() string {
 
 
 // TokenMacroRB
-// Set its arguments alternately in roman and bold face, without a space
-// between the arguments.
+// Set each argument in roman and bold, alternately.
 type TokenMacroRB struct {
 
 
@@ -1014,9 +992,9 @@ func (t *TokenMacroRB) String() string {
 
 
 // TokenMacroB
-// Set text in bold face.  If no text is present on the line where
-// the macro is called, then the text of the next line appears in bold
-// face.
+// Set text in bold. If no argument is given, a one-line input trap is
+// planted; text on the next line, which can be further formatted with a
+// macro, is set in bold.
 type TokenMacroB struct {
 
 
@@ -1067,8 +1045,9 @@ func (t *TokenMacroB) String() string {
 
 
 // TokenMacroI
-// Set text in italic.  If no text is present on the line where the
-// macro is called, then the text of the next line appears in italic.
+// Set text in an italic or oblique face. If no argument is given, a
+// one-line input trap is planted; text on the next line, which can be
+// further formatted with a macro, is set in an italic or oblique face.
 type TokenMacroI struct {
 
 
@@ -1119,9 +1098,13 @@ func (t *TokenMacroI) String() string {
 
 
 // TokenMacroDT
-// Set tabs every 0.5 inches.  Since this macro is always executed
-// during a call to the TH macro, it makes sense to call it only if
-// the tab positions have been changed.
+// Reset tab stops to the default (every 0.5i). Use of this
+// presentation-oriented macro is deprecated. It translates poorly to HTML,
+// under which exact space control and tabulation are not readily
+// available. Thus, information or distinctions that you use tab stops to
+// express are likely to be lost. If you feel tempted to change the tab
+// stops such that calling this macro later is desirable to restore them,
+// you should probably be composing a table using tbl(1) instead.
 type TokenMacroDT struct {
 
 }
@@ -1161,13 +1144,14 @@ func (t *TokenMacroDT) String() string {
 
 
 // TokenMacroPD
-// Adjust the empty space before a new paragraph (or section).  The
-// optional argument gives the amount of space (default unit is ‘v’);
-// without parameter, the value is reset to its default value (1 line
-// in nroff mode, 0.4v otherwise).
-// 
-// This affects the macros SH, SS, TP, LP (as
-// well as PP and P), IP, and HP.
+// Define the vertical space between paragraphs or (sub)sections. The
+// optional argument vertical-space specifies the amount; the default
+// scaling unit is “v”. Without an argument, the spacing is reset to
+// its default value; see subsection “Horizontal and vertical spacing”
+// above. Use of this presentation-oriented macro is deprecated. It
+// translates poorly to HTML, under which exact control of inter-paragraph
+// spacing is not readily available. Thus, information or distinctions that
+// you use .PD to express are likely to be lost.
 type TokenMacroPD struct {
 
 
@@ -1218,26 +1202,12 @@ func (t *TokenMacroPD) String() string {
 
 
 // TokenMacroAT
-// Alter the footer for use with AT&T manpages.  This command
-// exists only for compatibility; don’t use it.  The first argument
-// system can be:
-// 
-// 
-// 3
-// 7th Edition (the default)
-// 
-// 
-// 4
-// System III
-// 
-// 
-// 5
-// System V
-// 
-// 
-// 
-// An optional second argument release to AT specifies the
-// release number (such as “System V Release 3”).
+// Alter the footer for use with legacy AT&T man pages, overriding any
+// definition of the footer-inside argument to .TH. This macro exists only
+// to render man pages from historical systems. system can be any of the
+// following: 3 (7th edition), 4 (System III), 5 (System V). The optional
+// release argument specifies the release number, as in “System V Release
+// 3”.
 type TokenMacroAT struct {
 
 
@@ -1299,28 +1269,12 @@ func (t *TokenMacroAT) String() string {
 
 
 // TokenMacroUC
-// Alters the footer for use with BSD manpages.  This command exists only
-// for compatibility; don’t use it.  The argument can be:
-// 
-// 
-// 3
-// 3rd Berkeley Distribution (the default)
-// 
-// 
-// 4
-// 4th Berkeley Distribution
-// 
-// 
-// 5
-// 4.2 Berkeley Distribution
-// 
-// 
-// 6
-// 4.3 Berkeley Distribution
-// 
-// 
-// 7
-// 4.4 Berkeley Distribution
+// Alter the footer for use with legacy BSD man pages, overriding any
+// definition of the footer-inside argument to .TH. This macro exists only
+// to render man pages from historical systems. version can be any of the
+// following: 3 (3rd Berkeley Distribution), 4 (4th Berkeley Distribution),
+// 5 (4.2 Berkeley Distribution), 6 (4.3 Berkeley Distribution), 7 (4.4
+// Berkeley Distribution).
 type TokenMacroUC struct {
 
 
@@ -1371,9 +1325,7 @@ func (t *TokenMacroUC) String() string {
 
 
 // TokenMacroPT
-// Control the content of the headers.  Normally, the header prints the
-// command name and section number on either side, and the optional fifth
-// argument to TH in the center.
+// Set the page header text (“page trap”).
 type TokenMacroPT struct {
 
 }
@@ -1413,11 +1365,7 @@ func (t *TokenMacroPT) String() string {
 
 
 // TokenMacroBT
-// Control the content of the footers.  Normally, the footer prints the
-// page number and the third and fourth arguments to TH.
-// 
-// Use the FT number register to specify the footer position.  The
-// default is -0.5i.
+// Set the page footer text (“bottom trap”).
 type TokenMacroBT struct {
 
 }
@@ -1628,8 +1576,10 @@ func (t *TokenMacroDe) String() string {
 
 
 // TokenMacroEX
-// Begin a non-filled display using the constant width (Courier) typeface.
-// Use the optional indent argument to indent the display.
+// Begin and end example. After .EX, filling is disabled and a
+// constant-width (monospaced) font is selected. Calling .EE enables
+// filling and restores the previous font. These macros are extensions
+// introduced in Ninth Edition Research Unix.
 type TokenMacroEX struct {
 
 
@@ -1720,9 +1670,8 @@ func (t *TokenMacroEE) String() string {
 
 
 // TokenMacroG
-// Set text in Helvetica.  If no text is present on the line where
-// the macro is called, then the text of the next line appears in
-// Helvetica.
+// Set text in Helvetica. If no text is present on the line where the macro
+// is called, then the text of the next line appears in Helvetica.
 type TokenMacroG struct {
 
 
@@ -1773,9 +1722,9 @@ func (t *TokenMacroG) String() string {
 
 
 // TokenMacroGL
-// Set text in Helvetica Oblique.  If no text is present on the line
-// where the macro is called, then the text of the next line appears in
-// Helvetica Oblique.
+// Set text in Helvetica Oblique. If no text is present on the line where
+// the macro is called, then the text of the next line appears in Helvetica
+// Oblique.
 type TokenMacroGL struct {
 
 
@@ -1826,9 +1775,9 @@ func (t *TokenMacroGL) String() string {
 
 
 // TokenMacroHB
-// Set text in Helvetica Bold.  If no text is present on the line
-// where the macro is called, then all text up to the next HB
-// appears in Helvetica Bold.
+// Set text in Helvetica Bold. If no text is present on the line where the
+// macro is called, then all text up to the next HB appears in Helvetica
+// Bold.
 type TokenMacroHB struct {
 
 
@@ -1930,8 +1879,8 @@ func (t *TokenMacroTB) String() string {
 
 
 // TokenMacroMS
-// Set a manpage reference in Ultrix format.  The title is in Courier
-// instead of italic.  Optional punctuation follows the section number
+// Set a manpage reference in Ultrix format. The title is in Courier
+// instead of italic. Optional punctuation follows the section number
 // without an intervening space.
 type TokenMacroMS struct {
 
@@ -2005,11 +1954,11 @@ func (t *TokenMacroMS) String() string {
 
 
 // TokenMacroNT
-// Begin a note.  Print the optional title, or the word “Note”,
-// centered on the page.  Text following the macro makes up the body of the
-// note, and is indented on both sides.  If the first argument is C,
-// the body of the note is printed centered (the second argument replaces
-// the word “Note” if specified).
+// Begin a note. Print the optional title, or the word “Note”, centered
+// on the page. Text following the macro makes up the body of the note, and
+// is indented on both sides. If the first argument is C, the body of the
+// note is printed centered (the second argument replaces the word
+// “Note” if specified).
 type TokenMacroNT struct {
 
 
@@ -2174,8 +2123,8 @@ func (t *TokenMacroPN) String() string {
 
 
 // TokenMacroPn
-// If called with two arguments, identical to PN.  If called with
-// three arguments, set the second argument in constant width (Courier),
+// If called with two arguments, identical to PN. If called with three
+// arguments, set the second argument in constant width (Courier),
 // bracketed by the first and third arguments in the current font.
 type TokenMacroPn struct {
 
@@ -2329,8 +2278,8 @@ func (t *TokenMacroRN) String() string {
 
 
 // TokenMacroVS
-// Start printing a change bar in the margin if the number 4 is
-// specified.  Otherwise, this macro does nothing.
+// Start printing a change bar in the margin if the number 4 is specified.
+// Otherwise, this macro does nothing.
 type TokenMacroVS struct {
 
 
@@ -2421,14 +2370,17 @@ func (t *TokenMacroVE) String() string {
 
 
 // TokenMacroRP
-// Specifies the report format for your document.  The report format
-// creates a separate cover page.  The default action (no RP macro)
-// is to print a subset of the cover page on page 1 of your document.
-// 
-// If you use the word no as an optional argument, groff
-// prints a title page but does not repeat any of the title page
-// information (title, author, abstract, etc.) on page 1 of the
-// document.
+// Use the “report” (AT&T: “released paper”) format for your
+// document, creating a separate cover page. The default arrangement is to
+// place most of the document description (title, author names and
+// institutions, and abstract, but not the date) at the top of the first
+// page. If the optional no-repeat-info argument is given, ms produces a
+// cover page but does not repeat any of its information on subsequently
+// (but see the DA macro below regarding the date). Normally, .RP sets the
+// page number following the cover page to 1. Specifying the optional
+// no-renumber argument suppresses this alteration. Optional arguments can
+// occur in any order. “no” is recognized as a synonym of
+// no-repeat-info for AT&T compatibility.
 type TokenMacroRP struct {
 
 
@@ -2479,8 +2431,9 @@ func (t *TokenMacroRP) String() string {
 
 
 // TokenMacroP1
-// (P-one) Prints the header on page 1.  The default is to suppress
-// the header.
+// Typeset the header even on page 1. To be effective, this macro must be
+// called before the header trap is sprung on any page numbered “1”.
+// This is a Berkeley extension.
 type TokenMacroP1 struct {
 
 }
@@ -2520,9 +2473,9 @@ func (t *TokenMacroP1) String() string {
 
 
 // TokenMacroDA
-// (optional) Prints the current date, or the arguments to the macro if
-// any, on the title page (if specified) and in the footers.  This is the
-// default for nroff.
+// Typeset the current date, or any arguments x, in the center footer, and,
+// if .RP is also called, left-aligned at the end of the document
+// description on the cover page.
 type TokenMacroDA struct {
 
 
@@ -2573,9 +2526,9 @@ func (t *TokenMacroDA) String() string {
 
 
 // TokenMacroND
-// (optional) Prints the current date, or the arguments to the macro if
-// any, on the title page (if specified) but not in the footers.  This is
-// the default for troff.
+// Typeset the current date, or any arguments x, if .RP is also called,
+// left-aligned at the end of the document description on the cover page.
+// This is groff ms's default.
 type TokenMacroND struct {
 
 
@@ -2626,9 +2579,9 @@ func (t *TokenMacroND) String() string {
 
 
 // TokenMacroTL
-// Specifies the document title.  groff collects text following the
-// TL macro into the title, until reaching the author name or
-// abstract.
+// Specify the document title. ms collects text on input lines following
+// this call into the title until reaching .AU, .AB, or a heading or
+// paragraphing macro call.
 type TokenMacroTL struct {
 
 }
@@ -2668,20 +2621,10 @@ func (t *TokenMacroTL) String() string {
 
 
 // TokenMacroAU
-// Specifies the author’s name, which appears on the line (or lines)
-// immediately following.  You can specify multiple authors as follows:
-// 
-// 
-// .AU
-// John Doe
-// .AI
-// University of West Bumblefuzz
-// .AU
-// Martha Buck
-// .AI
-// Monolithic Corporation
-// 
-// ...
+// Specify an author's name. ms collects text on input lines following this
+// call into the author's name until reaching .AI, .AB, another .AU, or a
+// heading or paragraphing macro call. Call it repeatedly to specify
+// multiple authors.
 type TokenMacroAU struct {
 
 }
@@ -2721,8 +2664,11 @@ func (t *TokenMacroAU) String() string {
 
 
 // TokenMacroAI
-// Specifies the author’s institution.  You can specify multiple
-// institutions in the same way that you specify multiple authors.
+// Specify the preceding author's institution. An .AU call is usefully
+// followed by at most one .AI call; if there are more, the last .AI call
+// controls. ms collects text on input lines following this call into the
+// author's institution until reaching .AU, .AB, or a heading or
+// paragraphing macro call.
 type TokenMacroAI struct {
 
 }
@@ -2762,10 +2708,10 @@ func (t *TokenMacroAI) String() string {
 
 
 // TokenMacroAB
-// Begins the abstract.  The default is to print the word
-// ABSTRACT, centered and in italics, above the text of the
-// abstract.  The word no as an optional argument suppresses this
-// heading.
+// Begin the abstract. ms collects text on input lines following this call
+// into the abstract until reaching an .AE call. By default, ms places the
+// word “ABSTRACT” centered and in italics above the text of the
+// abstract. The optional argument “no” suppresses this heading.
 type TokenMacroAB struct {
 
 
@@ -2816,7 +2762,7 @@ func (t *TokenMacroAB) String() string {
 
 
 // TokenMacroAE
-// Ends the abstract.
+// End the abstract.
 type TokenMacroAE struct {
 
 }
@@ -2856,7 +2802,8 @@ func (t *TokenMacroAE) String() string {
 
 
 // TokenMacroPP
-// Sets a paragraph with an initial indentation.
+// Set a paragraph with a first-line left indentation in the amount stored
+// in the PI register.
 type TokenMacroPP struct {
 
 }
@@ -2936,12 +2883,11 @@ func (t *TokenMacroLP) String() string {
 
 
 // TokenMacroQP
-// Sets a paragraph that is indented at both left and right margins
-// by the amount of the register QI.
-// The effect is identical to the HTML <BLOCKQUOTE> element.
-// The next paragraph or heading returns margins to normal.
-// QP inserts vertical space of amount set by register PD
-// before the paragraph.
+// Sets a paragraph that is indented at both left and right margins by the
+// amount of the register QI. The effect is identical to the HTML
+// <BLOCKQUOTE> element. The next paragraph or heading returns margins to
+// normal. QP inserts vertical space of amount set by register PD before
+// the paragraph.
 type TokenMacroQP struct {
 
 }
@@ -2981,13 +2927,10 @@ func (t *TokenMacroQP) String() string {
 
 
 // TokenMacroQE
-// These macros begin and end a quoted section.
-// The QI register
-// controls the amount of indentation.
-// Both QS and QE insert inter-paragraph vertical space
-// set by register PD.
-// The text between QS and QE can be structured further
-// by use of the macros LP or PP.
+// These macros begin and end a quoted section. The QI register controls
+// the amount of indentation. Both QS and QE insert inter-paragraph
+// vertical space set by register PD. The text between QS and QE can be
+// structured further by use of the macros LP or PP.
 type TokenMacroQE struct {
 
 }
@@ -3068,13 +3011,12 @@ func (t *TokenMacroXP) String() string {
 
 
 // TokenMacroNH
-// Numbered heading.  The argument is either a numeric argument to indicate
-// the level of the heading, or the letter S followed by
-// numeric arguments to set the heading level explicitly.
+// Numbered heading. The argument is either a numeric argument to indicate
+// the level of the heading, or the letter S followed by numeric arguments
+// to set the heading level explicitly.
 // 
-// If you specify heading levels out of sequence, such as invoking
-// ‘.NH 3’ after ‘.NH 1’, groff prints a warning on
-// standard error.
+// If you specify heading levels out of sequence, such as invoking ‘.NH
+// 3’ after ‘.NH 1’, groff prints a warning on standard error.
 type TokenMacroNH struct {
 
 
@@ -3147,7 +3089,7 @@ func (t *TokenMacroNH) String() string {
 
 
 // TokenMacroBX
-// Prints its argument and draws a box around it.  If you want to box a
+// Prints its argument and draws a box around it. If you want to box a
 // string that contains spaces, use a digit-width space (\0).
 type TokenMacroBX struct {
 
@@ -3199,9 +3141,9 @@ func (t *TokenMacroBX) String() string {
 
 
 // TokenMacroUL
-// Prints its first argument with an underline.  If you specify a second
-// argument, groff prints it in the previous font after the
-// underlined text, with no intervening space.
+// Prints its first argument with an underline. If you specify a second
+// argument, groff prints it in the previous font after the underlined
+// text, with no intervening space.
 type TokenMacroUL struct {
 
 
@@ -3265,8 +3207,8 @@ func (t *TokenMacroUL) String() string {
 // TokenMacroLG
 // Prints all text following in larger type (two points larger than the
 // current point size) until the next font size, highlighting, paragraph,
-// or heading macro.  You can specify this macro multiple times to
-// enlarge the point size as needed.
+// or heading macro. You can specify this macro multiple times to enlarge
+// the point size as needed.
 type TokenMacroLG struct {
 
 }
@@ -3347,9 +3289,9 @@ func (t *TokenMacroNL) String() string {
 
 
 // TokenMacroTA
-// Use this macro to reset the tab stops to the default for ms
-// (every 5n).  You can redefine the TA macro to create a different
-// set of default tab stops.
+// Use this macro to reset the tab stops to the default for ms (every 5n).
+// You can redefine the TA macro to create a different set of default tab
+// stops.
 type TokenMacroTA struct {
 
 }
@@ -3389,10 +3331,9 @@ func (t *TokenMacroTA) String() string {
 
 
 // TokenMacroDE
-// Left-justified display.  The ‘.DS L’ call generates a page break,
-// if necessary, to keep the entire display on one page.  The LD
-// macro allows the display to break across pages.  The DE macro
-// ends the display.
+// Left-justified display. The ‘.DS L’ call generates a page break, if
+// necessary, to keep the entire display on one page. The LD macro allows
+// the display to break across pages. The DE macro ends the display.
 type TokenMacroDE struct {
 
 }
@@ -3432,8 +3373,8 @@ func (t *TokenMacroDE) String() string {
 
 
 // TokenMacroKE
-// The KS macro begins a block of text to be kept on a single page,
-// and the KE macro ends the block.
+// The KS macro begins a block of text to be kept on a single page, and the
+// KE macro ends the block.
 type TokenMacroKE struct {
 
 }
@@ -3474,8 +3415,8 @@ func (t *TokenMacroKE) String() string {
 
 // TokenMacroB2
 // Marks the beginning and ending of text that is to have a box drawn
-// around it.  The B1 macro begins the box; the B2 macro ends
-// it.  Text in the box is automatically placed in a diversion (keep).
+// around it. The B1 macro begins the box; the B2 macro ends it. Text in
+// the box is automatically placed in a diversion (keep).
 type TokenMacroB2 struct {
 
 }
@@ -3515,12 +3456,11 @@ func (t *TokenMacroB2) String() string {
 
 
 // TokenMacroTE
-// Denotes a table, to be processed by the tbl preprocessor.  The
-// optional argument H to TS instructs groff to
-// create a running header with the information up to the TH macro.
-// groff prints the header at the beginning of the table; if the
-// table runs onto another page, groff prints the header on the next
-// page as well.
+// Denotes a table, to be processed by the tbl preprocessor. The optional
+// argument H to TS instructs groff to create a running header with the
+// information up to the TH macro. groff prints the header at the beginning
+// of the table; if the table runs onto another page, groff prints the
+// header on the next page as well.
 type TokenMacroTE struct {
 
 }
@@ -3560,10 +3500,9 @@ func (t *TokenMacroTE) String() string {
 
 
 // TokenMacroPE
-// Denotes a graphic, to be processed by the pic preprocessor.  You
-// can create a pic file by hand, using the AT&T
-// pic manual available on the Web as a reference, or by using a
-// graphics program such as xfig.
+// Denotes a graphic, to be processed by the pic preprocessor. You can
+// create a pic file by hand, using the AT&T pic manual available on the
+// Web as a reference, or by using a graphics program such as xfig.
 type TokenMacroPE struct {
 
 }
@@ -3603,10 +3542,9 @@ func (t *TokenMacroPE) String() string {
 
 
 // TokenMacroEN
-// Denotes an equation, to be processed by the eqn preprocessor.
-// The optional align argument can be C, L,
-// or I to center (the default), left-justify, or indent the
-// equation.
+// Denotes an equation, to be processed by the eqn preprocessor. The
+// optional align argument can be C, L, or I to center (the default),
+// left-justify, or indent the equation.
 type TokenMacroEN struct {
 
 }
@@ -3646,9 +3584,9 @@ func (t *TokenMacroEN) String() string {
 
 
 // TokenMacroSquareBracketClose
-// Denotes a reference, to be processed by the refer preprocessor.
-// The GNU refer(1) man page provides a comprehensive reference to
-// the preprocessor and the format of the bibliographic database.
+// Denotes a reference, to be processed by the refer preprocessor. The GNU
+// refer(1) man page provides a comprehensive reference to the preprocessor
+// and the format of the bibliographic database.
 type TokenMacroSquareBracketClose struct {
 
 }
@@ -3688,11 +3626,11 @@ func (t *TokenMacroSquareBracketClose) String() string {
 
 
 // TokenMacroFE
-// Specifies the text of the footnote.  The default action is to create a
+// Specifies the text of the footnote. The default action is to create a
 // numbered footnote; you can create a symbolic footnote by specifying a
-// mark glyph (such as \[dg] for the dagger glyph) in the body
-// text and as an argument to the FS macro, followed by the text of
-// the footnote and the FE macro.
+// mark glyph (such as \[dg] for the dagger glyph) in the body text and as
+// an argument to the FS macro, followed by the text of the footnote and
+// the FE macro.
 type TokenMacroFE struct {
 
 }
@@ -3732,12 +3670,12 @@ func (t *TokenMacroFE) String() string {
 
 
 // TokenMacroEF
-// The OH and EH macros define headers for the odd and even
-// pages; the OF and EF macros define footers for the odd and
-// even pages.  This is more flexible than defining the individual strings.
+// The OH and EH macros define headers for the odd and even pages; the OF
+// and EF macros define footers for the odd and even pages. This is more
+// flexible than defining the individual strings.
 // 
-// You can replace the quote (') marks with any character not
-// appearing in the header or footer text.
+// You can replace the quote (') marks with any character not appearing in
+// the header or footer text.
 type TokenMacroEF struct {
 
 
@@ -3868,10 +3806,10 @@ func (t *TokenMacro2C) String() string {
 
 
 // TokenMacroMC
-// Multi-column mode.  If you specify no arguments, it is equivalent to the
-// 2C macro.  Otherwise, width is the width of each column and
-// gutter is the space between columns.  The MINGW number
-// register controls the default gutter width.
+// Multi-column mode. If you specify no arguments, it is equivalent to the
+// 2C macro. Otherwise, width is the width of each column and gutter is the
+// space between columns. The MINGW number register controls the default
+// gutter width.
 type TokenMacroMC struct {
 
 
@@ -3934,9 +3872,9 @@ func (t *TokenMacroMC) String() string {
 
 // TokenMacroXE
 // These macros define a table of contents or an individual entry in the
-// table of contents, depending on their use.  The macros are very simple;
-// they cannot indent a heading based on its level.  The easiest way to
-// work around this is to add tabs to the table of contents string.  The
+// table of contents, depending on their use. The macros are very simple;
+// they cannot indent a heading based on its level. The easiest way to work
+// around this is to add tabs to the table of contents string. The
 // following is an example:
 // 
 // 
@@ -3959,11 +3897,11 @@ func (t *TokenMacroMC) String() string {
 // 
 // 
 // 
-// You can manually create a table of contents by beginning with the
-// XS macro for the first entry, specifying the page number for that
-// entry as the argument to XS.  Add subsequent entries using the
-// XA macro, specifying the page number for that entry as the
-// argument to XA.  The following is an example:
+// You can manually create a table of contents by beginning with the XS
+// macro for the first entry, specifying the page number for that entry as
+// the argument to XS. Add subsequent entries using the XA macro,
+// specifying the page number for that entry as the argument to XA. The
+// following is an example:
 // 
 // 
 // 
@@ -4014,14 +3952,13 @@ func (t *TokenMacroXE) String() string {
 
 
 // TokenMacroTC
-// Prints the table of contents on a new page, setting the page number
-// to i (Roman lowercase numeral one).  You should usually
-// place this macro at the end of the file, since groff is a
-// single-pass formatter and can only print what has been collected up to
-// the point that the TC macro appears.
+// Prints the table of contents on a new page, setting the page number to i
+// (Roman lowercase numeral one). You should usually place this macro at
+// the end of the file, since groff is a single-pass formatter and can only
+// print what has been collected up to the point that the TC macro appears.
 // 
-// The optional argument no suppresses printing the title specified
-// by the string register TOC.
+// The optional argument no suppresses printing the title specified by the
+// string register TOC.
 type TokenMacroTC struct {
 
 
@@ -4073,11 +4010,11 @@ func (t *TokenMacroTC) String() string {
 
 // TokenMacroPX
 // Prints the table of contents on a new page, using the current page
-// numbering sequence.  Use this macro to print a manually generated table
+// numbering sequence. Use this macro to print a manually generated table
 // of contents at the beginning of your document.
 // 
-// The optional argument no suppresses printing the title specified
-// by the string register TOC.
+// The optional argument no suppresses printing the title specified by the
+// string register TOC.
 type TokenMacroPX struct {
 
 
@@ -4129,10 +4066,9 @@ func (t *TokenMacroPX) String() string {
 
 // TokenMacroAM
 // Specify this macro at the beginning of your document to enable extended
-// accent marks and special characters.  This is a Berkeley extension.
+// accent marks and special characters. This is a Berkeley extension.
 // 
-// To use the accent marks, place them after the character being
-// accented.
+// To use the accent marks, place them after the character being accented.
 // 
 // Note that groff’s native support for accents is superior to the
 // following definitions.
@@ -4175,9 +4111,8 @@ func (t *TokenMacroAM) String() string {
 
 
 // TokenMacroDS
-// Indented display.  The default behavior of AT&T troff
-// -ms was to indent; the groff default prints displays flush left
-// with the body text.
+// Indented display. The default behavior of AT&T troff -ms was to indent;
+// the groff default prints displays flush left with the body text.
 type TokenMacroDS struct {
 
 
@@ -4228,7 +4163,7 @@ func (t *TokenMacroDS) String() string {
 
 
 // TokenMacroIX
-// Indexing term (printed on standard error).  You can write a script to
+// Indexing term (printed on standard error). You can write a script to
 // capture and process an index generated in this manner.
 type TokenMacroIX struct {
 
@@ -4269,36 +4204,29 @@ func (t *TokenMacroIX) String() string {
 
 
 // TokenMacroXA
-// The registers ps4html and www-image-template are defined
-// by the pre-grohtml preprocessor.  pre-grohtml reads in the
-// troff input, marks up the inline equations and passes the result
-// firstly to
-// 
+// The registers ps4html and www-image-template are defined by the
+// pre-grohtml preprocessor. pre-grohtml reads in the troff input, marks up
+// the inline equations and passes the result firstly to
 // 
 // troff -Tps -rps4html=1 -dwww-image-template=template
 // 
-// 
 // and secondly to
-// 
 // 
 // troff -Thtml
 // 
-// 
 // or
-// 
 // 
 // troff -Txhtml
 // 
 // 
 // 
-// The POSTSCRIPT device is used to create all the image files (for
-// -Thtml; if -Txhtml is used, all equations are passed
-// to geqn to produce MathML, and the register
-// ps4html enables the macro sets to ignore floating keeps, footers,
-// and headings.
+// The POSTSCRIPT device is used to create all the image files (for -Thtml;
+// if -Txhtml is used, all equations are passed to geqn to produce MathML,
+// and the register ps4html enables the macro sets to ignore floating
+// keeps, footers, and headings.
 // 
-// The register www-image-template is set to the user specified
-// template name or the default name.
+// The register www-image-template is set to the user specified template
+// name or the default name.
 type TokenMacroXA struct {
 
 
@@ -4349,36 +4277,29 @@ func (t *TokenMacroXA) String() string {
 
 
 // TokenMacroXS
-// The registers ps4html and www-image-template are defined
-// by the pre-grohtml preprocessor.  pre-grohtml reads in the
-// troff input, marks up the inline equations and passes the result
-// firstly to
-// 
+// The registers ps4html and www-image-template are defined by the
+// pre-grohtml preprocessor. pre-grohtml reads in the troff input, marks up
+// the inline equations and passes the result firstly to
 // 
 // troff -Tps -rps4html=1 -dwww-image-template=template
 // 
-// 
 // and secondly to
-// 
 // 
 // troff -Thtml
 // 
-// 
 // or
-// 
 // 
 // troff -Txhtml
 // 
 // 
 // 
-// The POSTSCRIPT device is used to create all the image files (for
-// -Thtml; if -Txhtml is used, all equations are passed
-// to geqn to produce MathML, and the register
-// ps4html enables the macro sets to ignore floating keeps, footers,
-// and headings.
+// The POSTSCRIPT device is used to create all the image files (for -Thtml;
+// if -Txhtml is used, all equations are passed to geqn to produce MathML,
+// and the register ps4html enables the macro sets to ignore floating
+// keeps, footers, and headings.
 // 
-// The register www-image-template is set to the user specified
-// template name or the default name.
+// The register www-image-template is set to the user specified template
+// name or the default name.
 type TokenMacroXS struct {
 
 
@@ -4429,36 +4350,29 @@ func (t *TokenMacroXS) String() string {
 
 
 // TokenMacroHD
-// The registers ps4html and www-image-template are defined
-// by the pre-grohtml preprocessor.  pre-grohtml reads in the
-// troff input, marks up the inline equations and passes the result
-// firstly to
-// 
+// The registers ps4html and www-image-template are defined by the
+// pre-grohtml preprocessor. pre-grohtml reads in the troff input, marks up
+// the inline equations and passes the result firstly to
 // 
 // troff -Tps -rps4html=1 -dwww-image-template=template
 // 
-// 
 // and secondly to
-// 
 // 
 // troff -Thtml
 // 
-// 
 // or
-// 
 // 
 // troff -Txhtml
 // 
 // 
 // 
-// The POSTSCRIPT device is used to create all the image files (for
-// -Thtml; if -Txhtml is used, all equations are passed
-// to geqn to produce MathML, and the register
-// ps4html enables the macro sets to ignore floating keeps, footers,
-// and headings.
+// The POSTSCRIPT device is used to create all the image files (for -Thtml;
+// if -Txhtml is used, all equations are passed to geqn to produce MathML,
+// and the register ps4html enables the macro sets to ignore floating
+// keeps, footers, and headings.
 // 
-// The register www-image-template is set to the user specified
-// template name or the default name.
+// The register www-image-template is set to the user specified template
+// name or the default name.
 type TokenMacroHD struct {
 
 }
@@ -4498,36 +4412,29 @@ func (t *TokenMacroHD) String() string {
 
 
 // TokenMacroOF
-// The registers ps4html and www-image-template are defined
-// by the pre-grohtml preprocessor.  pre-grohtml reads in the
-// troff input, marks up the inline equations and passes the result
-// firstly to
-// 
+// The registers ps4html and www-image-template are defined by the
+// pre-grohtml preprocessor. pre-grohtml reads in the troff input, marks up
+// the inline equations and passes the result firstly to
 // 
 // troff -Tps -rps4html=1 -dwww-image-template=template
 // 
-// 
 // and secondly to
-// 
 // 
 // troff -Thtml
 // 
-// 
 // or
-// 
 // 
 // troff -Txhtml
 // 
 // 
 // 
-// The POSTSCRIPT device is used to create all the image files (for
-// -Thtml; if -Txhtml is used, all equations are passed
-// to geqn to produce MathML, and the register
-// ps4html enables the macro sets to ignore floating keeps, footers,
-// and headings.
+// The POSTSCRIPT device is used to create all the image files (for -Thtml;
+// if -Txhtml is used, all equations are passed to geqn to produce MathML,
+// and the register ps4html enables the macro sets to ignore floating
+// keeps, footers, and headings.
 // 
-// The register www-image-template is set to the user specified
-// template name or the default name.
+// The register www-image-template is set to the user specified template
+// name or the default name.
 type TokenMacroOF struct {
 
 
@@ -4578,36 +4485,29 @@ func (t *TokenMacroOF) String() string {
 
 
 // TokenMacroEH
-// The registers ps4html and www-image-template are defined
-// by the pre-grohtml preprocessor.  pre-grohtml reads in the
-// troff input, marks up the inline equations and passes the result
-// firstly to
-// 
+// The registers ps4html and www-image-template are defined by the
+// pre-grohtml preprocessor. pre-grohtml reads in the troff input, marks up
+// the inline equations and passes the result firstly to
 // 
 // troff -Tps -rps4html=1 -dwww-image-template=template
 // 
-// 
 // and secondly to
-// 
 // 
 // troff -Thtml
 // 
-// 
 // or
-// 
 // 
 // troff -Txhtml
 // 
 // 
 // 
-// The POSTSCRIPT device is used to create all the image files (for
-// -Thtml; if -Txhtml is used, all equations are passed
-// to geqn to produce MathML, and the register
-// ps4html enables the macro sets to ignore floating keeps, footers,
-// and headings.
+// The POSTSCRIPT device is used to create all the image files (for -Thtml;
+// if -Txhtml is used, all equations are passed to geqn to produce MathML,
+// and the register ps4html enables the macro sets to ignore floating
+// keeps, footers, and headings.
 // 
-// The register www-image-template is set to the user specified
-// template name or the default name.
+// The register www-image-template is set to the user specified template
+// name or the default name.
 type TokenMacroEH struct {
 
 
@@ -4658,36 +4558,29 @@ func (t *TokenMacroEH) String() string {
 
 
 // TokenMacroOH
-// The registers ps4html and www-image-template are defined
-// by the pre-grohtml preprocessor.  pre-grohtml reads in the
-// troff input, marks up the inline equations and passes the result
-// firstly to
-// 
+// The registers ps4html and www-image-template are defined by the
+// pre-grohtml preprocessor. pre-grohtml reads in the troff input, marks up
+// the inline equations and passes the result firstly to
 // 
 // troff -Tps -rps4html=1 -dwww-image-template=template
 // 
-// 
 // and secondly to
-// 
 // 
 // troff -Thtml
 // 
-// 
 // or
-// 
 // 
 // troff -Txhtml
 // 
 // 
 // 
-// The POSTSCRIPT device is used to create all the image files (for
-// -Thtml; if -Txhtml is used, all equations are passed
-// to geqn to produce MathML, and the register
-// ps4html enables the macro sets to ignore floating keeps, footers,
-// and headings.
+// The POSTSCRIPT device is used to create all the image files (for -Thtml;
+// if -Txhtml is used, all equations are passed to geqn to produce MathML,
+// and the register ps4html enables the macro sets to ignore floating
+// keeps, footers, and headings.
 // 
-// The register www-image-template is set to the user specified
-// template name or the default name.
+// The register www-image-template is set to the user specified template
+// name or the default name.
 type TokenMacroOH struct {
 
 
@@ -4738,36 +4631,29 @@ func (t *TokenMacroOH) String() string {
 
 
 // TokenMacroFS
-// The registers ps4html and www-image-template are defined
-// by the pre-grohtml preprocessor.  pre-grohtml reads in the
-// troff input, marks up the inline equations and passes the result
-// firstly to
-// 
+// The registers ps4html and www-image-template are defined by the
+// pre-grohtml preprocessor. pre-grohtml reads in the troff input, marks up
+// the inline equations and passes the result firstly to
 // 
 // troff -Tps -rps4html=1 -dwww-image-template=template
 // 
-// 
 // and secondly to
-// 
 // 
 // troff -Thtml
 // 
-// 
 // or
-// 
 // 
 // troff -Txhtml
 // 
 // 
 // 
-// The POSTSCRIPT device is used to create all the image files (for
-// -Thtml; if -Txhtml is used, all equations are passed
-// to geqn to produce MathML, and the register
-// ps4html enables the macro sets to ignore floating keeps, footers,
-// and headings.
+// The POSTSCRIPT device is used to create all the image files (for -Thtml;
+// if -Txhtml is used, all equations are passed to geqn to produce MathML,
+// and the register ps4html enables the macro sets to ignore floating
+// keeps, footers, and headings.
 // 
-// The register www-image-template is set to the user specified
-// template name or the default name.
+// The register www-image-template is set to the user specified template
+// name or the default name.
 type TokenMacroFS struct {
 
 }
@@ -4807,36 +4693,29 @@ func (t *TokenMacroFS) String() string {
 
 
 // TokenMacroSquareBracketOpen
-// The registers ps4html and www-image-template are defined
-// by the pre-grohtml preprocessor.  pre-grohtml reads in the
-// troff input, marks up the inline equations and passes the result
-// firstly to
-// 
+// The registers ps4html and www-image-template are defined by the
+// pre-grohtml preprocessor. pre-grohtml reads in the troff input, marks up
+// the inline equations and passes the result firstly to
 // 
 // troff -Tps -rps4html=1 -dwww-image-template=template
 // 
-// 
 // and secondly to
-// 
 // 
 // troff -Thtml
 // 
-// 
 // or
-// 
 // 
 // troff -Txhtml
 // 
 // 
 // 
-// The POSTSCRIPT device is used to create all the image files (for
-// -Thtml; if -Txhtml is used, all equations are passed
-// to geqn to produce MathML, and the register
-// ps4html enables the macro sets to ignore floating keeps, footers,
-// and headings.
+// The POSTSCRIPT device is used to create all the image files (for -Thtml;
+// if -Txhtml is used, all equations are passed to geqn to produce MathML,
+// and the register ps4html enables the macro sets to ignore floating
+// keeps, footers, and headings.
 // 
-// The register www-image-template is set to the user specified
-// template name or the default name.
+// The register www-image-template is set to the user specified template
+// name or the default name.
 type TokenMacroSquareBracketOpen struct {
 
 }
@@ -4876,36 +4755,29 @@ func (t *TokenMacroSquareBracketOpen) String() string {
 
 
 // TokenMacroEQ
-// The registers ps4html and www-image-template are defined
-// by the pre-grohtml preprocessor.  pre-grohtml reads in the
-// troff input, marks up the inline equations and passes the result
-// firstly to
-// 
+// The registers ps4html and www-image-template are defined by the
+// pre-grohtml preprocessor. pre-grohtml reads in the troff input, marks up
+// the inline equations and passes the result firstly to
 // 
 // troff -Tps -rps4html=1 -dwww-image-template=template
 // 
-// 
 // and secondly to
-// 
 // 
 // troff -Thtml
 // 
-// 
 // or
-// 
 // 
 // troff -Txhtml
 // 
 // 
 // 
-// The POSTSCRIPT device is used to create all the image files (for
-// -Thtml; if -Txhtml is used, all equations are passed
-// to geqn to produce MathML, and the register
-// ps4html enables the macro sets to ignore floating keeps, footers,
-// and headings.
+// The POSTSCRIPT device is used to create all the image files (for -Thtml;
+// if -Txhtml is used, all equations are passed to geqn to produce MathML,
+// and the register ps4html enables the macro sets to ignore floating
+// keeps, footers, and headings.
 // 
-// The register www-image-template is set to the user specified
-// template name or the default name.
+// The register www-image-template is set to the user specified template
+// name or the default name.
 type TokenMacroEQ struct {
 
 
@@ -4956,36 +4828,29 @@ func (t *TokenMacroEQ) String() string {
 
 
 // TokenMacroPS
-// The registers ps4html and www-image-template are defined
-// by the pre-grohtml preprocessor.  pre-grohtml reads in the
-// troff input, marks up the inline equations and passes the result
-// firstly to
-// 
+// The registers ps4html and www-image-template are defined by the
+// pre-grohtml preprocessor. pre-grohtml reads in the troff input, marks up
+// the inline equations and passes the result firstly to
 // 
 // troff -Tps -rps4html=1 -dwww-image-template=template
 // 
-// 
 // and secondly to
-// 
 // 
 // troff -Thtml
 // 
-// 
 // or
-// 
 // 
 // troff -Txhtml
 // 
 // 
 // 
-// The POSTSCRIPT device is used to create all the image files (for
-// -Thtml; if -Txhtml is used, all equations are passed
-// to geqn to produce MathML, and the register
-// ps4html enables the macro sets to ignore floating keeps, footers,
-// and headings.
+// The POSTSCRIPT device is used to create all the image files (for -Thtml;
+// if -Txhtml is used, all equations are passed to geqn to produce MathML,
+// and the register ps4html enables the macro sets to ignore floating
+// keeps, footers, and headings.
 // 
-// The register www-image-template is set to the user specified
-// template name or the default name.
+// The register www-image-template is set to the user specified template
+// name or the default name.
 type TokenMacroPS struct {
 
 }
@@ -5025,36 +4890,29 @@ func (t *TokenMacroPS) String() string {
 
 
 // TokenMacroTS
-// The registers ps4html and www-image-template are defined
-// by the pre-grohtml preprocessor.  pre-grohtml reads in the
-// troff input, marks up the inline equations and passes the result
-// firstly to
-// 
+// The registers ps4html and www-image-template are defined by the
+// pre-grohtml preprocessor. pre-grohtml reads in the troff input, marks up
+// the inline equations and passes the result firstly to
 // 
 // troff -Tps -rps4html=1 -dwww-image-template=template
 // 
-// 
 // and secondly to
-// 
 // 
 // troff -Thtml
 // 
-// 
 // or
-// 
 // 
 // troff -Txhtml
 // 
 // 
 // 
-// The POSTSCRIPT device is used to create all the image files (for
-// -Thtml; if -Txhtml is used, all equations are passed
-// to geqn to produce MathML, and the register
-// ps4html enables the macro sets to ignore floating keeps, footers,
-// and headings.
+// The POSTSCRIPT device is used to create all the image files (for -Thtml;
+// if -Txhtml is used, all equations are passed to geqn to produce MathML,
+// and the register ps4html enables the macro sets to ignore floating
+// keeps, footers, and headings.
 // 
-// The register www-image-template is set to the user specified
-// template name or the default name.
+// The register www-image-template is set to the user specified template
+// name or the default name.
 type TokenMacroTS struct {
 
 
@@ -5105,36 +4963,29 @@ func (t *TokenMacroTS) String() string {
 
 
 // TokenMacroB1
-// The registers ps4html and www-image-template are defined
-// by the pre-grohtml preprocessor.  pre-grohtml reads in the
-// troff input, marks up the inline equations and passes the result
-// firstly to
-// 
+// The registers ps4html and www-image-template are defined by the
+// pre-grohtml preprocessor. pre-grohtml reads in the troff input, marks up
+// the inline equations and passes the result firstly to
 // 
 // troff -Tps -rps4html=1 -dwww-image-template=template
 // 
-// 
 // and secondly to
-// 
 // 
 // troff -Thtml
 // 
-// 
 // or
-// 
 // 
 // troff -Txhtml
 // 
 // 
 // 
-// The POSTSCRIPT device is used to create all the image files (for
-// -Thtml; if -Txhtml is used, all equations are passed
-// to geqn to produce MathML, and the register
-// ps4html enables the macro sets to ignore floating keeps, footers,
-// and headings.
+// The POSTSCRIPT device is used to create all the image files (for -Thtml;
+// if -Txhtml is used, all equations are passed to geqn to produce MathML,
+// and the register ps4html enables the macro sets to ignore floating
+// keeps, footers, and headings.
 // 
-// The register www-image-template is set to the user specified
-// template name or the default name.
+// The register www-image-template is set to the user specified template
+// name or the default name.
 type TokenMacroB1 struct {
 
 }
@@ -5174,36 +5025,29 @@ func (t *TokenMacroB1) String() string {
 
 
 // TokenMacroKF
-// The registers ps4html and www-image-template are defined
-// by the pre-grohtml preprocessor.  pre-grohtml reads in the
-// troff input, marks up the inline equations and passes the result
-// firstly to
-// 
+// The registers ps4html and www-image-template are defined by the
+// pre-grohtml preprocessor. pre-grohtml reads in the troff input, marks up
+// the inline equations and passes the result firstly to
 // 
 // troff -Tps -rps4html=1 -dwww-image-template=template
 // 
-// 
 // and secondly to
-// 
 // 
 // troff -Thtml
 // 
-// 
 // or
-// 
 // 
 // troff -Txhtml
 // 
 // 
 // 
-// The POSTSCRIPT device is used to create all the image files (for
-// -Thtml; if -Txhtml is used, all equations are passed
-// to geqn to produce MathML, and the register
-// ps4html enables the macro sets to ignore floating keeps, footers,
-// and headings.
+// The POSTSCRIPT device is used to create all the image files (for -Thtml;
+// if -Txhtml is used, all equations are passed to geqn to produce MathML,
+// and the register ps4html enables the macro sets to ignore floating
+// keeps, footers, and headings.
 // 
-// The register www-image-template is set to the user specified
-// template name or the default name.
+// The register www-image-template is set to the user specified template
+// name or the default name.
 type TokenMacroKF struct {
 
 }
@@ -5243,36 +5087,29 @@ func (t *TokenMacroKF) String() string {
 
 
 // TokenMacroKS
-// The registers ps4html and www-image-template are defined
-// by the pre-grohtml preprocessor.  pre-grohtml reads in the
-// troff input, marks up the inline equations and passes the result
-// firstly to
-// 
+// The registers ps4html and www-image-template are defined by the
+// pre-grohtml preprocessor. pre-grohtml reads in the troff input, marks up
+// the inline equations and passes the result firstly to
 // 
 // troff -Tps -rps4html=1 -dwww-image-template=template
 // 
-// 
 // and secondly to
-// 
 // 
 // troff -Thtml
 // 
-// 
 // or
-// 
 // 
 // troff -Txhtml
 // 
 // 
 // 
-// The POSTSCRIPT device is used to create all the image files (for
-// -Thtml; if -Txhtml is used, all equations are passed
-// to geqn to produce MathML, and the register
-// ps4html enables the macro sets to ignore floating keeps, footers,
-// and headings.
+// The POSTSCRIPT device is used to create all the image files (for -Thtml;
+// if -Txhtml is used, all equations are passed to geqn to produce MathML,
+// and the register ps4html enables the macro sets to ignore floating
+// keeps, footers, and headings.
 // 
-// The register www-image-template is set to the user specified
-// template name or the default name.
+// The register www-image-template is set to the user specified template
+// name or the default name.
 type TokenMacroKS struct {
 
 }
@@ -5312,36 +5149,29 @@ func (t *TokenMacroKS) String() string {
 
 
 // TokenMacroRD
-// The registers ps4html and www-image-template are defined
-// by the pre-grohtml preprocessor.  pre-grohtml reads in the
-// troff input, marks up the inline equations and passes the result
-// firstly to
-// 
+// The registers ps4html and www-image-template are defined by the
+// pre-grohtml preprocessor. pre-grohtml reads in the troff input, marks up
+// the inline equations and passes the result firstly to
 // 
 // troff -Tps -rps4html=1 -dwww-image-template=template
 // 
-// 
 // and secondly to
-// 
 // 
 // troff -Thtml
 // 
-// 
 // or
-// 
 // 
 // troff -Txhtml
 // 
 // 
 // 
-// The POSTSCRIPT device is used to create all the image files (for
-// -Thtml; if -Txhtml is used, all equations are passed
-// to geqn to produce MathML, and the register
-// ps4html enables the macro sets to ignore floating keeps, footers,
-// and headings.
+// The POSTSCRIPT device is used to create all the image files (for -Thtml;
+// if -Txhtml is used, all equations are passed to geqn to produce MathML,
+// and the register ps4html enables the macro sets to ignore floating
+// keeps, footers, and headings.
 // 
-// The register www-image-template is set to the user specified
-// template name or the default name.
+// The register www-image-template is set to the user specified template
+// name or the default name.
 type TokenMacroRD struct {
 
 }
@@ -5381,36 +5211,29 @@ func (t *TokenMacroRD) String() string {
 
 
 // TokenMacroCD
-// The registers ps4html and www-image-template are defined
-// by the pre-grohtml preprocessor.  pre-grohtml reads in the
-// troff input, marks up the inline equations and passes the result
-// firstly to
-// 
+// The registers ps4html and www-image-template are defined by the
+// pre-grohtml preprocessor. pre-grohtml reads in the troff input, marks up
+// the inline equations and passes the result firstly to
 // 
 // troff -Tps -rps4html=1 -dwww-image-template=template
 // 
-// 
 // and secondly to
-// 
 // 
 // troff -Thtml
 // 
-// 
 // or
-// 
 // 
 // troff -Txhtml
 // 
 // 
 // 
-// The POSTSCRIPT device is used to create all the image files (for
-// -Thtml; if -Txhtml is used, all equations are passed
-// to geqn to produce MathML, and the register
-// ps4html enables the macro sets to ignore floating keeps, footers,
-// and headings.
+// The POSTSCRIPT device is used to create all the image files (for -Thtml;
+// if -Txhtml is used, all equations are passed to geqn to produce MathML,
+// and the register ps4html enables the macro sets to ignore floating
+// keeps, footers, and headings.
 // 
-// The register www-image-template is set to the user specified
-// template name or the default name.
+// The register www-image-template is set to the user specified template
+// name or the default name.
 type TokenMacroCD struct {
 
 }
@@ -5450,36 +5273,29 @@ func (t *TokenMacroCD) String() string {
 
 
 // TokenMacroBD
-// The registers ps4html and www-image-template are defined
-// by the pre-grohtml preprocessor.  pre-grohtml reads in the
-// troff input, marks up the inline equations and passes the result
-// firstly to
-// 
+// The registers ps4html and www-image-template are defined by the
+// pre-grohtml preprocessor. pre-grohtml reads in the troff input, marks up
+// the inline equations and passes the result firstly to
 // 
 // troff -Tps -rps4html=1 -dwww-image-template=template
 // 
-// 
 // and secondly to
-// 
 // 
 // troff -Thtml
 // 
-// 
 // or
-// 
 // 
 // troff -Txhtml
 // 
 // 
 // 
-// The POSTSCRIPT device is used to create all the image files (for
-// -Thtml; if -Txhtml is used, all equations are passed
-// to geqn to produce MathML, and the register
-// ps4html enables the macro sets to ignore floating keeps, footers,
-// and headings.
+// The POSTSCRIPT device is used to create all the image files (for -Thtml;
+// if -Txhtml is used, all equations are passed to geqn to produce MathML,
+// and the register ps4html enables the macro sets to ignore floating
+// keeps, footers, and headings.
 // 
-// The register www-image-template is set to the user specified
-// template name or the default name.
+// The register www-image-template is set to the user specified template
+// name or the default name.
 type TokenMacroBD struct {
 
 }
@@ -5519,36 +5335,29 @@ func (t *TokenMacroBD) String() string {
 
 
 // TokenMacroID
-// The registers ps4html and www-image-template are defined
-// by the pre-grohtml preprocessor.  pre-grohtml reads in the
-// troff input, marks up the inline equations and passes the result
-// firstly to
-// 
+// The registers ps4html and www-image-template are defined by the
+// pre-grohtml preprocessor. pre-grohtml reads in the troff input, marks up
+// the inline equations and passes the result firstly to
 // 
 // troff -Tps -rps4html=1 -dwww-image-template=template
 // 
-// 
 // and secondly to
-// 
 // 
 // troff -Thtml
 // 
-// 
 // or
-// 
 // 
 // troff -Txhtml
 // 
 // 
 // 
-// The POSTSCRIPT device is used to create all the image files (for
-// -Thtml; if -Txhtml is used, all equations are passed
-// to geqn to produce MathML, and the register
-// ps4html enables the macro sets to ignore floating keeps, footers,
-// and headings.
+// The POSTSCRIPT device is used to create all the image files (for -Thtml;
+// if -Txhtml is used, all equations are passed to geqn to produce MathML,
+// and the register ps4html enables the macro sets to ignore floating
+// keeps, footers, and headings.
 // 
-// The register www-image-template is set to the user specified
-// template name or the default name.
+// The register www-image-template is set to the user specified template
+// name or the default name.
 type TokenMacroID struct {
 
 }
@@ -5588,36 +5397,29 @@ func (t *TokenMacroID) String() string {
 
 
 // TokenMacroLD
-// The registers ps4html and www-image-template are defined
-// by the pre-grohtml preprocessor.  pre-grohtml reads in the
-// troff input, marks up the inline equations and passes the result
-// firstly to
-// 
+// The registers ps4html and www-image-template are defined by the
+// pre-grohtml preprocessor. pre-grohtml reads in the troff input, marks up
+// the inline equations and passes the result firstly to
 // 
 // troff -Tps -rps4html=1 -dwww-image-template=template
 // 
-// 
 // and secondly to
-// 
 // 
 // troff -Thtml
 // 
-// 
 // or
-// 
 // 
 // troff -Txhtml
 // 
 // 
 // 
-// The POSTSCRIPT device is used to create all the image files (for
-// -Thtml; if -Txhtml is used, all equations are passed
-// to geqn to produce MathML, and the register
-// ps4html enables the macro sets to ignore floating keeps, footers,
-// and headings.
+// The POSTSCRIPT device is used to create all the image files (for -Thtml;
+// if -Txhtml is used, all equations are passed to geqn to produce MathML,
+// and the register ps4html enables the macro sets to ignore floating
+// keeps, footers, and headings.
 // 
-// The register www-image-template is set to the user specified
-// template name or the default name.
+// The register www-image-template is set to the user specified template
+// name or the default name.
 type TokenMacroLD struct {
 
 }
@@ -5657,36 +5459,29 @@ func (t *TokenMacroLD) String() string {
 
 
 // TokenMacroQS
-// The registers ps4html and www-image-template are defined
-// by the pre-grohtml preprocessor.  pre-grohtml reads in the
-// troff input, marks up the inline equations and passes the result
-// firstly to
-// 
+// The registers ps4html and www-image-template are defined by the
+// pre-grohtml preprocessor. pre-grohtml reads in the troff input, marks up
+// the inline equations and passes the result firstly to
 // 
 // troff -Tps -rps4html=1 -dwww-image-template=template
 // 
-// 
 // and secondly to
-// 
 // 
 // troff -Thtml
 // 
-// 
 // or
-// 
 // 
 // troff -Txhtml
 // 
 // 
 // 
-// The POSTSCRIPT device is used to create all the image files (for
-// -Thtml; if -Txhtml is used, all equations are passed
-// to geqn to produce MathML, and the register
-// ps4html enables the macro sets to ignore floating keeps, footers,
-// and headings.
+// The POSTSCRIPT device is used to create all the image files (for -Thtml;
+// if -Txhtml is used, all equations are passed to geqn to produce MathML,
+// and the register ps4html enables the macro sets to ignore floating
+// keeps, footers, and headings.
 // 
-// The register www-image-template is set to the user specified
-// template name or the default name.
+// The register www-image-template is set to the user specified template
+// name or the default name.
 type TokenMacroQS struct {
 
 }
@@ -5722,5 +5517,505 @@ func (t *TokenMacroQS) String() string {
 		return ".QS"
 	}
 	return ".QS " + strings.Join(args, " ")
+}
+
+
+// TokenMacroSY
+// Begin synopsis. A new paragraph begins at the left margin unless .SY has
+// already been called without a corresponding .YS, in which case only a
+// break is performed. Adjustment and automatic hyphenation are disabled.
+// command is set in bold. If a break is required, lines after the first
+// are indented by the width of command plus a space.
+type TokenMacroSY struct {
+
+
+    Command string
+
+}
+
+func ParseTokenMacroSY(lineArgs string) (Token, error) {
+    args, _, err := ArgumentParser(lineArgs)
+    if err != nil {
+        return nil, fmt.Errorf("parse TokenMacroSY arguments: %s, %w", lineArgs, err)
+    }
+    
+      matched, err :=  BackwardMatcher(args,
+            
+            false,
+            )
+    
+    if err != nil {
+        return nil, fmt.Errorf("fitting TokenMacroSY arguments: %s, %w", lineArgs, err)
+    }
+	
+        argCommand := matched[0]
+    
+	return &TokenMacroSY{
+	
+        Command: argCommand,
+    
+	}, nil
+}
+
+func (t *TokenMacroSY) String() string {
+	var args []string
+	
+	args = append(args, t.Command)
+	
+	for len(args) > 0 && args[len(args)-1] == "" {
+		args = args[:len(args)-1]
+	}
+	for i, arg := range args {
+		args[i] = Quote(arg)
+	}
+	if len(args) == 0 {
+		return ".SY"
+	}
+	return ".SY " + strings.Join(args, " ")
+}
+
+
+// TokenMacroYS
+// End synopsis. Indentation, adjustment, and hyphenation are restored to
+// their previous states.
+type TokenMacroYS struct {
+
+}
+
+func ParseTokenMacroYS(lineArgs string) (Token, error) {
+    args, _, err := ArgumentParser(lineArgs)
+    if err != nil {
+        return nil, fmt.Errorf("parse TokenMacroYS arguments: %s, %w", lineArgs, err)
+    }
+    
+      _, err =  BackwardMatcher(args,
+            )
+    
+    if err != nil {
+        return nil, fmt.Errorf("fitting TokenMacroYS arguments: %s, %w", lineArgs, err)
+    }
+	
+	return &TokenMacroYS{
+	
+	}, nil
+}
+
+func (t *TokenMacroYS) String() string {
+	var args []string
+	
+	for len(args) > 0 && args[len(args)-1] == "" {
+		args = args[:len(args)-1]
+	}
+	for i, arg := range args {
+		args[i] = Quote(arg)
+	}
+	if len(args) == 0 {
+		return ".YS"
+	}
+	return ".YS " + strings.Join(args, " ")
+}
+
+
+// TokenMacroMR
+// Set a man page cross reference as “topic(manual-section)”. If
+// trailing-text (typically punctuation) is specified, it follows the
+// closing parenthesis without intervening space. Hyphenation is disabled
+// while the cross reference is set. topic is set in the font specified by
+// the MF string. The cross reference hyperlinks to a URI of the form
+// “man:topic(manual-section)”.
+type TokenMacroMR struct {
+
+
+    Topic string
+
+
+    Manualsection string
+
+
+    Trailingtext string
+
+}
+
+func ParseTokenMacroMR(lineArgs string) (Token, error) {
+    args, _, err := ArgumentParser(lineArgs)
+    if err != nil {
+        return nil, fmt.Errorf("parse TokenMacroMR arguments: %s, %w", lineArgs, err)
+    }
+    
+      matched, err :=  ForwardMatcher(args,
+            
+            false,
+            
+            false,
+            
+            true,
+            )
+    
+    if err != nil {
+        return nil, fmt.Errorf("fitting TokenMacroMR arguments: %s, %w", lineArgs, err)
+    }
+	
+        argTopic := matched[0]
+    
+        argManualsection := matched[1]
+    
+        argTrailingtext := matched[2]
+    
+	return &TokenMacroMR{
+	
+        Topic: argTopic,
+    
+        Manualsection: argManualsection,
+    
+        Trailingtext: argTrailingtext,
+    
+	}, nil
+}
+
+func (t *TokenMacroMR) String() string {
+	var args []string
+	
+	args = append(args, t.Topic)
+	
+	args = append(args, t.Manualsection)
+	
+	args = append(args, t.Trailingtext)
+	
+	for len(args) > 0 && args[len(args)-1] == "" {
+		args = args[:len(args)-1]
+	}
+	for i, arg := range args {
+		args[i] = Quote(arg)
+	}
+	if len(args) == 0 {
+		return ".MR"
+	}
+	return ".MR " + strings.Join(args, " ")
+}
+
+
+// TokenMacroMT
+// Identify address as an RFC 6068 addr-spec for a “mailto:” URI with
+// the text between the two macro calls as the link text. An argument to
+// .ME is placed after the link text without intervening space. address may
+// not be visible in the rendered document if hyperlinks are enabled and
+// supported by the output driver. If they are not, address is set in angle
+// brackets after the link text and before trailing-text. If hyperlinking
+// is enabled but there is no link text, address is formatted and
+// hyperlinked without angle brackets.
+type TokenMacroMT struct {
+
+
+    Address string
+
+}
+
+func ParseTokenMacroMT(lineArgs string) (Token, error) {
+    args, _, err := ArgumentParser(lineArgs)
+    if err != nil {
+        return nil, fmt.Errorf("parse TokenMacroMT arguments: %s, %w", lineArgs, err)
+    }
+    
+      matched, err :=  BackwardMatcher(args,
+            
+            false,
+            )
+    
+    if err != nil {
+        return nil, fmt.Errorf("fitting TokenMacroMT arguments: %s, %w", lineArgs, err)
+    }
+	
+        argAddress := matched[0]
+    
+	return &TokenMacroMT{
+	
+        Address: argAddress,
+    
+	}, nil
+}
+
+func (t *TokenMacroMT) String() string {
+	var args []string
+	
+	args = append(args, t.Address)
+	
+	for len(args) > 0 && args[len(args)-1] == "" {
+		args = args[:len(args)-1]
+	}
+	for i, arg := range args {
+		args[i] = Quote(arg)
+	}
+	if len(args) == 0 {
+		return ".MT"
+	}
+	return ".MT " + strings.Join(args, " ")
+}
+
+
+// TokenMacroME
+// End a mail-to hyperlink.
+type TokenMacroME struct {
+
+
+    Trailingtext string
+
+}
+
+func ParseTokenMacroME(lineArgs string) (Token, error) {
+    args, _, err := ArgumentParser(lineArgs)
+    if err != nil {
+        return nil, fmt.Errorf("parse TokenMacroME arguments: %s, %w", lineArgs, err)
+    }
+    
+      matched, err :=  ForwardMatcher(args,
+            
+            true,
+            )
+    
+    if err != nil {
+        return nil, fmt.Errorf("fitting TokenMacroME arguments: %s, %w", lineArgs, err)
+    }
+	
+        argTrailingtext := matched[0]
+    
+	return &TokenMacroME{
+	
+        Trailingtext: argTrailingtext,
+    
+	}, nil
+}
+
+func (t *TokenMacroME) String() string {
+	var args []string
+	
+	args = append(args, t.Trailingtext)
+	
+	for len(args) > 0 && args[len(args)-1] == "" {
+		args = args[:len(args)-1]
+	}
+	for i, arg := range args {
+		args[i] = Quote(arg)
+	}
+	if len(args) == 0 {
+		return ".ME"
+	}
+	return ".ME " + strings.Join(args, " ")
+}
+
+
+// TokenMacroUR
+// Identify uri as an RFC 3986 URI hyperlink with the text between the two
+// macro calls as the link text. An argument to .UE is placed after the
+// link text without intervening space. uri may not be visible in the
+// rendered document if hyperlinks are enabled and supported by the output
+// driver. If they are not, uri is set in angle brackets after the link
+// text and before trailing-text. If hyperlinking is enabled but there is
+// no link text, uri is formatted and hyperlinked without angle brackets.
+type TokenMacroUR struct {
+
+
+    Uri string
+
+}
+
+func ParseTokenMacroUR(lineArgs string) (Token, error) {
+    args, _, err := ArgumentParser(lineArgs)
+    if err != nil {
+        return nil, fmt.Errorf("parse TokenMacroUR arguments: %s, %w", lineArgs, err)
+    }
+    
+      matched, err :=  BackwardMatcher(args,
+            
+            false,
+            )
+    
+    if err != nil {
+        return nil, fmt.Errorf("fitting TokenMacroUR arguments: %s, %w", lineArgs, err)
+    }
+	
+        argUri := matched[0]
+    
+	return &TokenMacroUR{
+	
+        Uri: argUri,
+    
+	}, nil
+}
+
+func (t *TokenMacroUR) String() string {
+	var args []string
+	
+	args = append(args, t.Uri)
+	
+	for len(args) > 0 && args[len(args)-1] == "" {
+		args = args[:len(args)-1]
+	}
+	for i, arg := range args {
+		args[i] = Quote(arg)
+	}
+	if len(args) == 0 {
+		return ".UR"
+	}
+	return ".UR " + strings.Join(args, " ")
+}
+
+
+// TokenMacroUE
+// End a URI hyperlink.
+type TokenMacroUE struct {
+
+
+    Trailingtext string
+
+}
+
+func ParseTokenMacroUE(lineArgs string) (Token, error) {
+    args, _, err := ArgumentParser(lineArgs)
+    if err != nil {
+        return nil, fmt.Errorf("parse TokenMacroUE arguments: %s, %w", lineArgs, err)
+    }
+    
+      matched, err :=  ForwardMatcher(args,
+            
+            true,
+            )
+    
+    if err != nil {
+        return nil, fmt.Errorf("fitting TokenMacroUE arguments: %s, %w", lineArgs, err)
+    }
+	
+        argTrailingtext := matched[0]
+    
+	return &TokenMacroUE{
+	
+        Trailingtext: argTrailingtext,
+    
+	}, nil
+}
+
+func (t *TokenMacroUE) String() string {
+	var args []string
+	
+	args = append(args, t.Trailingtext)
+	
+	for len(args) > 0 && args[len(args)-1] == "" {
+		args = args[:len(args)-1]
+	}
+	for i, arg := range args {
+		args[i] = Quote(arg)
+	}
+	if len(args) == 0 {
+		return ".UE"
+	}
+	return ".UE " + strings.Join(args, " ")
+}
+
+
+// TokenMacroTQ
+// Set an additional tag for a paragraph tagged with .TP. An input trap is
+// planted as with .TP. This macro is a GNU extension not defined on
+// systems running AT&T, Plan 9, or Solaris troff.
+type TokenMacroTQ struct {
+
+}
+
+func ParseTokenMacroTQ(lineArgs string) (Token, error) {
+    args, _, err := ArgumentParser(lineArgs)
+    if err != nil {
+        return nil, fmt.Errorf("parse TokenMacroTQ arguments: %s, %w", lineArgs, err)
+    }
+    
+      _, err =  BackwardMatcher(args,
+            )
+    
+    if err != nil {
+        return nil, fmt.Errorf("fitting TokenMacroTQ arguments: %s, %w", lineArgs, err)
+    }
+	
+	return &TokenMacroTQ{
+	
+	}, nil
+}
+
+func (t *TokenMacroTQ) String() string {
+	var args []string
+	
+	for len(args) > 0 && args[len(args)-1] == "" {
+		args = args[:len(args)-1]
+	}
+	for i, arg := range args {
+		args[i] = Quote(arg)
+	}
+	if len(args) == 0 {
+		return ".TQ"
+	}
+	return ".TQ " + strings.Join(args, " ")
+}
+
+
+// TokenMacroOP
+// Indicate an optional command parameter called option-name, which is set
+// in bold. If the option takes an argument, specify option-argument using
+// a noun, abbreviation, or hyphenated noun phrase. If present,
+// option-argument is preceded by a space and set in italics. Square
+// brackets in roman surround both arguments. Use of this quasi-semantic
+// macro is deprecated.
+type TokenMacroOP struct {
+
+
+    Optionname string
+
+
+    Optionargument string
+
+}
+
+func ParseTokenMacroOP(lineArgs string) (Token, error) {
+    args, _, err := ArgumentParser(lineArgs)
+    if err != nil {
+        return nil, fmt.Errorf("parse TokenMacroOP arguments: %s, %w", lineArgs, err)
+    }
+    
+      matched, err :=  ForwardMatcher(args,
+            
+            false,
+            
+            true,
+            )
+    
+    if err != nil {
+        return nil, fmt.Errorf("fitting TokenMacroOP arguments: %s, %w", lineArgs, err)
+    }
+	
+        argOptionname := matched[0]
+    
+        argOptionargument := matched[1]
+    
+	return &TokenMacroOP{
+	
+        Optionname: argOptionname,
+    
+        Optionargument: argOptionargument,
+    
+	}, nil
+}
+
+func (t *TokenMacroOP) String() string {
+	var args []string
+	
+	args = append(args, t.Optionname)
+	
+	args = append(args, t.Optionargument)
+	
+	for len(args) > 0 && args[len(args)-1] == "" {
+		args = args[:len(args)-1]
+	}
+	for i, arg := range args {
+		args[i] = Quote(arg)
+	}
+	if len(args) == 0 {
+		return ".OP"
+	}
+	return ".OP " + strings.Join(args, " ")
 }
 
