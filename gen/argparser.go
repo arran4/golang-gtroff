@@ -74,9 +74,9 @@ func (ar *ArgStruct) Closings(n int) (r [][2]int) {
 
 var (
 	saferer = strings.NewReplacer(
-		"'", "Quote",
-		"4", "Four",
+		"'", "",
 		"…", "Ellipse",
+		"-", "",
 	)
 )
 
@@ -87,18 +87,70 @@ func ParseArgs(in string) (result *ArgStruct, err error) {
 	}
 	m := map[string][]int{}
 	for i, w := range result.Words {
-		word := saferer.Replace(w.Word)
-		countPos := append(m[w.Word], i)
-		m[word] = countPos
-		switch len(countPos) {
-		case 1:
-			result.Words[countPos[0]].Id = word
-		case 2:
-			result.Words[countPos[0]].Id += "0"
-			fallthrough
-		default:
-			result.Words[countPos[len(countPos)-1]].Id = fmt.Sprintf("%s%d", word, len(countPos)-1)
+		word := w.Word
+		if len(word) >= 2 && ((word[0] == '\'' && word[len(word)-1] == '\'') || (word[0] == '"' && word[len(word)-1] == '"')) {
+			word = word[1 : len(word)-1]
 		}
+		word = saferer.Replace(word)
+		if len(word) > 0 && word[0] >= '0' && word[0] <= '9' {
+			word = "Arg" + word
+		}
+		// Ensure valid identifier characters (simple approach)
+		cleanWord := ""
+		for _, r := range word {
+			if (r >= 'a' && r <= 'z') || (r >= 'A' && r <= 'Z') || (r >= '0' && r <= '9') || r == '_' {
+				cleanWord += string(r)
+			}
+		}
+		word = cleanWord
+		if word == "" {
+			word = fmt.Sprintf("Arg%d", i+1)
+		}
+
+		countPos := append(m[w.Word], i)
+		m[w.Word] = countPos // Use original word for map key to track duplicates correctly based on input
+		// But wait, if we have multiple args that map to the same sanitized name, we need to handle that.
+		// The original code used m[w.Word] which seems to track duplicates of the *original* word.
+		// But if 'a' and "a" both map to a, we have a collision in generated code.
+		// We should track usage of the *sanitized* word.
+	}
+
+	// Re-implementing the loop to track usage of sanitized names
+	usedIds := map[string]bool{}
+	for i, w := range result.Words {
+		word := w.Word
+		if len(word) >= 2 && ((word[0] == '\'' && word[len(word)-1] == '\'') || (word[0] == '"' && word[len(word)-1] == '"')) {
+			word = word[1 : len(word)-1]
+		}
+		word = saferer.Replace(word)
+		if len(word) > 0 && word[0] >= '0' && word[0] <= '9' {
+			word = "Arg" + word
+		}
+		cleanWord := ""
+		for _, r := range word {
+			if (r >= 'a' && r <= 'z') || (r >= 'A' && r <= 'Z') || (r >= '0' && r <= '9') || r == '_' {
+				cleanWord += string(r)
+			}
+		}
+		word = cleanWord
+		if word == "" {
+			word = fmt.Sprintf("Arg%d", i+1)
+		}
+
+		// Capitalize first letter
+		if len(word) > 0 {
+			word = strings.ToUpper(word[:1]) + word[1:]
+		}
+
+		// Ensure uniqueness
+		base := word
+		count := 1
+		for usedIds[word] {
+			count++
+			word = fmt.Sprintf("%s%d", base, count)
+		}
+		usedIds[word] = true
+		result.Words[i].Id = word
 	}
 	return
 }

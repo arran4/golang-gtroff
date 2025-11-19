@@ -17,10 +17,10 @@ type {{$e.StructName}} struct {
 {{end}}
 }
 
-func Parse{{$e.StructName}}(argText string) (Token, error) {
-    args, _, err := ArgumentParser(argText)
+func Parse{{$e.StructName}}(lineArgs string) (Token, error) {
+    args, _, err := ArgumentParser(lineArgs)
     if err != nil {
-        return nil, fmt.Errorf("parse {{$e.StructName}} arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("parse {{$e.StructName}} arguments: %s, %w", lineArgs, err)
     }
     {{if $e.ArgStruct.Forwards}}
       {{if $e.ArgStruct.Words}}matched, err :={{else}}_, err ={{end}}  ForwardMatcher(args,
@@ -34,7 +34,7 @@ func Parse{{$e.StructName}}(argText string) (Token, error) {
             {{end}})
     {{end}}
     if err != nil {
-        return nil, fmt.Errorf("fitting {{$e.StructName}} arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("fitting {{$e.StructName}} arguments: %s, %w", lineArgs, err)
     }
 	{{range $argi, $arg := $e.ArgStruct.Words}}
         arg{{$arg.Id}} := matched[{{$argi}}]

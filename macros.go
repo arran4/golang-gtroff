@@ -31,26 +31,26 @@ import (
 type TokenMacroTH struct {
 
 
-    title string
+    Title string
 
 
-    section string
+    Section string
 
 
-    extra1 string
+    Extra1 string
 
 
-    extra2 string
+    Extra2 string
 
 
-    extra3 string
+    Extra3 string
 
 }
 
-func ParseTokenMacroTH(argText string) (Token, error) {
-    args, _, err := ArgumentParser(argText)
+func ParseTokenMacroTH(lineArgs string) (Token, error) {
+    args, _, err := ArgumentParser(lineArgs)
     if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroTH arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("parse TokenMacroTH arguments: %s, %w", lineArgs, err)
     }
     
       matched, err :=  ForwardMatcher(args,
@@ -67,30 +67,30 @@ func ParseTokenMacroTH(argText string) (Token, error) {
             )
     
     if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroTH arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("fitting TokenMacroTH arguments: %s, %w", lineArgs, err)
     }
 	
-        argtitle := matched[0]
+        argTitle := matched[0]
     
-        argsection := matched[1]
+        argSection := matched[1]
     
-        argextra1 := matched[2]
+        argExtra1 := matched[2]
     
-        argextra2 := matched[3]
+        argExtra2 := matched[3]
     
-        argextra3 := matched[4]
+        argExtra3 := matched[4]
     
 	return &TokenMacroTH{
 	
-        title: argtitle,
+        Title: argTitle,
     
-        section: argsection,
+        Section: argSection,
     
-        extra1: argextra1,
+        Extra1: argExtra1,
     
-        extra2: argextra2,
+        Extra2: argExtra2,
     
-        extra3: argextra3,
+        Extra3: argExtra3,
     
 	}, nil
 }
@@ -98,15 +98,15 @@ func ParseTokenMacroTH(argText string) (Token, error) {
 func (t *TokenMacroTH) String() string {
 	var args []string
 	
-	args = append(args, t.title)
+	args = append(args, t.Title)
 	
-	args = append(args, t.section)
+	args = append(args, t.Section)
 	
-	args = append(args, t.extra1)
+	args = append(args, t.Extra1)
 	
-	args = append(args, t.extra2)
+	args = append(args, t.Extra2)
 	
-	args = append(args, t.extra3)
+	args = append(args, t.Extra3)
 	
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
@@ -131,14 +131,14 @@ func (t *TokenMacroTH) String() string {
 type TokenMacroSH struct {
 
 
-    heading string
+    Heading string
 
 }
 
-func ParseTokenMacroSH(argText string) (Token, error) {
-    args, _, err := ArgumentParser(argText)
+func ParseTokenMacroSH(lineArgs string) (Token, error) {
+    args, _, err := ArgumentParser(lineArgs)
     if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroSH arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("parse TokenMacroSH arguments: %s, %w", lineArgs, err)
     }
     
       matched, err :=  ForwardMatcher(args,
@@ -147,14 +147,14 @@ func ParseTokenMacroSH(argText string) (Token, error) {
             )
     
     if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroSH arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("fitting TokenMacroSH arguments: %s, %w", lineArgs, err)
     }
 	
-        argheading := matched[0]
+        argHeading := matched[0]
     
 	return &TokenMacroSH{
 	
-        heading: argheading,
+        Heading: argHeading,
     
 	}, nil
 }
@@ -162,7 +162,7 @@ func ParseTokenMacroSH(argText string) (Token, error) {
 func (t *TokenMacroSH) String() string {
 	var args []string
 	
-	args = append(args, t.heading)
+	args = append(args, t.Heading)
 	
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
@@ -187,14 +187,14 @@ func (t *TokenMacroSH) String() string {
 type TokenMacroSS struct {
 
 
-    heading string
+    Heading string
 
 }
 
-func ParseTokenMacroSS(argText string) (Token, error) {
-    args, _, err := ArgumentParser(argText)
+func ParseTokenMacroSS(lineArgs string) (Token, error) {
+    args, _, err := ArgumentParser(lineArgs)
     if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroSS arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("parse TokenMacroSS arguments: %s, %w", lineArgs, err)
     }
     
       matched, err :=  ForwardMatcher(args,
@@ -203,14 +203,14 @@ func ParseTokenMacroSS(argText string) (Token, error) {
             )
     
     if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroSS arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("fitting TokenMacroSS arguments: %s, %w", lineArgs, err)
     }
 	
-        argheading := matched[0]
+        argHeading := matched[0]
     
 	return &TokenMacroSS{
 	
-        heading: argheading,
+        Heading: argHeading,
     
 	}, nil
 }
@@ -218,7 +218,7 @@ func ParseTokenMacroSS(argText string) (Token, error) {
 func (t *TokenMacroSS) String() string {
 	var args []string
 	
-	args = append(args, t.heading)
+	args = append(args, t.Heading)
 	
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
@@ -254,14 +254,14 @@ func (t *TokenMacroSS) String() string {
 type TokenMacroTP struct {
 
 
-    nnn string
+    Nnn string
 
 }
 
-func ParseTokenMacroTP(argText string) (Token, error) {
-    args, _, err := ArgumentParser(argText)
+func ParseTokenMacroTP(lineArgs string) (Token, error) {
+    args, _, err := ArgumentParser(lineArgs)
     if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroTP arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("parse TokenMacroTP arguments: %s, %w", lineArgs, err)
     }
     
       matched, err :=  ForwardMatcher(args,
@@ -270,14 +270,14 @@ func ParseTokenMacroTP(argText string) (Token, error) {
             )
     
     if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroTP arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("fitting TokenMacroTP arguments: %s, %w", lineArgs, err)
     }
 	
-        argnnn := matched[0]
+        argNnn := matched[0]
     
 	return &TokenMacroTP{
 	
-        nnn: argnnn,
+        Nnn: argNnn,
     
 	}, nil
 }
@@ -285,7 +285,7 @@ func ParseTokenMacroTP(argText string) (Token, error) {
 func (t *TokenMacroTP) String() string {
 	var args []string
 	
-	args = append(args, t.nnn)
+	args = append(args, t.Nnn)
 	
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
@@ -311,17 +311,17 @@ type TokenMacroP struct {
 
 }
 
-func ParseTokenMacroP(argText string) (Token, error) {
-    args, _, err := ArgumentParser(argText)
+func ParseTokenMacroP(lineArgs string) (Token, error) {
+    args, _, err := ArgumentParser(lineArgs)
     if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroP arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("parse TokenMacroP arguments: %s, %w", lineArgs, err)
     }
     
       _, err =  BackwardMatcher(args,
             )
     
     if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroP arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("fitting TokenMacroP arguments: %s, %w", lineArgs, err)
     }
 	
 	return &TokenMacroP{
@@ -366,17 +366,17 @@ func (t *TokenMacroP) String() string {
 type TokenMacroIP struct {
 
 
-    designator string
+    Designator string
 
 
-    nnn string
+    Nnn string
 
 }
 
-func ParseTokenMacroIP(argText string) (Token, error) {
-    args, _, err := ArgumentParser(argText)
+func ParseTokenMacroIP(lineArgs string) (Token, error) {
+    args, _, err := ArgumentParser(lineArgs)
     if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroIP arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("parse TokenMacroIP arguments: %s, %w", lineArgs, err)
     }
     
       matched, err :=  ForwardMatcher(args,
@@ -387,18 +387,18 @@ func ParseTokenMacroIP(argText string) (Token, error) {
             )
     
     if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroIP arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("fitting TokenMacroIP arguments: %s, %w", lineArgs, err)
     }
 	
-        argdesignator := matched[0]
+        argDesignator := matched[0]
     
-        argnnn := matched[1]
+        argNnn := matched[1]
     
 	return &TokenMacroIP{
 	
-        designator: argdesignator,
+        Designator: argDesignator,
     
-        nnn: argnnn,
+        Nnn: argNnn,
     
 	}, nil
 }
@@ -406,9 +406,9 @@ func ParseTokenMacroIP(argText string) (Token, error) {
 func (t *TokenMacroIP) String() string {
 	var args []string
 	
-	args = append(args, t.designator)
+	args = append(args, t.Designator)
 	
-	args = append(args, t.nnn)
+	args = append(args, t.Nnn)
 	
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
@@ -433,14 +433,14 @@ func (t *TokenMacroIP) String() string {
 type TokenMacroHP struct {
 
 
-    nnn string
+    Nnn string
 
 }
 
-func ParseTokenMacroHP(argText string) (Token, error) {
-    args, _, err := ArgumentParser(argText)
+func ParseTokenMacroHP(lineArgs string) (Token, error) {
+    args, _, err := ArgumentParser(lineArgs)
     if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroHP arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("parse TokenMacroHP arguments: %s, %w", lineArgs, err)
     }
     
       matched, err :=  ForwardMatcher(args,
@@ -449,14 +449,14 @@ func ParseTokenMacroHP(argText string) (Token, error) {
             )
     
     if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroHP arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("fitting TokenMacroHP arguments: %s, %w", lineArgs, err)
     }
 	
-        argnnn := matched[0]
+        argNnn := matched[0]
     
 	return &TokenMacroHP{
 	
-        nnn: argnnn,
+        Nnn: argNnn,
     
 	}, nil
 }
@@ -464,7 +464,7 @@ func ParseTokenMacroHP(argText string) (Token, error) {
 func (t *TokenMacroHP) String() string {
 	var args []string
 	
-	args = append(args, t.nnn)
+	args = append(args, t.Nnn)
 	
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
@@ -490,14 +490,14 @@ func (t *TokenMacroHP) String() string {
 type TokenMacroRS struct {
 
 
-    nnn string
+    Nnn string
 
 }
 
-func ParseTokenMacroRS(argText string) (Token, error) {
-    args, _, err := ArgumentParser(argText)
+func ParseTokenMacroRS(lineArgs string) (Token, error) {
+    args, _, err := ArgumentParser(lineArgs)
     if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroRS arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("parse TokenMacroRS arguments: %s, %w", lineArgs, err)
     }
     
       matched, err :=  ForwardMatcher(args,
@@ -506,14 +506,14 @@ func ParseTokenMacroRS(argText string) (Token, error) {
             )
     
     if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroRS arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("fitting TokenMacroRS arguments: %s, %w", lineArgs, err)
     }
 	
-        argnnn := matched[0]
+        argNnn := matched[0]
     
 	return &TokenMacroRS{
 	
-        nnn: argnnn,
+        Nnn: argNnn,
     
 	}, nil
 }
@@ -521,7 +521,7 @@ func ParseTokenMacroRS(argText string) (Token, error) {
 func (t *TokenMacroRS) String() string {
 	var args []string
 	
-	args = append(args, t.nnn)
+	args = append(args, t.Nnn)
 	
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
@@ -544,14 +544,14 @@ func (t *TokenMacroRS) String() string {
 type TokenMacroRE struct {
 
 
-    nnn string
+    Nnn string
 
 }
 
-func ParseTokenMacroRE(argText string) (Token, error) {
-    args, _, err := ArgumentParser(argText)
+func ParseTokenMacroRE(lineArgs string) (Token, error) {
+    args, _, err := ArgumentParser(lineArgs)
     if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroRE arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("parse TokenMacroRE arguments: %s, %w", lineArgs, err)
     }
     
       matched, err :=  ForwardMatcher(args,
@@ -560,14 +560,14 @@ func ParseTokenMacroRE(argText string) (Token, error) {
             )
     
     if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroRE arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("fitting TokenMacroRE arguments: %s, %w", lineArgs, err)
     }
 	
-        argnnn := matched[0]
+        argNnn := matched[0]
     
 	return &TokenMacroRE{
 	
-        nnn: argnnn,
+        Nnn: argNnn,
     
 	}, nil
 }
@@ -575,7 +575,7 @@ func ParseTokenMacroRE(argText string) (Token, error) {
 func (t *TokenMacroRE) String() string {
 	var args []string
 	
-	args = append(args, t.nnn)
+	args = append(args, t.Nnn)
 	
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
@@ -596,14 +596,14 @@ func (t *TokenMacroRE) String() string {
 type TokenMacroSM struct {
 
 
-    text string
+    Text string
 
 }
 
-func ParseTokenMacroSM(argText string) (Token, error) {
-    args, _, err := ArgumentParser(argText)
+func ParseTokenMacroSM(lineArgs string) (Token, error) {
+    args, _, err := ArgumentParser(lineArgs)
     if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroSM arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("parse TokenMacroSM arguments: %s, %w", lineArgs, err)
     }
     
       matched, err :=  ForwardMatcher(args,
@@ -612,14 +612,14 @@ func ParseTokenMacroSM(argText string) (Token, error) {
             )
     
     if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroSM arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("fitting TokenMacroSM arguments: %s, %w", lineArgs, err)
     }
 	
-        argtext := matched[0]
+        argText := matched[0]
     
 	return &TokenMacroSM{
 	
-        text: argtext,
+        Text: argText,
     
 	}, nil
 }
@@ -627,7 +627,7 @@ func ParseTokenMacroSM(argText string) (Token, error) {
 func (t *TokenMacroSM) String() string {
 	var args []string
 	
-	args = append(args, t.text)
+	args = append(args, t.Text)
 	
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
@@ -648,14 +648,14 @@ func (t *TokenMacroSM) String() string {
 type TokenMacroSB struct {
 
 
-    text string
+    Text string
 
 }
 
-func ParseTokenMacroSB(argText string) (Token, error) {
-    args, _, err := ArgumentParser(argText)
+func ParseTokenMacroSB(lineArgs string) (Token, error) {
+    args, _, err := ArgumentParser(lineArgs)
     if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroSB arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("parse TokenMacroSB arguments: %s, %w", lineArgs, err)
     }
     
       matched, err :=  ForwardMatcher(args,
@@ -664,14 +664,14 @@ func ParseTokenMacroSB(argText string) (Token, error) {
             )
     
     if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroSB arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("fitting TokenMacroSB arguments: %s, %w", lineArgs, err)
     }
 	
-        argtext := matched[0]
+        argText := matched[0]
     
 	return &TokenMacroSB{
 	
-        text: argtext,
+        Text: argText,
     
 	}, nil
 }
@@ -679,7 +679,7 @@ func ParseTokenMacroSB(argText string) (Token, error) {
 func (t *TokenMacroSB) String() string {
 	var args []string
 	
-	args = append(args, t.text)
+	args = append(args, t.Text)
 	
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
@@ -707,14 +707,14 @@ func (t *TokenMacroSB) String() string {
 type TokenMacroBI struct {
 
 
-    text string
+    Text string
 
 }
 
-func ParseTokenMacroBI(argText string) (Token, error) {
-    args, _, err := ArgumentParser(argText)
+func ParseTokenMacroBI(lineArgs string) (Token, error) {
+    args, _, err := ArgumentParser(lineArgs)
     if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroBI arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("parse TokenMacroBI arguments: %s, %w", lineArgs, err)
     }
     
       matched, err :=  BackwardMatcher(args,
@@ -723,14 +723,14 @@ func ParseTokenMacroBI(argText string) (Token, error) {
             )
     
     if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroBI arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("fitting TokenMacroBI arguments: %s, %w", lineArgs, err)
     }
 	
-        argtext := matched[0]
+        argText := matched[0]
     
 	return &TokenMacroBI{
 	
-        text: argtext,
+        Text: argText,
     
 	}, nil
 }
@@ -738,7 +738,7 @@ func ParseTokenMacroBI(argText string) (Token, error) {
 func (t *TokenMacroBI) String() string {
 	var args []string
 	
-	args = append(args, t.text)
+	args = append(args, t.Text)
 	
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
@@ -759,14 +759,14 @@ func (t *TokenMacroBI) String() string {
 type TokenMacroIB struct {
 
 
-    text string
+    Text string
 
 }
 
-func ParseTokenMacroIB(argText string) (Token, error) {
-    args, _, err := ArgumentParser(argText)
+func ParseTokenMacroIB(lineArgs string) (Token, error) {
+    args, _, err := ArgumentParser(lineArgs)
     if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroIB arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("parse TokenMacroIB arguments: %s, %w", lineArgs, err)
     }
     
       matched, err :=  BackwardMatcher(args,
@@ -775,14 +775,14 @@ func ParseTokenMacroIB(argText string) (Token, error) {
             )
     
     if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroIB arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("fitting TokenMacroIB arguments: %s, %w", lineArgs, err)
     }
 	
-        argtext := matched[0]
+        argText := matched[0]
     
 	return &TokenMacroIB{
 	
-        text: argtext,
+        Text: argText,
     
 	}, nil
 }
@@ -790,7 +790,7 @@ func ParseTokenMacroIB(argText string) (Token, error) {
 func (t *TokenMacroIB) String() string {
 	var args []string
 	
-	args = append(args, t.text)
+	args = append(args, t.Text)
 	
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
@@ -811,14 +811,14 @@ func (t *TokenMacroIB) String() string {
 type TokenMacroRI struct {
 
 
-    text string
+    Text string
 
 }
 
-func ParseTokenMacroRI(argText string) (Token, error) {
-    args, _, err := ArgumentParser(argText)
+func ParseTokenMacroRI(lineArgs string) (Token, error) {
+    args, _, err := ArgumentParser(lineArgs)
     if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroRI arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("parse TokenMacroRI arguments: %s, %w", lineArgs, err)
     }
     
       matched, err :=  BackwardMatcher(args,
@@ -827,14 +827,14 @@ func ParseTokenMacroRI(argText string) (Token, error) {
             )
     
     if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroRI arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("fitting TokenMacroRI arguments: %s, %w", lineArgs, err)
     }
 	
-        argtext := matched[0]
+        argText := matched[0]
     
 	return &TokenMacroRI{
 	
-        text: argtext,
+        Text: argText,
     
 	}, nil
 }
@@ -842,7 +842,7 @@ func ParseTokenMacroRI(argText string) (Token, error) {
 func (t *TokenMacroRI) String() string {
 	var args []string
 	
-	args = append(args, t.text)
+	args = append(args, t.Text)
 	
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
@@ -863,14 +863,14 @@ func (t *TokenMacroRI) String() string {
 type TokenMacroIR struct {
 
 
-    text string
+    Text string
 
 }
 
-func ParseTokenMacroIR(argText string) (Token, error) {
-    args, _, err := ArgumentParser(argText)
+func ParseTokenMacroIR(lineArgs string) (Token, error) {
+    args, _, err := ArgumentParser(lineArgs)
     if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroIR arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("parse TokenMacroIR arguments: %s, %w", lineArgs, err)
     }
     
       matched, err :=  BackwardMatcher(args,
@@ -879,14 +879,14 @@ func ParseTokenMacroIR(argText string) (Token, error) {
             )
     
     if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroIR arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("fitting TokenMacroIR arguments: %s, %w", lineArgs, err)
     }
 	
-        argtext := matched[0]
+        argText := matched[0]
     
 	return &TokenMacroIR{
 	
-        text: argtext,
+        Text: argText,
     
 	}, nil
 }
@@ -894,7 +894,7 @@ func ParseTokenMacroIR(argText string) (Token, error) {
 func (t *TokenMacroIR) String() string {
 	var args []string
 	
-	args = append(args, t.text)
+	args = append(args, t.Text)
 	
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
@@ -915,14 +915,14 @@ func (t *TokenMacroIR) String() string {
 type TokenMacroBR struct {
 
 
-    text string
+    Text string
 
 }
 
-func ParseTokenMacroBR(argText string) (Token, error) {
-    args, _, err := ArgumentParser(argText)
+func ParseTokenMacroBR(lineArgs string) (Token, error) {
+    args, _, err := ArgumentParser(lineArgs)
     if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroBR arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("parse TokenMacroBR arguments: %s, %w", lineArgs, err)
     }
     
       matched, err :=  BackwardMatcher(args,
@@ -931,14 +931,14 @@ func ParseTokenMacroBR(argText string) (Token, error) {
             )
     
     if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroBR arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("fitting TokenMacroBR arguments: %s, %w", lineArgs, err)
     }
 	
-        argtext := matched[0]
+        argText := matched[0]
     
 	return &TokenMacroBR{
 	
-        text: argtext,
+        Text: argText,
     
 	}, nil
 }
@@ -946,7 +946,7 @@ func ParseTokenMacroBR(argText string) (Token, error) {
 func (t *TokenMacroBR) String() string {
 	var args []string
 	
-	args = append(args, t.text)
+	args = append(args, t.Text)
 	
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
@@ -967,14 +967,14 @@ func (t *TokenMacroBR) String() string {
 type TokenMacroRB struct {
 
 
-    text string
+    Text string
 
 }
 
-func ParseTokenMacroRB(argText string) (Token, error) {
-    args, _, err := ArgumentParser(argText)
+func ParseTokenMacroRB(lineArgs string) (Token, error) {
+    args, _, err := ArgumentParser(lineArgs)
     if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroRB arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("parse TokenMacroRB arguments: %s, %w", lineArgs, err)
     }
     
       matched, err :=  BackwardMatcher(args,
@@ -983,14 +983,14 @@ func ParseTokenMacroRB(argText string) (Token, error) {
             )
     
     if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroRB arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("fitting TokenMacroRB arguments: %s, %w", lineArgs, err)
     }
 	
-        argtext := matched[0]
+        argText := matched[0]
     
 	return &TokenMacroRB{
 	
-        text: argtext,
+        Text: argText,
     
 	}, nil
 }
@@ -998,7 +998,7 @@ func ParseTokenMacroRB(argText string) (Token, error) {
 func (t *TokenMacroRB) String() string {
 	var args []string
 	
-	args = append(args, t.text)
+	args = append(args, t.Text)
 	
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
@@ -1020,14 +1020,14 @@ func (t *TokenMacroRB) String() string {
 type TokenMacroB struct {
 
 
-    text string
+    Text string
 
 }
 
-func ParseTokenMacroB(argText string) (Token, error) {
-    args, _, err := ArgumentParser(argText)
+func ParseTokenMacroB(lineArgs string) (Token, error) {
+    args, _, err := ArgumentParser(lineArgs)
     if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroB arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("parse TokenMacroB arguments: %s, %w", lineArgs, err)
     }
     
       matched, err :=  ForwardMatcher(args,
@@ -1036,14 +1036,14 @@ func ParseTokenMacroB(argText string) (Token, error) {
             )
     
     if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroB arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("fitting TokenMacroB arguments: %s, %w", lineArgs, err)
     }
 	
-        argtext := matched[0]
+        argText := matched[0]
     
 	return &TokenMacroB{
 	
-        text: argtext,
+        Text: argText,
     
 	}, nil
 }
@@ -1051,7 +1051,7 @@ func ParseTokenMacroB(argText string) (Token, error) {
 func (t *TokenMacroB) String() string {
 	var args []string
 	
-	args = append(args, t.text)
+	args = append(args, t.Text)
 	
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
@@ -1072,14 +1072,14 @@ func (t *TokenMacroB) String() string {
 type TokenMacroI struct {
 
 
-    text string
+    Text string
 
 }
 
-func ParseTokenMacroI(argText string) (Token, error) {
-    args, _, err := ArgumentParser(argText)
+func ParseTokenMacroI(lineArgs string) (Token, error) {
+    args, _, err := ArgumentParser(lineArgs)
     if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroI arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("parse TokenMacroI arguments: %s, %w", lineArgs, err)
     }
     
       matched, err :=  ForwardMatcher(args,
@@ -1088,14 +1088,14 @@ func ParseTokenMacroI(argText string) (Token, error) {
             )
     
     if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroI arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("fitting TokenMacroI arguments: %s, %w", lineArgs, err)
     }
 	
-        argtext := matched[0]
+        argText := matched[0]
     
 	return &TokenMacroI{
 	
-        text: argtext,
+        Text: argText,
     
 	}, nil
 }
@@ -1103,7 +1103,7 @@ func ParseTokenMacroI(argText string) (Token, error) {
 func (t *TokenMacroI) String() string {
 	var args []string
 	
-	args = append(args, t.text)
+	args = append(args, t.Text)
 	
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
@@ -1126,17 +1126,17 @@ type TokenMacroDT struct {
 
 }
 
-func ParseTokenMacroDT(argText string) (Token, error) {
-    args, _, err := ArgumentParser(argText)
+func ParseTokenMacroDT(lineArgs string) (Token, error) {
+    args, _, err := ArgumentParser(lineArgs)
     if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroDT arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("parse TokenMacroDT arguments: %s, %w", lineArgs, err)
     }
     
       _, err =  BackwardMatcher(args,
             )
     
     if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroDT arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("fitting TokenMacroDT arguments: %s, %w", lineArgs, err)
     }
 	
 	return &TokenMacroDT{
@@ -1171,14 +1171,14 @@ func (t *TokenMacroDT) String() string {
 type TokenMacroPD struct {
 
 
-    nnn string
+    Nnn string
 
 }
 
-func ParseTokenMacroPD(argText string) (Token, error) {
-    args, _, err := ArgumentParser(argText)
+func ParseTokenMacroPD(lineArgs string) (Token, error) {
+    args, _, err := ArgumentParser(lineArgs)
     if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroPD arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("parse TokenMacroPD arguments: %s, %w", lineArgs, err)
     }
     
       matched, err :=  ForwardMatcher(args,
@@ -1187,14 +1187,14 @@ func ParseTokenMacroPD(argText string) (Token, error) {
             )
     
     if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroPD arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("fitting TokenMacroPD arguments: %s, %w", lineArgs, err)
     }
 	
-        argnnn := matched[0]
+        argNnn := matched[0]
     
 	return &TokenMacroPD{
 	
-        nnn: argnnn,
+        Nnn: argNnn,
     
 	}, nil
 }
@@ -1202,7 +1202,7 @@ func ParseTokenMacroPD(argText string) (Token, error) {
 func (t *TokenMacroPD) String() string {
 	var args []string
 	
-	args = append(args, t.nnn)
+	args = append(args, t.Nnn)
 	
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
@@ -1241,17 +1241,17 @@ func (t *TokenMacroPD) String() string {
 type TokenMacroAT struct {
 
 
-    system string
+    System string
 
 
-    release string
+    Release string
 
 }
 
-func ParseTokenMacroAT(argText string) (Token, error) {
-    args, _, err := ArgumentParser(argText)
+func ParseTokenMacroAT(lineArgs string) (Token, error) {
+    args, _, err := ArgumentParser(lineArgs)
     if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroAT arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("parse TokenMacroAT arguments: %s, %w", lineArgs, err)
     }
     
       matched, err :=  ForwardMatcher(args,
@@ -1262,18 +1262,18 @@ func ParseTokenMacroAT(argText string) (Token, error) {
             )
     
     if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroAT arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("fitting TokenMacroAT arguments: %s, %w", lineArgs, err)
     }
 	
-        argsystem := matched[0]
+        argSystem := matched[0]
     
-        argrelease := matched[1]
+        argRelease := matched[1]
     
 	return &TokenMacroAT{
 	
-        system: argsystem,
+        System: argSystem,
     
-        release: argrelease,
+        Release: argRelease,
     
 	}, nil
 }
@@ -1281,9 +1281,9 @@ func ParseTokenMacroAT(argText string) (Token, error) {
 func (t *TokenMacroAT) String() string {
 	var args []string
 	
-	args = append(args, t.system)
+	args = append(args, t.System)
 	
-	args = append(args, t.release)
+	args = append(args, t.Release)
 	
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
@@ -1324,14 +1324,14 @@ func (t *TokenMacroAT) String() string {
 type TokenMacroUC struct {
 
 
-    version string
+    Version string
 
 }
 
-func ParseTokenMacroUC(argText string) (Token, error) {
-    args, _, err := ArgumentParser(argText)
+func ParseTokenMacroUC(lineArgs string) (Token, error) {
+    args, _, err := ArgumentParser(lineArgs)
     if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroUC arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("parse TokenMacroUC arguments: %s, %w", lineArgs, err)
     }
     
       matched, err :=  ForwardMatcher(args,
@@ -1340,14 +1340,14 @@ func ParseTokenMacroUC(argText string) (Token, error) {
             )
     
     if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroUC arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("fitting TokenMacroUC arguments: %s, %w", lineArgs, err)
     }
 	
-        argversion := matched[0]
+        argVersion := matched[0]
     
 	return &TokenMacroUC{
 	
-        version: argversion,
+        Version: argVersion,
     
 	}, nil
 }
@@ -1355,7 +1355,7 @@ func ParseTokenMacroUC(argText string) (Token, error) {
 func (t *TokenMacroUC) String() string {
 	var args []string
 	
-	args = append(args, t.version)
+	args = append(args, t.Version)
 	
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
@@ -1378,17 +1378,17 @@ type TokenMacroPT struct {
 
 }
 
-func ParseTokenMacroPT(argText string) (Token, error) {
-    args, _, err := ArgumentParser(argText)
+func ParseTokenMacroPT(lineArgs string) (Token, error) {
+    args, _, err := ArgumentParser(lineArgs)
     if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroPT arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("parse TokenMacroPT arguments: %s, %w", lineArgs, err)
     }
     
       _, err =  BackwardMatcher(args,
             )
     
     if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroPT arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("fitting TokenMacroPT arguments: %s, %w", lineArgs, err)
     }
 	
 	return &TokenMacroPT{
@@ -1422,17 +1422,17 @@ type TokenMacroBT struct {
 
 }
 
-func ParseTokenMacroBT(argText string) (Token, error) {
-    args, _, err := ArgumentParser(argText)
+func ParseTokenMacroBT(lineArgs string) (Token, error) {
+    args, _, err := ArgumentParser(lineArgs)
     if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroBT arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("parse TokenMacroBT arguments: %s, %w", lineArgs, err)
     }
     
       _, err =  BackwardMatcher(args,
             )
     
     if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroBT arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("fitting TokenMacroBT arguments: %s, %w", lineArgs, err)
     }
 	
 	return &TokenMacroBT{
@@ -1461,14 +1461,14 @@ func (t *TokenMacroBT) String() string {
 type TokenMacroCT struct {
 
 
-    key string
+    Key string
 
 }
 
-func ParseTokenMacroCT(argText string) (Token, error) {
-    args, _, err := ArgumentParser(argText)
+func ParseTokenMacroCT(lineArgs string) (Token, error) {
+    args, _, err := ArgumentParser(lineArgs)
     if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroCT arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("parse TokenMacroCT arguments: %s, %w", lineArgs, err)
     }
     
       matched, err :=  BackwardMatcher(args,
@@ -1477,14 +1477,14 @@ func ParseTokenMacroCT(argText string) (Token, error) {
             )
     
     if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroCT arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("fitting TokenMacroCT arguments: %s, %w", lineArgs, err)
     }
 	
-        argkey := matched[0]
+        argKey := matched[0]
     
 	return &TokenMacroCT{
 	
-        key: argkey,
+        Key: argKey,
     
 	}, nil
 }
@@ -1492,7 +1492,7 @@ func ParseTokenMacroCT(argText string) (Token, error) {
 func (t *TokenMacroCT) String() string {
 	var args []string
 	
-	args = append(args, t.key)
+	args = append(args, t.Key)
 	
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
@@ -1513,17 +1513,17 @@ type TokenMacroCW struct {
 
 }
 
-func ParseTokenMacroCW(argText string) (Token, error) {
-    args, _, err := ArgumentParser(argText)
+func ParseTokenMacroCW(lineArgs string) (Token, error) {
+    args, _, err := ArgumentParser(lineArgs)
     if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroCW arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("parse TokenMacroCW arguments: %s, %w", lineArgs, err)
     }
     
       _, err =  BackwardMatcher(args,
             )
     
     if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroCW arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("fitting TokenMacroCW arguments: %s, %w", lineArgs, err)
     }
 	
 	return &TokenMacroCW{
@@ -1553,17 +1553,17 @@ type TokenMacroDs struct {
 
 }
 
-func ParseTokenMacroDs(argText string) (Token, error) {
-    args, _, err := ArgumentParser(argText)
+func ParseTokenMacroDs(lineArgs string) (Token, error) {
+    args, _, err := ArgumentParser(lineArgs)
     if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroDs arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("parse TokenMacroDs arguments: %s, %w", lineArgs, err)
     }
     
       _, err =  BackwardMatcher(args,
             )
     
     if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroDs arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("fitting TokenMacroDs arguments: %s, %w", lineArgs, err)
     }
 	
 	return &TokenMacroDs{
@@ -1593,17 +1593,17 @@ type TokenMacroDe struct {
 
 }
 
-func ParseTokenMacroDe(argText string) (Token, error) {
-    args, _, err := ArgumentParser(argText)
+func ParseTokenMacroDe(lineArgs string) (Token, error) {
+    args, _, err := ArgumentParser(lineArgs)
     if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroDe arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("parse TokenMacroDe arguments: %s, %w", lineArgs, err)
     }
     
       _, err =  BackwardMatcher(args,
             )
     
     if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroDe arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("fitting TokenMacroDe arguments: %s, %w", lineArgs, err)
     }
 	
 	return &TokenMacroDe{
@@ -1633,14 +1633,14 @@ func (t *TokenMacroDe) String() string {
 type TokenMacroEX struct {
 
 
-    indent string
+    Indent string
 
 }
 
-func ParseTokenMacroEX(argText string) (Token, error) {
-    args, _, err := ArgumentParser(argText)
+func ParseTokenMacroEX(lineArgs string) (Token, error) {
+    args, _, err := ArgumentParser(lineArgs)
     if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroEX arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("parse TokenMacroEX arguments: %s, %w", lineArgs, err)
     }
     
       matched, err :=  ForwardMatcher(args,
@@ -1649,14 +1649,14 @@ func ParseTokenMacroEX(argText string) (Token, error) {
             )
     
     if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroEX arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("fitting TokenMacroEX arguments: %s, %w", lineArgs, err)
     }
 	
-        argindent := matched[0]
+        argIndent := matched[0]
     
 	return &TokenMacroEX{
 	
-        indent: argindent,
+        Indent: argIndent,
     
 	}, nil
 }
@@ -1664,7 +1664,7 @@ func ParseTokenMacroEX(argText string) (Token, error) {
 func (t *TokenMacroEX) String() string {
 	var args []string
 	
-	args = append(args, t.indent)
+	args = append(args, t.Indent)
 	
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
@@ -1685,17 +1685,17 @@ type TokenMacroEE struct {
 
 }
 
-func ParseTokenMacroEE(argText string) (Token, error) {
-    args, _, err := ArgumentParser(argText)
+func ParseTokenMacroEE(lineArgs string) (Token, error) {
+    args, _, err := ArgumentParser(lineArgs)
     if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroEE arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("parse TokenMacroEE arguments: %s, %w", lineArgs, err)
     }
     
       _, err =  BackwardMatcher(args,
             )
     
     if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroEE arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("fitting TokenMacroEE arguments: %s, %w", lineArgs, err)
     }
 	
 	return &TokenMacroEE{
@@ -1726,14 +1726,14 @@ func (t *TokenMacroEE) String() string {
 type TokenMacroG struct {
 
 
-    text string
+    Text string
 
 }
 
-func ParseTokenMacroG(argText string) (Token, error) {
-    args, _, err := ArgumentParser(argText)
+func ParseTokenMacroG(lineArgs string) (Token, error) {
+    args, _, err := ArgumentParser(lineArgs)
     if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroG arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("parse TokenMacroG arguments: %s, %w", lineArgs, err)
     }
     
       matched, err :=  ForwardMatcher(args,
@@ -1742,14 +1742,14 @@ func ParseTokenMacroG(argText string) (Token, error) {
             )
     
     if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroG arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("fitting TokenMacroG arguments: %s, %w", lineArgs, err)
     }
 	
-        argtext := matched[0]
+        argText := matched[0]
     
 	return &TokenMacroG{
 	
-        text: argtext,
+        Text: argText,
     
 	}, nil
 }
@@ -1757,7 +1757,7 @@ func ParseTokenMacroG(argText string) (Token, error) {
 func (t *TokenMacroG) String() string {
 	var args []string
 	
-	args = append(args, t.text)
+	args = append(args, t.Text)
 	
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
@@ -1779,14 +1779,14 @@ func (t *TokenMacroG) String() string {
 type TokenMacroGL struct {
 
 
-    text string
+    Text string
 
 }
 
-func ParseTokenMacroGL(argText string) (Token, error) {
-    args, _, err := ArgumentParser(argText)
+func ParseTokenMacroGL(lineArgs string) (Token, error) {
+    args, _, err := ArgumentParser(lineArgs)
     if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroGL arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("parse TokenMacroGL arguments: %s, %w", lineArgs, err)
     }
     
       matched, err :=  ForwardMatcher(args,
@@ -1795,14 +1795,14 @@ func ParseTokenMacroGL(argText string) (Token, error) {
             )
     
     if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroGL arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("fitting TokenMacroGL arguments: %s, %w", lineArgs, err)
     }
 	
-        argtext := matched[0]
+        argText := matched[0]
     
 	return &TokenMacroGL{
 	
-        text: argtext,
+        Text: argText,
     
 	}, nil
 }
@@ -1810,7 +1810,7 @@ func ParseTokenMacroGL(argText string) (Token, error) {
 func (t *TokenMacroGL) String() string {
 	var args []string
 	
-	args = append(args, t.text)
+	args = append(args, t.Text)
 	
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
@@ -1832,14 +1832,14 @@ func (t *TokenMacroGL) String() string {
 type TokenMacroHB struct {
 
 
-    text string
+    Text string
 
 }
 
-func ParseTokenMacroHB(argText string) (Token, error) {
-    args, _, err := ArgumentParser(argText)
+func ParseTokenMacroHB(lineArgs string) (Token, error) {
+    args, _, err := ArgumentParser(lineArgs)
     if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroHB arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("parse TokenMacroHB arguments: %s, %w", lineArgs, err)
     }
     
       matched, err :=  ForwardMatcher(args,
@@ -1848,14 +1848,14 @@ func ParseTokenMacroHB(argText string) (Token, error) {
             )
     
     if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroHB arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("fitting TokenMacroHB arguments: %s, %w", lineArgs, err)
     }
 	
-        argtext := matched[0]
+        argText := matched[0]
     
 	return &TokenMacroHB{
 	
-        text: argtext,
+        Text: argText,
     
 	}, nil
 }
@@ -1863,7 +1863,7 @@ func ParseTokenMacroHB(argText string) (Token, error) {
 func (t *TokenMacroHB) String() string {
 	var args []string
 	
-	args = append(args, t.text)
+	args = append(args, t.Text)
 	
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
@@ -1883,14 +1883,14 @@ func (t *TokenMacroHB) String() string {
 type TokenMacroTB struct {
 
 
-    text string
+    Text string
 
 }
 
-func ParseTokenMacroTB(argText string) (Token, error) {
-    args, _, err := ArgumentParser(argText)
+func ParseTokenMacroTB(lineArgs string) (Token, error) {
+    args, _, err := ArgumentParser(lineArgs)
     if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroTB arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("parse TokenMacroTB arguments: %s, %w", lineArgs, err)
     }
     
       matched, err :=  ForwardMatcher(args,
@@ -1899,14 +1899,14 @@ func ParseTokenMacroTB(argText string) (Token, error) {
             )
     
     if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroTB arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("fitting TokenMacroTB arguments: %s, %w", lineArgs, err)
     }
 	
-        argtext := matched[0]
+        argText := matched[0]
     
 	return &TokenMacroTB{
 	
-        text: argtext,
+        Text: argText,
     
 	}, nil
 }
@@ -1914,7 +1914,7 @@ func ParseTokenMacroTB(argText string) (Token, error) {
 func (t *TokenMacroTB) String() string {
 	var args []string
 	
-	args = append(args, t.text)
+	args = append(args, t.Text)
 	
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
@@ -1936,20 +1936,20 @@ func (t *TokenMacroTB) String() string {
 type TokenMacroMS struct {
 
 
-    title string
+    Title string
 
 
-    sect string
+    Sect string
 
 
-    punct string
+    Punct string
 
 }
 
-func ParseTokenMacroMS(argText string) (Token, error) {
-    args, _, err := ArgumentParser(argText)
+func ParseTokenMacroMS(lineArgs string) (Token, error) {
+    args, _, err := ArgumentParser(lineArgs)
     if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroMS arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("parse TokenMacroMS arguments: %s, %w", lineArgs, err)
     }
     
       matched, err :=  ForwardMatcher(args,
@@ -1962,22 +1962,22 @@ func ParseTokenMacroMS(argText string) (Token, error) {
             )
     
     if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroMS arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("fitting TokenMacroMS arguments: %s, %w", lineArgs, err)
     }
 	
-        argtitle := matched[0]
+        argTitle := matched[0]
     
-        argsect := matched[1]
+        argSect := matched[1]
     
-        argpunct := matched[2]
+        argPunct := matched[2]
     
 	return &TokenMacroMS{
 	
-        title: argtitle,
+        Title: argTitle,
     
-        sect: argsect,
+        Sect: argSect,
     
-        punct: argpunct,
+        Punct: argPunct,
     
 	}, nil
 }
@@ -1985,11 +1985,11 @@ func ParseTokenMacroMS(argText string) (Token, error) {
 func (t *TokenMacroMS) String() string {
 	var args []string
 	
-	args = append(args, t.title)
+	args = append(args, t.Title)
 	
-	args = append(args, t.sect)
+	args = append(args, t.Sect)
 	
-	args = append(args, t.punct)
+	args = append(args, t.Punct)
 	
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
@@ -2016,14 +2016,14 @@ type TokenMacroNT struct {
     C string
 
 
-    title string
+    Title string
 
 }
 
-func ParseTokenMacroNT(argText string) (Token, error) {
-    args, _, err := ArgumentParser(argText)
+func ParseTokenMacroNT(lineArgs string) (Token, error) {
+    args, _, err := ArgumentParser(lineArgs)
     if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroNT arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("parse TokenMacroNT arguments: %s, %w", lineArgs, err)
     }
     
       matched, err :=  ForwardMatcher(args,
@@ -2034,18 +2034,18 @@ func ParseTokenMacroNT(argText string) (Token, error) {
             )
     
     if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroNT arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("fitting TokenMacroNT arguments: %s, %w", lineArgs, err)
     }
 	
         argC := matched[0]
     
-        argtitle := matched[1]
+        argTitle := matched[1]
     
 	return &TokenMacroNT{
 	
         C: argC,
     
-        title: argtitle,
+        Title: argTitle,
     
 	}, nil
 }
@@ -2055,7 +2055,7 @@ func (t *TokenMacroNT) String() string {
 	
 	args = append(args, t.C)
 	
-	args = append(args, t.title)
+	args = append(args, t.Title)
 	
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
@@ -2076,17 +2076,17 @@ type TokenMacroNE struct {
 
 }
 
-func ParseTokenMacroNE(argText string) (Token, error) {
-    args, _, err := ArgumentParser(argText)
+func ParseTokenMacroNE(lineArgs string) (Token, error) {
+    args, _, err := ArgumentParser(lineArgs)
     if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroNE arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("parse TokenMacroNE arguments: %s, %w", lineArgs, err)
     }
     
       _, err =  BackwardMatcher(args,
             )
     
     if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroNE arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("fitting TokenMacroNE arguments: %s, %w", lineArgs, err)
     }
 	
 	return &TokenMacroNE{
@@ -2116,17 +2116,17 @@ func (t *TokenMacroNE) String() string {
 type TokenMacroPN struct {
 
 
-    path string
+    Path string
 
 
-    punct string
+    Punct string
 
 }
 
-func ParseTokenMacroPN(argText string) (Token, error) {
-    args, _, err := ArgumentParser(argText)
+func ParseTokenMacroPN(lineArgs string) (Token, error) {
+    args, _, err := ArgumentParser(lineArgs)
     if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroPN arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("parse TokenMacroPN arguments: %s, %w", lineArgs, err)
     }
     
       matched, err :=  ForwardMatcher(args,
@@ -2137,18 +2137,18 @@ func ParseTokenMacroPN(argText string) (Token, error) {
             )
     
     if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroPN arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("fitting TokenMacroPN arguments: %s, %w", lineArgs, err)
     }
 	
-        argpath := matched[0]
+        argPath := matched[0]
     
-        argpunct := matched[1]
+        argPunct := matched[1]
     
 	return &TokenMacroPN{
 	
-        path: argpath,
+        Path: argPath,
     
-        punct: argpunct,
+        Punct: argPunct,
     
 	}, nil
 }
@@ -2156,9 +2156,9 @@ func ParseTokenMacroPN(argText string) (Token, error) {
 func (t *TokenMacroPN) String() string {
 	var args []string
 	
-	args = append(args, t.path)
+	args = append(args, t.Path)
 	
-	args = append(args, t.punct)
+	args = append(args, t.Punct)
 	
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
@@ -2180,20 +2180,20 @@ func (t *TokenMacroPN) String() string {
 type TokenMacroPn struct {
 
 
-    punct0 string
+    Punct string
 
 
-    path string
+    Path string
 
 
-    punct1 string
+    Punct2 string
 
 }
 
-func ParseTokenMacroPn(argText string) (Token, error) {
-    args, _, err := ArgumentParser(argText)
+func ParseTokenMacroPn(lineArgs string) (Token, error) {
+    args, _, err := ArgumentParser(lineArgs)
     if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroPn arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("parse TokenMacroPn arguments: %s, %w", lineArgs, err)
     }
     
       matched, err :=  BackwardMatcher(args,
@@ -2206,22 +2206,22 @@ func ParseTokenMacroPn(argText string) (Token, error) {
             )
     
     if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroPn arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("fitting TokenMacroPn arguments: %s, %w", lineArgs, err)
     }
 	
-        argpunct0 := matched[0]
+        argPunct := matched[0]
     
-        argpath := matched[1]
+        argPath := matched[1]
     
-        argpunct1 := matched[2]
+        argPunct2 := matched[2]
     
 	return &TokenMacroPn{
 	
-        punct0: argpunct0,
+        Punct: argPunct,
     
-        path: argpath,
+        Path: argPath,
     
-        punct1: argpunct1,
+        Punct2: argPunct2,
     
 	}, nil
 }
@@ -2229,11 +2229,11 @@ func ParseTokenMacroPn(argText string) (Token, error) {
 func (t *TokenMacroPn) String() string {
 	var args []string
 	
-	args = append(args, t.punct0)
+	args = append(args, t.Punct)
 	
-	args = append(args, t.path)
+	args = append(args, t.Path)
 	
-	args = append(args, t.punct1)
+	args = append(args, t.Punct2)
 	
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
@@ -2254,17 +2254,17 @@ type TokenMacroR struct {
 
 }
 
-func ParseTokenMacroR(argText string) (Token, error) {
-    args, _, err := ArgumentParser(argText)
+func ParseTokenMacroR(lineArgs string) (Token, error) {
+    args, _, err := ArgumentParser(lineArgs)
     if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroR arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("parse TokenMacroR arguments: %s, %w", lineArgs, err)
     }
     
       _, err =  BackwardMatcher(args,
             )
     
     if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroR arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("fitting TokenMacroR arguments: %s, %w", lineArgs, err)
     }
 	
 	return &TokenMacroR{
@@ -2294,17 +2294,17 @@ type TokenMacroRN struct {
 
 }
 
-func ParseTokenMacroRN(argText string) (Token, error) {
-    args, _, err := ArgumentParser(argText)
+func ParseTokenMacroRN(lineArgs string) (Token, error) {
+    args, _, err := ArgumentParser(lineArgs)
     if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroRN arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("parse TokenMacroRN arguments: %s, %w", lineArgs, err)
     }
     
       _, err =  BackwardMatcher(args,
             )
     
     if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroRN arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("fitting TokenMacroRN arguments: %s, %w", lineArgs, err)
     }
 	
 	return &TokenMacroRN{
@@ -2334,14 +2334,14 @@ func (t *TokenMacroRN) String() string {
 type TokenMacroVS struct {
 
 
-    Four string
+    Arg4 string
 
 }
 
-func ParseTokenMacroVS(argText string) (Token, error) {
-    args, _, err := ArgumentParser(argText)
+func ParseTokenMacroVS(lineArgs string) (Token, error) {
+    args, _, err := ArgumentParser(lineArgs)
     if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroVS arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("parse TokenMacroVS arguments: %s, %w", lineArgs, err)
     }
     
       matched, err :=  ForwardMatcher(args,
@@ -2350,14 +2350,14 @@ func ParseTokenMacroVS(argText string) (Token, error) {
             )
     
     if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroVS arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("fitting TokenMacroVS arguments: %s, %w", lineArgs, err)
     }
 	
-        argFour := matched[0]
+        argArg4 := matched[0]
     
 	return &TokenMacroVS{
 	
-        Four: argFour,
+        Arg4: argArg4,
     
 	}, nil
 }
@@ -2365,7 +2365,7 @@ func ParseTokenMacroVS(argText string) (Token, error) {
 func (t *TokenMacroVS) String() string {
 	var args []string
 	
-	args = append(args, t.Four)
+	args = append(args, t.Arg4)
 	
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
@@ -2386,17 +2386,17 @@ type TokenMacroVE struct {
 
 }
 
-func ParseTokenMacroVE(argText string) (Token, error) {
-    args, _, err := ArgumentParser(argText)
+func ParseTokenMacroVE(lineArgs string) (Token, error) {
+    args, _, err := ArgumentParser(lineArgs)
     if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroVE arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("parse TokenMacroVE arguments: %s, %w", lineArgs, err)
     }
     
       _, err =  BackwardMatcher(args,
             )
     
     if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroVE arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("fitting TokenMacroVE arguments: %s, %w", lineArgs, err)
     }
 	
 	return &TokenMacroVE{
@@ -2432,14 +2432,14 @@ func (t *TokenMacroVE) String() string {
 type TokenMacroRP struct {
 
 
-    no string
+    No string
 
 }
 
-func ParseTokenMacroRP(argText string) (Token, error) {
-    args, _, err := ArgumentParser(argText)
+func ParseTokenMacroRP(lineArgs string) (Token, error) {
+    args, _, err := ArgumentParser(lineArgs)
     if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroRP arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("parse TokenMacroRP arguments: %s, %w", lineArgs, err)
     }
     
       matched, err :=  ForwardMatcher(args,
@@ -2448,14 +2448,14 @@ func ParseTokenMacroRP(argText string) (Token, error) {
             )
     
     if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroRP arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("fitting TokenMacroRP arguments: %s, %w", lineArgs, err)
     }
 	
-        argno := matched[0]
+        argNo := matched[0]
     
 	return &TokenMacroRP{
 	
-        no: argno,
+        No: argNo,
     
 	}, nil
 }
@@ -2463,7 +2463,7 @@ func ParseTokenMacroRP(argText string) (Token, error) {
 func (t *TokenMacroRP) String() string {
 	var args []string
 	
-	args = append(args, t.no)
+	args = append(args, t.No)
 	
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
@@ -2485,17 +2485,17 @@ type TokenMacroP1 struct {
 
 }
 
-func ParseTokenMacroP1(argText string) (Token, error) {
-    args, _, err := ArgumentParser(argText)
+func ParseTokenMacroP1(lineArgs string) (Token, error) {
+    args, _, err := ArgumentParser(lineArgs)
     if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroP1 arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("parse TokenMacroP1 arguments: %s, %w", lineArgs, err)
     }
     
       _, err =  BackwardMatcher(args,
             )
     
     if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroP1 arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("fitting TokenMacroP1 arguments: %s, %w", lineArgs, err)
     }
 	
 	return &TokenMacroP1{
@@ -2530,10 +2530,10 @@ type TokenMacroDA struct {
 
 }
 
-func ParseTokenMacroDA(argText string) (Token, error) {
-    args, _, err := ArgumentParser(argText)
+func ParseTokenMacroDA(lineArgs string) (Token, error) {
+    args, _, err := ArgumentParser(lineArgs)
     if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroDA arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("parse TokenMacroDA arguments: %s, %w", lineArgs, err)
     }
     
       matched, err :=  ForwardMatcher(args,
@@ -2542,7 +2542,7 @@ func ParseTokenMacroDA(argText string) (Token, error) {
             )
     
     if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroDA arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("fitting TokenMacroDA arguments: %s, %w", lineArgs, err)
     }
 	
         argEllipse := matched[0]
@@ -2583,10 +2583,10 @@ type TokenMacroND struct {
 
 }
 
-func ParseTokenMacroND(argText string) (Token, error) {
-    args, _, err := ArgumentParser(argText)
+func ParseTokenMacroND(lineArgs string) (Token, error) {
+    args, _, err := ArgumentParser(lineArgs)
     if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroND arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("parse TokenMacroND arguments: %s, %w", lineArgs, err)
     }
     
       matched, err :=  ForwardMatcher(args,
@@ -2595,7 +2595,7 @@ func ParseTokenMacroND(argText string) (Token, error) {
             )
     
     if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroND arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("fitting TokenMacroND arguments: %s, %w", lineArgs, err)
     }
 	
         argEllipse := matched[0]
@@ -2633,17 +2633,17 @@ type TokenMacroTL struct {
 
 }
 
-func ParseTokenMacroTL(argText string) (Token, error) {
-    args, _, err := ArgumentParser(argText)
+func ParseTokenMacroTL(lineArgs string) (Token, error) {
+    args, _, err := ArgumentParser(lineArgs)
     if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroTL arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("parse TokenMacroTL arguments: %s, %w", lineArgs, err)
     }
     
       _, err =  BackwardMatcher(args,
             )
     
     if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroTL arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("fitting TokenMacroTL arguments: %s, %w", lineArgs, err)
     }
 	
 	return &TokenMacroTL{
@@ -2686,17 +2686,17 @@ type TokenMacroAU struct {
 
 }
 
-func ParseTokenMacroAU(argText string) (Token, error) {
-    args, _, err := ArgumentParser(argText)
+func ParseTokenMacroAU(lineArgs string) (Token, error) {
+    args, _, err := ArgumentParser(lineArgs)
     if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroAU arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("parse TokenMacroAU arguments: %s, %w", lineArgs, err)
     }
     
       _, err =  BackwardMatcher(args,
             )
     
     if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroAU arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("fitting TokenMacroAU arguments: %s, %w", lineArgs, err)
     }
 	
 	return &TokenMacroAU{
@@ -2727,17 +2727,17 @@ type TokenMacroAI struct {
 
 }
 
-func ParseTokenMacroAI(argText string) (Token, error) {
-    args, _, err := ArgumentParser(argText)
+func ParseTokenMacroAI(lineArgs string) (Token, error) {
+    args, _, err := ArgumentParser(lineArgs)
     if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroAI arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("parse TokenMacroAI arguments: %s, %w", lineArgs, err)
     }
     
       _, err =  BackwardMatcher(args,
             )
     
     if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroAI arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("fitting TokenMacroAI arguments: %s, %w", lineArgs, err)
     }
 	
 	return &TokenMacroAI{
@@ -2769,14 +2769,14 @@ func (t *TokenMacroAI) String() string {
 type TokenMacroAB struct {
 
 
-    no string
+    No string
 
 }
 
-func ParseTokenMacroAB(argText string) (Token, error) {
-    args, _, err := ArgumentParser(argText)
+func ParseTokenMacroAB(lineArgs string) (Token, error) {
+    args, _, err := ArgumentParser(lineArgs)
     if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroAB arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("parse TokenMacroAB arguments: %s, %w", lineArgs, err)
     }
     
       matched, err :=  ForwardMatcher(args,
@@ -2785,14 +2785,14 @@ func ParseTokenMacroAB(argText string) (Token, error) {
             )
     
     if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroAB arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("fitting TokenMacroAB arguments: %s, %w", lineArgs, err)
     }
 	
-        argno := matched[0]
+        argNo := matched[0]
     
 	return &TokenMacroAB{
 	
-        no: argno,
+        No: argNo,
     
 	}, nil
 }
@@ -2800,7 +2800,7 @@ func ParseTokenMacroAB(argText string) (Token, error) {
 func (t *TokenMacroAB) String() string {
 	var args []string
 	
-	args = append(args, t.no)
+	args = append(args, t.No)
 	
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
@@ -2821,17 +2821,17 @@ type TokenMacroAE struct {
 
 }
 
-func ParseTokenMacroAE(argText string) (Token, error) {
-    args, _, err := ArgumentParser(argText)
+func ParseTokenMacroAE(lineArgs string) (Token, error) {
+    args, _, err := ArgumentParser(lineArgs)
     if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroAE arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("parse TokenMacroAE arguments: %s, %w", lineArgs, err)
     }
     
       _, err =  BackwardMatcher(args,
             )
     
     if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroAE arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("fitting TokenMacroAE arguments: %s, %w", lineArgs, err)
     }
 	
 	return &TokenMacroAE{
@@ -2861,17 +2861,17 @@ type TokenMacroPP struct {
 
 }
 
-func ParseTokenMacroPP(argText string) (Token, error) {
-    args, _, err := ArgumentParser(argText)
+func ParseTokenMacroPP(lineArgs string) (Token, error) {
+    args, _, err := ArgumentParser(lineArgs)
     if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroPP arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("parse TokenMacroPP arguments: %s, %w", lineArgs, err)
     }
     
       _, err =  BackwardMatcher(args,
             )
     
     if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroPP arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("fitting TokenMacroPP arguments: %s, %w", lineArgs, err)
     }
 	
 	return &TokenMacroPP{
@@ -2901,17 +2901,17 @@ type TokenMacroLP struct {
 
 }
 
-func ParseTokenMacroLP(argText string) (Token, error) {
-    args, _, err := ArgumentParser(argText)
+func ParseTokenMacroLP(lineArgs string) (Token, error) {
+    args, _, err := ArgumentParser(lineArgs)
     if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroLP arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("parse TokenMacroLP arguments: %s, %w", lineArgs, err)
     }
     
       _, err =  BackwardMatcher(args,
             )
     
     if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroLP arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("fitting TokenMacroLP arguments: %s, %w", lineArgs, err)
     }
 	
 	return &TokenMacroLP{
@@ -2946,17 +2946,17 @@ type TokenMacroQP struct {
 
 }
 
-func ParseTokenMacroQP(argText string) (Token, error) {
-    args, _, err := ArgumentParser(argText)
+func ParseTokenMacroQP(lineArgs string) (Token, error) {
+    args, _, err := ArgumentParser(lineArgs)
     if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroQP arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("parse TokenMacroQP arguments: %s, %w", lineArgs, err)
     }
     
       _, err =  BackwardMatcher(args,
             )
     
     if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroQP arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("fitting TokenMacroQP arguments: %s, %w", lineArgs, err)
     }
 	
 	return &TokenMacroQP{
@@ -2992,17 +2992,17 @@ type TokenMacroQE struct {
 
 }
 
-func ParseTokenMacroQE(argText string) (Token, error) {
-    args, _, err := ArgumentParser(argText)
+func ParseTokenMacroQE(lineArgs string) (Token, error) {
+    args, _, err := ArgumentParser(lineArgs)
     if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroQE arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("parse TokenMacroQE arguments: %s, %w", lineArgs, err)
     }
     
       _, err =  BackwardMatcher(args,
             )
     
     if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroQE arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("fitting TokenMacroQE arguments: %s, %w", lineArgs, err)
     }
 	
 	return &TokenMacroQE{
@@ -3033,17 +3033,17 @@ type TokenMacroXP struct {
 
 }
 
-func ParseTokenMacroXP(argText string) (Token, error) {
-    args, _, err := ArgumentParser(argText)
+func ParseTokenMacroXP(lineArgs string) (Token, error) {
+    args, _, err := ArgumentParser(lineArgs)
     if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroXP arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("parse TokenMacroXP arguments: %s, %w", lineArgs, err)
     }
     
       _, err =  BackwardMatcher(args,
             )
     
     if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroXP arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("fitting TokenMacroXP arguments: %s, %w", lineArgs, err)
     }
 	
 	return &TokenMacroXP{
@@ -3081,17 +3081,17 @@ type TokenMacroNH struct {
     S string
 
 
-    level0 string
+    Level0 string
 
 
     Ellipse string
 
 }
 
-func ParseTokenMacroNH(argText string) (Token, error) {
-    args, _, err := ArgumentParser(argText)
+func ParseTokenMacroNH(lineArgs string) (Token, error) {
+    args, _, err := ArgumentParser(lineArgs)
     if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroNH arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("parse TokenMacroNH arguments: %s, %w", lineArgs, err)
     }
     
       matched, err :=  BackwardMatcher(args,
@@ -3104,12 +3104,12 @@ func ParseTokenMacroNH(argText string) (Token, error) {
             )
     
     if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroNH arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("fitting TokenMacroNH arguments: %s, %w", lineArgs, err)
     }
 	
         argS := matched[0]
     
-        arglevel0 := matched[1]
+        argLevel0 := matched[1]
     
         argEllipse := matched[2]
     
@@ -3117,7 +3117,7 @@ func ParseTokenMacroNH(argText string) (Token, error) {
 	
         S: argS,
     
-        level0: arglevel0,
+        Level0: argLevel0,
     
         Ellipse: argEllipse,
     
@@ -3129,7 +3129,7 @@ func (t *TokenMacroNH) String() string {
 	
 	args = append(args, t.S)
 	
-	args = append(args, t.level0)
+	args = append(args, t.Level0)
 	
 	args = append(args, t.Ellipse)
 	
@@ -3152,14 +3152,14 @@ func (t *TokenMacroNH) String() string {
 type TokenMacroBX struct {
 
 
-    txt string
+    Txt string
 
 }
 
-func ParseTokenMacroBX(argText string) (Token, error) {
-    args, _, err := ArgumentParser(argText)
+func ParseTokenMacroBX(lineArgs string) (Token, error) {
+    args, _, err := ArgumentParser(lineArgs)
     if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroBX arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("parse TokenMacroBX arguments: %s, %w", lineArgs, err)
     }
     
       matched, err :=  ForwardMatcher(args,
@@ -3168,14 +3168,14 @@ func ParseTokenMacroBX(argText string) (Token, error) {
             )
     
     if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroBX arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("fitting TokenMacroBX arguments: %s, %w", lineArgs, err)
     }
 	
-        argtxt := matched[0]
+        argTxt := matched[0]
     
 	return &TokenMacroBX{
 	
-        txt: argtxt,
+        Txt: argTxt,
     
 	}, nil
 }
@@ -3183,7 +3183,7 @@ func ParseTokenMacroBX(argText string) (Token, error) {
 func (t *TokenMacroBX) String() string {
 	var args []string
 	
-	args = append(args, t.txt)
+	args = append(args, t.Txt)
 	
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
@@ -3205,17 +3205,17 @@ func (t *TokenMacroBX) String() string {
 type TokenMacroUL struct {
 
 
-    txt string
+    Txt string
 
 
-    post string
+    Post string
 
 }
 
-func ParseTokenMacroUL(argText string) (Token, error) {
-    args, _, err := ArgumentParser(argText)
+func ParseTokenMacroUL(lineArgs string) (Token, error) {
+    args, _, err := ArgumentParser(lineArgs)
     if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroUL arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("parse TokenMacroUL arguments: %s, %w", lineArgs, err)
     }
     
       matched, err :=  ForwardMatcher(args,
@@ -3226,18 +3226,18 @@ func ParseTokenMacroUL(argText string) (Token, error) {
             )
     
     if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroUL arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("fitting TokenMacroUL arguments: %s, %w", lineArgs, err)
     }
 	
-        argtxt := matched[0]
+        argTxt := matched[0]
     
-        argpost := matched[1]
+        argPost := matched[1]
     
 	return &TokenMacroUL{
 	
-        txt: argtxt,
+        Txt: argTxt,
     
-        post: argpost,
+        Post: argPost,
     
 	}, nil
 }
@@ -3245,9 +3245,9 @@ func ParseTokenMacroUL(argText string) (Token, error) {
 func (t *TokenMacroUL) String() string {
 	var args []string
 	
-	args = append(args, t.txt)
+	args = append(args, t.Txt)
 	
-	args = append(args, t.post)
+	args = append(args, t.Post)
 	
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
@@ -3271,17 +3271,17 @@ type TokenMacroLG struct {
 
 }
 
-func ParseTokenMacroLG(argText string) (Token, error) {
-    args, _, err := ArgumentParser(argText)
+func ParseTokenMacroLG(lineArgs string) (Token, error) {
+    args, _, err := ArgumentParser(lineArgs)
     if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroLG arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("parse TokenMacroLG arguments: %s, %w", lineArgs, err)
     }
     
       _, err =  BackwardMatcher(args,
             )
     
     if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroLG arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("fitting TokenMacroLG arguments: %s, %w", lineArgs, err)
     }
 	
 	return &TokenMacroLG{
@@ -3312,17 +3312,17 @@ type TokenMacroNL struct {
 
 }
 
-func ParseTokenMacroNL(argText string) (Token, error) {
-    args, _, err := ArgumentParser(argText)
+func ParseTokenMacroNL(lineArgs string) (Token, error) {
+    args, _, err := ArgumentParser(lineArgs)
     if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroNL arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("parse TokenMacroNL arguments: %s, %w", lineArgs, err)
     }
     
       _, err =  BackwardMatcher(args,
             )
     
     if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroNL arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("fitting TokenMacroNL arguments: %s, %w", lineArgs, err)
     }
 	
 	return &TokenMacroNL{
@@ -3354,17 +3354,17 @@ type TokenMacroTA struct {
 
 }
 
-func ParseTokenMacroTA(argText string) (Token, error) {
-    args, _, err := ArgumentParser(argText)
+func ParseTokenMacroTA(lineArgs string) (Token, error) {
+    args, _, err := ArgumentParser(lineArgs)
     if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroTA arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("parse TokenMacroTA arguments: %s, %w", lineArgs, err)
     }
     
       _, err =  BackwardMatcher(args,
             )
     
     if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroTA arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("fitting TokenMacroTA arguments: %s, %w", lineArgs, err)
     }
 	
 	return &TokenMacroTA{
@@ -3397,17 +3397,17 @@ type TokenMacroDE struct {
 
 }
 
-func ParseTokenMacroDE(argText string) (Token, error) {
-    args, _, err := ArgumentParser(argText)
+func ParseTokenMacroDE(lineArgs string) (Token, error) {
+    args, _, err := ArgumentParser(lineArgs)
     if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroDE arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("parse TokenMacroDE arguments: %s, %w", lineArgs, err)
     }
     
       _, err =  BackwardMatcher(args,
             )
     
     if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroDE arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("fitting TokenMacroDE arguments: %s, %w", lineArgs, err)
     }
 	
 	return &TokenMacroDE{
@@ -3438,17 +3438,17 @@ type TokenMacroKE struct {
 
 }
 
-func ParseTokenMacroKE(argText string) (Token, error) {
-    args, _, err := ArgumentParser(argText)
+func ParseTokenMacroKE(lineArgs string) (Token, error) {
+    args, _, err := ArgumentParser(lineArgs)
     if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroKE arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("parse TokenMacroKE arguments: %s, %w", lineArgs, err)
     }
     
       _, err =  BackwardMatcher(args,
             )
     
     if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroKE arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("fitting TokenMacroKE arguments: %s, %w", lineArgs, err)
     }
 	
 	return &TokenMacroKE{
@@ -3480,17 +3480,17 @@ type TokenMacroB2 struct {
 
 }
 
-func ParseTokenMacroB2(argText string) (Token, error) {
-    args, _, err := ArgumentParser(argText)
+func ParseTokenMacroB2(lineArgs string) (Token, error) {
+    args, _, err := ArgumentParser(lineArgs)
     if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroB2 arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("parse TokenMacroB2 arguments: %s, %w", lineArgs, err)
     }
     
       _, err =  BackwardMatcher(args,
             )
     
     if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroB2 arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("fitting TokenMacroB2 arguments: %s, %w", lineArgs, err)
     }
 	
 	return &TokenMacroB2{
@@ -3525,17 +3525,17 @@ type TokenMacroTE struct {
 
 }
 
-func ParseTokenMacroTE(argText string) (Token, error) {
-    args, _, err := ArgumentParser(argText)
+func ParseTokenMacroTE(lineArgs string) (Token, error) {
+    args, _, err := ArgumentParser(lineArgs)
     if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroTE arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("parse TokenMacroTE arguments: %s, %w", lineArgs, err)
     }
     
       _, err =  BackwardMatcher(args,
             )
     
     if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroTE arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("fitting TokenMacroTE arguments: %s, %w", lineArgs, err)
     }
 	
 	return &TokenMacroTE{
@@ -3568,17 +3568,17 @@ type TokenMacroPE struct {
 
 }
 
-func ParseTokenMacroPE(argText string) (Token, error) {
-    args, _, err := ArgumentParser(argText)
+func ParseTokenMacroPE(lineArgs string) (Token, error) {
+    args, _, err := ArgumentParser(lineArgs)
     if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroPE arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("parse TokenMacroPE arguments: %s, %w", lineArgs, err)
     }
     
       _, err =  BackwardMatcher(args,
             )
     
     if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroPE arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("fitting TokenMacroPE arguments: %s, %w", lineArgs, err)
     }
 	
 	return &TokenMacroPE{
@@ -3611,17 +3611,17 @@ type TokenMacroEN struct {
 
 }
 
-func ParseTokenMacroEN(argText string) (Token, error) {
-    args, _, err := ArgumentParser(argText)
+func ParseTokenMacroEN(lineArgs string) (Token, error) {
+    args, _, err := ArgumentParser(lineArgs)
     if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroEN arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("parse TokenMacroEN arguments: %s, %w", lineArgs, err)
     }
     
       _, err =  BackwardMatcher(args,
             )
     
     if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroEN arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("fitting TokenMacroEN arguments: %s, %w", lineArgs, err)
     }
 	
 	return &TokenMacroEN{
@@ -3653,17 +3653,17 @@ type TokenMacroSquareBracketClose struct {
 
 }
 
-func ParseTokenMacroSquareBracketClose(argText string) (Token, error) {
-    args, _, err := ArgumentParser(argText)
+func ParseTokenMacroSquareBracketClose(lineArgs string) (Token, error) {
+    args, _, err := ArgumentParser(lineArgs)
     if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroSquareBracketClose arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("parse TokenMacroSquareBracketClose arguments: %s, %w", lineArgs, err)
     }
     
       _, err =  BackwardMatcher(args,
             )
     
     if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroSquareBracketClose arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("fitting TokenMacroSquareBracketClose arguments: %s, %w", lineArgs, err)
     }
 	
 	return &TokenMacroSquareBracketClose{
@@ -3697,17 +3697,17 @@ type TokenMacroFE struct {
 
 }
 
-func ParseTokenMacroFE(argText string) (Token, error) {
-    args, _, err := ArgumentParser(argText)
+func ParseTokenMacroFE(lineArgs string) (Token, error) {
+    args, _, err := ArgumentParser(lineArgs)
     if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroFE arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("parse TokenMacroFE arguments: %s, %w", lineArgs, err)
     }
     
       _, err =  BackwardMatcher(args,
             )
     
     if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroFE arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("fitting TokenMacroFE arguments: %s, %w", lineArgs, err)
     }
 	
 	return &TokenMacroFE{
@@ -3741,14 +3741,14 @@ func (t *TokenMacroFE) String() string {
 type TokenMacroEF struct {
 
 
-    QuoteleftQuotecenterQuoterightQuote string
+    Leftcenterright string
 
 }
 
-func ParseTokenMacroEF(argText string) (Token, error) {
-    args, _, err := ArgumentParser(argText)
+func ParseTokenMacroEF(lineArgs string) (Token, error) {
+    args, _, err := ArgumentParser(lineArgs)
     if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroEF arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("parse TokenMacroEF arguments: %s, %w", lineArgs, err)
     }
     
       matched, err :=  BackwardMatcher(args,
@@ -3757,14 +3757,14 @@ func ParseTokenMacroEF(argText string) (Token, error) {
             )
     
     if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroEF arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("fitting TokenMacroEF arguments: %s, %w", lineArgs, err)
     }
 	
-        argQuoteleftQuotecenterQuoterightQuote := matched[0]
+        argLeftcenterright := matched[0]
     
 	return &TokenMacroEF{
 	
-        QuoteleftQuotecenterQuoterightQuote: argQuoteleftQuotecenterQuoterightQuote,
+        Leftcenterright: argLeftcenterright,
     
 	}, nil
 }
@@ -3772,7 +3772,7 @@ func ParseTokenMacroEF(argText string) (Token, error) {
 func (t *TokenMacroEF) String() string {
 	var args []string
 	
-	args = append(args, t.QuoteleftQuotecenterQuoterightQuote)
+	args = append(args, t.Leftcenterright)
 	
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
@@ -3793,17 +3793,17 @@ type TokenMacro1C struct {
 
 }
 
-func ParseTokenMacro1C(argText string) (Token, error) {
-    args, _, err := ArgumentParser(argText)
+func ParseTokenMacro1C(lineArgs string) (Token, error) {
+    args, _, err := ArgumentParser(lineArgs)
     if err != nil {
-        return nil, fmt.Errorf("parse TokenMacro1C arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("parse TokenMacro1C arguments: %s, %w", lineArgs, err)
     }
     
       _, err =  BackwardMatcher(args,
             )
     
     if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacro1C arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("fitting TokenMacro1C arguments: %s, %w", lineArgs, err)
     }
 	
 	return &TokenMacro1C{
@@ -3833,17 +3833,17 @@ type TokenMacro2C struct {
 
 }
 
-func ParseTokenMacro2C(argText string) (Token, error) {
-    args, _, err := ArgumentParser(argText)
+func ParseTokenMacro2C(lineArgs string) (Token, error) {
+    args, _, err := ArgumentParser(lineArgs)
     if err != nil {
-        return nil, fmt.Errorf("parse TokenMacro2C arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("parse TokenMacro2C arguments: %s, %w", lineArgs, err)
     }
     
       _, err =  BackwardMatcher(args,
             )
     
     if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacro2C arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("fitting TokenMacro2C arguments: %s, %w", lineArgs, err)
     }
 	
 	return &TokenMacro2C{
@@ -3875,17 +3875,17 @@ func (t *TokenMacro2C) String() string {
 type TokenMacroMC struct {
 
 
-    width string
+    Width string
 
 
-    gutter string
+    Gutter string
 
 }
 
-func ParseTokenMacroMC(argText string) (Token, error) {
-    args, _, err := ArgumentParser(argText)
+func ParseTokenMacroMC(lineArgs string) (Token, error) {
+    args, _, err := ArgumentParser(lineArgs)
     if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroMC arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("parse TokenMacroMC arguments: %s, %w", lineArgs, err)
     }
     
       matched, err :=  ForwardMatcher(args,
@@ -3896,18 +3896,18 @@ func ParseTokenMacroMC(argText string) (Token, error) {
             )
     
     if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroMC arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("fitting TokenMacroMC arguments: %s, %w", lineArgs, err)
     }
 	
-        argwidth := matched[0]
+        argWidth := matched[0]
     
-        arggutter := matched[1]
+        argGutter := matched[1]
     
 	return &TokenMacroMC{
 	
-        width: argwidth,
+        Width: argWidth,
     
-        gutter: arggutter,
+        Gutter: argGutter,
     
 	}, nil
 }
@@ -3915,9 +3915,9 @@ func ParseTokenMacroMC(argText string) (Token, error) {
 func (t *TokenMacroMC) String() string {
 	var args []string
 	
-	args = append(args, t.width)
+	args = append(args, t.Width)
 	
-	args = append(args, t.gutter)
+	args = append(args, t.Gutter)
 	
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
@@ -3979,17 +3979,17 @@ type TokenMacroXE struct {
 
 }
 
-func ParseTokenMacroXE(argText string) (Token, error) {
-    args, _, err := ArgumentParser(argText)
+func ParseTokenMacroXE(lineArgs string) (Token, error) {
+    args, _, err := ArgumentParser(lineArgs)
     if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroXE arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("parse TokenMacroXE arguments: %s, %w", lineArgs, err)
     }
     
       _, err =  BackwardMatcher(args,
             )
     
     if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroXE arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("fitting TokenMacroXE arguments: %s, %w", lineArgs, err)
     }
 	
 	return &TokenMacroXE{
@@ -4025,14 +4025,14 @@ func (t *TokenMacroXE) String() string {
 type TokenMacroTC struct {
 
 
-    no string
+    No string
 
 }
 
-func ParseTokenMacroTC(argText string) (Token, error) {
-    args, _, err := ArgumentParser(argText)
+func ParseTokenMacroTC(lineArgs string) (Token, error) {
+    args, _, err := ArgumentParser(lineArgs)
     if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroTC arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("parse TokenMacroTC arguments: %s, %w", lineArgs, err)
     }
     
       matched, err :=  ForwardMatcher(args,
@@ -4041,14 +4041,14 @@ func ParseTokenMacroTC(argText string) (Token, error) {
             )
     
     if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroTC arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("fitting TokenMacroTC arguments: %s, %w", lineArgs, err)
     }
 	
-        argno := matched[0]
+        argNo := matched[0]
     
 	return &TokenMacroTC{
 	
-        no: argno,
+        No: argNo,
     
 	}, nil
 }
@@ -4056,7 +4056,7 @@ func ParseTokenMacroTC(argText string) (Token, error) {
 func (t *TokenMacroTC) String() string {
 	var args []string
 	
-	args = append(args, t.no)
+	args = append(args, t.No)
 	
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
@@ -4081,14 +4081,14 @@ func (t *TokenMacroTC) String() string {
 type TokenMacroPX struct {
 
 
-    no string
+    No string
 
 }
 
-func ParseTokenMacroPX(argText string) (Token, error) {
-    args, _, err := ArgumentParser(argText)
+func ParseTokenMacroPX(lineArgs string) (Token, error) {
+    args, _, err := ArgumentParser(lineArgs)
     if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroPX arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("parse TokenMacroPX arguments: %s, %w", lineArgs, err)
     }
     
       matched, err :=  ForwardMatcher(args,
@@ -4097,14 +4097,14 @@ func ParseTokenMacroPX(argText string) (Token, error) {
             )
     
     if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroPX arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("fitting TokenMacroPX arguments: %s, %w", lineArgs, err)
     }
 	
-        argno := matched[0]
+        argNo := matched[0]
     
 	return &TokenMacroPX{
 	
-        no: argno,
+        No: argNo,
     
 	}, nil
 }
@@ -4112,7 +4112,7 @@ func ParseTokenMacroPX(argText string) (Token, error) {
 func (t *TokenMacroPX) String() string {
 	var args []string
 	
-	args = append(args, t.no)
+	args = append(args, t.No)
 	
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
@@ -4140,17 +4140,17 @@ type TokenMacroAM struct {
 
 }
 
-func ParseTokenMacroAM(argText string) (Token, error) {
-    args, _, err := ArgumentParser(argText)
+func ParseTokenMacroAM(lineArgs string) (Token, error) {
+    args, _, err := ArgumentParser(lineArgs)
     if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroAM arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("parse TokenMacroAM arguments: %s, %w", lineArgs, err)
     }
     
       _, err =  BackwardMatcher(args,
             )
     
     if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroAM arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("fitting TokenMacroAM arguments: %s, %w", lineArgs, err)
     }
 	
 	return &TokenMacroAM{
@@ -4185,10 +4185,10 @@ type TokenMacroDS struct {
 
 }
 
-func ParseTokenMacroDS(argText string) (Token, error) {
-    args, _, err := ArgumentParser(argText)
+func ParseTokenMacroDS(lineArgs string) (Token, error) {
+    args, _, err := ArgumentParser(lineArgs)
     if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroDS arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("parse TokenMacroDS arguments: %s, %w", lineArgs, err)
     }
     
       matched, err :=  BackwardMatcher(args,
@@ -4197,7 +4197,7 @@ func ParseTokenMacroDS(argText string) (Token, error) {
             )
     
     if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroDS arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("fitting TokenMacroDS arguments: %s, %w", lineArgs, err)
     }
 	
         argI := matched[0]
@@ -4234,17 +4234,17 @@ type TokenMacroIX struct {
 
 }
 
-func ParseTokenMacroIX(argText string) (Token, error) {
-    args, _, err := ArgumentParser(argText)
+func ParseTokenMacroIX(lineArgs string) (Token, error) {
+    args, _, err := ArgumentParser(lineArgs)
     if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroIX arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("parse TokenMacroIX arguments: %s, %w", lineArgs, err)
     }
     
       _, err =  BackwardMatcher(args,
             )
     
     if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroIX arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("fitting TokenMacroIX arguments: %s, %w", lineArgs, err)
     }
 	
 	return &TokenMacroIX{
@@ -4302,14 +4302,14 @@ func (t *TokenMacroIX) String() string {
 type TokenMacroXA struct {
 
 
-    page string
+    Page string
 
 }
 
-func ParseTokenMacroXA(argText string) (Token, error) {
-    args, _, err := ArgumentParser(argText)
+func ParseTokenMacroXA(lineArgs string) (Token, error) {
+    args, _, err := ArgumentParser(lineArgs)
     if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroXA arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("parse TokenMacroXA arguments: %s, %w", lineArgs, err)
     }
     
       matched, err :=  ForwardMatcher(args,
@@ -4318,14 +4318,14 @@ func ParseTokenMacroXA(argText string) (Token, error) {
             )
     
     if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroXA arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("fitting TokenMacroXA arguments: %s, %w", lineArgs, err)
     }
 	
-        argpage := matched[0]
+        argPage := matched[0]
     
 	return &TokenMacroXA{
 	
-        page: argpage,
+        Page: argPage,
     
 	}, nil
 }
@@ -4333,7 +4333,7 @@ func ParseTokenMacroXA(argText string) (Token, error) {
 func (t *TokenMacroXA) String() string {
 	var args []string
 	
-	args = append(args, t.page)
+	args = append(args, t.Page)
 	
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
@@ -4382,14 +4382,14 @@ func (t *TokenMacroXA) String() string {
 type TokenMacroXS struct {
 
 
-    page string
+    Page string
 
 }
 
-func ParseTokenMacroXS(argText string) (Token, error) {
-    args, _, err := ArgumentParser(argText)
+func ParseTokenMacroXS(lineArgs string) (Token, error) {
+    args, _, err := ArgumentParser(lineArgs)
     if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroXS arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("parse TokenMacroXS arguments: %s, %w", lineArgs, err)
     }
     
       matched, err :=  ForwardMatcher(args,
@@ -4398,14 +4398,14 @@ func ParseTokenMacroXS(argText string) (Token, error) {
             )
     
     if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroXS arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("fitting TokenMacroXS arguments: %s, %w", lineArgs, err)
     }
 	
-        argpage := matched[0]
+        argPage := matched[0]
     
 	return &TokenMacroXS{
 	
-        page: argpage,
+        Page: argPage,
     
 	}, nil
 }
@@ -4413,7 +4413,7 @@ func ParseTokenMacroXS(argText string) (Token, error) {
 func (t *TokenMacroXS) String() string {
 	var args []string
 	
-	args = append(args, t.page)
+	args = append(args, t.Page)
 	
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
@@ -4463,17 +4463,17 @@ type TokenMacroHD struct {
 
 }
 
-func ParseTokenMacroHD(argText string) (Token, error) {
-    args, _, err := ArgumentParser(argText)
+func ParseTokenMacroHD(lineArgs string) (Token, error) {
+    args, _, err := ArgumentParser(lineArgs)
     if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroHD arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("parse TokenMacroHD arguments: %s, %w", lineArgs, err)
     }
     
       _, err =  BackwardMatcher(args,
             )
     
     if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroHD arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("fitting TokenMacroHD arguments: %s, %w", lineArgs, err)
     }
 	
 	return &TokenMacroHD{
@@ -4531,14 +4531,14 @@ func (t *TokenMacroHD) String() string {
 type TokenMacroOF struct {
 
 
-    QuoteleftQuotecenterQuoterightQuote string
+    Leftcenterright string
 
 }
 
-func ParseTokenMacroOF(argText string) (Token, error) {
-    args, _, err := ArgumentParser(argText)
+func ParseTokenMacroOF(lineArgs string) (Token, error) {
+    args, _, err := ArgumentParser(lineArgs)
     if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroOF arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("parse TokenMacroOF arguments: %s, %w", lineArgs, err)
     }
     
       matched, err :=  BackwardMatcher(args,
@@ -4547,14 +4547,14 @@ func ParseTokenMacroOF(argText string) (Token, error) {
             )
     
     if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroOF arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("fitting TokenMacroOF arguments: %s, %w", lineArgs, err)
     }
 	
-        argQuoteleftQuotecenterQuoterightQuote := matched[0]
+        argLeftcenterright := matched[0]
     
 	return &TokenMacroOF{
 	
-        QuoteleftQuotecenterQuoterightQuote: argQuoteleftQuotecenterQuoterightQuote,
+        Leftcenterright: argLeftcenterright,
     
 	}, nil
 }
@@ -4562,7 +4562,7 @@ func ParseTokenMacroOF(argText string) (Token, error) {
 func (t *TokenMacroOF) String() string {
 	var args []string
 	
-	args = append(args, t.QuoteleftQuotecenterQuoterightQuote)
+	args = append(args, t.Leftcenterright)
 	
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
@@ -4611,14 +4611,14 @@ func (t *TokenMacroOF) String() string {
 type TokenMacroEH struct {
 
 
-    QuoteleftQuotecenterQuoterightQuote string
+    Leftcenterright string
 
 }
 
-func ParseTokenMacroEH(argText string) (Token, error) {
-    args, _, err := ArgumentParser(argText)
+func ParseTokenMacroEH(lineArgs string) (Token, error) {
+    args, _, err := ArgumentParser(lineArgs)
     if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroEH arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("parse TokenMacroEH arguments: %s, %w", lineArgs, err)
     }
     
       matched, err :=  BackwardMatcher(args,
@@ -4627,14 +4627,14 @@ func ParseTokenMacroEH(argText string) (Token, error) {
             )
     
     if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroEH arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("fitting TokenMacroEH arguments: %s, %w", lineArgs, err)
     }
 	
-        argQuoteleftQuotecenterQuoterightQuote := matched[0]
+        argLeftcenterright := matched[0]
     
 	return &TokenMacroEH{
 	
-        QuoteleftQuotecenterQuoterightQuote: argQuoteleftQuotecenterQuoterightQuote,
+        Leftcenterright: argLeftcenterright,
     
 	}, nil
 }
@@ -4642,7 +4642,7 @@ func ParseTokenMacroEH(argText string) (Token, error) {
 func (t *TokenMacroEH) String() string {
 	var args []string
 	
-	args = append(args, t.QuoteleftQuotecenterQuoterightQuote)
+	args = append(args, t.Leftcenterright)
 	
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
@@ -4691,14 +4691,14 @@ func (t *TokenMacroEH) String() string {
 type TokenMacroOH struct {
 
 
-    QuoteleftQuotecenterQuoterightQuote string
+    Leftcenterright string
 
 }
 
-func ParseTokenMacroOH(argText string) (Token, error) {
-    args, _, err := ArgumentParser(argText)
+func ParseTokenMacroOH(lineArgs string) (Token, error) {
+    args, _, err := ArgumentParser(lineArgs)
     if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroOH arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("parse TokenMacroOH arguments: %s, %w", lineArgs, err)
     }
     
       matched, err :=  BackwardMatcher(args,
@@ -4707,14 +4707,14 @@ func ParseTokenMacroOH(argText string) (Token, error) {
             )
     
     if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroOH arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("fitting TokenMacroOH arguments: %s, %w", lineArgs, err)
     }
 	
-        argQuoteleftQuotecenterQuoterightQuote := matched[0]
+        argLeftcenterright := matched[0]
     
 	return &TokenMacroOH{
 	
-        QuoteleftQuotecenterQuoterightQuote: argQuoteleftQuotecenterQuoterightQuote,
+        Leftcenterright: argLeftcenterright,
     
 	}, nil
 }
@@ -4722,7 +4722,7 @@ func ParseTokenMacroOH(argText string) (Token, error) {
 func (t *TokenMacroOH) String() string {
 	var args []string
 	
-	args = append(args, t.QuoteleftQuotecenterQuoterightQuote)
+	args = append(args, t.Leftcenterright)
 	
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
@@ -4772,17 +4772,17 @@ type TokenMacroFS struct {
 
 }
 
-func ParseTokenMacroFS(argText string) (Token, error) {
-    args, _, err := ArgumentParser(argText)
+func ParseTokenMacroFS(lineArgs string) (Token, error) {
+    args, _, err := ArgumentParser(lineArgs)
     if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroFS arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("parse TokenMacroFS arguments: %s, %w", lineArgs, err)
     }
     
       _, err =  BackwardMatcher(args,
             )
     
     if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroFS arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("fitting TokenMacroFS arguments: %s, %w", lineArgs, err)
     }
 	
 	return &TokenMacroFS{
@@ -4841,17 +4841,17 @@ type TokenMacroSquareBracketOpen struct {
 
 }
 
-func ParseTokenMacroSquareBracketOpen(argText string) (Token, error) {
-    args, _, err := ArgumentParser(argText)
+func ParseTokenMacroSquareBracketOpen(lineArgs string) (Token, error) {
+    args, _, err := ArgumentParser(lineArgs)
     if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroSquareBracketOpen arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("parse TokenMacroSquareBracketOpen arguments: %s, %w", lineArgs, err)
     }
     
       _, err =  BackwardMatcher(args,
             )
     
     if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroSquareBracketOpen arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("fitting TokenMacroSquareBracketOpen arguments: %s, %w", lineArgs, err)
     }
 	
 	return &TokenMacroSquareBracketOpen{
@@ -4909,14 +4909,14 @@ func (t *TokenMacroSquareBracketOpen) String() string {
 type TokenMacroEQ struct {
 
 
-    align string
+    Align string
 
 }
 
-func ParseTokenMacroEQ(argText string) (Token, error) {
-    args, _, err := ArgumentParser(argText)
+func ParseTokenMacroEQ(lineArgs string) (Token, error) {
+    args, _, err := ArgumentParser(lineArgs)
     if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroEQ arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("parse TokenMacroEQ arguments: %s, %w", lineArgs, err)
     }
     
       matched, err :=  ForwardMatcher(args,
@@ -4925,14 +4925,14 @@ func ParseTokenMacroEQ(argText string) (Token, error) {
             )
     
     if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroEQ arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("fitting TokenMacroEQ arguments: %s, %w", lineArgs, err)
     }
 	
-        argalign := matched[0]
+        argAlign := matched[0]
     
 	return &TokenMacroEQ{
 	
-        align: argalign,
+        Align: argAlign,
     
 	}, nil
 }
@@ -4940,7 +4940,7 @@ func ParseTokenMacroEQ(argText string) (Token, error) {
 func (t *TokenMacroEQ) String() string {
 	var args []string
 	
-	args = append(args, t.align)
+	args = append(args, t.Align)
 	
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
@@ -4990,17 +4990,17 @@ type TokenMacroPS struct {
 
 }
 
-func ParseTokenMacroPS(argText string) (Token, error) {
-    args, _, err := ArgumentParser(argText)
+func ParseTokenMacroPS(lineArgs string) (Token, error) {
+    args, _, err := ArgumentParser(lineArgs)
     if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroPS arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("parse TokenMacroPS arguments: %s, %w", lineArgs, err)
     }
     
       _, err =  BackwardMatcher(args,
             )
     
     if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroPS arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("fitting TokenMacroPS arguments: %s, %w", lineArgs, err)
     }
 	
 	return &TokenMacroPS{
@@ -5062,10 +5062,10 @@ type TokenMacroTS struct {
 
 }
 
-func ParseTokenMacroTS(argText string) (Token, error) {
-    args, _, err := ArgumentParser(argText)
+func ParseTokenMacroTS(lineArgs string) (Token, error) {
+    args, _, err := ArgumentParser(lineArgs)
     if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroTS arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("parse TokenMacroTS arguments: %s, %w", lineArgs, err)
     }
     
       matched, err :=  ForwardMatcher(args,
@@ -5074,7 +5074,7 @@ func ParseTokenMacroTS(argText string) (Token, error) {
             )
     
     if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroTS arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("fitting TokenMacroTS arguments: %s, %w", lineArgs, err)
     }
 	
         argH := matched[0]
@@ -5139,17 +5139,17 @@ type TokenMacroB1 struct {
 
 }
 
-func ParseTokenMacroB1(argText string) (Token, error) {
-    args, _, err := ArgumentParser(argText)
+func ParseTokenMacroB1(lineArgs string) (Token, error) {
+    args, _, err := ArgumentParser(lineArgs)
     if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroB1 arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("parse TokenMacroB1 arguments: %s, %w", lineArgs, err)
     }
     
       _, err =  BackwardMatcher(args,
             )
     
     if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroB1 arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("fitting TokenMacroB1 arguments: %s, %w", lineArgs, err)
     }
 	
 	return &TokenMacroB1{
@@ -5208,17 +5208,17 @@ type TokenMacroKF struct {
 
 }
 
-func ParseTokenMacroKF(argText string) (Token, error) {
-    args, _, err := ArgumentParser(argText)
+func ParseTokenMacroKF(lineArgs string) (Token, error) {
+    args, _, err := ArgumentParser(lineArgs)
     if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroKF arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("parse TokenMacroKF arguments: %s, %w", lineArgs, err)
     }
     
       _, err =  BackwardMatcher(args,
             )
     
     if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroKF arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("fitting TokenMacroKF arguments: %s, %w", lineArgs, err)
     }
 	
 	return &TokenMacroKF{
@@ -5277,17 +5277,17 @@ type TokenMacroKS struct {
 
 }
 
-func ParseTokenMacroKS(argText string) (Token, error) {
-    args, _, err := ArgumentParser(argText)
+func ParseTokenMacroKS(lineArgs string) (Token, error) {
+    args, _, err := ArgumentParser(lineArgs)
     if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroKS arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("parse TokenMacroKS arguments: %s, %w", lineArgs, err)
     }
     
       _, err =  BackwardMatcher(args,
             )
     
     if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroKS arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("fitting TokenMacroKS arguments: %s, %w", lineArgs, err)
     }
 	
 	return &TokenMacroKS{
@@ -5346,17 +5346,17 @@ type TokenMacroRD struct {
 
 }
 
-func ParseTokenMacroRD(argText string) (Token, error) {
-    args, _, err := ArgumentParser(argText)
+func ParseTokenMacroRD(lineArgs string) (Token, error) {
+    args, _, err := ArgumentParser(lineArgs)
     if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroRD arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("parse TokenMacroRD arguments: %s, %w", lineArgs, err)
     }
     
       _, err =  BackwardMatcher(args,
             )
     
     if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroRD arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("fitting TokenMacroRD arguments: %s, %w", lineArgs, err)
     }
 	
 	return &TokenMacroRD{
@@ -5415,17 +5415,17 @@ type TokenMacroCD struct {
 
 }
 
-func ParseTokenMacroCD(argText string) (Token, error) {
-    args, _, err := ArgumentParser(argText)
+func ParseTokenMacroCD(lineArgs string) (Token, error) {
+    args, _, err := ArgumentParser(lineArgs)
     if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroCD arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("parse TokenMacroCD arguments: %s, %w", lineArgs, err)
     }
     
       _, err =  BackwardMatcher(args,
             )
     
     if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroCD arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("fitting TokenMacroCD arguments: %s, %w", lineArgs, err)
     }
 	
 	return &TokenMacroCD{
@@ -5484,17 +5484,17 @@ type TokenMacroBD struct {
 
 }
 
-func ParseTokenMacroBD(argText string) (Token, error) {
-    args, _, err := ArgumentParser(argText)
+func ParseTokenMacroBD(lineArgs string) (Token, error) {
+    args, _, err := ArgumentParser(lineArgs)
     if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroBD arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("parse TokenMacroBD arguments: %s, %w", lineArgs, err)
     }
     
       _, err =  BackwardMatcher(args,
             )
     
     if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroBD arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("fitting TokenMacroBD arguments: %s, %w", lineArgs, err)
     }
 	
 	return &TokenMacroBD{
@@ -5553,17 +5553,17 @@ type TokenMacroID struct {
 
 }
 
-func ParseTokenMacroID(argText string) (Token, error) {
-    args, _, err := ArgumentParser(argText)
+func ParseTokenMacroID(lineArgs string) (Token, error) {
+    args, _, err := ArgumentParser(lineArgs)
     if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroID arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("parse TokenMacroID arguments: %s, %w", lineArgs, err)
     }
     
       _, err =  BackwardMatcher(args,
             )
     
     if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroID arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("fitting TokenMacroID arguments: %s, %w", lineArgs, err)
     }
 	
 	return &TokenMacroID{
@@ -5622,17 +5622,17 @@ type TokenMacroLD struct {
 
 }
 
-func ParseTokenMacroLD(argText string) (Token, error) {
-    args, _, err := ArgumentParser(argText)
+func ParseTokenMacroLD(lineArgs string) (Token, error) {
+    args, _, err := ArgumentParser(lineArgs)
     if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroLD arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("parse TokenMacroLD arguments: %s, %w", lineArgs, err)
     }
     
       _, err =  BackwardMatcher(args,
             )
     
     if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroLD arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("fitting TokenMacroLD arguments: %s, %w", lineArgs, err)
     }
 	
 	return &TokenMacroLD{
@@ -5691,17 +5691,17 @@ type TokenMacroQS struct {
 
 }
 
-func ParseTokenMacroQS(argText string) (Token, error) {
-    args, _, err := ArgumentParser(argText)
+func ParseTokenMacroQS(lineArgs string) (Token, error) {
+    args, _, err := ArgumentParser(lineArgs)
     if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroQS arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("parse TokenMacroQS arguments: %s, %w", lineArgs, err)
     }
     
       _, err =  BackwardMatcher(args,
             )
     
     if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroQS arguments: %s, %w", argText, err)
+        return nil, fmt.Errorf("fitting TokenMacroQS arguments: %s, %w", lineArgs, err)
     }
 	
 	return &TokenMacroQS{

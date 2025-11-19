@@ -1,8 +1,9 @@
 package gen
 
 import (
-	"github.com/google/go-cmp/cmp"
 	"testing"
+
+	"github.com/google/go-cmp/cmp"
 )
 
 func Test_parseArgRun(t *testing.T) {
@@ -157,10 +158,10 @@ func TestParseArgs(t *testing.T) {
 			in:   "[punct] path [punct] [punct]",
 			wantResult: &ArgStruct{
 				Words: []*Word{
-					{"punct", true, "punct0"},
-					{"path", false, "path"},
-					{"punct", true, "punct1"},
-					{"punct", true, "punct2"},
+					{"punct", true, "Punct"},
+					{"path", false, "Path"},
+					{"punct", true, "Punct2"},
+					{"punct", true, "Punct3"},
 				},
 				OptionalRanges: [][2]int{
 					{0, 1},
