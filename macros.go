@@ -1,10 +1,40 @@
 package groff
 
 import (
-    "fmt"
-    "strings"
+	"fmt"
+	"strings"
 )
 
+// TokenMacroQS
+// Begin a region where each paragraph is indented from both margins by \n[QI]. The text between .QS and .QE can be structured further by use of other paragraphing macros.
+type TokenMacroQS struct {
+}
+
+func ParseTokenMacroQS(lineArgs string) (Token, error) {
+	args, _, err := ArgumentParser(lineArgs)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroQS arguments: %s, %w", lineArgs, err)
+	}
+	_, err = BackwardMatcher(args)
+	if err != nil {
+		return nil, fmt.Errorf("fitting TokenMacroQS arguments: %s, %w", lineArgs, err)
+	}
+	return &TokenMacroQS{}, nil
+}
+
+func (t *TokenMacroQS) String() string {
+	var args []string
+	for len(args) > 0 && args[len(args)-1] == "" {
+		args = args[:len(args)-1]
+	}
+	for i, arg := range args {
+		args[i] = Quote(arg)
+	}
+	if len(args) == 0 {
+		return ".QS"
+	}
+	return ".QS " + strings.Join(args, " ")
+}
 
 // TokenMacroTH
 // Determine the contents of the page header and footer. The subject of the
@@ -26,93 +56,56 @@ import (
 // footer-inside with ellipses if they would overrun the space available in
 // the header and footer, respectively. For HTML output, headers and
 // footers are suppressed.
-// 
+//
 // Additionally, this macro breaks the page, resetting the number to 1
 // (unless the -rC1 option is given). This feature is intended only for
 // formatting multiple man documents in sequence.
-// 
+//
 // A valid man document calls .TH once, early in the file, prior to any
 // other macro calls.
 type TokenMacroTH struct {
-
-
-    Title string
-
-
-    Section string
-
-
-    Extra1 string
-
-
-    Extra2 string
-
-
-    Extra3 string
-
+	Title   string
+	Section string
+	Extra1  string
+	Extra2  string
+	Extra3  string
 }
 
 func ParseTokenMacroTH(lineArgs string) (Token, error) {
-    args, _, err := ArgumentParser(lineArgs)
-    if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroTH arguments: %s, %w", lineArgs, err)
-    }
-    
-      matched, err :=  ForwardMatcher(args,
-            
-            false,
-            
-            false,
-            
-            true,
-            
-            true,
-            
-            true,
-            )
-    
-    if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroTH arguments: %s, %w", lineArgs, err)
-    }
-	
-        argTitle := matched[0]
-    
-        argSection := matched[1]
-    
-        argExtra1 := matched[2]
-    
-        argExtra2 := matched[3]
-    
-        argExtra3 := matched[4]
-    
+	args, _, err := ArgumentParser(lineArgs)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroTH arguments: %s, %w", lineArgs, err)
+	}
+	matched, err := ForwardMatcher(args,
+		false,
+		false,
+		true,
+		true,
+		true)
+	if err != nil {
+		return nil, fmt.Errorf("fitting TokenMacroTH arguments: %s, %w", lineArgs, err)
+	}
+	argTitle := matched[0]
+	argSection := matched[1]
+	argExtra1 := matched[2]
+	argExtra2 := matched[3]
+	argExtra3 := matched[4]
 	return &TokenMacroTH{
-	
-        Title: argTitle,
-    
-        Section: argSection,
-    
-        Extra1: argExtra1,
-    
-        Extra2: argExtra2,
-    
-        Extra3: argExtra3,
-    
+		Title:   argTitle,
+		Section: argSection,
+		Extra1:  argExtra1,
+		Extra2:  argExtra2,
+		Extra3:  argExtra3,
 	}, nil
 }
 
 func (t *TokenMacroTH) String() string {
 	var args []string
-	
 	args = append(args, t.Title)
-	
 	args = append(args, t.Section)
-	
 	args = append(args, t.Extra1)
-	
 	args = append(args, t.Extra2)
-	
 	args = append(args, t.Extra3)
-	
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
 	}
@@ -125,7 +118,6 @@ func (t *TokenMacroTH) String() string {
 	return ".TH " + strings.Join(args, " ")
 }
 
-
 // TokenMacroSH
 // Set heading-text as a section heading. If no argument is given, a
 // one-line input trap is planted; text on the next line becomes
@@ -137,41 +129,28 @@ func (t *TokenMacroTH) String() string {
 // reset to 1, setting the left margin to the value of the IN register.
 // Text after heading-text is set as an ordinary paragraph (.P).
 type TokenMacroSH struct {
-
-
-    Heading string
-
+	Heading string
 }
 
 func ParseTokenMacroSH(lineArgs string) (Token, error) {
-    args, _, err := ArgumentParser(lineArgs)
-    if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroSH arguments: %s, %w", lineArgs, err)
-    }
-    
-      matched, err :=  ForwardMatcher(args,
-            
-            true,
-            )
-    
-    if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroSH arguments: %s, %w", lineArgs, err)
-    }
-	
-        argHeading := matched[0]
-    
+	args, _, err := ArgumentParser(lineArgs)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroSH arguments: %s, %w", lineArgs, err)
+	}
+	matched, err := ForwardMatcher(args,
+		true)
+	if err != nil {
+		return nil, fmt.Errorf("fitting TokenMacroSH arguments: %s, %w", lineArgs, err)
+	}
+	argHeading := matched[0]
 	return &TokenMacroSH{
-	
-        Heading: argHeading,
-    
+		Heading: argHeading,
 	}, nil
 }
 
 func (t *TokenMacroSH) String() string {
 	var args []string
-	
 	args = append(args, t.Heading)
-	
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
 	}
@@ -183,7 +162,6 @@ func (t *TokenMacroSH) String() string {
 	}
 	return ".SH " + strings.Join(args, " ")
 }
-
 
 // TokenMacroSS
 // Set subheading-text as a subsection heading indented between a section
@@ -197,41 +175,28 @@ func (t *TokenMacroSH) String() string {
 // the value of the IN register. Text after subheading-text is set as an
 // ordinary paragraph (.P).
 type TokenMacroSS struct {
-
-
-    Heading string
-
+	Heading string
 }
 
 func ParseTokenMacroSS(lineArgs string) (Token, error) {
-    args, _, err := ArgumentParser(lineArgs)
-    if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroSS arguments: %s, %w", lineArgs, err)
-    }
-    
-      matched, err :=  ForwardMatcher(args,
-            
-            true,
-            )
-    
-    if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroSS arguments: %s, %w", lineArgs, err)
-    }
-	
-        argHeading := matched[0]
-    
+	args, _, err := ArgumentParser(lineArgs)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroSS arguments: %s, %w", lineArgs, err)
+	}
+	matched, err := ForwardMatcher(args,
+		true)
+	if err != nil {
+		return nil, fmt.Errorf("fitting TokenMacroSS arguments: %s, %w", lineArgs, err)
+	}
+	argHeading := matched[0]
 	return &TokenMacroSS{
-	
-        Heading: argHeading,
-    
+		Heading: argHeading,
 	}, nil
 }
 
 func (t *TokenMacroSS) String() string {
 	var args []string
-	
 	args = append(args, t.Heading)
-	
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
 	}
@@ -243,7 +208,6 @@ func (t *TokenMacroSS) String() string {
 	}
 	return ".SS " + strings.Join(args, " ")
 }
-
 
 // TokenMacroTP
 // Set a paragraph with a leading tag, and the remainder of the paragraph
@@ -257,41 +221,28 @@ func (t *TokenMacroSS) String() string {
 // Otherwise, the descriptive part of the paragraph begins on the line
 // following the tag.
 type TokenMacroTP struct {
-
-
-    Nnn string
-
+	Nnn string
 }
 
 func ParseTokenMacroTP(lineArgs string) (Token, error) {
-    args, _, err := ArgumentParser(lineArgs)
-    if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroTP arguments: %s, %w", lineArgs, err)
-    }
-    
-      matched, err :=  ForwardMatcher(args,
-            
-            true,
-            )
-    
-    if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroTP arguments: %s, %w", lineArgs, err)
-    }
-	
-        argNnn := matched[0]
-    
+	args, _, err := ArgumentParser(lineArgs)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroTP arguments: %s, %w", lineArgs, err)
+	}
+	matched, err := ForwardMatcher(args,
+		true)
+	if err != nil {
+		return nil, fmt.Errorf("fitting TokenMacroTP arguments: %s, %w", lineArgs, err)
+	}
+	argNnn := matched[0]
 	return &TokenMacroTP{
-	
-        Nnn: argNnn,
-    
+		Nnn: argNnn,
 	}, nil
 }
 
 func (t *TokenMacroTP) String() string {
 	var args []string
-	
 	args = append(args, t.Nnn)
-	
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
 	}
@@ -304,36 +255,27 @@ func (t *TokenMacroTP) String() string {
 	return ".TP " + strings.Join(args, " ")
 }
 
-
 // TokenMacroP
 // Begin a new paragraph; these macros are synonymous. The indentation is
 // reset to the default value; the left margin, as affected by .RS and .RE,
 // is not.
 type TokenMacroP struct {
-
 }
 
 func ParseTokenMacroP(lineArgs string) (Token, error) {
-    args, _, err := ArgumentParser(lineArgs)
-    if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroP arguments: %s, %w", lineArgs, err)
-    }
-    
-      _, err =  BackwardMatcher(args,
-            )
-    
-    if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroP arguments: %s, %w", lineArgs, err)
-    }
-	
-	return &TokenMacroP{
-	
-	}, nil
+	args, _, err := ArgumentParser(lineArgs)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroP arguments: %s, %w", lineArgs, err)
+	}
+	_, err = BackwardMatcher(args)
+	if err != nil {
+		return nil, fmt.Errorf("fitting TokenMacroP arguments: %s, %w", lineArgs, err)
+	}
+	return &TokenMacroP{}, nil
 }
 
 func (t *TokenMacroP) String() string {
 	var args []string
-	
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
 	}
@@ -346,58 +288,38 @@ func (t *TokenMacroP) String() string {
 	return ".P " + strings.Join(args, " ")
 }
 
-
 // TokenMacroIP
 // Set an indented paragraph with an optional tag. The tag and indentation
 // arguments, if present, are handled as with .TP, with the exception that
 // the tag argument to .IP cannot include a macro call.
 type TokenMacroIP struct {
-
-
-    Designator string
-
-
-    Nnn string
-
+	Designator string
+	Nnn        string
 }
 
 func ParseTokenMacroIP(lineArgs string) (Token, error) {
-    args, _, err := ArgumentParser(lineArgs)
-    if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroIP arguments: %s, %w", lineArgs, err)
-    }
-    
-      matched, err :=  ForwardMatcher(args,
-            
-            true,
-            
-            true,
-            )
-    
-    if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroIP arguments: %s, %w", lineArgs, err)
-    }
-	
-        argDesignator := matched[0]
-    
-        argNnn := matched[1]
-    
+	args, _, err := ArgumentParser(lineArgs)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroIP arguments: %s, %w", lineArgs, err)
+	}
+	matched, err := ForwardMatcher(args,
+		true,
+		true)
+	if err != nil {
+		return nil, fmt.Errorf("fitting TokenMacroIP arguments: %s, %w", lineArgs, err)
+	}
+	argDesignator := matched[0]
+	argNnn := matched[1]
 	return &TokenMacroIP{
-	
-        Designator: argDesignator,
-    
-        Nnn: argNnn,
-    
+		Designator: argDesignator,
+		Nnn:        argNnn,
 	}, nil
 }
 
 func (t *TokenMacroIP) String() string {
 	var args []string
-	
 	args = append(args, t.Designator)
-	
 	args = append(args, t.Nnn)
-	
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
 	}
@@ -410,52 +332,38 @@ func (t *TokenMacroIP) String() string {
 	return ".IP " + strings.Join(args, " ")
 }
 
-
 // TokenMacroHP
 // Set up a paragraph with a hanging left indentation. The indentation
 // argument, if present, is handled as with .TP.
-// 
+//
 // Use of this presentation-oriented macro is deprecated. A hanging
 // indentation cannot be expressed naturally under HTML, and non-roff-based
 // man page interpreters may treat .HP as an ordinary paragraph. Thus,
 // information or distinctions you mean to express with indentation may be
 // lost.
 type TokenMacroHP struct {
-
-
-    Nnn string
-
+	Nnn string
 }
 
 func ParseTokenMacroHP(lineArgs string) (Token, error) {
-    args, _, err := ArgumentParser(lineArgs)
-    if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroHP arguments: %s, %w", lineArgs, err)
-    }
-    
-      matched, err :=  ForwardMatcher(args,
-            
-            true,
-            )
-    
-    if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroHP arguments: %s, %w", lineArgs, err)
-    }
-	
-        argNnn := matched[0]
-    
+	args, _, err := ArgumentParser(lineArgs)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroHP arguments: %s, %w", lineArgs, err)
+	}
+	matched, err := ForwardMatcher(args,
+		true)
+	if err != nil {
+		return nil, fmt.Errorf("fitting TokenMacroHP arguments: %s, %w", lineArgs, err)
+	}
+	argNnn := matched[0]
 	return &TokenMacroHP{
-	
-        Nnn: argNnn,
-    
+		Nnn: argNnn,
 	}, nil
 }
 
 func (t *TokenMacroHP) String() string {
 	var args []string
-	
 	args = append(args, t.Nnn)
-	
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
 	}
@@ -468,7 +376,6 @@ func (t *TokenMacroHP) String() string {
 	return ".HP " + strings.Join(args, " ")
 }
 
-
 // TokenMacroRS
 // Start a new relative inset level. The position of the left margin is
 // saved, then moved right by inset-amount, if specified, and by the amount
@@ -476,41 +383,28 @@ func (t *TokenMacroHP) String() string {
 // increments by 1 the inset level used by .RE. The level prior to any .RS
 // calls is 1.
 type TokenMacroRS struct {
-
-
-    Nnn string
-
+	Nnn string
 }
 
 func ParseTokenMacroRS(lineArgs string) (Token, error) {
-    args, _, err := ArgumentParser(lineArgs)
-    if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroRS arguments: %s, %w", lineArgs, err)
-    }
-    
-      matched, err :=  ForwardMatcher(args,
-            
-            true,
-            )
-    
-    if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroRS arguments: %s, %w", lineArgs, err)
-    }
-	
-        argNnn := matched[0]
-    
+	args, _, err := ArgumentParser(lineArgs)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroRS arguments: %s, %w", lineArgs, err)
+	}
+	matched, err := ForwardMatcher(args,
+		true)
+	if err != nil {
+		return nil, fmt.Errorf("fitting TokenMacroRS arguments: %s, %w", lineArgs, err)
+	}
+	argNnn := matched[0]
 	return &TokenMacroRS{
-	
-        Nnn: argNnn,
-    
+		Nnn: argNnn,
 	}, nil
 }
 
 func (t *TokenMacroRS) String() string {
 	var args []string
-	
 	args = append(args, t.Nnn)
-	
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
 	}
@@ -523,46 +417,32 @@ func (t *TokenMacroRS) String() string {
 	return ".RS " + strings.Join(args, " ")
 }
 
-
 // TokenMacroRE
 // End a relative inset. The left margin corresponding to inset level level
 // is restored. If no argument is given, the inset level is reduced by 1.
 type TokenMacroRE struct {
-
-
-    Nnn string
-
+	Nnn string
 }
 
 func ParseTokenMacroRE(lineArgs string) (Token, error) {
-    args, _, err := ArgumentParser(lineArgs)
-    if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroRE arguments: %s, %w", lineArgs, err)
-    }
-    
-      matched, err :=  ForwardMatcher(args,
-            
-            true,
-            )
-    
-    if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroRE arguments: %s, %w", lineArgs, err)
-    }
-	
-        argNnn := matched[0]
-    
+	args, _, err := ArgumentParser(lineArgs)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroRE arguments: %s, %w", lineArgs, err)
+	}
+	matched, err := ForwardMatcher(args,
+		true)
+	if err != nil {
+		return nil, fmt.Errorf("fitting TokenMacroRE arguments: %s, %w", lineArgs, err)
+	}
+	argNnn := matched[0]
 	return &TokenMacroRE{
-	
-        Nnn: argNnn,
-    
+		Nnn: argNnn,
 	}, nil
 }
 
 func (t *TokenMacroRE) String() string {
 	var args []string
-	
 	args = append(args, t.Nnn)
-	
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
 	}
@@ -575,48 +455,34 @@ func (t *TokenMacroRE) String() string {
 	return ".RE " + strings.Join(args, " ")
 }
 
-
 // TokenMacroSM
 // Set text one point smaller than the default type size on typesetting
 // devices. If no argument is given, a one-line input trap is planted; text
 // on the next line, which can be further formatted with a macro, is set
 // smaller.
 type TokenMacroSM struct {
-
-
-    Text string
-
+	Text string
 }
 
 func ParseTokenMacroSM(lineArgs string) (Token, error) {
-    args, _, err := ArgumentParser(lineArgs)
-    if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroSM arguments: %s, %w", lineArgs, err)
-    }
-    
-      matched, err :=  ForwardMatcher(args,
-            
-            true,
-            )
-    
-    if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroSM arguments: %s, %w", lineArgs, err)
-    }
-	
-        argText := matched[0]
-    
+	args, _, err := ArgumentParser(lineArgs)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroSM arguments: %s, %w", lineArgs, err)
+	}
+	matched, err := ForwardMatcher(args,
+		true)
+	if err != nil {
+		return nil, fmt.Errorf("fitting TokenMacroSM arguments: %s, %w", lineArgs, err)
+	}
+	argText := matched[0]
 	return &TokenMacroSM{
-	
-        Text: argText,
-    
+		Text: argText,
 	}, nil
 }
 
 func (t *TokenMacroSM) String() string {
 	var args []string
-	
 	args = append(args, t.Text)
-	
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
 	}
@@ -629,7 +495,6 @@ func (t *TokenMacroSM) String() string {
 	return ".SM " + strings.Join(args, " ")
 }
 
-
 // TokenMacroSB
 // Set text in bold and (on typesetting devices) one point smaller than the
 // default type size. If no argument is given, a one-line input trap is
@@ -637,41 +502,28 @@ func (t *TokenMacroSM) String() string {
 // macro, is set smaller and in bold. This macro is an extension introduced
 // in SunOS 4.0.
 type TokenMacroSB struct {
-
-
-    Text string
-
+	Text string
 }
 
 func ParseTokenMacroSB(lineArgs string) (Token, error) {
-    args, _, err := ArgumentParser(lineArgs)
-    if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroSB arguments: %s, %w", lineArgs, err)
-    }
-    
-      matched, err :=  ForwardMatcher(args,
-            
-            true,
-            )
-    
-    if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroSB arguments: %s, %w", lineArgs, err)
-    }
-	
-        argText := matched[0]
-    
+	args, _, err := ArgumentParser(lineArgs)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroSB arguments: %s, %w", lineArgs, err)
+	}
+	matched, err := ForwardMatcher(args,
+		true)
+	if err != nil {
+		return nil, fmt.Errorf("fitting TokenMacroSB arguments: %s, %w", lineArgs, err)
+	}
+	argText := matched[0]
 	return &TokenMacroSB{
-	
-        Text: argText,
-    
+		Text: argText,
 	}, nil
 }
 
 func (t *TokenMacroSB) String() string {
 	var args []string
-	
 	args = append(args, t.Text)
-	
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
 	}
@@ -684,45 +536,31 @@ func (t *TokenMacroSB) String() string {
 	return ".SB " + strings.Join(args, " ")
 }
 
-
 // TokenMacroBI
 // Set each argument in bold and italics, alternately.
 type TokenMacroBI struct {
-
-
-    Text string
-
+	Text string
 }
 
 func ParseTokenMacroBI(lineArgs string) (Token, error) {
-    args, _, err := ArgumentParser(lineArgs)
-    if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroBI arguments: %s, %w", lineArgs, err)
-    }
-    
-      matched, err :=  BackwardMatcher(args,
-            
-            false,
-            )
-    
-    if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroBI arguments: %s, %w", lineArgs, err)
-    }
-	
-        argText := matched[0]
-    
+	args, _, err := ArgumentParser(lineArgs)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroBI arguments: %s, %w", lineArgs, err)
+	}
+	matched, err := BackwardMatcher(args,
+		false)
+	if err != nil {
+		return nil, fmt.Errorf("fitting TokenMacroBI arguments: %s, %w", lineArgs, err)
+	}
+	argText := matched[0]
 	return &TokenMacroBI{
-	
-        Text: argText,
-    
+		Text: argText,
 	}, nil
 }
 
 func (t *TokenMacroBI) String() string {
 	var args []string
-	
 	args = append(args, t.Text)
-	
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
 	}
@@ -735,45 +573,31 @@ func (t *TokenMacroBI) String() string {
 	return ".BI " + strings.Join(args, " ")
 }
 
-
 // TokenMacroIB
 // Set each argument in italics and bold, alternately.
 type TokenMacroIB struct {
-
-
-    Text string
-
+	Text string
 }
 
 func ParseTokenMacroIB(lineArgs string) (Token, error) {
-    args, _, err := ArgumentParser(lineArgs)
-    if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroIB arguments: %s, %w", lineArgs, err)
-    }
-    
-      matched, err :=  BackwardMatcher(args,
-            
-            false,
-            )
-    
-    if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroIB arguments: %s, %w", lineArgs, err)
-    }
-	
-        argText := matched[0]
-    
+	args, _, err := ArgumentParser(lineArgs)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroIB arguments: %s, %w", lineArgs, err)
+	}
+	matched, err := BackwardMatcher(args,
+		false)
+	if err != nil {
+		return nil, fmt.Errorf("fitting TokenMacroIB arguments: %s, %w", lineArgs, err)
+	}
+	argText := matched[0]
 	return &TokenMacroIB{
-	
-        Text: argText,
-    
+		Text: argText,
 	}, nil
 }
 
 func (t *TokenMacroIB) String() string {
 	var args []string
-	
 	args = append(args, t.Text)
-	
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
 	}
@@ -786,45 +610,31 @@ func (t *TokenMacroIB) String() string {
 	return ".IB " + strings.Join(args, " ")
 }
 
-
 // TokenMacroRI
 // Set each argument in roman and italics, alternately.
 type TokenMacroRI struct {
-
-
-    Text string
-
+	Text string
 }
 
 func ParseTokenMacroRI(lineArgs string) (Token, error) {
-    args, _, err := ArgumentParser(lineArgs)
-    if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroRI arguments: %s, %w", lineArgs, err)
-    }
-    
-      matched, err :=  BackwardMatcher(args,
-            
-            false,
-            )
-    
-    if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroRI arguments: %s, %w", lineArgs, err)
-    }
-	
-        argText := matched[0]
-    
+	args, _, err := ArgumentParser(lineArgs)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroRI arguments: %s, %w", lineArgs, err)
+	}
+	matched, err := BackwardMatcher(args,
+		false)
+	if err != nil {
+		return nil, fmt.Errorf("fitting TokenMacroRI arguments: %s, %w", lineArgs, err)
+	}
+	argText := matched[0]
 	return &TokenMacroRI{
-	
-        Text: argText,
-    
+		Text: argText,
 	}, nil
 }
 
 func (t *TokenMacroRI) String() string {
 	var args []string
-	
 	args = append(args, t.Text)
-	
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
 	}
@@ -837,45 +647,31 @@ func (t *TokenMacroRI) String() string {
 	return ".RI " + strings.Join(args, " ")
 }
 
-
 // TokenMacroIR
 // Set each argument in italics and roman, alternately.
 type TokenMacroIR struct {
-
-
-    Text string
-
+	Text string
 }
 
 func ParseTokenMacroIR(lineArgs string) (Token, error) {
-    args, _, err := ArgumentParser(lineArgs)
-    if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroIR arguments: %s, %w", lineArgs, err)
-    }
-    
-      matched, err :=  BackwardMatcher(args,
-            
-            false,
-            )
-    
-    if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroIR arguments: %s, %w", lineArgs, err)
-    }
-	
-        argText := matched[0]
-    
+	args, _, err := ArgumentParser(lineArgs)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroIR arguments: %s, %w", lineArgs, err)
+	}
+	matched, err := BackwardMatcher(args,
+		false)
+	if err != nil {
+		return nil, fmt.Errorf("fitting TokenMacroIR arguments: %s, %w", lineArgs, err)
+	}
+	argText := matched[0]
 	return &TokenMacroIR{
-	
-        Text: argText,
-    
+		Text: argText,
 	}, nil
 }
 
 func (t *TokenMacroIR) String() string {
 	var args []string
-	
 	args = append(args, t.Text)
-	
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
 	}
@@ -888,45 +684,31 @@ func (t *TokenMacroIR) String() string {
 	return ".IR " + strings.Join(args, " ")
 }
 
-
 // TokenMacroBR
 // Set each argument in bold and roman, alternately.
 type TokenMacroBR struct {
-
-
-    Text string
-
+	Text string
 }
 
 func ParseTokenMacroBR(lineArgs string) (Token, error) {
-    args, _, err := ArgumentParser(lineArgs)
-    if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroBR arguments: %s, %w", lineArgs, err)
-    }
-    
-      matched, err :=  BackwardMatcher(args,
-            
-            false,
-            )
-    
-    if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroBR arguments: %s, %w", lineArgs, err)
-    }
-	
-        argText := matched[0]
-    
+	args, _, err := ArgumentParser(lineArgs)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroBR arguments: %s, %w", lineArgs, err)
+	}
+	matched, err := BackwardMatcher(args,
+		false)
+	if err != nil {
+		return nil, fmt.Errorf("fitting TokenMacroBR arguments: %s, %w", lineArgs, err)
+	}
+	argText := matched[0]
 	return &TokenMacroBR{
-	
-        Text: argText,
-    
+		Text: argText,
 	}, nil
 }
 
 func (t *TokenMacroBR) String() string {
 	var args []string
-	
 	args = append(args, t.Text)
-	
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
 	}
@@ -939,45 +721,31 @@ func (t *TokenMacroBR) String() string {
 	return ".BR " + strings.Join(args, " ")
 }
 
-
 // TokenMacroRB
 // Set each argument in roman and bold, alternately.
 type TokenMacroRB struct {
-
-
-    Text string
-
+	Text string
 }
 
 func ParseTokenMacroRB(lineArgs string) (Token, error) {
-    args, _, err := ArgumentParser(lineArgs)
-    if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroRB arguments: %s, %w", lineArgs, err)
-    }
-    
-      matched, err :=  BackwardMatcher(args,
-            
-            false,
-            )
-    
-    if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroRB arguments: %s, %w", lineArgs, err)
-    }
-	
-        argText := matched[0]
-    
+	args, _, err := ArgumentParser(lineArgs)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroRB arguments: %s, %w", lineArgs, err)
+	}
+	matched, err := BackwardMatcher(args,
+		false)
+	if err != nil {
+		return nil, fmt.Errorf("fitting TokenMacroRB arguments: %s, %w", lineArgs, err)
+	}
+	argText := matched[0]
 	return &TokenMacroRB{
-	
-        Text: argText,
-    
+		Text: argText,
 	}, nil
 }
 
 func (t *TokenMacroRB) String() string {
 	var args []string
-	
 	args = append(args, t.Text)
-	
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
 	}
@@ -990,47 +758,33 @@ func (t *TokenMacroRB) String() string {
 	return ".RB " + strings.Join(args, " ")
 }
 
-
 // TokenMacroB
 // Set text in bold. If no argument is given, a one-line input trap is
 // planted; text on the next line, which can be further formatted with a
 // macro, is set in bold.
 type TokenMacroB struct {
-
-
-    Text string
-
+	Text string
 }
 
 func ParseTokenMacroB(lineArgs string) (Token, error) {
-    args, _, err := ArgumentParser(lineArgs)
-    if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroB arguments: %s, %w", lineArgs, err)
-    }
-    
-      matched, err :=  ForwardMatcher(args,
-            
-            true,
-            )
-    
-    if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroB arguments: %s, %w", lineArgs, err)
-    }
-	
-        argText := matched[0]
-    
+	args, _, err := ArgumentParser(lineArgs)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroB arguments: %s, %w", lineArgs, err)
+	}
+	matched, err := ForwardMatcher(args,
+		true)
+	if err != nil {
+		return nil, fmt.Errorf("fitting TokenMacroB arguments: %s, %w", lineArgs, err)
+	}
+	argText := matched[0]
 	return &TokenMacroB{
-	
-        Text: argText,
-    
+		Text: argText,
 	}, nil
 }
 
 func (t *TokenMacroB) String() string {
 	var args []string
-	
 	args = append(args, t.Text)
-	
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
 	}
@@ -1043,47 +797,33 @@ func (t *TokenMacroB) String() string {
 	return ".B " + strings.Join(args, " ")
 }
 
-
 // TokenMacroI
 // Set text in an italic or oblique face. If no argument is given, a
 // one-line input trap is planted; text on the next line, which can be
 // further formatted with a macro, is set in an italic or oblique face.
 type TokenMacroI struct {
-
-
-    Text string
-
+	Text string
 }
 
 func ParseTokenMacroI(lineArgs string) (Token, error) {
-    args, _, err := ArgumentParser(lineArgs)
-    if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroI arguments: %s, %w", lineArgs, err)
-    }
-    
-      matched, err :=  ForwardMatcher(args,
-            
-            true,
-            )
-    
-    if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroI arguments: %s, %w", lineArgs, err)
-    }
-	
-        argText := matched[0]
-    
+	args, _, err := ArgumentParser(lineArgs)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroI arguments: %s, %w", lineArgs, err)
+	}
+	matched, err := ForwardMatcher(args,
+		true)
+	if err != nil {
+		return nil, fmt.Errorf("fitting TokenMacroI arguments: %s, %w", lineArgs, err)
+	}
+	argText := matched[0]
 	return &TokenMacroI{
-	
-        Text: argText,
-    
+		Text: argText,
 	}, nil
 }
 
 func (t *TokenMacroI) String() string {
 	var args []string
-	
 	args = append(args, t.Text)
-	
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
 	}
@@ -1096,7 +836,6 @@ func (t *TokenMacroI) String() string {
 	return ".I " + strings.Join(args, " ")
 }
 
-
 // TokenMacroDT
 // Reset tab stops to the default (every 0.5i). Use of this
 // presentation-oriented macro is deprecated. It translates poorly to HTML,
@@ -1106,30 +845,22 @@ func (t *TokenMacroI) String() string {
 // stops such that calling this macro later is desirable to restore them,
 // you should probably be composing a table using tbl(1) instead.
 type TokenMacroDT struct {
-
 }
 
 func ParseTokenMacroDT(lineArgs string) (Token, error) {
-    args, _, err := ArgumentParser(lineArgs)
-    if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroDT arguments: %s, %w", lineArgs, err)
-    }
-    
-      _, err =  BackwardMatcher(args,
-            )
-    
-    if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroDT arguments: %s, %w", lineArgs, err)
-    }
-	
-	return &TokenMacroDT{
-	
-	}, nil
+	args, _, err := ArgumentParser(lineArgs)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroDT arguments: %s, %w", lineArgs, err)
+	}
+	_, err = BackwardMatcher(args)
+	if err != nil {
+		return nil, fmt.Errorf("fitting TokenMacroDT arguments: %s, %w", lineArgs, err)
+	}
+	return &TokenMacroDT{}, nil
 }
 
 func (t *TokenMacroDT) String() string {
 	var args []string
-	
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
 	}
@@ -1142,7 +873,6 @@ func (t *TokenMacroDT) String() string {
 	return ".DT " + strings.Join(args, " ")
 }
 
-
 // TokenMacroPD
 // Define the vertical space between paragraphs or (sub)sections. The
 // optional argument vertical-space specifies the amount; the default
@@ -1153,41 +883,28 @@ func (t *TokenMacroDT) String() string {
 // spacing is not readily available. Thus, information or distinctions that
 // you use .PD to express are likely to be lost.
 type TokenMacroPD struct {
-
-
-    Nnn string
-
+	Nnn string
 }
 
 func ParseTokenMacroPD(lineArgs string) (Token, error) {
-    args, _, err := ArgumentParser(lineArgs)
-    if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroPD arguments: %s, %w", lineArgs, err)
-    }
-    
-      matched, err :=  ForwardMatcher(args,
-            
-            true,
-            )
-    
-    if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroPD arguments: %s, %w", lineArgs, err)
-    }
-	
-        argNnn := matched[0]
-    
+	args, _, err := ArgumentParser(lineArgs)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroPD arguments: %s, %w", lineArgs, err)
+	}
+	matched, err := ForwardMatcher(args,
+		true)
+	if err != nil {
+		return nil, fmt.Errorf("fitting TokenMacroPD arguments: %s, %w", lineArgs, err)
+	}
+	argNnn := matched[0]
 	return &TokenMacroPD{
-	
-        Nnn: argNnn,
-    
+		Nnn: argNnn,
 	}, nil
 }
 
 func (t *TokenMacroPD) String() string {
 	var args []string
-	
 	args = append(args, t.Nnn)
-	
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
 	}
@@ -1200,7 +917,6 @@ func (t *TokenMacroPD) String() string {
 	return ".PD " + strings.Join(args, " ")
 }
 
-
 // TokenMacroAT
 // Alter the footer for use with legacy AT&T man pages, overriding any
 // definition of the footer-inside argument to .TH. This macro exists only
@@ -1209,52 +925,33 @@ func (t *TokenMacroPD) String() string {
 // release argument specifies the release number, as in “System V Release
 // 3”.
 type TokenMacroAT struct {
-
-
-    System string
-
-
-    Release string
-
+	System  string
+	Release string
 }
 
 func ParseTokenMacroAT(lineArgs string) (Token, error) {
-    args, _, err := ArgumentParser(lineArgs)
-    if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroAT arguments: %s, %w", lineArgs, err)
-    }
-    
-      matched, err :=  ForwardMatcher(args,
-            
-            true,
-            
-            true,
-            )
-    
-    if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroAT arguments: %s, %w", lineArgs, err)
-    }
-	
-        argSystem := matched[0]
-    
-        argRelease := matched[1]
-    
+	args, _, err := ArgumentParser(lineArgs)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroAT arguments: %s, %w", lineArgs, err)
+	}
+	matched, err := ForwardMatcher(args,
+		true,
+		true)
+	if err != nil {
+		return nil, fmt.Errorf("fitting TokenMacroAT arguments: %s, %w", lineArgs, err)
+	}
+	argSystem := matched[0]
+	argRelease := matched[1]
 	return &TokenMacroAT{
-	
-        System: argSystem,
-    
-        Release: argRelease,
-    
+		System:  argSystem,
+		Release: argRelease,
 	}, nil
 }
 
 func (t *TokenMacroAT) String() string {
 	var args []string
-	
 	args = append(args, t.System)
-	
 	args = append(args, t.Release)
-	
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
 	}
@@ -1267,7 +964,6 @@ func (t *TokenMacroAT) String() string {
 	return ".AT " + strings.Join(args, " ")
 }
 
-
 // TokenMacroUC
 // Alter the footer for use with legacy BSD man pages, overriding any
 // definition of the footer-inside argument to .TH. This macro exists only
@@ -1276,41 +972,28 @@ func (t *TokenMacroAT) String() string {
 // 5 (4.2 Berkeley Distribution), 6 (4.3 Berkeley Distribution), 7 (4.4
 // Berkeley Distribution).
 type TokenMacroUC struct {
-
-
-    Version string
-
+	Version string
 }
 
 func ParseTokenMacroUC(lineArgs string) (Token, error) {
-    args, _, err := ArgumentParser(lineArgs)
-    if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroUC arguments: %s, %w", lineArgs, err)
-    }
-    
-      matched, err :=  ForwardMatcher(args,
-            
-            true,
-            )
-    
-    if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroUC arguments: %s, %w", lineArgs, err)
-    }
-	
-        argVersion := matched[0]
-    
+	args, _, err := ArgumentParser(lineArgs)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroUC arguments: %s, %w", lineArgs, err)
+	}
+	matched, err := ForwardMatcher(args,
+		true)
+	if err != nil {
+		return nil, fmt.Errorf("fitting TokenMacroUC arguments: %s, %w", lineArgs, err)
+	}
+	argVersion := matched[0]
 	return &TokenMacroUC{
-	
-        Version: argVersion,
-    
+		Version: argVersion,
 	}, nil
 }
 
 func (t *TokenMacroUC) String() string {
 	var args []string
-	
 	args = append(args, t.Version)
-	
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
 	}
@@ -1323,34 +1006,25 @@ func (t *TokenMacroUC) String() string {
 	return ".UC " + strings.Join(args, " ")
 }
 
-
 // TokenMacroPT
 // Set the page header text (“page trap”).
 type TokenMacroPT struct {
-
 }
 
 func ParseTokenMacroPT(lineArgs string) (Token, error) {
-    args, _, err := ArgumentParser(lineArgs)
-    if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroPT arguments: %s, %w", lineArgs, err)
-    }
-    
-      _, err =  BackwardMatcher(args,
-            )
-    
-    if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroPT arguments: %s, %w", lineArgs, err)
-    }
-	
-	return &TokenMacroPT{
-	
-	}, nil
+	args, _, err := ArgumentParser(lineArgs)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroPT arguments: %s, %w", lineArgs, err)
+	}
+	_, err = BackwardMatcher(args)
+	if err != nil {
+		return nil, fmt.Errorf("fitting TokenMacroPT arguments: %s, %w", lineArgs, err)
+	}
+	return &TokenMacroPT{}, nil
 }
 
 func (t *TokenMacroPT) String() string {
 	var args []string
-	
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
 	}
@@ -1363,34 +1037,25 @@ func (t *TokenMacroPT) String() string {
 	return ".PT " + strings.Join(args, " ")
 }
 
-
 // TokenMacroBT
 // Set the page footer text (“bottom trap”).
 type TokenMacroBT struct {
-
 }
 
 func ParseTokenMacroBT(lineArgs string) (Token, error) {
-    args, _, err := ArgumentParser(lineArgs)
-    if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroBT arguments: %s, %w", lineArgs, err)
-    }
-    
-      _, err =  BackwardMatcher(args,
-            )
-    
-    if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroBT arguments: %s, %w", lineArgs, err)
-    }
-	
-	return &TokenMacroBT{
-	
-	}, nil
+	args, _, err := ArgumentParser(lineArgs)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroBT arguments: %s, %w", lineArgs, err)
+	}
+	_, err = BackwardMatcher(args)
+	if err != nil {
+		return nil, fmt.Errorf("fitting TokenMacroBT arguments: %s, %w", lineArgs, err)
+	}
+	return &TokenMacroBT{}, nil
 }
 
 func (t *TokenMacroBT) String() string {
 	var args []string
-	
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
 	}
@@ -1403,45 +1068,31 @@ func (t *TokenMacroBT) String() string {
 	return ".BT " + strings.Join(args, " ")
 }
 
-
 // TokenMacroCT
 // Print ‘<CTRL/key>’.
 type TokenMacroCT struct {
-
-
-    Key string
-
+	Key string
 }
 
 func ParseTokenMacroCT(lineArgs string) (Token, error) {
-    args, _, err := ArgumentParser(lineArgs)
-    if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroCT arguments: %s, %w", lineArgs, err)
-    }
-    
-      matched, err :=  BackwardMatcher(args,
-            
-            false,
-            )
-    
-    if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroCT arguments: %s, %w", lineArgs, err)
-    }
-	
-        argKey := matched[0]
-    
+	args, _, err := ArgumentParser(lineArgs)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroCT arguments: %s, %w", lineArgs, err)
+	}
+	matched, err := BackwardMatcher(args,
+		false)
+	if err != nil {
+		return nil, fmt.Errorf("fitting TokenMacroCT arguments: %s, %w", lineArgs, err)
+	}
+	argKey := matched[0]
 	return &TokenMacroCT{
-	
-        Key: argKey,
-    
+		Key: argKey,
 	}, nil
 }
 
 func (t *TokenMacroCT) String() string {
 	var args []string
-	
 	args = append(args, t.Key)
-	
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
 	}
@@ -1454,34 +1105,25 @@ func (t *TokenMacroCT) String() string {
 	return ".CT " + strings.Join(args, " ")
 }
 
-
 // TokenMacroCW
 // Print subsequent text using the constant width (Courier) typeface.
 type TokenMacroCW struct {
-
 }
 
 func ParseTokenMacroCW(lineArgs string) (Token, error) {
-    args, _, err := ArgumentParser(lineArgs)
-    if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroCW arguments: %s, %w", lineArgs, err)
-    }
-    
-      _, err =  BackwardMatcher(args,
-            )
-    
-    if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroCW arguments: %s, %w", lineArgs, err)
-    }
-	
-	return &TokenMacroCW{
-	
-	}, nil
+	args, _, err := ArgumentParser(lineArgs)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroCW arguments: %s, %w", lineArgs, err)
+	}
+	_, err = BackwardMatcher(args)
+	if err != nil {
+		return nil, fmt.Errorf("fitting TokenMacroCW arguments: %s, %w", lineArgs, err)
+	}
+	return &TokenMacroCW{}, nil
 }
 
 func (t *TokenMacroCW) String() string {
 	var args []string
-	
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
 	}
@@ -1494,34 +1136,25 @@ func (t *TokenMacroCW) String() string {
 	return ".CW " + strings.Join(args, " ")
 }
 
-
 // TokenMacroDs
 // Begin a non-filled display.
 type TokenMacroDs struct {
-
 }
 
 func ParseTokenMacroDs(lineArgs string) (Token, error) {
-    args, _, err := ArgumentParser(lineArgs)
-    if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroDs arguments: %s, %w", lineArgs, err)
-    }
-    
-      _, err =  BackwardMatcher(args,
-            )
-    
-    if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroDs arguments: %s, %w", lineArgs, err)
-    }
-	
-	return &TokenMacroDs{
-	
-	}, nil
+	args, _, err := ArgumentParser(lineArgs)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroDs arguments: %s, %w", lineArgs, err)
+	}
+	_, err = BackwardMatcher(args)
+	if err != nil {
+		return nil, fmt.Errorf("fitting TokenMacroDs arguments: %s, %w", lineArgs, err)
+	}
+	return &TokenMacroDs{}, nil
 }
 
 func (t *TokenMacroDs) String() string {
 	var args []string
-	
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
 	}
@@ -1534,34 +1167,25 @@ func (t *TokenMacroDs) String() string {
 	return ".Ds " + strings.Join(args, " ")
 }
 
-
 // TokenMacroDe
 // End a non-filled display started with Ds.
 type TokenMacroDe struct {
-
 }
 
 func ParseTokenMacroDe(lineArgs string) (Token, error) {
-    args, _, err := ArgumentParser(lineArgs)
-    if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroDe arguments: %s, %w", lineArgs, err)
-    }
-    
-      _, err =  BackwardMatcher(args,
-            )
-    
-    if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroDe arguments: %s, %w", lineArgs, err)
-    }
-	
-	return &TokenMacroDe{
-	
-	}, nil
+	args, _, err := ArgumentParser(lineArgs)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroDe arguments: %s, %w", lineArgs, err)
+	}
+	_, err = BackwardMatcher(args)
+	if err != nil {
+		return nil, fmt.Errorf("fitting TokenMacroDe arguments: %s, %w", lineArgs, err)
+	}
+	return &TokenMacroDe{}, nil
 }
 
 func (t *TokenMacroDe) String() string {
 	var args []string
-	
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
 	}
@@ -1574,48 +1198,34 @@ func (t *TokenMacroDe) String() string {
 	return ".De " + strings.Join(args, " ")
 }
 
-
 // TokenMacroEX
 // Begin and end example. After .EX, filling is disabled and a
 // constant-width (monospaced) font is selected. Calling .EE enables
 // filling and restores the previous font. These macros are extensions
 // introduced in Ninth Edition Research Unix.
 type TokenMacroEX struct {
-
-
-    Indent string
-
+	Indent string
 }
 
 func ParseTokenMacroEX(lineArgs string) (Token, error) {
-    args, _, err := ArgumentParser(lineArgs)
-    if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroEX arguments: %s, %w", lineArgs, err)
-    }
-    
-      matched, err :=  ForwardMatcher(args,
-            
-            true,
-            )
-    
-    if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroEX arguments: %s, %w", lineArgs, err)
-    }
-	
-        argIndent := matched[0]
-    
+	args, _, err := ArgumentParser(lineArgs)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroEX arguments: %s, %w", lineArgs, err)
+	}
+	matched, err := ForwardMatcher(args,
+		true)
+	if err != nil {
+		return nil, fmt.Errorf("fitting TokenMacroEX arguments: %s, %w", lineArgs, err)
+	}
+	argIndent := matched[0]
 	return &TokenMacroEX{
-	
-        Indent: argIndent,
-    
+		Indent: argIndent,
 	}, nil
 }
 
 func (t *TokenMacroEX) String() string {
 	var args []string
-	
 	args = append(args, t.Indent)
-	
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
 	}
@@ -1628,34 +1238,25 @@ func (t *TokenMacroEX) String() string {
 	return ".EX " + strings.Join(args, " ")
 }
 
-
 // TokenMacroEE
 // End a non-filled display started with EX.
 type TokenMacroEE struct {
-
 }
 
 func ParseTokenMacroEE(lineArgs string) (Token, error) {
-    args, _, err := ArgumentParser(lineArgs)
-    if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroEE arguments: %s, %w", lineArgs, err)
-    }
-    
-      _, err =  BackwardMatcher(args,
-            )
-    
-    if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroEE arguments: %s, %w", lineArgs, err)
-    }
-	
-	return &TokenMacroEE{
-	
-	}, nil
+	args, _, err := ArgumentParser(lineArgs)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroEE arguments: %s, %w", lineArgs, err)
+	}
+	_, err = BackwardMatcher(args)
+	if err != nil {
+		return nil, fmt.Errorf("fitting TokenMacroEE arguments: %s, %w", lineArgs, err)
+	}
+	return &TokenMacroEE{}, nil
 }
 
 func (t *TokenMacroEE) String() string {
 	var args []string
-	
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
 	}
@@ -1668,46 +1269,32 @@ func (t *TokenMacroEE) String() string {
 	return ".EE " + strings.Join(args, " ")
 }
 
-
 // TokenMacroG
 // Set text in Helvetica. If no text is present on the line where the macro
 // is called, then the text of the next line appears in Helvetica.
 type TokenMacroG struct {
-
-
-    Text string
-
+	Text string
 }
 
 func ParseTokenMacroG(lineArgs string) (Token, error) {
-    args, _, err := ArgumentParser(lineArgs)
-    if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroG arguments: %s, %w", lineArgs, err)
-    }
-    
-      matched, err :=  ForwardMatcher(args,
-            
-            true,
-            )
-    
-    if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroG arguments: %s, %w", lineArgs, err)
-    }
-	
-        argText := matched[0]
-    
+	args, _, err := ArgumentParser(lineArgs)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroG arguments: %s, %w", lineArgs, err)
+	}
+	matched, err := ForwardMatcher(args,
+		true)
+	if err != nil {
+		return nil, fmt.Errorf("fitting TokenMacroG arguments: %s, %w", lineArgs, err)
+	}
+	argText := matched[0]
 	return &TokenMacroG{
-	
-        Text: argText,
-    
+		Text: argText,
 	}, nil
 }
 
 func (t *TokenMacroG) String() string {
 	var args []string
-	
 	args = append(args, t.Text)
-	
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
 	}
@@ -1720,47 +1307,33 @@ func (t *TokenMacroG) String() string {
 	return ".G " + strings.Join(args, " ")
 }
 
-
 // TokenMacroGL
 // Set text in Helvetica Oblique. If no text is present on the line where
 // the macro is called, then the text of the next line appears in Helvetica
 // Oblique.
 type TokenMacroGL struct {
-
-
-    Text string
-
+	Text string
 }
 
 func ParseTokenMacroGL(lineArgs string) (Token, error) {
-    args, _, err := ArgumentParser(lineArgs)
-    if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroGL arguments: %s, %w", lineArgs, err)
-    }
-    
-      matched, err :=  ForwardMatcher(args,
-            
-            true,
-            )
-    
-    if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroGL arguments: %s, %w", lineArgs, err)
-    }
-	
-        argText := matched[0]
-    
+	args, _, err := ArgumentParser(lineArgs)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroGL arguments: %s, %w", lineArgs, err)
+	}
+	matched, err := ForwardMatcher(args,
+		true)
+	if err != nil {
+		return nil, fmt.Errorf("fitting TokenMacroGL arguments: %s, %w", lineArgs, err)
+	}
+	argText := matched[0]
 	return &TokenMacroGL{
-	
-        Text: argText,
-    
+		Text: argText,
 	}, nil
 }
 
 func (t *TokenMacroGL) String() string {
 	var args []string
-	
 	args = append(args, t.Text)
-	
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
 	}
@@ -1773,47 +1346,33 @@ func (t *TokenMacroGL) String() string {
 	return ".GL " + strings.Join(args, " ")
 }
 
-
 // TokenMacroHB
 // Set text in Helvetica Bold. If no text is present on the line where the
 // macro is called, then all text up to the next HB appears in Helvetica
 // Bold.
 type TokenMacroHB struct {
-
-
-    Text string
-
+	Text string
 }
 
 func ParseTokenMacroHB(lineArgs string) (Token, error) {
-    args, _, err := ArgumentParser(lineArgs)
-    if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroHB arguments: %s, %w", lineArgs, err)
-    }
-    
-      matched, err :=  ForwardMatcher(args,
-            
-            true,
-            )
-    
-    if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroHB arguments: %s, %w", lineArgs, err)
-    }
-	
-        argText := matched[0]
-    
+	args, _, err := ArgumentParser(lineArgs)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroHB arguments: %s, %w", lineArgs, err)
+	}
+	matched, err := ForwardMatcher(args,
+		true)
+	if err != nil {
+		return nil, fmt.Errorf("fitting TokenMacroHB arguments: %s, %w", lineArgs, err)
+	}
+	argText := matched[0]
 	return &TokenMacroHB{
-	
-        Text: argText,
-    
+		Text: argText,
 	}, nil
 }
 
 func (t *TokenMacroHB) String() string {
 	var args []string
-	
 	args = append(args, t.Text)
-	
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
 	}
@@ -1826,45 +1385,31 @@ func (t *TokenMacroHB) String() string {
 	return ".HB " + strings.Join(args, " ")
 }
 
-
 // TokenMacroTB
 // Identical to HB.
 type TokenMacroTB struct {
-
-
-    Text string
-
+	Text string
 }
 
 func ParseTokenMacroTB(lineArgs string) (Token, error) {
-    args, _, err := ArgumentParser(lineArgs)
-    if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroTB arguments: %s, %w", lineArgs, err)
-    }
-    
-      matched, err :=  ForwardMatcher(args,
-            
-            true,
-            )
-    
-    if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroTB arguments: %s, %w", lineArgs, err)
-    }
-	
-        argText := matched[0]
-    
+	args, _, err := ArgumentParser(lineArgs)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroTB arguments: %s, %w", lineArgs, err)
+	}
+	matched, err := ForwardMatcher(args,
+		true)
+	if err != nil {
+		return nil, fmt.Errorf("fitting TokenMacroTB arguments: %s, %w", lineArgs, err)
+	}
+	argText := matched[0]
 	return &TokenMacroTB{
-	
-        Text: argText,
-    
+		Text: argText,
 	}, nil
 }
 
 func (t *TokenMacroTB) String() string {
 	var args []string
-	
 	args = append(args, t.Text)
-	
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
 	}
@@ -1877,69 +1422,43 @@ func (t *TokenMacroTB) String() string {
 	return ".TB " + strings.Join(args, " ")
 }
 
-
 // TokenMacroMS
 // Set a manpage reference in Ultrix format. The title is in Courier
 // instead of italic. Optional punctuation follows the section number
 // without an intervening space.
 type TokenMacroMS struct {
-
-
-    Title string
-
-
-    Sect string
-
-
-    Punct string
-
+	Title string
+	Sect  string
+	Punct string
 }
 
 func ParseTokenMacroMS(lineArgs string) (Token, error) {
-    args, _, err := ArgumentParser(lineArgs)
-    if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroMS arguments: %s, %w", lineArgs, err)
-    }
-    
-      matched, err :=  ForwardMatcher(args,
-            
-            false,
-            
-            false,
-            
-            true,
-            )
-    
-    if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroMS arguments: %s, %w", lineArgs, err)
-    }
-	
-        argTitle := matched[0]
-    
-        argSect := matched[1]
-    
-        argPunct := matched[2]
-    
+	args, _, err := ArgumentParser(lineArgs)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroMS arguments: %s, %w", lineArgs, err)
+	}
+	matched, err := ForwardMatcher(args,
+		false,
+		false,
+		true)
+	if err != nil {
+		return nil, fmt.Errorf("fitting TokenMacroMS arguments: %s, %w", lineArgs, err)
+	}
+	argTitle := matched[0]
+	argSect := matched[1]
+	argPunct := matched[2]
 	return &TokenMacroMS{
-	
-        Title: argTitle,
-    
-        Sect: argSect,
-    
-        Punct: argPunct,
-    
+		Title: argTitle,
+		Sect:  argSect,
+		Punct: argPunct,
 	}, nil
 }
 
 func (t *TokenMacroMS) String() string {
 	var args []string
-	
 	args = append(args, t.Title)
-	
 	args = append(args, t.Sect)
-	
 	args = append(args, t.Punct)
-	
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
 	}
@@ -1952,7 +1471,6 @@ func (t *TokenMacroMS) String() string {
 	return ".MS " + strings.Join(args, " ")
 }
 
-
 // TokenMacroNT
 // Begin a note. Print the optional title, or the word “Note”, centered
 // on the page. Text following the macro makes up the body of the note, and
@@ -1960,52 +1478,33 @@ func (t *TokenMacroMS) String() string {
 // note is printed centered (the second argument replaces the word
 // “Note” if specified).
 type TokenMacroNT struct {
-
-
-    C string
-
-
-    Title string
-
+	C     string
+	Title string
 }
 
 func ParseTokenMacroNT(lineArgs string) (Token, error) {
-    args, _, err := ArgumentParser(lineArgs)
-    if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroNT arguments: %s, %w", lineArgs, err)
-    }
-    
-      matched, err :=  ForwardMatcher(args,
-            
-            true,
-            
-            true,
-            )
-    
-    if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroNT arguments: %s, %w", lineArgs, err)
-    }
-	
-        argC := matched[0]
-    
-        argTitle := matched[1]
-    
+	args, _, err := ArgumentParser(lineArgs)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroNT arguments: %s, %w", lineArgs, err)
+	}
+	matched, err := ForwardMatcher(args,
+		true,
+		true)
+	if err != nil {
+		return nil, fmt.Errorf("fitting TokenMacroNT arguments: %s, %w", lineArgs, err)
+	}
+	argC := matched[0]
+	argTitle := matched[1]
 	return &TokenMacroNT{
-	
-        C: argC,
-    
-        Title: argTitle,
-    
+		C:     argC,
+		Title: argTitle,
 	}, nil
 }
 
 func (t *TokenMacroNT) String() string {
 	var args []string
-	
 	args = append(args, t.C)
-	
 	args = append(args, t.Title)
-	
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
 	}
@@ -2018,34 +1517,25 @@ func (t *TokenMacroNT) String() string {
 	return ".NT " + strings.Join(args, " ")
 }
 
-
 // TokenMacroNE
 // End a note begun with NT.
 type TokenMacroNE struct {
-
 }
 
 func ParseTokenMacroNE(lineArgs string) (Token, error) {
-    args, _, err := ArgumentParser(lineArgs)
-    if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroNE arguments: %s, %w", lineArgs, err)
-    }
-    
-      _, err =  BackwardMatcher(args,
-            )
-    
-    if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroNE arguments: %s, %w", lineArgs, err)
-    }
-	
-	return &TokenMacroNE{
-	
-	}, nil
+	args, _, err := ArgumentParser(lineArgs)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroNE arguments: %s, %w", lineArgs, err)
+	}
+	_, err = BackwardMatcher(args)
+	if err != nil {
+		return nil, fmt.Errorf("fitting TokenMacroNE arguments: %s, %w", lineArgs, err)
+	}
+	return &TokenMacroNE{}, nil
 }
 
 func (t *TokenMacroNE) String() string {
 	var args []string
-	
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
 	}
@@ -2058,57 +1548,37 @@ func (t *TokenMacroNE) String() string {
 	return ".NE " + strings.Join(args, " ")
 }
 
-
 // TokenMacroPN
 // Set the path name in constant width (Courier), followed by optional
 // punctuation.
 type TokenMacroPN struct {
-
-
-    Path string
-
-
-    Punct string
-
+	Path  string
+	Punct string
 }
 
 func ParseTokenMacroPN(lineArgs string) (Token, error) {
-    args, _, err := ArgumentParser(lineArgs)
-    if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroPN arguments: %s, %w", lineArgs, err)
-    }
-    
-      matched, err :=  ForwardMatcher(args,
-            
-            false,
-            
-            true,
-            )
-    
-    if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroPN arguments: %s, %w", lineArgs, err)
-    }
-	
-        argPath := matched[0]
-    
-        argPunct := matched[1]
-    
+	args, _, err := ArgumentParser(lineArgs)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroPN arguments: %s, %w", lineArgs, err)
+	}
+	matched, err := ForwardMatcher(args,
+		false,
+		true)
+	if err != nil {
+		return nil, fmt.Errorf("fitting TokenMacroPN arguments: %s, %w", lineArgs, err)
+	}
+	argPath := matched[0]
+	argPunct := matched[1]
 	return &TokenMacroPN{
-	
-        Path: argPath,
-    
-        Punct: argPunct,
-    
+		Path:  argPath,
+		Punct: argPunct,
 	}, nil
 }
 
 func (t *TokenMacroPN) String() string {
 	var args []string
-	
 	args = append(args, t.Path)
-	
 	args = append(args, t.Punct)
-	
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
 	}
@@ -2121,69 +1591,43 @@ func (t *TokenMacroPN) String() string {
 	return ".PN " + strings.Join(args, " ")
 }
 
-
 // TokenMacroPn
 // If called with two arguments, identical to PN. If called with three
 // arguments, set the second argument in constant width (Courier),
 // bracketed by the first and third arguments in the current font.
 type TokenMacroPn struct {
-
-
-    Punct string
-
-
-    Path string
-
-
-    Punct2 string
-
+	Punct  string
+	Path   string
+	Punct2 string
 }
 
 func ParseTokenMacroPn(lineArgs string) (Token, error) {
-    args, _, err := ArgumentParser(lineArgs)
-    if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroPn arguments: %s, %w", lineArgs, err)
-    }
-    
-      matched, err :=  BackwardMatcher(args,
-            
-            true,
-            
-            false,
-            
-            true,
-            )
-    
-    if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroPn arguments: %s, %w", lineArgs, err)
-    }
-	
-        argPunct := matched[0]
-    
-        argPath := matched[1]
-    
-        argPunct2 := matched[2]
-    
+	args, _, err := ArgumentParser(lineArgs)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroPn arguments: %s, %w", lineArgs, err)
+	}
+	matched, err := BackwardMatcher(args,
+		true,
+		false,
+		true)
+	if err != nil {
+		return nil, fmt.Errorf("fitting TokenMacroPn arguments: %s, %w", lineArgs, err)
+	}
+	argPunct := matched[0]
+	argPath := matched[1]
+	argPunct2 := matched[2]
 	return &TokenMacroPn{
-	
-        Punct: argPunct,
-    
-        Path: argPath,
-    
-        Punct2: argPunct2,
-    
+		Punct:  argPunct,
+		Path:   argPath,
+		Punct2: argPunct2,
 	}, nil
 }
 
 func (t *TokenMacroPn) String() string {
 	var args []string
-	
 	args = append(args, t.Punct)
-	
 	args = append(args, t.Path)
-	
 	args = append(args, t.Punct2)
-	
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
 	}
@@ -2196,34 +1640,25 @@ func (t *TokenMacroPn) String() string {
 	return ".Pn " + strings.Join(args, " ")
 }
 
-
 // TokenMacroR
 // Switch to roman font and turn off any underlining in effect.
 type TokenMacroR struct {
-
 }
 
 func ParseTokenMacroR(lineArgs string) (Token, error) {
-    args, _, err := ArgumentParser(lineArgs)
-    if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroR arguments: %s, %w", lineArgs, err)
-    }
-    
-      _, err =  BackwardMatcher(args,
-            )
-    
-    if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroR arguments: %s, %w", lineArgs, err)
-    }
-	
-	return &TokenMacroR{
-	
-	}, nil
+	args, _, err := ArgumentParser(lineArgs)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroR arguments: %s, %w", lineArgs, err)
+	}
+	_, err = BackwardMatcher(args)
+	if err != nil {
+		return nil, fmt.Errorf("fitting TokenMacroR arguments: %s, %w", lineArgs, err)
+	}
+	return &TokenMacroR{}, nil
 }
 
 func (t *TokenMacroR) String() string {
 	var args []string
-	
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
 	}
@@ -2236,34 +1671,25 @@ func (t *TokenMacroR) String() string {
 	return ".R " + strings.Join(args, " ")
 }
 
-
 // TokenMacroRN
 // Print the string ‘<RETURN>’.
 type TokenMacroRN struct {
-
 }
 
 func ParseTokenMacroRN(lineArgs string) (Token, error) {
-    args, _, err := ArgumentParser(lineArgs)
-    if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroRN arguments: %s, %w", lineArgs, err)
-    }
-    
-      _, err =  BackwardMatcher(args,
-            )
-    
-    if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroRN arguments: %s, %w", lineArgs, err)
-    }
-	
-	return &TokenMacroRN{
-	
-	}, nil
+	args, _, err := ArgumentParser(lineArgs)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroRN arguments: %s, %w", lineArgs, err)
+	}
+	_, err = BackwardMatcher(args)
+	if err != nil {
+		return nil, fmt.Errorf("fitting TokenMacroRN arguments: %s, %w", lineArgs, err)
+	}
+	return &TokenMacroRN{}, nil
 }
 
 func (t *TokenMacroRN) String() string {
 	var args []string
-	
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
 	}
@@ -2276,46 +1702,32 @@ func (t *TokenMacroRN) String() string {
 	return ".RN " + strings.Join(args, " ")
 }
 
-
 // TokenMacroVS
 // Start printing a change bar in the margin if the number 4 is specified.
 // Otherwise, this macro does nothing.
 type TokenMacroVS struct {
-
-
-    Arg4 string
-
+	Arg4 string
 }
 
 func ParseTokenMacroVS(lineArgs string) (Token, error) {
-    args, _, err := ArgumentParser(lineArgs)
-    if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroVS arguments: %s, %w", lineArgs, err)
-    }
-    
-      matched, err :=  ForwardMatcher(args,
-            
-            true,
-            )
-    
-    if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroVS arguments: %s, %w", lineArgs, err)
-    }
-	
-        argArg4 := matched[0]
-    
+	args, _, err := ArgumentParser(lineArgs)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroVS arguments: %s, %w", lineArgs, err)
+	}
+	matched, err := ForwardMatcher(args,
+		true)
+	if err != nil {
+		return nil, fmt.Errorf("fitting TokenMacroVS arguments: %s, %w", lineArgs, err)
+	}
+	argArg4 := matched[0]
 	return &TokenMacroVS{
-	
-        Arg4: argArg4,
-    
+		Arg4: argArg4,
 	}, nil
 }
 
 func (t *TokenMacroVS) String() string {
 	var args []string
-	
 	args = append(args, t.Arg4)
-	
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
 	}
@@ -2328,34 +1740,25 @@ func (t *TokenMacroVS) String() string {
 	return ".VS " + strings.Join(args, " ")
 }
 
-
 // TokenMacroVE
 // End printing the change bar begun by VS.
 type TokenMacroVE struct {
-
 }
 
 func ParseTokenMacroVE(lineArgs string) (Token, error) {
-    args, _, err := ArgumentParser(lineArgs)
-    if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroVE arguments: %s, %w", lineArgs, err)
-    }
-    
-      _, err =  BackwardMatcher(args,
-            )
-    
-    if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroVE arguments: %s, %w", lineArgs, err)
-    }
-	
-	return &TokenMacroVE{
-	
-	}, nil
+	args, _, err := ArgumentParser(lineArgs)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroVE arguments: %s, %w", lineArgs, err)
+	}
+	_, err = BackwardMatcher(args)
+	if err != nil {
+		return nil, fmt.Errorf("fitting TokenMacroVE arguments: %s, %w", lineArgs, err)
+	}
+	return &TokenMacroVE{}, nil
 }
 
 func (t *TokenMacroVE) String() string {
 	var args []string
-	
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
 	}
@@ -2367,7 +1770,6 @@ func (t *TokenMacroVE) String() string {
 	}
 	return ".VE " + strings.Join(args, " ")
 }
-
 
 // TokenMacroRP
 // Use the “report” (AT&T: “released paper”) format for your
@@ -2382,41 +1784,28 @@ func (t *TokenMacroVE) String() string {
 // occur in any order. “no” is recognized as a synonym of
 // no-repeat-info for AT&T compatibility.
 type TokenMacroRP struct {
-
-
-    No string
-
+	No string
 }
 
 func ParseTokenMacroRP(lineArgs string) (Token, error) {
-    args, _, err := ArgumentParser(lineArgs)
-    if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroRP arguments: %s, %w", lineArgs, err)
-    }
-    
-      matched, err :=  ForwardMatcher(args,
-            
-            true,
-            )
-    
-    if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroRP arguments: %s, %w", lineArgs, err)
-    }
-	
-        argNo := matched[0]
-    
+	args, _, err := ArgumentParser(lineArgs)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroRP arguments: %s, %w", lineArgs, err)
+	}
+	matched, err := ForwardMatcher(args,
+		true)
+	if err != nil {
+		return nil, fmt.Errorf("fitting TokenMacroRP arguments: %s, %w", lineArgs, err)
+	}
+	argNo := matched[0]
 	return &TokenMacroRP{
-	
-        No: argNo,
-    
+		No: argNo,
 	}, nil
 }
 
 func (t *TokenMacroRP) String() string {
 	var args []string
-	
 	args = append(args, t.No)
-	
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
 	}
@@ -2429,36 +1818,27 @@ func (t *TokenMacroRP) String() string {
 	return ".RP " + strings.Join(args, " ")
 }
 
-
 // TokenMacroP1
 // Typeset the header even on page 1. To be effective, this macro must be
 // called before the header trap is sprung on any page numbered “1”.
 // This is a Berkeley extension.
 type TokenMacroP1 struct {
-
 }
 
 func ParseTokenMacroP1(lineArgs string) (Token, error) {
-    args, _, err := ArgumentParser(lineArgs)
-    if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroP1 arguments: %s, %w", lineArgs, err)
-    }
-    
-      _, err =  BackwardMatcher(args,
-            )
-    
-    if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroP1 arguments: %s, %w", lineArgs, err)
-    }
-	
-	return &TokenMacroP1{
-	
-	}, nil
+	args, _, err := ArgumentParser(lineArgs)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroP1 arguments: %s, %w", lineArgs, err)
+	}
+	_, err = BackwardMatcher(args)
+	if err != nil {
+		return nil, fmt.Errorf("fitting TokenMacroP1 arguments: %s, %w", lineArgs, err)
+	}
+	return &TokenMacroP1{}, nil
 }
 
 func (t *TokenMacroP1) String() string {
 	var args []string
-	
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
 	}
@@ -2471,47 +1851,33 @@ func (t *TokenMacroP1) String() string {
 	return ".P1 " + strings.Join(args, " ")
 }
 
-
 // TokenMacroDA
 // Typeset the current date, or any arguments x, in the center footer, and,
 // if .RP is also called, left-aligned at the end of the document
 // description on the cover page.
 type TokenMacroDA struct {
-
-
-    Ellipse string
-
+	Ellipse string
 }
 
 func ParseTokenMacroDA(lineArgs string) (Token, error) {
-    args, _, err := ArgumentParser(lineArgs)
-    if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroDA arguments: %s, %w", lineArgs, err)
-    }
-    
-      matched, err :=  ForwardMatcher(args,
-            
-            true,
-            )
-    
-    if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroDA arguments: %s, %w", lineArgs, err)
-    }
-	
-        argEllipse := matched[0]
-    
+	args, _, err := ArgumentParser(lineArgs)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroDA arguments: %s, %w", lineArgs, err)
+	}
+	matched, err := ForwardMatcher(args,
+		true)
+	if err != nil {
+		return nil, fmt.Errorf("fitting TokenMacroDA arguments: %s, %w", lineArgs, err)
+	}
+	argEllipse := matched[0]
 	return &TokenMacroDA{
-	
-        Ellipse: argEllipse,
-    
+		Ellipse: argEllipse,
 	}, nil
 }
 
 func (t *TokenMacroDA) String() string {
 	var args []string
-	
 	args = append(args, t.Ellipse)
-	
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
 	}
@@ -2524,47 +1890,33 @@ func (t *TokenMacroDA) String() string {
 	return ".DA " + strings.Join(args, " ")
 }
 
-
 // TokenMacroND
 // Typeset the current date, or any arguments x, if .RP is also called,
 // left-aligned at the end of the document description on the cover page.
 // This is groff ms's default.
 type TokenMacroND struct {
-
-
-    Ellipse string
-
+	Ellipse string
 }
 
 func ParseTokenMacroND(lineArgs string) (Token, error) {
-    args, _, err := ArgumentParser(lineArgs)
-    if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroND arguments: %s, %w", lineArgs, err)
-    }
-    
-      matched, err :=  ForwardMatcher(args,
-            
-            true,
-            )
-    
-    if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroND arguments: %s, %w", lineArgs, err)
-    }
-	
-        argEllipse := matched[0]
-    
+	args, _, err := ArgumentParser(lineArgs)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroND arguments: %s, %w", lineArgs, err)
+	}
+	matched, err := ForwardMatcher(args,
+		true)
+	if err != nil {
+		return nil, fmt.Errorf("fitting TokenMacroND arguments: %s, %w", lineArgs, err)
+	}
+	argEllipse := matched[0]
 	return &TokenMacroND{
-	
-        Ellipse: argEllipse,
-    
+		Ellipse: argEllipse,
 	}, nil
 }
 
 func (t *TokenMacroND) String() string {
 	var args []string
-	
 	args = append(args, t.Ellipse)
-	
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
 	}
@@ -2577,36 +1929,27 @@ func (t *TokenMacroND) String() string {
 	return ".ND " + strings.Join(args, " ")
 }
 
-
 // TokenMacroTL
 // Specify the document title. ms collects text on input lines following
 // this call into the title until reaching .AU, .AB, or a heading or
 // paragraphing macro call.
 type TokenMacroTL struct {
-
 }
 
 func ParseTokenMacroTL(lineArgs string) (Token, error) {
-    args, _, err := ArgumentParser(lineArgs)
-    if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroTL arguments: %s, %w", lineArgs, err)
-    }
-    
-      _, err =  BackwardMatcher(args,
-            )
-    
-    if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroTL arguments: %s, %w", lineArgs, err)
-    }
-	
-	return &TokenMacroTL{
-	
-	}, nil
+	args, _, err := ArgumentParser(lineArgs)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroTL arguments: %s, %w", lineArgs, err)
+	}
+	_, err = BackwardMatcher(args)
+	if err != nil {
+		return nil, fmt.Errorf("fitting TokenMacroTL arguments: %s, %w", lineArgs, err)
+	}
+	return &TokenMacroTL{}, nil
 }
 
 func (t *TokenMacroTL) String() string {
 	var args []string
-	
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
 	}
@@ -2619,37 +1962,28 @@ func (t *TokenMacroTL) String() string {
 	return ".TL " + strings.Join(args, " ")
 }
 
-
 // TokenMacroAU
 // Specify an author's name. ms collects text on input lines following this
 // call into the author's name until reaching .AI, .AB, another .AU, or a
 // heading or paragraphing macro call. Call it repeatedly to specify
 // multiple authors.
 type TokenMacroAU struct {
-
 }
 
 func ParseTokenMacroAU(lineArgs string) (Token, error) {
-    args, _, err := ArgumentParser(lineArgs)
-    if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroAU arguments: %s, %w", lineArgs, err)
-    }
-    
-      _, err =  BackwardMatcher(args,
-            )
-    
-    if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroAU arguments: %s, %w", lineArgs, err)
-    }
-	
-	return &TokenMacroAU{
-	
-	}, nil
+	args, _, err := ArgumentParser(lineArgs)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroAU arguments: %s, %w", lineArgs, err)
+	}
+	_, err = BackwardMatcher(args)
+	if err != nil {
+		return nil, fmt.Errorf("fitting TokenMacroAU arguments: %s, %w", lineArgs, err)
+	}
+	return &TokenMacroAU{}, nil
 }
 
 func (t *TokenMacroAU) String() string {
 	var args []string
-	
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
 	}
@@ -2662,7 +1996,6 @@ func (t *TokenMacroAU) String() string {
 	return ".AU " + strings.Join(args, " ")
 }
 
-
 // TokenMacroAI
 // Specify the preceding author's institution. An .AU call is usefully
 // followed by at most one .AI call; if there are more, the last .AI call
@@ -2670,30 +2003,22 @@ func (t *TokenMacroAU) String() string {
 // author's institution until reaching .AU, .AB, or a heading or
 // paragraphing macro call.
 type TokenMacroAI struct {
-
 }
 
 func ParseTokenMacroAI(lineArgs string) (Token, error) {
-    args, _, err := ArgumentParser(lineArgs)
-    if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroAI arguments: %s, %w", lineArgs, err)
-    }
-    
-      _, err =  BackwardMatcher(args,
-            )
-    
-    if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroAI arguments: %s, %w", lineArgs, err)
-    }
-	
-	return &TokenMacroAI{
-	
-	}, nil
+	args, _, err := ArgumentParser(lineArgs)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroAI arguments: %s, %w", lineArgs, err)
+	}
+	_, err = BackwardMatcher(args)
+	if err != nil {
+		return nil, fmt.Errorf("fitting TokenMacroAI arguments: %s, %w", lineArgs, err)
+	}
+	return &TokenMacroAI{}, nil
 }
 
 func (t *TokenMacroAI) String() string {
 	var args []string
-	
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
 	}
@@ -2706,48 +2031,34 @@ func (t *TokenMacroAI) String() string {
 	return ".AI " + strings.Join(args, " ")
 }
 
-
 // TokenMacroAB
 // Begin the abstract. ms collects text on input lines following this call
 // into the abstract until reaching an .AE call. By default, ms places the
 // word “ABSTRACT” centered and in italics above the text of the
 // abstract. The optional argument “no” suppresses this heading.
 type TokenMacroAB struct {
-
-
-    No string
-
+	No string
 }
 
 func ParseTokenMacroAB(lineArgs string) (Token, error) {
-    args, _, err := ArgumentParser(lineArgs)
-    if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroAB arguments: %s, %w", lineArgs, err)
-    }
-    
-      matched, err :=  ForwardMatcher(args,
-            
-            true,
-            )
-    
-    if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroAB arguments: %s, %w", lineArgs, err)
-    }
-	
-        argNo := matched[0]
-    
+	args, _, err := ArgumentParser(lineArgs)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroAB arguments: %s, %w", lineArgs, err)
+	}
+	matched, err := ForwardMatcher(args,
+		true)
+	if err != nil {
+		return nil, fmt.Errorf("fitting TokenMacroAB arguments: %s, %w", lineArgs, err)
+	}
+	argNo := matched[0]
 	return &TokenMacroAB{
-	
-        No: argNo,
-    
+		No: argNo,
 	}, nil
 }
 
 func (t *TokenMacroAB) String() string {
 	var args []string
-	
 	args = append(args, t.No)
-	
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
 	}
@@ -2760,34 +2071,25 @@ func (t *TokenMacroAB) String() string {
 	return ".AB " + strings.Join(args, " ")
 }
 
-
 // TokenMacroAE
 // End the abstract.
 type TokenMacroAE struct {
-
 }
 
 func ParseTokenMacroAE(lineArgs string) (Token, error) {
-    args, _, err := ArgumentParser(lineArgs)
-    if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroAE arguments: %s, %w", lineArgs, err)
-    }
-    
-      _, err =  BackwardMatcher(args,
-            )
-    
-    if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroAE arguments: %s, %w", lineArgs, err)
-    }
-	
-	return &TokenMacroAE{
-	
-	}, nil
+	args, _, err := ArgumentParser(lineArgs)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroAE arguments: %s, %w", lineArgs, err)
+	}
+	_, err = BackwardMatcher(args)
+	if err != nil {
+		return nil, fmt.Errorf("fitting TokenMacroAE arguments: %s, %w", lineArgs, err)
+	}
+	return &TokenMacroAE{}, nil
 }
 
 func (t *TokenMacroAE) String() string {
 	var args []string
-	
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
 	}
@@ -2800,35 +2102,26 @@ func (t *TokenMacroAE) String() string {
 	return ".AE " + strings.Join(args, " ")
 }
 
-
 // TokenMacroPP
 // Set a paragraph with a first-line left indentation in the amount stored
 // in the PI register.
 type TokenMacroPP struct {
-
 }
 
 func ParseTokenMacroPP(lineArgs string) (Token, error) {
-    args, _, err := ArgumentParser(lineArgs)
-    if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroPP arguments: %s, %w", lineArgs, err)
-    }
-    
-      _, err =  BackwardMatcher(args,
-            )
-    
-    if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroPP arguments: %s, %w", lineArgs, err)
-    }
-	
-	return &TokenMacroPP{
-	
-	}, nil
+	args, _, err := ArgumentParser(lineArgs)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroPP arguments: %s, %w", lineArgs, err)
+	}
+	_, err = BackwardMatcher(args)
+	if err != nil {
+		return nil, fmt.Errorf("fitting TokenMacroPP arguments: %s, %w", lineArgs, err)
+	}
+	return &TokenMacroPP{}, nil
 }
 
 func (t *TokenMacroPP) String() string {
 	var args []string
-	
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
 	}
@@ -2841,34 +2134,25 @@ func (t *TokenMacroPP) String() string {
 	return ".PP " + strings.Join(args, " ")
 }
 
-
 // TokenMacroLP
 // Sets a paragraph without an initial indentation.
 type TokenMacroLP struct {
-
 }
 
 func ParseTokenMacroLP(lineArgs string) (Token, error) {
-    args, _, err := ArgumentParser(lineArgs)
-    if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroLP arguments: %s, %w", lineArgs, err)
-    }
-    
-      _, err =  BackwardMatcher(args,
-            )
-    
-    if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroLP arguments: %s, %w", lineArgs, err)
-    }
-	
-	return &TokenMacroLP{
-	
-	}, nil
+	args, _, err := ArgumentParser(lineArgs)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroLP arguments: %s, %w", lineArgs, err)
+	}
+	_, err = BackwardMatcher(args)
+	if err != nil {
+		return nil, fmt.Errorf("fitting TokenMacroLP arguments: %s, %w", lineArgs, err)
+	}
+	return &TokenMacroLP{}, nil
 }
 
 func (t *TokenMacroLP) String() string {
 	var args []string
-	
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
 	}
@@ -2881,38 +2165,25 @@ func (t *TokenMacroLP) String() string {
 	return ".LP " + strings.Join(args, " ")
 }
 
-
 // TokenMacroQP
-// Sets a paragraph that is indented at both left and right margins by the
-// amount of the register QI. The effect is identical to the HTML
-// <BLOCKQUOTE> element. The next paragraph or heading returns margins to
-// normal. QP inserts vertical space of amount set by register PD before
-// the paragraph.
+// Set a paragraph indented from both left and right margins by \n[QI].
 type TokenMacroQP struct {
-
 }
 
 func ParseTokenMacroQP(lineArgs string) (Token, error) {
-    args, _, err := ArgumentParser(lineArgs)
-    if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroQP arguments: %s, %w", lineArgs, err)
-    }
-    
-      _, err =  BackwardMatcher(args,
-            )
-    
-    if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroQP arguments: %s, %w", lineArgs, err)
-    }
-	
-	return &TokenMacroQP{
-	
-	}, nil
+	args, _, err := ArgumentParser(lineArgs)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroQP arguments: %s, %w", lineArgs, err)
+	}
+	_, err = BackwardMatcher(args)
+	if err != nil {
+		return nil, fmt.Errorf("fitting TokenMacroQP arguments: %s, %w", lineArgs, err)
+	}
+	return &TokenMacroQP{}, nil
 }
 
 func (t *TokenMacroQP) String() string {
 	var args []string
-	
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
 	}
@@ -2925,37 +2196,25 @@ func (t *TokenMacroQP) String() string {
 	return ".QP " + strings.Join(args, " ")
 }
 
-
 // TokenMacroQE
-// These macros begin and end a quoted section. The QI register controls
-// the amount of indentation. Both QS and QE insert inter-paragraph
-// vertical space set by register PD. The text between QS and QE can be
-// structured further by use of the macros LP or PP.
+// End a region where each paragraph is indented from both margins by \n[QI].
 type TokenMacroQE struct {
-
 }
 
 func ParseTokenMacroQE(lineArgs string) (Token, error) {
-    args, _, err := ArgumentParser(lineArgs)
-    if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroQE arguments: %s, %w", lineArgs, err)
-    }
-    
-      _, err =  BackwardMatcher(args,
-            )
-    
-    if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroQE arguments: %s, %w", lineArgs, err)
-    }
-	
-	return &TokenMacroQE{
-	
-	}, nil
+	args, _, err := ArgumentParser(lineArgs)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroQE arguments: %s, %w", lineArgs, err)
+	}
+	_, err = BackwardMatcher(args)
+	if err != nil {
+		return nil, fmt.Errorf("fitting TokenMacroQE arguments: %s, %w", lineArgs, err)
+	}
+	return &TokenMacroQE{}, nil
 }
 
 func (t *TokenMacroQE) String() string {
 	var args []string
-	
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
 	}
@@ -2968,35 +2227,25 @@ func (t *TokenMacroQE) String() string {
 	return ".QE " + strings.Join(args, " ")
 }
 
-
 // TokenMacroXP
-// Sets a paragraph whose lines are indented, except for the first line.
-// This is a Berkeley extension.
+// Set an “exdented” paragraph—one with a left indentation of \n[PI] on every line except the first (also known as a hanging indent). This is a Berkeley extension.
 type TokenMacroXP struct {
-
 }
 
 func ParseTokenMacroXP(lineArgs string) (Token, error) {
-    args, _, err := ArgumentParser(lineArgs)
-    if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroXP arguments: %s, %w", lineArgs, err)
-    }
-    
-      _, err =  BackwardMatcher(args,
-            )
-    
-    if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroXP arguments: %s, %w", lineArgs, err)
-    }
-	
-	return &TokenMacroXP{
-	
-	}, nil
+	args, _, err := ArgumentParser(lineArgs)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroXP arguments: %s, %w", lineArgs, err)
+	}
+	_, err = BackwardMatcher(args)
+	if err != nil {
+		return nil, fmt.Errorf("fitting TokenMacroXP arguments: %s, %w", lineArgs, err)
+	}
+	return &TokenMacroXP{}, nil
 }
 
 func (t *TokenMacroXP) String() string {
 	var args []string
-	
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
 	}
@@ -3009,72 +2258,43 @@ func (t *TokenMacroXP) String() string {
 	return ".XP " + strings.Join(args, " ")
 }
 
-
 // TokenMacroNH
-// Numbered heading. The argument is either a numeric argument to indicate
-// the level of the heading, or the letter S followed by numeric arguments
-// to set the heading level explicitly.
-// 
-// If you specify heading levels out of sequence, such as invoking ‘.NH
-// 3’ after ‘.NH 1’, groff prints a warning on standard error.
+// Set an automatically numbered heading. ms produces a numbered heading in the form a.b.c..., to any level desired, with the numbering of each depth increasing automatically and being reset to zero when a more significant depth is increased. “1” is the most significant or coarsest division of the document. Only non-zero values are output. If depth is omitted, it is taken to be 1. If you specify depth such that an ascending gap occurs relative to the previous NH call—that is, you “skip a depth”, as by “.NH 1” and then “.NH 3”, groff ms emits a warning on the standard error stream.
+//
+// Alternatively, you can give NH a first argument of “S”, followed by integers to number the heading depths explicitly. Further automatic numbering, if used, resumes using the specified indices as their predecessors. This feature is a Berkeley extension.
 type TokenMacroNH struct {
-
-
-    S string
-
-
-    Level0 string
-
-
-    Ellipse string
-
+	S       string
+	Level0  string
+	Ellipse string
 }
 
 func ParseTokenMacroNH(lineArgs string) (Token, error) {
-    args, _, err := ArgumentParser(lineArgs)
-    if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroNH arguments: %s, %w", lineArgs, err)
-    }
-    
-      matched, err :=  BackwardMatcher(args,
-            
-            false,
-            
-            false,
-            
-            false,
-            )
-    
-    if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroNH arguments: %s, %w", lineArgs, err)
-    }
-	
-        argS := matched[0]
-    
-        argLevel0 := matched[1]
-    
-        argEllipse := matched[2]
-    
+	args, _, err := ArgumentParser(lineArgs)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroNH arguments: %s, %w", lineArgs, err)
+	}
+	matched, err := BackwardMatcher(args,
+		false,
+		false,
+		false)
+	if err != nil {
+		return nil, fmt.Errorf("fitting TokenMacroNH arguments: %s, %w", lineArgs, err)
+	}
+	argS := matched[0]
+	argLevel0 := matched[1]
+	argEllipse := matched[2]
 	return &TokenMacroNH{
-	
-        S: argS,
-    
-        Level0: argLevel0,
-    
-        Ellipse: argEllipse,
-    
+		S:       argS,
+		Level0:  argLevel0,
+		Ellipse: argEllipse,
 	}, nil
 }
 
 func (t *TokenMacroNH) String() string {
 	var args []string
-	
 	args = append(args, t.S)
-	
 	args = append(args, t.Level0)
-	
 	args = append(args, t.Ellipse)
-	
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
 	}
@@ -3087,46 +2307,32 @@ func (t *TokenMacroNH) String() string {
 	return ".NH " + strings.Join(args, " ")
 }
 
-
 // TokenMacroBX
 // Prints its argument and draws a box around it. If you want to box a
 // string that contains spaces, use a digit-width space (\0).
 type TokenMacroBX struct {
-
-
-    Txt string
-
+	Txt string
 }
 
 func ParseTokenMacroBX(lineArgs string) (Token, error) {
-    args, _, err := ArgumentParser(lineArgs)
-    if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroBX arguments: %s, %w", lineArgs, err)
-    }
-    
-      matched, err :=  ForwardMatcher(args,
-            
-            true,
-            )
-    
-    if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroBX arguments: %s, %w", lineArgs, err)
-    }
-	
-        argTxt := matched[0]
-    
+	args, _, err := ArgumentParser(lineArgs)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroBX arguments: %s, %w", lineArgs, err)
+	}
+	matched, err := ForwardMatcher(args,
+		true)
+	if err != nil {
+		return nil, fmt.Errorf("fitting TokenMacroBX arguments: %s, %w", lineArgs, err)
+	}
+	argTxt := matched[0]
 	return &TokenMacroBX{
-	
-        Txt: argTxt,
-    
+		Txt: argTxt,
 	}, nil
 }
 
 func (t *TokenMacroBX) String() string {
 	var args []string
-	
 	args = append(args, t.Txt)
-	
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
 	}
@@ -3139,58 +2345,38 @@ func (t *TokenMacroBX) String() string {
 	return ".BX " + strings.Join(args, " ")
 }
 
-
 // TokenMacroUL
 // Prints its first argument with an underline. If you specify a second
 // argument, groff prints it in the previous font after the underlined
 // text, with no intervening space.
 type TokenMacroUL struct {
-
-
-    Txt string
-
-
-    Post string
-
+	Txt  string
+	Post string
 }
 
 func ParseTokenMacroUL(lineArgs string) (Token, error) {
-    args, _, err := ArgumentParser(lineArgs)
-    if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroUL arguments: %s, %w", lineArgs, err)
-    }
-    
-      matched, err :=  ForwardMatcher(args,
-            
-            true,
-            
-            true,
-            )
-    
-    if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroUL arguments: %s, %w", lineArgs, err)
-    }
-	
-        argTxt := matched[0]
-    
-        argPost := matched[1]
-    
+	args, _, err := ArgumentParser(lineArgs)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroUL arguments: %s, %w", lineArgs, err)
+	}
+	matched, err := ForwardMatcher(args,
+		true,
+		true)
+	if err != nil {
+		return nil, fmt.Errorf("fitting TokenMacroUL arguments: %s, %w", lineArgs, err)
+	}
+	argTxt := matched[0]
+	argPost := matched[1]
 	return &TokenMacroUL{
-	
-        Txt: argTxt,
-    
-        Post: argPost,
-    
+		Txt:  argTxt,
+		Post: argPost,
 	}, nil
 }
 
 func (t *TokenMacroUL) String() string {
 	var args []string
-	
 	args = append(args, t.Txt)
-	
 	args = append(args, t.Post)
-	
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
 	}
@@ -3203,37 +2389,28 @@ func (t *TokenMacroUL) String() string {
 	return ".UL " + strings.Join(args, " ")
 }
 
-
 // TokenMacroLG
 // Prints all text following in larger type (two points larger than the
 // current point size) until the next font size, highlighting, paragraph,
 // or heading macro. You can specify this macro multiple times to enlarge
 // the point size as needed.
 type TokenMacroLG struct {
-
 }
 
 func ParseTokenMacroLG(lineArgs string) (Token, error) {
-    args, _, err := ArgumentParser(lineArgs)
-    if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroLG arguments: %s, %w", lineArgs, err)
-    }
-    
-      _, err =  BackwardMatcher(args,
-            )
-    
-    if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroLG arguments: %s, %w", lineArgs, err)
-    }
-	
-	return &TokenMacroLG{
-	
-	}, nil
+	args, _, err := ArgumentParser(lineArgs)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroLG arguments: %s, %w", lineArgs, err)
+	}
+	_, err = BackwardMatcher(args)
+	if err != nil {
+		return nil, fmt.Errorf("fitting TokenMacroLG arguments: %s, %w", lineArgs, err)
+	}
+	return &TokenMacroLG{}, nil
 }
 
 func (t *TokenMacroLG) String() string {
 	var args []string
-	
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
 	}
@@ -3246,35 +2423,26 @@ func (t *TokenMacroLG) String() string {
 	return ".LG " + strings.Join(args, " ")
 }
 
-
 // TokenMacroNL
 // Prints all text following in the normal point size (that is, the value
 // of the PS register).
 type TokenMacroNL struct {
-
 }
 
 func ParseTokenMacroNL(lineArgs string) (Token, error) {
-    args, _, err := ArgumentParser(lineArgs)
-    if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroNL arguments: %s, %w", lineArgs, err)
-    }
-    
-      _, err =  BackwardMatcher(args,
-            )
-    
-    if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroNL arguments: %s, %w", lineArgs, err)
-    }
-	
-	return &TokenMacroNL{
-	
-	}, nil
+	args, _, err := ArgumentParser(lineArgs)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroNL arguments: %s, %w", lineArgs, err)
+	}
+	_, err = BackwardMatcher(args)
+	if err != nil {
+		return nil, fmt.Errorf("fitting TokenMacroNL arguments: %s, %w", lineArgs, err)
+	}
+	return &TokenMacroNL{}, nil
 }
 
 func (t *TokenMacroNL) String() string {
 	var args []string
-	
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
 	}
@@ -3287,36 +2455,27 @@ func (t *TokenMacroNL) String() string {
 	return ".NL " + strings.Join(args, " ")
 }
 
-
 // TokenMacroTA
 // Use this macro to reset the tab stops to the default for ms (every 5n).
 // You can redefine the TA macro to create a different set of default tab
 // stops.
 type TokenMacroTA struct {
-
 }
 
 func ParseTokenMacroTA(lineArgs string) (Token, error) {
-    args, _, err := ArgumentParser(lineArgs)
-    if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroTA arguments: %s, %w", lineArgs, err)
-    }
-    
-      _, err =  BackwardMatcher(args,
-            )
-    
-    if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroTA arguments: %s, %w", lineArgs, err)
-    }
-	
-	return &TokenMacroTA{
-	
-	}, nil
+	args, _, err := ArgumentParser(lineArgs)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroTA arguments: %s, %w", lineArgs, err)
+	}
+	_, err = BackwardMatcher(args)
+	if err != nil {
+		return nil, fmt.Errorf("fitting TokenMacroTA arguments: %s, %w", lineArgs, err)
+	}
+	return &TokenMacroTA{}, nil
 }
 
 func (t *TokenMacroTA) String() string {
 	var args []string
-	
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
 	}
@@ -3329,36 +2488,27 @@ func (t *TokenMacroTA) String() string {
 	return ".TA " + strings.Join(args, " ")
 }
 
-
 // TokenMacroDE
 // Left-justified display. The ‘.DS L’ call generates a page break, if
 // necessary, to keep the entire display on one page. The LD macro allows
 // the display to break across pages. The DE macro ends the display.
 type TokenMacroDE struct {
-
 }
 
 func ParseTokenMacroDE(lineArgs string) (Token, error) {
-    args, _, err := ArgumentParser(lineArgs)
-    if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroDE arguments: %s, %w", lineArgs, err)
-    }
-    
-      _, err =  BackwardMatcher(args,
-            )
-    
-    if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroDE arguments: %s, %w", lineArgs, err)
-    }
-	
-	return &TokenMacroDE{
-	
-	}, nil
+	args, _, err := ArgumentParser(lineArgs)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroDE arguments: %s, %w", lineArgs, err)
+	}
+	_, err = BackwardMatcher(args)
+	if err != nil {
+		return nil, fmt.Errorf("fitting TokenMacroDE arguments: %s, %w", lineArgs, err)
+	}
+	return &TokenMacroDE{}, nil
 }
 
 func (t *TokenMacroDE) String() string {
 	var args []string
-	
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
 	}
@@ -3371,35 +2521,26 @@ func (t *TokenMacroDE) String() string {
 	return ".DE " + strings.Join(args, " ")
 }
 
-
 // TokenMacroKE
 // The KS macro begins a block of text to be kept on a single page, and the
 // KE macro ends the block.
 type TokenMacroKE struct {
-
 }
 
 func ParseTokenMacroKE(lineArgs string) (Token, error) {
-    args, _, err := ArgumentParser(lineArgs)
-    if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroKE arguments: %s, %w", lineArgs, err)
-    }
-    
-      _, err =  BackwardMatcher(args,
-            )
-    
-    if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroKE arguments: %s, %w", lineArgs, err)
-    }
-	
-	return &TokenMacroKE{
-	
-	}, nil
+	args, _, err := ArgumentParser(lineArgs)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroKE arguments: %s, %w", lineArgs, err)
+	}
+	_, err = BackwardMatcher(args)
+	if err != nil {
+		return nil, fmt.Errorf("fitting TokenMacroKE arguments: %s, %w", lineArgs, err)
+	}
+	return &TokenMacroKE{}, nil
 }
 
 func (t *TokenMacroKE) String() string {
 	var args []string
-	
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
 	}
@@ -3412,36 +2553,27 @@ func (t *TokenMacroKE) String() string {
 	return ".KE " + strings.Join(args, " ")
 }
 
-
 // TokenMacroB2
 // Marks the beginning and ending of text that is to have a box drawn
 // around it. The B1 macro begins the box; the B2 macro ends it. Text in
 // the box is automatically placed in a diversion (keep).
 type TokenMacroB2 struct {
-
 }
 
 func ParseTokenMacroB2(lineArgs string) (Token, error) {
-    args, _, err := ArgumentParser(lineArgs)
-    if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroB2 arguments: %s, %w", lineArgs, err)
-    }
-    
-      _, err =  BackwardMatcher(args,
-            )
-    
-    if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroB2 arguments: %s, %w", lineArgs, err)
-    }
-	
-	return &TokenMacroB2{
-	
-	}, nil
+	args, _, err := ArgumentParser(lineArgs)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroB2 arguments: %s, %w", lineArgs, err)
+	}
+	_, err = BackwardMatcher(args)
+	if err != nil {
+		return nil, fmt.Errorf("fitting TokenMacroB2 arguments: %s, %w", lineArgs, err)
+	}
+	return &TokenMacroB2{}, nil
 }
 
 func (t *TokenMacroB2) String() string {
 	var args []string
-	
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
 	}
@@ -3454,7 +2586,6 @@ func (t *TokenMacroB2) String() string {
 	return ".B2 " + strings.Join(args, " ")
 }
 
-
 // TokenMacroTE
 // Denotes a table, to be processed by the tbl preprocessor. The optional
 // argument H to TS instructs groff to create a running header with the
@@ -3462,30 +2593,22 @@ func (t *TokenMacroB2) String() string {
 // of the table; if the table runs onto another page, groff prints the
 // header on the next page as well.
 type TokenMacroTE struct {
-
 }
 
 func ParseTokenMacroTE(lineArgs string) (Token, error) {
-    args, _, err := ArgumentParser(lineArgs)
-    if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroTE arguments: %s, %w", lineArgs, err)
-    }
-    
-      _, err =  BackwardMatcher(args,
-            )
-    
-    if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroTE arguments: %s, %w", lineArgs, err)
-    }
-	
-	return &TokenMacroTE{
-	
-	}, nil
+	args, _, err := ArgumentParser(lineArgs)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroTE arguments: %s, %w", lineArgs, err)
+	}
+	_, err = BackwardMatcher(args)
+	if err != nil {
+		return nil, fmt.Errorf("fitting TokenMacroTE arguments: %s, %w", lineArgs, err)
+	}
+	return &TokenMacroTE{}, nil
 }
 
 func (t *TokenMacroTE) String() string {
 	var args []string
-	
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
 	}
@@ -3498,36 +2621,27 @@ func (t *TokenMacroTE) String() string {
 	return ".TE " + strings.Join(args, " ")
 }
 
-
 // TokenMacroPE
 // Denotes a graphic, to be processed by the pic preprocessor. You can
 // create a pic file by hand, using the AT&T pic manual available on the
 // Web as a reference, or by using a graphics program such as xfig.
 type TokenMacroPE struct {
-
 }
 
 func ParseTokenMacroPE(lineArgs string) (Token, error) {
-    args, _, err := ArgumentParser(lineArgs)
-    if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroPE arguments: %s, %w", lineArgs, err)
-    }
-    
-      _, err =  BackwardMatcher(args,
-            )
-    
-    if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroPE arguments: %s, %w", lineArgs, err)
-    }
-	
-	return &TokenMacroPE{
-	
-	}, nil
+	args, _, err := ArgumentParser(lineArgs)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroPE arguments: %s, %w", lineArgs, err)
+	}
+	_, err = BackwardMatcher(args)
+	if err != nil {
+		return nil, fmt.Errorf("fitting TokenMacroPE arguments: %s, %w", lineArgs, err)
+	}
+	return &TokenMacroPE{}, nil
 }
 
 func (t *TokenMacroPE) String() string {
 	var args []string
-	
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
 	}
@@ -3540,36 +2654,27 @@ func (t *TokenMacroPE) String() string {
 	return ".PE " + strings.Join(args, " ")
 }
 
-
 // TokenMacroEN
 // Denotes an equation, to be processed by the eqn preprocessor. The
 // optional align argument can be C, L, or I to center (the default),
 // left-justify, or indent the equation.
 type TokenMacroEN struct {
-
 }
 
 func ParseTokenMacroEN(lineArgs string) (Token, error) {
-    args, _, err := ArgumentParser(lineArgs)
-    if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroEN arguments: %s, %w", lineArgs, err)
-    }
-    
-      _, err =  BackwardMatcher(args,
-            )
-    
-    if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroEN arguments: %s, %w", lineArgs, err)
-    }
-	
-	return &TokenMacroEN{
-	
-	}, nil
+	args, _, err := ArgumentParser(lineArgs)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroEN arguments: %s, %w", lineArgs, err)
+	}
+	_, err = BackwardMatcher(args)
+	if err != nil {
+		return nil, fmt.Errorf("fitting TokenMacroEN arguments: %s, %w", lineArgs, err)
+	}
+	return &TokenMacroEN{}, nil
 }
 
 func (t *TokenMacroEN) String() string {
 	var args []string
-	
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
 	}
@@ -3582,36 +2687,27 @@ func (t *TokenMacroEN) String() string {
 	return ".EN " + strings.Join(args, " ")
 }
 
-
 // TokenMacroSquareBracketClose
 // Denotes a reference, to be processed by the refer preprocessor. The GNU
 // refer(1) man page provides a comprehensive reference to the preprocessor
 // and the format of the bibliographic database.
 type TokenMacroSquareBracketClose struct {
-
 }
 
 func ParseTokenMacroSquareBracketClose(lineArgs string) (Token, error) {
-    args, _, err := ArgumentParser(lineArgs)
-    if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroSquareBracketClose arguments: %s, %w", lineArgs, err)
-    }
-    
-      _, err =  BackwardMatcher(args,
-            )
-    
-    if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroSquareBracketClose arguments: %s, %w", lineArgs, err)
-    }
-	
-	return &TokenMacroSquareBracketClose{
-	
-	}, nil
+	args, _, err := ArgumentParser(lineArgs)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroSquareBracketClose arguments: %s, %w", lineArgs, err)
+	}
+	_, err = BackwardMatcher(args)
+	if err != nil {
+		return nil, fmt.Errorf("fitting TokenMacroSquareBracketClose arguments: %s, %w", lineArgs, err)
+	}
+	return &TokenMacroSquareBracketClose{}, nil
 }
 
 func (t *TokenMacroSquareBracketClose) String() string {
 	var args []string
-	
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
 	}
@@ -3624,7 +2720,6 @@ func (t *TokenMacroSquareBracketClose) String() string {
 	return ".] " + strings.Join(args, " ")
 }
 
-
 // TokenMacroFE
 // Specifies the text of the footnote. The default action is to create a
 // numbered footnote; you can create a symbolic footnote by specifying a
@@ -3632,30 +2727,22 @@ func (t *TokenMacroSquareBracketClose) String() string {
 // an argument to the FS macro, followed by the text of the footnote and
 // the FE macro.
 type TokenMacroFE struct {
-
 }
 
 func ParseTokenMacroFE(lineArgs string) (Token, error) {
-    args, _, err := ArgumentParser(lineArgs)
-    if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroFE arguments: %s, %w", lineArgs, err)
-    }
-    
-      _, err =  BackwardMatcher(args,
-            )
-    
-    if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroFE arguments: %s, %w", lineArgs, err)
-    }
-	
-	return &TokenMacroFE{
-	
-	}, nil
+	args, _, err := ArgumentParser(lineArgs)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroFE arguments: %s, %w", lineArgs, err)
+	}
+	_, err = BackwardMatcher(args)
+	if err != nil {
+		return nil, fmt.Errorf("fitting TokenMacroFE arguments: %s, %w", lineArgs, err)
+	}
+	return &TokenMacroFE{}, nil
 }
 
 func (t *TokenMacroFE) String() string {
 	var args []string
-	
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
 	}
@@ -3668,50 +2755,36 @@ func (t *TokenMacroFE) String() string {
 	return ".FE " + strings.Join(args, " ")
 }
 
-
 // TokenMacroEF
 // The OH and EH macros define headers for the odd and even pages; the OF
 // and EF macros define footers for the odd and even pages. This is more
 // flexible than defining the individual strings.
-// 
+//
 // You can replace the quote (') marks with any character not appearing in
 // the header or footer text.
 type TokenMacroEF struct {
-
-
-    Leftcenterright string
-
+	Leftcenterright string
 }
 
 func ParseTokenMacroEF(lineArgs string) (Token, error) {
-    args, _, err := ArgumentParser(lineArgs)
-    if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroEF arguments: %s, %w", lineArgs, err)
-    }
-    
-      matched, err :=  BackwardMatcher(args,
-            
-            false,
-            )
-    
-    if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroEF arguments: %s, %w", lineArgs, err)
-    }
-	
-        argLeftcenterright := matched[0]
-    
+	args, _, err := ArgumentParser(lineArgs)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroEF arguments: %s, %w", lineArgs, err)
+	}
+	matched, err := BackwardMatcher(args,
+		false)
+	if err != nil {
+		return nil, fmt.Errorf("fitting TokenMacroEF arguments: %s, %w", lineArgs, err)
+	}
+	argLeftcenterright := matched[0]
 	return &TokenMacroEF{
-	
-        Leftcenterright: argLeftcenterright,
-    
+		Leftcenterright: argLeftcenterright,
 	}, nil
 }
 
 func (t *TokenMacroEF) String() string {
 	var args []string
-	
 	args = append(args, t.Leftcenterright)
-	
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
 	}
@@ -3724,34 +2797,25 @@ func (t *TokenMacroEF) String() string {
 	return ".EF " + strings.Join(args, " ")
 }
 
-
 // TokenMacro1C
 // Single-column mode.
 type TokenMacro1C struct {
-
 }
 
 func ParseTokenMacro1C(lineArgs string) (Token, error) {
-    args, _, err := ArgumentParser(lineArgs)
-    if err != nil {
-        return nil, fmt.Errorf("parse TokenMacro1C arguments: %s, %w", lineArgs, err)
-    }
-    
-      _, err =  BackwardMatcher(args,
-            )
-    
-    if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacro1C arguments: %s, %w", lineArgs, err)
-    }
-	
-	return &TokenMacro1C{
-	
-	}, nil
+	args, _, err := ArgumentParser(lineArgs)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacro1C arguments: %s, %w", lineArgs, err)
+	}
+	_, err = BackwardMatcher(args)
+	if err != nil {
+		return nil, fmt.Errorf("fitting TokenMacro1C arguments: %s, %w", lineArgs, err)
+	}
+	return &TokenMacro1C{}, nil
 }
 
 func (t *TokenMacro1C) String() string {
 	var args []string
-	
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
 	}
@@ -3764,34 +2828,25 @@ func (t *TokenMacro1C) String() string {
 	return ".1C " + strings.Join(args, " ")
 }
 
-
 // TokenMacro2C
 // Two-column mode.
 type TokenMacro2C struct {
-
 }
 
 func ParseTokenMacro2C(lineArgs string) (Token, error) {
-    args, _, err := ArgumentParser(lineArgs)
-    if err != nil {
-        return nil, fmt.Errorf("parse TokenMacro2C arguments: %s, %w", lineArgs, err)
-    }
-    
-      _, err =  BackwardMatcher(args,
-            )
-    
-    if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacro2C arguments: %s, %w", lineArgs, err)
-    }
-	
-	return &TokenMacro2C{
-	
-	}, nil
+	args, _, err := ArgumentParser(lineArgs)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacro2C arguments: %s, %w", lineArgs, err)
+	}
+	_, err = BackwardMatcher(args)
+	if err != nil {
+		return nil, fmt.Errorf("fitting TokenMacro2C arguments: %s, %w", lineArgs, err)
+	}
+	return &TokenMacro2C{}, nil
 }
 
 func (t *TokenMacro2C) String() string {
 	var args []string
-	
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
 	}
@@ -3804,59 +2859,39 @@ func (t *TokenMacro2C) String() string {
 	return ".2C " + strings.Join(args, " ")
 }
 
-
 // TokenMacroMC
 // Multi-column mode. If you specify no arguments, it is equivalent to the
 // 2C macro. Otherwise, width is the width of each column and gutter is the
 // space between columns. The MINGW number register controls the default
 // gutter width.
 type TokenMacroMC struct {
-
-
-    Width string
-
-
-    Gutter string
-
+	Width  string
+	Gutter string
 }
 
 func ParseTokenMacroMC(lineArgs string) (Token, error) {
-    args, _, err := ArgumentParser(lineArgs)
-    if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroMC arguments: %s, %w", lineArgs, err)
-    }
-    
-      matched, err :=  ForwardMatcher(args,
-            
-            true,
-            
-            true,
-            )
-    
-    if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroMC arguments: %s, %w", lineArgs, err)
-    }
-	
-        argWidth := matched[0]
-    
-        argGutter := matched[1]
-    
+	args, _, err := ArgumentParser(lineArgs)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroMC arguments: %s, %w", lineArgs, err)
+	}
+	matched, err := ForwardMatcher(args,
+		true,
+		true)
+	if err != nil {
+		return nil, fmt.Errorf("fitting TokenMacroMC arguments: %s, %w", lineArgs, err)
+	}
+	argWidth := matched[0]
+	argGutter := matched[1]
 	return &TokenMacroMC{
-	
-        Width: argWidth,
-    
-        Gutter: argGutter,
-    
+		Width:  argWidth,
+		Gutter: argGutter,
 	}, nil
 }
 
 func (t *TokenMacroMC) String() string {
 	var args []string
-	
 	args = append(args, t.Width)
-	
 	args = append(args, t.Gutter)
-	
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
 	}
@@ -3869,16 +2904,13 @@ func (t *TokenMacroMC) String() string {
 	return ".MC " + strings.Join(args, " ")
 }
 
-
 // TokenMacroXE
 // These macros define a table of contents or an individual entry in the
 // table of contents, depending on their use. The macros are very simple;
 // they cannot indent a heading based on its level. The easiest way to work
 // around this is to add tabs to the table of contents string. The
 // following is an example:
-// 
-// 
-// 
+//
 // .NH 1
 // Introduction
 // .XS
@@ -3894,17 +2926,13 @@ func (t *TokenMacroMC) String() string {
 // .XE
 // .LP
 // ...
-// 
-// 
-// 
+//
 // You can manually create a table of contents by beginning with the XS
 // macro for the first entry, specifying the page number for that entry as
 // the argument to XS. Add subsequent entries using the XA macro,
 // specifying the page number for that entry as the argument to XA. The
 // following is an example:
-// 
-// 
-// 
+//
 // .XS 1
 // Introduction
 // .XA 2
@@ -3914,30 +2942,22 @@ func (t *TokenMacroMC) String() string {
 // ...
 // .XE
 type TokenMacroXE struct {
-
 }
 
 func ParseTokenMacroXE(lineArgs string) (Token, error) {
-    args, _, err := ArgumentParser(lineArgs)
-    if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroXE arguments: %s, %w", lineArgs, err)
-    }
-    
-      _, err =  BackwardMatcher(args,
-            )
-    
-    if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroXE arguments: %s, %w", lineArgs, err)
-    }
-	
-	return &TokenMacroXE{
-	
-	}, nil
+	args, _, err := ArgumentParser(lineArgs)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroXE arguments: %s, %w", lineArgs, err)
+	}
+	_, err = BackwardMatcher(args)
+	if err != nil {
+		return nil, fmt.Errorf("fitting TokenMacroXE arguments: %s, %w", lineArgs, err)
+	}
+	return &TokenMacroXE{}, nil
 }
 
 func (t *TokenMacroXE) String() string {
 	var args []string
-	
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
 	}
@@ -3950,51 +2970,37 @@ func (t *TokenMacroXE) String() string {
 	return ".XE " + strings.Join(args, " ")
 }
 
-
 // TokenMacroTC
 // Prints the table of contents on a new page, setting the page number to i
 // (Roman lowercase numeral one). You should usually place this macro at
 // the end of the file, since groff is a single-pass formatter and can only
 // print what has been collected up to the point that the TC macro appears.
-// 
+//
 // The optional argument no suppresses printing the title specified by the
 // string register TOC.
 type TokenMacroTC struct {
-
-
-    No string
-
+	No string
 }
 
 func ParseTokenMacroTC(lineArgs string) (Token, error) {
-    args, _, err := ArgumentParser(lineArgs)
-    if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroTC arguments: %s, %w", lineArgs, err)
-    }
-    
-      matched, err :=  ForwardMatcher(args,
-            
-            true,
-            )
-    
-    if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroTC arguments: %s, %w", lineArgs, err)
-    }
-	
-        argNo := matched[0]
-    
+	args, _, err := ArgumentParser(lineArgs)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroTC arguments: %s, %w", lineArgs, err)
+	}
+	matched, err := ForwardMatcher(args,
+		true)
+	if err != nil {
+		return nil, fmt.Errorf("fitting TokenMacroTC arguments: %s, %w", lineArgs, err)
+	}
+	argNo := matched[0]
 	return &TokenMacroTC{
-	
-        No: argNo,
-    
+		No: argNo,
 	}, nil
 }
 
 func (t *TokenMacroTC) String() string {
 	var args []string
-	
 	args = append(args, t.No)
-	
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
 	}
@@ -4007,50 +3013,36 @@ func (t *TokenMacroTC) String() string {
 	return ".TC " + strings.Join(args, " ")
 }
 
-
 // TokenMacroPX
 // Prints the table of contents on a new page, using the current page
 // numbering sequence. Use this macro to print a manually generated table
 // of contents at the beginning of your document.
-// 
+//
 // The optional argument no suppresses printing the title specified by the
 // string register TOC.
 type TokenMacroPX struct {
-
-
-    No string
-
+	No string
 }
 
 func ParseTokenMacroPX(lineArgs string) (Token, error) {
-    args, _, err := ArgumentParser(lineArgs)
-    if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroPX arguments: %s, %w", lineArgs, err)
-    }
-    
-      matched, err :=  ForwardMatcher(args,
-            
-            true,
-            )
-    
-    if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroPX arguments: %s, %w", lineArgs, err)
-    }
-	
-        argNo := matched[0]
-    
+	args, _, err := ArgumentParser(lineArgs)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroPX arguments: %s, %w", lineArgs, err)
+	}
+	matched, err := ForwardMatcher(args,
+		true)
+	if err != nil {
+		return nil, fmt.Errorf("fitting TokenMacroPX arguments: %s, %w", lineArgs, err)
+	}
+	argNo := matched[0]
 	return &TokenMacroPX{
-	
-        No: argNo,
-    
+		No: argNo,
 	}, nil
 }
 
 func (t *TokenMacroPX) String() string {
 	var args []string
-	
 	args = append(args, t.No)
-	
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
 	}
@@ -4063,40 +3055,31 @@ func (t *TokenMacroPX) String() string {
 	return ".PX " + strings.Join(args, " ")
 }
 
-
 // TokenMacroAM
 // Specify this macro at the beginning of your document to enable extended
 // accent marks and special characters. This is a Berkeley extension.
-// 
+//
 // To use the accent marks, place them after the character being accented.
-// 
+//
 // Note that groff’s native support for accents is superior to the
 // following definitions.
 type TokenMacroAM struct {
-
 }
 
 func ParseTokenMacroAM(lineArgs string) (Token, error) {
-    args, _, err := ArgumentParser(lineArgs)
-    if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroAM arguments: %s, %w", lineArgs, err)
-    }
-    
-      _, err =  BackwardMatcher(args,
-            )
-    
-    if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroAM arguments: %s, %w", lineArgs, err)
-    }
-	
-	return &TokenMacroAM{
-	
-	}, nil
+	args, _, err := ArgumentParser(lineArgs)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroAM arguments: %s, %w", lineArgs, err)
+	}
+	_, err = BackwardMatcher(args)
+	if err != nil {
+		return nil, fmt.Errorf("fitting TokenMacroAM arguments: %s, %w", lineArgs, err)
+	}
+	return &TokenMacroAM{}, nil
 }
 
 func (t *TokenMacroAM) String() string {
 	var args []string
-	
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
 	}
@@ -4109,46 +3092,32 @@ func (t *TokenMacroAM) String() string {
 	return ".AM " + strings.Join(args, " ")
 }
 
-
 // TokenMacroDS
 // Indented display. The default behavior of AT&T troff -ms was to indent;
 // the groff default prints displays flush left with the body text.
 type TokenMacroDS struct {
-
-
-    I string
-
+	I string
 }
 
 func ParseTokenMacroDS(lineArgs string) (Token, error) {
-    args, _, err := ArgumentParser(lineArgs)
-    if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroDS arguments: %s, %w", lineArgs, err)
-    }
-    
-      matched, err :=  BackwardMatcher(args,
-            
-            false,
-            )
-    
-    if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroDS arguments: %s, %w", lineArgs, err)
-    }
-	
-        argI := matched[0]
-    
+	args, _, err := ArgumentParser(lineArgs)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroDS arguments: %s, %w", lineArgs, err)
+	}
+	matched, err := BackwardMatcher(args,
+		false)
+	if err != nil {
+		return nil, fmt.Errorf("fitting TokenMacroDS arguments: %s, %w", lineArgs, err)
+	}
+	argI := matched[0]
 	return &TokenMacroDS{
-	
-        I: argI,
-    
+		I: argI,
 	}, nil
 }
 
 func (t *TokenMacroDS) String() string {
 	var args []string
-	
 	args = append(args, t.I)
-	
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
 	}
@@ -4161,35 +3130,26 @@ func (t *TokenMacroDS) String() string {
 	return ".DS " + strings.Join(args, " ")
 }
 
-
 // TokenMacroIX
 // Indexing term (printed on standard error). You can write a script to
 // capture and process an index generated in this manner.
 type TokenMacroIX struct {
-
 }
 
 func ParseTokenMacroIX(lineArgs string) (Token, error) {
-    args, _, err := ArgumentParser(lineArgs)
-    if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroIX arguments: %s, %w", lineArgs, err)
-    }
-    
-      _, err =  BackwardMatcher(args,
-            )
-    
-    if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroIX arguments: %s, %w", lineArgs, err)
-    }
-	
-	return &TokenMacroIX{
-	
-	}, nil
+	args, _, err := ArgumentParser(lineArgs)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroIX arguments: %s, %w", lineArgs, err)
+	}
+	_, err = BackwardMatcher(args)
+	if err != nil {
+		return nil, fmt.Errorf("fitting TokenMacroIX arguments: %s, %w", lineArgs, err)
+	}
+	return &TokenMacroIX{}, nil
 }
 
 func (t *TokenMacroIX) String() string {
 	var args []string
-	
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
 	}
@@ -4202,67 +3162,51 @@ func (t *TokenMacroIX) String() string {
 	return ".IX " + strings.Join(args, " ")
 }
 
-
 // TokenMacroXA
 // The registers ps4html and www-image-template are defined by the
 // pre-grohtml preprocessor. pre-grohtml reads in the troff input, marks up
 // the inline equations and passes the result firstly to
-// 
+//
 // troff -Tps -rps4html=1 -dwww-image-template=template
-// 
+//
 // and secondly to
-// 
+//
 // troff -Thtml
-// 
+//
 // or
-// 
+//
 // troff -Txhtml
-// 
-// 
-// 
+//
 // The POSTSCRIPT device is used to create all the image files (for -Thtml;
 // if -Txhtml is used, all equations are passed to geqn to produce MathML,
 // and the register ps4html enables the macro sets to ignore floating
 // keeps, footers, and headings.
-// 
+//
 // The register www-image-template is set to the user specified template
 // name or the default name.
 type TokenMacroXA struct {
-
-
-    Page string
-
+	Page string
 }
 
 func ParseTokenMacroXA(lineArgs string) (Token, error) {
-    args, _, err := ArgumentParser(lineArgs)
-    if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroXA arguments: %s, %w", lineArgs, err)
-    }
-    
-      matched, err :=  ForwardMatcher(args,
-            
-            true,
-            )
-    
-    if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroXA arguments: %s, %w", lineArgs, err)
-    }
-	
-        argPage := matched[0]
-    
+	args, _, err := ArgumentParser(lineArgs)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroXA arguments: %s, %w", lineArgs, err)
+	}
+	matched, err := ForwardMatcher(args,
+		true)
+	if err != nil {
+		return nil, fmt.Errorf("fitting TokenMacroXA arguments: %s, %w", lineArgs, err)
+	}
+	argPage := matched[0]
 	return &TokenMacroXA{
-	
-        Page: argPage,
-    
+		Page: argPage,
 	}, nil
 }
 
 func (t *TokenMacroXA) String() string {
 	var args []string
-	
 	args = append(args, t.Page)
-	
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
 	}
@@ -4275,67 +3219,51 @@ func (t *TokenMacroXA) String() string {
 	return ".XA " + strings.Join(args, " ")
 }
 
-
 // TokenMacroXS
 // The registers ps4html and www-image-template are defined by the
 // pre-grohtml preprocessor. pre-grohtml reads in the troff input, marks up
 // the inline equations and passes the result firstly to
-// 
+//
 // troff -Tps -rps4html=1 -dwww-image-template=template
-// 
+//
 // and secondly to
-// 
+//
 // troff -Thtml
-// 
+//
 // or
-// 
+//
 // troff -Txhtml
-// 
-// 
-// 
+//
 // The POSTSCRIPT device is used to create all the image files (for -Thtml;
 // if -Txhtml is used, all equations are passed to geqn to produce MathML,
 // and the register ps4html enables the macro sets to ignore floating
 // keeps, footers, and headings.
-// 
+//
 // The register www-image-template is set to the user specified template
 // name or the default name.
 type TokenMacroXS struct {
-
-
-    Page string
-
+	Page string
 }
 
 func ParseTokenMacroXS(lineArgs string) (Token, error) {
-    args, _, err := ArgumentParser(lineArgs)
-    if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroXS arguments: %s, %w", lineArgs, err)
-    }
-    
-      matched, err :=  ForwardMatcher(args,
-            
-            true,
-            )
-    
-    if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroXS arguments: %s, %w", lineArgs, err)
-    }
-	
-        argPage := matched[0]
-    
+	args, _, err := ArgumentParser(lineArgs)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroXS arguments: %s, %w", lineArgs, err)
+	}
+	matched, err := ForwardMatcher(args,
+		true)
+	if err != nil {
+		return nil, fmt.Errorf("fitting TokenMacroXS arguments: %s, %w", lineArgs, err)
+	}
+	argPage := matched[0]
 	return &TokenMacroXS{
-	
-        Page: argPage,
-    
+		Page: argPage,
 	}, nil
 }
 
 func (t *TokenMacroXS) String() string {
 	var args []string
-	
 	args = append(args, t.Page)
-	
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
 	}
@@ -4348,56 +3276,45 @@ func (t *TokenMacroXS) String() string {
 	return ".XS " + strings.Join(args, " ")
 }
 
-
 // TokenMacroHD
 // The registers ps4html and www-image-template are defined by the
 // pre-grohtml preprocessor. pre-grohtml reads in the troff input, marks up
 // the inline equations and passes the result firstly to
-// 
+//
 // troff -Tps -rps4html=1 -dwww-image-template=template
-// 
+//
 // and secondly to
-// 
+//
 // troff -Thtml
-// 
+//
 // or
-// 
+//
 // troff -Txhtml
-// 
-// 
-// 
+//
 // The POSTSCRIPT device is used to create all the image files (for -Thtml;
 // if -Txhtml is used, all equations are passed to geqn to produce MathML,
 // and the register ps4html enables the macro sets to ignore floating
 // keeps, footers, and headings.
-// 
+//
 // The register www-image-template is set to the user specified template
 // name or the default name.
 type TokenMacroHD struct {
-
 }
 
 func ParseTokenMacroHD(lineArgs string) (Token, error) {
-    args, _, err := ArgumentParser(lineArgs)
-    if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroHD arguments: %s, %w", lineArgs, err)
-    }
-    
-      _, err =  BackwardMatcher(args,
-            )
-    
-    if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroHD arguments: %s, %w", lineArgs, err)
-    }
-	
-	return &TokenMacroHD{
-	
-	}, nil
+	args, _, err := ArgumentParser(lineArgs)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroHD arguments: %s, %w", lineArgs, err)
+	}
+	_, err = BackwardMatcher(args)
+	if err != nil {
+		return nil, fmt.Errorf("fitting TokenMacroHD arguments: %s, %w", lineArgs, err)
+	}
+	return &TokenMacroHD{}, nil
 }
 
 func (t *TokenMacroHD) String() string {
 	var args []string
-	
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
 	}
@@ -4410,67 +3327,51 @@ func (t *TokenMacroHD) String() string {
 	return ".HD " + strings.Join(args, " ")
 }
 
-
 // TokenMacroOF
 // The registers ps4html and www-image-template are defined by the
 // pre-grohtml preprocessor. pre-grohtml reads in the troff input, marks up
 // the inline equations and passes the result firstly to
-// 
+//
 // troff -Tps -rps4html=1 -dwww-image-template=template
-// 
+//
 // and secondly to
-// 
+//
 // troff -Thtml
-// 
+//
 // or
-// 
+//
 // troff -Txhtml
-// 
-// 
-// 
+//
 // The POSTSCRIPT device is used to create all the image files (for -Thtml;
 // if -Txhtml is used, all equations are passed to geqn to produce MathML,
 // and the register ps4html enables the macro sets to ignore floating
 // keeps, footers, and headings.
-// 
+//
 // The register www-image-template is set to the user specified template
 // name or the default name.
 type TokenMacroOF struct {
-
-
-    Leftcenterright string
-
+	Leftcenterright string
 }
 
 func ParseTokenMacroOF(lineArgs string) (Token, error) {
-    args, _, err := ArgumentParser(lineArgs)
-    if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroOF arguments: %s, %w", lineArgs, err)
-    }
-    
-      matched, err :=  BackwardMatcher(args,
-            
-            false,
-            )
-    
-    if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroOF arguments: %s, %w", lineArgs, err)
-    }
-	
-        argLeftcenterright := matched[0]
-    
+	args, _, err := ArgumentParser(lineArgs)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroOF arguments: %s, %w", lineArgs, err)
+	}
+	matched, err := BackwardMatcher(args,
+		false)
+	if err != nil {
+		return nil, fmt.Errorf("fitting TokenMacroOF arguments: %s, %w", lineArgs, err)
+	}
+	argLeftcenterright := matched[0]
 	return &TokenMacroOF{
-	
-        Leftcenterright: argLeftcenterright,
-    
+		Leftcenterright: argLeftcenterright,
 	}, nil
 }
 
 func (t *TokenMacroOF) String() string {
 	var args []string
-	
 	args = append(args, t.Leftcenterright)
-	
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
 	}
@@ -4483,67 +3384,51 @@ func (t *TokenMacroOF) String() string {
 	return ".OF " + strings.Join(args, " ")
 }
 
-
 // TokenMacroEH
 // The registers ps4html and www-image-template are defined by the
 // pre-grohtml preprocessor. pre-grohtml reads in the troff input, marks up
 // the inline equations and passes the result firstly to
-// 
+//
 // troff -Tps -rps4html=1 -dwww-image-template=template
-// 
+//
 // and secondly to
-// 
+//
 // troff -Thtml
-// 
+//
 // or
-// 
+//
 // troff -Txhtml
-// 
-// 
-// 
+//
 // The POSTSCRIPT device is used to create all the image files (for -Thtml;
 // if -Txhtml is used, all equations are passed to geqn to produce MathML,
 // and the register ps4html enables the macro sets to ignore floating
 // keeps, footers, and headings.
-// 
+//
 // The register www-image-template is set to the user specified template
 // name or the default name.
 type TokenMacroEH struct {
-
-
-    Leftcenterright string
-
+	Leftcenterright string
 }
 
 func ParseTokenMacroEH(lineArgs string) (Token, error) {
-    args, _, err := ArgumentParser(lineArgs)
-    if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroEH arguments: %s, %w", lineArgs, err)
-    }
-    
-      matched, err :=  BackwardMatcher(args,
-            
-            false,
-            )
-    
-    if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroEH arguments: %s, %w", lineArgs, err)
-    }
-	
-        argLeftcenterright := matched[0]
-    
+	args, _, err := ArgumentParser(lineArgs)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroEH arguments: %s, %w", lineArgs, err)
+	}
+	matched, err := BackwardMatcher(args,
+		false)
+	if err != nil {
+		return nil, fmt.Errorf("fitting TokenMacroEH arguments: %s, %w", lineArgs, err)
+	}
+	argLeftcenterright := matched[0]
 	return &TokenMacroEH{
-	
-        Leftcenterright: argLeftcenterright,
-    
+		Leftcenterright: argLeftcenterright,
 	}, nil
 }
 
 func (t *TokenMacroEH) String() string {
 	var args []string
-	
 	args = append(args, t.Leftcenterright)
-	
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
 	}
@@ -4556,67 +3441,51 @@ func (t *TokenMacroEH) String() string {
 	return ".EH " + strings.Join(args, " ")
 }
 
-
 // TokenMacroOH
 // The registers ps4html and www-image-template are defined by the
 // pre-grohtml preprocessor. pre-grohtml reads in the troff input, marks up
 // the inline equations and passes the result firstly to
-// 
+//
 // troff -Tps -rps4html=1 -dwww-image-template=template
-// 
+//
 // and secondly to
-// 
+//
 // troff -Thtml
-// 
+//
 // or
-// 
+//
 // troff -Txhtml
-// 
-// 
-// 
+//
 // The POSTSCRIPT device is used to create all the image files (for -Thtml;
 // if -Txhtml is used, all equations are passed to geqn to produce MathML,
 // and the register ps4html enables the macro sets to ignore floating
 // keeps, footers, and headings.
-// 
+//
 // The register www-image-template is set to the user specified template
 // name or the default name.
 type TokenMacroOH struct {
-
-
-    Leftcenterright string
-
+	Leftcenterright string
 }
 
 func ParseTokenMacroOH(lineArgs string) (Token, error) {
-    args, _, err := ArgumentParser(lineArgs)
-    if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroOH arguments: %s, %w", lineArgs, err)
-    }
-    
-      matched, err :=  BackwardMatcher(args,
-            
-            false,
-            )
-    
-    if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroOH arguments: %s, %w", lineArgs, err)
-    }
-	
-        argLeftcenterright := matched[0]
-    
+	args, _, err := ArgumentParser(lineArgs)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroOH arguments: %s, %w", lineArgs, err)
+	}
+	matched, err := BackwardMatcher(args,
+		false)
+	if err != nil {
+		return nil, fmt.Errorf("fitting TokenMacroOH arguments: %s, %w", lineArgs, err)
+	}
+	argLeftcenterright := matched[0]
 	return &TokenMacroOH{
-	
-        Leftcenterright: argLeftcenterright,
-    
+		Leftcenterright: argLeftcenterright,
 	}, nil
 }
 
 func (t *TokenMacroOH) String() string {
 	var args []string
-	
 	args = append(args, t.Leftcenterright)
-	
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
 	}
@@ -4629,56 +3498,45 @@ func (t *TokenMacroOH) String() string {
 	return ".OH " + strings.Join(args, " ")
 }
 
-
 // TokenMacroFS
 // The registers ps4html and www-image-template are defined by the
 // pre-grohtml preprocessor. pre-grohtml reads in the troff input, marks up
 // the inline equations and passes the result firstly to
-// 
+//
 // troff -Tps -rps4html=1 -dwww-image-template=template
-// 
+//
 // and secondly to
-// 
+//
 // troff -Thtml
-// 
+//
 // or
-// 
+//
 // troff -Txhtml
-// 
-// 
-// 
+//
 // The POSTSCRIPT device is used to create all the image files (for -Thtml;
 // if -Txhtml is used, all equations are passed to geqn to produce MathML,
 // and the register ps4html enables the macro sets to ignore floating
 // keeps, footers, and headings.
-// 
+//
 // The register www-image-template is set to the user specified template
 // name or the default name.
 type TokenMacroFS struct {
-
 }
 
 func ParseTokenMacroFS(lineArgs string) (Token, error) {
-    args, _, err := ArgumentParser(lineArgs)
-    if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroFS arguments: %s, %w", lineArgs, err)
-    }
-    
-      _, err =  BackwardMatcher(args,
-            )
-    
-    if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroFS arguments: %s, %w", lineArgs, err)
-    }
-	
-	return &TokenMacroFS{
-	
-	}, nil
+	args, _, err := ArgumentParser(lineArgs)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroFS arguments: %s, %w", lineArgs, err)
+	}
+	_, err = BackwardMatcher(args)
+	if err != nil {
+		return nil, fmt.Errorf("fitting TokenMacroFS arguments: %s, %w", lineArgs, err)
+	}
+	return &TokenMacroFS{}, nil
 }
 
 func (t *TokenMacroFS) String() string {
 	var args []string
-	
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
 	}
@@ -4691,56 +3549,45 @@ func (t *TokenMacroFS) String() string {
 	return ".FS " + strings.Join(args, " ")
 }
 
-
 // TokenMacroSquareBracketOpen
 // The registers ps4html and www-image-template are defined by the
 // pre-grohtml preprocessor. pre-grohtml reads in the troff input, marks up
 // the inline equations and passes the result firstly to
-// 
+//
 // troff -Tps -rps4html=1 -dwww-image-template=template
-// 
+//
 // and secondly to
-// 
+//
 // troff -Thtml
-// 
+//
 // or
-// 
+//
 // troff -Txhtml
-// 
-// 
-// 
+//
 // The POSTSCRIPT device is used to create all the image files (for -Thtml;
 // if -Txhtml is used, all equations are passed to geqn to produce MathML,
 // and the register ps4html enables the macro sets to ignore floating
 // keeps, footers, and headings.
-// 
+//
 // The register www-image-template is set to the user specified template
 // name or the default name.
 type TokenMacroSquareBracketOpen struct {
-
 }
 
 func ParseTokenMacroSquareBracketOpen(lineArgs string) (Token, error) {
-    args, _, err := ArgumentParser(lineArgs)
-    if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroSquareBracketOpen arguments: %s, %w", lineArgs, err)
-    }
-    
-      _, err =  BackwardMatcher(args,
-            )
-    
-    if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroSquareBracketOpen arguments: %s, %w", lineArgs, err)
-    }
-	
-	return &TokenMacroSquareBracketOpen{
-	
-	}, nil
+	args, _, err := ArgumentParser(lineArgs)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroSquareBracketOpen arguments: %s, %w", lineArgs, err)
+	}
+	_, err = BackwardMatcher(args)
+	if err != nil {
+		return nil, fmt.Errorf("fitting TokenMacroSquareBracketOpen arguments: %s, %w", lineArgs, err)
+	}
+	return &TokenMacroSquareBracketOpen{}, nil
 }
 
 func (t *TokenMacroSquareBracketOpen) String() string {
 	var args []string
-	
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
 	}
@@ -4753,67 +3600,51 @@ func (t *TokenMacroSquareBracketOpen) String() string {
 	return ".[ " + strings.Join(args, " ")
 }
 
-
 // TokenMacroEQ
 // The registers ps4html and www-image-template are defined by the
 // pre-grohtml preprocessor. pre-grohtml reads in the troff input, marks up
 // the inline equations and passes the result firstly to
-// 
+//
 // troff -Tps -rps4html=1 -dwww-image-template=template
-// 
+//
 // and secondly to
-// 
+//
 // troff -Thtml
-// 
+//
 // or
-// 
+//
 // troff -Txhtml
-// 
-// 
-// 
+//
 // The POSTSCRIPT device is used to create all the image files (for -Thtml;
 // if -Txhtml is used, all equations are passed to geqn to produce MathML,
 // and the register ps4html enables the macro sets to ignore floating
 // keeps, footers, and headings.
-// 
+//
 // The register www-image-template is set to the user specified template
 // name or the default name.
 type TokenMacroEQ struct {
-
-
-    Align string
-
+	Align string
 }
 
 func ParseTokenMacroEQ(lineArgs string) (Token, error) {
-    args, _, err := ArgumentParser(lineArgs)
-    if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroEQ arguments: %s, %w", lineArgs, err)
-    }
-    
-      matched, err :=  ForwardMatcher(args,
-            
-            true,
-            )
-    
-    if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroEQ arguments: %s, %w", lineArgs, err)
-    }
-	
-        argAlign := matched[0]
-    
+	args, _, err := ArgumentParser(lineArgs)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroEQ arguments: %s, %w", lineArgs, err)
+	}
+	matched, err := ForwardMatcher(args,
+		true)
+	if err != nil {
+		return nil, fmt.Errorf("fitting TokenMacroEQ arguments: %s, %w", lineArgs, err)
+	}
+	argAlign := matched[0]
 	return &TokenMacroEQ{
-	
-        Align: argAlign,
-    
+		Align: argAlign,
 	}, nil
 }
 
 func (t *TokenMacroEQ) String() string {
 	var args []string
-	
 	args = append(args, t.Align)
-	
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
 	}
@@ -4826,56 +3657,45 @@ func (t *TokenMacroEQ) String() string {
 	return ".EQ " + strings.Join(args, " ")
 }
 
-
 // TokenMacroPS
 // The registers ps4html and www-image-template are defined by the
 // pre-grohtml preprocessor. pre-grohtml reads in the troff input, marks up
 // the inline equations and passes the result firstly to
-// 
+//
 // troff -Tps -rps4html=1 -dwww-image-template=template
-// 
+//
 // and secondly to
-// 
+//
 // troff -Thtml
-// 
+//
 // or
-// 
+//
 // troff -Txhtml
-// 
-// 
-// 
+//
 // The POSTSCRIPT device is used to create all the image files (for -Thtml;
 // if -Txhtml is used, all equations are passed to geqn to produce MathML,
 // and the register ps4html enables the macro sets to ignore floating
 // keeps, footers, and headings.
-// 
+//
 // The register www-image-template is set to the user specified template
 // name or the default name.
 type TokenMacroPS struct {
-
 }
 
 func ParseTokenMacroPS(lineArgs string) (Token, error) {
-    args, _, err := ArgumentParser(lineArgs)
-    if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroPS arguments: %s, %w", lineArgs, err)
-    }
-    
-      _, err =  BackwardMatcher(args,
-            )
-    
-    if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroPS arguments: %s, %w", lineArgs, err)
-    }
-	
-	return &TokenMacroPS{
-	
-	}, nil
+	args, _, err := ArgumentParser(lineArgs)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroPS arguments: %s, %w", lineArgs, err)
+	}
+	_, err = BackwardMatcher(args)
+	if err != nil {
+		return nil, fmt.Errorf("fitting TokenMacroPS arguments: %s, %w", lineArgs, err)
+	}
+	return &TokenMacroPS{}, nil
 }
 
 func (t *TokenMacroPS) String() string {
 	var args []string
-	
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
 	}
@@ -4888,67 +3708,51 @@ func (t *TokenMacroPS) String() string {
 	return ".PS " + strings.Join(args, " ")
 }
 
-
 // TokenMacroTS
 // The registers ps4html and www-image-template are defined by the
 // pre-grohtml preprocessor. pre-grohtml reads in the troff input, marks up
 // the inline equations and passes the result firstly to
-// 
+//
 // troff -Tps -rps4html=1 -dwww-image-template=template
-// 
+//
 // and secondly to
-// 
+//
 // troff -Thtml
-// 
+//
 // or
-// 
+//
 // troff -Txhtml
-// 
-// 
-// 
+//
 // The POSTSCRIPT device is used to create all the image files (for -Thtml;
 // if -Txhtml is used, all equations are passed to geqn to produce MathML,
 // and the register ps4html enables the macro sets to ignore floating
 // keeps, footers, and headings.
-// 
+//
 // The register www-image-template is set to the user specified template
 // name or the default name.
 type TokenMacroTS struct {
-
-
-    H string
-
+	H string
 }
 
 func ParseTokenMacroTS(lineArgs string) (Token, error) {
-    args, _, err := ArgumentParser(lineArgs)
-    if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroTS arguments: %s, %w", lineArgs, err)
-    }
-    
-      matched, err :=  ForwardMatcher(args,
-            
-            true,
-            )
-    
-    if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroTS arguments: %s, %w", lineArgs, err)
-    }
-	
-        argH := matched[0]
-    
+	args, _, err := ArgumentParser(lineArgs)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroTS arguments: %s, %w", lineArgs, err)
+	}
+	matched, err := ForwardMatcher(args,
+		true)
+	if err != nil {
+		return nil, fmt.Errorf("fitting TokenMacroTS arguments: %s, %w", lineArgs, err)
+	}
+	argH := matched[0]
 	return &TokenMacroTS{
-	
-        H: argH,
-    
+		H: argH,
 	}, nil
 }
 
 func (t *TokenMacroTS) String() string {
 	var args []string
-	
 	args = append(args, t.H)
-	
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
 	}
@@ -4961,56 +3765,45 @@ func (t *TokenMacroTS) String() string {
 	return ".TS " + strings.Join(args, " ")
 }
 
-
 // TokenMacroB1
 // The registers ps4html and www-image-template are defined by the
 // pre-grohtml preprocessor. pre-grohtml reads in the troff input, marks up
 // the inline equations and passes the result firstly to
-// 
+//
 // troff -Tps -rps4html=1 -dwww-image-template=template
-// 
+//
 // and secondly to
-// 
+//
 // troff -Thtml
-// 
+//
 // or
-// 
+//
 // troff -Txhtml
-// 
-// 
-// 
+//
 // The POSTSCRIPT device is used to create all the image files (for -Thtml;
 // if -Txhtml is used, all equations are passed to geqn to produce MathML,
 // and the register ps4html enables the macro sets to ignore floating
 // keeps, footers, and headings.
-// 
+//
 // The register www-image-template is set to the user specified template
 // name or the default name.
 type TokenMacroB1 struct {
-
 }
 
 func ParseTokenMacroB1(lineArgs string) (Token, error) {
-    args, _, err := ArgumentParser(lineArgs)
-    if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroB1 arguments: %s, %w", lineArgs, err)
-    }
-    
-      _, err =  BackwardMatcher(args,
-            )
-    
-    if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroB1 arguments: %s, %w", lineArgs, err)
-    }
-	
-	return &TokenMacroB1{
-	
-	}, nil
+	args, _, err := ArgumentParser(lineArgs)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroB1 arguments: %s, %w", lineArgs, err)
+	}
+	_, err = BackwardMatcher(args)
+	if err != nil {
+		return nil, fmt.Errorf("fitting TokenMacroB1 arguments: %s, %w", lineArgs, err)
+	}
+	return &TokenMacroB1{}, nil
 }
 
 func (t *TokenMacroB1) String() string {
 	var args []string
-	
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
 	}
@@ -5023,56 +3816,45 @@ func (t *TokenMacroB1) String() string {
 	return ".B1 " + strings.Join(args, " ")
 }
 
-
 // TokenMacroKF
 // The registers ps4html and www-image-template are defined by the
 // pre-grohtml preprocessor. pre-grohtml reads in the troff input, marks up
 // the inline equations and passes the result firstly to
-// 
+//
 // troff -Tps -rps4html=1 -dwww-image-template=template
-// 
+//
 // and secondly to
-// 
+//
 // troff -Thtml
-// 
+//
 // or
-// 
+//
 // troff -Txhtml
-// 
-// 
-// 
+//
 // The POSTSCRIPT device is used to create all the image files (for -Thtml;
 // if -Txhtml is used, all equations are passed to geqn to produce MathML,
 // and the register ps4html enables the macro sets to ignore floating
 // keeps, footers, and headings.
-// 
+//
 // The register www-image-template is set to the user specified template
 // name or the default name.
 type TokenMacroKF struct {
-
 }
 
 func ParseTokenMacroKF(lineArgs string) (Token, error) {
-    args, _, err := ArgumentParser(lineArgs)
-    if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroKF arguments: %s, %w", lineArgs, err)
-    }
-    
-      _, err =  BackwardMatcher(args,
-            )
-    
-    if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroKF arguments: %s, %w", lineArgs, err)
-    }
-	
-	return &TokenMacroKF{
-	
-	}, nil
+	args, _, err := ArgumentParser(lineArgs)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroKF arguments: %s, %w", lineArgs, err)
+	}
+	_, err = BackwardMatcher(args)
+	if err != nil {
+		return nil, fmt.Errorf("fitting TokenMacroKF arguments: %s, %w", lineArgs, err)
+	}
+	return &TokenMacroKF{}, nil
 }
 
 func (t *TokenMacroKF) String() string {
 	var args []string
-	
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
 	}
@@ -5085,56 +3867,45 @@ func (t *TokenMacroKF) String() string {
 	return ".KF " + strings.Join(args, " ")
 }
 
-
 // TokenMacroKS
 // The registers ps4html and www-image-template are defined by the
 // pre-grohtml preprocessor. pre-grohtml reads in the troff input, marks up
 // the inline equations and passes the result firstly to
-// 
+//
 // troff -Tps -rps4html=1 -dwww-image-template=template
-// 
+//
 // and secondly to
-// 
+//
 // troff -Thtml
-// 
+//
 // or
-// 
+//
 // troff -Txhtml
-// 
-// 
-// 
+//
 // The POSTSCRIPT device is used to create all the image files (for -Thtml;
 // if -Txhtml is used, all equations are passed to geqn to produce MathML,
 // and the register ps4html enables the macro sets to ignore floating
 // keeps, footers, and headings.
-// 
+//
 // The register www-image-template is set to the user specified template
 // name or the default name.
 type TokenMacroKS struct {
-
 }
 
 func ParseTokenMacroKS(lineArgs string) (Token, error) {
-    args, _, err := ArgumentParser(lineArgs)
-    if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroKS arguments: %s, %w", lineArgs, err)
-    }
-    
-      _, err =  BackwardMatcher(args,
-            )
-    
-    if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroKS arguments: %s, %w", lineArgs, err)
-    }
-	
-	return &TokenMacroKS{
-	
-	}, nil
+	args, _, err := ArgumentParser(lineArgs)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroKS arguments: %s, %w", lineArgs, err)
+	}
+	_, err = BackwardMatcher(args)
+	if err != nil {
+		return nil, fmt.Errorf("fitting TokenMacroKS arguments: %s, %w", lineArgs, err)
+	}
+	return &TokenMacroKS{}, nil
 }
 
 func (t *TokenMacroKS) String() string {
 	var args []string
-	
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
 	}
@@ -5147,56 +3918,45 @@ func (t *TokenMacroKS) String() string {
 	return ".KS " + strings.Join(args, " ")
 }
 
-
 // TokenMacroRD
 // The registers ps4html and www-image-template are defined by the
 // pre-grohtml preprocessor. pre-grohtml reads in the troff input, marks up
 // the inline equations and passes the result firstly to
-// 
+//
 // troff -Tps -rps4html=1 -dwww-image-template=template
-// 
+//
 // and secondly to
-// 
+//
 // troff -Thtml
-// 
+//
 // or
-// 
+//
 // troff -Txhtml
-// 
-// 
-// 
+//
 // The POSTSCRIPT device is used to create all the image files (for -Thtml;
 // if -Txhtml is used, all equations are passed to geqn to produce MathML,
 // and the register ps4html enables the macro sets to ignore floating
 // keeps, footers, and headings.
-// 
+//
 // The register www-image-template is set to the user specified template
 // name or the default name.
 type TokenMacroRD struct {
-
 }
 
 func ParseTokenMacroRD(lineArgs string) (Token, error) {
-    args, _, err := ArgumentParser(lineArgs)
-    if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroRD arguments: %s, %w", lineArgs, err)
-    }
-    
-      _, err =  BackwardMatcher(args,
-            )
-    
-    if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroRD arguments: %s, %w", lineArgs, err)
-    }
-	
-	return &TokenMacroRD{
-	
-	}, nil
+	args, _, err := ArgumentParser(lineArgs)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroRD arguments: %s, %w", lineArgs, err)
+	}
+	_, err = BackwardMatcher(args)
+	if err != nil {
+		return nil, fmt.Errorf("fitting TokenMacroRD arguments: %s, %w", lineArgs, err)
+	}
+	return &TokenMacroRD{}, nil
 }
 
 func (t *TokenMacroRD) String() string {
 	var args []string
-	
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
 	}
@@ -5209,56 +3969,45 @@ func (t *TokenMacroRD) String() string {
 	return ".RD " + strings.Join(args, " ")
 }
 
-
 // TokenMacroCD
 // The registers ps4html and www-image-template are defined by the
 // pre-grohtml preprocessor. pre-grohtml reads in the troff input, marks up
 // the inline equations and passes the result firstly to
-// 
+//
 // troff -Tps -rps4html=1 -dwww-image-template=template
-// 
+//
 // and secondly to
-// 
+//
 // troff -Thtml
-// 
+//
 // or
-// 
+//
 // troff -Txhtml
-// 
-// 
-// 
+//
 // The POSTSCRIPT device is used to create all the image files (for -Thtml;
 // if -Txhtml is used, all equations are passed to geqn to produce MathML,
 // and the register ps4html enables the macro sets to ignore floating
 // keeps, footers, and headings.
-// 
+//
 // The register www-image-template is set to the user specified template
 // name or the default name.
 type TokenMacroCD struct {
-
 }
 
 func ParseTokenMacroCD(lineArgs string) (Token, error) {
-    args, _, err := ArgumentParser(lineArgs)
-    if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroCD arguments: %s, %w", lineArgs, err)
-    }
-    
-      _, err =  BackwardMatcher(args,
-            )
-    
-    if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroCD arguments: %s, %w", lineArgs, err)
-    }
-	
-	return &TokenMacroCD{
-	
-	}, nil
+	args, _, err := ArgumentParser(lineArgs)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroCD arguments: %s, %w", lineArgs, err)
+	}
+	_, err = BackwardMatcher(args)
+	if err != nil {
+		return nil, fmt.Errorf("fitting TokenMacroCD arguments: %s, %w", lineArgs, err)
+	}
+	return &TokenMacroCD{}, nil
 }
 
 func (t *TokenMacroCD) String() string {
 	var args []string
-	
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
 	}
@@ -5271,56 +4020,45 @@ func (t *TokenMacroCD) String() string {
 	return ".CD " + strings.Join(args, " ")
 }
 
-
 // TokenMacroBD
 // The registers ps4html and www-image-template are defined by the
 // pre-grohtml preprocessor. pre-grohtml reads in the troff input, marks up
 // the inline equations and passes the result firstly to
-// 
+//
 // troff -Tps -rps4html=1 -dwww-image-template=template
-// 
+//
 // and secondly to
-// 
+//
 // troff -Thtml
-// 
+//
 // or
-// 
+//
 // troff -Txhtml
-// 
-// 
-// 
+//
 // The POSTSCRIPT device is used to create all the image files (for -Thtml;
 // if -Txhtml is used, all equations are passed to geqn to produce MathML,
 // and the register ps4html enables the macro sets to ignore floating
 // keeps, footers, and headings.
-// 
+//
 // The register www-image-template is set to the user specified template
 // name or the default name.
 type TokenMacroBD struct {
-
 }
 
 func ParseTokenMacroBD(lineArgs string) (Token, error) {
-    args, _, err := ArgumentParser(lineArgs)
-    if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroBD arguments: %s, %w", lineArgs, err)
-    }
-    
-      _, err =  BackwardMatcher(args,
-            )
-    
-    if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroBD arguments: %s, %w", lineArgs, err)
-    }
-	
-	return &TokenMacroBD{
-	
-	}, nil
+	args, _, err := ArgumentParser(lineArgs)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroBD arguments: %s, %w", lineArgs, err)
+	}
+	_, err = BackwardMatcher(args)
+	if err != nil {
+		return nil, fmt.Errorf("fitting TokenMacroBD arguments: %s, %w", lineArgs, err)
+	}
+	return &TokenMacroBD{}, nil
 }
 
 func (t *TokenMacroBD) String() string {
 	var args []string
-	
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
 	}
@@ -5333,56 +4071,45 @@ func (t *TokenMacroBD) String() string {
 	return ".BD " + strings.Join(args, " ")
 }
 
-
 // TokenMacroID
 // The registers ps4html and www-image-template are defined by the
 // pre-grohtml preprocessor. pre-grohtml reads in the troff input, marks up
 // the inline equations and passes the result firstly to
-// 
+//
 // troff -Tps -rps4html=1 -dwww-image-template=template
-// 
+//
 // and secondly to
-// 
+//
 // troff -Thtml
-// 
+//
 // or
-// 
+//
 // troff -Txhtml
-// 
-// 
-// 
+//
 // The POSTSCRIPT device is used to create all the image files (for -Thtml;
 // if -Txhtml is used, all equations are passed to geqn to produce MathML,
 // and the register ps4html enables the macro sets to ignore floating
 // keeps, footers, and headings.
-// 
+//
 // The register www-image-template is set to the user specified template
 // name or the default name.
 type TokenMacroID struct {
-
 }
 
 func ParseTokenMacroID(lineArgs string) (Token, error) {
-    args, _, err := ArgumentParser(lineArgs)
-    if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroID arguments: %s, %w", lineArgs, err)
-    }
-    
-      _, err =  BackwardMatcher(args,
-            )
-    
-    if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroID arguments: %s, %w", lineArgs, err)
-    }
-	
-	return &TokenMacroID{
-	
-	}, nil
+	args, _, err := ArgumentParser(lineArgs)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroID arguments: %s, %w", lineArgs, err)
+	}
+	_, err = BackwardMatcher(args)
+	if err != nil {
+		return nil, fmt.Errorf("fitting TokenMacroID arguments: %s, %w", lineArgs, err)
+	}
+	return &TokenMacroID{}, nil
 }
 
 func (t *TokenMacroID) String() string {
 	var args []string
-	
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
 	}
@@ -5395,56 +4122,45 @@ func (t *TokenMacroID) String() string {
 	return ".ID " + strings.Join(args, " ")
 }
 
-
 // TokenMacroLD
 // The registers ps4html and www-image-template are defined by the
 // pre-grohtml preprocessor. pre-grohtml reads in the troff input, marks up
 // the inline equations and passes the result firstly to
-// 
+//
 // troff -Tps -rps4html=1 -dwww-image-template=template
-// 
+//
 // and secondly to
-// 
+//
 // troff -Thtml
-// 
+//
 // or
-// 
+//
 // troff -Txhtml
-// 
-// 
-// 
+//
 // The POSTSCRIPT device is used to create all the image files (for -Thtml;
 // if -Txhtml is used, all equations are passed to geqn to produce MathML,
 // and the register ps4html enables the macro sets to ignore floating
 // keeps, footers, and headings.
-// 
+//
 // The register www-image-template is set to the user specified template
 // name or the default name.
 type TokenMacroLD struct {
-
 }
 
 func ParseTokenMacroLD(lineArgs string) (Token, error) {
-    args, _, err := ArgumentParser(lineArgs)
-    if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroLD arguments: %s, %w", lineArgs, err)
-    }
-    
-      _, err =  BackwardMatcher(args,
-            )
-    
-    if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroLD arguments: %s, %w", lineArgs, err)
-    }
-	
-	return &TokenMacroLD{
-	
-	}, nil
+	args, _, err := ArgumentParser(lineArgs)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroLD arguments: %s, %w", lineArgs, err)
+	}
+	_, err = BackwardMatcher(args)
+	if err != nil {
+		return nil, fmt.Errorf("fitting TokenMacroLD arguments: %s, %w", lineArgs, err)
+	}
+	return &TokenMacroLD{}, nil
 }
 
 func (t *TokenMacroLD) String() string {
 	var args []string
-	
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
 	}
@@ -5457,69 +4173,6 @@ func (t *TokenMacroLD) String() string {
 	return ".LD " + strings.Join(args, " ")
 }
 
-
-// TokenMacroQS
-// The registers ps4html and www-image-template are defined by the
-// pre-grohtml preprocessor. pre-grohtml reads in the troff input, marks up
-// the inline equations and passes the result firstly to
-// 
-// troff -Tps -rps4html=1 -dwww-image-template=template
-// 
-// and secondly to
-// 
-// troff -Thtml
-// 
-// or
-// 
-// troff -Txhtml
-// 
-// 
-// 
-// The POSTSCRIPT device is used to create all the image files (for -Thtml;
-// if -Txhtml is used, all equations are passed to geqn to produce MathML,
-// and the register ps4html enables the macro sets to ignore floating
-// keeps, footers, and headings.
-// 
-// The register www-image-template is set to the user specified template
-// name or the default name.
-type TokenMacroQS struct {
-
-}
-
-func ParseTokenMacroQS(lineArgs string) (Token, error) {
-    args, _, err := ArgumentParser(lineArgs)
-    if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroQS arguments: %s, %w", lineArgs, err)
-    }
-    
-      _, err =  BackwardMatcher(args,
-            )
-    
-    if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroQS arguments: %s, %w", lineArgs, err)
-    }
-	
-	return &TokenMacroQS{
-	
-	}, nil
-}
-
-func (t *TokenMacroQS) String() string {
-	var args []string
-	
-	for len(args) > 0 && args[len(args)-1] == "" {
-		args = args[:len(args)-1]
-	}
-	for i, arg := range args {
-		args[i] = Quote(arg)
-	}
-	if len(args) == 0 {
-		return ".QS"
-	}
-	return ".QS " + strings.Join(args, " ")
-}
-
-
 // TokenMacroSY
 // Begin synopsis. A new paragraph begins at the left margin unless .SY has
 // already been called without a corresponding .YS, in which case only a
@@ -5527,41 +4180,28 @@ func (t *TokenMacroQS) String() string {
 // command is set in bold. If a break is required, lines after the first
 // are indented by the width of command plus a space.
 type TokenMacroSY struct {
-
-
-    Command string
-
+	Command string
 }
 
 func ParseTokenMacroSY(lineArgs string) (Token, error) {
-    args, _, err := ArgumentParser(lineArgs)
-    if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroSY arguments: %s, %w", lineArgs, err)
-    }
-    
-      matched, err :=  BackwardMatcher(args,
-            
-            false,
-            )
-    
-    if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroSY arguments: %s, %w", lineArgs, err)
-    }
-	
-        argCommand := matched[0]
-    
+	args, _, err := ArgumentParser(lineArgs)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroSY arguments: %s, %w", lineArgs, err)
+	}
+	matched, err := BackwardMatcher(args,
+		false)
+	if err != nil {
+		return nil, fmt.Errorf("fitting TokenMacroSY arguments: %s, %w", lineArgs, err)
+	}
+	argCommand := matched[0]
 	return &TokenMacroSY{
-	
-        Command: argCommand,
-    
+		Command: argCommand,
 	}, nil
 }
 
 func (t *TokenMacroSY) String() string {
 	var args []string
-	
 	args = append(args, t.Command)
-	
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
 	}
@@ -5574,35 +4214,26 @@ func (t *TokenMacroSY) String() string {
 	return ".SY " + strings.Join(args, " ")
 }
 
-
 // TokenMacroYS
 // End synopsis. Indentation, adjustment, and hyphenation are restored to
 // their previous states.
 type TokenMacroYS struct {
-
 }
 
 func ParseTokenMacroYS(lineArgs string) (Token, error) {
-    args, _, err := ArgumentParser(lineArgs)
-    if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroYS arguments: %s, %w", lineArgs, err)
-    }
-    
-      _, err =  BackwardMatcher(args,
-            )
-    
-    if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroYS arguments: %s, %w", lineArgs, err)
-    }
-	
-	return &TokenMacroYS{
-	
-	}, nil
+	args, _, err := ArgumentParser(lineArgs)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroYS arguments: %s, %w", lineArgs, err)
+	}
+	_, err = BackwardMatcher(args)
+	if err != nil {
+		return nil, fmt.Errorf("fitting TokenMacroYS arguments: %s, %w", lineArgs, err)
+	}
+	return &TokenMacroYS{}, nil
 }
 
 func (t *TokenMacroYS) String() string {
 	var args []string
-	
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
 	}
@@ -5615,7 +4246,6 @@ func (t *TokenMacroYS) String() string {
 	return ".YS " + strings.Join(args, " ")
 }
 
-
 // TokenMacroMR
 // Set a man page cross reference as “topic(manual-section)”. If
 // trailing-text (typically punctuation) is specified, it follows the
@@ -5624,63 +4254,38 @@ func (t *TokenMacroYS) String() string {
 // the MF string. The cross reference hyperlinks to a URI of the form
 // “man:topic(manual-section)”.
 type TokenMacroMR struct {
-
-
-    Topic string
-
-
-    Manualsection string
-
-
-    Trailingtext string
-
+	Topic         string
+	Manualsection string
+	Trailingtext  string
 }
 
 func ParseTokenMacroMR(lineArgs string) (Token, error) {
-    args, _, err := ArgumentParser(lineArgs)
-    if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroMR arguments: %s, %w", lineArgs, err)
-    }
-    
-      matched, err :=  ForwardMatcher(args,
-            
-            false,
-            
-            false,
-            
-            true,
-            )
-    
-    if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroMR arguments: %s, %w", lineArgs, err)
-    }
-	
-        argTopic := matched[0]
-    
-        argManualsection := matched[1]
-    
-        argTrailingtext := matched[2]
-    
+	args, _, err := ArgumentParser(lineArgs)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroMR arguments: %s, %w", lineArgs, err)
+	}
+	matched, err := ForwardMatcher(args,
+		false,
+		false,
+		true)
+	if err != nil {
+		return nil, fmt.Errorf("fitting TokenMacroMR arguments: %s, %w", lineArgs, err)
+	}
+	argTopic := matched[0]
+	argManualsection := matched[1]
+	argTrailingtext := matched[2]
 	return &TokenMacroMR{
-	
-        Topic: argTopic,
-    
-        Manualsection: argManualsection,
-    
-        Trailingtext: argTrailingtext,
-    
+		Topic:         argTopic,
+		Manualsection: argManualsection,
+		Trailingtext:  argTrailingtext,
 	}, nil
 }
 
 func (t *TokenMacroMR) String() string {
 	var args []string
-	
 	args = append(args, t.Topic)
-	
 	args = append(args, t.Manualsection)
-	
 	args = append(args, t.Trailingtext)
-	
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
 	}
@@ -5693,7 +4298,6 @@ func (t *TokenMacroMR) String() string {
 	return ".MR " + strings.Join(args, " ")
 }
 
-
 // TokenMacroMT
 // Identify address as an RFC 6068 addr-spec for a “mailto:” URI with
 // the text between the two macro calls as the link text. An argument to
@@ -5704,41 +4308,28 @@ func (t *TokenMacroMR) String() string {
 // is enabled but there is no link text, address is formatted and
 // hyperlinked without angle brackets.
 type TokenMacroMT struct {
-
-
-    Address string
-
+	Address string
 }
 
 func ParseTokenMacroMT(lineArgs string) (Token, error) {
-    args, _, err := ArgumentParser(lineArgs)
-    if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroMT arguments: %s, %w", lineArgs, err)
-    }
-    
-      matched, err :=  BackwardMatcher(args,
-            
-            false,
-            )
-    
-    if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroMT arguments: %s, %w", lineArgs, err)
-    }
-	
-        argAddress := matched[0]
-    
+	args, _, err := ArgumentParser(lineArgs)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroMT arguments: %s, %w", lineArgs, err)
+	}
+	matched, err := BackwardMatcher(args,
+		false)
+	if err != nil {
+		return nil, fmt.Errorf("fitting TokenMacroMT arguments: %s, %w", lineArgs, err)
+	}
+	argAddress := matched[0]
 	return &TokenMacroMT{
-	
-        Address: argAddress,
-    
+		Address: argAddress,
 	}, nil
 }
 
 func (t *TokenMacroMT) String() string {
 	var args []string
-	
 	args = append(args, t.Address)
-	
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
 	}
@@ -5751,45 +4342,31 @@ func (t *TokenMacroMT) String() string {
 	return ".MT " + strings.Join(args, " ")
 }
 
-
 // TokenMacroME
 // End a mail-to hyperlink.
 type TokenMacroME struct {
-
-
-    Trailingtext string
-
+	Trailingtext string
 }
 
 func ParseTokenMacroME(lineArgs string) (Token, error) {
-    args, _, err := ArgumentParser(lineArgs)
-    if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroME arguments: %s, %w", lineArgs, err)
-    }
-    
-      matched, err :=  ForwardMatcher(args,
-            
-            true,
-            )
-    
-    if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroME arguments: %s, %w", lineArgs, err)
-    }
-	
-        argTrailingtext := matched[0]
-    
+	args, _, err := ArgumentParser(lineArgs)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroME arguments: %s, %w", lineArgs, err)
+	}
+	matched, err := ForwardMatcher(args,
+		true)
+	if err != nil {
+		return nil, fmt.Errorf("fitting TokenMacroME arguments: %s, %w", lineArgs, err)
+	}
+	argTrailingtext := matched[0]
 	return &TokenMacroME{
-	
-        Trailingtext: argTrailingtext,
-    
+		Trailingtext: argTrailingtext,
 	}, nil
 }
 
 func (t *TokenMacroME) String() string {
 	var args []string
-	
 	args = append(args, t.Trailingtext)
-	
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
 	}
@@ -5802,7 +4379,6 @@ func (t *TokenMacroME) String() string {
 	return ".ME " + strings.Join(args, " ")
 }
 
-
 // TokenMacroUR
 // Identify uri as an RFC 3986 URI hyperlink with the text between the two
 // macro calls as the link text. An argument to .UE is placed after the
@@ -5812,41 +4388,28 @@ func (t *TokenMacroME) String() string {
 // text and before trailing-text. If hyperlinking is enabled but there is
 // no link text, uri is formatted and hyperlinked without angle brackets.
 type TokenMacroUR struct {
-
-
-    Uri string
-
+	Uri string
 }
 
 func ParseTokenMacroUR(lineArgs string) (Token, error) {
-    args, _, err := ArgumentParser(lineArgs)
-    if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroUR arguments: %s, %w", lineArgs, err)
-    }
-    
-      matched, err :=  BackwardMatcher(args,
-            
-            false,
-            )
-    
-    if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroUR arguments: %s, %w", lineArgs, err)
-    }
-	
-        argUri := matched[0]
-    
+	args, _, err := ArgumentParser(lineArgs)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroUR arguments: %s, %w", lineArgs, err)
+	}
+	matched, err := BackwardMatcher(args,
+		false)
+	if err != nil {
+		return nil, fmt.Errorf("fitting TokenMacroUR arguments: %s, %w", lineArgs, err)
+	}
+	argUri := matched[0]
 	return &TokenMacroUR{
-	
-        Uri: argUri,
-    
+		Uri: argUri,
 	}, nil
 }
 
 func (t *TokenMacroUR) String() string {
 	var args []string
-	
 	args = append(args, t.Uri)
-	
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
 	}
@@ -5859,45 +4422,31 @@ func (t *TokenMacroUR) String() string {
 	return ".UR " + strings.Join(args, " ")
 }
 
-
 // TokenMacroUE
 // End a URI hyperlink.
 type TokenMacroUE struct {
-
-
-    Trailingtext string
-
+	Trailingtext string
 }
 
 func ParseTokenMacroUE(lineArgs string) (Token, error) {
-    args, _, err := ArgumentParser(lineArgs)
-    if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroUE arguments: %s, %w", lineArgs, err)
-    }
-    
-      matched, err :=  ForwardMatcher(args,
-            
-            true,
-            )
-    
-    if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroUE arguments: %s, %w", lineArgs, err)
-    }
-	
-        argTrailingtext := matched[0]
-    
+	args, _, err := ArgumentParser(lineArgs)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroUE arguments: %s, %w", lineArgs, err)
+	}
+	matched, err := ForwardMatcher(args,
+		true)
+	if err != nil {
+		return nil, fmt.Errorf("fitting TokenMacroUE arguments: %s, %w", lineArgs, err)
+	}
+	argTrailingtext := matched[0]
 	return &TokenMacroUE{
-	
-        Trailingtext: argTrailingtext,
-    
+		Trailingtext: argTrailingtext,
 	}, nil
 }
 
 func (t *TokenMacroUE) String() string {
 	var args []string
-	
 	args = append(args, t.Trailingtext)
-	
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
 	}
@@ -5910,36 +4459,27 @@ func (t *TokenMacroUE) String() string {
 	return ".UE " + strings.Join(args, " ")
 }
 
-
 // TokenMacroTQ
 // Set an additional tag for a paragraph tagged with .TP. An input trap is
 // planted as with .TP. This macro is a GNU extension not defined on
 // systems running AT&T, Plan 9, or Solaris troff.
 type TokenMacroTQ struct {
-
 }
 
 func ParseTokenMacroTQ(lineArgs string) (Token, error) {
-    args, _, err := ArgumentParser(lineArgs)
-    if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroTQ arguments: %s, %w", lineArgs, err)
-    }
-    
-      _, err =  BackwardMatcher(args,
-            )
-    
-    if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroTQ arguments: %s, %w", lineArgs, err)
-    }
-	
-	return &TokenMacroTQ{
-	
-	}, nil
+	args, _, err := ArgumentParser(lineArgs)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroTQ arguments: %s, %w", lineArgs, err)
+	}
+	_, err = BackwardMatcher(args)
+	if err != nil {
+		return nil, fmt.Errorf("fitting TokenMacroTQ arguments: %s, %w", lineArgs, err)
+	}
+	return &TokenMacroTQ{}, nil
 }
 
 func (t *TokenMacroTQ) String() string {
 	var args []string
-	
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
 	}
@@ -5952,7 +4492,6 @@ func (t *TokenMacroTQ) String() string {
 	return ".TQ " + strings.Join(args, " ")
 }
 
-
 // TokenMacroOP
 // Indicate an optional command parameter called option-name, which is set
 // in bold. If the option takes an argument, specify option-argument using
@@ -5961,52 +4500,33 @@ func (t *TokenMacroTQ) String() string {
 // brackets in roman surround both arguments. Use of this quasi-semantic
 // macro is deprecated.
 type TokenMacroOP struct {
-
-
-    Optionname string
-
-
-    Optionargument string
-
+	Optionname     string
+	Optionargument string
 }
 
 func ParseTokenMacroOP(lineArgs string) (Token, error) {
-    args, _, err := ArgumentParser(lineArgs)
-    if err != nil {
-        return nil, fmt.Errorf("parse TokenMacroOP arguments: %s, %w", lineArgs, err)
-    }
-    
-      matched, err :=  ForwardMatcher(args,
-            
-            false,
-            
-            true,
-            )
-    
-    if err != nil {
-        return nil, fmt.Errorf("fitting TokenMacroOP arguments: %s, %w", lineArgs, err)
-    }
-	
-        argOptionname := matched[0]
-    
-        argOptionargument := matched[1]
-    
+	args, _, err := ArgumentParser(lineArgs)
+	if err != nil {
+		return nil, fmt.Errorf("parse TokenMacroOP arguments: %s, %w", lineArgs, err)
+	}
+	matched, err := ForwardMatcher(args,
+		false,
+		true)
+	if err != nil {
+		return nil, fmt.Errorf("fitting TokenMacroOP arguments: %s, %w", lineArgs, err)
+	}
+	argOptionname := matched[0]
+	argOptionargument := matched[1]
 	return &TokenMacroOP{
-	
-        Optionname: argOptionname,
-    
-        Optionargument: argOptionargument,
-    
+		Optionname:     argOptionname,
+		Optionargument: argOptionargument,
 	}, nil
 }
 
 func (t *TokenMacroOP) String() string {
 	var args []string
-	
 	args = append(args, t.Optionname)
-	
 	args = append(args, t.Optionargument)
-	
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
 	}
@@ -6018,4 +4538,3 @@ func (t *TokenMacroOP) String() string {
 	}
 	return ".OP " + strings.Join(args, " ")
 }
-

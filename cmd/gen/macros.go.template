@@ -1,56 +1,52 @@
 package groff
 
 import (
-    "fmt"
-    "strings"
+	"fmt"
+	"strings"
 )
 
 {{range $i, $e := $}}
 // {{$e.StructName}}
 {{$e.DescriptionCommented}}
 type {{$e.StructName}} struct {
-{{range $argi, $arg := $e.ArgStruct.Words}}
-{{if $arg.Comment}}
-    // {{$arg.Comment}}
+{{- range $argi, $arg := $e.ArgStruct.Words}}
+{{- if $arg.Comment}}
+	// {{$arg.Comment}}
 {{- end}}
-    {{$arg.Id}} {{$arg.Type}}
-{{end}}
+	{{$arg.Id}} {{$arg.Type}}
+{{- end}}
 }
 
 func Parse{{$e.StructName}}(lineArgs string) (Token, error) {
-    args, _, err := ArgumentParser(lineArgs)
-    if err != nil {
-        return nil, fmt.Errorf("parse {{$e.StructName}} arguments: %s, %w", lineArgs, err)
-    }
-    {{if $e.ArgStruct.Forwards}}
-      {{if $e.ArgStruct.Words}}matched, err :={{else}}_, err ={{end}}  ForwardMatcher(args,
-            {{range $argi, $arg := $e.ArgStruct.Words}}
-            {{$arg.Optional}},
-            {{end}})
-    {{else}}
-      {{if $e.ArgStruct.Words}}matched, err :={{else}}_, err ={{end}}  BackwardMatcher(args,
-            {{range $argi, $arg := $e.ArgStruct.Words}}
-            {{$arg.Optional}},
-            {{end}})
-    {{end}}
-    if err != nil {
-        return nil, fmt.Errorf("fitting {{$e.StructName}} arguments: %s, %w", lineArgs, err)
-    }
-	{{range $argi, $arg := $e.ArgStruct.Words}}
-        arg{{$arg.Id}} := matched[{{$argi}}]
-    {{end}}
+	args, _, err := ArgumentParser(lineArgs)
+	if err != nil {
+		return nil, fmt.Errorf("parse {{$e.StructName}} arguments: %s, %w", lineArgs, err)
+	}
+{{- if $e.ArgStruct.Forwards}}
+	{{if $e.ArgStruct.Words}}matched, err :={{else}}_, err ={{end}} ForwardMatcher(args{{range $argi, $arg := $e.ArgStruct.Words}},
+		{{$arg.Optional}}{{end}})
+{{- else}}
+	{{if $e.ArgStruct.Words}}matched, err :={{else}}_, err ={{end}} BackwardMatcher(args{{range $argi, $arg := $e.ArgStruct.Words}},
+		{{$arg.Optional}}{{end}})
+{{- end}}
+	if err != nil {
+		return nil, fmt.Errorf("fitting {{$e.StructName}} arguments: %s, %w", lineArgs, err)
+	}
+{{- range $argi, $arg := $e.ArgStruct.Words}}
+	arg{{$arg.Id}} := matched[{{$argi}}]
+{{- end}}
 	return &{{$e.StructName}}{
-	{{range $argi, $arg := $e.ArgStruct.Words}}
-        {{$arg.Id}}: arg{{$arg.Id}},
-    {{end}}
+{{- range $argi, $arg := $e.ArgStruct.Words}}
+		{{$arg.Id}}: arg{{$arg.Id}},
+{{- end}}
 	}, nil
 }
 
 func (t *{{$e.StructName}}) String() string {
 	var args []string
-	{{range $argi, $arg := $e.ArgStruct.Words}}
+{{- range $argi, $arg := $e.ArgStruct.Words}}
 	args = append(args, t.{{$arg.Id}})
-	{{end}}
+{{- end}}
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
 	}
@@ -63,4 +59,4 @@ func (t *{{$e.StructName}}) String() string {
 	return "{{$e.Token}} " + strings.Join(args, " ")
 }
 
-{{end}}
+{{end -}}

@@ -19,6 +19,9 @@ func ParseLine(line string) (Token, error) {
 	case `.\"`:
 		return ParseComment(line)
 
+	case `.QS`:
+		return ParseTokenMacroQS(line)
+
 	case `.TH`:
 		return ParseTokenMacroTH(line)
 
@@ -322,9 +325,6 @@ func ParseLine(line string) (Token, error) {
 	case `.LD`:
 		return ParseTokenMacroLD(line)
 
-	case `.QS`:
-		return ParseTokenMacroQS(line)
-
 	case `.SY`:
 		return ParseTokenMacroSY(line)
 
@@ -351,7 +351,6 @@ func ParseLine(line string) (Token, error) {
 
 	case `.OP`:
 		return ParseTokenMacroOP(line)
-
 	}
 	return nil, fmt.Errorf("%w: %#v: %s", ErrNoTokenMatch, ss[0], line)
 }

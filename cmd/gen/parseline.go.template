@@ -21,7 +21,7 @@ func ParseLine(line string) (Token, error) {
 {{range $i, $e := $}}
 	case `{{$e.Token}}`:
 		return Parse{{$e.StructName}}(line)
-{{end}}
+{{end -}}
 	}
 	return nil, fmt.Errorf("%w: %#v: %s", ErrNoTokenMatch, ss[0], line)
 }
