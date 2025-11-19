@@ -1,0 +1,68 @@
+.\" Complex test man page with various macros
+.TH COMPLEX 7 "2024-01-15" "Linux" "Linux Programmer's Manual"
+.SH NAME
+complex \- complex manual page example
+.SH SYNOPSIS
+.nf
+.B #include <complex.h>
+.fi
+.SH DESCRIPTION
+The
+.I complex
+manual demonstrates various formatting macros.
+.SS Font Styles
+Text can be
+.B bold
+or
+.I italic
+or even
+.BI bold-italic
+combinations.
+.PP
+We can also use
+.BR bold-roman ,
+.IB italic-bold ,
+.IR italic-roman ,
+.RB roman-bold ,
+and
+.RI roman-italic
+alternating styles.
+.SS Lists
+.IP \(bu 2
+First bullet point
+.IP \(bu 2
+Second bullet point
+.IP \(bu 2
+Third bullet point
+.SS Indented Paragraphs
+.TP
+.B TERM1
+Definition of the first term.
+.TP
+.B TERM2
+Definition of the second term.
+.SS Hyperlinks
+For more information, visit
+.UR http://example.com
+the example website
+.UE .
+.PP
+Contact us at
+.MT support@example.com
+.ME .
+.SH NOTES
+.RS
+This is an indented section using RS/RE.
+.PP
+It can contain multiple paragraphs.
+.RE
+.SH EXAMPLES
+.EX
+/* Example code block */
+int main(void) {
+    return 0;
+}
+.EE
+.SH SEE ALSO
+.MR simple 1 ,
+.MR test 3

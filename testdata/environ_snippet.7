@@ -1,0 +1,100 @@
+.\" Copyright (c) 1993 Michael Haardt (michael@moria.de),
+.\"   Fri Apr  2 11:32:09 MET DST 1993
+.\" and Andries Brouwer (aeb@cwi.nl), Fri Feb 14 21:47:50 1997.
+.\"
+.\" %%%LICENSE_START(GPLv2+_DOC_FULL)
+.\" This is free documentation; you can redistribute it and/or
+.\" modify it under the terms of the GNU General Public License as
+.\" published by the Free Software Foundation; either version 2 of
+.\" the License, or (at your option) any later version.
+.\"
+.\" The GNU General Public License's references to "object code"
+.\" and "executables" are to be interpreted as the output of any
+.\" document formatting or typesetting system, including
+.\" intermediate and printed output.
+.\"
+.\" This manual is distributed in the hope that it will be useful,
+.\" but WITHOUT ANY WARRANTY; without even the implied warranty of
+.\" MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+.\" GNU General Public License for more details.
+.\"
+.\" You should have received a copy of the GNU General Public
+.\" License along with this manual; if not, see
+.\" <http://www.gnu.org/licenses/>.
+.\" %%%LICENSE_END
+.\"
+.\" Modified Sun Jul 25 10:45:30 1993 by Rik Faith (faith@cs.unc.edu)
+.\" Modified Sun Jul 21 21:25:26 1996 by Andries Brouwer (aeb@cwi.nl)
+.\" Modified Mon Oct 21 17:47:19 1996 by Eric S. Raymond (esr@thyrsus.com)
+.\" Modified Wed Aug 27 20:28:58 1997 by Nicolás Lichtmaier (nick@debian.org)
+.\" Modified Mon Sep 21 00:00:26 1998 by Andries Brouwer (aeb@cwi.nl)
+.\" Modified Wed Jan 24 06:37:24 2001 by Eric S. Raymond (esr@thyrsus.com)
+.\" Modified Thu Dec 13 23:53:27 2001 by Martin Schulze <joey@infodrom.org>
+.\"
+.TH ENVIRON 7 2021-03-22 "Linux" "Linux Programmer's Manual"
+.SH NAME
+environ \- user environment
+.SH SYNOPSIS
+.nf
+.BI "extern char **" environ ;
+.fi
+.SH DESCRIPTION
+The variable
+.I environ
+points to an array of pointers to strings called the "environment".
+The last pointer in this array has the value NULL.
+This array of strings is made available to the process by the
+.BR execve (2)
+call when a new program is started.
+When a child process is created via
+.BR fork (2),
+it inherits a
+.I copy
+of its parent's environment.
+.PP
+By convention, the strings in
+.I environ
+have the form "\fIname\fP\fB=\fP\fIvalue\fP".
+The name is case-sensitive and may not contain
+the character "\fB=\fP".
+The value can be anything that can be represented as a string.
+The name and the value may not contain an embedded null byte (\(aq\e0\(aq),
+since this is assumed to terminate the string.
+.PP
+Environment variables may be placed in the shell's environment by the
+.I export
+command in
+.BR sh (1),
+or by the
+.I setenv
+command if you use
+.BR csh (1).
+.PP
+The initial environment of the shell is populated in various ways,
+such as definitions from
+.IR /etc/environment
+that are processed by
+.BR pam_env (8)
+for all users at login time (on systems that employ
+.BR pam (8)).
+In addition, various shell initialization scripts, such as the system-wide
+.IR /etc/profile
+script and per-user initializations script may include commands
+that add variables to the shell's environment;
+see the manual page of your preferred shell for details.
+.PP
+Bourne-style shells support the syntax
+.PP
+    NAME=value command
+.PP
+to create an environment variable definition only in the scope
+of the process that executes
+.IR command .
+Multiple variable definitions, separated by white space, may precede
+.IR command .
+.PP
+Arguments may also be placed in the
+environment at the point of an
+.BR exec (3).
+A C program can manipulate its environment using the functions
+.BR getenv (3),
