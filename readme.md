@@ -154,6 +154,10 @@ The generator uses:
 go test ./...
 ```
 
+## Contributing and engineering guidance
+
+Before changing public behaviour, tests, parsers or generation rules, see [repository-specific agent/contributor guidance](AGENTS.md). The applicable rationale is collected in [Suggested Coding Standards](https://arran4.github.io/blog/post/2026/055-suggested-coding-standards-for-repositories-and-agents/); this is selective guidance, not a blanket rewrite policy. The [standards adoption issue](https://github.com/arran4/golang-gtroff/issues/1) tracks the required implementation/test audit separately from documentation.
+
 ## License
 
 This project follows the licensing of the source material:
