@@ -97,9 +97,23 @@ func TestArgumentParser(t *testing.T) {
 		{
 			name:    "trailing \\",
 			l:       "trailing \\",
-			want:    []string{"trailing", "\\\\"},
+			want:    []string{"trailing", "\\"},
 			wantErr: false,
 			i:       len([]rune("trailing \\")),
+		},
+		{
+			name:    "lone trailing \\",
+			l:       "\\",
+			want:    []string{"\\"},
+			wantErr: false,
+			i:       len([]rune("\\")),
+		},
+		{
+			name:    "quoted trailing \\",
+			l:       "\"unterminated \\",
+			want:    nil,
+			wantErr: true,
+			i:       len([]rune("\"unterminated \\")),
 		},
 	}
 	for _, tt := range tests {

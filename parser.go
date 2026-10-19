@@ -56,7 +56,6 @@ func ArgumentParser(l string) ([]string, int, error) {
 			}
 		case '\\':
 			if i+1 >= len(rs) {
-				a += "\\"
 				break
 			}
 			i++
