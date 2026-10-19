@@ -55,6 +55,10 @@ func ArgumentParser(l string) ([]string, int, error) {
 				continue
 			}
 		case '\\':
+			if i+1 >= len(rs) {
+				a += "\\"
+				break
+			}
 			i++
 			if len(stack) == 0 && rs[i] == '"' {
 				acomment = true

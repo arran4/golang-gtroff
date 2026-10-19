@@ -73,6 +73,34 @@ func TestArgumentParser(t *testing.T) {
 			wantErr: false,
 			i:       len([]rune("hello 世界")),
 		},
+		{
+			name:    "\"hello 世界\" 🌍",
+			l:       "\"hello 世界\" 🌍",
+			want:    []string{"hello 世界", "🌍"},
+			wantErr: false,
+			i:       len([]rune("\"hello 世界\" 🌍")),
+		},
+		{
+			name:    "escaped\\ space",
+			l:       "escaped\\ space",
+			want:    []string{"escaped space"},
+			wantErr: false,
+			i:       len([]rune("escaped\\ space")),
+		},
+		{
+			name:    "café\\ mocha",
+			l:       "café\\ mocha",
+			want:    []string{"café mocha"},
+			wantErr: false,
+			i:       len([]rune("café\\ mocha")),
+		},
+		{
+			name:    "trailing \\",
+			l:       "trailing \\",
+			want:    []string{"trailing", "\\\\"},
+			wantErr: false,
+			i:       len([]rune("trailing \\")),
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
