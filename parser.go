@@ -55,6 +55,9 @@ func ArgumentParser(l string) ([]string, int, error) {
 				continue
 			}
 		case '\\':
+			if i+1 >= len(rs) {
+				break
+			}
 			i++
 			if len(stack) == 0 && rs[i] == '"' {
 				acomment = true
@@ -80,7 +83,7 @@ func ArgumentParser(l string) ([]string, int, error) {
 				continue
 			}
 		}
-		a += string([]byte{byte(rs[i])})
+		a += string(rs[i])
 	}
 	if len(stack) > 0 {
 		return nil, i, fmt.Errorf("%w: stack %s", ErrUnclosedQuote, string(stack))
