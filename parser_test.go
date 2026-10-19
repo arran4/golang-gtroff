@@ -66,6 +66,13 @@ func TestArgumentParser(t *testing.T) {
 			wantErr: false,
 			i:       len("a\" \"b c\" \"de\"fg\""),
 		},
+		{
+			name:    "hello 世界",
+			l:       "hello 世界",
+			want:    []string{"hello", "世界"},
+			wantErr: false,
+			i:       len([]rune("hello 世界")),
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
