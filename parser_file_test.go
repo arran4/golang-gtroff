@@ -83,6 +83,8 @@ func TestParseFile(t *testing.T) {
 				foundUE := false
 				foundMT := false
 				foundME := false
+				foundNf := false
+				foundFi := false
 
 				for _, tok := range tokens {
 					switch tok.(type) {
@@ -114,6 +116,10 @@ func TestParseFile(t *testing.T) {
 						foundMT = true
 					case *TokenMacroME:
 						foundME = true
+					case *TokenRequestNf:
+						foundNf = true
+					case *TokenRequestFi:
+						foundFi = true
 					}
 				}
 
@@ -158,6 +164,12 @@ func TestParseFile(t *testing.T) {
 				}
 				if !foundME {
 					t.Error("Expected to find ME macro")
+				}
+				if !foundNf {
+					t.Error("Expected to find .nf request")
+				}
+				if !foundFi {
+					t.Error("Expected to find .fi request")
 				}
 			},
 		},
@@ -354,11 +366,14 @@ func TestParseLineByLine(t *testing.T) {
 			}
 
 			t.Logf("Parsed %d lines with %d errors", lineNum, errorCount)
+			if errorCount > 0 {
+				t.Errorf("Expected 0 parse errors in %s, got %d", tt.filename, errorCount)
+			}
 		})
 	}
 }
 
-// Helper function to parse a complete man page file
+// Helper function to parse a complete man page file using ParseDocument
 func parseManPageFile(filename string) ([]Token, error) {
 	file, err := os.Open(filename)
 	if err != nil {
@@ -366,29 +381,18 @@ func parseManPageFile(filename string) ([]Token, error) {
 	}
 	defer file.Close()
 
-	var tokens []Token
-	scanner := bufio.NewScanner(file)
-
-	for scanner.Scan() {
-		line := scanner.Text()
-
-		// Skip empty lines
-		if strings.TrimSpace(line) == "" {
-			continue
-		}
-
-		token, err := ParseLine(line)
-		if err != nil {
-			// For now, we skip lines that don't parse
-			// In a real implementation, you might want to handle this differently
-			continue
-		}
-
-		tokens = append(tokens, token)
+	doc, err := ParseDocument(file, WithStrict(false), WithSourceName(filename))
+	if err != nil {
+		return nil, err
 	}
 
-	if err := scanner.Err(); err != nil {
-		return nil, err
+	var tokens []Token
+	for _, dt := range doc.Tokens {
+		// Filter out empty text lines
+		if text, ok := dt.Token.(TokenText); ok && strings.TrimSpace(string(text)) == "" {
+			continue
+		}
+		tokens = append(tokens, dt.Token)
 	}
 
 	return tokens, nil
@@ -461,6 +465,22 @@ func getTokenTypeName(tok Token) string {
 		return "UR"
 	case *TokenMacroUE:
 		return "UE"
+	case *TokenRequestNf:
+		return "nf"
+	case *TokenRequestFi:
+		return "fi"
+	case *TokenRequestBr:
+		return "br"
+	case *TokenRequestSp:
+		return "sp"
+	case *TokenTableBlock:
+		return "TableBlock"
+	case *TokenEquationBlock:
+		return "EquationBlock"
+	case *TokenPictureBlock:
+		return "PictureBlock"
+	case *TokenReferenceBlock:
+		return "ReferenceBlock"
 	default:
 		return "Unknown"
 	}
