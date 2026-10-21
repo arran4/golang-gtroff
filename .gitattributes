@@ -1,2 +1,4 @@
 # Scenario source and expected text must retain exact line-ending bytes.
 testdata/ast/*.txtar -text
+# CR bytes in this fixture are source data, not trailing whitespace errors.
+testdata/ast/crlf.txtar whitespace=cr-at-eol
