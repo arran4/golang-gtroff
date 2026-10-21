@@ -15,3 +15,10 @@ testdata/render/html/*.txtar -text
 
 # Conversion scenarios keep source and canonical bytes separate.
 testdata/convert/*.txtar -text
+
+# Textual image layouts stay readable; binary goldens live outside TXTAR.
+testdata/image/*.txtar -text
+testdata/golden/image/*.png binary
+testdata/golden/image/*.jpg binary
+examples/man-tool.png binary
+examples/man-tool.jpg binary

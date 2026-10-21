@@ -1,0 +1,20 @@
+The total pixel budget is checked before allocating images, including for later pages.
+-- input.1 --
+.SH CONTENT
+First paragraph.
+.PP
+Second paragraph.
+.PP
+Third paragraph.
+.PP
+Fourth paragraph.
+-- options.json --
+{"Width":300,"PageHeight":180,"Margin":16,"MaxPixels":54000}
+-- error.txt --
+image resource budget exceeded
+-- expected-layout.json --
+null
+-- expected-diagnostics.json --
+[]
+-- expected-paths.json --
+null

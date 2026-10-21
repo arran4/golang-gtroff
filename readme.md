@@ -2,7 +2,7 @@
 
 A pure-Go library and lexer CLI for inspecting roff documents, navigating a source-aware AST, and extracting syntax text. Linux man pages are the primary target; typed man/ms macros and roff requests are available.
 
-`ParseAST` preserves original source independently of canonical token formatting. Inspect sections, select a subtree, search controls or content, and walk parent/child links without running roff commands or loading includes. Headless builds require no CGO, groff, browser, or system font tools. A separate semantic man model now renders whole pages or selections to self-contained HTML with embedded Go fonts. The `convert` command also converts a documented semantic HTML/man subset in both directions. Raster rendering remains planned.
+`ParseAST` preserves original source independently of canonical token formatting. Inspect sections, select a subtree, search controls or content, and walk parent/child links without running roff commands or loading includes. Headless builds require no CGO, groff, browser, or system font tools. A separate semantic man model now renders whole pages or selections to self-contained HTML with embedded Go fonts. The `convert` command also converts a documented semantic HTML/man subset in both directions. PNG/JPEG export uses the same model with bounded pure-Go pagination.
 
 ## Features
 
@@ -72,6 +72,21 @@ HTML preserves headings, paragraphs, definitions, styles, links and examples.
 Unknown source stays escaped and visible with diagnostics; `--strict` leaves
 existing output intact when diagnostics occur. Source text never executes as
 HTML or JavaScript. See [HTML API, selection, safety and output contracts](docs/html.md).
+
+### Export PNG or JPEG pages
+
+```sh
+./gtroff render --format png -o page.png examples/man-tool.1
+./gtroff render --format jpg --theme dark -o page.jpg examples/man-tool.1
+./gtroff render --format png --section OPTIONS --single -o options.png examples/man-tool.1
+```
+
+See the [PNG example](examples/man-tool.png) and [dark JPEG example](examples/man-tool.jpg).
+Multi-page output uses `page-001.png`, `page-002.png`, etc. Stdout accepts one
+image; `--single` derives height within guarded limits. Width/margins/page height
+use pixels; image font size uses points at the requested DPI. Default bundled Go
+fonts need no installed files. Unsupported syntax and missing Unicode glyphs
+remain visible with diagnostics. See [image options, APIs, limits and tests](docs/images.md).
 
 ### Convert HTML and man structure
 
@@ -274,7 +289,9 @@ cat myfile.1 | go run ./cmd/lex/main.go
 - **Headless CLI**: `cmd/gtroff` provides syntax validation, source-aware AST export, selection, help and version output; `cmd/lex` remains available.
 - **Semantic man model**: `man.Build` provides flowing/styled content, definition lists, preformatted text, references, provenance, selection and canonical semantic comparison.
 - **HTML export**: `gtroff render --format html` exports whole/selected semantic content with self-contained CSS/fonts and safe atomic file output.
-- **Planned**: semantic conversions, image rendering and a viewer are tracked in #24–#29.
+- **Semantic conversion**: `gtroff convert` maps a documented HTML/man subset in both directions, with canonical escaping and semantic loop tests.
+- **Image export**: paginated PNG/JPEG and bounded single-image output use bundled Go fonts and pure-Go measurement/painting.
+- **Planned**: HTTP library, optional viewer and release integration remain tracked in #26–#29.
 - **Parser dependencies**: #3–#17 remain open contracts, including include safety, full argument/document fidelity, evaluation, and generation coverage. The AST never follows includes. See [specific dependencies](docs/ast.md#parser-dependencies).
 
 ## Development

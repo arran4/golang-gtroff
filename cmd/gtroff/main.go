@@ -21,6 +21,13 @@ func main() {
 		In: os.Stdin, Out: os.Stdout, Err: os.Stderr,
 		Open:        func(path string) (io.ReadCloser, error) { return os.Open(path) },
 		WriteOutput: atomicfile.Write,
-		Build:       cli.BuildInfo{Version: version, Commit: commit, Date: date},
+		WriteOutputs: func(source string, files []cli.OutputFile) error {
+			outputs := make([]atomicfile.File, len(files))
+			for i, f := range files {
+				outputs[i] = atomicfile.File{Path: f.Path, Data: f.Data}
+			}
+			return atomicfile.WriteMany(source, outputs)
+		},
+		Build: cli.BuildInfo{Version: version, Commit: commit, Date: date},
 	}))
 }
