@@ -1,0 +1,12 @@
+Strict aggregate checks fast.
+-- scenario.json --
+{
+  "Block": "gate",
+  "Env": {
+    "VERIFY_RESULT": "success",
+    "CANDIDATES_RESULT": "success",
+    "NATIVE_RESULT": "skipped",
+    "FULL": "false"
+  },
+  "Exit": 0
+}

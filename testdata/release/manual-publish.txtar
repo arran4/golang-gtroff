@@ -1,0 +1,15 @@
+Workflow routing: manual-publish
+-- scenario.json --
+{
+  "Block": "policy",
+  "Env": {
+    "EVENT_NAME": "workflow_dispatch",
+    "INPUT_MODE": "publish-tag",
+    "GITHUB_REF": "refs/tags/v1.2.3"
+  },
+  "Exit": 0,
+  "Outputs": {
+    "full": "true",
+    "release": "true"
+  }
+}

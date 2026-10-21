@@ -469,7 +469,7 @@ func smokeReadme(t *testing.T, binary string) {
 	if count < 10 {
 		t.Fatalf("expected meaningful quickstart smoke, got %d commands", count)
 	}
-	for _, name := range []string{"page.html", "options.html", "converted.html", "converted.1", "options.json", "page.png", "page.jpg", "options.png"} {
+	for _, name := range []string{"page.html", "options.html", "converted.html", "converted.1", "options.json", "page.png", "page.jpg", "options.png", "gtroff-render.1", "gtroff.bash"} {
 		data, err := os.ReadFile(filepath.Join(work, name))
 		if err != nil || len(data) == 0 {
 			t.Fatalf("README missing output %s: %v", name, err)

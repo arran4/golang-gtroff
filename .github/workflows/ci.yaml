@@ -1,98 +1,352 @@
-name: CI
-
+# Owner workflow; selected modules follow the current 043 CI/CD reference.
+name: CI/CD
 on:
   push:
-    branches: [ main ]
-  pull_request: {}
-
+    branches: [main]
+    tags: ['v*']
+  pull_request:
+    # Reopened is retained explicitly for this stacked review series.
+    types: [opened, synchronize, reopened]
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: Build snapshot, full native verification, or publish an existing immutable version tag
+        type: choice
+        default: build
+        options: [build, full, publish-tag]
+permissions:
+  contents: read
+concurrency:
+  group: ${{ github.event_name == 'pull_request' && format('{0}-pr-{1}', github.workflow, github.event.pull_request.number) || format('{0}-run-{1}', github.workflow, github.run_id) }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+env:
+  GORELEASER_VERSION: 2.18.3
+  GORELEASER_SHA256: b8dee4728bca1aba0d71a832a17cd0a3799f75372878e7ffa36aef2343bce0bc
+  CGO_ENABLED: '0'
 jobs:
-  build-and-test:
+  verify:
+    name: Source, generation and workflow verification
     runs-on: ubuntu-latest
+    timeout-minutes: 15
+    outputs:
+      full: ${{ steps.policy.outputs.full }}
+      release: ${{ steps.policy.outputs.release }}
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Set up Go
-        uses: actions/setup-go@v5
+      - id: policy
+        name: Select validated event policy
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          INPUT_MODE: ${{ inputs.mode }}
+        run: |
+          # release-policy-begin
+          set -euo pipefail
+          full=false
+          release=false
+          case "$EVENT_NAME" in
+            pull_request) ;;
+            push)
+              full=true
+              if [[ "$GITHUB_REF" == refs/tags/v* ]]; then release=true; fi
+              ;;
+            workflow_dispatch)
+              case "$INPUT_MODE" in
+                build) ;;
+                full) full=true ;;
+                publish-tag) full=true; release=true ;;
+                *) echo 'Unknown manual mode' >&2; exit 1 ;;
+              esac
+              ;;
+            *) echo 'Unsupported event' >&2; exit 1 ;;
+          esac
+          if [[ "$release" == true ]]; then
+            if ! [[ "$GITHUB_REF" =~ ^refs/tags/v(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)(-[0-9A-Za-z]+([.-][0-9A-Za-z]+)*)?$ ]]; then
+              echo 'Publication requires an existing vMAJOR.MINOR.PATCH[-prerelease] tag' >&2
+              exit 1
+            fi
+          fi
+          echo "full=$full" >> "$GITHUB_OUTPUT"
+          echo "release=$release" >> "$GITHUB_OUTPUT"
+          # release-policy-end
+      - uses: actions/checkout@v7
         with:
-          go-version-file: 'go.mod'
-          check-latest: true
-
-      - name: Verify code generation is up-to-date
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Verify immutable release origin
+        if: steps.policy.outputs.release == 'true'
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse "$GITHUB_REF^{commit}")" = "$GITHUB_SHA"
+          git merge-base --is-ancestor "$GITHUB_SHA" origin/main
+      - uses: actions/setup-go@v7
+        with:
+          go-version-file: go.mod
+          cache-dependency-path: |
+            go.sum
+            desktop/go.sum
+      - name: Tidy both modules before any release build
+        run: |
+          go mod tidy
+          go -C desktop mod tidy
+          git diff --exit-code -- go.mod go.sum desktop/go.mod desktop/go.sum
+      - name: Generate and require clean committed output
         run: |
           go generate ./...
           git diff --exit-code
+          test -z "$(git status --porcelain)"
+      - name: Vet and test CGO-free source, scenarios and executable examples
+        run: |
+          go vet ./...
+          go test -count=1 ./...
+          go -C desktop vet ./...
+          go -C desktop test -count=1 ./...
+          go -C desktop build ./cmd/gtroff-view
+      - name: Race-test the headless source
+        # Go's race instrumentation needs a C toolchain; shipped binaries do not.
+        env:
+          CGO_ENABLED: '1'
+        run: go test -race -count=1 ./...
+      - name: Validate workflow syntax
+        run: go run github.com/rhysd/actionlint/cmd/actionlint@v1.7.12
+      - name: Audit headless dependency isolation
+        run: |
+          dependencies="$(go list -deps ./cmd/gtroff)"
+          if printf '%s\n' "$dependencies" | grep -E 'shiny|glfw|jezek/xgb|golang.org/x/mobile'; then
+            echo 'Headless command imported an optional GUI dependency' >&2
+            exit 1
+          fi
 
-      - name: Run go vet
-        run: go vet ./...
-
-      - name: Run tests
-        run: go test -v -race ./...
-
-  headless-platforms:
-    name: CGO-free smoke (${{ matrix.os }})
-    strategy:
-      fail-fast: false
-      matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
-    runs-on: ${{ matrix.os }}
-    timeout-minutes: 10
-    env:
-      CGO_ENABLED: '0'
+  candidates:
+    name: Build and inspect candidate packages
+    needs: verify
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-go@v5
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-go@v7
         with:
           go-version-file: go.mod
-      - name: Test native headless code, images and executable
-        run: go test -count=1 ./...
-      - name: Build headless commands
-        run: go build ./cmd/gtroff ./cmd/lex
+      - name: Install pinned GoReleaser with verified digest
+        run: |
+          curl -fsSL "https://github.com/goreleaser/goreleaser/releases/download/v${GORELEASER_VERSION}/goreleaser_Linux_x86_64.tar.gz" -o "$RUNNER_TEMP/goreleaser.tar.gz"
+          echo "$GORELEASER_SHA256  $RUNNER_TEMP/goreleaser.tar.gz" | sha256sum -c -
+          mkdir -p "$RUNNER_TEMP/release-tools"
+          tar -xzf "$RUNNER_TEMP/goreleaser.tar.gz" -C "$RUNNER_TEMP/release-tools" goreleaser
+          echo "$RUNNER_TEMP/release-tools" >> "$GITHUB_PATH"
+      - name: Check configuration and build immutable candidates
+        env:
+          RELEASE_CONTEXT: ${{ needs.verify.outputs.release }}
+        run: |
+          goreleaser check
+          goreleaser check --config .goreleaser-view.yaml
+          if [[ "$RELEASE_CONTEXT" == true ]]; then
+            goreleaser release --clean --skip=publish
+          else
+            goreleaser release --snapshot --clean
+          fi
+          go run ./cmd/releasecheck --dist dist --native
+      - name: Install and smoke a Debian package without network or font tools
+        run: |
+          docker run --rm --network none -v "$PWD/dist:/packages:ro" debian:bookworm-slim sh -ec '
+            # Debian slim excludes documentation by default; inspect its install too.
+            rm -f /etc/dpkg/dpkg.cfg.d/docker
+            dpkg -i /packages/*linux_amd64.deb
+            su -s /bin/sh nobody -c "
+            set -e
+            gtroff version
+            gtroff --help
+            gtroff validate --strict /usr/share/doc/gtroff/examples/man-tool.1
+            gtroff render --format html -o /tmp/page.html /usr/share/doc/gtroff/examples/man-tool.1
+            gtroff render --format png --single -o /tmp/page.png /usr/share/doc/gtroff/examples/man-tool.1
+            test -s /tmp/page.html && test -s /tmp/page.png
+            test -r /usr/share/man/man1/gtroff.1
+            test -r /usr/share/bash-completion/completions/gtroff
+            test -r /usr/share/zsh/site-functions/_gtroff
+            test -r /usr/share/fish/vendor_completions.d/gtroff.fish
+            test -r /usr/share/doc/gtroff/LICENSE-Go-Fonts.txt
+            "
+          '
+      - uses: actions/upload-artifact@v7
+        with:
+          name: headless-candidates
+          path: dist/**
+          if-no-files-found: error
+          retention-days: 1
 
-  desktop-builds:
-    name: Optional desktop build (${{ matrix.os }})
+  native:
+    name: Native candidate (${{ matrix.target }})
+    needs: [verify, candidates]
+    if: needs.verify.outputs.full == 'true'
     strategy:
       fail-fast: false
       matrix:
         include:
           - os: ubuntu-latest
-            cgo: '0'
+            target: linux/amd64
+          - os: ubuntu-24.04-arm
+            target: linux/arm64
           - os: windows-latest
-            cgo: '0'
+            target: windows/amd64
+          - os: windows-11-arm
+            target: windows/arm64
+          - os: macos-15-intel
+            target: darwin/amd64
           - os: macos-latest
-            cgo: '1'
+            target: darwin/arm64
     runs-on: ${{ matrix.os }}
-    timeout-minutes: 10
-    defaults:
-      run:
-        working-directory: desktop
-    env:
-      CGO_ENABLED: ${{ matrix.cgo }}
+    timeout-minutes: 15
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-go@v5
+      - uses: actions/checkout@v7
         with:
-          go-version-file: desktop/go.mod
-      - name: Test optional module without opening windows
-        run: go test -count=1 ./...
-      - name: Build optional desktop command
-        run: go build ./cmd/gtroff-view
+          persist-credentials: false
+      - uses: actions/setup-go@v7
+        with:
+          go-version-file: go.mod
+      - uses: actions/download-artifact@v8
+        with:
+          name: headless-candidates
+          path: dist
+      - name: Test native source and the archived executable
+        run: |
+          go test -count=1 ./...
+          go run ./cmd/releasecheck --dist dist --native --target=${{ matrix.target }}
+      - name: Optional native desktop build without a display
+        if: runner.os != 'macOS'
+        continue-on-error: true
+        run: |
+          go -C desktop test -count=1 ./...
+          go -C desktop build ./cmd/gtroff-view
+      - name: Optional native Apple desktop build
+        if: runner.os == 'macOS'
+        continue-on-error: true
+        env:
+          CGO_ENABLED: '1'
+        run: |
+          go -C desktop test -count=1 ./...
+          go -C desktop build ./cmd/gtroff-view
 
-  desktop-x11-smoke:
-    name: Optional X11 native smoke
+  viewer:
+    name: Optional Linux X11 candidate
+    needs: verify
+    if: needs.verify.outputs.full == 'true'
+    # Optional desktop distribution cannot break the headless release contract.
+    continue-on-error: true
     runs-on: ubuntu-latest
-    timeout-minutes: 10
-    env:
-      CGO_ENABLED: '0'
-    defaults:
-      run:
-        working-directory: desktop
+    timeout-minutes: 15
+    outputs:
+      available: ${{ steps.available.outputs.available }}
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-go@v5
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-go@v7
         with:
           go-version-file: desktop/go.mod
-      - name: Install test-only X11 server and event tools
-        run: sudo apt-get update && sudo apt-get install -y xvfb xauth xdotool
-      - name: Exercise real input, viewport pixels and clean close
-        run: xvfb-run -a -s '-screen 0 1600x1200x24 -nolisten tcp' go test ./cmd/gtroff-view -run '^TestX11Executable$' -count=1 -gui-smoke
+          cache-dependency-path: desktop/go.sum
+      - name: Install pinned builder and test-only X11 tools
+        run: |
+          curl -fsSL "https://github.com/goreleaser/goreleaser/releases/download/v${GORELEASER_VERSION}/goreleaser_Linux_x86_64.tar.gz" -o "$RUNNER_TEMP/goreleaser.tar.gz"
+          echo "$GORELEASER_SHA256  $RUNNER_TEMP/goreleaser.tar.gz" | sha256sum -c -
+          mkdir -p "$RUNNER_TEMP/release-tools"
+          tar -xzf "$RUNNER_TEMP/goreleaser.tar.gz" -C "$RUNNER_TEMP/release-tools" goreleaser
+          echo "$RUNNER_TEMP/release-tools" >> "$GITHUB_PATH"
+          sudo apt-get update
+          sudo apt-get install -y xvfb xauth xdotool
+      - name: Build optional candidate and verify actual viewport pixels/input
+        env:
+          RELEASE_CONTEXT: ${{ needs.verify.outputs.release }}
+        run: |
+          if [[ "$RELEASE_CONTEXT" == true ]]; then
+            goreleaser release --config .goreleaser-view.yaml --clean --skip=publish
+          else
+            goreleaser release --config .goreleaser-view.yaml --snapshot --clean
+          fi
+          go run ./cmd/releasecheck --dist dist-view --viewer --native
+          tar -xzf dist-view/*.tar.gz -C "$RUNNER_TEMP" gtroff-view
+          xvfb-run -a -s '-screen 0 1600x1200x24 -nolisten tcp' go -C desktop test ./cmd/gtroff-view -run '^TestX11Executable$' -count=1 -gui-smoke -gui-binary "$RUNNER_TEMP/gtroff-view"
+      - uses: actions/upload-artifact@v7
+        with:
+          name: viewer-candidates
+          path: dist-view/**
+          if-no-files-found: error
+          retention-days: 1
+      - id: available
+        run: echo 'available=true' >> "$GITHUB_OUTPUT"
+
+  release-ready:
+    name: Required validation aggregate
+    needs: [verify, candidates, native]
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Require every selected check
+        env:
+          VERIFY_RESULT: ${{ needs.verify.result }}
+          CANDIDATES_RESULT: ${{ needs.candidates.result }}
+          NATIVE_RESULT: ${{ needs.native.result }}
+          FULL: ${{ needs.verify.outputs.full }}
+        run: |
+          # release-gate-begin
+          set -euo pipefail
+          test "$VERIFY_RESULT" = success
+          test "$CANDIDATES_RESULT" = success
+          if [[ "$FULL" == true ]]; then
+            test "$NATIVE_RESULT" = success
+          else
+            test "$NATIVE_RESULT" = skipped
+          fi
+          # release-gate-end
+
+  publisher:
+    name: Publish exact verified artifacts
+    needs: [verify, release-ready, viewer]
+    if: ${{ always() && needs.verify.outputs.release == 'true' && needs.release-ready.result == 'success' }}
+    runs-on: ubuntu-latest
+    environment: release
+    concurrency:
+      group: publish-${{ github.ref }}
+      cancel-in-progress: false
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/download-artifact@v8
+        with:
+          name: headless-candidates
+          path: dist
+      - uses: actions/download-artifact@v8
+        if: needs.viewer.outputs.available == 'true'
+        with:
+          name: viewer-candidates
+          path: dist-view
+      - name: Publish or resume this immutable tag only
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse "$GITHUB_REF^{commit}")" = "$GITHUB_SHA"
+          git merge-base --is-ancestor "$GITHUB_SHA" origin/main
+          files=()
+          for dir in dist dist-view; do
+            [[ -d "$dir" ]] || continue
+            while IFS= read -r -d '' file; do files+=("$file"); done < <(find "$dir" -maxdepth 1 -type f \( -name '*.tar.gz' -o -name '*.zip' -o -name '*.deb' -o -name '*.rpm' -o -name '*.apk' -o -name '*.pkg.tar.zst' -o -name '*_checksums.txt' \) -print0)
+          done
+          test "${#files[@]}" -gt 0
+          if gh release view "$GITHUB_REF_NAME" >/dev/null 2>&1; then
+            # Resume only a canonical published release with matching classification.
+            test "$(gh release view "$GITHUB_REF_NAME" --json isDraft --jq .isDraft)" = false
+            prerelease=false
+            [[ "$GITHUB_REF_NAME" != *-* ]] || prerelease=true
+            test "$(gh release view "$GITHUB_REF_NAME" --json isPrerelease --jq .isPrerelease)" = "$prerelease"
+            gh release upload "$GITHUB_REF_NAME" "${files[@]}" --clobber
+          else
+            args=(--verify-tag --generate-notes)
+            [[ "$GITHUB_REF_NAME" != *-* ]] || args+=(--prerelease)
+            gh release create "$GITHUB_REF_NAME" "${files[@]}" "${args[@]}"
+          fi

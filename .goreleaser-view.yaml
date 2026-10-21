@@ -1,0 +1,26 @@
+version: 2
+project_name: gtroff-view
+# Optional, separate distribution. Only the executed X11/CGO-free target ships.
+dist: dist-view
+builds:
+  - dir: desktop
+    main: ./cmd/gtroff-view
+    binary: gtroff-view
+    env: [CGO_ENABLED=0]
+    goos: [linux]
+    goarch: [amd64]
+    flags: [-trimpath]
+    mod_timestamp: '{{ .CommitTimestamp }}'
+archives:
+  - files:
+      - LICENSE
+      - fontset/LICENSE-Go-Fonts.txt
+      - renderimage/LICENSE-Go-Image.txt
+      - readme.md
+      - docs/viewer.md
+      - examples/man-tool.1
+changelog:
+  use: git
+release:
+  disable: true
+  prerelease: auto
