@@ -264,10 +264,11 @@ func (r *renderer) contextMargin(n *man.Node) float64 {
 
 func (r *renderer) walk(root man.ID) {
 	type frame struct {
-		id   man.ID
-		exit bool
+		id         man.ID
+		exit       bool
+		hasSection bool
 	}
-	stack := []frame{{root, false}}
+	stack := []frame{{id: root}}
 	for len(stack) > 0 && r.err == nil {
 		f := stack[len(stack)-1]
 		stack = stack[:len(stack)-1]
@@ -289,7 +290,7 @@ func (r *renderer) walk(root man.ID) {
 		case man.DocumentNode:
 		case man.Section, man.Subsection:
 			level := "h2"
-			if n.Kind == man.Subsection {
+			if n.Kind == man.Subsection && f.hasSection {
 				level = "h3"
 			}
 			r.write("<section")
@@ -379,9 +380,9 @@ func (r *renderer) walk(root man.ID) {
 			r.attr(n)
 			r.write(" style=\"height:" + number(value) + "em\"></div>\n")
 		}
-		stack = append(stack, frame{n.ID, true})
+		stack = append(stack, frame{id: n.ID, exit: true, hasSection: f.hasSection})
 		for i := len(n.Children) - 1; i >= 0; i-- {
-			stack = append(stack, frame{n.Children[i], false})
+			stack = append(stack, frame{id: n.Children[i], hasSection: f.hasSection || n.Kind == man.Section})
 		}
 	}
 }

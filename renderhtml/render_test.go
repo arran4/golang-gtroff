@@ -271,3 +271,12 @@ func TestSelectedBodyUsesAncestorItemWidth(t *testing.T) {
 		t.Fatal("later tag-width state replaced the enclosing item's width")
 	}
 }
+
+func TestStandaloneSubsectionHasAccessibleHeadingRank(t *testing.T) {
+	d := document(t, ".TH DEMO 1\n.SH DESCRIPTION\n.SS DETAILS\ncontent\n")
+	output, _ := renderTest(t, d, Options{Section: "DETAILS", Assets: OmitFonts})
+	root := parse(t, output)
+	if len(elements(root, "h1")) != 1 || len(elements(root, "h2")) != 1 || len(elements(root, "h3")) != 0 {
+		t.Fatal("selected subsection skipped a heading level")
+	}
+}
