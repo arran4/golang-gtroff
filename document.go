@@ -43,6 +43,9 @@ type Document struct {
 
 // ParserOptions configures document parsing behaviour.
 type ParserOptions struct {
+	ASTDepth        int // ParseAST only
+	ASTBytes        int // ParseAST only
+	ASTNodes        int // ParseAST only
 	Package         string
 	Strict          bool
 	SourceName      string

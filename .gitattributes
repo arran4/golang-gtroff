@@ -1,0 +1,2 @@
+# Scenario source and expected text must retain exact line-ending bytes.
+testdata/ast/*.txtar -text

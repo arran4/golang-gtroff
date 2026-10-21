@@ -1,0 +1,23 @@
+test: unmatched delimiters and incomplete inline references are diagnosed
+All malformed source remains available; inline error positions follow UTF-8 bytes.
+-- options.json --
+{"strict":true}
+-- error.txt --
+unmatched block delimiter .RE
+-- input.1 --
+.RE
+雪 \*[unfinished
+-- expected-ast.json --
+{
+  "nodes": [
+    {"id":1,"children":[2,4],"kind":"document","span":{"Start":{"Filename":"input.1","Offset":0,"Line":1,"Column":1},"End":{"Filename":"input.1","Offset":22,"Line":3,"Column":1}},"attributes":{}},
+    {"id":2,"parent":1,"children":[3],"kind":"line","span":{"Start":{"Filename":"input.1","Offset":0,"Line":1,"Column":1},"End":{"Filename":"input.1","Offset":4,"Line":2,"Column":1}},"attributes":{"name":".RE","package":"man","tokenKind":"Macro"},"token":{"Nnn":""},"diagnostics":[{"Message":"unmatched block delimiter .RE","Position":{"Filename":"input.1","Offset":0,"Line":1,"Column":1},"Severity":"error"}]},
+    {"id":3,"parent":2,"kind":"inline","span":{"Start":{"Filename":"input.1","Offset":0,"Line":1,"Column":1},"End":{"Filename":"input.1","Offset":3,"Line":1,"Column":4}},"attributes":{},"inline":{"Kind":"Text","Raw":".RE","Name":"","Value":".RE"}},
+    {"id":4,"parent":1,"children":[5,6],"kind":"line","span":{"Start":{"Filename":"input.1","Offset":4,"Line":2,"Column":1},"End":{"Filename":"input.1","Offset":22,"Line":3,"Column":1}},"attributes":{"tokenKind":"Text"},"token":"雪 \\*[unfinished"},
+    {"id":5,"parent":4,"kind":"inline","span":{"Start":{"Filename":"input.1","Offset":4,"Line":2,"Column":1},"End":{"Filename":"input.1","Offset":8,"Line":2,"Column":3}},"attributes":{},"inline":{"Kind":"Text","Raw":"雪 ","Name":"","Value":"雪 "}},
+    {"id":6,"parent":4,"kind":"inline","span":{"Start":{"Filename":"input.1","Offset":8,"Line":2,"Column":3},"End":{"Filename":"input.1","Offset":21,"Line":2,"Column":16}},"attributes":{},"inline":{"Kind":"StringRef","Raw":"\\*[unfinished","Name":"unfinished","Value":""},"diagnostics":[{"Message":"incomplete inline escape preserved: \\*[unfinished","Position":{"Filename":"input.1","Offset":8,"Line":2,"Column":3},"Severity":"error"}]}
+  ],
+  "diagnostics": [{"Message":"unmatched block delimiter .RE","Position":{"Filename":"input.1","Offset":0,"Line":1,"Column":1},"Severity":"error"},{"Message":"incomplete inline escape preserved: \\*[unfinished","Position":{"Filename":"input.1","Offset":8,"Line":2,"Column":3},"Severity":"error"}]
+}
+-- expected-extract.txt --
+雪 \*[unfinished

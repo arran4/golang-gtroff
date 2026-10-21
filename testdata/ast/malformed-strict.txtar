@@ -1,0 +1,29 @@
+test: strict mode returns an error AND the complete preserved tree
+-- options.json --
+{"strict":true}
+-- error.txt --
+quote wasn't closed
+-- input.1 --
+.B "broken
+still present
+.TS
+unfinished table
+-- expected-ast.json --
+{
+  "nodes": [
+    {"id":1,"children":[2,4,6],"kind":"document","span":{"Start":{"Filename":"input.1","Offset":0,"Line":1,"Column":1},"End":{"Filename":"input.1","Offset":46,"Line":5,"Column":1}},"attributes":{}},
+    {"id":2,"parent":1,"children":[3],"kind":"line","span":{"Start":{"Filename":"input.1","Offset":0,"Line":1,"Column":1},"End":{"Filename":"input.1","Offset":11,"Line":2,"Column":1}},"attributes":{"name":".B","tokenKind":"Unknown"},"token":{"ControlChar":46,"Name":".B","RawArgs":"\"broken","RawLine":".B \"broken"},"diagnostics":[{"Message":"parse TokenManB arguments: \"broken, quote wasn't closed: stack \"","Position":{"Filename":"input.1","Offset":0,"Line":1,"Column":1},"Severity":"error"}]},
+    {"id":3,"parent":2,"kind":"inline","span":{"Start":{"Filename":"input.1","Offset":0,"Line":1,"Column":1},"End":{"Filename":"input.1","Offset":10,"Line":1,"Column":11}},"attributes":{},"inline":{"Kind":"Text","Raw":".B \"broken","Name":"","Value":".B \"broken"}},
+    {"id":4,"parent":1,"children":[5],"kind":"line","span":{"Start":{"Filename":"input.1","Offset":11,"Line":2,"Column":1},"End":{"Filename":"input.1","Offset":25,"Line":3,"Column":1}},"attributes":{"tokenKind":"Text"},"token":"still present"},
+    {"id":5,"parent":4,"kind":"inline","span":{"Start":{"Filename":"input.1","Offset":11,"Line":2,"Column":1},"End":{"Filename":"input.1","Offset":24,"Line":2,"Column":14}},"attributes":{},"inline":{"Kind":"Text","Raw":"still present","Name":"","Value":"still present"}},
+    {"id":6,"parent":1,"children":[7,9],"kind":"block","span":{"Start":{"Filename":"input.1","Offset":25,"Line":3,"Column":1},"End":{"Filename":"input.1","Offset":46,"Line":5,"Column":1}},"attributes":{"name":".TS","endMarker":".TE","opaque":true},"diagnostics":[{"Message":"unterminated block .TS (expected .TE)","Position":{"Filename":"input.1","Offset":25,"Line":3,"Column":1},"Severity":"error"}]},
+    {"id":7,"parent":6,"children":[8],"kind":"line","span":{"Start":{"Filename":"input.1","Offset":25,"Line":3,"Column":1},"End":{"Filename":"input.1","Offset":29,"Line":4,"Column":1}},"attributes":{"name":".TS","package":"ms","tokenKind":"Macro"},"token":{"H":""}},
+    {"id":8,"parent":7,"kind":"inline","span":{"Start":{"Filename":"input.1","Offset":25,"Line":3,"Column":1},"End":{"Filename":"input.1","Offset":28,"Line":3,"Column":4}},"attributes":{},"inline":{"Kind":"Text","Raw":".TS","Name":"","Value":".TS"}},
+    {"id":9,"parent":6,"kind":"line","span":{"Start":{"Filename":"input.1","Offset":29,"Line":4,"Column":1},"End":{"Filename":"input.1","Offset":46,"Line":5,"Column":1}},"attributes":{"tokenKind":"Text","opaque":true}}
+  ],
+  "diagnostics": [{"Message":"parse TokenManB arguments: \"broken, quote wasn't closed: stack \"","Position":{"Filename":"input.1","Offset":0,"Line":1,"Column":1},"Severity":"error"},{"Message":"unterminated block .TS (expected .TE)","Position":{"Filename":"input.1","Offset":25,"Line":3,"Column":1},"Severity":"error"}]
+}
+-- expected-extract.txt --
+.B "broken
+still present
+unfinished table

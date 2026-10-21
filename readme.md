@@ -1,20 +1,21 @@
 # golang-gtroff
 
-A Go library and CLI for complete, extensible groff and troff document parsing, macro extraction, and bounded evaluation.
+A pure-Go library and lexer CLI for inspecting roff documents, navigating a source-aware AST, and extracting syntax text. Linux man pages are the primary target; typed man/ms macros and roff requests are available.
 
-`golang-gtroff` is designed as a **loss-aware, structured syntax and document parser**. It provides typed nodes for groff macros and requests, preserves physical lines and source positions, models complex constructs like multiline macro definitions and preprocessor blocks, and provides an optional bounded semantic evaluator. It does **not** attempt to be a full typesetter or pixel/page-layout engine.
+`ParseAST` preserves original source independently of canonical token formatting. Inspect sections, select a subtree, search controls or content, and walk parent/child links without running roff commands or loading includes. Headless builds require no CGO, groff, browser, or system font tools. Rendering and semantic man-page conversion are planned; the current toolkit parses and inspects syntax.
 
 ## Features
 
-- **Catalogue Coverage**: 518 canonical definitions across macros (141 entries, 111 distinct), requests (206 entries, 179 distinct), strings (59 entries), and registers (112 entries) with 0 unexplained gaps.
-- **Package-Aware Macro Resolution**: Full support for both `man` and `ms` packages with automatic collision resolution for shared macros (`.SH`, `.B`, `.BI`, `.NH`, `.DS`, etc.).
+- **Catalogue Coverage**: 518 canonical definitions across macros (141 entries, 111 distinct), requests (206 entries, 179 distinct), strings (59 entries), and registers (112 entries) recorded in the generated catalogue; coverage validation is still tracked in #15.
+- **Package-Aware Macro Resolution**: Typed `man` and `ms` macros with package-specific collision resolution for shared macros (`.SH`, `.B`, `.BI`, `.NH`, `.DS`, etc.).
 - **Roff Request Support**: Typed support for low-level roff requests including `.nf`, `.fi`, `.br`, `.sp`, `.nr`, `.ds`, `.so`, and more.
 - **Preprocessor Blocks**: Structured capture of `tbl` (`.TS`/`.TE`), `eqn` (`.EQ`/`.EN`), `pic` (`.PS`/`.PE`), and `refer` (`.[`/`.]`) regions.
 - **Multiline & Definition Handlers**: Structured blocks for macro definitions (`.de`, `.am`), ignored text (`.ig`), and source directives (`.so`, `.mso`).
 - **Inline Escapes & References**: Reusable inline parser for string interpolations (`\*[HF]`), register references (`\n[PO]`), special characters (`\(bu`, `\[bu]`), font changes (`\fB`), and size escapes.
-- **Streaming Document Parser**: `ParseDocument` preserves every physical line, source positions (line, column, byte offset), blank lines, comments, and unterminated final lines.
-- **Optional Bounded Evaluator**: Opt-in semantic evaluation for number registers (`.nr`, `.rr`), strings (`.ds`, `.as`), conditionals (`.if`, `.ie`, `.el`), and macro expansion with strict recursion and step budgets.
-- **Deterministic Code Generation**: Atomic, `go/format`-verified code generation backed by schema validation.
+- **Source-aware AST**: immutable structure, stable document-local IDs, exact source slices, Unicode positions, typed token inspection, section/node selection, and deterministic traversal/search.
+- **Document Parser**: the existing `ParseDocument` token API remains available. Use `ParseAST` for byte-exact source preservation.
+- **Optional Bounded Evaluator**: Opt-in semantic evaluation for number registers (`.nr`, `.rr`), strings (`.ds`, `.as`), conditionals (`.if`, `.ie`, `.el`), and macro expansion with execution limits; remaining evaluator gaps are tracked in #13.
+- **Deterministic Code Generation**: Sorted, `go/format`-verified output backed by schema validation; multi-output atomicity remains tracked in #16.
 
 ## Installation
 
@@ -23,6 +24,35 @@ go get github.com/arran4/golang-gtroff
 ```
 
 ## Usage
+
+### Select and inspect a man-page section
+
+```go
+source := ".TH DEMO 1\n.SH NAME\ndemo \\- inspect roff\n.SH OPTIONS\n.TP\n.B \\-v\nVerbose output.\n"
+tree, err := groff.ParseAST(strings.NewReader(source), groff.WithPackage("man"))
+if err != nil {
+    log.Fatal(err)
+}
+options := tree.Root().FindSection("OPTIONS", false)[0]
+fmt.Print(options.Text())
+// OPTIONS
+// \-v
+// Verbose output.
+
+fmt.Print(options.Raw()) // original .SH/.TP/.B spelling and line endings
+token, err := options.FindMacro("B")[0].Token()
+if err != nil {
+    log.Fatal(err)
+}
+fmt.Println(token.(*groff.TokenManB).Text) // \-v
+```
+
+`Walk` supports pruning/stopping. `FindKind`, `FindMacro`, `FindSection`,
+`FindText`, and `FindSpan` search a selected subtree in source order. Unknown or
+malformed syntax stays visible with diagnostics. Strict mode returns an error
+and the preserved tree. `Text()` extracts syntax arguments without evaluating
+escapes; `Raw()` retains the original source. See the [AST contracts and fixture
+instructions](docs/ast.md) and the executable `ExampleParseAST` for details.
 
 ### Document Parsing (Streaming & Structured)
 
@@ -145,11 +175,12 @@ cat myfile.1 | go run ./cmd/lex/main.go
 
 ## Supported Scope & Honest Boundaries
 
-- **Syntax & AST Layer (Complete)**: Dot control lines, apostrophe control lines, line arguments, quotes, escapes, preprocessor blocks, macro definitions, comments, and unknown controls.
-- **Macro Packages**: `man` and `ms` macro packages are fully typed with package disambiguation.
+- **Syntax & AST Layer**: Dot control lines, apostrophe control lines, line arguments, quotes, escapes, preprocessor blocks, macro definitions, comments, and unknown controls.
+- **Macro Packages**: generated `man` and `ms` types support package disambiguation; unsupported syntax produces AST diagnostics.
 - **Requests**: 179 distinct roff requests are typed and dispatched.
 - **Semantic Evaluation (Opt-in)**: Core register arithmetic (`.nr`, `.rr`), strings (`.ds`, `.as`), conditionals (`.if`, `.ie`, `.el`), and macro definitions (`.de`).
-- **Out of Scope**: Full groff typesetting, hyphenation engines, diversion rendering, and font rasterization/page layout.
+- **Planned**: semantic man models, validation/AST CLI commands, HTML export, conversions, image rendering and a viewer are tracked in #21–#29.
+- **Parser dependencies**: #3–#17 remain open contracts, including include safety, full argument/document fidelity, evaluation, and generation coverage. The AST never follows includes. See [specific dependencies](docs/ast.md#parser-dependencies).
 
 ## Development
 
