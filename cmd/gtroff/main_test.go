@@ -6,6 +6,8 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
+	"image"
+	_ "image/jpeg"
 	"image/png"
 	"io"
 	"net/http"
@@ -35,7 +37,7 @@ func TestExecutableFlows(t *testing.T) {
 	if out, err := build.CombinedOutput(); err != nil {
 		t.Fatalf("build executable: %v\n%s", err, out)
 	}
-	source, err := os.ReadFile(filepath.Join("..", "..", "testdata", "simple.1"))
+	source, err := os.ReadFile(filepath.Join("..", "..", "examples", "man-tool.1"))
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -310,7 +312,7 @@ func TestExecutableFlows(t *testing.T) {
 		if err := os.MkdirAll(filepath.Join(root, "man1"), 0700); err != nil {
 			t.Fatal(err)
 		}
-		if err := os.WriteFile(filepath.Join(root, "man1", "tool.1"), []byte(".TH TOOL 1\n.SH NAME\ntool \\- browse a document\n.SH OPTIONS\nVisible HTTP content.\n"), 0600); err != nil {
+		if err := os.WriteFile(filepath.Join(root, "man1", "man-tool.1"), source, 0600); err != nil {
 			t.Fatal(err)
 		}
 		command := exec.CommandContext(ctx, binary, "serve", "--root", root, "--listen", "127.0.0.1:0", "--assets", "omit-fonts")
@@ -359,14 +361,14 @@ func TestExecutableFlows(t *testing.T) {
 			t.Fatal("missing listener address", line)
 		}
 		client := &http.Client{Timeout: 2 * time.Second, Transport: &http.Transport{}}
-		for _, target := range []string{"/search?q=document", "/page/1/tool"} {
+		for _, target := range []string{"/search?q=inspect", "/page/1/man-tool", "/page/1/man-tool?heading=OPTIONS"} {
 			res, err := client.Get(address + target)
 			if err != nil {
 				t.Fatal(err)
 			}
 			body, err := io.ReadAll(res.Body)
 			_ = res.Body.Close()
-			if err != nil || res.StatusCode != 200 || !bytes.Contains(body, []byte("tool(1)")) {
+			if err != nil || res.StatusCode != 200 || !bytes.Contains(body, []byte("man-tool(1)")) {
 				t.Fatalf("HTTP %s %d %s %v", target, res.StatusCode, body, err)
 			}
 		}
@@ -388,5 +390,102 @@ func TestExecutableFlows(t *testing.T) {
 			t.Fatal("serve wrote stdout")
 		}
 	})
+	t.Run("README quickstart fences", func(t *testing.T) { smokeReadme(t, binary) })
 
+}
+
+// Only explicitly marked shell fences run. Commands are passed as argv, with
+// a single optional stdout redirect; no shell or platform command is invoked.
+func smokeReadme(t *testing.T, binary string) {
+	t.Helper()
+	work := t.TempDir()
+	if err := os.Mkdir(filepath.Join(work, "examples"), 0700); err != nil {
+		t.Fatal(err)
+	}
+	for _, name := range []string{"man-tool.1", "convert.html"} {
+		data, err := os.ReadFile(filepath.Join("..", "..", "examples", name))
+		if err != nil {
+			t.Fatal(err)
+		}
+		if err := os.WriteFile(filepath.Join(work, "examples", name), data, 0600); err != nil {
+			t.Fatal(err)
+		}
+	}
+	readme, err := os.ReadFile(filepath.Join("..", "..", "readme.md"))
+	if err != nil {
+		t.Fatal(err)
+	}
+	count := 0
+	for _, part := range strings.Split(string(readme), "```sh\n")[1:] {
+		block, _, ok := strings.Cut(part, "```")
+		if !ok {
+			t.Fatal("unclosed shell fence")
+		}
+		if !strings.HasPrefix(block, "# smoke\n") {
+			continue
+		}
+		for _, line := range strings.Split(block, "\n") {
+			if line == "" || strings.HasPrefix(line, "#") {
+				continue
+			}
+			args := strings.Fields(line)
+			if args[0] != "./gtroff" {
+				t.Fatalf("unsupported smoke command %q", line)
+			}
+			args = args[1:]
+			destination := ""
+			for i, arg := range args {
+				if arg == ">" {
+					if i != len(args)-2 {
+						t.Fatal("unsupported redirect")
+					}
+					destination = args[i+1]
+					args = args[:i]
+					break
+				}
+			}
+			ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+			command := exec.CommandContext(ctx, binary, args...)
+			command.Dir = work
+			var stdout, stderr bytes.Buffer
+			command.Stdout = &stdout
+			command.Stderr = &stderr
+			err := command.Run()
+			cancel()
+			if err != nil || stderr.Len() != 0 {
+				t.Fatalf("README %s: %v: %s", line, err, stderr.String())
+			}
+			if destination != "" {
+				if stdout.Len() == 0 {
+					t.Fatal("redirected command wrote nothing")
+				}
+				if err := os.WriteFile(filepath.Join(work, destination), stdout.Bytes(), 0600); err != nil {
+					t.Fatal(err)
+				}
+			}
+			count++
+		}
+	}
+	if count < 10 {
+		t.Fatalf("expected meaningful quickstart smoke, got %d commands", count)
+	}
+	for _, name := range []string{"page.html", "options.html", "converted.html", "converted.1", "options.json", "page.png", "page.jpg", "options.png"} {
+		data, err := os.ReadFile(filepath.Join(work, name))
+		if err != nil || len(data) == 0 {
+			t.Fatalf("README missing output %s: %v", name, err)
+		}
+		if strings.HasSuffix(name, ".png") || strings.HasSuffix(name, ".jpg") {
+			im, _, err := image.Decode(bytes.NewReader(data))
+			if err != nil || im.Bounds().Dx() == 0 {
+				t.Fatalf("README invalid image %s: %v", name, err)
+			}
+		}
+		if strings.HasSuffix(name, ".html") && !bytes.Contains(data, []byte("<article")) {
+			t.Fatalf("README HTML lost article: %s", name)
+		}
+	}
+	pages, err := filepath.Glob(filepath.Join(work, "pages-*.png"))
+	if err != nil || len(pages) < 2 {
+		t.Fatal("README pagination did not produce numbered pages", err)
+	}
 }

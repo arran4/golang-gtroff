@@ -55,3 +55,7 @@ no opaque archive data is embedded. Approve changes with
 Approve deterministic controller changes with
 `go test . -run '^TestViewerScenarios$' -update-viewer`. The separate desktop module
 has opt-in real X11 tests and screenshot capture; ordinary tests need no display.
+
+`scenarios/{roff,html}/*.txtar` crosses AST, validation, semantics, HTML,
+canonical roff, images and the in-memory server. See the
+[shared scenario vocabulary and update guide](../docs/scenarios.md).
