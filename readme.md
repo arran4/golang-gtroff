@@ -2,7 +2,7 @@
 
 A pure-Go library and lexer CLI for inspecting roff documents, navigating a source-aware AST, and extracting syntax text. Linux man pages are the primary target; typed man/ms macros and roff requests are available.
 
-`ParseAST` preserves original source independently of canonical token formatting. Inspect sections, select a subtree, search controls or content, and walk parent/child links without running roff commands or loading includes. Headless builds require no CGO, groff, browser, or system font tools. Rendering and semantic man-page conversion are planned; the current toolkit parses and inspects syntax.
+`ParseAST` preserves original source independently of canonical token formatting. Inspect sections, select a subtree, search controls or content, and walk parent/child links without running roff commands or loading includes. Headless builds require no CGO, groff, browser, or system font tools. A separate semantic man model now renders whole pages or selections to self-contained HTML with embedded Go fonts. Conversion and raster rendering remain planned.
 
 ## Features
 
@@ -18,6 +18,9 @@ A pure-Go library and lexer CLI for inspecting roff documents, navigating a sour
 - **Deterministic Code Generation**: Sorted, `go/format`-verified output backed by schema validation; multi-output atomicity remains tracked in #16.
 
 ## Installation
+
+Requires Go 1.26 or newer; the tested toolchain is Go 1.26.10. The HTML/font
+dependencies use patched current releases. Headless builds require no C compiler.
 
 ```bash
 go get github.com/arran4/golang-gtroff
@@ -48,7 +51,27 @@ syntax, 2 for usage/selection errors and 3 for input/output/resource failures.
 node IDs. Select by `section:HEADING`, `node:ID`, or `path:/0/1`. Omit FILE or use
 `-` for stdin. JSON diagnostics are included in the envelope; text diagnostics
 go to stderr. The command never evaluates roff or opens include targets. Output
-is stdout-only; see [CLI contracts and scenarios](docs/cli.md) for details.
+is stdout-only for `ast`; HTML render also supports atomic `-o FILE` output.
+See [CLI contracts and scenarios](docs/cli.md) for details.
+
+### Export a readable HTML page
+
+```sh
+./gtroff render --format html -o page.html examples/man-tool.1
+./gtroff render --theme dark --section OPTIONS -o options.html examples/man-tool.1
+./gtroff render --fragment --section OPTIONS examples/man-tool.1 > fragment.html
+```
+
+Open the [generated example HTML](examples/man-tool.html) locally to read the
+[representative man page](examples/man-tool.1). It includes Go Regular, Bold,
+Italic and Mono fonts and responsive CSS. No installed fonts, groff or browser
+process is needed to create it. `--font-regular`, `--font-bold`, `--font-italic`
+and `--font-mono` optionally load explicitly named TTF/OTF files.
+
+HTML preserves headings, paragraphs, definitions, styles, links and examples.
+Unknown source stays escaped and visible with diagnostics; `--strict` leaves
+existing output intact when diagnostics occur. Source text never executes as
+HTML or JavaScript. See [HTML API, selection, safety and output contracts](docs/html.md).
 
 ### Extract semantic man-page content
 
@@ -236,7 +259,8 @@ cat myfile.1 | go run ./cmd/lex/main.go
 - **Semantic Evaluation (Opt-in)**: Core register arithmetic (`.nr`, `.rr`), strings (`.ds`, `.as`), conditionals (`.if`, `.ie`, `.el`), and macro definitions (`.de`).
 - **Headless CLI**: `cmd/gtroff` provides syntax validation, source-aware AST export, selection, help and version output; `cmd/lex` remains available.
 - **Semantic man model**: `man.Build` provides flowing/styled content, definition lists, preformatted text, references, provenance, selection and canonical semantic comparison.
-- **Planned**: HTML export, conversions, image rendering and a viewer are tracked in #23–#29.
+- **HTML export**: `gtroff render --format html` exports whole/selected semantic content with self-contained CSS/fonts and safe atomic file output.
+- **Planned**: semantic conversions, image rendering and a viewer are tracked in #24–#29.
 - **Parser dependencies**: #3–#17 remain open contracts, including include safety, full argument/document fidelity, evaluation, and generation coverage. The AST never follows includes. See [specific dependencies](docs/ast.md#parser-dependencies).
 
 ## Development

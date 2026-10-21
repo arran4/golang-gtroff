@@ -82,9 +82,9 @@ writes a one-line assessment to stdout. Text diagnostics go to stderr. JSON
 syntax diagnostics stay in the JSON envelope; usage/open/export errors that
 prevent an envelope go to stderr. Stdout contains no progress messages.
 
-Output is stdout-only. No `-o` option or automatic output file writing is
-implemented in this phase. Shell redirection is owned by the caller and has no
-atomicity promise. JSON/text export is buffered with a 32 MiB limit; an encoding
+The `validate` and `ast` commands are stdout-only. The separate HTML `render`
+command supports atomic `-o FILE`; see [HTML contracts](html.md). Shell
+redirection is owned by the caller and has no atomicity promise. JSON/text export is buffered with a 32 MiB limit; an encoding
 or export-budget failure leaves stdout empty. An underlying stdout write error
 can leave a partial stream and exits 3. Input uses the AST's documented source,
 line, node and depth bounds. Callers must check the exit code before consuming
@@ -100,9 +100,10 @@ metadata, selections and no includes. There are no GUI dependencies.
 
 The `md2png` generated `go-subcommand` main was inspected for command/version and
 exit plumbing. This repository has no existing command generator. A small
-standard-library dispatcher preserves Go 1.19 and avoids adding a generator for
-four commands; no generated main was edited or copied. Rendering/view/server
-commands will be separate roadmap implementations, not placeholder behavior.
+standard-library dispatcher avoids a command-generator dependency; no generated
+main was edited or copied. The module now requires Go 1.26 for patched HTML/font
+dependencies. HTML render is documented separately; image/view/server commands
+remain subsequent implementations.
 
 Embedded `testdata/cli/*.txtar` scenarios contain `args.json`, optional
 `stdin.1` or `input/NAME`, and exact `stdout.txt`, `stderr.txt`, `exit.txt`

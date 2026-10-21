@@ -1,0 +1,12 @@
+test: strict conversion leaves the writer empty while retaining diagnostics
+-- options.json --
+{"Strict":true,"Assets":"omit-fonts"}
+-- error.txt --
+strict conversion rejected diagnostics
+-- input.1 --
+.SH DESCRIPTION
+.CUSTOM content
+-- expected.html --
+-- expected-diagnostics.txt --
+input.1:2:1: warning: unsupported semantics preserved: .CUSTOM
+input.1:2:1: warning: no token match: ".CUSTOM": content

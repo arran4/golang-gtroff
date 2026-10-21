@@ -5,6 +5,7 @@ import (
 	"io"
 	"os"
 
+	"github.com/arran4/golang-gtroff/internal/atomicfile"
 	"github.com/arran4/golang-gtroff/internal/cli"
 )
 
@@ -18,7 +19,8 @@ var (
 func main() {
 	os.Exit(cli.Run(os.Args[1:], cli.Environment{
 		In: os.Stdin, Out: os.Stdout, Err: os.Stderr,
-		Open:  func(path string) (io.ReadCloser, error) { return os.Open(path) },
-		Build: cli.BuildInfo{Version: version, Commit: commit, Date: date},
+		Open:        func(path string) (io.ReadCloser, error) { return os.Open(path) },
+		WriteOutput: atomicfile.Write,
+		Build:       cli.BuildInfo{Version: version, Commit: commit, Date: date},
 	}))
 }

@@ -1,0 +1,10 @@
+test: untrusted CSS-like palette values are rejected before any output
+-- options.json --
+{"Assets":"omit-fonts","Palette":{"Accent":"red;url(https://example.invalid)"}}
+-- error.txt --
+palette values must be
+-- input.1 --
+.SH NAME
+text
+-- expected.html --
+-- expected-diagnostics.txt --

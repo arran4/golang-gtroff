@@ -58,7 +58,7 @@ func TestUsageDoesNotOpenOrReadInput(t *testing.T) {
 		{"validate", "--format", "yaml"}, {"validate", "--package", "invalid"}, {"validate", "--select", "node:1"},
 		{"validate", "a", "b"}, {"ast", "--select", "node:0"}, {"ast", "--select", "node:no"}, {"ast", "--select", "node:18446744073709551616"},
 		{"ast", "--select", "path:/-1"}, {"ast", "--select", "path:abc"}, {"ast", "--select", "path:/0/"}, {"ast", "--select", "wat:x"},
-		{"ast", "--select", "section:"}, {"ast", "--unknown"}, {"render"}, {"version", "a"}, {"help", "a", "b"}, {"help", "absent"}, {"--help", "extra"},
+		{"ast", "--select", "section:"}, {"ast", "--unknown"}, {"view"}, {"version", "a"}, {"help", "a", "b"}, {"help", "absent"}, {"--help", "extra"},
 	} {
 		t.Run(strings.Join(args, " "), func(t *testing.T) {
 			var out, stderr bytes.Buffer

@@ -12,6 +12,8 @@ import (
 	"strings"
 	"testing"
 	"time"
+
+	"github.com/arran4/golang-gtroff/fontset"
 )
 
 // This deliberately exercises the built executable: real argument parsing,
@@ -42,6 +44,10 @@ func TestExecutableFlows(t *testing.T) {
 	if err := os.WriteFile(filepath.Join(work, "secret.1"), []byte("must-not-be-included"), 0600); err != nil {
 		t.Fatal(err)
 	}
+	if err := os.WriteFile(filepath.Join(work, "custom.ttf"), fontset.Default().Mono, 0600); err != nil {
+		t.Fatal(err)
+	}
+
 	cases := []struct {
 		name                           string
 		args                           []string
@@ -62,6 +68,10 @@ func TestExecutableFlows(t *testing.T) {
 		{name: "no matches", args: []string{"ast", "--select", "section:ABSENT"}, stdin: string(source), code: 2, stderrContains: "matched no nodes"},
 		{name: "dash file", args: []string{"validate", "--", "--page.1"}, stdoutContains: "valid syntax"},
 		{name: "no includes", args: []string{"ast"}, stdin: ".so secret.1\n", json: true, stdoutContains: "include preserved; target was not loaded"},
+		{name: "HTML full default fonts", args: []string{"render", "my page.1"}, stdoutContains: "data:font/ttf;base64,"},
+		{name: "HTML selected fragment", args: []string{"render", "--section", "OPTIONS", "--fragment", "--assets", "omit-fonts", "my page.1"}, stdoutContains: "<dl class=\"definitions\""},
+		{name: "HTML custom font", args: []string{"render", "--font-regular", "custom.ttf", "my page.1"}, stdoutContains: "@font-face"},
+		{name: "HTML reject format", args: []string{"render", "--format", "png"}, code: 2, stderrContains: "render format must be html"},
 	}
 	for _, tc := range cases {
 		t.Run(tc.name, func(t *testing.T) {
@@ -117,4 +127,61 @@ func TestExecutableFlows(t *testing.T) {
 			}
 		})
 	}
+	t.Run("HTML atomic output preserves failed destinations and source", func(t *testing.T) {
+		execute := func(args []string, input string) (int, string, string) {
+			runCtx, stop := context.WithTimeout(context.Background(), 10*time.Second)
+			defer stop()
+			c := exec.CommandContext(runCtx, binary, args...)
+			c.Dir = work
+			c.Stdin = strings.NewReader(input)
+			var out, stderr bytes.Buffer
+			c.Stdout = &out
+			c.Stderr = &stderr
+			err := c.Run()
+			code := 0
+			if err != nil {
+				var e *exec.ExitError
+				if !errors.As(err, &e) {
+					t.Fatal(err)
+				}
+				code = e.ExitCode()
+			}
+			return code, out.String(), stderr.String()
+		}
+		if code, out, stderr := execute([]string{"render", "-o", "page.html", "my page.1"}, ""); code != 0 || out != "" || stderr != "" {
+			t.Fatalf("atomic output code=%d stderr=%s", code, stderr)
+		}
+		saved, err := os.ReadFile(filepath.Join(work, "page.html"))
+		if err != nil || !bytes.HasPrefix(saved, []byte("<!doctype html>")) {
+			t.Fatal("no standalone HTML file")
+		}
+		if code, _, _ := execute([]string{"render", "--strict", "-o", "page.html"}, ".CUSTOM unsafe\n"); code != 1 {
+			t.Fatal("strict render did not fail")
+		}
+		again, err := os.ReadFile(filepath.Join(work, "page.html"))
+		if err != nil || !bytes.Equal(saved, again) {
+			t.Fatal("strict failure damaged existing output")
+		}
+		if code, _, _ := execute([]string{"render", "-o", "my page.1", "my page.1"}, ""); code != 3 {
+			t.Fatal("source replacement not rejected")
+		}
+		if runtime.GOOS != "windows" {
+			weird := filepath.Join(work, "<stdin>")
+			if err := os.WriteFile(weird, source, 0600); err != nil {
+				t.Fatal(err)
+			}
+			if code, _, _ := execute([]string{"render", "-o", "<stdin>", "<stdin>"}, ""); code != 3 {
+				t.Fatal("a real file named <stdin> bypassed source protection")
+			}
+			retained, err := os.ReadFile(weird)
+			if err != nil || !bytes.Equal(retained, source) {
+				t.Fatal("named source lost through stdin label collision")
+			}
+		}
+		unchanged, err := os.ReadFile(filepath.Join(work, "my page.1"))
+		if err != nil || !bytes.Equal(source, unchanged) {
+			t.Fatal("source file was overwritten")
+		}
+	})
+
 }
