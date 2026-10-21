@@ -1,0 +1,279 @@
+Routes and query identities cannot select paths or mutate content; hostile Host values are denied.
+-- tree/man1/tool.1 --
+.TH TOOL 1
+.SH NAME
+tool \- visible
+-- scenario.json --
+{"requests":[{"target":"/page/1/../../etc/passwd","status":400},{"target":"/page/1/a%2fb","status":400},{"target":"/page/1/a%5cb","status":400},{"target":"/?file=/etc/passwd","status":400},{"target":"/page/1/tool?root=../../outside","status":404},{"method":"POST","target":"/","status":405,"contains":["read-only"]},{"host":"evil.example","target":"/","status":403},{"target":"/page/1/missing","status":404},{"target":"/search?q=x&q=y","status":400}]}
+-- expected/entries.json --
+[
+  {
+    "Name": "tool",
+    "Section": "1",
+    "Description": "visible",
+    "Root": "fixture",
+    "Path": "man1/tool.1",
+    "URL": "/page/1/tool?root=fixture",
+    "Diagnostics": 0
+  }
+]
+-- expected/notices.json --
+null
+-- expected/response-001.body --
+invalid library path
+-- expected/response-002.body --
+invalid library path
+-- expected/response-003.body --
+invalid library path
+-- expected/response-004.body --
+unknown or repeated query parameter
+-- expected/response-005.body --
+page not found
+-- expected/response-006.body --
+read-only library; use GET or HEAD
+-- expected/response-007.body --
+unrecognized library host
+-- expected/response-008.body --
+page not found
+-- expected/response-009.body --
+unknown or repeated query parameter
+-- expected/responses.json --
+[
+  {
+    "Method": "GET",
+    "Target": "/page/1/../../etc/passwd",
+    "Status": 400,
+    "Headers": {
+      "Cache-Control": [
+        "no-store"
+      ],
+      "Content-Length": [
+        "21"
+      ],
+      "Content-Security-Policy": [
+        "default-src 'none'; font-src data:; style-src 'unsafe-inline'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'"
+      ],
+      "Content-Type": [
+        "text/plain; charset=utf-8"
+      ],
+      "Referrer-Policy": [
+        "no-referrer"
+      ],
+      "X-Content-Type-Options": [
+        "nosniff"
+      ]
+    },
+    "Body": "expected/response-001.body"
+  },
+  {
+    "Method": "GET",
+    "Target": "/page/1/a%2fb",
+    "Status": 400,
+    "Headers": {
+      "Cache-Control": [
+        "no-store"
+      ],
+      "Content-Length": [
+        "21"
+      ],
+      "Content-Security-Policy": [
+        "default-src 'none'; font-src data:; style-src 'unsafe-inline'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'"
+      ],
+      "Content-Type": [
+        "text/plain; charset=utf-8"
+      ],
+      "Referrer-Policy": [
+        "no-referrer"
+      ],
+      "X-Content-Type-Options": [
+        "nosniff"
+      ]
+    },
+    "Body": "expected/response-002.body"
+  },
+  {
+    "Method": "GET",
+    "Target": "/page/1/a%5cb",
+    "Status": 400,
+    "Headers": {
+      "Cache-Control": [
+        "no-store"
+      ],
+      "Content-Length": [
+        "21"
+      ],
+      "Content-Security-Policy": [
+        "default-src 'none'; font-src data:; style-src 'unsafe-inline'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'"
+      ],
+      "Content-Type": [
+        "text/plain; charset=utf-8"
+      ],
+      "Referrer-Policy": [
+        "no-referrer"
+      ],
+      "X-Content-Type-Options": [
+        "nosniff"
+      ]
+    },
+    "Body": "expected/response-003.body"
+  },
+  {
+    "Method": "GET",
+    "Target": "/?file=/etc/passwd",
+    "Status": 400,
+    "Headers": {
+      "Cache-Control": [
+        "no-store"
+      ],
+      "Content-Length": [
+        "36"
+      ],
+      "Content-Security-Policy": [
+        "default-src 'none'; font-src data:; style-src 'unsafe-inline'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'"
+      ],
+      "Content-Type": [
+        "text/plain; charset=utf-8"
+      ],
+      "Referrer-Policy": [
+        "no-referrer"
+      ],
+      "X-Content-Type-Options": [
+        "nosniff"
+      ]
+    },
+    "Body": "expected/response-004.body"
+  },
+  {
+    "Method": "GET",
+    "Target": "/page/1/tool?root=../../outside",
+    "Status": 404,
+    "Headers": {
+      "Cache-Control": [
+        "no-store"
+      ],
+      "Content-Length": [
+        "15"
+      ],
+      "Content-Security-Policy": [
+        "default-src 'none'; font-src data:; style-src 'unsafe-inline'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'"
+      ],
+      "Content-Type": [
+        "text/plain; charset=utf-8"
+      ],
+      "Referrer-Policy": [
+        "no-referrer"
+      ],
+      "X-Content-Type-Options": [
+        "nosniff"
+      ]
+    },
+    "Body": "expected/response-005.body"
+  },
+  {
+    "Method": "POST",
+    "Target": "/",
+    "Status": 405,
+    "Headers": {
+      "Allow": [
+        "GET, HEAD"
+      ],
+      "Cache-Control": [
+        "no-store"
+      ],
+      "Content-Length": [
+        "35"
+      ],
+      "Content-Security-Policy": [
+        "default-src 'none'; font-src data:; style-src 'unsafe-inline'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'"
+      ],
+      "Content-Type": [
+        "text/plain; charset=utf-8"
+      ],
+      "Referrer-Policy": [
+        "no-referrer"
+      ],
+      "X-Content-Type-Options": [
+        "nosniff"
+      ]
+    },
+    "Body": "expected/response-006.body"
+  },
+  {
+    "Method": "GET",
+    "Target": "/",
+    "Status": 403,
+    "Headers": {
+      "Cache-Control": [
+        "no-store"
+      ],
+      "Content-Length": [
+        "26"
+      ],
+      "Content-Security-Policy": [
+        "default-src 'none'; font-src data:; style-src 'unsafe-inline'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'"
+      ],
+      "Content-Type": [
+        "text/plain; charset=utf-8"
+      ],
+      "Referrer-Policy": [
+        "no-referrer"
+      ],
+      "X-Content-Type-Options": [
+        "nosniff"
+      ]
+    },
+    "Body": "expected/response-007.body"
+  },
+  {
+    "Method": "GET",
+    "Target": "/page/1/missing",
+    "Status": 404,
+    "Headers": {
+      "Cache-Control": [
+        "no-store"
+      ],
+      "Content-Length": [
+        "15"
+      ],
+      "Content-Security-Policy": [
+        "default-src 'none'; font-src data:; style-src 'unsafe-inline'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'"
+      ],
+      "Content-Type": [
+        "text/plain; charset=utf-8"
+      ],
+      "Referrer-Policy": [
+        "no-referrer"
+      ],
+      "X-Content-Type-Options": [
+        "nosniff"
+      ]
+    },
+    "Body": "expected/response-008.body"
+  },
+  {
+    "Method": "GET",
+    "Target": "/search?q=x\u0026q=y",
+    "Status": 400,
+    "Headers": {
+      "Cache-Control": [
+        "no-store"
+      ],
+      "Content-Length": [
+        "36"
+      ],
+      "Content-Security-Policy": [
+        "default-src 'none'; font-src data:; style-src 'unsafe-inline'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'"
+      ],
+      "Content-Type": [
+        "text/plain; charset=utf-8"
+      ],
+      "Referrer-Policy": [
+        "no-referrer"
+      ],
+      "X-Content-Type-Options": [
+        "nosniff"
+      ]
+    },
+    "Body": "expected/response-009.body"
+  }
+]

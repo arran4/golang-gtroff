@@ -9,6 +9,7 @@ Commands:
   ast       Inspect a source-aware syntax tree
   render    Export a semantic man page to HTML or paginated images
   convert   Convert supported HTML and man structure
+  serve     Browse and search explicit man-page directories over HTTP
   version   Show build information
   help      Show help for a command
 

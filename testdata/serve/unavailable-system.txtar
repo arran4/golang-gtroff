@@ -1,0 +1,59 @@
+Unavailable optional man-db search leaves built-in name/description/text results usable.
+-- tree/man1/tool.1 --
+.TH TOOL 1
+.SH NAME
+tool \- useful utility
+-- scenario.json --
+{"provider":"unavailable","requests":[{"target":"/search?q=useful","status":200,"contains":["tool(1)","System search unavailable; built-in results shown."]}]}
+-- expected/entries.json --
+[
+  {
+    "Name": "tool",
+    "Section": "1",
+    "Description": "useful utility",
+    "Root": "fixture",
+    "Path": "man1/tool.1",
+    "URL": "/page/1/tool?root=fixture",
+    "Diagnostics": 0
+  }
+]
+-- expected/notices.json --
+null
+-- expected/response-001.body --
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Man library</title>
+<style>body{margin:0;background:#ffffff;color:#202124;font:18px/1.5 sans-serif}body>header,body>main{max-width:1100px;margin:auto;padding:1rem}a{color:#174ea6}input,button{font:inherit}input{max-width:65vw}nav ul{padding-left:1.5em}.subsection{margin-left:1em}.notice{border-left:3px solid #8c3700;padding-left:1em}.results li{margin:.5em 0}.source{font-size:.85em;color:#555}.man-page{border-top:1px solid #ccc}</style>
+</head><body><header><a href="/">Man library</a><form action="/search" method="get"><label>Search <input type="search" name="q" value="useful" maxlength="256"></label> <button type="submit">Search</button></form><p>Read-only source snapshot. Unsupported syntax is shown with conversion notes.</p></header>
+<main><p class="notice">System search unavailable; built-in results shown.</p>
+
+<h1>Man library</h1><p>1 matches</p><ul class="results"><li><a href="/page/1/tool?root=fixture">tool(1)</a> — useful utility <span class="source">[fixture]</span></li></ul>
+<nav aria-label="Result pages"> </nav></main></body></html>
+-- expected/responses.json --
+[
+  {
+    "Method": "GET",
+    "Target": "/search?q=useful",
+    "Status": 200,
+    "Headers": {
+      "Cache-Control": [
+        "no-store"
+      ],
+      "Content-Length": [
+        "1197"
+      ],
+      "Content-Security-Policy": [
+        "default-src 'none'; font-src data:; style-src 'unsafe-inline'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'"
+      ],
+      "Content-Type": [
+        "text/html; charset=utf-8"
+      ],
+      "Referrer-Policy": [
+        "no-referrer"
+      ],
+      "X-Content-Type-Options": [
+        "nosniff"
+      ]
+    },
+    "Body": "expected/response-001.body"
+  }
+]

@@ -1,0 +1,92 @@
+Malformed and unevaluated includes stay visible; the sibling secret file is not included.
+-- tree/man1/partial.1 --
+.TH PARTIAL 1
+.SH NAME
+partial \- diagnostics
+.B "unterminated
+.so secret.txt
+.UNKNOWN visible fallback
+-- tree/secret.txt --
+SECRET MUST NOT BE INCLUDED
+-- scenario.json --
+{"requests":[{"target":"/page/1/partial","status":200,"contains":["unterminated",".so secret.txt","visible fallback","Conversion notes"],"absent":["SECRET MUST NOT BE INCLUDED"]}]}
+-- expected/entries.json --
+[
+  {
+    "Name": "partial",
+    "Section": "1",
+    "Description": "diagnostics .B \"unterminated .so secret.txt .UNKNOWN visible fallback",
+    "Root": "fixture",
+    "Path": "man1/partial.1",
+    "URL": "/page/1/partial?root=fixture",
+    "Diagnostics": 5
+  }
+]
+-- expected/notices.json --
+null
+-- expected/response-001.body --
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>partial(1)</title>
+<style>body{margin:0;background:#ffffff;color:#202124;font:18px/1.5 sans-serif}body>header,body>main{max-width:1100px;margin:auto;padding:1rem}a{color:#174ea6}input,button{font:inherit}input{max-width:65vw}nav ul{padding-left:1.5em}.subsection{margin-left:1em}.notice{border-left:3px solid #8c3700;padding-left:1em}.results li{margin:.5em 0}.source{font-size:.85em;color:#555}.man-page{border-top:1px solid #ccc}</style>
+</head><body><header><a href="/">Man library</a><form action="/search" method="get"><label>Search <input type="search" name="q" value="" maxlength="256"></label> <button type="submit">Search</button></form><p>Read-only source snapshot. Unsupported syntax is shown with conversion notes.</p></header>
+<main>
+<nav aria-label="Page sections"><ul><li><a href="/page/1/partial?root=fixture#man-node-2">NAME</a></li></ul></nav><style>
+.gtroff-document{margin:0;background:#ffffff;color:#202124}
+.man-page{box-sizing:border-box;max-width:960px;margin:0 auto;padding:2rem;font-family:GTroffText,serif;font-size:18px;line-height:1.5;background:#ffffff;color:#202124;overflow-wrap:anywhere}
+.man-page a{color:#174ea6}.man-page h1{font-size:1.7em}.man-page h2{font-size:1.3em;margin-top:1.7em}.man-page h3{font-size:1.1em;margin-top:1.3em}
+.man-page p{margin:.75em 0}.man-page pre{white-space:pre-wrap;overflow:auto;padding:1em;background:#f3f4f6;border-radius:.25em}
+.man-page code{font-family:GTroffMono,monospace}.man-page small{font-size:.9em}.man-page dt{font-weight:normal;margin-top:.75em}.man-page dd{margin-inline-start:2em}.man-page dd>:first-child{margin-top:0}
+.man-page .manual-meta{opacity:.8;font-size:.9em}.man-page .permalink{font-size:.8em;text-decoration:none;margin-inline-start:.5em}.man-page .unsupported{border-inline-start:.25em solid currentColor}.man-page .conversion-notes{border:1px solid currentColor;padding:1em;margin-top:2em}
+@media(max-width:600px){.man-page{padding:1rem}.man-page dd{margin-inline-start:1em}}
+@media print{.man-page{max-width:none;color:#000000;background:#ffffff;padding:0}.man-page .permalink{display:none}.man-page pre{break-inside:avoid}}
+</style>
+<article class="man-page theme-light" data-man-version="1" data-man-title="PARTIAL" data-man-section="1" data-man-date="" data-man-source="" data-man-manual="">
+<header class="document-header"><h1>PARTIAL(1)</h1></header>
+<section data-kind="section" data-node-id="2" data-source-start="14" aria-labelledby="man-node-2">
+<h2 id="man-node-2"><strong>NAME</strong><a class="permalink" href="#man-node-2" aria-label="Link to NAME">#</a></h2>
+<p data-kind="paragraph" data-node-id="3" data-source-start="23">partial - diagnostics</p>
+<pre class="unsupported" data-kind="unsupported" data-node-id="4" data-source-start="46" data-value=".B"><code><span class="unsupported-inline">.B &#34;unterminated
+</span></code></pre>
+<pre class="unsupported" data-kind="unsupported" data-node-id="5" data-source-start="63" data-value=".so"><code><span class="unsupported-inline">.so secret.txt
+</span></code></pre>
+<pre class="unsupported" data-kind="unsupported" data-node-id="6" data-source-start="78" data-value=".UNKNOWN"><code><span class="unsupported-inline">.UNKNOWN visible fallback
+</span></code></pre>
+</section>
+<aside class="conversion-notes" aria-label="Conversion notes"><h2>Conversion notes</h2><ul>
+<li>fixture:man1/partial.1:4:1: warning: malformed syntax preserved</li>
+<li>fixture:man1/partial.1:4:1: error: parse TokenManB arguments: &#34;unterminated, quote wasn&#39;t closed: stack &#34;</li>
+<li>fixture:man1/partial.1:5:1: warning: unsupported semantics preserved: .so</li>
+<li>fixture:man1/partial.1:6:1: warning: unsupported semantics preserved: .UNKNOWN</li>
+<li>fixture:man1/partial.1:6:1: warning: no token match: &#34;.UNKNOWN&#34;: visible fallback</li>
+</ul></aside>
+</article>
+</main></body></html>
+-- expected/responses.json --
+[
+  {
+    "Method": "GET",
+    "Target": "/page/1/partial",
+    "Status": 200,
+    "Headers": {
+      "Cache-Control": [
+        "no-store"
+      ],
+      "Content-Length": [
+        "3981"
+      ],
+      "Content-Security-Policy": [
+        "default-src 'none'; font-src data:; style-src 'unsafe-inline'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'"
+      ],
+      "Content-Type": [
+        "text/html; charset=utf-8"
+      ],
+      "Referrer-Policy": [
+        "no-referrer"
+      ],
+      "X-Content-Type-Options": [
+        "nosniff"
+      ]
+    },
+    "Body": "expected/response-001.body"
+  }
+]

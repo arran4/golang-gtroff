@@ -1,0 +1,215 @@
+Page navigation targets real semantic heading anchors; repeated headings and selection remain deterministic.
+-- tree/man1/tool.1 --
+.TH TOOL 1
+.SH NAME
+tool \- inspect
+.SH OPTIONS
+.TP
+.B --verbose
+Verbose details.
+.SS DETAIL
+Nested detail.
+.SH OPTIONS
+Repeated options.
+-- scenario.json --
+{"requests":[{"target":"/page/1/tool","status":200,"contains":["#man-node-2","id=\"man-node-2\"","--verbose","Nested detail."]},{"target":"/page/1/tool?heading=OPTIONS","status":200,"contains":["Repeated options.","Verbose details."],"absent":["tool - inspect"]},{"method":"HEAD","target":"/page/1/tool","status":200},{"target":"/page/1/tool?heading=absent","status":404,"contains":["heading not found"]}]}
+-- expected/entries.json --
+[
+  {
+    "Name": "tool",
+    "Section": "1",
+    "Description": "inspect",
+    "Root": "fixture",
+    "Path": "man1/tool.1",
+    "URL": "/page/1/tool?root=fixture",
+    "Diagnostics": 0
+  }
+]
+-- expected/notices.json --
+null
+-- expected/response-001.body --
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>tool(1)</title>
+<style>body{margin:0;background:#ffffff;color:#202124;font:18px/1.5 sans-serif}body>header,body>main{max-width:1100px;margin:auto;padding:1rem}a{color:#174ea6}input,button{font:inherit}input{max-width:65vw}nav ul{padding-left:1.5em}.subsection{margin-left:1em}.notice{border-left:3px solid #8c3700;padding-left:1em}.results li{margin:.5em 0}.source{font-size:.85em;color:#555}.man-page{border-top:1px solid #ccc}</style>
+</head><body><header><a href="/">Man library</a><form action="/search" method="get"><label>Search <input type="search" name="q" value="" maxlength="256"></label> <button type="submit">Search</button></form><p>Read-only source snapshot. Unsupported syntax is shown with conversion notes.</p></header>
+<main>
+<nav aria-label="Page sections"><ul><li><a href="/page/1/tool?root=fixture#man-node-2">NAME</a></li><li><a href="/page/1/tool?root=fixture#man-node-4">OPTIONS</a></li><li class="subsection"><a href="/page/1/tool?root=fixture#man-node-8">DETAIL</a></li><li><a href="/page/1/tool?root=fixture#man-node-10">OPTIONS</a></li></ul></nav><style>
+.gtroff-document{margin:0;background:#ffffff;color:#202124}
+.man-page{box-sizing:border-box;max-width:960px;margin:0 auto;padding:2rem;font-family:GTroffText,serif;font-size:18px;line-height:1.5;background:#ffffff;color:#202124;overflow-wrap:anywhere}
+.man-page a{color:#174ea6}.man-page h1{font-size:1.7em}.man-page h2{font-size:1.3em;margin-top:1.7em}.man-page h3{font-size:1.1em;margin-top:1.3em}
+.man-page p{margin:.75em 0}.man-page pre{white-space:pre-wrap;overflow:auto;padding:1em;background:#f3f4f6;border-radius:.25em}
+.man-page code{font-family:GTroffMono,monospace}.man-page small{font-size:.9em}.man-page dt{font-weight:normal;margin-top:.75em}.man-page dd{margin-inline-start:2em}.man-page dd>:first-child{margin-top:0}
+.man-page .manual-meta{opacity:.8;font-size:.9em}.man-page .permalink{font-size:.8em;text-decoration:none;margin-inline-start:.5em}.man-page .unsupported{border-inline-start:.25em solid currentColor}.man-page .conversion-notes{border:1px solid currentColor;padding:1em;margin-top:2em}
+@media(max-width:600px){.man-page{padding:1rem}.man-page dd{margin-inline-start:1em}}
+@media print{.man-page{max-width:none;color:#000000;background:#ffffff;padding:0}.man-page .permalink{display:none}.man-page pre{break-inside:avoid}}
+</style>
+<article class="man-page theme-light" data-man-version="1" data-man-title="TOOL" data-man-section="1" data-man-date="" data-man-source="" data-man-manual="">
+<header class="document-header"><h1>TOOL(1)</h1></header>
+<section data-kind="section" data-node-id="2" data-source-start="11" aria-labelledby="man-node-2">
+<h2 id="man-node-2"><strong>NAME</strong><a class="permalink" href="#man-node-2" aria-label="Link to NAME">#</a></h2>
+<p data-kind="paragraph" data-node-id="3" data-source-start="20">tool - inspect</p>
+</section>
+<section data-kind="section" data-node-id="4" data-source-start="36" aria-labelledby="man-node-4">
+<h2 id="man-node-4"><strong>OPTIONS</strong><a class="permalink" href="#man-node-4" aria-label="Link to OPTIONS">#</a></h2>
+<dl class="definitions" data-kind="definition-list" data-node-id="5" data-source-start="48">
+<dt data-kind="item" data-node-id="6" data-source-start="48" id="man-node-6"><strong>--verbose</strong></dt>
+<dd style="margin-inline-start:2em"><p data-kind="paragraph" data-node-id="7" data-source-start="65">Verbose details.</p>
+</dd>
+</dl>
+<section data-kind="subsection" data-node-id="8" data-source-start="82" aria-labelledby="man-node-8">
+<h3 id="man-node-8"><strong>DETAIL</strong><a class="permalink" href="#man-node-8" aria-label="Link to DETAIL">#</a></h3>
+<p data-kind="paragraph" data-node-id="9" data-source-start="93">Nested detail.</p>
+</section>
+</section>
+<section data-kind="section" data-node-id="10" data-source-start="108" aria-labelledby="man-node-10">
+<h2 id="man-node-10"><strong>OPTIONS</strong><a class="permalink" href="#man-node-10" aria-label="Link to OPTIONS">#</a></h2>
+<p data-kind="paragraph" data-node-id="11" data-source-start="120">Repeated options.</p>
+</section>
+</article>
+</main></body></html>
+-- expected/response-002.body --
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>tool(1)</title>
+<style>body{margin:0;background:#ffffff;color:#202124;font:18px/1.5 sans-serif}body>header,body>main{max-width:1100px;margin:auto;padding:1rem}a{color:#174ea6}input,button{font:inherit}input{max-width:65vw}nav ul{padding-left:1.5em}.subsection{margin-left:1em}.notice{border-left:3px solid #8c3700;padding-left:1em}.results li{margin:.5em 0}.source{font-size:.85em;color:#555}.man-page{border-top:1px solid #ccc}</style>
+</head><body><header><a href="/">Man library</a><form action="/search" method="get"><label>Search <input type="search" name="q" value="" maxlength="256"></label> <button type="submit">Search</button></form><p>Read-only source snapshot. Unsupported syntax is shown with conversion notes.</p></header>
+<main>
+<nav aria-label="Page sections"><ul><li><a href="/page/1/tool?root=fixture#man-node-2">NAME</a></li><li><a href="/page/1/tool?root=fixture#man-node-4">OPTIONS</a></li><li class="subsection"><a href="/page/1/tool?root=fixture#man-node-8">DETAIL</a></li><li><a href="/page/1/tool?root=fixture#man-node-10">OPTIONS</a></li></ul></nav><style>
+.gtroff-document{margin:0;background:#ffffff;color:#202124}
+.man-page{box-sizing:border-box;max-width:960px;margin:0 auto;padding:2rem;font-family:GTroffText,serif;font-size:18px;line-height:1.5;background:#ffffff;color:#202124;overflow-wrap:anywhere}
+.man-page a{color:#174ea6}.man-page h1{font-size:1.7em}.man-page h2{font-size:1.3em;margin-top:1.7em}.man-page h3{font-size:1.1em;margin-top:1.3em}
+.man-page p{margin:.75em 0}.man-page pre{white-space:pre-wrap;overflow:auto;padding:1em;background:#f3f4f6;border-radius:.25em}
+.man-page code{font-family:GTroffMono,monospace}.man-page small{font-size:.9em}.man-page dt{font-weight:normal;margin-top:.75em}.man-page dd{margin-inline-start:2em}.man-page dd>:first-child{margin-top:0}
+.man-page .manual-meta{opacity:.8;font-size:.9em}.man-page .permalink{font-size:.8em;text-decoration:none;margin-inline-start:.5em}.man-page .unsupported{border-inline-start:.25em solid currentColor}.man-page .conversion-notes{border:1px solid currentColor;padding:1em;margin-top:2em}
+@media(max-width:600px){.man-page{padding:1rem}.man-page dd{margin-inline-start:1em}}
+@media print{.man-page{max-width:none;color:#000000;background:#ffffff;padding:0}.man-page .permalink{display:none}.man-page pre{break-inside:avoid}}
+</style>
+<article class="man-page theme-light" data-man-version="1" data-man-title="TOOL" data-man-section="1" data-man-date="" data-man-source="" data-man-manual="">
+<header class="document-header"><h1>TOOL(1)</h1></header>
+<section data-kind="section" data-node-id="4" data-source-start="36" aria-labelledby="man-node-4">
+<h2 id="man-node-4"><strong>OPTIONS</strong><a class="permalink" href="#man-node-4" aria-label="Link to OPTIONS">#</a></h2>
+<dl class="definitions" data-kind="definition-list" data-node-id="5" data-source-start="48">
+<dt data-kind="item" data-node-id="6" data-source-start="48" id="man-node-6"><strong>--verbose</strong></dt>
+<dd style="margin-inline-start:2em"><p data-kind="paragraph" data-node-id="7" data-source-start="65">Verbose details.</p>
+</dd>
+</dl>
+<section data-kind="subsection" data-node-id="8" data-source-start="82" aria-labelledby="man-node-8">
+<h3 id="man-node-8"><strong>DETAIL</strong><a class="permalink" href="#man-node-8" aria-label="Link to DETAIL">#</a></h3>
+<p data-kind="paragraph" data-node-id="9" data-source-start="93">Nested detail.</p>
+</section>
+</section>
+<section data-kind="section" data-node-id="10" data-source-start="108" aria-labelledby="man-node-10">
+<h2 id="man-node-10"><strong>OPTIONS</strong><a class="permalink" href="#man-node-10" aria-label="Link to OPTIONS">#</a></h2>
+<p data-kind="paragraph" data-node-id="11" data-source-start="120">Repeated options.</p>
+</section>
+</article>
+</main></body></html>
+-- expected/response-003.body --
+-- expected/response-004.body --
+heading not found
+-- expected/responses.json --
+[
+  {
+    "Method": "GET",
+    "Target": "/page/1/tool",
+    "Status": 200,
+    "Headers": {
+      "Cache-Control": [
+        "no-store"
+      ],
+      "Content-Length": [
+        "4259"
+      ],
+      "Content-Security-Policy": [
+        "default-src 'none'; font-src data:; style-src 'unsafe-inline'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'"
+      ],
+      "Content-Type": [
+        "text/html; charset=utf-8"
+      ],
+      "Referrer-Policy": [
+        "no-referrer"
+      ],
+      "X-Content-Type-Options": [
+        "nosniff"
+      ]
+    },
+    "Body": "expected/response-001.body"
+  },
+  {
+    "Method": "GET",
+    "Target": "/page/1/tool?heading=OPTIONS",
+    "Status": 200,
+    "Headers": {
+      "Cache-Control": [
+        "no-store"
+      ],
+      "Content-Length": [
+        "3947"
+      ],
+      "Content-Security-Policy": [
+        "default-src 'none'; font-src data:; style-src 'unsafe-inline'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'"
+      ],
+      "Content-Type": [
+        "text/html; charset=utf-8"
+      ],
+      "Referrer-Policy": [
+        "no-referrer"
+      ],
+      "X-Content-Type-Options": [
+        "nosniff"
+      ]
+    },
+    "Body": "expected/response-002.body"
+  },
+  {
+    "Method": "HEAD",
+    "Target": "/page/1/tool",
+    "Status": 200,
+    "Headers": {
+      "Cache-Control": [
+        "no-store"
+      ],
+      "Content-Length": [
+        "4259"
+      ],
+      "Content-Security-Policy": [
+        "default-src 'none'; font-src data:; style-src 'unsafe-inline'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'"
+      ],
+      "Content-Type": [
+        "text/html; charset=utf-8"
+      ],
+      "Referrer-Policy": [
+        "no-referrer"
+      ],
+      "X-Content-Type-Options": [
+        "nosniff"
+      ]
+    },
+    "Body": "expected/response-003.body"
+  },
+  {
+    "Method": "GET",
+    "Target": "/page/1/tool?heading=absent",
+    "Status": 404,
+    "Headers": {
+      "Cache-Control": [
+        "no-store"
+      ],
+      "Content-Length": [
+        "18"
+      ],
+      "Content-Security-Policy": [
+        "default-src 'none'; font-src data:; style-src 'unsafe-inline'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'"
+      ],
+      "Content-Type": [
+        "text/plain; charset=utf-8"
+      ],
+      "Referrer-Policy": [
+        "no-referrer"
+      ],
+      "X-Content-Type-Options": [
+        "nosniff"
+      ]
+    },
+    "Body": "expected/response-004.body"
+  }
+]
