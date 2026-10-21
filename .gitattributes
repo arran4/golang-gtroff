@@ -6,3 +6,6 @@ testdata/ast/crlf.txtar whitespace=cr-at-eol
 # CLI archives also contain byte-exact source scenarios.
 testdata/cli/*.txtar -text
 testdata/cli/crlf.txtar whitespace=cr-at-eol
+
+# Semantic scenarios preserve original input independently of canonical JSON.
+testdata/man/*.txtar -text

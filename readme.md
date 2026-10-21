@@ -50,6 +50,36 @@ node IDs. Select by `section:HEADING`, `node:ID`, or `path:/0/1`. Omit FILE or u
 go to stderr. The command never evaluates roff or opens include targets. Output
 is stdout-only; see [CLI contracts and scenarios](docs/cli.md) for details.
 
+### Extract semantic man-page content
+
+The `man` package groups physical source lines into styled paragraphs,
+sections, tagged items, indented blocks and preformatted examples. It keeps
+source provenance and warns about unsupported semantics.
+
+```go
+// Imports: groff "github.com/arran4/golang-gtroff"
+//          "github.com/arran4/golang-gtroff/man"
+tree, err := groff.ParseAST(strings.NewReader(source), groff.WithPackage("man"))
+if err != nil {
+    log.Fatal(err)
+}
+document, err := man.Build(tree, man.Options{Strict: true})
+if err != nil {
+    log.Fatal(err)
+}
+options, err := document.SelectSection("OPTIONS", false)
+if err != nil {
+    log.Fatal(err)
+}
+fmt.Print(options.Text(man.TextOptions{}))
+```
+
+Selections retain title metadata and inherited font/indent state. Use
+`Raw: true` for original source slices or `Normalize: true` for folded display
+text. The [representative man page](examples/man-tool.1) and its
+[tested semantic JSON](examples/man-tool.semantic.json) demonstrate the supported
+subset. See [semantic contracts and scenarios](docs/man.md) for details.
+
 ### Select and inspect a man-page section
 
 ```go
@@ -205,7 +235,8 @@ cat myfile.1 | go run ./cmd/lex/main.go
 - **Requests**: 179 distinct roff requests are typed and dispatched.
 - **Semantic Evaluation (Opt-in)**: Core register arithmetic (`.nr`, `.rr`), strings (`.ds`, `.as`), conditionals (`.if`, `.ie`, `.el`), and macro definitions (`.de`).
 - **Headless CLI**: `cmd/gtroff` provides syntax validation, source-aware AST export, selection, help and version output; `cmd/lex` remains available.
-- **Planned**: semantic man models, HTML export, conversions, image rendering and a viewer are tracked in #22–#29.
+- **Semantic man model**: `man.Build` provides flowing/styled content, definition lists, preformatted text, references, provenance, selection and canonical semantic comparison.
+- **Planned**: HTML export, conversions, image rendering and a viewer are tracked in #23–#29.
 - **Parser dependencies**: #3–#17 remain open contracts, including include safety, full argument/document fidelity, evaluation, and generation coverage. The AST never follows includes. See [specific dependencies](docs/ast.md#parser-dependencies).
 
 ## Development

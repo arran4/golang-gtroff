@@ -1,0 +1,30 @@
+test: blank lines and PP/P/LP delimit paragraphs without line-per-paragraph errors
+-- options.json --
+{"strict":true,"normalize":true}
+-- input.1 --
+.SH DESCRIPTION
+first
+paragraph
+
+second paragraph
+.P
+third
+.LP
+fourth
+-- expected-man.json --
+{
+  "version": 1,
+  "metadata": {},
+  "nodes": [
+    {"id":1,"children":[2],"kind":"document","state":{"style":{},"previous":{},"fill":true},"origin":{"astIds":[1],"span":{"Start":{"Filename":"input.1","Offset":0,"Line":1,"Column":1},"End":{"Filename":"input.1","Offset":70,"Line":10,"Column":1}}}},
+    {"id":2,"parent":1,"children":[3,4,5,6],"kind":"section","heading":"DESCRIPTION","runs":[{"text":"DESCRIPTION","style":{"bold":true},"origin":{"astIds":[3],"span":{"Start":{"Filename":"input.1","Offset":0,"Line":1,"Column":1},"End":{"Filename":"input.1","Offset":16,"Line":2,"Column":1}}}}],"state":{"style":{},"previous":{},"fill":true},"origin":{"astIds":[3,2,12,16],"span":{"Start":{"Filename":"input.1","Offset":0,"Line":1,"Column":1},"End":{"Filename":"input.1","Offset":70,"Line":10,"Column":1}}}},
+    {"id":3,"parent":2,"kind":"paragraph","runs":[{"text":"first","style":{},"origin":{"astIds":[5],"span":{"Start":{"Filename":"input.1","Offset":16,"Line":2,"Column":1},"End":{"Filename":"input.1","Offset":22,"Line":3,"Column":1}}}},{"text":" ","style":{},"origin":{"astIds":[7],"span":{"Start":{"Filename":"input.1","Offset":22,"Line":3,"Column":1},"End":{"Filename":"input.1","Offset":32,"Line":4,"Column":1}}}},{"text":"paragraph","style":{},"origin":{"astIds":[7],"span":{"Start":{"Filename":"input.1","Offset":22,"Line":3,"Column":1},"End":{"Filename":"input.1","Offset":32,"Line":4,"Column":1}}}}],"state":{"style":{},"previous":{},"fill":true},"origin":{"astIds":[5,7],"span":{"Start":{"Filename":"input.1","Offset":16,"Line":2,"Column":1},"End":{"Filename":"input.1","Offset":32,"Line":4,"Column":1}}}},
+    {"id":4,"parent":2,"kind":"paragraph","runs":[{"text":"second paragraph","style":{},"origin":{"astIds":[10],"span":{"Start":{"Filename":"input.1","Offset":33,"Line":5,"Column":1},"End":{"Filename":"input.1","Offset":50,"Line":6,"Column":1}}}}],"state":{"style":{},"previous":{},"fill":true},"origin":{"astIds":[10],"span":{"Start":{"Filename":"input.1","Offset":33,"Line":5,"Column":1},"End":{"Filename":"input.1","Offset":50,"Line":6,"Column":1}}}},
+    {"id":5,"parent":2,"kind":"paragraph","runs":[{"text":"third","style":{},"origin":{"astIds":[14],"span":{"Start":{"Filename":"input.1","Offset":53,"Line":7,"Column":1},"End":{"Filename":"input.1","Offset":59,"Line":8,"Column":1}}}}],"state":{"style":{},"previous":{},"fill":true},"origin":{"astIds":[14],"span":{"Start":{"Filename":"input.1","Offset":53,"Line":7,"Column":1},"End":{"Filename":"input.1","Offset":59,"Line":8,"Column":1}}}},
+    {"id":6,"parent":2,"kind":"paragraph","runs":[{"text":"fourth","style":{},"origin":{"astIds":[18],"span":{"Start":{"Filename":"input.1","Offset":63,"Line":9,"Column":1},"End":{"Filename":"input.1","Offset":70,"Line":10,"Column":1}}}}],"state":{"style":{},"previous":{},"fill":true},"origin":{"astIds":[18],"span":{"Start":{"Filename":"input.1","Offset":63,"Line":9,"Column":1},"End":{"Filename":"input.1","Offset":70,"Line":10,"Column":1}}}}
+  ]
+}
+-- expected-text.txt --
+DESCRIPTION first paragraph second paragraph third fourth
+-- expected-canonical.json --
+{"metadata":{},"nodes":[{"kind":"document","state":{"style":{},"previous":{},"fill":true}},{"kind":"section","parent":1,"heading":"DESCRIPTION","runs":[{"text":"DESCRIPTION","style":{"bold":true}}],"state":{"style":{},"previous":{},"fill":true}},{"kind":"paragraph","parent":2,"runs":[{"text":"first paragraph","style":{}}],"state":{"style":{},"previous":{},"fill":true}},{"kind":"paragraph","parent":2,"runs":[{"text":"second paragraph","style":{}}],"state":{"style":{},"previous":{},"fill":true}},{"kind":"paragraph","parent":2,"runs":[{"text":"third","style":{}}],"state":{"style":{},"previous":{},"fill":true}},{"kind":"paragraph","parent":2,"runs":[{"text":"fourth","style":{}}],"state":{"style":{},"previous":{},"fill":true}}]}

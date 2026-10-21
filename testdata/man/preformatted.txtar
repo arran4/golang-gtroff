@@ -1,0 +1,32 @@
+test: preformatted text retains spaces/newlines and permits known style macros
+-- options.json --
+{"strict":true}
+-- input.1 --
+.SH EXAMPLES
+.EX
+  command  雪
+.B bold
+.EE
+.nf
+one line
+second line
+.fi
+-- expected-man.json --
+{
+  "version": 1,
+  "metadata": {},
+  "nodes": [
+    {"id":1,"children":[2],"kind":"document","state":{"style":{},"previous":{},"fill":true},"origin":{"astIds":[1],"span":{"Start":{"Filename":"input.1","Offset":0,"Line":1,"Column":1},"End":{"Filename":"input.1","Offset":73,"Line":10,"Column":1}}}},
+    {"id":2,"parent":1,"children":[3,4],"kind":"section","heading":"EXAMPLES","runs":[{"text":"EXAMPLES","style":{"bold":true},"origin":{"astIds":[3],"span":{"Start":{"Filename":"input.1","Offset":0,"Line":1,"Column":1},"End":{"Filename":"input.1","Offset":13,"Line":2,"Column":1}}}}],"state":{"style":{},"previous":{},"fill":true},"origin":{"astIds":[3,2],"span":{"Start":{"Filename":"input.1","Offset":0,"Line":1,"Column":1},"End":{"Filename":"input.1","Offset":73,"Line":10,"Column":1}}}},
+    {"id":3,"parent":2,"kind":"preformatted","runs":[{"text":"  command  雪","style":{"mono":true},"origin":{"astIds":[8],"span":{"Start":{"Filename":"input.1","Offset":17,"Line":3,"Column":1},"End":{"Filename":"input.1","Offset":32,"Line":4,"Column":1}}}},{"text":"\n","style":{"mono":true},"break":true,"origin":{"astIds":[8],"span":{"Start":{"Filename":"input.1","Offset":17,"Line":3,"Column":1},"End":{"Filename":"input.1","Offset":32,"Line":4,"Column":1}}}},{"text":"bold","style":{"bold":true},"origin":{"astIds":[9],"span":{"Start":{"Filename":"input.1","Offset":32,"Line":4,"Column":1},"End":{"Filename":"input.1","Offset":40,"Line":5,"Column":1}}}},{"text":"\n","style":{"mono":true},"break":true,"origin":{"astIds":[9],"span":{"Start":{"Filename":"input.1","Offset":32,"Line":4,"Column":1},"End":{"Filename":"input.1","Offset":40,"Line":5,"Column":1}}}}],"state":{"style":{},"previous":{},"fill":true},"origin":{"astIds":[6,8,9,10],"span":{"Start":{"Filename":"input.1","Offset":13,"Line":2,"Column":1},"End":{"Filename":"input.1","Offset":44,"Line":6,"Column":1}}}},
+    {"id":4,"parent":2,"kind":"preformatted","runs":[{"text":"one line","style":{},"origin":{"astIds":[14],"span":{"Start":{"Filename":"input.1","Offset":48,"Line":7,"Column":1},"End":{"Filename":"input.1","Offset":57,"Line":8,"Column":1}}}},{"text":"\n","style":{},"break":true,"origin":{"astIds":[14],"span":{"Start":{"Filename":"input.1","Offset":48,"Line":7,"Column":1},"End":{"Filename":"input.1","Offset":57,"Line":8,"Column":1}}}},{"text":"second line","style":{},"origin":{"astIds":[16],"span":{"Start":{"Filename":"input.1","Offset":57,"Line":8,"Column":1},"End":{"Filename":"input.1","Offset":69,"Line":9,"Column":1}}}},{"text":"\n","style":{},"break":true,"origin":{"astIds":[16],"span":{"Start":{"Filename":"input.1","Offset":57,"Line":8,"Column":1},"End":{"Filename":"input.1","Offset":69,"Line":9,"Column":1}}}}],"state":{"style":{},"previous":{},"fill":true},"origin":{"astIds":[12,14,16,18],"span":{"Start":{"Filename":"input.1","Offset":44,"Line":6,"Column":1},"End":{"Filename":"input.1","Offset":73,"Line":10,"Column":1}}}}
+  ]
+}
+-- expected-text.txt --
+EXAMPLES
+  command  雪
+bold
+one line
+second line
+-- expected-canonical.json --
+{"metadata":{},"nodes":[{"kind":"document","state":{"style":{},"previous":{},"fill":true}},{"kind":"section","parent":1,"heading":"EXAMPLES","runs":[{"text":"EXAMPLES","style":{"bold":true}}],"state":{"style":{},"previous":{},"fill":true}},{"kind":"preformatted","parent":2,"runs":[{"text":"  command  雪","style":{"mono":true}},{"text":"\n","style":{"mono":true},"break":true},{"text":"bold","style":{"bold":true}},{"text":"\n","style":{"mono":true},"break":true}],"state":{"style":{},"previous":{},"fill":true}},{"kind":"preformatted","parent":2,"runs":[{"text":"one line","style":{}},{"text":"\n","style":{},"break":true},{"text":"second line","style":{}},{"text":"\n","style":{},"break":true}],"state":{"style":{},"previous":{},"fill":true}}]}

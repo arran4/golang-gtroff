@@ -1,0 +1,33 @@
+test: semantic next-line headings recover the parent's required-argument gap
+Raw AST source is unchanged; valid heading forms have no semantic error.
+-- options.json --
+{"strict":true}
+-- input.1 --
+.TH TOOL 1
+.SH
+NAME
+.B
+tool
+.SS
+Details
+body
+-- expected-man.json --
+{
+  "version": 1,
+  "metadata": {"title":"TOOL","section":"1"},
+  "metadataOrigin": {"astIds":[2],"span":{"Start":{"Filename":"input.1","Offset":0,"Line":1,"Column":1},"End":{"Filename":"input.1","Offset":11,"Line":2,"Column":1}}},
+  "nodes": [
+    {"id":1,"children":[2],"kind":"document","state":{"style":{},"previous":{},"fill":true},"origin":{"astIds":[1],"span":{"Start":{"Filename":"input.1","Offset":0,"Line":1,"Column":1},"End":{"Filename":"input.1","Offset":45,"Line":9,"Column":1}}}},
+    {"id":2,"parent":1,"children":[3,4],"kind":"section","heading":"NAME","runs":[{"text":"NAME","style":{"bold":true},"origin":{"astIds":[4,6],"span":{"Start":{"Filename":"input.1","Offset":11,"Line":2,"Column":1},"End":{"Filename":"input.1","Offset":20,"Line":4,"Column":1}}}}],"state":{"style":{},"previous":{},"fill":true},"origin":{"astIds":[4,6],"span":{"Start":{"Filename":"input.1","Offset":11,"Line":2,"Column":1},"End":{"Filename":"input.1","Offset":45,"Line":9,"Column":1}}}},
+    {"id":3,"parent":2,"kind":"paragraph","runs":[{"text":"tool","style":{"bold":true},"origin":{"astIds":[10],"span":{"Start":{"Filename":"input.1","Offset":23,"Line":5,"Column":1},"End":{"Filename":"input.1","Offset":28,"Line":6,"Column":1}}}}],"state":{"style":{},"previous":{},"fill":true},"origin":{"astIds":[10],"span":{"Start":{"Filename":"input.1","Offset":23,"Line":5,"Column":1},"End":{"Filename":"input.1","Offset":28,"Line":6,"Column":1}}}},
+    {"id":4,"parent":2,"children":[5],"kind":"subsection","heading":"Details","runs":[{"text":"Details","style":{"bold":true},"origin":{"astIds":[12,14],"span":{"Start":{"Filename":"input.1","Offset":28,"Line":6,"Column":1},"End":{"Filename":"input.1","Offset":40,"Line":8,"Column":1}}}}],"state":{"style":{},"previous":{},"fill":true},"origin":{"astIds":[12,14],"span":{"Start":{"Filename":"input.1","Offset":28,"Line":6,"Column":1},"End":{"Filename":"input.1","Offset":45,"Line":9,"Column":1}}}},
+    {"id":5,"parent":4,"kind":"paragraph","runs":[{"text":"body","style":{},"origin":{"astIds":[16],"span":{"Start":{"Filename":"input.1","Offset":40,"Line":8,"Column":1},"End":{"Filename":"input.1","Offset":45,"Line":9,"Column":1}}}}],"state":{"style":{},"previous":{},"fill":true},"origin":{"astIds":[16],"span":{"Start":{"Filename":"input.1","Offset":40,"Line":8,"Column":1},"End":{"Filename":"input.1","Offset":45,"Line":9,"Column":1}}}}
+  ]
+}
+-- expected-text.txt --
+NAME
+tool
+Details
+body
+-- expected-canonical.json --
+{"metadata":{"title":"TOOL","section":"1"},"nodes":[{"kind":"document","state":{"style":{},"previous":{},"fill":true}},{"kind":"section","parent":1,"heading":"NAME","runs":[{"text":"NAME","style":{"bold":true}}],"state":{"style":{},"previous":{},"fill":true}},{"kind":"paragraph","parent":2,"runs":[{"text":"tool","style":{"bold":true}}],"state":{"style":{},"previous":{},"fill":true}},{"kind":"subsection","parent":2,"heading":"Details","runs":[{"text":"Details","style":{"bold":true}}],"state":{"style":{},"previous":{},"fill":true}},{"kind":"paragraph","parent":4,"runs":[{"text":"body","style":{}}],"state":{"style":{},"previous":{},"fill":true}}]}

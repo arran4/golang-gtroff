@@ -1,0 +1,44 @@
+.\" Synthetic fixture; no installed man database or resources required.
+.TH MAN-TOOL 1 "2026-10-21" "Linux" "User Commands"
+.SH NAME
+man-tool \- inspect a source document
+.SH SYNOPSIS
+.SY man-tool
+.OP \-v
+.OP \-o file
+.I input
+.YS
+.SH DESCRIPTION
+Read
+.I input
+and inspect its structure.
+.PP
+Output preserves the original source independently of canonical text.
+.SS "Input formats"
+The first implementation handles typical Linux man pages.
+.SH OPTIONS
+.TP 8
+.B \-v
+Display verbose diagnostics
+on standard error.
+.TP
+.BI "\-o " file
+Write the selected document to
+.IR file .
+.IP \(bu 2
+No automatic includes or external commands.
+.RS 4
+Indented explanatory text.
+.RE
+.SH EXAMPLES
+.EX
+  man-tool -v input.1
+  man-tool -o output.txt input.1
+.EE
+.SH SEE ALSO
+.MR man 7 ,
+.MR printf 3
+.SH AUTHORS
+.UR https://example.invalid/man-tool
+Example maintainers
+.UE .

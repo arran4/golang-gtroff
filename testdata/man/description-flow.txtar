@@ -1,0 +1,31 @@
+test: physical lines form flowing paragraphs, alternating macro arguments touch
+-- options.json --
+{"strict":true}
+-- input.1 --
+.SH DESCRIPTION
+The
+.I tool
+handles files.
+.br
+Next output line.
+.PP
+.BR printf (3)
+.BI bold italic
+-- expected-man.json --
+{
+  "version": 1,
+  "metadata": {},
+  "nodes": [
+    {"id":1,"children":[2],"kind":"document","state":{"style":{},"previous":{},"fill":true},"origin":{"astIds":[1],"span":{"Start":{"Filename":"input.1","Offset":0,"Line":1,"Column":1},"End":{"Filename":"input.1","Offset":100,"Line":10,"Column":1}}}},
+    {"id":2,"parent":1,"children":[3,4],"kind":"section","heading":"DESCRIPTION","runs":[{"text":"DESCRIPTION","style":{"bold":true},"origin":{"astIds":[3],"span":{"Start":{"Filename":"input.1","Offset":0,"Line":1,"Column":1},"End":{"Filename":"input.1","Offset":16,"Line":2,"Column":1}}}}],"state":{"style":{},"previous":{},"fill":true},"origin":{"astIds":[3,2,15],"span":{"Start":{"Filename":"input.1","Offset":0,"Line":1,"Column":1},"End":{"Filename":"input.1","Offset":100,"Line":10,"Column":1}}}},
+    {"id":3,"parent":2,"kind":"paragraph","runs":[{"text":"The","style":{},"origin":{"astIds":[5],"span":{"Start":{"Filename":"input.1","Offset":16,"Line":2,"Column":1},"End":{"Filename":"input.1","Offset":20,"Line":3,"Column":1}}}},{"text":" ","style":{},"origin":{"astIds":[7],"span":{"Start":{"Filename":"input.1","Offset":20,"Line":3,"Column":1},"End":{"Filename":"input.1","Offset":28,"Line":4,"Column":1}}}},{"text":"tool","style":{"italic":true},"origin":{"astIds":[7],"span":{"Start":{"Filename":"input.1","Offset":20,"Line":3,"Column":1},"End":{"Filename":"input.1","Offset":28,"Line":4,"Column":1}}}},{"text":" ","style":{},"origin":{"astIds":[9],"span":{"Start":{"Filename":"input.1","Offset":28,"Line":4,"Column":1},"End":{"Filename":"input.1","Offset":43,"Line":5,"Column":1}}}},{"text":"handles files.","style":{},"origin":{"astIds":[9],"span":{"Start":{"Filename":"input.1","Offset":28,"Line":4,"Column":1},"End":{"Filename":"input.1","Offset":43,"Line":5,"Column":1}}}},{"text":"\n","style":{},"break":true,"origin":{"astIds":[11],"span":{"Start":{"Filename":"input.1","Offset":43,"Line":5,"Column":1},"End":{"Filename":"input.1","Offset":47,"Line":6,"Column":1}}}},{"text":"Next output line.","style":{},"origin":{"astIds":[13],"span":{"Start":{"Filename":"input.1","Offset":47,"Line":6,"Column":1},"End":{"Filename":"input.1","Offset":65,"Line":7,"Column":1}}}}],"state":{"style":{},"previous":{},"fill":true},"origin":{"astIds":[5,7,9,11,13],"span":{"Start":{"Filename":"input.1","Offset":16,"Line":2,"Column":1},"End":{"Filename":"input.1","Offset":65,"Line":7,"Column":1}}}},
+    {"id":4,"parent":2,"kind":"paragraph","runs":[{"text":"printf","style":{"bold":true},"origin":{"astIds":[17],"span":{"Start":{"Filename":"input.1","Offset":69,"Line":8,"Column":1},"End":{"Filename":"input.1","Offset":84,"Line":9,"Column":1}}}},{"text":"(3)","style":{},"origin":{"astIds":[17],"span":{"Start":{"Filename":"input.1","Offset":69,"Line":8,"Column":1},"End":{"Filename":"input.1","Offset":84,"Line":9,"Column":1}}}},{"text":" ","style":{},"origin":{"astIds":[19],"span":{"Start":{"Filename":"input.1","Offset":84,"Line":9,"Column":1},"End":{"Filename":"input.1","Offset":100,"Line":10,"Column":1}}}},{"text":"bold","style":{"bold":true},"origin":{"astIds":[19],"span":{"Start":{"Filename":"input.1","Offset":84,"Line":9,"Column":1},"End":{"Filename":"input.1","Offset":100,"Line":10,"Column":1}}}},{"text":"italic","style":{"italic":true},"origin":{"astIds":[19],"span":{"Start":{"Filename":"input.1","Offset":84,"Line":9,"Column":1},"End":{"Filename":"input.1","Offset":100,"Line":10,"Column":1}}}}],"state":{"style":{},"previous":{},"fill":true},"origin":{"astIds":[17,19],"span":{"Start":{"Filename":"input.1","Offset":69,"Line":8,"Column":1},"End":{"Filename":"input.1","Offset":100,"Line":10,"Column":1}}}}
+  ]
+}
+-- expected-text.txt --
+DESCRIPTION
+The tool handles files.
+Next output line.
+printf(3) bolditalic
+-- expected-canonical.json --
+{"metadata":{},"nodes":[{"kind":"document","state":{"style":{},"previous":{},"fill":true}},{"kind":"section","parent":1,"heading":"DESCRIPTION","runs":[{"text":"DESCRIPTION","style":{"bold":true}}],"state":{"style":{},"previous":{},"fill":true}},{"kind":"paragraph","parent":2,"runs":[{"text":"The ","style":{}},{"text":"tool","style":{"italic":true}},{"text":" handles files.","style":{}},{"text":"\n","style":{},"break":true},{"text":"Next output line.","style":{}}],"state":{"style":{},"previous":{},"fill":true}},{"kind":"paragraph","parent":2,"runs":[{"text":"printf","style":{"bold":true}},{"text":"(3) ","style":{}},{"text":"bold","style":{"bold":true}},{"text":"italic","style":{"italic":true}}],"state":{"style":{},"previous":{},"fill":true}}]}
