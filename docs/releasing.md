@@ -174,8 +174,10 @@ go run ./cmd/releasecheck --dist dist --native
 
 The checker verifies every archive target and package-format presence, all
 published SHA-256 values, required documentation/examples/licenses, executable
-format/architecture, `-trimpath`, and CGO=0 Go build metadata. Linux executables
-must lack an ELF interpreter/shared-library dependency. It extracts the actual
+format/architecture, `-trimpath`, and CGO=0 Go build metadata. Artifact/checksum
+basenames and archive members reject Windows separators, drive/stream syntax and
+unsafe directories even when inspected on Unix. Linux executables must lack an
+ELF interpreter/shared-library dependency. It extracts the actual
 host candidate into a temporary directory, empties PATH, checks version/commit/date
 against release metadata, runs help/strict validation/HTML/PNG, decodes the PNG and
 checks a strict negative case. It never rebuilds the candidate. Native matrix lanes

@@ -62,7 +62,7 @@ func Check(dir, project string, native bool, out io.Writer) error {
 	packages := map[string]int{}
 	published := map[string]artifact{}
 	for _, a := range all {
-		if a.Name == "" || path.Base(a.Name) != a.Name {
+		if !portableArtifactName(a.Name) {
 			return fmt.Errorf("unsafe artifact name %q", a.Name)
 		}
 		switch a.Type {
@@ -160,6 +160,16 @@ func packageFormat(name string) string {
 	}
 	return "unknown"
 }
+
+// Artifact names are basenames on every supported OS, including when inspected
+// on Unix before a Windows runner consumes the same checksum index.
+func portableArtifactName(name string) bool {
+	return name != "" && name != "." && name != ".." && !strings.ContainsAny(name, `/\:`)
+}
+
+func portableArchivePath(name string) bool {
+	return name != "." && fs.ValidPath(name) && !strings.ContainsAny(name, `\:`)
+}
 func readJSON(file string, v any) error {
 	data, err := os.ReadFile(file)
 	if err != nil {
@@ -180,7 +190,7 @@ func checkHashes(dir, name string, want map[string]artifact) error {
 			return fmt.Errorf("invalid checksum line")
 		}
 		name := strings.TrimPrefix(fields[1], "*")
-		if path.Base(name) != name || seen[name] {
+		if !portableArtifactName(name) || seen[name] {
 			return fmt.Errorf("unsafe/duplicate checksum %q", name)
 		}
 		seen[name] = true
@@ -221,7 +231,7 @@ func archive(file string) (map[string][]byte, error) {
 	out := map[string][]byte{}
 	total := int64(0)
 	add := func(name string, r io.Reader) error {
-		if !fs.ValidPath(name) || path.Clean(name) != name {
+		if !portableArchivePath(name) || path.Clean(name) != name {
 			return fmt.Errorf("unsafe archive member %q", name)
 		}
 		if _, exists := out[name]; exists {
@@ -246,6 +256,9 @@ func archive(file string) (map[string][]byte, error) {
 		defer z.Close()
 		for _, f := range z.File {
 			if f.FileInfo().IsDir() {
+				if !portableArchivePath(strings.TrimSuffix(f.Name, "/")) {
+					return nil, fmt.Errorf("unsafe archive directory %q", f.Name)
+				}
 				continue
 			}
 			if !f.Mode().IsRegular() {
@@ -282,6 +295,9 @@ func archive(file string) (map[string][]byte, error) {
 				return nil, err
 			}
 			if h.Typeflag == tar.TypeDir {
+				if !portableArchivePath(strings.TrimSuffix(h.Name, "/")) {
+					return nil, fmt.Errorf("unsafe archive directory %q", h.Name)
+				}
 				continue
 			}
 			if h.Typeflag != tar.TypeReg {
