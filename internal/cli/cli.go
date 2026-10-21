@@ -44,6 +44,7 @@ Commands:
   validate  Check roff syntax and report diagnostics
   ast       Inspect a source-aware syntax tree
   render    Export a semantic man page to standalone HTML
+  convert   Convert supported HTML and man structure
   version   Show build information
   help      Show help for a command
 
@@ -116,6 +117,8 @@ func Run(args []string, e Environment) int {
 			return usage(e, "version takes no arguments")
 		}
 		return writeString(e, fmt.Sprintf("gtroff %s (commit %s, built %s)\n", e.Build.Version, e.Build.Commit, e.Build.Date))
+	case "convert":
+		return convertCommand(args, e)
 	case "render":
 		return renderCommand(args, e)
 	case "validate", "ast":
@@ -130,6 +133,8 @@ func commandHelp(e Environment, command string) int {
 		return writeString(e, validateHelp)
 	case "ast":
 		return writeString(e, astHelp)
+	case "convert":
+		return writeString(e, convertHelp)
 	case "render":
 		return writeString(e, renderHelp)
 	case "version":

@@ -71,6 +71,9 @@ func TestExecutableFlows(t *testing.T) {
 		{name: "HTML full default fonts", args: []string{"render", "my page.1"}, stdoutContains: "data:font/ttf;base64,"},
 		{name: "HTML selected fragment", args: []string{"render", "--section", "OPTIONS", "--fragment", "--assets", "omit-fonts", "my page.1"}, stdoutContains: "<dl class=\"definitions\""},
 		{name: "HTML custom font", args: []string{"render", "--font-regular", "custom.ttf", "my page.1"}, stdoutContains: "@font-face"},
+		{name: "convert HTML stdin", args: []string{"convert", "--from", "html", "--to", "roff"}, stdin: "<h1>TOOL</h1><p>.danger</p>", stdoutContains: `\&\f[R].danger`},
+		{name: "convert roff stdin", args: []string{"convert", "--from", "roff", "--to", "html", "--fragment", "--assets", "omit-fonts"}, stdin: ".TH TOOL 1\n.SH NAME\ntext\n", stdoutContains: "<article"},
+		{name: "convert strict hostile", args: []string{"convert", "--from", "html", "--to", "roff", "--strict"}, stdin: "<script>literal</script>", code: 1, stderrContains: "unsupported <script>"},
 		{name: "HTML reject format", args: []string{"render", "--format", "png"}, code: 2, stderrContains: "render format must be html"},
 	}
 	for _, tc := range cases {
@@ -181,6 +184,44 @@ func TestExecutableFlows(t *testing.T) {
 		unchanged, err := os.ReadFile(filepath.Join(work, "my page.1"))
 		if err != nil || !bytes.Equal(source, unchanged) {
 			t.Fatal("source file was overwritten")
+		}
+	})
+	t.Run("conversion atomic file loop", func(t *testing.T) {
+		execute := func(args ...string) (int, string) {
+			c := exec.CommandContext(ctx, binary, args...)
+			c.Dir = work
+			out, err := c.CombinedOutput()
+			if err == nil {
+				return 0, string(out)
+			}
+			var e *exec.ExitError
+			if !errors.As(err, &e) {
+				t.Fatal(err)
+			}
+			return e.ExitCode(), string(out)
+		}
+		if code, msg := execute("convert", "--from", "roff", "--to", "html", "-i", "my page.1", "-o", "converted.html"); code != 0 {
+			t.Fatalf("export %d %s", code, msg)
+		}
+		if code, msg := execute("convert", "--from", "html", "--to", "roff", "--strict", "-i", "converted.html", "-o", "canonical.1"); code != 0 {
+			t.Fatalf("import %d %s", code, msg)
+		}
+		saved, err := os.ReadFile(filepath.Join(work, "canonical.1"))
+		if err != nil || !bytes.Contains(saved, []byte(".TH ")) {
+			t.Fatal("canonical file missing", err)
+		}
+		if code, msg := execute("convert", "--from", "html", "--to", "roff", "-i", "converted.html", "-o", "converted.html"); code != 3 {
+			t.Fatalf("source overwrite %d %s", code, msg)
+		}
+		if err := os.WriteFile(filepath.Join(work, "hostile.html"), []byte("<script>literal</script>"), 0600); err != nil {
+			t.Fatal(err)
+		}
+		if code, msg := execute("convert", "--from", "html", "--to", "roff", "--strict", "-i", "hostile.html", "-o", "canonical.1"); code != 1 {
+			t.Fatalf("strict %d %s", code, msg)
+		}
+		after, err := os.ReadFile(filepath.Join(work, "canonical.1"))
+		if err != nil || !bytes.Equal(saved, after) {
+			t.Fatal("strict conversion damaged output")
 		}
 	})
 

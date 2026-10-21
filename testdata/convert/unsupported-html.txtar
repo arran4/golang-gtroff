@@ -1,0 +1,180 @@
+Tables, unknown tags and arbitrary CSS remain visible literal markup.
+-- input.html --
+<h1>Fallbacks</h1>
+<style>p { background: url(https://example.com/asset); }</style>
+<table><tr><td>TABLE CONTENT</td></tr></table>
+<p>Before <widget>UNKNOWN CONTENT</widget> after.</p>
+-- case.json --
+{"equivalent":false,"retained":["TABLE CONTENT","UNKNOWN CONTENT","background: url(https://example.com/asset)"]}
+-- expected.1 --
+.TH "Fallbacks" "1" "" "" ""
+.nf
+\&\f[CR]<style>p { background: url(https://example.com/asset); }</style>\f[R]\c
+.fi
+.nf
+\&\f[CR]<table><tbody><tr><td>TABLE CONTENT</td></tr></tbody></table>\f[R]\c
+.fi
+.PP
+\&\f[R]Before <widget>UNKNOWN CONTENT</widget> after.\f[R]\c
+-- expected.html --
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; font-src data:; style-src 'unsafe-inline'; base-uri 'none'; form-action 'none'">
+<title>Fallbacks(1)</title>
+<style>
+.gtroff-document{margin:0;background:#ffffff;color:#202124}
+.man-page{box-sizing:border-box;max-width:960px;margin:0 auto;padding:2rem;font-family:GTroffText,serif;font-size:18px;line-height:1.5;background:#ffffff;color:#202124;overflow-wrap:anywhere}
+.man-page a{color:#174ea6}.man-page h1{font-size:1.7em}.man-page h2{font-size:1.3em;margin-top:1.7em}.man-page h3{font-size:1.1em;margin-top:1.3em}
+.man-page p{margin:.75em 0}.man-page pre{white-space:pre-wrap;overflow:auto;padding:1em;background:#f3f4f6;border-radius:.25em}
+.man-page code{font-family:GTroffMono,monospace}.man-page small{font-size:.9em}.man-page dt{font-weight:normal;margin-top:.75em}.man-page dd{margin-inline-start:2em}.man-page dd>:first-child{margin-top:0}
+.man-page .manual-meta{opacity:.8;font-size:.9em}.man-page .permalink{font-size:.8em;text-decoration:none;margin-inline-start:.5em}.man-page .unsupported{border-inline-start:.25em solid currentColor}.man-page .conversion-notes{border:1px solid currentColor;padding:1em;margin-top:2em}
+@media(max-width:600px){.man-page{padding:1rem}.man-page dd{margin-inline-start:1em}}
+@media print{.man-page{max-width:none;color:#000000;background:#ffffff;padding:0}.man-page .permalink{display:none}.man-page pre{break-inside:avoid}}
+</style>
+</head>
+<body class="gtroff-document">
+<article class="man-page theme-light" data-man-version="1" data-man-title="Fallbacks" data-man-section="1" data-man-date="" data-man-source="" data-man-manual="">
+<header class="document-header"><h1>Fallbacks(1)</h1></header>
+<pre class="preformatted" data-kind="preformatted" data-node-id="2" data-source-start="29"><code>&lt;style&gt;p { background: url(https://example.com/asset); }&lt;/style&gt;</code></pre>
+<pre class="preformatted" data-kind="preformatted" data-node-id="3" data-source-start="117"><code>&lt;table&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;TABLE CONTENT&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;</code></pre>
+<p data-kind="paragraph" data-node-id="4" data-source-start="206">Before &lt;widget&gt;UNKNOWN CONTENT&lt;/widget&gt; after.</p>
+</article>
+</body>
+</html>
+-- expected-semantics.json --
+{
+  "metadata": {
+    "title": "Fallbacks",
+    "section": "1"
+  },
+  "children": [
+    {
+      "kind": "unsupported",
+      "runs": [
+        {
+          "text": "\u003cstyle\u003ep { background: url(https://example.com/asset); }\u003c/style\u003e",
+          "style": {
+            "mono": true
+          },
+          "unsupported": true
+        }
+      ]
+    },
+    {
+      "kind": "unsupported",
+      "runs": [
+        {
+          "text": "\u003ctable\u003e\u003ctbody\u003e\u003ctr\u003e\u003ctd\u003eTABLE CONTENT\u003c/td\u003e\u003c/tr\u003e\u003c/tbody\u003e\u003c/table\u003e",
+          "style": {
+            "mono": true
+          },
+          "unsupported": true
+        }
+      ]
+    },
+    {
+      "kind": "paragraph",
+      "runs": [
+        {
+          "text": "Before ",
+          "style": {}
+        },
+        {
+          "text": "\u003cwidget\u003eUNKNOWN CONTENT\u003c/widget\u003e",
+          "style": {},
+          "unsupported": true
+        },
+        {
+          "text": " after.",
+          "style": {}
+        }
+      ]
+    }
+  ]
+}
+-- expected-diagnostics.json --
+[
+  {
+    "Message": "arbitrary CSS is unsupported; literal markup retained",
+    "Position": {
+      "Filename": "input.html",
+      "Offset": -1,
+      "Line": 0,
+      "Column": 0
+    },
+    "Severity": "warning"
+  },
+  {
+    "Message": "unsupported \u003ctable\u003e; literal markup retained",
+    "Position": {
+      "Filename": "input.html",
+      "Offset": -1,
+      "Line": 0,
+      "Column": 0
+    },
+    "Severity": "warning"
+  },
+  {
+    "Message": "unsupported inline \u003cwidget\u003e retained literally",
+    "Position": {
+      "Filename": "input.html",
+      "Offset": -1,
+      "Line": 0,
+      "Column": 0
+    },
+    "Severity": "warning"
+  },
+  {
+    "Message": "unsupported block emitted as escaped literal preformatted text",
+    "Position": {
+      "Filename": "input.html",
+      "Offset": -1,
+      "Line": 0,
+      "Column": 0
+    },
+    "Severity": "warning"
+  },
+  {
+    "Message": "unsupported inline annotation emitted as escaped literal text",
+    "Position": {
+      "Filename": "input.html",
+      "Offset": -1,
+      "Line": 0,
+      "Column": 0
+    },
+    "Severity": "warning"
+  },
+  {
+    "Message": "unsupported block emitted as escaped literal preformatted text",
+    "Position": {
+      "Filename": "input.html",
+      "Offset": -1,
+      "Line": 0,
+      "Column": 0
+    },
+    "Severity": "warning"
+  },
+  {
+    "Message": "unsupported inline annotation emitted as escaped literal text",
+    "Position": {
+      "Filename": "input.html",
+      "Offset": -1,
+      "Line": 0,
+      "Column": 0
+    },
+    "Severity": "warning"
+  },
+  {
+    "Message": "unsupported inline annotation emitted as escaped literal text",
+    "Position": {
+      "Filename": "input.html",
+      "Offset": -1,
+      "Line": 0,
+      "Column": 0
+    },
+    "Severity": "warning"
+  }
+]

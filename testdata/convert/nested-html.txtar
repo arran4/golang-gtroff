@@ -1,0 +1,376 @@
+Nested styles and multi-paragraph nested lists retain semantic structure.
+-- input.html --
+<h1>TOOL</h1>
+<h2>OPTIONS</h2>
+<p>Use <strong>bold <em>both <code>mono</code></em></strong> text and <small>small <b>bold</b></small>.</p>
+<dl><dt><b>--flag</b></dt><dd><p>First paragraph.</p><p>Second paragraph.</p><ul><li>Nested <em>item</em></li><li>Another</li></ul><p>After list.</p></dd></dl>
+<ol start="3"><li>Three</li><li>Four</li></ol>
+<h3>LINKS</h3><p><a href="mailto:help@example.com">Mail</a> or <a href="https://example.com/">web</a>.</p>
+-- case.json --
+{"equivalent":true}
+-- expected.1 --
+.TH "TOOL" "1" "" "" ""
+.SH "\f[B]OPTIONS\f[R]"
+.PP
+\&\f[R]Use \f[R]\c
+\&\f[B]bold \f[R]\c
+\&\f[BI]both \f[R]\c
+\&\f[CBI]mono\f[R]\c
+\&\f[R] text and \f[R]\c
+.SM "\&\f[R]small \f[R]\c"
+.SM "\&\f[B]bold\f[R]\c"
+\&\f[R].\f[R]\c
+.PP
+.TP ""
+\&\f[B]--flag\f[R]
+
+\&\f[R]First paragraph.\f[R]\c
+
+\&\f[R]Second paragraph.\f[R]\c
+.RS "0"
+.TP ""
+\&\f[R]•\f[R]
+
+\&\f[R]Nested \f[R]\c
+\&\f[I]item\f[R]\c
+.TP ""
+\&\f[R]•\f[R]
+
+\&\f[R]Another\f[R]\c
+.RE
+
+\&\f[R]After list.\f[R]\c
+.PP
+.TP ""
+\&\f[R]3.\f[R]
+
+\&\f[R]Three\f[R]\c
+.TP ""
+\&\f[R]4.\f[R]
+
+\&\f[R]Four\f[R]\c
+.SS "\f[B]LINKS\f[R]"
+.PP
+.UR "mailto:help@example.com"
+\&\f[R]Mail\f[R]\c
+.UE
+\&\f[R] or \f[R]\c
+.UR "https://example.com/"
+\&\f[R]web\f[R]\c
+.UE
+\&\f[R].\f[R]\c
+-- expected.html --
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; font-src data:; style-src 'unsafe-inline'; base-uri 'none'; form-action 'none'">
+<title>TOOL(1)</title>
+<style>
+.gtroff-document{margin:0;background:#ffffff;color:#202124}
+.man-page{box-sizing:border-box;max-width:960px;margin:0 auto;padding:2rem;font-family:GTroffText,serif;font-size:18px;line-height:1.5;background:#ffffff;color:#202124;overflow-wrap:anywhere}
+.man-page a{color:#174ea6}.man-page h1{font-size:1.7em}.man-page h2{font-size:1.3em;margin-top:1.7em}.man-page h3{font-size:1.1em;margin-top:1.3em}
+.man-page p{margin:.75em 0}.man-page pre{white-space:pre-wrap;overflow:auto;padding:1em;background:#f3f4f6;border-radius:.25em}
+.man-page code{font-family:GTroffMono,monospace}.man-page small{font-size:.9em}.man-page dt{font-weight:normal;margin-top:.75em}.man-page dd{margin-inline-start:2em}.man-page dd>:first-child{margin-top:0}
+.man-page .manual-meta{opacity:.8;font-size:.9em}.man-page .permalink{font-size:.8em;text-decoration:none;margin-inline-start:.5em}.man-page .unsupported{border-inline-start:.25em solid currentColor}.man-page .conversion-notes{border:1px solid currentColor;padding:1em;margin-top:2em}
+@media(max-width:600px){.man-page{padding:1rem}.man-page dd{margin-inline-start:1em}}
+@media print{.man-page{max-width:none;color:#000000;background:#ffffff;padding:0}.man-page .permalink{display:none}.man-page pre{break-inside:avoid}}
+</style>
+</head>
+<body class="gtroff-document">
+<article class="man-page theme-light" data-man-version="1" data-man-title="TOOL" data-man-section="1" data-man-date="" data-man-source="" data-man-manual="">
+<header class="document-header"><h1>TOOL(1)</h1></header>
+<section data-kind="section" data-node-id="2" data-source-start="24" aria-labelledby="man-node-2">
+<h2 id="man-node-2"><strong>OPTIONS</strong><a class="permalink" href="#man-node-2" aria-label="Link to OPTIONS">#</a></h2>
+<p data-kind="paragraph" data-node-id="3" data-source-start="52">Use <strong>bold </strong><strong><em>both </em></strong><strong><em><code>mono</code></em></strong> text and <small>small </small><strong><small>bold</small></strong>.</p>
+<dl class="definitions" data-kind="definition-list" data-node-id="4" data-source-start="230">
+<dt data-kind="item" data-node-id="5" data-source-start="230" id="man-node-5"><strong>--flag</strong></dt>
+<dd style="margin-inline-start:2em"><p data-kind="paragraph" data-node-id="6" data-source-start="257">First paragraph.</p>
+<p data-kind="paragraph" data-node-id="7" data-source-start="289">Second paragraph.</p>
+<div class="indent" data-kind="indent" data-node-id="8" data-source-start="321" data-value="0" style="margin-inline-start:0em">
+<dl class="definitions" data-kind="definition-list" data-node-id="9" data-source-start="329">
+<dt data-kind="item" data-node-id="10" data-source-start="329" id="man-node-10">•</dt>
+<dd style="margin-inline-start:2em"><p data-kind="paragraph" data-node-id="11" data-source-start="353">Nested <em>item</em></p>
+</dd>
+<dt data-kind="item" data-node-id="12" data-source-start="394" id="man-node-12">•</dt>
+<dd style="margin-inline-start:2em"><p data-kind="paragraph" data-node-id="13" data-source-start="418">Another</p>
+</dd>
+</dl>
+</div>
+<p data-kind="paragraph" data-node-id="14" data-source-start="445">After list.</p>
+</dd>
+</dl>
+<dl class="definitions" data-kind="definition-list" data-node-id="15" data-source-start="475">
+<dt data-kind="item" data-node-id="16" data-source-start="475" id="man-node-16">3.</dt>
+<dd style="margin-inline-start:2em"><p data-kind="paragraph" data-node-id="17" data-source-start="498">Three</p>
+</dd>
+<dt data-kind="item" data-node-id="18" data-source-start="518" id="man-node-18">4.</dt>
+<dd style="margin-inline-start:2em"><p data-kind="paragraph" data-node-id="19" data-source-start="541">Four</p>
+</dd>
+</dl>
+<section data-kind="subsection" data-node-id="20" data-source-start="560" aria-labelledby="man-node-20">
+<h3 id="man-node-20"><strong>LINKS</strong><a class="permalink" href="#man-node-20" aria-label="Link to LINKS">#</a></h3>
+<p data-kind="paragraph" data-node-id="21" data-source-start="616"><a href="mailto:help@example.com" rel="noreferrer noopener">Mail</a> or <a href="https://example.com/" rel="noreferrer noopener">web</a>.</p>
+</section>
+</section>
+</article>
+</body>
+</html>
+-- expected-semantics.json --
+{
+  "metadata": {
+    "title": "TOOL",
+    "section": "1"
+  },
+  "children": [
+    {
+      "kind": "section",
+      "runs": [
+        {
+          "text": "OPTIONS",
+          "style": {
+            "bold": true
+          }
+        }
+      ],
+      "children": [
+        {
+          "kind": "paragraph",
+          "runs": [
+            {
+              "text": "Use ",
+              "style": {}
+            },
+            {
+              "text": "bold ",
+              "style": {
+                "bold": true
+              }
+            },
+            {
+              "text": "both ",
+              "style": {
+                "bold": true,
+                "italic": true
+              }
+            },
+            {
+              "text": "mono",
+              "style": {
+                "bold": true,
+                "italic": true,
+                "mono": true
+              }
+            },
+            {
+              "text": " text and ",
+              "style": {}
+            },
+            {
+              "text": "small ",
+              "style": {
+                "small": true
+              }
+            },
+            {
+              "text": "bold",
+              "style": {
+                "bold": true,
+                "small": true
+              }
+            },
+            {
+              "text": ".",
+              "style": {}
+            }
+          ]
+        },
+        {
+          "kind": "definition-list",
+          "children": [
+            {
+              "kind": "item",
+              "value": "2em",
+              "tag": [
+                {
+                  "text": "--flag",
+                  "style": {
+                    "bold": true
+                  }
+                }
+              ],
+              "children": [
+                {
+                  "kind": "paragraph",
+                  "runs": [
+                    {
+                      "text": "First paragraph.",
+                      "style": {}
+                    }
+                  ]
+                },
+                {
+                  "kind": "paragraph",
+                  "runs": [
+                    {
+                      "text": "Second paragraph.",
+                      "style": {}
+                    }
+                  ]
+                },
+                {
+                  "kind": "definition-list",
+                  "children": [
+                    {
+                      "kind": "item",
+                      "value": "2em",
+                      "tag": [
+                        {
+                          "text": "•",
+                          "style": {}
+                        }
+                      ],
+                      "children": [
+                        {
+                          "kind": "paragraph",
+                          "runs": [
+                            {
+                              "text": "Nested ",
+                              "style": {}
+                            },
+                            {
+                              "text": "item",
+                              "style": {
+                                "italic": true
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "item",
+                      "value": "2em",
+                      "tag": [
+                        {
+                          "text": "•",
+                          "style": {}
+                        }
+                      ],
+                      "children": [
+                        {
+                          "kind": "paragraph",
+                          "runs": [
+                            {
+                              "text": "Another",
+                              "style": {}
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "kind": "paragraph",
+                  "runs": [
+                    {
+                      "text": "After list.",
+                      "style": {}
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "kind": "definition-list",
+          "children": [
+            {
+              "kind": "item",
+              "value": "2em",
+              "tag": [
+                {
+                  "text": "3.",
+                  "style": {}
+                }
+              ],
+              "children": [
+                {
+                  "kind": "paragraph",
+                  "runs": [
+                    {
+                      "text": "Three",
+                      "style": {}
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "kind": "item",
+              "value": "2em",
+              "tag": [
+                {
+                  "text": "4.",
+                  "style": {}
+                }
+              ],
+              "children": [
+                {
+                  "kind": "paragraph",
+                  "runs": [
+                    {
+                      "text": "Four",
+                      "style": {}
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "kind": "subsection",
+          "runs": [
+            {
+              "text": "LINKS",
+              "style": {
+                "bold": true
+              }
+            }
+          ],
+          "children": [
+            {
+              "kind": "paragraph",
+              "runs": [
+                {
+                  "text": "Mail",
+                  "style": {},
+                  "link": "mailto:help@example.com"
+                },
+                {
+                  "text": " or ",
+                  "style": {}
+                },
+                {
+                  "text": "web",
+                  "style": {},
+                  "link": "https://example.com/"
+                },
+                {
+                  "text": ".",
+                  "style": {}
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+-- expected-diagnostics.json --
+[]
