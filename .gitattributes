@@ -29,3 +29,8 @@ testdata/serve/*.txtar -text
 # UI gestures are readable scenarios; native screenshot remains a separate image.
 testdata/viewer/*.txtar -text
 examples/gtroff-view-linux.png binary
+
+# Shared cross-feature archives and separate, decoded raster snapshots.
+testdata/scenarios/**/*.txtar -text
+testdata/golden/scenarios/*.png binary
+testdata/golden/scenarios/*.jpg binary

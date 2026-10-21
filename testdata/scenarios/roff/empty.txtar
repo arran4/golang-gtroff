@@ -1,0 +1,56 @@
+roff/empty crosses AST, validation, semantic, HTML, canonical roff and raster boundaries.
+-- options.json --
+{"status":"valid"}
+-- input.1 --
+-- expected-ast.json --
+[
+  {
+    "ID": 1,
+    "Kind": "document",
+    "Path": "/",
+    "Text": ""
+  }
+]
+-- expected-layout.json --
+[
+  {
+    "Number": 1,
+    "Width": 320,
+    "Height": 320,
+    "Text": null
+  }
+]
+-- expected-semantics.json --
+{
+  "metadata": {}
+}
+-- expected-validation.json --
+[
+  {
+    "Strict": false,
+    "Exit": 0,
+    "Status": "valid",
+    "Diagnostics": []
+  },
+  {
+    "Strict": true,
+    "Exit": 0,
+    "Status": "valid",
+    "Diagnostics": []
+  }
+]
+-- expected.1 --
+-- expected.html --
+<style>
+.gtroff-document{margin:0;background:#ffffff;color:#202124}
+.man-page{box-sizing:border-box;max-width:960px;margin:0 auto;padding:2rem;font-family:GTroffText,serif;font-size:18px;line-height:1.5;background:#ffffff;color:#202124;overflow-wrap:anywhere}
+.man-page a{color:#174ea6}.man-page h1{font-size:1.7em}.man-page h2{font-size:1.3em;margin-top:1.7em}.man-page h3{font-size:1.1em;margin-top:1.3em}
+.man-page p{margin:.75em 0}.man-page pre{white-space:pre-wrap;overflow:auto;padding:1em;background:#f3f4f6;border-radius:.25em}
+.man-page code{font-family:GTroffMono,monospace}.man-page small{font-size:.9em}.man-page dt{font-weight:normal;margin-top:.75em}.man-page dd{margin-inline-start:2em}.man-page dd>:first-child{margin-top:0}
+.man-page .manual-meta{opacity:.8;font-size:.9em}.man-page .permalink{font-size:.8em;text-decoration:none;margin-inline-start:.5em}.man-page .unsupported{border-inline-start:.25em solid currentColor}.man-page .conversion-notes{border:1px solid currentColor;padding:1em;margin-top:2em}
+@media(max-width:600px){.man-page{padding:1rem}.man-page dd{margin-inline-start:1em}}
+@media print{.man-page{max-width:none;color:#000000;background:#ffffff;padding:0}.man-page .permalink{display:none}.man-page pre{break-inside:avoid}}
+</style>
+<article class="man-page theme-light" data-man-version="1" data-man-title="" data-man-section="" data-man-date="" data-man-source="" data-man-manual="">
+<header class="document-header"><h1>Manual page</h1></header>
+</article>
