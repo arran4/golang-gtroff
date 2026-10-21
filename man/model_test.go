@@ -397,3 +397,18 @@ func TestBundledManualFontContracts(t *testing.T) {
 		t.Fatal("nested next-line style leaked to body")
 	}
 }
+
+func TestNameAndSynopsisMeaning(t *testing.T) {
+	source := ".TH TOOL 1 DATE Linux Manual\n.SH NAME\ntool \\- inspect files\n.SH SYNOPSIS\n.SY tool\n.OP \\-v\n.OP \\-o file\n.I input\n.YS\n"
+	d, _ := buildTest(t, source, Options{Strict: true})
+	if d.Metadata.Title != "TOOL" || d.Metadata.Section != "1" || d.Metadata.Date != "DATE" || d.Metadata.Source != "Linux" || d.Metadata.Manual != "Manual" {
+		t.Fatal("title metadata")
+	}
+	synopsis, err := d.SelectSection("SYNOPSIS", false)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if got := synopsis.Text(TextOptions{Normalize: true}); got != "SYNOPSIS tool [-v] [-o file] input" {
+		t.Fatalf("synopsis meanings: %q", got)
+	}
+}
