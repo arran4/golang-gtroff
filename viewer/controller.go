@@ -84,8 +84,10 @@ func (c *Controller) clamp() {
 	s := &c.state
 	content := c.Content()
 	p := c.pages[s.Page]
-	s.PanX = max(0, min(s.PanX, float64(p.X)*s.Zoom-float64(content.Dx())))
-	s.PanY = max(0, min(s.PanY, float64(p.Y)*s.Zoom-float64(content.Dy())))
+	// Explicit rounding prevents architecture-dependent multiply/add fusion in
+	// the public state snapshot (for example 592 vs 592.0000000000001 on arm64).
+	s.PanX = max(0, min(s.PanX, float64(float64(p.X)*s.Zoom)-float64(content.Dx())))
+	s.PanY = max(0, min(s.PanY, float64(float64(p.Y)*s.Zoom)-float64(content.Dy())))
 }
 func (c *Controller) fit() {
 	if !c.Content().Empty() {
@@ -132,10 +134,10 @@ func (c *Controller) Apply(a Action) (bool, error) {
 		s.FitWidth = false
 		content := c.Content()
 		p := c.pages[s.Page]
-		centerX := max(0, (float64(content.Dx())-float64(p.X)*s.Zoom)/2)
-		centerY := max(0, (float64(content.Dy())-float64(p.Y)*s.Zoom)/2)
-		s.PanX = float64(content.Min.X) + centerX + sourceX*s.Zoom - a.X
-		s.PanY = float64(content.Min.Y) + centerY + sourceY*s.Zoom - a.Y
+		centerX := max(0, (float64(content.Dx())-float64(float64(p.X)*s.Zoom))/2)
+		centerY := max(0, (float64(content.Dy())-float64(float64(p.Y)*s.Zoom))/2)
+		s.PanX = float64(content.Min.X) + centerX + float64(sourceX*s.Zoom) - a.X
+		s.PanY = float64(content.Min.Y) + centerY + float64(sourceY*s.Zoom) - a.Y
 	case "fit":
 		s.FitWidth = true
 		c.fit()
