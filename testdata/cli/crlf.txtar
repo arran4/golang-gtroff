@@ -1,0 +1,11 @@
+test: CRLF and Unicode are visible in real AST raw content and byte spans
+-- args.json --
+["ast","--format","json","-"]
+-- stdin.1 --
+.SH NAME
+雪 café
+-- stdout.txt --
+{"schemaVersion":1,"command":"ast","sourceName":"<stdin>","assessment":"syntax-only","status":"valid","diagnostics":[],"selector":"","rootIds":[1],"externalParentIds":[],"source":".SH NAME\r\n雪 café\r\n","nodes":[{"id":1,"children":[2],"path":"/","kind":"document","span":{"Start":{"Filename":"<stdin>","Offset":0,"Line":1,"Column":1},"End":{"Filename":"<stdin>","Offset":21,"Line":3,"Column":1}},"attributes":{},"raw":".SH NAME\r\n雪 café\r\n"},{"id":2,"parent":1,"children":[3,5],"path":"/0","kind":"section","span":{"Start":{"Filename":"<stdin>","Offset":0,"Line":1,"Column":1},"End":{"Filename":"<stdin>","Offset":21,"Line":3,"Column":1}},"attributes":{"heading":"NAME"},"raw":".SH NAME\r\n雪 café\r\n"},{"id":3,"parent":2,"children":[4],"path":"/0/0","kind":"line","span":{"Start":{"Filename":"<stdin>","Offset":0,"Line":1,"Column":1},"End":{"Filename":"<stdin>","Offset":10,"Line":2,"Column":1}},"attributes":{"name":".SH","package":"man","tokenKind":"Macro","arguments":[{"Raw":"NAME","Value":"NAME","Start":0,"End":4,"Quoted":false}]},"raw":".SH NAME\r\n","token":{"Heading":"NAME"}},{"id":4,"parent":3,"path":"/0/0/0","kind":"inline","span":{"Start":{"Filename":"<stdin>","Offset":0,"Line":1,"Column":1},"End":{"Filename":"<stdin>","Offset":8,"Line":1,"Column":9}},"attributes":{},"raw":".SH NAME","inline":{"Kind":"Text","Raw":".SH NAME","Name":"","Value":".SH NAME"}},{"id":5,"parent":2,"children":[6],"path":"/0/1","kind":"line","span":{"Start":{"Filename":"<stdin>","Offset":10,"Line":2,"Column":1},"End":{"Filename":"<stdin>","Offset":21,"Line":3,"Column":1}},"attributes":{"tokenKind":"Text"},"raw":"雪 café\r\n","token":"雪 café"},{"id":6,"parent":5,"path":"/0/1/0","kind":"inline","span":{"Start":{"Filename":"<stdin>","Offset":10,"Line":2,"Column":1},"End":{"Filename":"<stdin>","Offset":19,"Line":2,"Column":7}},"attributes":{},"raw":"雪 café","inline":{"Kind":"Text","Raw":"雪 café","Name":"","Value":"雪 café"}}]}
+-- stderr.txt --
+-- exit.txt --
+0

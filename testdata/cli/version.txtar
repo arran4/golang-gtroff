@@ -1,0 +1,8 @@
+test: explicit build provenance produces stable version output
+-- args.json --
+["version"]
+-- stdout.txt --
+gtroff test (commit abc123, built 2026-10-21)
+-- stderr.txt --
+-- exit.txt --
+0

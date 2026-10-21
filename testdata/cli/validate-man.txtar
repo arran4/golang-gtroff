@@ -1,0 +1,16 @@
+test: syntax validation of a typical man page uses text stdout and clean stderr
+-- args.json --
+["validate","demo.1"]
+-- input/demo.1 --
+.TH DEMO 1 "2026-10-21" "Linux" "User Commands"
+.SH NAME
+demo \- inspect roff
+.SH OPTIONS
+.TP
+.B \-v
+Verbose output.
+-- stdout.txt --
+demo.1: valid syntax (semantic validation not performed)
+-- stderr.txt --
+-- exit.txt --
+0

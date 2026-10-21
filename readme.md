@@ -25,6 +25,31 @@ go get github.com/arran4/golang-gtroff
 
 ## Usage
 
+### Validate and inspect from the command line
+
+```sh
+go build -o gtroff ./cmd/gtroff
+./gtroff validate --strict testdata/simple.1
+# testdata/simple.1: valid syntax (semantic validation not performed)
+
+./gtroff ast --select section:OPTIONS --format text testdata/simple.1
+./gtroff ast --select section:OPTIONS testdata/simple.1 > options.json
+printf '.B fragment\n' | ./gtroff validate --format json -
+./gtroff help ast
+./gtroff version
+```
+
+`validate` checks syntax; it does not promise successful typesetting. Unknown
+controls are preserved with warnings; `--strict` rejects warnings. Malformed
+syntax fails in either mode. Exit codes are 0 for accepted syntax, 1 for invalid
+syntax, 2 for usage/selection errors and 3 for input/output/resource failures.
+
+`ast` writes versioned JSON or text with source spans, raw content and stable
+node IDs. Select by `section:HEADING`, `node:ID`, or `path:/0/1`. Omit FILE or use
+`-` for stdin. JSON diagnostics are included in the envelope; text diagnostics
+go to stderr. The command never evaluates roff or opens include targets. Output
+is stdout-only; see [CLI contracts and scenarios](docs/cli.md) for details.
+
 ### Select and inspect a man-page section
 
 ```go
@@ -160,7 +185,7 @@ for _, tok := range evaluated {
 
 ## Command-Line Tool
 
-A CLI lexer is included for inspecting groff files:
+The original `cmd/lex` token-dump utility remains available for compatibility:
 
 ```bash
 # Parse a man page file
@@ -179,7 +204,8 @@ cat myfile.1 | go run ./cmd/lex/main.go
 - **Macro Packages**: generated `man` and `ms` types support package disambiguation; unsupported syntax produces AST diagnostics.
 - **Requests**: 179 distinct roff requests are typed and dispatched.
 - **Semantic Evaluation (Opt-in)**: Core register arithmetic (`.nr`, `.rr`), strings (`.ds`, `.as`), conditionals (`.if`, `.ie`, `.el`), and macro definitions (`.de`).
-- **Planned**: semantic man models, validation/AST CLI commands, HTML export, conversions, image rendering and a viewer are tracked in #21–#29.
+- **Headless CLI**: `cmd/gtroff` provides syntax validation, source-aware AST export, selection, help and version output; `cmd/lex` remains available.
+- **Planned**: semantic man models, HTML export, conversions, image rendering and a viewer are tracked in #22–#29.
 - **Parser dependencies**: #3–#17 remain open contracts, including include safety, full argument/document fidelity, evaluation, and generation coverage. The AST never follows includes. See [specific dependencies](docs/ast.md#parser-dependencies).
 
 ## Development

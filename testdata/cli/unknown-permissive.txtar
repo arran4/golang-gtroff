@@ -1,0 +1,11 @@
+test: permissive unknown syntax reports partial support and exits successfully
+-- args.json --
+["validate","--format","json","-"]
+-- stdin.1 --
+.SH NAME
+.CUSTOM "雪 unknown"
+-- stdout.txt --
+{"schemaVersion":1,"command":"validate","sourceName":"<stdin>","assessment":"syntax-only","status":"partial","diagnostics":[{"Message":"no token match: \".CUSTOM\": \"雪 unknown\"","Position":{"Filename":"<stdin>","Offset":9,"Line":2,"Column":1},"Severity":"warning"}]}
+-- stderr.txt --
+-- exit.txt --
+0

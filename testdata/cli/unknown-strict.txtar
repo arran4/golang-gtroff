@@ -1,0 +1,12 @@
+test: strict unknown syntax has an unsuccessful validation status
+-- args.json --
+["validate","--strict","-"]
+-- stdin.1 --
+.SH NAME
+.CUSTOM "雪 unknown"
+-- stdout.txt --
+<stdin>: invalid syntax (semantic validation not performed)
+-- stderr.txt --
+<stdin>:2:1: warning: no token match: ".CUSTOM": "雪 unknown"
+-- exit.txt --
+1
