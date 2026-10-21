@@ -97,6 +97,8 @@ func fontStyle(value string) (Style, bool) {
 		return Style{Mono: true}, true
 	case "CB":
 		return Style{Mono: true, Bold: true}, true
+	case "CBI":
+		return Style{Mono: true, Bold: true, Italic: true}, true
 	case "CI":
 		return Style{Mono: true, Italic: true}, true
 	}

@@ -233,7 +233,7 @@ func Build(tree *groff.AST, o Options) (*Document, error) {
 			}
 			vals := make([]string, 5)
 			for j := 0; j < len(args) && j < 5; j++ {
-				vals[j] = joinArgs(args[j : j+1])
+				vals[j] = textRuns(b.inline(args[j].Value, n, Style{}))
 			}
 			if d.Metadata.Title != "" {
 				b.diag(n, "repeated .TH uses the last title; prior source preserved", "warning")
@@ -370,7 +370,7 @@ func Build(tree *groff.AST, o Options) (*Document, error) {
 				b.unsupported(n, "link requires a target")
 				continue
 			}
-			b.state.Link = args[0].Value
+			b.state.Link = textRuns(b.inline(args[0].Value, n, Style{}))
 			if cmd == ".MT" {
 				b.state.Link = "mailto:" + b.state.Link
 			}
@@ -389,7 +389,7 @@ func Build(tree *groff.AST, o Options) (*Document, error) {
 				b.unsupported(n, "manual reference requires name and section")
 				continue
 			}
-			text := args[0].Value + "(" + args[1].Value + ")"
+			text := textRuns(b.inline(args[0].Value, n, Style{})) + "(" + textRuns(b.inline(args[1].Value, n, Style{})) + ")"
 			runs := []Run{{Text: text, Reference: text, Style: b.state.Style, Origin: origin(n)}}
 			if len(args) > 2 {
 				runs = append(runs, b.inline(joinArgs(args[2:]), n, b.state.Style)...)
