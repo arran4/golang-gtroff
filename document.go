@@ -145,7 +145,7 @@ func ParseDocument(r io.Reader, opts ...Option) (*Document, error) {
 
 			// 1. Preprocessor blocks: .TS, .EQ, .PS, .[
 			if cmd == ".TS" || cmd == ".EQ" || cmd == ".PS" || cmd == ".[" {
-				blockToken, blockSpan, err := readPreprocessorBlock(cmd, args, br, &offset, &lineNum, lineStartPos, options)
+				blockToken, blockSpan, err := readPreprocessorBlock(cmd, args, line, br, &offset, &lineNum, lineStartPos, options)
 				if err != nil {
 					if options.Strict {
 						return nil, err
@@ -161,6 +161,9 @@ func ParseDocument(r io.Reader, opts ...Option) (*Document, error) {
 					Span:    blockSpan,
 					RawLine: blockToken.String(),
 				})
+				if _, fatal := err.(*blockInputError); fatal {
+					return doc, err
+				}
 				lineNum++
 				if readErr == io.EOF {
 					break
@@ -170,7 +173,7 @@ func ParseDocument(r io.Reader, opts ...Option) (*Document, error) {
 
 			// 2. Multiline macro definitions (.de, .am)
 			if cmd == ".de" || cmd == ".am" {
-				defToken, defSpan, err := readMacroDefinition(cmd, args, br, &offset, &lineNum, lineStartPos, options)
+				defToken, defSpan, err := readMacroDefinition(cmd, args, line, br, &offset, &lineNum, lineStartPos, options)
 				if err != nil {
 					if options.Strict {
 						return nil, err
@@ -186,6 +189,9 @@ func ParseDocument(r io.Reader, opts ...Option) (*Document, error) {
 					Span:    defSpan,
 					RawLine: defToken.String(),
 				})
+				if _, fatal := err.(*blockInputError); fatal {
+					return doc, err
+				}
 				lineNum++
 				if readErr == io.EOF {
 					break
@@ -195,7 +201,7 @@ func ParseDocument(r io.Reader, opts ...Option) (*Document, error) {
 
 			// 3. Ignored block (.ig)
 			if cmd == ".ig" {
-				igToken, igSpan, err := readIgnoredBlock(args, br, &offset, &lineNum, lineStartPos, options)
+				igToken, igSpan, err := readIgnoredBlock(args, line, br, &offset, &lineNum, lineStartPos, options)
 				if err != nil {
 					if options.Strict {
 						return nil, err
@@ -211,6 +217,9 @@ func ParseDocument(r io.Reader, opts ...Option) (*Document, error) {
 					Span:    igSpan,
 					RawLine: igToken.String(),
 				})
+				if _, fatal := err.(*blockInputError); fatal {
+					return doc, err
+				}
 				lineNum++
 				if readErr == io.EOF {
 					break
@@ -299,7 +308,18 @@ func splitCommandAndArgs(line string) (string, string) {
 	return line[:wsIdx], strings.TrimLeft(line[wsIdx:], " \t")
 }
 
-func readPreprocessorBlock(cmd, args string, br *bufio.Reader, offset *int, lineNum *int, startPos Position, opts ParserOptions) (Token, Span, error) {
+// blockInputError stops document parsing after an I/O or resource failure.
+type blockInputError struct{ error }
+
+func (e *blockInputError) Unwrap() error { return e.error }
+
+func recoverBlock(raw string, start Position, err error) (Token, Span, error) {
+	return &TokenUnknownControl{RawLine: raw}, Span{Start: start, End: advanceSourcePosition(start, raw)}, err
+}
+
+func readPreprocessorBlock(cmd, args, header string, br *bufio.Reader, offset *int, lineNum *int, startPos Position, opts ParserOptions) (Token, Span, error) {
+	var raw strings.Builder
+	raw.WriteString(header)
 	endMarker := ""
 	switch cmd {
 	case ".TS":
@@ -315,12 +335,19 @@ func readPreprocessorBlock(cmd, args string, br *bufio.Reader, offset *int, line
 	var lines []string
 	for {
 		line, readErr := br.ReadString('\n')
+		raw.WriteString(line)
 		if len(line) == 0 && readErr == io.EOF {
-			return nil, Span{Start: startPos, End: Position{Filename: opts.SourceName, Offset: *offset, Line: *lineNum}}, fmt.Errorf("unterminated block %s (expected %s)", cmd, endMarker)
+			return recoverBlock(raw.String(), startPos, fmt.Errorf("unterminated block %s (expected %s)", cmd, endMarker))
 		}
 		*offset += len(line)
 		*lineNum++
 
+		if readErr != nil && readErr != io.EOF {
+			return recoverBlock(raw.String(), startPos, &blockInputError{readErr})
+		}
+		if (opts.MaxLines > 0 && *lineNum > opts.MaxLines) || (opts.MaxLineLength > 0 && len(line) > opts.MaxLineLength) {
+			return recoverBlock(raw.String(), startPos, &blockInputError{fmt.Errorf("block input budget exceeded on line %d", *lineNum)})
+		}
 		trimmed := strings.TrimRight(line, "\r\n")
 		checkCmd, _ := splitCommandAndArgs(trimmed)
 		if checkCmd == endMarker {
@@ -346,12 +373,14 @@ func readPreprocessorBlock(cmd, args string, br *bufio.Reader, offset *int, line
 
 		lines = append(lines, trimmed)
 		if readErr == io.EOF {
-			return nil, Span{Start: startPos, End: Position{Filename: opts.SourceName, Offset: *offset, Line: *lineNum}}, fmt.Errorf("unterminated block %s (expected %s)", cmd, endMarker)
+			return recoverBlock(raw.String(), startPos, fmt.Errorf("unterminated block %s (expected %s)", cmd, endMarker))
 		}
 	}
 }
 
-func readMacroDefinition(cmd, args string, br *bufio.Reader, offset *int, lineNum *int, startPos Position, opts ParserOptions) (Token, Span, error) {
+func readMacroDefinition(cmd, args, header string, br *bufio.Reader, offset *int, lineNum *int, startPos Position, opts ParserOptions) (Token, Span, error) {
+	var raw strings.Builder
+	raw.WriteString(header)
 	parts := strings.Fields(args)
 	name := ""
 	endDelim := ".."
@@ -365,12 +394,19 @@ func readMacroDefinition(cmd, args string, br *bufio.Reader, offset *int, lineNu
 	var body []string
 	for {
 		line, readErr := br.ReadString('\n')
+		raw.WriteString(line)
 		if len(line) == 0 && readErr == io.EOF {
-			return nil, Span{Start: startPos, End: Position{Filename: opts.SourceName, Offset: *offset, Line: *lineNum}}, fmt.Errorf("unterminated macro definition %s", cmd)
+			return recoverBlock(raw.String(), startPos, fmt.Errorf("unterminated macro definition %s", cmd))
 		}
 		*offset += len(line)
 		*lineNum++
 
+		if readErr != nil && readErr != io.EOF {
+			return recoverBlock(raw.String(), startPos, &blockInputError{readErr})
+		}
+		if (opts.MaxLines > 0 && *lineNum > opts.MaxLines) || (opts.MaxLineLength > 0 && len(line) > opts.MaxLineLength) {
+			return recoverBlock(raw.String(), startPos, &blockInputError{fmt.Errorf("block input budget exceeded on line %d", *lineNum)})
+		}
 		trimmed := strings.TrimRight(line, "\r\n")
 		checkCmd, _ := splitCommandAndArgs(trimmed)
 		if checkCmd == endDelim {
@@ -393,12 +429,14 @@ func readMacroDefinition(cmd, args string, br *bufio.Reader, offset *int, lineNu
 
 		body = append(body, trimmed)
 		if readErr == io.EOF {
-			return nil, Span{Start: startPos, End: Position{Filename: opts.SourceName, Offset: *offset, Line: *lineNum}}, fmt.Errorf("unterminated macro definition %s", cmd)
+			return recoverBlock(raw.String(), startPos, fmt.Errorf("unterminated macro definition %s", cmd))
 		}
 	}
 }
 
-func readIgnoredBlock(args string, br *bufio.Reader, offset *int, lineNum *int, startPos Position, opts ParserOptions) (Token, Span, error) {
+func readIgnoredBlock(args, header string, br *bufio.Reader, offset *int, lineNum *int, startPos Position, opts ParserOptions) (Token, Span, error) {
+	var raw strings.Builder
+	raw.WriteString(header)
 	endDelim := ".."
 	endArg := strings.TrimSpace(args)
 	if endArg != "" {
@@ -408,12 +446,19 @@ func readIgnoredBlock(args string, br *bufio.Reader, offset *int, lineNum *int, 
 	var body []string
 	for {
 		line, readErr := br.ReadString('\n')
+		raw.WriteString(line)
 		if len(line) == 0 && readErr == io.EOF {
-			return nil, Span{Start: startPos, End: Position{Filename: opts.SourceName, Offset: *offset, Line: *lineNum}}, fmt.Errorf("unterminated ignored block (.ig)")
+			return recoverBlock(raw.String(), startPos, fmt.Errorf("unterminated ignored block (.ig)"))
 		}
 		*offset += len(line)
 		*lineNum++
 
+		if readErr != nil && readErr != io.EOF {
+			return recoverBlock(raw.String(), startPos, &blockInputError{readErr})
+		}
+		if (opts.MaxLines > 0 && *lineNum > opts.MaxLines) || (opts.MaxLineLength > 0 && len(line) > opts.MaxLineLength) {
+			return recoverBlock(raw.String(), startPos, &blockInputError{fmt.Errorf("block input budget exceeded on line %d", *lineNum)})
+		}
 		trimmed := strings.TrimRight(line, "\r\n")
 		checkCmd, _ := splitCommandAndArgs(trimmed)
 		if checkCmd == endDelim {
@@ -429,7 +474,7 @@ func readIgnoredBlock(args string, br *bufio.Reader, offset *int, lineNum *int, 
 
 		body = append(body, trimmed)
 		if readErr == io.EOF {
-			return nil, Span{Start: startPos, End: Position{Filename: opts.SourceName, Offset: *offset, Line: *lineNum}}, fmt.Errorf("unterminated ignored block (.ig)")
+			return recoverBlock(raw.String(), startPos, fmt.Errorf("unterminated ignored block (.ig)"))
 		}
 	}
 }
