@@ -17,7 +17,10 @@ The six headless targets are built and inspected in every candidate build. Full
 native tests and archived-binary smoke are release requirements, with one runner
 for each OS/architecture. Configuring a lane is not evidence that it has passed.
 Linux amd64 has local runtime evidence; Linux arm64 has QEMU execution and
-scenario evidence, including exact example image bytes. Native Windows/macOS remain pending while
+scenario evidence, including exact example image bytes. Windows amd64 has Wine
+10.0 compatibility execution of its archived CLI and root/CLI test suites. Wine
+does not establish native Windows filesystem or desktop support. Native
+Windows/macOS remain pending while
 hosted jobs fail before execution. The viewer's Windows source cross-build and
 Apple backend remain preview work; neither is shipped by the viewer config.
 
@@ -198,6 +201,25 @@ using `-gui-binary /absolute/path/to/gtroff-view`; see [viewer.md](viewer.md).
 archives represent committed HEAD; final release candidates must use a clean,
 committed tree. Do not publish development snapshots.
 
+## Windows compatibility probe
+
+The Windows amd64 archive passed the same artifact-checker smoke under Wine
+10.0: exact version/commit/date, help, strict positive/negative validation,
+embedded-font HTML, and PNG decoding with an empty PATH. The Windows root and
+internal CLI test executables also passed. This is compatibility execution on
+Linux, not native Windows evidence.
+An additional real-process probe covered filenames with spaces, selected AST,
+byte-identical HTML/PNG/JPEG, HTML-to-roff conversion, strict destination
+preservation and an HTTP server browsing the synthetic collection.
+
+The complete HTTP library suite failed its symlink test under Wine. A standalone
+Windows API probe reproduced `os.Symlink` returning success while `os.Lstat`,
+`os.ReadDir` and `os.ReadFile` could not see the new link. The remaining HTTP tests
+passed when that one test was isolated. No committed test was skipped or relaxed;
+the native lane still requires the full symlink/containment contract. A cleanup
+hook now closes the test root even if an assertion fails, preventing an unrelated
+Windows sharing violation from hiding the first failure.
+
 ## Dependencies and unresolved hosted execution
 
 New CI tools are GoReleaser 2.18.3 (build/package; digest verified) and actionlint
@@ -218,3 +240,7 @@ References: [current CI/CD standard](https://arran4.github.io/blog/post/2026/043
 [GoReleaser conventions](https://arran4.github.io/blog/post/2026/023-assembling-goreleaser-yaml/),
 [GoReleaser packaging](https://goreleaser.com/customization/package/nfpm/) and the
 [read-only md2png reference](https://github.com/arran4/md2png).
+
+The [roadmap verification record](roadmap-verification.md) maps each feature's
+requirements to source/tests/artifacts and separates the remaining native/hosted
+acceptance gaps from local results.
