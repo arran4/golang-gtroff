@@ -48,3 +48,51 @@ jobs:
         run: go test -count=1 ./...
       - name: Build headless commands
         run: go build ./cmd/gtroff ./cmd/lex
+
+  desktop-builds:
+    name: Optional desktop build (${{ matrix.os }})
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-latest
+            cgo: '0'
+          - os: windows-latest
+            cgo: '0'
+          - os: macos-latest
+            cgo: '1'
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 10
+    defaults:
+      run:
+        working-directory: desktop
+    env:
+      CGO_ENABLED: ${{ matrix.cgo }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: desktop/go.mod
+      - name: Test optional module without opening windows
+        run: go test -count=1 ./...
+      - name: Build optional desktop command
+        run: go build ./cmd/gtroff-view
+
+  desktop-x11-smoke:
+    name: Optional X11 native smoke
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      CGO_ENABLED: '0'
+    defaults:
+      run:
+        working-directory: desktop
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: desktop/go.mod
+      - name: Install test-only X11 server and event tools
+        run: sudo apt-get update && sudo apt-get install -y xvfb xauth xdotool
+      - name: Exercise real input, viewport pixels and clean close
+        run: xvfb-run -a -s '-screen 0 1600x1200x24 -nolisten tcp' go test ./cmd/gtroff-view -run '^TestX11Executable$' -count=1 -gui-smoke

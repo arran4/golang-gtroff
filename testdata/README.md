@@ -50,3 +50,8 @@ visually inspect changed images. See [image contracts](../docs/images.md).
 expectations. Its test adapter synthesizes gzip for explicitly named text sources;
 no opaque archive data is embedded. Approve changes with
 `go test . -run '^TestServeScenarios$' -update-serve` and review the response diff.
+
+`viewer/*.txtar` records native-independent scroll/zoom/page/resize/gesture state.
+Approve deterministic controller changes with
+`go test . -run '^TestViewerScenarios$' -update-viewer`. The separate desktop module
+has opt-in real X11 tests and screenshot capture; ordinary tests need no display.

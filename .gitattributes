@@ -25,3 +25,7 @@ examples/man-tool.jpg binary
 
 # HTTP scenarios contain readable virtual trees, requests and response bodies.
 testdata/serve/*.txtar -text
+
+# UI gestures are readable scenarios; native screenshot remains a separate image.
+testdata/viewer/*.txtar -text
+examples/gtroff-view-linux.png binary

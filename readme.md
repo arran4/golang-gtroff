@@ -88,6 +88,21 @@ use pixels; image font size uses points at the requested DPI. Default bundled Go
 fonts need no installed files. Unsupported syntax and missing Unicode glyphs
 remain visible with diagnostics. See [image options, APIs, limits and tests](docs/images.md).
 
+### Open the optional desktop viewer
+
+```sh
+cd desktop
+CGO_ENABLED=0 go build -o gtroff-view ./cmd/gtroff-view
+./gtroff-view ../examples/man-tool.1
+./gtroff-view --section OPTIONS ../examples/man-tool.1
+```
+
+The Shiny viewer scrolls, pans, zooms and switches the same rendered pages. Its
+separate module keeps GUI dependencies out of every headless command. Linux/X11
+is runtime verified; Windows is cross-built with runtime unverified, and macOS
+needs a native CGO/toolchain build. See the [actual Linux screenshot](examples/gtroff-view-linux.png)
+and [controls, platform matrix and smoke procedure](docs/viewer.md).
+
 ### Browse a local man library
 
 ```sh
@@ -308,7 +323,8 @@ cat myfile.1 | go run ./cmd/lex/main.go
 - **Semantic conversion**: `gtroff convert` maps a documented HTML/man subset in both directions, with canonical escaping and semantic loop tests.
 - **Image export**: paginated PNG/JPEG and bounded single-image output use bundled Go fonts and pure-Go measurement/painting.
 - **HTTP library**: `gtroff serve --root DIR` provides read-only catalogue/search/page navigation with explicit filesystem roots and optional system search.
-- **Planned**: optional viewer and release integration remain tracked in #26, #28 and #29.
+- **Optional viewer**: the isolated `desktop` module provides a Shiny reader backed by the same raster plan; see its verified platform matrix.
+- **Planned**: final integration/showcase and release work remain tracked in #28 and #29.
 - **Parser dependencies**: #3–#17 remain open contracts, including include safety, full argument/document fidelity, evaluation, and generation coverage. The AST never follows includes. See [specific dependencies](docs/ast.md#parser-dependencies).
 
 ## Development
