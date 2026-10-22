@@ -2,6 +2,7 @@ package groff
 
 import (
 	"embed"
+	"encoding/hex"
 	"encoding/json"
 	"errors"
 	"io/fs"
@@ -32,15 +33,22 @@ func TestArgumentBindingScenarios(t *testing.T) {
 					t.Fatalf("duplicate %s", file.Name)
 				}
 				switch file.Name {
-				case "input.roff", "package.txt", "fields.json":
+				case "input.roff", "input.hex", "package.txt", "fields.json":
 				default:
 					t.Fatalf("unknown %s", file.Name)
 				}
 				files[file.Name] = file.Data
 			}
-			input, ok := files["input.roff"]
-			if !ok {
-				t.Fatal("missing input.roff")
+			input, plain := files["input.roff"]
+			encoded, binary := files["input.hex"]
+			if plain == binary {
+				t.Fatal("exactly one input file is required")
+			}
+			if binary {
+				input, err = hex.DecodeString(strings.TrimSpace(string(encoded)))
+				if err != nil {
+					t.Fatal(err)
+				}
 			}
 			expected, ok := files["fields.json"]
 			if !ok {
