@@ -1,305 +1,125 @@
 package groff
 
-import (
-	"fmt"
-	"strconv"
-	"strings"
-)
+import "context"
 
-// Environment holds the runtime state for register, string, and macro evaluation.
+// Environment holds mutable state for opt-in evaluation. A zero value is usable.
+// It must not be shared by concurrent evaluations or modified during evaluation.
+// Limits <= 0 select defaults; larger values are clamped to hard safety ceilings.
+// StepCount is cumulative across calls; callers may explicitly reset it to zero.
 type Environment struct {
-	Registers  map[string]int
-	AutoIncrs  map[string]int
-	Strings    map[string]string
-	Macros     map[string][]string
-	MaxDepth   int
-	MaxSteps   int
-	StepCount  int
-	Depth      int
-	lastIfCond bool
+	Registers map[string]int
+	AutoIncrs map[string]int
+	Strings   map[string]string
+	Macros    map[string][]string
+
+	MaxDepth       int
+	MaxSteps       int
+	MaxOutputBytes int
+	MaxWorkBytes   int
+	MaxStateBytes  int
+	MaxTokens      int
+	MaxLineBytes   int
+
+	StepCount, Depth int
+	// Diagnostics describes preserved, unevaluated tokens from the latest call.
+	Diagnostics []EvaluationDiagnostic
 }
 
-// NewEnvironment creates an initialized, bounded evaluation environment.
+// NewEnvironment creates an initialized evaluation environment with default limits.
 func NewEnvironment() *Environment {
-	return &Environment{
-		Registers: make(map[string]int),
-		AutoIncrs: make(map[string]int),
-		Strings:   make(map[string]string),
-		Macros:    make(map[string][]string),
-		MaxDepth:  50,
-		MaxSteps:  50000,
+	env := &Environment{MaxDepth: 50, MaxSteps: 50000, MaxTokens: 50000,
+		MaxOutputBytes: 8 << 20, MaxWorkBytes: 32 << 20, MaxStateBytes: 8 << 20, MaxLineBytes: 64 << 10}
+	env.init()
+	return env
+}
+
+func (env *Environment) init() {
+	if env.Registers == nil {
+		env.Registers = make(map[string]int)
+	}
+	if env.AutoIncrs == nil {
+		env.AutoIncrs = make(map[string]int)
+	}
+	if env.Strings == nil {
+		env.Strings = make(map[string]string)
+	}
+	if env.Macros == nil {
+		env.Macros = make(map[string][]string)
 	}
 }
 
-func (env *Environment) GetRegister(name string) int {
-	return env.Registers[name]
-}
-
-func (env *Environment) SetRegister(name string, val int, incr int) {
+func (env *Environment) GetRegister(name string) int { return env.Registers[name] }
+func (env *Environment) SetRegister(name string, val, incr int) {
+	env.init()
 	env.Registers[name] = val
 	if incr != 0 {
 		env.AutoIncrs[name] = incr
 	}
 }
-
 func (env *Environment) RemoveRegister(name string) {
 	delete(env.Registers, name)
 	delete(env.AutoIncrs, name)
 }
-
 func (env *Environment) GetString(name string) (string, bool) {
 	v, ok := env.Strings[name]
 	return v, ok
 }
-
-func (env *Environment) SetString(name string, val string) {
-	env.Strings[name] = val
-}
-
-func (env *Environment) AppendString(name string, val string) {
-	env.Strings[name] = env.Strings[name] + val
-}
-
+func (env *Environment) SetString(name, val string)    { env.init(); env.Strings[name] = val }
+func (env *Environment) AppendString(name, val string) { env.init(); env.Strings[name] += val }
 func (env *Environment) DefineMacro(name string, lines []string) {
-	copied := make([]string, len(lines))
-	copy(copied, lines)
-	env.Macros[name] = copied
+	env.init()
+	env.Macros[name] = append([]string(nil), lines...)
 }
 
-// Evaluate performs an optional bounded semantic evaluation pass over a sequence of tokens.
+// Evaluate runs the bounded, optional legacy evaluation profile. It returns the
+// emitted prefix on error; state changes already applied remain in env. Parsing,
+// AST construction and rendering do not invoke this function implicitly.
 func Evaluate(tokens []Token, env *Environment) ([]Token, error) {
-	if env == nil {
-		env = NewEnvironment()
-	}
-
-	var result []Token
-	for _, tok := range tokens {
-		env.StepCount++
-		if env.StepCount > env.MaxSteps {
-			return nil, fmt.Errorf("evaluation step budget exceeded (%d steps)", env.MaxSteps)
-		}
-
-		switch t := tok.(type) {
-		case *TokenRequestNr:
-			handleNr(t, env)
-
-		case *TokenRequestRr:
-			if t.Ident != "" {
-				env.RemoveRegister(t.Ident)
-			}
-
-		case *TokenRequestDs:
-			env.SetString(t.Name, t.StringVal)
-
-		case *TokenRequestAs:
-			env.AppendString(t.Name, t.StringVal)
-
-		case *TokenMacroDefinition:
-			env.DefineMacro(t.Name, t.Body)
-
-		case *TokenRequestIf:
-			branchToks, err := handleIf(t.Cond, t.Anything, env, false)
-			if err != nil {
-				return nil, err
-			}
-			result = append(result, branchToks...)
-
-		case *TokenRequestIe:
-			branchToks, err := handleIf(t.Cond, t.Anything, env, true)
-			if err != nil {
-				return nil, err
-			}
-			result = append(result, branchToks...)
-
-		case *TokenRequestEl:
-			if !env.lastIfCond && t.Anything != "" {
-				parsed, err := ParseLinePermissive(t.Anything, "")
-				if err == nil {
-					subRes, err := Evaluate([]Token{parsed}, env)
-					if err != nil {
-						return nil, err
-					}
-					result = append(result, subRes...)
-				}
-			}
-
-		case TokenText:
-			expanded := env.ExpandText(string(t))
-			result = append(result, TokenText(expanded))
-
-		default:
-			// Check if token represents dynamic macro invocation
-			if n, ok := tok.(Node); ok {
-				cmd := strings.TrimPrefix(n.TokenName(), ".")
-				if body, hasMacro := env.Macros[cmd]; hasMacro {
-					if env.Depth >= env.MaxDepth {
-						return nil, fmt.Errorf("maximum macro recursion depth exceeded (%d)", env.MaxDepth)
-					}
-					env.Depth++
-					var macroTokens []Token
-					for _, line := range body {
-						parsed, err := ParseLinePermissive(line, "")
-						if err == nil {
-							macroTokens = append(macroTokens, parsed)
-						}
-					}
-					expanded, err := Evaluate(macroTokens, env)
-					env.Depth--
-					if err != nil {
-						return nil, err
-					}
-					result = append(result, expanded...)
-					continue
-				}
-			}
-			result = append(result, tok)
-		}
-	}
-
-	return result, nil
+	return EvaluateContext(context.Background(), tokens, env)
 }
 
-func handleNr(t *TokenRequestNr, env *Environment) {
-	if t.Ident == "" {
-		return
-	}
-	valStr := strings.TrimSpace(t.Value)
-	if valStr == "" {
-		return
-	}
-
-	var val int
-	if strings.HasPrefix(valStr, "+") {
-		delta, _ := strconv.Atoi(valStr[1:])
-		val = env.GetRegister(t.Ident) + delta
-	} else if strings.HasPrefix(valStr, "-") {
-		delta, _ := strconv.Atoi(valStr[1:])
-		val = env.GetRegister(t.Ident) - delta
-	} else {
-		val, _ = strconv.Atoi(valStr)
-	}
-
-	incr := 0
-	if t.Incr != "" {
-		incr, _ = strconv.Atoi(t.Incr)
-	}
-	env.SetRegister(t.Ident, val, incr)
-}
-
-func splitNameAndValue(nameArg, valArg string) (string, string) {
-	if valArg != "" {
-		return strings.TrimSpace(nameArg), strings.TrimSpace(valArg)
-	}
-	parts := strings.Fields(nameArg)
-	if len(parts) == 0 {
-		return "", ""
-	}
-	if len(parts) == 1 {
-		return parts[0], ""
-	}
-	name := parts[0]
-	val := strings.TrimSpace(nameArg[len(name):])
-	return name, val
-}
-
-func handleIf(condStr, rest string, env *Environment, isIe bool) ([]Token, error) {
-	cond := evaluateCondition(condStr, env)
-	if isIe {
-		env.lastIfCond = cond
-	}
-	if !cond || rest == "" {
-		return nil, nil
-	}
-
-	parsed, err := ParseLinePermissive(rest, "")
+// EvaluateContext is Evaluate with cancellation. Cancellation and limits are
+// checked before interpretation, parsing selected lines and interpolation work.
+// Diagnostics use zero-based input token indices and expansion paths, not source
+// spans. See docs/evaluation.md for the deliberately limited language profile.
+func EvaluateContext(ctx context.Context, tokens []Token, env *Environment) ([]Token, error) {
+	m, err := newEvaluation(ctx, env)
 	if err != nil {
-		return nil, nil
+		return nil, err
 	}
-	return Evaluate([]Token{parsed}, env)
-}
-
-func evaluateCondition(cond string, env *Environment) bool {
-	cond = strings.TrimSpace(cond)
-	if strings.HasPrefix(cond, "!") {
-		return !evaluateCondition(strings.TrimSpace(cond[1:]), env)
-	}
-
-	// String comparison: 'str1'str2'
-	if strings.HasPrefix(cond, "'") {
-		parts := strings.Split(cond[1:], "'")
-		if len(parts) >= 2 {
-			s1 := env.ExpandText(parts[0])
-			s2 := env.ExpandText(parts[1])
-			return s1 == s2
+	defer func() { m.env.Depth = 0 }()
+	for i, tok := range tokens {
+		m.index = i
+		if err := m.token(tok); err != nil {
+			return m.output, m.failure(err)
 		}
 	}
-
-	// Check register equality/comparison: \n[reg] > 0 or \n[reg]==0
-	if strings.Contains(cond, ">") {
-		p := strings.SplitN(cond, ">", 2)
-		v1 := evaluateNumeric(p[0], env)
-		v2 := evaluateNumeric(p[1], env)
-		return v1 > v2
-	}
-	if strings.Contains(cond, "<") {
-		p := strings.SplitN(cond, "<", 2)
-		v1 := evaluateNumeric(p[0], env)
-		v2 := evaluateNumeric(p[1], env)
-		return v1 < v2
-	}
-	if strings.Contains(cond, "==") {
-		p := strings.SplitN(cond, "==", 2)
-		v1 := evaluateNumeric(p[0], env)
-		v2 := evaluateNumeric(p[1], env)
-		return v1 == v2
-	}
-
-	// Default roff built-ins: 'n' (nroff) mode is true, 't' (troff) mode is false
-	if cond == "n" {
-		return true
-	}
-	if cond == "t" {
-		return false
-	}
-
-	// Evaluates as non-zero number
-	n := evaluateNumeric(cond, env)
-	return n > 0
+	return m.output, nil
 }
 
-func evaluateNumeric(s string, env *Environment) int {
-	s = strings.TrimSpace(s)
-	// Check if register expansion
-	if strings.HasPrefix(s, `\n[`) && strings.HasSuffix(s, "]") {
-		regName := s[3 : len(s)-1]
-		return env.GetRegister(regName)
+// ExpandTextContext performs one bounded interpolation pass, returning errors
+// rather than partial text. It shares the environment's cumulative step budget.
+func (env *Environment) ExpandTextContext(ctx context.Context, text string) (string, error) {
+	m, err := newEvaluation(ctx, env)
+	if err != nil {
+		return "", err
 	}
-	val, _ := strconv.Atoi(s)
-	return val
+	out, err := m.expand(text)
+	if err != nil {
+		return "", m.failure(err)
+	}
+	return out, nil
 }
 
-// ExpandText replaces register and string references (\*[str] and \n[reg]) with their current environment values.
+// ExpandText is the compatibility wrapper. On failure it returns the original
+// text and records the error in Diagnostics. Use ExpandTextContext to handle errors.
 func (env *Environment) ExpandText(text string) string {
-	tokens, err := ParseInline(text)
-	if err != nil {
-		return text
+	out, err := env.ExpandTextContext(context.Background(), text)
+	if err == nil {
+		return out
 	}
-
-	var sb strings.Builder
-	for _, tok := range tokens {
-		switch tok.Kind {
-		case InlineStringRef:
-			if val, ok := env.GetString(tok.Name); ok {
-				sb.WriteString(val)
-			} else {
-				sb.WriteString(tok.Raw)
-			}
-		case InlineRegisterRef:
-			val := env.GetRegister(tok.Name)
-			sb.WriteString(strconv.Itoa(val))
-		default:
-			sb.WriteString(tok.Raw)
-		}
+	if env != nil {
+		env.Diagnostics = append(env.Diagnostics, EvaluationDiagnostic{TokenIndex: -1, Message: err.Error()})
 	}
-	return sb.String()
+	return text
 }

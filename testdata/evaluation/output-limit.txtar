@@ -1,0 +1,13 @@
+Interpolation expansion hits the configured byte limit before emitting a token.
+-- options.json --
+{"MaxOutputBytes":8}
+-- input.roff --
+.ds S 123456
+ok
+\*[S]\*[S]
+-- error.txt --
+output byte budget exceeded
+-- expected.txt --
+groff.TokenText "ok"
+string S="123456"
+error evaluate token 2 (): evaluation output byte budget exceeded (8)

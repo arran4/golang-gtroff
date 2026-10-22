@@ -222,6 +222,11 @@ for _, tok := range tokens {
 
 ### Optional Bounded Evaluation
 
+Evaluation is a separate opt-in pass. It returns partial output on errors and
+keeps earlier state changes. Inspect `env.Diagnostics` for preserved requests;
+use `EvaluateContext` for cancellation. The [evaluation guide](evaluation.md)
+documents supported syntax, byte/work limits and remaining #13 work.
+
 ```go
 input := `.nr PO 72
 .ds GREET Hello

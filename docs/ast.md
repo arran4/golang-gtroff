@@ -105,7 +105,7 @@ ambiguous or invalid handler results. [Custom handler contracts](library.md#cust
 describe precedence, concurrency and retained structural grammar.
 
 Other parent-parser work remains separate: catalogue-wide custom implementation
-validation (#5), full argument fidelity (#7), bounded evaluation (#13), and richer
+validation (#5), full argument fidelity (#7), broader evaluation (#13), and richer
 multiline/preprocessor grammar (#12/#14). AST source preservation is independent
 of legacy `DocumentToken.RawLine`, which still uses
 canonical formatting for successfully parsed multiline blocks. Do not use that
@@ -122,6 +122,11 @@ The #15 [syntax support report](catalogue-support.md) now computes plan gaps and
 executes all 518 catalogue routes in tests. It also found and repaired the small
 #7 optional-slot reservation/serialization defect in `.Pn`; it does not establish
 full grammar, evaluator or byte-exact legacy token serialization coverage.
+
+The #13 [bounded evaluation repair](evaluation.md) adds cancellation, limits on
+state/work/output/recursion and propagated expansion errors to the opt-in legacy
+profile. Unsupported tokens stay visible with diagnostics. Arithmetic, aliases,
+macro arguments and multiline conditionals still require separately scoped work.
 
 The #16 [generation repair](generation.md) renders every parser output before
 writing, adds a non-mutating check and restores earlier files on ordinary batch

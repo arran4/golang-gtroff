@@ -1,0 +1,20 @@
+Macros store raw lines; evaluation uses definitions current at invocation time.
+-- input.roff --
+.de HELLO
+\*[S]
+.if 1 .nr N +2
+..
+.ds S first
+.HELLO
+.ds S second
+.HELLO
+.de HELLO
+replacement
+..
+.HELLO
+-- expected.txt --
+groff.TokenText "first"
+groff.TokenText "second"
+groff.TokenText "replacement"
+register N=4
+string S="second"

@@ -1,0 +1,16 @@
+Definitions, relative register updates, string append/redefinition and removal.
+-- input.roff --
+.nr X 10 2
+.ds S old
+\n[X] \*[S]
+.nr X -3
+.as S -tail
+\nX \*S
+.ds S new
+.rr X
+\n[X] \*[S]
+-- expected.txt --
+groff.TokenText "10 old"
+groff.TokenText "7 old-tail"
+groff.TokenText "0 new"
+string S="new"
