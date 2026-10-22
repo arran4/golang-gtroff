@@ -186,6 +186,8 @@ The [document reader](docs/document.md) also exposes exact captured source,
 per-token raw bytes, partial results and configurable byte/line limits. AST
 reader failures return a partial tree with positioned causes; `SourceComplete()`
 distinguishes observed EOF from a captured prefix.
+The [HTTP library](docs/serve.md) shares its raw/decode byte budget across roots
+and failed page attempts, and aborts startup before listening when exhausted.
 [Block handlers](docs/blocks.md) inspect bounded raw regions with exact headers,
 bodies, terminators and spans; their registration never enables preprocessing
 or external execution automatically. The semantic model follows captured block

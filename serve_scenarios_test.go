@@ -66,6 +66,7 @@ func TestServeScenarios(t *testing.T) {
 			}
 			var tc struct {
 				Gzip            []string
+				CorruptGzip     []string
 				Limits          manlib.Limits
 				Error, Provider string
 				Requests        []struct {
@@ -89,6 +90,16 @@ func TestServeScenarios(t *testing.T) {
 					t.Fatal(e)
 				}
 				f.Data = out.Bytes()
+			}
+			for _, name := range tc.CorruptGzip {
+				compressed := false
+				for _, generated := range tc.Gzip {
+					compressed = compressed || generated == name
+				}
+				if !compressed {
+					t.Fatal("checksum corruption requires a generated gzip fixture")
+				}
+				sys[name].Data[len(sys[name].Data)-8] ^= 0xff
 			}
 			idx, err := manlib.Build(context.Background(), []manlib.Root{{Label: "fixture", FS: sys}}, tc.Limits)
 			if tc.Error != "" {
