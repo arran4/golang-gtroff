@@ -56,6 +56,11 @@ and explicit support/error expectations. The full generated report under
 `docs/generated/catalogue-support.json` is separate from those hand-edited cases;
 root conformance tests execute every report row against the actual parser.
 
+`cmd/gen/testdata/generation/*.txtar` exercises deterministic generation and
+invalid catalogue/template/Go output. Error cases leave original destinations
+intact. OS tests separately inject staging, replacement and rollback failures;
+ordinary checks do not create staging or rewrite files.
+
 `image/*.txtar` names source/options and expected textual layout, pagination,
 paths and diagnostics. Binary PNG/JPEG goldens are separate under `golden/image`.
 Normal tests do not modify them. Approve a refresh explicitly with

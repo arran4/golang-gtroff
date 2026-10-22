@@ -71,6 +71,14 @@ including md2png, were consulted read-only.
   untracked source files and formatted-reference prose are no longer presented as
   macro coverage. Minimal `.Pn` probing exposed the #7 optional-slot defect;
   matcher reservation and generated canonical serialization now have regressions.
+- The separate #16 generation repair renders/formats all four parser artifacts
+  before writing, uses a read-only `-check` gate, and stages complete output batches
+  with backups. The shared writer is also used for command documentation and
+  explicit example refreshes. Tests cover late template/format/path/staging/commit
+  failures, rollback and retained recovery backups when restoration fails.
+  Generated Go headers are recognized by `go/ast.IsGenerated`; Go-quoted command
+  literals preserve Unicode, quotes and backticks. Renames are per-file atomic,
+  without a cross-command, concurrent-writer or crash-atomicity claim.
 
 ### CLI and semantic model (#21–#22)
 

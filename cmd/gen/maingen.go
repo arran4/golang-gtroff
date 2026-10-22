@@ -1,17 +1,14 @@
 package main
 
 import (
-	"bytes"
 	"embed"
-	_ "embed"
+	"errors"
 	"flag"
 	"fmt"
-	"go/format"
 	"log"
 	"os"
 	"sort"
 	"strings"
-	"text/template"
 
 	"github.com/arran4/golang-gtroff/gen"
 )
@@ -21,11 +18,6 @@ var (
 	inJson []byte
 	//go:embed "*.template"
 	goTemplates embed.FS
-
-	outMacrosLoc    = flag.String("macrosloc", "macros.go", "Output file for macros")
-	outParselineLoc = flag.String("parselineloc", "parseline.go", "Output file for parse line")
-	outCatalogueLoc = flag.String("catalogueloc", "catalogue.go", "Output file for catalogue")
-	outSupportLoc   = flag.String("supportloc", "docs/generated/catalogue-support.json", "Output file for syntax support report")
 )
 
 type MacroDef struct {
@@ -98,38 +90,10 @@ var consolidatedSignatures = map[string]string{
 }
 
 func main() {
-	flag.Parse()
-	log.SetFlags(log.Flags() | log.Lshortfile)
-
-	cat, err := NormalizeCatalog(inJson)
-	if err != nil {
-		log.Fatalf("Normalize catalog error: %v", err)
+	if err := run(os.Args[1:], os.Stderr); err != nil && !errors.Is(err, flag.ErrHelp) {
+		fmt.Fprintln(os.Stderr, err)
+		os.Exit(1)
 	}
-
-	templates := template.Must(template.ParseFS(goTemplates, "*.template"))
-
-	// Validate the complete plan before replacing any generated output.
-	macrosData := prepareMacrosData(cat)
-	parselineData := prepareParselineData(cat, macrosData)
-	report := buildSupportReport(cat, macrosData, parselineData)
-	if report.Summary.UnexplainedGaps != 0 {
-		log.Fatalf("support plan has %d unexplained gaps", report.Summary.UnexplainedGaps)
-	}
-	reportJSON, err := report.JSON()
-	if err != nil {
-		log.Fatal(err)
-	}
-	GenerateFile(templates, macrosData, "macros.go.template", *outMacrosLoc)
-	GenerateFile(templates, parselineData, "parseline.go.template", *outParselineLoc)
-
-	// 3. Prepare Catalogue data
-	catalogueData := prepareCatalogueData(cat)
-	GenerateFile(templates, catalogueData, "catalogue.go.template", *outCatalogueLoc)
-	if err := writeGeneratedFile(*outSupportLoc, reportJSON); err != nil {
-		log.Fatal(err)
-	}
-
-	log.Println("Code generation complete.")
 }
 
 func prepareMacrosData(cat *Catalog) MacrosTemplateData {
@@ -320,40 +284,4 @@ func prepareCatalogueData(cat *Catalog) CatalogueTemplateData {
 		})
 	}
 	return CatalogueTemplateData{Entries: entries}
-}
-
-func GenerateFile(templates *template.Template, data any, templateFilename, outputFilename string) {
-	log.Printf("Generating: %s", outputFilename)
-
-	var buf bytes.Buffer
-	if err := templates.ExecuteTemplate(&buf, templateFilename, data); err != nil {
-		log.Fatalf("Template execution error for %s: %v", templateFilename, err)
-	}
-
-	formatted, err := format.Source(buf.Bytes())
-	if err != nil {
-		// Print lines around error for easier debugging
-		lines := strings.Split(buf.String(), "\n")
-		for i, line := range lines {
-			if i < 40 {
-				log.Printf("%4d: %s", i+1, line)
-			}
-		}
-		log.Fatalf("format.Source failed for %s: %v", outputFilename, err)
-	}
-
-	if err := writeGeneratedFile(outputFilename, formatted); err != nil {
-		log.Fatal(err)
-	}
-}
-
-func writeGeneratedFile(outputFilename string, data []byte) error {
-	tmpFile := outputFilename + ".tmp"
-	if err := os.WriteFile(tmpFile, data, 0644); err != nil {
-		return fmt.Errorf("write generated file %s: %w", tmpFile, err)
-	}
-	if err := os.Rename(tmpFile, outputFilename); err != nil {
-		return fmt.Errorf("replace generated file %s: %w", outputFilename, err)
-	}
-	return nil
 }

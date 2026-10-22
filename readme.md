@@ -182,6 +182,7 @@ entry and the parser route exercised by tests, separately from evaluation.
 ```sh
 go test ./...
 go vet ./...
+go run ./cmd/gen -check
 go generate ./...
 ```
 
@@ -189,7 +190,14 @@ Generation rebuilds macro/request definitions, dispatchers and catalogue from
 `cmd/gen/in.json`, `schema.go` and templates, regenerates
 [the syntax support matrix](docs/generated/catalogue-support.json),
 [man pages and completions](docs/generated), and **checks** committed CLI examples.
-It does not refresh example expectations. To approve a refresh:
+It does not refresh example expectations.
+
+The parser generator renders/formats every output before writing. Generated
+output batches stage first and restore earlier files if a later replacement
+fails. [Generation and recovery limits](docs/generation.md) describe check mode,
+owned staging and the single-writer contract.
+
+To approve an example refresh:
 
 ```sh
 go run ./cmd/examples --write

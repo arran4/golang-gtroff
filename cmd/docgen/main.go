@@ -53,13 +53,8 @@ func run(args []string) error {
 				return err
 			}
 		}
-		if err := atomicfile.WriteMany("", outputs); err != nil {
+		if err := atomicfile.WriteGenerated(outputs); err != nil {
 			return err
-		}
-		for _, out := range outputs {
-			if err := os.Chmod(out.Path, 0644); err != nil {
-				return err
-			}
 		}
 	}
 	for _, out := range outputs {
