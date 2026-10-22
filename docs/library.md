@@ -104,6 +104,12 @@ Process input files.
 }
 ```
 
+`Document.Source()` and each token's `RawSource` retain read bytes independently
+of typed/canonical formatting. `SourceComplete` records observed EOF; partial
+results are returned with strict syntax or input errors. See
+[document source, span and budget contracts](document.md), including the
+executable `ExampleDocument_Source`. The independent AST is the structural API.
+
 ### Custom line handlers
 
 Implement `CustomHandler` and register it with `NewRegistry().RegisterCustom`.
@@ -159,13 +165,17 @@ to `ParseDocument` remains caller-owned.
 
 The parser bounds nested includes for every resolver (default 10, maximum 128),
 detects repeated active include names, and forwards line/line-length limits to
-each included source. These are per-source line limits, not a total byte budget
-across the include tree. The directory resolver also detects active file aliases
+each included source. Line limits apply per source; `WithDocumentBytes` bounds
+total reader bytes across the root and includes (default 8 MiB). The directory
+resolver also detects active file aliases
 and bounds open include readers with its `MaxDepth`; closing a reader releases
 that reservation, so sequential/repeated sibling includes and resolver reuse
 work. Configure resolver fields before concurrent use. Included diagnostics and
-source locations are retained. Strict mode rejects failed includes; permissive
-mode preserves the refused directive and reports a warning.
+source locations are retained. `Document.Includes` retains child sources and
+directive spans, even when a child returns partial results. Strict mode rejects
+failed includes; permissive mode preserves the refused directive and reports a
+warning for resolver/syntax failures. Terminal child reader/resource errors
+always propagate as errors.
 
 `ParseAST`, the new CLI, exporters and man-library server never execute includes.
 This repair addresses containment, reader ownership and recursion under #12;

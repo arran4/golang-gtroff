@@ -1,0 +1,13 @@
+Strict failure returns a partial document and retains already-buffered tail bytes.
+-- options.json --
+{"Strict":true}
+-- input.1 --
+.B "unclosed
+retained tail
+-- error.txt --
+quote wasn't closed
+-- expected.txt --
+sourceComplete=false bytes=27
+*groff.TokenUnknownControl [0,13) 1:1-2:1 raw=".B \"unclosed\n" canonical=".B \"unclosed"
+*groff.TokenUnknownControl [13,27) 2:1-3:1 raw="retained tail\n" canonical="retained tail"
+error 1:1 parse TokenManB arguments: "unclosed, quote wasn't closed: stack "

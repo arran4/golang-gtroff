@@ -1,6 +1,7 @@
 package main
 
 import (
+	"errors"
 	"flag"
 	"fmt"
 	"io"
@@ -50,24 +51,32 @@ func processFile(fn string) error {
 }
 
 func processReader(sourceName string, r io.Reader) error {
-	doc, err := groff.ParseDocument(r,
+	return processReaderTo(sourceName, r, os.Stdout, os.Stderr,
 		groff.WithPackage(*pkgFlag),
 		groff.WithStrict(*strictFlag),
-		groff.WithSourceName(sourceName),
 	)
-	if err != nil {
-		return err
+}
+
+func processReaderTo(sourceName string, r io.Reader, out, errOut io.Writer, opts ...groff.Option) error {
+	opts = append(opts, groff.WithSourceName(sourceName))
+	doc, parseErr := groff.ParseDocument(r, opts...)
+	if doc == nil {
+		return parseErr
 	}
 
 	for _, dt := range doc.Tokens {
-		fmt.Printf("%s:%d:%d: %s\n", dt.Span.Start.Filename, dt.Span.Start.Line, dt.Span.Start.Column, dt.Token.String())
+		if _, err := fmt.Fprintf(out, "%s:%d:%d: %s\n", dt.Span.Start.Filename, dt.Span.Start.Line, dt.Span.Start.Column, dt.Token.String()); err != nil {
+			return errors.Join(parseErr, err)
+		}
 	}
 
 	for _, diag := range doc.Diagnostics {
-		fmt.Fprintf(os.Stderr, "%s:%d:%d: %s: %s\n", diag.Position.Filename, diag.Position.Line, diag.Position.Column, diag.Severity, diag.Message)
+		if _, err := fmt.Fprintf(errOut, "%s:%d:%d: %s: %s\n", diag.Position.Filename, diag.Position.Line, diag.Position.Column, diag.Severity, diag.Message); err != nil {
+			return errors.Join(parseErr, err)
+		}
 	}
 
-	return nil
+	return parseErr
 }
 
 // ParseFile provides backwards compatibility for programmatic use.
@@ -82,7 +91,7 @@ func ParseFile(fn string) ([]groff.Token, error) {
 		groff.WithSourceName(fn),
 		groff.WithStrict(false),
 	)
-	if err != nil {
+	if doc == nil {
 		return nil, err
 	}
 
@@ -90,5 +99,5 @@ func ParseFile(fn string) ([]groff.Token, error) {
 	for i, dt := range doc.Tokens {
 		tokens[i] = dt.Token
 	}
-	return tokens, nil
+	return tokens, err
 }

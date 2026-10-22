@@ -1,0 +1,4 @@
+An empty source is complete and has no fabricated token.
+-- input.1 --
+-- expected.txt --
+sourceComplete=true bytes=0
