@@ -7815,7 +7815,7 @@ func LookupCatalogue(token string, pkg string) *CatalogueDefinition {
 	return fallback
 }
 
-// CatalogueEntries returns all 518 canonical entries.
+// CatalogueEntries returns all canonical entries.
 func CatalogueEntries() []CatalogueDefinition {
 	out := make([]CatalogueDefinition, len(AllCatalogueDefinitions))
 	copy(out, AllCatalogueDefinitions)

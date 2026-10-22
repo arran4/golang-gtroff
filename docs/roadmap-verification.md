@@ -62,6 +62,15 @@ including md2png, were consulted read-only.
   a subprocess verifies the legacy global API without polluting other tests. A
   pre/post probe changed both document/AST handler call counts from 0 (rejected)
   to 1 (accepted). Catalogue-wide implementation validation remains under #5.
+- The separate #15 support report computes coverage from the real generation
+  plan and executes each of 518 claimed syntax routes (336 generated, 11 custom,
+  171 inline-preserved). Negative plan mutations, invalid-data TXTAR and a
+  normalization fuzz target exercise missing definitions/dispatch, ambiguity and
+  bad classification. The report explicitly leaves evaluation unassessed.
+  Required file fixtures reject errors/diagnostics and retain blank lines; optional
+  untracked source files and formatted-reference prose are no longer presented as
+  macro coverage. Minimal `.Pn` probing exposed the #7 optional-slot defect;
+  matcher reservation and generated canonical serialization now have regressions.
 
 ### CLI and semantic model (#21–#22)
 

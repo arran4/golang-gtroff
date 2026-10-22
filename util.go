@@ -7,7 +7,13 @@ import (
 
 func ForwardMatcher(args []string, optional ...bool) ([]string, error) {
 	result := make([]string, len(optional))
+	required := requiredArguments(optional)
 	for i, opt := range optional {
+		if !opt {
+			required--
+		} else if len(args) <= required {
+			continue // Reserve arguments for the required slots still to bind.
+		}
 		if i == len(optional)-1 {
 			// Last slot, consume all remaining args
 			if len(args) > 0 {
@@ -30,8 +36,14 @@ func ForwardMatcher(args []string, optional ...bool) ([]string, error) {
 
 func BackwardMatcher(args []string, optional ...bool) ([]string, error) {
 	result := make([]string, len(optional))
+	required := requiredArguments(optional)
 	for i := len(optional) - 1; i >= 0; i-- {
 		opt := optional[i]
+		if !opt {
+			required--
+		} else if len(args) <= required {
+			continue
+		}
 		if i == 0 {
 			// First slot, consume all remaining args
 			if len(args) > 0 {
@@ -50,6 +62,16 @@ func BackwardMatcher(args []string, optional ...bool) ([]string, error) {
 		}
 	}
 	return result, nil
+}
+
+func requiredArguments(optional []bool) int {
+	n := 0
+	for _, opt := range optional {
+		if !opt {
+			n++
+		}
+	}
+	return n
 }
 
 func Quote(s string) string {

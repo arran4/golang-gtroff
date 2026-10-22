@@ -107,11 +107,16 @@ describe precedence, concurrency and retained structural grammar.
 Other parent-parser work remains separate: catalogue-wide custom implementation
 validation (#5), full argument fidelity (#7), document streaming/fidelity and
 consistent legacy spans (#11), bounded evaluation (#13), richer multiline/preprocessor grammar
-(#12/#14), honest catalogue coverage (#15), and multi-output generation atomicity
+(#12/#14), and multi-output generation atomicity
 (#16). AST source preservation is independent of legacy `DocumentToken.RawLine`, which still uses
 canonical formatting for successfully parsed multiline blocks. Do not use that
 legacy field as a byte-exact source archive. Multi-line heading interpretation
 and fuller man paragraph semantics belong to #22; raw lines remain selectable.
+
+The #15 [syntax support report](catalogue-support.md) now computes plan gaps and
+executes all 518 catalogue routes in tests. It also found and repaired the small
+#7 optional-slot reservation/serialization defect in `.Pn`; it does not establish
+full grammar, evaluator or byte-exact legacy token serialization coverage.
 
 ## Scenario verification
 

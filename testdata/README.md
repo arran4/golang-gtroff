@@ -51,6 +51,11 @@ and AST APIs, with package isolation, generated fallback, preserved source vs.
 custom token formatting, syntax failures, ambiguous matches and nil results.
 These small text expectations are edited explicitly; tests never refresh them.
 
+`cmd/gen/testdata/catalogue/*.txtar` contains small declarative catalogue inputs
+and explicit support/error expectations. The full generated report under
+`docs/generated/catalogue-support.json` is separate from those hand-edited cases;
+root conformance tests execute every report row against the actual parser.
+
 `image/*.txtar` names source/options and expected textual layout, pagination,
 paths and diagnostics. Binary PNG/JPEG goldens are separate under `golden/image`.
 Normal tests do not modify them. Approve a refresh explicitly with

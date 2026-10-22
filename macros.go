@@ -3793,9 +3793,6 @@ func (t *TokenMacroPn) String() string {
 	args = append(args, t.Punct)
 	args = append(args, t.Path)
 	args = append(args, t.Punct2)
-	for len(args) > 0 && args[len(args)-1] == "" {
-		args = args[:len(args)-1]
-	}
 	for i, arg := range args {
 		args[i] = Quote(arg)
 	}

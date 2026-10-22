@@ -25,6 +25,7 @@ var (
 	outMacrosLoc    = flag.String("macrosloc", "macros.go", "Output file for macros")
 	outParselineLoc = flag.String("parselineloc", "parseline.go", "Output file for parse line")
 	outCatalogueLoc = flag.String("catalogueloc", "catalogue.go", "Output file for catalogue")
+	outSupportLoc   = flag.String("supportloc", "docs/generated/catalogue-support.json", "Output file for syntax support report")
 )
 
 type MacroDef struct {
@@ -36,6 +37,7 @@ type MacroDef struct {
 	Package              string
 	ArgWords             []*gen.Word
 	Forwards             bool
+	KeepArgumentSlots    bool
 }
 
 type MacrosTemplateData struct {
@@ -73,16 +75,16 @@ type CatalogueTemplateData struct {
 }
 
 var consolidatedSignatures = map[string]string{
-	".po": "[offset]",
-	".in": "[indent]",
-	".ll": "[length]",
-	".pl": "[length]",
-	".lt": "[length]",
-	".pn": "page",
-	".bp": "[page]",
-	".bd": "font [font2 [offset]]",
-	".ps": "[size]",
-	".vs": "[space]",
+	".po":  "[offset]",
+	".in":  "[indent]",
+	".ll":  "[length]",
+	".pl":  "[length]",
+	".lt":  "[length]",
+	".pn":  "page",
+	".bp":  "[page]",
+	".bd":  "font [font2 [offset]]",
+	".ps":  "[size]",
+	".vs":  "[space]",
 	".pvs": "[space]",
 	".ft":  "[font]",
 	".ti":  "offset",
@@ -106,17 +108,26 @@ func main() {
 
 	templates := template.Must(template.ParseFS(goTemplates, "*.template"))
 
-	// 1. Prepare Macros data
+	// Validate the complete plan before replacing any generated output.
 	macrosData := prepareMacrosData(cat)
-	GenerateFile(templates, macrosData, "macros.go.template", *outMacrosLoc)
-
-	// 2. Prepare Parseline data
 	parselineData := prepareParselineData(cat, macrosData)
+	report := buildSupportReport(cat, macrosData, parselineData)
+	if report.Summary.UnexplainedGaps != 0 {
+		log.Fatalf("support plan has %d unexplained gaps", report.Summary.UnexplainedGaps)
+	}
+	reportJSON, err := report.JSON()
+	if err != nil {
+		log.Fatal(err)
+	}
+	GenerateFile(templates, macrosData, "macros.go.template", *outMacrosLoc)
 	GenerateFile(templates, parselineData, "parseline.go.template", *outParselineLoc)
 
 	// 3. Prepare Catalogue data
 	catalogueData := prepareCatalogueData(cat)
 	GenerateFile(templates, catalogueData, "catalogue.go.template", *outCatalogueLoc)
+	if err := writeGeneratedFile(*outSupportLoc, reportJSON); err != nil {
+		log.Fatal(err)
+	}
 
 	log.Println("Code generation complete.")
 }
@@ -126,6 +137,9 @@ func prepareMacrosData(cat *Catalog) MacrosTemplateData {
 	var structNames []string
 
 	for _, e := range cat.Entries {
+		if e == nil {
+			continue
+		}
 		if e.Kind != KindMacro && e.Kind != KindRequest {
 			continue
 		}
@@ -195,6 +209,16 @@ func prepareMacrosData(cat *Catalog) MacrosTemplateData {
 			ArgWords:             words,
 			Forwards:             forwards,
 		}
+		optionalSeen := false
+		for _, word := range words {
+			if word.Optional {
+				optionalSeen = true
+			} else if optionalSeen {
+				// A serializer must retain positional empty slots around required
+				// arguments (e.g. .Pn [punct] path [punct]).
+				def.KeepArgumentSlots = true
+			}
+		}
 
 		defsByStruct[structName] = def
 		structNames = append(structNames, structName)
@@ -235,7 +259,7 @@ func prepareParselineData(cat *Catalog, macrosData MacrosTemplateData) Parseline
 
 	// For colliding tokens, ensure both DefaultParser and MsParser are set
 	for _, e := range cat.Entries {
-		if e.HasCollision && strings.HasPrefix(e.Token, ".") {
+		if e != nil && e.HasCollision && strings.HasPrefix(e.Token, ".") {
 			d := dispatches[e.Token]
 			d.HasVariants = true
 			cleanName := sanitizeIdentifier(e.Name)
@@ -318,12 +342,18 @@ func GenerateFile(templates *template.Template, data any, templateFilename, outp
 		log.Fatalf("format.Source failed for %s: %v", outputFilename, err)
 	}
 
-	tmpFile := outputFilename + ".tmp"
-	if err := os.WriteFile(tmpFile, formatted, 0644); err != nil {
-		log.Fatalf("Failed to write temp file %s: %v", tmpFile, err)
+	if err := writeGeneratedFile(outputFilename, formatted); err != nil {
+		log.Fatal(err)
 	}
+}
 
-	if err := os.Rename(tmpFile, outputFilename); err != nil {
-		log.Fatalf("Failed to rename %s to %s: %v", tmpFile, outputFilename, err)
+func writeGeneratedFile(outputFilename string, data []byte) error {
+	tmpFile := outputFilename + ".tmp"
+	if err := os.WriteFile(tmpFile, data, 0644); err != nil {
+		return fmt.Errorf("write generated file %s: %w", tmpFile, err)
 	}
+	if err := os.Rename(tmpFile, outputFilename); err != nil {
+		return fmt.Errorf("replace generated file %s: %w", outputFilename, err)
+	}
+	return nil
 }
