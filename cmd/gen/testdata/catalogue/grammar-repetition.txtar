@@ -1,0 +1,5 @@
+Malformed argument declarations fail before generation.
+-- catalogue.json --
+[{"Contents": [{"Type": "Request", "Token": ".new", "Args": "value", "ArgumentGrammar": {"mode": "fixed", "step": 2}}]}]
+-- error.txt --
+repetition controls require variadic

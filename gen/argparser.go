@@ -143,7 +143,7 @@ func ParseArgs(in string) (result *ArgStruct, err error) {
 		}
 		if word == "String" {
 			word = "StringVal"
-		} else if word == "TokenName" || word == "TokenKind" || word == "PackageName" {
+		} else if word == "TokenName" || word == "TokenKind" || word == "PackageName" || word == "CanonicalString" || word == "ArgumentGrammar" {
 			word = "Arg" + word
 		}
 

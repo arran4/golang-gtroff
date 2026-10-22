@@ -184,7 +184,10 @@ per-token raw bytes, partial results and configurable byte/line limits.
 The [syntax support report](docs/catalogue-support.md) lists every canonical
 entry and the parser route exercised by tests, separately from evaluation.
 The [argument API](docs/arguments.md) retains raw quoting/comments and byte spans;
-checked formatting reports values it cannot encode faithfully.
+checked formatting reports values it cannot encode faithfully. Generated line
+parsers use declared fixed, repeating and raw-tail binding policies, so surplus
+`.TH`/`.IP` fields produce diagnostics. Use `CanonicalToken` for checked typed
+field formatting; exact source remains a separate snapshot.
 
 ```sh
 go test ./...

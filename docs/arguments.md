@@ -88,27 +88,87 @@ their existing formatting behavior and do not acquire a universal round-trip
 promise. Representative constructed `.TH`, `.IP` and `.Pn` field round trips are
 covered separately from raw-source preservation.
 
-## Arity and remaining #7 work
+## Declared typed-field binding
 
-Ordinary generated parsers with zero argument fields now reject extra values
-through both compatibility matchers. This includes explicit empty arguments:
-`.nf ""` has one argument. `ErrUnexpectedArguments`/
-`UnexpectedArgumentsError` retain count information through generated wrappers.
-The catalogue route test executes this rejection for all 85 generated zero-field
-routes in the current source. Comments do not count as arguments.
+Generated line parsers now use `BindArguments` with an `ArgumentGrammar` compiled
+from `cmd/gen/in.json`. Omitted policy means fixed arity from the effective
+catalogue signature. Fixed forms reject surplus arguments, including explicit
+empty arguments: `.TH T 1 a b c extra`, `.IP tag 4 extra` and `.nf ""` fail.
+`ErrMissingArguments`, `ErrUnexpectedArguments` and `ErrInvalidArguments` remain
+accessible through generated error wrappers. Missing-argument diagnostics now
+include actual/minimum counts; ordinary unclosed-quote diagnostics retain their
+legacy text and typed cause.
+
+Each generated token exposes `ArgumentGrammar()` as fresh metadata. It describes
+field optionalness, binding direction, named literal flags, numeric-expression
+slots and explicit aggregate policy. The generated syntax report adds
+`argument_mode`, `minimum_arguments` and `maximum_arguments` (`-1` means no fixed
+maximum). Counts describe grammar units, which can contain spaces, rather than
+blindly counting whitespace-separated words. These are binding policies, not
+claims that the full GNU language or evaluator is implemented.
+
+| Policy | Typed projection |
+| --- | --- |
+| `fixed` | One argument per field, reserving required positions. `.Pn` explicitly retains its historical right binding. `.NT` recognizes literal `C`; `.VS` recognizes literal `4`. |
+| `joined` | The declared final field joins remaining decoded arguments with spaces, as with man text/heading macros. |
+| `variadic` | Declared minimum, prefix and repeated group size; only the named final field joins the remainder. `.hcode` and `.hpfcode` require complete pairs. |
+| `raw` | Required prefix fields plus an uninterpreted tail, including its quotes and comments. |
+| `string` | Prefix plus string contents, stripping one neutral opening quote and an unescaped comment suffix; trailing spaces remain data. |
+| `register` | Name, one numeric expression, optional increment expression. |
+| `conditional` | Predicate plus raw body; numeric parentheses and single-quote comparisons retain internal whitespace. `.while` requires a body. |
+| `delimited` | Three fields separated and surrounded by one delimiter, retained together in the existing scalar field (`.tl`, ms page headers/footers). |
+
+Numeric slots group balanced parentheses and skip escape/reference spellings,
+including parentheses in bracketed reference names. They do not evaluate values,
+validate units or prove arithmetic validity. For example, `.nr X (3 + 5)*4 2`
+now binds `Value="(3 + 5)*4"` and `Incr="2"`; evaluation remains opt-in.
+
+The string policy follows the request-specific neutral-quote convention rather
+than ordinary argument quoting: `.ds S "  unfinished string` is valid and retains
+the two leading spaces. See GNU's [string request grammar](https://www.gnu.org/software/groff/manual/groff.html.node/Strings.html).
+String contents are retained before evaluation/copy-mode expansion; this binder
+does not execute interpolation or the full copy-mode language.
 
 `ParseDocument` preserves an invalid request as an unknown control and records a
 diagnostic in permissive mode. Strict mode returns the partial document and an
-error. Neither mode discards its raw source. Special multiline document handlers
-retain their separate header/body grammar.
+error. Both retain its raw source. Special multiline document handlers retain
+their separate header/body grammar; these declarations apply to generated line
+parsers.
 
-This is part of [#7](https://github.com/arran4/golang-gtroff/issues/7).
-**Nonzero legacy matchers still join excess values into an end field**. Full
-catalogue fixed/optional/repeating/raw-rest binding declarations and serializers,
-special request grammars and broader fidelity remain unfinished. In particular,
-this change does not claim that arbitrary `.TH`/`.IP` extras are validated or
-that legacy typed fields retain original argument boundaries. The generated
-syntax report remains separate from these grammar contracts.
+## Checked typed-token formatting and limits
+
+`CanonicalToken(token)` and generated `token.CanonicalString()` format current
+fields through their declared policy, then bind the result and check field
+equality. They return `ErrArgumentEncoding` when data cannot be encoded without
+changing fields. Raw bodies are emitted as syntax rather than quoted as one
+ordinary argument. A string containing a comment introducer that would discard
+part of the field is rejected. Physical line endings are rejected. Required
+empty ordinary fields, positional optional gaps and absent literal flags receive
+distinct handling. See the [executable example](../arguments_example_test.go).
+
+Successful checked output promises equality of the existing typed fields, not
+original argument boundaries or original source bytes. In particular, alternating
+font macros, repeated lists, `.ta`, `.sizes` and `.NH` retain their scalar/joined
+projections. Repetition counts do not fully validate tab-stop flags, size-list
+terminators or hierarchical heading semantics. Rich conditional tests with
+separate operands and arbitrary comparison delimiters remain future grammar
+work. The older one-word comparison shorthand without its final single quote
+remains accepted for compatibility and can be ambiguous if a later body contains
+a single quote. Use the complete three-delimiter form.
+
+The legacy `ForwardMatcher`, `BackwardMatcher`, `Quote` and
+`String()` remain compatibility APIs. Nonzero legacy matchers still join an end
+field, but generated parsers no longer use them. `String()` still uses legacy
+formatting and has no universal round-trip guarantee; use checked formatting
+when typed-field preservation matters, and `Source()`/document source snapshots
+when exact source spelling matters.
+
+This is a follow-up for [#7](https://github.com/arran4/golang-gtroff/issues/7),
+not closure of its full grammar/fidelity scope. Seventeen binding TXTAR cases
+check expected fields independently of serialization. Invalid syntax/arity is
+checked separately in both document modes. Every generated dispatch example is
+checked for canonical field equality; all 271 fixed catalogue routes reject
+surplus fields. Generator fixtures reject malformed and conflicting policies.
 
 Seven small argument TXTAR scenarios cover bytes, indices, quoting, comments,
 invalid bytes and partial errors; a document scenario verifies arity recovery.

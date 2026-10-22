@@ -1,0 +1,5 @@
+Special request syntax is bound without evaluation.
+-- input.roff --
+.length X
+-- fields.json --
+{"Reg": "X", "Str": ""}

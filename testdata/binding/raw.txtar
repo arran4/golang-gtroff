@@ -1,0 +1,5 @@
+A raw tail can contain an unmatched quote.
+-- input.roff --
+.write stream "unfinished
+-- fields.json --
+{"Stream": "stream", "Data": "\"unfinished"}

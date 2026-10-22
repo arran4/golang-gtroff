@@ -82,6 +82,10 @@ func LexArguments(source string) ([]ArgumentLexeme, int, error) {
 }
 
 func scanArguments(source string, capture argumentCapture) (ArgumentList, error) {
+	return scanArgumentsLimit(source, capture, -1)
+}
+
+func scanArgumentsLimit(source string, capture argumentCapture, limit int) (ArgumentList, error) {
 	list := ArgumentList{source: source}
 	pos, runePos := 0, 0
 	advance := func() {
@@ -89,7 +93,8 @@ func scanArguments(source string, capture argumentCapture) (ArgumentList, error)
 		pos += width
 		runePos++
 	}
-	for pos < len(source) {
+	count := 0
+	for pos < len(source) && (limit < 0 || count < limit) {
 		for pos < len(source) && (source[pos] == ' ' || source[pos] == '\t') {
 			pos++
 			runePos++
@@ -157,6 +162,7 @@ func scanArguments(source string, capture argumentCapture) (ArgumentList, error)
 			list.err = &ArgumentSyntaxError{Span: list.unparsed, RuneStart: runeStart, RuneEnd: runePos}
 			return list, list.err
 		}
+		count++
 		if capture == captureArgumentValues {
 			list.values = append(list.values, value.String())
 		} else {

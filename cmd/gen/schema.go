@@ -39,25 +39,27 @@ type RawContainer struct {
 }
 
 type RawContent struct {
-	Type  string `json:"Type"`
-	Token string `json:"Token"`
-	Args  string `json:"Args"`
+	ArgumentGrammar *ArgumentPolicy `json:"ArgumentGrammar,omitempty"`
+	Type            string          `json:"Type"`
+	Token           string          `json:"Token"`
+	Args            string          `json:"Args"`
 }
 
 // NormalizedEntry is the canonical definition for each item in the catalogue
 type NormalizedEntry struct {
-	Index        int            `json:"index"`
-	Kind         DefinitionKind `json:"kind"`
-	Package      PackageName    `json:"package"`
-	Token        string         `json:"token"`
-	Name         string         `json:"name"`
-	GoName       string         `json:"go_name"`
-	ArgsRaw      string         `json:"args_raw"`
-	Description  string         `json:"description"`
-	Provenance   string         `json:"provenance"`
-	IsCustom     bool           `json:"is_custom"`
-	Status       Status         `json:"status"`
-	HasCollision bool           `json:"has_collision"`
+	ArgumentGrammar *ArgumentPolicy `json:"argument_grammar,omitempty"`
+	Index           int             `json:"index"`
+	Kind            DefinitionKind  `json:"kind"`
+	Package         PackageName     `json:"package"`
+	Token           string          `json:"token"`
+	Name            string          `json:"name"`
+	GoName          string          `json:"go_name"`
+	ArgsRaw         string          `json:"args_raw"`
+	Description     string          `json:"description"`
+	Provenance      string          `json:"provenance"`
+	IsCustom        bool            `json:"is_custom"`
+	Status          Status          `json:"status"`
+	HasCollision    bool            `json:"has_collision"`
 }
 
 type Catalog struct {
@@ -158,17 +160,18 @@ func NormalizeCatalog(inJson []byte) (*Catalog, error) {
 			goName := buildGoName(kind, pkg, token, cleanName)
 
 			entry := &NormalizedEntry{
-				Index:       idx,
-				Kind:        kind,
-				Package:     pkg,
-				Token:       token,
-				Name:        cleanName,
-				GoName:      goName,
-				ArgsRaw:     argsRaw,
-				Description: desc,
-				Provenance:  prov,
-				IsCustom:    isCustom,
-				Status:      status,
+				ArgumentGrammar: m.ArgumentGrammar,
+				Index:           idx,
+				Kind:            kind,
+				Package:         pkg,
+				Token:           token,
+				Name:            cleanName,
+				GoName:          goName,
+				ArgsRaw:         argsRaw,
+				Description:     desc,
+				Provenance:      prov,
+				IsCustom:        isCustom,
+				Status:          status,
 			}
 			entries = append(entries, entry)
 			idx++
@@ -262,6 +265,7 @@ func (c *Catalog) Validate() error {
 		return fmt.Errorf("empty catalogue")
 	}
 	goNames := map[string]string{}
+	grammars := map[string]string{}
 	for i, entry := range c.Entries {
 		if err := validateEntry(entry); err != nil {
 			return err
@@ -275,6 +279,18 @@ func (c *Catalog) Validate() error {
 				return fmt.Errorf("tokens %q and %q collide as %s", previous, entry.Token, key)
 			}
 			goNames[key] = entry.Token
+			words, err := entryArgumentWords(entry)
+			if err != nil {
+				return err
+			}
+			plan, err := planArguments(entry, words)
+			if err != nil {
+				return err
+			}
+			if previous, exists := grammars[key]; exists && previous != plan.Literal {
+				return fmt.Errorf("conflicting argument grammars for %s", entry.Token)
+			}
+			grammars[key] = plan.Literal
 		}
 	}
 	return nil
@@ -292,9 +308,12 @@ type CoverageSummary struct {
 	UnexplainedGaps      int            `json:"unexplained_gaps"`
 }
 
-func (c *Catalog) GenerateCoverageSummary() CoverageSummary {
-	macros := prepareMacrosData(c)
-	return buildSupportReport(c, macros, prepareParselineData(c, macros)).Summary
+func (c *Catalog) GenerateCoverageSummary() (CoverageSummary, error) {
+	macros, err := prepareMacrosData(c)
+	if err != nil {
+		return CoverageSummary{}, err
+	}
+	return buildSupportReport(c, macros, prepareParselineData(c, macros)).Summary, nil
 }
 
 func (c *Catalog) declarationSummary() CoverageSummary {

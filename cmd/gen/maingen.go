@@ -5,7 +5,6 @@ import (
 	"errors"
 	"flag"
 	"fmt"
-	"log"
 	"os"
 	"sort"
 	"strings"
@@ -21,6 +20,7 @@ var (
 )
 
 type MacroDef struct {
+	ArgumentPlan         argumentPlan
 	StructName           string
 	Aliases              []string
 	DescriptionCommented string
@@ -28,7 +28,6 @@ type MacroDef struct {
 	Kind                 string
 	Package              string
 	ArgWords             []*gen.Word
-	Forwards             bool
 	KeepArgumentSlots    bool
 }
 
@@ -96,7 +95,7 @@ func main() {
 	}
 }
 
-func prepareMacrosData(cat *Catalog) MacrosTemplateData {
+func prepareMacrosData(cat *Catalog) (MacrosTemplateData, error) {
 	defsByStruct := map[string]*MacroDef{}
 	var structNames []string
 
@@ -132,14 +131,6 @@ func prepareMacrosData(cat *Catalog) MacrosTemplateData {
 			structName = "TokenRequest" + cleanName
 		}
 
-		if existing, ok := defsByStruct[structName]; ok {
-			// Append description if not duplicate
-			if !strings.Contains(existing.DescriptionCommented, e.Description) && len(e.Description) > 0 {
-				existing.DescriptionCommented += "\n//\n// " + strings.Join(strings.Split(e.Description, "\n"), "\n// ")
-			}
-			continue
-		}
-
 		// Determine signature
 		sig := e.ArgsRaw
 		if override, ok := consolidatedSignatures[e.Token]; ok {
@@ -147,14 +138,12 @@ func prepareMacrosData(cat *Catalog) MacrosTemplateData {
 		}
 
 		var words []*gen.Word
-		forwards := false
 		if len(strings.TrimSpace(sig)) > 0 {
 			a, err := gen.ParseArgs(sig)
 			if err != nil {
-				log.Printf("Warning: failed to parse signature %q for %s: %v", sig, e.Token, err)
+				return MacrosTemplateData{}, fmt.Errorf("signature %q for %s: %w", sig, e.Token, err)
 			} else {
 				words = a.Words
-				forwards = a.Forwards()
 			}
 		}
 
@@ -163,7 +152,21 @@ func prepareMacrosData(cat *Catalog) MacrosTemplateData {
 			descCommented = "// " + strings.Join(strings.Split(e.Description, "\n"), "\n// ")
 		}
 
+		plan, err := planArguments(e, words)
+		if err != nil {
+			return MacrosTemplateData{}, fmt.Errorf("%s argument grammar: %w", e.Token, err)
+		}
+		if existing, ok := defsByStruct[structName]; ok {
+			if existing.ArgumentPlan.Literal != plan.Literal {
+				return MacrosTemplateData{}, fmt.Errorf("conflicting argument grammars for %s", e.Token)
+			}
+			if !strings.Contains(existing.DescriptionCommented, e.Description) && e.Description != "" {
+				existing.DescriptionCommented += "\n//\n// " + strings.Join(strings.Split(e.Description, "\n"), "\n// ")
+			}
+			continue
+		}
 		def := &MacroDef{
+			ArgumentPlan:         plan,
 			StructName:           structName,
 			Aliases:              aliases,
 			DescriptionCommented: descCommented,
@@ -171,7 +174,6 @@ func prepareMacrosData(cat *Catalog) MacrosTemplateData {
 			Kind:                 string(e.Kind),
 			Package:              string(e.Package),
 			ArgWords:             words,
-			Forwards:             forwards,
 		}
 		optionalSeen := false
 		for _, word := range words {
@@ -194,7 +196,7 @@ func prepareMacrosData(cat *Catalog) MacrosTemplateData {
 		orderedDefs = append(orderedDefs, defsByStruct[name])
 	}
 
-	return MacrosTemplateData{Definitions: orderedDefs}
+	return MacrosTemplateData{Definitions: orderedDefs}, nil
 }
 
 func prepareParselineData(cat *Catalog, macrosData MacrosTemplateData) ParselineTemplateData {

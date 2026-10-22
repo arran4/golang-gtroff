@@ -1,0 +1,5 @@
+A neutral opening quote needs no closing quote; trailing spaces are data.
+-- input.roff --
+.ds S "  unfinished string  
+-- fields.json --
+{"Name": "S", "StringVal": "  unfinished string  "}

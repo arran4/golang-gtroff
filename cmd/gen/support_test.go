@@ -20,7 +20,11 @@ func TestCoverageSummaryDetectsUnclassifiedEntry(t *testing.T) {
 		t.Fatal(err)
 	}
 	cat.Entries[0].Status = ""
-	if got := cat.GenerateCoverageSummary().UnexplainedGaps; got != 1 {
+	summary, err := cat.GenerateCoverageSummary()
+	if err != nil {
+		t.Fatal(err)
+	}
+	if got := summary.UnexplainedGaps; got != 1 {
 		t.Fatalf("unclassified catalogue entry: gaps=%d, want 1", got)
 	}
 }
@@ -32,7 +36,10 @@ func TestSupportReportDetectsMissingAndAmbiguousPlan(t *testing.T) {
 			if err != nil {
 				t.Fatal(err)
 			}
-			macros := prepareMacrosData(cat)
+			macros, err := prepareMacrosData(cat)
+			if err != nil {
+				t.Fatal(err)
+			}
 			lines := prepareParselineData(cat, macros)
 			want := supportMissing
 			switch mode {
@@ -106,7 +113,10 @@ func TestCatalogueScenarios(t *testing.T) {
 			if err != nil {
 				t.Fatal(err)
 			}
-			macros := prepareMacrosData(cat)
+			macros, err := prepareMacrosData(cat)
+			if err != nil {
+				t.Fatal(err)
+			}
 			lines := prepareParselineData(cat, macros)
 			report := buildSupportReport(cat, macros, lines)
 			var got strings.Builder

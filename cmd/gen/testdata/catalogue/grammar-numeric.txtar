@@ -1,0 +1,5 @@
+Malformed argument declarations fail before generation.
+-- catalogue.json --
+[{"Contents": [{"Type": "Request", "Token": ".new", "Args": "value", "ArgumentGrammar": {"mode": "fixed", "numeric": ["Missing"]}}]}]
+-- error.txt --
+invalid numeric field

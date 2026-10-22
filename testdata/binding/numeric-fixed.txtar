@@ -1,0 +1,5 @@
+Two numeric arguments each retain balanced parenthesized spaces.
+-- input.roff --
+.ss (3 + 5) (2 + 2)
+-- fields.json --
+{"Word_space_size": "(3 + 5)", "Sentence_space_size": "(2 + 2)"}

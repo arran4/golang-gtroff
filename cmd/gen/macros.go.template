@@ -3,6 +3,7 @@
 package groff
 
 import (
+	"errors"
 	"fmt"
 	"strings"
 )
@@ -17,19 +18,15 @@ type {{$e.StructName}} struct {
 }
 
 func Parse{{$e.StructName}}(lineArgs string) (Token, error) {
-	args, _, err := ArgumentParser(lineArgs)
+	matched, err := BindArguments(lineArgs, {{$e.ArgumentPlan.Literal}})
 	if err != nil {
-		return nil, fmt.Errorf("parse {{$e.StructName}} arguments: %s, %w", lineArgs, err)
+		stage := "fitting"
+		if errors.Is(err, ErrUnclosedQuote) {
+			stage = "parse"
+		}
+		return nil, fmt.Errorf("%s {{$e.StructName}} arguments: %s, %w", stage, lineArgs, err)
 	}
 {{- if $e.ArgWords}}
-{{- if $e.Forwards}}
-	matched, err := ForwardMatcher(args{{range $argi, $arg := $e.ArgWords}}, {{$arg.Optional}}{{end}})
-{{- else}}
-	matched, err := BackwardMatcher(args{{range $argi, $arg := $e.ArgWords}}, {{$arg.Optional}}{{end}})
-{{- end}}
-	if err != nil {
-		return nil, fmt.Errorf("fitting {{$e.StructName}} arguments: %s, %w", lineArgs, err)
-	}
 {{- range $argi, $arg := $e.ArgWords}}
 	arg{{$arg.Id}} := matched[{{$argi}}]
 {{- end}}
@@ -39,12 +36,24 @@ func Parse{{$e.StructName}}(lineArgs string) (Token, error) {
 {{- end}}
 	}, nil
 {{- else}}
-	_, err = BackwardMatcher(args)
-	if err != nil {
-		return nil, fmt.Errorf("fitting {{$e.StructName}} arguments: %s, %w", lineArgs, err)
-	}
+	_ = matched
 	return &{{$e.StructName}}{}, nil
 {{- end}}
+}
+
+func (t *{{$e.StructName}}) ArgumentGrammar() ArgumentGrammar {
+	return {{$e.ArgumentPlan.Literal}}
+}
+
+func (t *{{$e.StructName}}) CanonicalString() (string, error) {
+	args, err := FormatArguments([]string{ {{range $arg := $e.ArgWords}}t.{{$arg.Id}},{{end}} }, t.ArgumentGrammar())
+	if err != nil {
+		return "", err
+	}
+	if args == "" {
+		return {{printf "%q" $e.Token}}, nil
+	}
+	return {{printf "%q" (printf "%s " $e.Token)}} + args, nil
 }
 
 func (t *{{$e.StructName}}) String() string {

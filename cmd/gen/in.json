@@ -25,7 +25,11 @@
       {
         "Type": "Macro",
         "Token": ".SH",
-        "Args": "[heading]"
+        "Args": "[heading]",
+        "ArgumentGrammar": {
+          "mode": "joined",
+          "rest": "Heading"
+        }
       }
     ]
   },
@@ -35,7 +39,11 @@
       {
         "Type": "Macro",
         "Token": ".SS",
-        "Args": "[heading]"
+        "Args": "[heading]",
+        "ArgumentGrammar": {
+          "mode": "joined",
+          "rest": "Heading"
+        }
       }
     ]
   },
@@ -45,7 +53,13 @@
       {
         "Type": "Macro",
         "Token": ".TP",
-        "Args": "[nnn]"
+        "Args": "[nnn]",
+        "ArgumentGrammar": {
+          "mode": "fixed",
+          "numeric": [
+            "Nnn"
+          ]
+        }
       }
     ]
   },
@@ -65,7 +79,13 @@
       {
         "Type": "Macro",
         "Token": ".IP",
-        "Args": "[designator [nnn]]"
+        "Args": "[designator [nnn]]",
+        "ArgumentGrammar": {
+          "mode": "fixed",
+          "numeric": [
+            "Nnn"
+          ]
+        }
       }
     ]
   },
@@ -75,7 +95,13 @@
       {
         "Type": "Macro",
         "Token": ".HP",
-        "Args": "[nnn]"
+        "Args": "[nnn]",
+        "ArgumentGrammar": {
+          "mode": "fixed",
+          "numeric": [
+            "Nnn"
+          ]
+        }
       }
     ]
   },
@@ -85,7 +111,13 @@
       {
         "Type": "Macro",
         "Token": ".RS",
-        "Args": "[nnn]"
+        "Args": "[nnn]",
+        "ArgumentGrammar": {
+          "mode": "fixed",
+          "numeric": [
+            "Nnn"
+          ]
+        }
       }
     ]
   },
@@ -95,7 +127,13 @@
       {
         "Type": "Macro",
         "Token": ".RE",
-        "Args": "[nnn]"
+        "Args": "[nnn]",
+        "ArgumentGrammar": {
+          "mode": "fixed",
+          "numeric": [
+            "Nnn"
+          ]
+        }
       }
     ]
   },
@@ -105,7 +143,11 @@
       {
         "Type": "Macro",
         "Token": ".SM",
-        "Args": "[text]"
+        "Args": "[text]",
+        "ArgumentGrammar": {
+          "mode": "joined",
+          "rest": "Text"
+        }
       }
     ]
   },
@@ -115,7 +157,11 @@
       {
         "Type": "Macro",
         "Token": ".SB",
-        "Args": "[text]"
+        "Args": "[text]",
+        "ArgumentGrammar": {
+          "mode": "joined",
+          "rest": "Text"
+        }
       }
     ]
   },
@@ -125,7 +171,11 @@
       {
         "Type": "Macro",
         "Token": ".BI",
-        "Args": "text"
+        "Args": "text",
+        "ArgumentGrammar": {
+          "mode": "joined",
+          "rest": "Text"
+        }
       }
     ]
   },
@@ -135,7 +185,11 @@
       {
         "Type": "Macro",
         "Token": ".IB",
-        "Args": "text"
+        "Args": "text",
+        "ArgumentGrammar": {
+          "mode": "joined",
+          "rest": "Text"
+        }
       }
     ]
   },
@@ -145,7 +199,11 @@
       {
         "Type": "Macro",
         "Token": ".RI",
-        "Args": "text"
+        "Args": "text",
+        "ArgumentGrammar": {
+          "mode": "joined",
+          "rest": "Text"
+        }
       }
     ]
   },
@@ -155,7 +213,11 @@
       {
         "Type": "Macro",
         "Token": ".IR",
-        "Args": "text"
+        "Args": "text",
+        "ArgumentGrammar": {
+          "mode": "joined",
+          "rest": "Text"
+        }
       }
     ]
   },
@@ -165,7 +227,11 @@
       {
         "Type": "Macro",
         "Token": ".BR",
-        "Args": "text"
+        "Args": "text",
+        "ArgumentGrammar": {
+          "mode": "joined",
+          "rest": "Text"
+        }
       }
     ]
   },
@@ -175,7 +241,11 @@
       {
         "Type": "Macro",
         "Token": ".RB",
-        "Args": "text"
+        "Args": "text",
+        "ArgumentGrammar": {
+          "mode": "joined",
+          "rest": "Text"
+        }
       }
     ]
   },
@@ -185,7 +255,11 @@
       {
         "Type": "Macro",
         "Token": ".B",
-        "Args": "[text]"
+        "Args": "[text]",
+        "ArgumentGrammar": {
+          "mode": "joined",
+          "rest": "Text"
+        }
       }
     ]
   },
@@ -195,7 +269,11 @@
       {
         "Type": "Macro",
         "Token": ".I",
-        "Args": "[text]"
+        "Args": "[text]",
+        "ArgumentGrammar": {
+          "mode": "joined",
+          "rest": "Text"
+        }
       }
     ]
   },
@@ -215,12 +293,18 @@
       {
         "Type": "Macro",
         "Token": ".PD",
-        "Args": "[nnn]"
+        "Args": "[nnn]",
+        "ArgumentGrammar": {
+          "mode": "fixed",
+          "numeric": [
+            "Nnn"
+          ]
+        }
       }
     ]
   },
   {
-    "Description": "Alter the footer for use with legacy AT\u0026T man pages, overriding any\ndefinition of the footer-inside argument to .TH. This macro exists only\nto render man pages from historical systems. system can be any of the\nfollowing: 3 (7th edition), 4 (System III), 5 (System V). The optional\nrelease argument specifies the release number, as in “System V Release\n3”.",
+    "Description": "Alter the footer for use with legacy AT&T man pages, overriding any\ndefinition of the footer-inside argument to .TH. This macro exists only\nto render man pages from historical systems. system can be any of the\nfollowing: 3 (7th edition), 4 (System III), 5 (System V). The optional\nrelease argument specifies the release number, as in “System V Release\n3”.",
     "Contents": [
       {
         "Type": "Macro",
@@ -310,7 +394,7 @@
     ]
   },
   {
-    "Description": "Print ‘\u003cCTRL/key\u003e’.",
+    "Description": "Print ‘<CTRL/key>’.",
     "Contents": [
       {
         "Type": "Macro",
@@ -355,7 +439,13 @@
       {
         "Type": "Macro",
         "Token": ".EX",
-        "Args": "[indent]"
+        "Args": "[indent]",
+        "ArgumentGrammar": {
+          "mode": "fixed",
+          "numeric": [
+            "Indent"
+          ]
+        }
       }
     ]
   },
@@ -375,7 +465,11 @@
       {
         "Type": "Macro",
         "Token": ".G",
-        "Args": "[text]"
+        "Args": "[text]",
+        "ArgumentGrammar": {
+          "mode": "joined",
+          "rest": "Text"
+        }
       }
     ]
   },
@@ -385,7 +479,11 @@
       {
         "Type": "Macro",
         "Token": ".GL",
-        "Args": "[text]"
+        "Args": "[text]",
+        "ArgumentGrammar": {
+          "mode": "joined",
+          "rest": "Text"
+        }
       }
     ]
   },
@@ -395,7 +493,11 @@
       {
         "Type": "Macro",
         "Token": ".HB",
-        "Args": "[text]"
+        "Args": "[text]",
+        "ArgumentGrammar": {
+          "mode": "joined",
+          "rest": "Text"
+        }
       }
     ]
   },
@@ -405,7 +507,11 @@
       {
         "Type": "Macro",
         "Token": ".TB",
-        "Args": "[text]"
+        "Args": "[text]",
+        "ArgumentGrammar": {
+          "mode": "joined",
+          "rest": "Text"
+        }
       }
     ]
   },
@@ -425,7 +531,13 @@
       {
         "Type": "Macro",
         "Token": ".NT",
-        "Args": "[C] [title]"
+        "Args": "[C] [title]",
+        "ArgumentGrammar": {
+          "mode": "fixed",
+          "flags": {
+            "C": "C"
+          }
+        }
       }
     ]
   },
@@ -455,7 +567,11 @@
       {
         "Type": "Macro",
         "Token": ".Pn",
-        "Args": "[punct] path [punct]"
+        "Args": "[punct] path [punct]",
+        "ArgumentGrammar": {
+          "mode": "fixed",
+          "direction": "right"
+        }
       }
     ]
   },
@@ -470,7 +586,7 @@
     ]
   },
   {
-    "Description": "Print the string ‘\u003cRETURN\u003e’.",
+    "Description": "Print the string ‘<RETURN>’.",
     "Contents": [
       {
         "Type": "Macro",
@@ -485,7 +601,13 @@
       {
         "Type": "Macro",
         "Token": ".VS",
-        "Args": "[4]"
+        "Args": "[4]",
+        "ArgumentGrammar": {
+          "mode": "fixed",
+          "flags": {
+            "Arg4": "4"
+          }
+        }
       }
     ]
   },
@@ -740,7 +862,7 @@
     ]
   },
   {
-    "Description": "Use the “report” (AT\u0026T: “released paper”) format for your\ndocument, creating a separate cover page. The default arrangement is to\nplace most of the document description (title, author names and\ninstitutions, and abstract, but not the date) at the top of the first\npage. If the optional no-repeat-info argument is given, ms produces a\ncover page but does not repeat any of its information on subsequently\n(but see the DA macro below regarding the date). Normally, .RP sets the\npage number following the cover page to 1. Specifying the optional\nno-renumber argument suppresses this alteration. Optional arguments can\noccur in any order. “no” is recognized as a synonym of\nno-repeat-info for AT\u0026T compatibility.",
+    "Description": "Use the “report” (AT&T: “released paper”) format for your\ndocument, creating a separate cover page. The default arrangement is to\nplace most of the document description (title, author names and\ninstitutions, and abstract, but not the date) at the top of the first\npage. If the optional no-repeat-info argument is given, ms produces a\ncover page but does not repeat any of its information on subsequently\n(but see the DA macro below regarding the date). Normally, .RP sets the\npage number following the cover page to 1. Specifying the optional\nno-renumber argument suppresses this alteration. Optional arguments can\noccur in any order. “no” is recognized as a synonym of\nno-repeat-info for AT&T compatibility.",
     "Contents": [
       {
         "Type": "Macro",
@@ -765,7 +887,11 @@
       {
         "Type": "Macro",
         "Token": ".DA",
-        "Args": "[…]"
+        "Args": "[…]",
+        "ArgumentGrammar": {
+          "mode": "joined",
+          "rest": "Ellipse"
+        }
       }
     ]
   },
@@ -775,7 +901,11 @@
       {
         "Type": "Macro",
         "Token": ".ND",
-        "Args": "[…]"
+        "Args": "[…]",
+        "ArgumentGrammar": {
+          "mode": "joined",
+          "rest": "Ellipse"
+        }
       }
     ]
   },
@@ -885,7 +1015,11 @@
       {
         "Type": "Macro",
         "Token": ".NH",
-        "Args": "S level0 …"
+        "Args": "S level0 …",
+        "ArgumentGrammar": {
+          "mode": "joined",
+          "rest": "Level"
+        }
       }
     ]
   },
@@ -915,7 +1049,13 @@
       {
         "Type": "Macro",
         "Token": ".SH",
-        "Args": "[match-level]"
+        "Args": "[match-level]",
+        "ArgumentGrammar": {
+          "mode": "fixed",
+          "numeric": [
+            "Matchlevel"
+          ]
+        }
       }
     ]
   },
@@ -1160,7 +1300,7 @@
     ]
   },
   {
-    "Description": "Denotes a graphic, to be processed by the pic preprocessor. You can\ncreate a pic file by hand, using the AT\u0026T pic manual available on the\nWeb as a reference, or by using a graphics program such as xfig.",
+    "Description": "Denotes a graphic, to be processed by the pic preprocessor. You can\ncreate a pic file by hand, using the AT&T pic manual available on the\nWeb as a reference, or by using a graphics program such as xfig.",
     "Contents": [
       {
         "Type": "Macro",
@@ -1235,7 +1375,10 @@
       {
         "Type": "Macro",
         "Token": ".EF",
-        "Args": "'left'center'right'"
+        "Args": "'left'center'right'",
+        "ArgumentGrammar": {
+          "mode": "delimited"
+        }
       }
     ]
   },
@@ -1275,7 +1418,14 @@
       {
         "Type": "Macro",
         "Token": ".MC",
-        "Args": "[width [gutter]]"
+        "Args": "[width [gutter]]",
+        "ArgumentGrammar": {
+          "mode": "fixed",
+          "numeric": [
+            "Width",
+            "Gutter"
+          ]
+        }
       }
     ]
   },
@@ -1590,7 +1740,7 @@
     ]
   },
   {
-    "Description": "This number register is set to 1 by the groff -ms macros, but it is not\nused by the AT\u0026T troff -ms macros. Documents that need to determine\nwhether they are being formatted with AT\u0026T troff -ms or groff -ms should\nuse this number register.",
+    "Description": "This number register is set to 1 by the groff -ms macros, but it is not\nused by the AT&T troff -ms macros. Documents that need to determine\nwhether they are being formatted with AT&T troff -ms or groff -ms should\nuse this number register.",
     "Contents": [
       {
         "Type": "Register",
@@ -1610,7 +1760,7 @@
     ]
   },
   {
-    "Description": "Indented display. The default behavior of AT\u0026T troff -ms was to indent;\nthe groff default prints displays flush left with the body text.",
+    "Description": "Indented display. The default behavior of AT&T troff -ms was to indent;\nthe groff default prints displays flush left with the body text.",
     "Contents": [
       {
         "Type": "Macro",
@@ -1640,7 +1790,7 @@
     ]
   },
   {
-    "Description": "Specifies a minimum space between columns (for multi-column output);\nthis takes the place of the GW register that was documented but\napparently not implemented in AT\u0026T troff.",
+    "Description": "Specifies a minimum space between columns (for multi-column output);\nthis takes the place of the GW register that was documented but\napparently not implemented in AT&T troff.",
     "Contents": [
       {
         "Type": "Register",
@@ -1675,7 +1825,10 @@
       {
         "Type": "Request",
         "Token": ".nr",
-        "Args": "ident -value"
+        "Args": "ident -value",
+        "ArgumentGrammar": {
+          "mode": "register"
+        }
       }
     ]
   },
@@ -1685,7 +1838,17 @@
       {
         "Type": "Request",
         "Token": ".rr",
-        "Args": "ident"
+        "Args": "ident",
+        "ArgumentGrammar": {
+          "mode": "variadic",
+          "rest": "Ident",
+          "optional": [
+            false
+          ],
+          "minimum": 1,
+          "repeat_from": 0,
+          "step": 1
+        }
       }
     ]
   },
@@ -1715,7 +1878,10 @@
       {
         "Type": "Request",
         "Token": ".nr",
-        "Args": "ident value incr"
+        "Args": "ident value incr",
+        "ArgumentGrammar": {
+          "mode": "register"
+        }
       }
     ]
   },
@@ -1780,7 +1946,7 @@
     ]
   },
   {
-    "Description": "Change the size of a space between words. It takes its units as one\ntwelfth of the space width parameter for the current font. Initially\nboth the word_space_size and sentence_space_size are 12. In fill mode,\nthe values specify the minimum distance.\n\n\n\nIf two arguments are given to the ss request, the second argument sets\nthe sentence space size. If the second argument is not given, sentence\nspace size is set to word_space_size. The sentence space size is used in\ntwo circumstances: If the end of a sentence occurs at the end of a line\nin fill mode, then both an inter-word space and a sentence space are\nadded; if two spaces follow the end of a sentence in the middle of a\nline, then the second space is a sentence space. If a second argument is\nnever given to the ss request, the behaviour of Unix troff is the same\nas that exhibited by GNU troff. In GNU troff, as in Unix troff, a\nsentence should always be followed by either a newline or two spaces.\n\nThe read-only number registers .ss and .sss hold the values of the\nparameters set by the first and second arguments of the ss request.\n\nThe word space and sentence space values are associated with the current\nenvironment (see Environments).\n\nContrary to AT\u0026T troff, this request is not ignored if a TTY output\ndevice is used; the given values are then rounded down to a multiple of\n12 (see Implementation Differences).\n\nThe request is ignored if there is no parameter.\n\n\n\nAnother useful application of the ss request is to insert discardable\nhorizontal space, i.e., space that is discarded at a line break. For\nexample, paragraph-style footnotes could be separated this way:\n\n\n.ll 4.5i\n1.\\ This is the first footnote.\\c\n.ss 48\n.nop\n.ss 12\n2.\\ This is the second footnote.\n\nThe result:\n\n1. This is the first footnote. 2. This is the second footnote.\n\nNote that the \\h escape produces unbreakable space.",
+    "Description": "Change the size of a space between words. It takes its units as one\ntwelfth of the space width parameter for the current font. Initially\nboth the word_space_size and sentence_space_size are 12. In fill mode,\nthe values specify the minimum distance.\n\n\n\nIf two arguments are given to the ss request, the second argument sets\nthe sentence space size. If the second argument is not given, sentence\nspace size is set to word_space_size. The sentence space size is used in\ntwo circumstances: If the end of a sentence occurs at the end of a line\nin fill mode, then both an inter-word space and a sentence space are\nadded; if two spaces follow the end of a sentence in the middle of a\nline, then the second space is a sentence space. If a second argument is\nnever given to the ss request, the behaviour of Unix troff is the same\nas that exhibited by GNU troff. In GNU troff, as in Unix troff, a\nsentence should always be followed by either a newline or two spaces.\n\nThe read-only number registers .ss and .sss hold the values of the\nparameters set by the first and second arguments of the ss request.\n\nThe word space and sentence space values are associated with the current\nenvironment (see Environments).\n\nContrary to AT&T troff, this request is not ignored if a TTY output\ndevice is used; the given values are then rounded down to a multiple of\n12 (see Implementation Differences).\n\nThe request is ignored if there is no parameter.\n\n\n\nAnother useful application of the ss request is to insert discardable\nhorizontal space, i.e., space that is discarded at a line break. For\nexample, paragraph-style footnotes could be separated this way:\n\n\n.ll 4.5i\n1.\\ This is the first footnote.\\c\n.ss 48\n.nop\n.ss 12\n2.\\ This is the second footnote.\n\nThe result:\n\n1. This is the first footnote. 2. This is the second footnote.\n\nNote that the \\h escape produces unbreakable space.",
     "Contents": [
       {
         "Type": "Register",
@@ -1845,7 +2011,19 @@
       {
         "Type": "Request",
         "Token": ".hw",
-        "Args": "word1 word2 …"
+        "Args": "word1 word2 …",
+        "ArgumentGrammar": {
+          "mode": "variadic",
+          "rest": "Ellipse",
+          "optional": [
+            false,
+            true,
+            true
+          ],
+          "minimum": 1,
+          "repeat_from": 0,
+          "step": 1
+        }
       }
     ]
   },
@@ -1865,7 +2043,21 @@
       {
         "Type": "Request",
         "Token": ".hpfcode",
-        "Args": "a b [c d …]"
+        "Args": "a b [c d …]",
+        "ArgumentGrammar": {
+          "mode": "variadic",
+          "rest": "Ellipse",
+          "optional": [
+            false,
+            false,
+            true,
+            true,
+            true
+          ],
+          "minimum": 2,
+          "repeat_from": 0,
+          "step": 2
+        }
       }
     ]
   },
@@ -1875,7 +2067,21 @@
       {
         "Type": "Request",
         "Token": ".hcode",
-        "Args": "c1 code1 [c2 code2 …]"
+        "Args": "c1 code1 [c2 code2 …]",
+        "ArgumentGrammar": {
+          "mode": "variadic",
+          "rest": "Ellipse",
+          "optional": [
+            false,
+            false,
+            true,
+            true,
+            true
+          ],
+          "minimum": 2,
+          "repeat_from": 0,
+          "step": 2
+        }
       }
     ]
   },
@@ -1925,7 +2131,13 @@
       {
         "Type": "Request",
         "Token": ".sp",
-        "Args": "[distance]"
+        "Args": "[distance]",
+        "ArgumentGrammar": {
+          "mode": "fixed",
+          "numeric": [
+            "Distance"
+          ]
+        }
       }
     ]
   },
@@ -2030,7 +2242,7 @@
     ]
   },
   {
-    "Description": "Disable the escape mechanism completely. After executing this request,\nthe backslash character ‘\\’ no longer starts an escape sequence.\n\nThis request can be very helpful in writing macros since it is not\nnecessary then to double the escape character. Here an example:\n\n\n.\\\" This is a simplified version of the\n.\\\" .BR request from the man macro package\n.eo\n.de BR\n.  ds result \\\u0026\n.  while (\\n[.$] \u003e= 2) \\{\\\n.    as result \\fB\\$1\\fR\\$2\n.    shift 2\n.  \\}\n.  if \\n[.$] .as result \\fB\\$1\n\\*[result]\n.  ft R\n..\n.ec",
+    "Description": "Disable the escape mechanism completely. After executing this request,\nthe backslash character ‘\\’ no longer starts an escape sequence.\n\nThis request can be very helpful in writing macros since it is not\nnecessary then to double the escape character. Here an example:\n\n\n.\\\" This is a simplified version of the\n.\\\" .BR request from the man macro package\n.eo\n.de BR\n.  ds result \\&\n.  while (\\n[.$] >= 2) \\{\\\n.    as result \\fB\\$1\\fR\\$2\n.    shift 2\n.  \\}\n.  if \\n[.$] .as result \\fB\\$1\n\\*[result]\n.  ft R\n..\n.ec",
     "Contents": [
       {
         "Type": "Request",
@@ -2060,12 +2272,16 @@
     ]
   },
   {
-    "Description": "Translate character a to glyph b, character c to glyph d, etc. If there\nis an odd number of arguments, the last one is translated to an\nunstretchable space (‘\\ ’).\n\nThe trin request is identical to tr, but when you unformat a diversion\nwith asciify it ignores the translation. See Diversions, for details\nabout the asciify request.\n\nSome notes:\n\n\n \n\n\n\n\n\n\n\n\n\n\n\nSpecial characters (\\(xx, \\[xxx], \\C'xxx', \\', \\`, \\-, \\_), glyphs\ndefined with the char request, and numbered glyphs (\\N'xxx') can be\ntranslated also.\n\n \nThe \\e escape can be translated also.\n\n \n\nCharacters can be mapped onto the \\% and \\~ escapes (but \\% and \\~\ncan’t be mapped onto another glyph).\n\n \n\n\n\n\n\n\n\n\n\nThe following characters can’t be translated: space (with one\nexception, see below), backspace, newline, leader (and \\a), tab (and\n\\t).\n\n \nTranslations are not considered for finding the soft hyphen character\nset with the shc request.\n\n \nThe pair ‘c\\\u0026’ (this is an arbitrary character c\nfollowed by the zero width space character) maps this character to\nnothing.\n\n\n.tr a\\\u0026\nfoo bar\n    ⇒ foo br\n\nIt is even possible to map the space character to nothing:\n\n\n.tr aa \\\u0026\nfoo bar\n    ⇒ foobar\n\nAs shown in the example, the space character can’t be the first\ncharacter/glyph pair as an argument of tr. Additionally, it is not\npossible to map the space character to any other glyph; requests like\n‘.tr aa x’ undo ‘.tr aa \\\u0026’ instead.\n\nIf justification is active, lines are justified in spite of the\n‘empty’ space character (but there is no minimal distance, i.e. the\nspace character, between words).\n\n After an output glyph has been constructed (this happens at the moment\nimmediately before the glyph is appended to an output glyph list, either\nby direct output, in a macro, diversion, or string), it is no longer\naffected by tr.\n\n Translating character to glyphs where one of them or both are undefined\nis possible also; tr does not check whether the entities in its\nargument do exist.\n\nSee Gtroff Internals.\n\n troff no longer has a hard-coded dependency on Latin-1; all\ncharXXX entities have been removed from the font\ndescription files.  This has a notable consequence that shows up in\nwarnings like can't find character with input code XXX if\nthe tr request isn’t handled properly.\n\nConsider the following translation:\n\n\n.tr éÉ\n\nThis maps input character é onto glyph É, which is identical to glyph\nchar201. But this glyph intentionally doesn’t exist! Instead,\n\\[char201] is treated as an input character entity and is by default\nmapped onto \\['E], and gtroff doesn’t handle translations of\ntranslations.\n\nThe right way to write the above translation is\n\n\n.tr é\\['E]\n\nIn other words, the first argument of tr should be an input character or\nentity, and the second one a glyph entity.\n\n Without an argument, the tr request is ignored.",
+    "Description": "Translate character a to glyph b, character c to glyph d, etc. If there\nis an odd number of arguments, the last one is translated to an\nunstretchable space (‘\\ ’).\n\nThe trin request is identical to tr, but when you unformat a diversion\nwith asciify it ignores the translation. See Diversions, for details\nabout the asciify request.\n\nSome notes:\n\n\n \n\n\n\n\n\n\n\n\n\n\n\nSpecial characters (\\(xx, \\[xxx], \\C'xxx', \\', \\`, \\-, \\_), glyphs\ndefined with the char request, and numbered glyphs (\\N'xxx') can be\ntranslated also.\n\n \nThe \\e escape can be translated also.\n\n \n\nCharacters can be mapped onto the \\% and \\~ escapes (but \\% and \\~\ncan’t be mapped onto another glyph).\n\n \n\n\n\n\n\n\n\n\n\nThe following characters can’t be translated: space (with one\nexception, see below), backspace, newline, leader (and \\a), tab (and\n\\t).\n\n \nTranslations are not considered for finding the soft hyphen character\nset with the shc request.\n\n \nThe pair ‘c\\&’ (this is an arbitrary character c\nfollowed by the zero width space character) maps this character to\nnothing.\n\n\n.tr a\\&\nfoo bar\n    ⇒ foo br\n\nIt is even possible to map the space character to nothing:\n\n\n.tr aa \\&\nfoo bar\n    ⇒ foobar\n\nAs shown in the example, the space character can’t be the first\ncharacter/glyph pair as an argument of tr. Additionally, it is not\npossible to map the space character to any other glyph; requests like\n‘.tr aa x’ undo ‘.tr aa \\&’ instead.\n\nIf justification is active, lines are justified in spite of the\n‘empty’ space character (but there is no minimal distance, i.e. the\nspace character, between words).\n\n After an output glyph has been constructed (this happens at the moment\nimmediately before the glyph is appended to an output glyph list, either\nby direct output, in a macro, diversion, or string), it is no longer\naffected by tr.\n\n Translating character to glyphs where one of them or both are undefined\nis possible also; tr does not check whether the entities in its\nargument do exist.\n\nSee Gtroff Internals.\n\n troff no longer has a hard-coded dependency on Latin-1; all\ncharXXX entities have been removed from the font\ndescription files.  This has a notable consequence that shows up in\nwarnings like can't find character with input code XXX if\nthe tr request isn’t handled properly.\n\nConsider the following translation:\n\n\n.tr éÉ\n\nThis maps input character é onto glyph É, which is identical to glyph\nchar201. But this glyph intentionally doesn’t exist! Instead,\n\\[char201] is treated as an input character entity and is by default\nmapped onto \\['E], and gtroff doesn’t handle translations of\ntranslations.\n\nThe right way to write the above translation is\n\n\n.tr é\\['E]\n\nIn other words, the first argument of tr should be an input character or\nentity, and the second one a glyph entity.\n\n Without an argument, the tr request is ignored.",
     "Contents": [
       {
         "Type": "Request",
         "Token": ".trin",
-        "Args": "abcd…"
+        "Args": "abcd…",
+        "ArgumentGrammar": {
+          "mode": "raw",
+          "rest": "AbcdEllipse"
+        }
       }
     ]
   },
@@ -2075,7 +2291,11 @@
       {
         "Type": "Request",
         "Token": ".trnt",
-        "Args": "abcd…"
+        "Args": "abcd…",
+        "ArgumentGrammar": {
+          "mode": "raw",
+          "rest": "AbcdEllipse"
+        }
       }
     ]
   },
@@ -2105,7 +2325,13 @@
       {
         "Type": "Request",
         "Token": ".po",
-        "Args": "+offset"
+        "Args": "+offset",
+        "ArgumentGrammar": {
+          "mode": "fixed",
+          "numeric": [
+            "Offset"
+          ]
+        }
       }
     ]
   },
@@ -2115,7 +2341,13 @@
       {
         "Type": "Request",
         "Token": ".po",
-        "Args": "-offset"
+        "Args": "-offset",
+        "ArgumentGrammar": {
+          "mode": "fixed",
+          "numeric": [
+            "Offset"
+          ]
+        }
       }
     ]
   },
@@ -2135,7 +2367,13 @@
       {
         "Type": "Request",
         "Token": ".in",
-        "Args": "+indent"
+        "Args": "+indent",
+        "ArgumentGrammar": {
+          "mode": "fixed",
+          "numeric": [
+            "Indent"
+          ]
+        }
       }
     ]
   },
@@ -2145,7 +2383,13 @@
       {
         "Type": "Request",
         "Token": ".in",
-        "Args": "-indent"
+        "Args": "-indent",
+        "ArgumentGrammar": {
+          "mode": "fixed",
+          "numeric": [
+            "Indent"
+          ]
+        }
       }
     ]
   },
@@ -2165,7 +2409,13 @@
       {
         "Type": "Request",
         "Token": ".ti",
-        "Args": "+offset"
+        "Args": "+offset",
+        "ArgumentGrammar": {
+          "mode": "fixed",
+          "numeric": [
+            "Offset"
+          ]
+        }
       }
     ]
   },
@@ -2175,7 +2425,13 @@
       {
         "Type": "Request",
         "Token": ".ti",
-        "Args": "-offset"
+        "Args": "-offset",
+        "ArgumentGrammar": {
+          "mode": "fixed",
+          "numeric": [
+            "Offset"
+          ]
+        }
       }
     ]
   },
@@ -2195,7 +2451,13 @@
       {
         "Type": "Request",
         "Token": ".ll",
-        "Args": "+length"
+        "Args": "+length",
+        "ArgumentGrammar": {
+          "mode": "fixed",
+          "numeric": [
+            "Length"
+          ]
+        }
       }
     ]
   },
@@ -2205,7 +2467,13 @@
       {
         "Type": "Request",
         "Token": ".ll",
-        "Args": "-length"
+        "Args": "-length",
+        "ArgumentGrammar": {
+          "mode": "fixed",
+          "numeric": [
+            "Length"
+          ]
+        }
       }
     ]
   },
@@ -2235,7 +2503,13 @@
       {
         "Type": "Request",
         "Token": ".pl",
-        "Args": "+length"
+        "Args": "+length",
+        "ArgumentGrammar": {
+          "mode": "fixed",
+          "numeric": [
+            "Length"
+          ]
+        }
       }
     ]
   },
@@ -2245,7 +2519,13 @@
       {
         "Type": "Request",
         "Token": ".pl",
-        "Args": "-length"
+        "Args": "-length",
+        "ArgumentGrammar": {
+          "mode": "fixed",
+          "numeric": [
+            "Length"
+          ]
+        }
       }
     ]
   },
@@ -2265,7 +2545,10 @@
       {
         "Type": "Request",
         "Token": ".tl",
-        "Args": "'left'center'right'"
+        "Args": "'left'center'right'",
+        "ArgumentGrammar": {
+          "mode": "delimited"
+        }
       }
     ]
   },
@@ -2275,7 +2558,13 @@
       {
         "Type": "Request",
         "Token": ".lt",
-        "Args": "+length"
+        "Args": "+length",
+        "ArgumentGrammar": {
+          "mode": "fixed",
+          "numeric": [
+            "Length"
+          ]
+        }
       }
     ]
   },
@@ -2285,7 +2574,13 @@
       {
         "Type": "Request",
         "Token": ".lt",
-        "Args": "-length"
+        "Args": "-length",
+        "ArgumentGrammar": {
+          "mode": "fixed",
+          "numeric": [
+            "Length"
+          ]
+        }
       }
     ]
   },
@@ -2305,7 +2600,13 @@
       {
         "Type": "Request",
         "Token": ".pn",
-        "Args": "+page"
+        "Args": "+page",
+        "ArgumentGrammar": {
+          "mode": "fixed",
+          "numeric": [
+            "Page"
+          ]
+        }
       }
     ]
   },
@@ -2315,7 +2616,13 @@
       {
         "Type": "Request",
         "Token": ".pn",
-        "Args": "-page"
+        "Args": "-page",
+        "ArgumentGrammar": {
+          "mode": "fixed",
+          "numeric": [
+            "Page"
+          ]
+        }
       }
     ]
   },
@@ -2345,7 +2652,13 @@
       {
         "Type": "Request",
         "Token": ".bp",
-        "Args": "+page"
+        "Args": "+page",
+        "ArgumentGrammar": {
+          "mode": "fixed",
+          "numeric": [
+            "Page"
+          ]
+        }
       }
     ]
   },
@@ -2355,7 +2668,13 @@
       {
         "Type": "Request",
         "Token": ".bp",
-        "Args": "-page"
+        "Args": "-page",
+        "ArgumentGrammar": {
+          "mode": "fixed",
+          "numeric": [
+            "Page"
+          ]
+        }
       }
     ]
   },
@@ -2375,7 +2694,13 @@
       {
         "Type": "Request",
         "Token": ".ne",
-        "Args": "[space]"
+        "Args": "[space]",
+        "ArgumentGrammar": {
+          "mode": "fixed",
+          "numeric": [
+            "Space"
+          ]
+        }
       }
     ]
   },
@@ -2445,7 +2770,13 @@
       {
         "Type": "Request",
         "Token": ".sty",
-        "Args": "n style"
+        "Args": "n style",
+        "ArgumentGrammar": {
+          "mode": "fixed",
+          "numeric": [
+            "N"
+          ]
+        }
       }
     ]
   },
@@ -2475,7 +2806,20 @@
       {
         "Type": "Request",
         "Token": ".cflags",
-        "Args": "n c1 c2 …"
+        "Args": "n c1 c2 …",
+        "ArgumentGrammar": {
+          "mode": "variadic",
+          "rest": "Ellipse",
+          "optional": [
+            false,
+            false,
+            true,
+            true
+          ],
+          "minimum": 2,
+          "repeat_from": 1,
+          "step": 1
+        }
       }
     ]
   },
@@ -2485,7 +2829,11 @@
       {
         "Type": "Request",
         "Token": ".schar",
-        "Args": "g [string]"
+        "Args": "g [string]",
+        "ArgumentGrammar": {
+          "mode": "raw",
+          "rest": "StringVal"
+        }
       }
     ]
   },
@@ -2495,17 +2843,43 @@
       {
         "Type": "Request",
         "Token": ".rfschar",
-        "Args": "f c1 c2 …"
+        "Args": "f c1 c2 …",
+        "ArgumentGrammar": {
+          "mode": "variadic",
+          "rest": "Ellipse",
+          "optional": [
+            false,
+            false,
+            true,
+            true
+          ],
+          "minimum": 2,
+          "repeat_from": 1,
+          "step": 1
+        }
       }
     ]
   },
   {
-    "Description": "In groff, a character class (or simply “class”) is a set of\ncharacters, grouped by some user aspect. The class request defines such\nclasses so that other requests can refer to all characters belonging to\nthis set with a single class name. Currently, only the cflags request\ncan handle character classes.\n\nA class request takes a class name followed by a list of entities. In\nits simplest form, the entities are characters or symbols:\n\n\n.class [prepunct] , : ; \u003e }\n\nSince class and glyph names share the same namespace, it is recommended\nto start and end the class name with [ and ], respectively, to avoid\ncollisions with normal groff symbols (and symbols defined by the user).\nIn particular, the presence of ] in the symbol name intentionally\nprevents the usage of \\[...], thus you must use the \\C escape to access\na class with such a name.\n\n\n\nYou can also use a special character range notation, consisting of a\nstart character or symbol, followed by ‘-’, and an end character or\nsymbol. Internally, gtroff converts these two symbol names to Unicode\nvalues (according to the groff glyph gist), which then give the start\nand end value of the range. If that fails, the class definition is\nskipped.\n\nFinally, classes can be nested, too.\n\nHere is a more complex example:\n\n\n.class [prepunctx] \\C'[prepunct]' \\[u2013]-\\[u2016]\n\nThe class ‘prepunctx’ now contains the contents of the class\nprepunct as defined above (the set ‘, : ; \u003e }’), and characters in\nthe range between U+2013 and U+2016.\n\nIf you want to add ‘-’ to a class, it must be the first character\nvalue in the argument list, otherwise it gets misinterpreted as a range.\n\nNote that it is not possible to use class names within range\ndefinitions.\n\nTypical use of the class request is to control line-breaking and\nhyphenation rules as defined by the cflags request. For example, to\ninhibit line breaks before the characters belonging to the prepunctx\nclass, you can write:\n\n\n.cflags 2 \\C'[prepunctx]'\n\nSee the cflags request in Using Symbols, for more details.",
+    "Description": "In groff, a character class (or simply “class”) is a set of\ncharacters, grouped by some user aspect. The class request defines such\nclasses so that other requests can refer to all characters belonging to\nthis set with a single class name. Currently, only the cflags request\ncan handle character classes.\n\nA class request takes a class name followed by a list of entities. In\nits simplest form, the entities are characters or symbols:\n\n\n.class [prepunct] , : ; > }\n\nSince class and glyph names share the same namespace, it is recommended\nto start and end the class name with [ and ], respectively, to avoid\ncollisions with normal groff symbols (and symbols defined by the user).\nIn particular, the presence of ] in the symbol name intentionally\nprevents the usage of \\[...], thus you must use the \\C escape to access\na class with such a name.\n\n\n\nYou can also use a special character range notation, consisting of a\nstart character or symbol, followed by ‘-’, and an end character or\nsymbol. Internally, gtroff converts these two symbol names to Unicode\nvalues (according to the groff glyph gist), which then give the start\nand end value of the range. If that fails, the class definition is\nskipped.\n\nFinally, classes can be nested, too.\n\nHere is a more complex example:\n\n\n.class [prepunctx] \\C'[prepunct]' \\[u2013]-\\[u2016]\n\nThe class ‘prepunctx’ now contains the contents of the class\nprepunct as defined above (the set ‘, : ; > }’), and characters in\nthe range between U+2013 and U+2016.\n\nIf you want to add ‘-’ to a class, it must be the first character\nvalue in the argument list, otherwise it gets misinterpreted as a range.\n\nNote that it is not possible to use class names within range\ndefinitions.\n\nTypical use of the class request is to control line-breaking and\nhyphenation rules as defined by the cflags request. For example, to\ninhibit line breaks before the characters belonging to the prepunctx\nclass, you can write:\n\n\n.cflags 2 \\C'[prepunctx]'\n\nSee the cflags request in Using Symbols, for more details.",
     "Contents": [
       {
         "Type": "Request",
         "Token": ".class",
-        "Args": "n c1 c2 …"
+        "Args": "n c1 c2 …",
+        "ArgumentGrammar": {
+          "mode": "variadic",
+          "rest": "Ellipse",
+          "optional": [
+            false,
+            false,
+            true,
+            true
+          ],
+          "minimum": 2,
+          "repeat_from": 1,
+          "step": 1
+        }
       }
     ]
   },
@@ -2515,7 +2889,20 @@
       {
         "Type": "Request",
         "Token": ".fspecial",
-        "Args": "f [s1 s2 …]"
+        "Args": "f [s1 s2 …]",
+        "ArgumentGrammar": {
+          "mode": "variadic",
+          "rest": "Ellipse",
+          "optional": [
+            false,
+            true,
+            true,
+            true
+          ],
+          "minimum": 1,
+          "repeat_from": 1,
+          "step": 1
+        }
       }
     ]
   },
@@ -2545,7 +2932,13 @@
       {
         "Type": "Request",
         "Token": ".ul",
-        "Args": "[lines]"
+        "Args": "[lines]",
+        "ArgumentGrammar": {
+          "mode": "fixed",
+          "numeric": [
+            "Lines"
+          ]
+        }
       }
     ]
   },
@@ -2555,7 +2948,13 @@
       {
         "Type": "Request",
         "Token": ".cu",
-        "Args": "[lines]"
+        "Args": "[lines]",
+        "ArgumentGrammar": {
+          "mode": "fixed",
+          "numeric": [
+            "Lines"
+          ]
+        }
       }
     ]
   },
@@ -2575,7 +2974,13 @@
       {
         "Type": "Request",
         "Token": ".bd",
-        "Args": "font1 font2 [offset]"
+        "Args": "font1 font2 [offset]",
+        "ArgumentGrammar": {
+          "mode": "fixed",
+          "numeric": [
+            "Offset"
+          ]
+        }
       }
     ]
   },
@@ -2595,7 +3000,14 @@
       {
         "Type": "Request",
         "Token": ".cs",
-        "Args": "font [width [em-size]]"
+        "Args": "font [width [em-size]]",
+        "ArgumentGrammar": {
+          "mode": "fixed",
+          "numeric": [
+            "Width",
+            "Emsize"
+          ]
+        }
       }
     ]
   },
@@ -2610,7 +3022,7 @@
     ]
   },
   {
-    "Description": "Switch kerning on or off. If the parameter is non-zero or missing,\nenable pairwise kerning, otherwise disable it. The read-only number\nregister .kern is set to 1 if pairwise kerning is enabled, 0 otherwise.\n\n\n\nIf the font description file contains pairwise kerning information,\nglyphs from that font are kerned. Kerning between two glyphs can be\ninhibited by placing \\\u0026 between them: ‘V\\\u0026A’.\n\nSee Font File Format.",
+    "Description": "Switch kerning on or off. If the parameter is non-zero or missing,\nenable pairwise kerning, otherwise disable it. The read-only number\nregister .kern is set to 1 if pairwise kerning is enabled, 0 otherwise.\n\n\n\nIf the font description file contains pairwise kerning information,\nglyphs from that font are kerned. Kerning between two glyphs can be\ninhibited by placing \\& between them: ‘V\\&A’.\n\nSee Font File Format.",
     "Contents": [
       {
         "Type": "Register",
@@ -2625,7 +3037,16 @@
       {
         "Type": "Request",
         "Token": ".tkf",
-        "Args": "f s1 n1 s2 n2"
+        "Args": "f s1 n1 s2 n2",
+        "ArgumentGrammar": {
+          "mode": "fixed",
+          "numeric": [
+            "S1",
+            "N1",
+            "S2",
+            "N2"
+          ]
+        }
       }
     ]
   },
@@ -2635,7 +3056,13 @@
       {
         "Type": "Request",
         "Token": ".ps",
-        "Args": "+size"
+        "Args": "+size",
+        "ArgumentGrammar": {
+          "mode": "fixed",
+          "numeric": [
+            "Size"
+          ]
+        }
       }
     ]
   },
@@ -2645,7 +3072,13 @@
       {
         "Type": "Request",
         "Token": ".ps",
-        "Args": "-size"
+        "Args": "-size",
+        "ArgumentGrammar": {
+          "mode": "fixed",
+          "numeric": [
+            "Size"
+          ]
+        }
       }
     ]
   },
@@ -2665,7 +3098,21 @@
       {
         "Type": "Request",
         "Token": ".sizes",
-        "Args": "s1 s2 … sn [0]"
+        "Args": "s1 s2 … sn [0]",
+        "ArgumentGrammar": {
+          "mode": "variadic",
+          "rest": "Arg0",
+          "optional": [
+            false,
+            true,
+            true,
+            true,
+            true
+          ],
+          "minimum": 1,
+          "repeat_from": 0,
+          "step": 1
+        }
       }
     ]
   },
@@ -2675,7 +3122,13 @@
       {
         "Type": "Request",
         "Token": ".vs",
-        "Args": "+space"
+        "Args": "+space",
+        "ArgumentGrammar": {
+          "mode": "fixed",
+          "numeric": [
+            "Space"
+          ]
+        }
       }
     ]
   },
@@ -2685,7 +3138,13 @@
       {
         "Type": "Request",
         "Token": ".vs",
-        "Args": "-space"
+        "Args": "-space",
+        "ArgumentGrammar": {
+          "mode": "fixed",
+          "numeric": [
+            "Space"
+          ]
+        }
       }
     ]
   },
@@ -2705,7 +3164,13 @@
       {
         "Type": "Request",
         "Token": ".pvs",
-        "Args": "+space"
+        "Args": "+space",
+        "ArgumentGrammar": {
+          "mode": "fixed",
+          "numeric": [
+            "Space"
+          ]
+        }
       }
     ]
   },
@@ -2715,7 +3180,13 @@
       {
         "Type": "Request",
         "Token": ".pvs",
-        "Args": "-space"
+        "Args": "-space",
+        "ArgumentGrammar": {
+          "mode": "fixed",
+          "numeric": [
+            "Space"
+          ]
+        }
       }
     ]
   },
@@ -2755,7 +3226,11 @@
       {
         "Type": "Request",
         "Token": ".as1",
-        "Args": "name [string]"
+        "Args": "name [string]",
+        "ArgumentGrammar": {
+          "mode": "string",
+          "rest": "StringVal"
+        }
       }
     ]
   },
@@ -2765,7 +3240,14 @@
       {
         "Type": "Request",
         "Token": ".substring",
-        "Args": "str n1 [n2]"
+        "Args": "str n1 [n2]",
+        "ArgumentGrammar": {
+          "mode": "fixed",
+          "numeric": [
+            "N1",
+            "N2"
+          ]
+        }
       }
     ]
   },
@@ -2775,7 +3257,15 @@
       {
         "Type": "Request",
         "Token": ".length",
-        "Args": "reg str"
+        "Args": "reg str",
+        "ArgumentGrammar": {
+          "mode": "string",
+          "rest": "Str",
+          "optional": [
+            false,
+            true
+          ]
+        }
       }
     ]
   },
@@ -2795,7 +3285,17 @@
       {
         "Type": "Request",
         "Token": ".rm",
-        "Args": "xx"
+        "Args": "xx",
+        "ArgumentGrammar": {
+          "mode": "variadic",
+          "rest": "Xx",
+          "optional": [
+            false
+          ],
+          "minimum": 1,
+          "repeat_from": 0,
+          "step": 1
+        }
       }
     ]
   },
@@ -2820,12 +3320,15 @@
     ]
   },
   {
-    "Description": "Evaluate the expression expr, and executes anything (the remainder of\nthe line) if expr evaluates to a value greater than zero (true).\nanything is interpreted as though it was on a line by itself (except\nthat leading spaces are swallowed). See Operators in Conditionals, for\nmore info.\n\n\n.nr xxx 1\n.nr yyy 2\n.if ((\\n[xxx] == 1) \u0026 (\\n[yyy] == 2)) true\n    ⇒ true",
+    "Description": "Evaluate the expression expr, and executes anything (the remainder of\nthe line) if expr evaluates to a value greater than zero (true).\nanything is interpreted as though it was on a line by itself (except\nthat leading spaces are swallowed). See Operators in Conditionals, for\nmore info.\n\n\n.nr xxx 1\n.nr yyy 2\n.if ((\\n[xxx] == 1) & (\\n[yyy] == 2)) true\n    ⇒ true",
     "Contents": [
       {
         "Type": "Request",
         "Token": ".if",
-        "Args": "expr anything"
+        "Args": "expr anything",
+        "ArgumentGrammar": {
+          "mode": "conditional"
+        }
       }
     ]
   },
@@ -2835,7 +3338,11 @@
       {
         "Type": "Request",
         "Token": ".nop",
-        "Args": "anything"
+        "Args": "anything",
+        "ArgumentGrammar": {
+          "mode": "raw",
+          "rest": "Anything"
+        }
       }
     ]
   },
@@ -2845,17 +3352,24 @@
       {
         "Type": "Request",
         "Token": ".el",
-        "Args": "anything"
+        "Args": "anything",
+        "ArgumentGrammar": {
+          "mode": "raw",
+          "rest": "Anything"
+        }
       }
     ]
   },
   {
-    "Description": "Evaluate the expression expr, and repeatedly execute anything (the\nremainder of the line) until expr evaluates to 0.\n\n\n.nr a 0 1\n.while (\\na \u003c 9) \\{\\\n\\n+a,\n.\\}\n\\n+a\n    ⇒ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10\n\nSome remarks.\n\n\n\n The body of a while request is treated like the body of a\nde request: gtroff temporarily stores it in a macro that\nis deleted after the loop has been exited.  It can considerably slow\ndown a macro if the body of the while request (within the macro)\nis large.  Each time the macro is executed, the while body is\nparsed and stored again as a temporary macro.\n\n\n.de xxx\n.  nr num 10\n.  while (\\\\n[num] \u003e 0) \\{\\\n.    \\\" many lines of code\n.    nr num -1\n.  \\}\n..\n\n\n\nThe traditional and often better solution (Unix troff doesn’t have the\nwhile request) is to use a recursive macro instead that is parsed only\nonce during its definition.\n\n\n.de yyy\n.  if (\\\\n[num] \u003e 0) \\{\\\n.    \\\" many lines of code\n.    nr num -1\n.    yyy\n.  \\}\n..\n.\n.de xxx\n.  nr num 10\n.  yyy\n..\n\nNote that the number of available recursion levels is set to 1000 (this\nis a compile-time constant value of gtroff).\n\n The closing brace of a while body must end a line.\n\n\n.if 1 \\{\\\n.  nr a 0 1\n.  while (\\n[a] \u003c 10) \\{\\\n.    nop \\n+[a]\n.\\}\\}\n    ⇒ unbalanced \\{ \\}",
+    "Description": "Evaluate the expression expr, and repeatedly execute anything (the\nremainder of the line) until expr evaluates to 0.\n\n\n.nr a 0 1\n.while (\\na < 9) \\{\\\n\\n+a,\n.\\}\n\\n+a\n    ⇒ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10\n\nSome remarks.\n\n\n\n The body of a while request is treated like the body of a\nde request: gtroff temporarily stores it in a macro that\nis deleted after the loop has been exited.  It can considerably slow\ndown a macro if the body of the while request (within the macro)\nis large.  Each time the macro is executed, the while body is\nparsed and stored again as a temporary macro.\n\n\n.de xxx\n.  nr num 10\n.  while (\\\\n[num] > 0) \\{\\\n.    \\\" many lines of code\n.    nr num -1\n.  \\}\n..\n\n\n\nThe traditional and often better solution (Unix troff doesn’t have the\nwhile request) is to use a recursive macro instead that is parsed only\nonce during its definition.\n\n\n.de yyy\n.  if (\\\\n[num] > 0) \\{\\\n.    \\\" many lines of code\n.    nr num -1\n.    yyy\n.  \\}\n..\n.\n.de xxx\n.  nr num 10\n.  yyy\n..\n\nNote that the number of available recursion levels is set to 1000 (this\nis a compile-time constant value of gtroff).\n\n The closing brace of a while body must end a line.\n\n\n.if 1 \\{\\\n.  nr a 0 1\n.  while (\\n[a] < 10) \\{\\\n.    nop \\n+[a]\n.\\}\\}\n    ⇒ unbalanced \\{ \\}",
     "Contents": [
       {
         "Type": "Request",
         "Token": ".while",
-        "Args": "expr anything"
+        "Args": "expr anything",
+        "ArgumentGrammar": {
+          "mode": "conditional"
+        }
       }
     ]
   },
@@ -2905,7 +3419,11 @@
       {
         "Type": "Request",
         "Token": ".return",
-        "Args": "[anything]"
+        "Args": "[anything]",
+        "ArgumentGrammar": {
+          "mode": "raw",
+          "rest": "Anything"
+        }
       }
     ]
   },
@@ -2925,7 +3443,13 @@
       {
         "Type": "Request",
         "Token": ".shift",
-        "Args": "[n]"
+        "Args": "[n]",
+        "ArgumentGrammar": {
+          "mode": "fixed",
+          "numeric": [
+            "N"
+          ]
+        }
       }
     ]
   },
@@ -2935,7 +3459,13 @@
       {
         "Type": "Request",
         "Token": ".rt",
-        "Args": "[dist]"
+        "Args": "[dist]",
+        "ArgumentGrammar": {
+          "mode": "fixed",
+          "numeric": [
+            "Dist"
+          ]
+        }
       }
     ]
   },
@@ -2985,7 +3515,13 @@
       {
         "Type": "Request",
         "Token": ".wh",
-        "Args": "dist [macro]"
+        "Args": "dist [macro]",
+        "ArgumentGrammar": {
+          "mode": "fixed",
+          "numeric": [
+            "Dist"
+          ]
+        }
       }
     ]
   },
@@ -3005,7 +3541,13 @@
       {
         "Type": "Request",
         "Token": ".ch",
-        "Args": "macro [dist]"
+        "Args": "macro [dist]",
+        "ArgumentGrammar": {
+          "mode": "fixed",
+          "numeric": [
+            "Dist"
+          ]
+        }
       }
     ]
   },
@@ -3030,7 +3572,7 @@
     ]
   },
   {
-    "Description": "A read-only register that is set to 1 while a page is ejected with the\nbp request (or by the end of input).\n\nOutside of traps this register is always zero. In the following example,\nonly the second call to x is caused by bp.\n\n\n.de x\n\\\u0026.pe=\\\\n[.pe]\n.br\n..\n.wh 1v x\n.wh 4v x\nA line.\n.br\nAnother line.\n.br\n    ⇒ A line.\n       .pe=0\n       Another line.\n\n       .pe=1",
+    "Description": "A read-only register that is set to 1 while a page is ejected with the\nbp request (or by the end of input).\n\nOutside of traps this register is always zero. In the following example,\nonly the second call to x is caused by bp.\n\n\n.de x\n\\&.pe=\\\\n[.pe]\n.br\n..\n.wh 1v x\n.wh 4v x\nA line.\n.br\nAnother line.\n.br\n    ⇒ A line.\n       .pe=0\n       Another line.\n\n       .pe=1",
     "Contents": [
       {
         "Type": "Register",
@@ -3055,7 +3597,13 @@
       {
         "Type": "Request",
         "Token": ".itc",
-        "Args": "n macro"
+        "Args": "n macro",
+        "ArgumentGrammar": {
+          "mode": "fixed",
+          "numeric": [
+            "N"
+          ]
+        }
       }
     ]
   },
@@ -3070,7 +3618,7 @@
     ]
   },
   {
-    "Description": "Set a leading spaces trap. gtroff executes macro when it encounters\nleading spaces in an input line; the implicit line break that normally\nhappens in this case is suppressed. A line consisting of spaces only,\nhowever, is treated as an empty line, possibly subject to an empty line\nmacro set with the blm request.\n\nLeading spaces are removed from the input line before calling the\nleading spaces macro. The number of removed spaces is stored in register\nlsn; the horizontal space that would be emitted if there was no leading\nspace macro is stored in register lss. Note that lsn and lss are\navailable even if no leading space macro has been set.\n\nThe first thing a leading space macro sees is a token. However, some\nescapes like \\f or \\m are handled on the fly (see Gtroff Internals, for\na complete list) without creating a token at all. Consider that a line\nstarts with two spaces followed by \\fIfoo. While skipping the spaces \\fI\nis handled too so that groff’s current font is properly set to\n‘I’, but the leading space macro only sees foo, without the\npreceding \\fI. If the macro should see the font escape you have to\n‘protect’ it with something that creates a token, for example with\n\\\u0026\\fIfoo.",
+    "Description": "Set a leading spaces trap. gtroff executes macro when it encounters\nleading spaces in an input line; the implicit line break that normally\nhappens in this case is suppressed. A line consisting of spaces only,\nhowever, is treated as an empty line, possibly subject to an empty line\nmacro set with the blm request.\n\nLeading spaces are removed from the input line before calling the\nleading spaces macro. The number of removed spaces is stored in register\nlsn; the horizontal space that would be emitted if there was no leading\nspace macro is stored in register lss. Note that lsn and lss are\navailable even if no leading space macro has been set.\n\nThe first thing a leading space macro sees is a token. However, some\nescapes like \\f or \\m are handled on the fly (see Gtroff Internals, for\na complete list) without creating a token at all. Consider that a line\nstarts with two spaces followed by \\fIfoo. While skipping the spaces \\fI\nis handled too so that groff’s current font is properly set to\n‘I’, but the leading space macro only sees foo, without the\npreceding \\fI. If the macro should see the font escape you have to\n‘protect’ it with something that creates a token, for example with\n\\&\\fIfoo.",
     "Contents": [
       {
         "Type": "Register",
@@ -3080,7 +3628,7 @@
     ]
   },
   {
-    "Description": "Set a trap at the end of input. macro is executed after the last line of\nthe input file has been processed.\n\nFor example, if the document had to have a section at the bottom of the\nlast page for someone to approve it, the em request could be used.\n\n\n.de approval\n\\c\n.  ne 3v\n.  sp (\\\\n[.t]u - 3v)\n.  in +4i\n.  lc _\n.  br\nApproved:\\t\\a\n.  sp\nDate:\\t\\t\\a\n..\n.\n.em approval\n\nThe \\c in the above example needs explanation. For historical reasons\n(and for compatibility with AT\u0026T troff), the end macro exits as soon as\nit causes a page break and no remaining data is in the partially\ncollected line.\n\nLet us assume that there is no \\c in the above approval macro, and that\nthe page is full and has been ended with, say, a br request. The ne\nrequest now causes the start of a new page, which in turn makes troff\nexit immediately for the reasons just described. In most situations this\nis not intended.\n\nTo always force processing the whole end macro independently of this\nbehaviour it is thus advisable to insert something that starts an empty\npartially filled line (\\c) whenever there is a chance that a page break\ncan happen. In the above example, the call of the ne request assures\nthat the remaining code stays on the same page, so we have to insert \\c\nonly once.\n\nThe next example shows how to append three lines, then starting a new\npage unconditionally. Since ‘.ne 1’ doesn’t give the desired\neffect – there is always one line available or we are already at the\nbeginning of the next page – we temporarily increase the page length\nby one line so that we can use ‘.ne 2’.\n\n\n.de EM\n.pl +1v\n\\c\n.ne 2\nline one\n.br\n\\c\n.ne 2\nline two\n.br\n\\c\n.ne 2\nline three\n.br\n.pl -1v\n\\c\n'bp\n..\n.em EM\n\nNote that this specific feature affects only the first potential page\nbreak caused by the end macro; further page breaks emitted by the end\nmacro are handled normally.\n\nAnother possible use of the em request is to make gtroff emit a single\nlarge page instead of multiple pages. For example, one may want to\nproduce a long plain-text file for reading on-screen. The idea is to set\nthe page length at the beginning of the document to a very large value\nto hold all the text, and automatically adjust it to the exact height of\nthe document after the text has been output.\n\n\n.de adjust-page-length\n.  br\n.  pl \\\\n[nl]u \\\" \\n[nl] holds the current vert. position\n..\n.\n.de single-page-mode\n.  pl 99999\n.  em adjust-page-length\n..\n.\n.\\\" activate the above code\n.single-page-mode\n\nSince only one end-of-input trap does exist and other macro packages may\nalready use it, care must be taken not to break the mechanism. A simple\nsolution would be to append the above macro to the macro package’s\nend-of-input macro using the .am request.",
+    "Description": "Set a trap at the end of input. macro is executed after the last line of\nthe input file has been processed.\n\nFor example, if the document had to have a section at the bottom of the\nlast page for someone to approve it, the em request could be used.\n\n\n.de approval\n\\c\n.  ne 3v\n.  sp (\\\\n[.t]u - 3v)\n.  in +4i\n.  lc _\n.  br\nApproved:\\t\\a\n.  sp\nDate:\\t\\t\\a\n..\n.\n.em approval\n\nThe \\c in the above example needs explanation. For historical reasons\n(and for compatibility with AT&T troff), the end macro exits as soon as\nit causes a page break and no remaining data is in the partially\ncollected line.\n\nLet us assume that there is no \\c in the above approval macro, and that\nthe page is full and has been ended with, say, a br request. The ne\nrequest now causes the start of a new page, which in turn makes troff\nexit immediately for the reasons just described. In most situations this\nis not intended.\n\nTo always force processing the whole end macro independently of this\nbehaviour it is thus advisable to insert something that starts an empty\npartially filled line (\\c) whenever there is a chance that a page break\ncan happen. In the above example, the call of the ne request assures\nthat the remaining code stays on the same page, so we have to insert \\c\nonly once.\n\nThe next example shows how to append three lines, then starting a new\npage unconditionally. Since ‘.ne 1’ doesn’t give the desired\neffect – there is always one line available or we are already at the\nbeginning of the next page – we temporarily increase the page length\nby one line so that we can use ‘.ne 2’.\n\n\n.de EM\n.pl +1v\n\\c\n.ne 2\nline one\n.br\n\\c\n.ne 2\nline two\n.br\n\\c\n.ne 2\nline three\n.br\n.pl -1v\n\\c\n'bp\n..\n.em EM\n\nNote that this specific feature affects only the first potential page\nbreak caused by the end macro; further page breaks emitted by the end\nmacro are handled normally.\n\nAnother possible use of the em request is to make gtroff emit a single\nlarge page instead of multiple pages. For example, one may want to\nproduce a long plain-text file for reading on-screen. The idea is to set\nthe page length at the beginning of the document to a very large value\nto hold all the text, and automatically adjust it to the exact height of\nthe document after the text has been output.\n\n\n.de adjust-page-length\n.  br\n.  pl \\\\n[nl]u \\\" \\n[nl] holds the current vert. position\n..\n.\n.de single-page-mode\n.  pl 99999\n.  em adjust-page-length\n..\n.\n.\\\" activate the above code\n.single-page-mode\n\nSince only one end-of-input trap does exist and other macro packages may\nalready use it, care must be taken not to break the mechanism. A simple\nsolution would be to append the above macro to the macro package’s\nend-of-input macro using the .am request.",
     "Contents": [
       {
         "Type": "Request",
@@ -3130,7 +3678,7 @@
     ]
   },
   {
-    "Description": "After completing a diversion, the read-write number registers dn and dl\ncontain the vertical and horizontal size of the diversion. Note that\nonly the just processed lines are counted: For the computation of dn and\ndl, the requests da and boxa are handled as if di and box had been used\n– lines that have been already stored in a macro are not taken into\naccount.\n\n\n.\\\" Center text both horizontally \u0026 vertically\n.\n.\\\" Enclose macro definitions in .eo and .ec\n.\\\" to avoid the doubling of the backslash\n.eo\n.\\\" macro .(c starts centering mode\n.de (c\n.  br\n.  ev (c\n.  evc 0\n.  in 0\n.  nf\n.  di @c\n..\n\n\n.\\\" macro .)c terminates centering mode\n.de )c\n.  br\n.  ev\n.  di\n.  nr @s (((\\n[.t]u - \\n[dn]u) / 2u) - 1v)\n.  sp \\n[@s]u\n.  ce 1000\n.  @c\n.  ce 0\n.  sp \\n[@s]u\n.  br\n.  fi\n.  rr @s\n.  rm @c\n..\n.\\\" End of macro definitions, restore escape mechanism\n.ec",
+    "Description": "After completing a diversion, the read-write number registers dn and dl\ncontain the vertical and horizontal size of the diversion. Note that\nonly the just processed lines are counted: For the computation of dn and\ndl, the requests da and boxa are handled as if di and box had been used\n– lines that have been already stored in a macro are not taken into\naccount.\n\n\n.\\\" Center text both horizontally & vertically\n.\n.\\\" Enclose macro definitions in .eo and .ec\n.\\\" to avoid the doubling of the backslash\n.eo\n.\\\" macro .(c starts centering mode\n.de (c\n.  br\n.  ev (c\n.  evc 0\n.  in 0\n.  nf\n.  di @c\n..\n\n\n.\\\" macro .)c terminates centering mode\n.de )c\n.  br\n.  ev\n.  di\n.  nr @s (((\\n[.t]u - \\n[dn]u) / 2u) - 1v)\n.  sp \\n[@s]u\n.  ce 1000\n.  @c\n.  ce 0\n.  sp \\n[@s]u\n.  br\n.  fi\n.  rr @s\n.  rm @c\n..\n.\\\" End of macro definitions, restore escape mechanism\n.ec",
     "Contents": [
       {
         "Type": "Register",
@@ -3145,7 +3693,11 @@
       {
         "Type": "Request",
         "Token": ".output",
-        "Args": "string"
+        "Args": "string",
+        "ArgumentGrammar": {
+          "mode": "raw",
+          "rest": "StringVal"
+        }
       }
     ]
   },
@@ -3225,7 +3777,11 @@
       {
         "Type": "Request",
         "Token": ".defcolor",
-        "Args": "ident scheme color_components"
+        "Args": "ident scheme color_components",
+        "ArgumentGrammar": {
+          "mode": "joined",
+          "rest": "Color_components"
+        }
       }
     ]
   },
@@ -3265,7 +3821,11 @@
       {
         "Type": "Request",
         "Token": ".pso",
-        "Args": "command"
+        "Args": "command",
+        "ArgumentGrammar": {
+          "mode": "raw",
+          "rest": "Command"
+        }
       }
     ]
   },
@@ -3305,7 +3865,20 @@
       {
         "Type": "Request",
         "Token": ".rd",
-        "Args": "[prompt [arg1 arg2 …]]"
+        "Args": "[prompt [arg1 arg2 …]]",
+        "ArgumentGrammar": {
+          "mode": "variadic",
+          "rest": "Ellipse",
+          "optional": [
+            true,
+            true,
+            true,
+            true
+          ],
+          "minimum": 0,
+          "repeat_from": 0,
+          "step": 1
+        }
       }
     ]
   },
@@ -3315,12 +3888,16 @@
       {
         "Type": "Request",
         "Token": ".pi",
-        "Args": "pipe"
+        "Args": "pipe",
+        "ArgumentGrammar": {
+          "mode": "raw",
+          "rest": "Pipe"
+        }
       }
     ]
   },
   {
-    "Description": "Execute the shell command(s) specified by cmds. The output is not saved\nanyplace, so it is up to the user to do so.\n\n\n\n\n\nThis request causes an error if used in safer mode (which is the\ndefault). Use groff’s or troff’s -U option to activate unsafe mode.\n\nFor example, the following code fragment introduces the current time\ninto a document:\n\n\n\n\n\n.sy perl -e 'printf \".nr H %d\\\\n.nr M %d\\\\n.nr S %d\\\\n\",\\\n             (localtime(time))[2,1,0]' \u003e /tmp/x\\n[$$]\n.so /tmp/x\\n[$$]\n.sy rm /tmp/x\\n[$$]\n\\nH:\\nM:\\nS\n\nNote that this works by having the perl script (run by sy) print out the\nnr requests that set the number registers H, M, and S, and then reads\nthose commands in with the so request.\n\nFor most practical purposes, the number registers seconds, minutes, and\nhours, which are initialized at start-up of gtroff, should be\nsufficient. Use the af request to get a formatted output:\n\n\n.af hours 00\n.af minutes 00\n.af seconds 00\n\\n[hours]:\\n[minutes]:\\n[seconds]\n\n\n\nThe systat read-write number register contains the return value of the\nsystem() function executed by the last sy request.",
+    "Description": "Execute the shell command(s) specified by cmds. The output is not saved\nanyplace, so it is up to the user to do so.\n\n\n\n\n\nThis request causes an error if used in safer mode (which is the\ndefault). Use groff’s or troff’s -U option to activate unsafe mode.\n\nFor example, the following code fragment introduces the current time\ninto a document:\n\n\n\n\n\n.sy perl -e 'printf \".nr H %d\\\\n.nr M %d\\\\n.nr S %d\\\\n\",\\\n             (localtime(time))[2,1,0]' > /tmp/x\\n[$$]\n.so /tmp/x\\n[$$]\n.sy rm /tmp/x\\n[$$]\n\\nH:\\nM:\\nS\n\nNote that this works by having the perl script (run by sy) print out the\nnr requests that set the number registers H, M, and S, and then reads\nthose commands in with the so request.\n\nFor most practical purposes, the number registers seconds, minutes, and\nhours, which are initialized at start-up of gtroff, should be\nsufficient. Use the af request to get a formatted output:\n\n\n.af hours 00\n.af minutes 00\n.af seconds 00\n\\n[hours]:\\n[minutes]:\\n[seconds]\n\n\n\nThe systat read-write number register contains the return value of the\nsystem() function executed by the last sy request.",
     "Contents": [
       {
         "Type": "Register",
@@ -3345,7 +3922,11 @@
       {
         "Type": "Request",
         "Token": ".writec",
-        "Args": "stream data"
+        "Args": "stream data",
+        "ArgumentGrammar": {
+          "mode": "raw",
+          "rest": "Data"
+        }
       }
     ]
   },
@@ -3375,7 +3956,16 @@
       {
         "Type": "Request",
         "Token": ".nm",
-        "Args": "[start [inc [space [indent]]]]"
+        "Args": "[start [inc [space [indent]]]]",
+        "ArgumentGrammar": {
+          "mode": "fixed",
+          "numeric": [
+            "Start",
+            "Inc",
+            "Space",
+            "Indent"
+          ]
+        }
       }
     ]
   },
@@ -3385,17 +3975,29 @@
       {
         "Type": "Request",
         "Token": ".nn",
-        "Args": "[skip]"
+        "Args": "[skip]",
+        "ArgumentGrammar": {
+          "mode": "fixed",
+          "numeric": [
+            "Skip"
+          ]
+        }
       }
     ]
   },
   {
-    "Description": "Print a margin character to the right of the text.25 The first argument\nis the glyph to be printed. The second argument is the distance away\nfrom the right margin. If missing, the previously set value is used;\ndefault is 10pt). For text lines that are too long (that is, longer than\nthe text length plus dist), the margin character is directly appended to\nthe lines.\n\nWith no arguments the margin character is turned off. If this occurs\nbefore a break, no margin character is printed.\n\nFor compatibility with AT\u0026T troff, a call to mc to set the margin\ncharacter can’t be undone immediately; at least one line gets a margin\ncharacter. Thus\n\n\n.ll 1i\n.mc \\[br]\n.mc\nxxx\n.br\nxxx\n\nproduces\n\nxxx | xxx\n\n\n\nFor empty lines and lines produced by the tl request no margin character\nis emitted.\n\nThe margin character is associated with the current environment (see\nEnvironments).\n\n\n\nThis is quite useful for indicating text that has changed, and, in fact,\nthere are programs available for doing this (they are called nrchbar and\nchangebar and can be found in any ‘comp.sources.unix’ archive).\n\n\n.ll 3i\n.mc |\nThis paragraph is highlighted with a margin\ncharacter.\n.sp\nNote that vertical space isn't marked.\n.br\n\\\u0026\n.br\nBut we can fake it with `\\\u0026'.\n\nResult:\n\nThis paragraph is highlighted | with a margin character. |\n\nNote that vertical space isn't |\nmarked.                        |\n                               |\nBut we can fake it with `\\\u0026'.  |",
+    "Description": "Print a margin character to the right of the text.25 The first argument\nis the glyph to be printed. The second argument is the distance away\nfrom the right margin. If missing, the previously set value is used;\ndefault is 10pt). For text lines that are too long (that is, longer than\nthe text length plus dist), the margin character is directly appended to\nthe lines.\n\nWith no arguments the margin character is turned off. If this occurs\nbefore a break, no margin character is printed.\n\nFor compatibility with AT&T troff, a call to mc to set the margin\ncharacter can’t be undone immediately; at least one line gets a margin\ncharacter. Thus\n\n\n.ll 1i\n.mc \\[br]\n.mc\nxxx\n.br\nxxx\n\nproduces\n\nxxx | xxx\n\n\n\nFor empty lines and lines produced by the tl request no margin character\nis emitted.\n\nThe margin character is associated with the current environment (see\nEnvironments).\n\n\n\nThis is quite useful for indicating text that has changed, and, in fact,\nthere are programs available for doing this (they are called nrchbar and\nchangebar and can be found in any ‘comp.sources.unix’ archive).\n\n\n.ll 3i\n.mc |\nThis paragraph is highlighted with a margin\ncharacter.\n.sp\nNote that vertical space isn't marked.\n.br\n\\&\n.br\nBut we can fake it with `\\&'.\n\nResult:\n\nThis paragraph is highlighted | with a margin character. |\n\nNote that vertical space isn't |\nmarked.                        |\n                               |\nBut we can fake it with `\\&'.  |",
     "Contents": [
       {
         "Type": "Request",
         "Token": ".mc",
-        "Args": "glyph [dist]"
+        "Args": "glyph [dist]",
+        "ArgumentGrammar": {
+          "mode": "fixed",
+          "numeric": [
+            "Dist"
+          ]
+        }
       }
     ]
   },
@@ -3410,7 +4012,7 @@
     ]
   },
   {
-    "Description": "Change the line number and optionally the file name gtroff shall use for\nerror and warning messages. line is the input line number of the next\nline.\n\nWithout argument, the request is ignored.\n\nThis is a debugging aid for documents that are split into many files,\nthen put together with soelim and other preprocessors. Usually, it\nisn’t invoked manually.\n\nNote that other troff implementations (including the original AT\u0026T\nversion) handle lf differently. For them, line changes the line number\nof the current line.",
+    "Description": "Change the line number and optionally the file name gtroff shall use for\nerror and warning messages. line is the input line number of the next\nline.\n\nWithout argument, the request is ignored.\n\nThis is a debugging aid for documents that are split into many files,\nthen put together with soelim and other preprocessors. Usually, it\nisn’t invoked manually.\n\nNote that other troff implementations (including the original AT&T\nversion) handle lf differently. For them, line changes the line number\nof the current line.",
     "Contents": [
       {
         "Type": "Request",
@@ -3425,7 +4027,11 @@
       {
         "Type": "Request",
         "Token": ".tmc",
-        "Args": "string"
+        "Args": "string",
+        "ArgumentGrammar": {
+          "mode": "raw",
+          "rest": "StringVal"
+        }
       }
     ]
   },
@@ -3435,7 +4041,11 @@
       {
         "Type": "Request",
         "Token": ".ab",
-        "Args": "[string]"
+        "Args": "[string]",
+        "ArgumentGrammar": {
+          "mode": "raw",
+          "rest": "StringVal"
+        }
       }
     ]
   },
@@ -3535,7 +4145,13 @@
       {
         "Type": "Request",
         "Token": ".spreadwarn",
-        "Args": "[limit]"
+        "Args": "[limit]",
+        "ArgumentGrammar": {
+          "mode": "fixed",
+          "numeric": [
+            "Limit"
+          ]
+        }
       }
     ]
   },
@@ -3575,27 +4191,51 @@
       {
         "Type": "Request",
         "Token": ".do",
-        "Args": "cmd"
+        "Args": "cmd",
+        "ArgumentGrammar": {
+          "mode": "raw",
+          "rest": "Cmd"
+        }
       },
       {
         "Type": "Request",
         "Token": ".cp",
-        "Args": "[n]"
+        "Args": "[n]",
+        "ArgumentGrammar": {
+          "mode": "fixed",
+          "numeric": [
+            "N"
+          ]
+        }
       },
       {
         "Type": "Request",
         "Token": ".warn",
-        "Args": "[flags]"
+        "Args": "[flags]",
+        "ArgumentGrammar": {
+          "mode": "fixed",
+          "numeric": [
+            "Flags"
+          ]
+        }
       },
       {
         "Type": "Request",
         "Token": ".tm1",
-        "Args": "string"
+        "Args": "string",
+        "ArgumentGrammar": {
+          "mode": "raw",
+          "rest": "StringVal"
+        }
       },
       {
         "Type": "Request",
         "Token": ".tm",
-        "Args": "string"
+        "Args": "string",
+        "ArgumentGrammar": {
+          "mode": "raw",
+          "rest": "StringVal"
+        }
       },
       {
         "Type": "Register",
@@ -3625,12 +4265,20 @@
       {
         "Type": "Request",
         "Token": ".device",
-        "Args": "xxx"
+        "Args": "xxx",
+        "ArgumentGrammar": {
+          "mode": "raw",
+          "rest": "Xxx"
+        }
       },
       {
         "Type": "Request",
         "Token": ".write",
-        "Args": "stream data"
+        "Args": "stream data",
+        "ArgumentGrammar": {
+          "mode": "raw",
+          "rest": "Data"
+        }
       },
       {
         "Type": "Request",
@@ -3640,7 +4288,11 @@
       {
         "Type": "Request",
         "Token": ".sy",
-        "Args": "cmds"
+        "Args": "cmds",
+        "ArgumentGrammar": {
+          "mode": "raw",
+          "rest": "Cmds"
+        }
       },
       {
         "Type": "Request",
@@ -3660,7 +4312,13 @@
       {
         "Type": "Request",
         "Token": ".color",
-        "Args": "[n]"
+        "Args": "[n]",
+        "ArgumentGrammar": {
+          "mode": "fixed",
+          "numeric": [
+            "N"
+          ]
+        }
       },
       {
         "Type": "Register",
@@ -3715,12 +4373,24 @@
       {
         "Type": "Request",
         "Token": ".it",
-        "Args": "n macro"
+        "Args": "n macro",
+        "ArgumentGrammar": {
+          "mode": "fixed",
+          "numeric": [
+            "N"
+          ]
+        }
       },
       {
         "Type": "Request",
         "Token": ".vpt",
-        "Args": "flag"
+        "Args": "flag",
+        "ArgumentGrammar": {
+          "mode": "fixed",
+          "numeric": [
+            "Flag"
+          ]
+        }
       },
       {
         "Type": "Register",
@@ -3790,22 +4460,37 @@
       {
         "Type": "Request",
         "Token": ".ie",
-        "Args": "expr anything"
+        "Args": "expr anything",
+        "ArgumentGrammar": {
+          "mode": "conditional"
+        }
       },
       {
         "Type": "Request",
         "Token": ".as",
-        "Args": "name [string]"
+        "Args": "name [string]",
+        "ArgumentGrammar": {
+          "mode": "string",
+          "rest": "StringVal"
+        }
       },
       {
         "Type": "Request",
         "Token": ".ds1",
-        "Args": "name [string]"
+        "Args": "name [string]",
+        "ArgumentGrammar": {
+          "mode": "string",
+          "rest": "StringVal"
+        }
       },
       {
         "Type": "Request",
         "Token": ".ds",
-        "Args": "name [string]"
+        "Args": "name [string]",
+        "ArgumentGrammar": {
+          "mode": "string",
+          "rest": "StringVal"
+        }
       },
       {
         "Type": "Register",
@@ -3815,57 +4500,129 @@
       {
         "Type": "Request",
         "Token": ".pvs",
-        "Args": "[space]"
+        "Args": "[space]",
+        "ArgumentGrammar": {
+          "mode": "fixed",
+          "numeric": [
+            "Space"
+          ]
+        }
       },
       {
         "Type": "Request",
         "Token": ".vs",
-        "Args": "[space]"
+        "Args": "[space]",
+        "ArgumentGrammar": {
+          "mode": "fixed",
+          "numeric": [
+            "Space"
+          ]
+        }
       },
       {
         "Type": "Request",
         "Token": ".ps",
-        "Args": "[size]"
+        "Args": "[size]",
+        "ArgumentGrammar": {
+          "mode": "fixed",
+          "numeric": [
+            "Size"
+          ]
+        }
       },
       {
         "Type": "Request",
         "Token": ".kern",
-        "Args": "[flag]"
+        "Args": "[flag]",
+        "ArgumentGrammar": {
+          "mode": "fixed",
+          "numeric": [
+            "Flag"
+          ]
+        }
       },
       {
         "Type": "Request",
         "Token": ".lg",
-        "Args": "[flag]"
+        "Args": "[flag]",
+        "ArgumentGrammar": {
+          "mode": "fixed",
+          "numeric": [
+            "Flag"
+          ]
+        }
       },
       {
         "Type": "Request",
         "Token": ".bd",
-        "Args": "font [offset]"
+        "Args": "font [offset]",
+        "ArgumentGrammar": {
+          "mode": "fixed",
+          "numeric": [
+            "Offset"
+          ]
+        }
       },
       {
         "Type": "Request",
         "Token": ".special",
-        "Args": "[s1 s2 …]"
+        "Args": "[s1 s2 …]",
+        "ArgumentGrammar": {
+          "mode": "variadic",
+          "rest": "Ellipse",
+          "optional": [
+            true,
+            true,
+            true
+          ],
+          "minimum": 0,
+          "repeat_from": 0,
+          "step": 1
+        }
       },
       {
         "Type": "Request",
         "Token": ".rchar",
-        "Args": "c1 c2 …"
+        "Args": "c1 c2 …",
+        "ArgumentGrammar": {
+          "mode": "variadic",
+          "rest": "Ellipse",
+          "optional": [
+            false,
+            true,
+            true
+          ],
+          "minimum": 1,
+          "repeat_from": 0,
+          "step": 1
+        }
       },
       {
         "Type": "Request",
         "Token": ".fschar",
-        "Args": "f g [string]"
+        "Args": "f g [string]",
+        "ArgumentGrammar": {
+          "mode": "raw",
+          "rest": "StringVal"
+        }
       },
       {
         "Type": "Request",
         "Token": ".fchar",
-        "Args": "g [string]"
+        "Args": "g [string]",
+        "ArgumentGrammar": {
+          "mode": "raw",
+          "rest": "StringVal"
+        }
       },
       {
         "Type": "Request",
         "Token": ".char",
-        "Args": "g [string]"
+        "Args": "g [string]",
+        "ArgumentGrammar": {
+          "mode": "raw",
+          "rest": "StringVal"
+        }
       },
       {
         "Type": "Request",
@@ -3880,7 +4637,13 @@
       {
         "Type": "Request",
         "Token": ".fp",
-        "Args": "pos font [external-name]"
+        "Args": "pos font [external-name]",
+        "ArgumentGrammar": {
+          "mode": "fixed",
+          "numeric": [
+            "Pos"
+          ]
+        }
       },
       {
         "Type": "Register",
@@ -3895,7 +4658,13 @@
       {
         "Type": "Request",
         "Token": ".fzoom",
-        "Args": "f [zoom]"
+        "Args": "f [zoom]",
+        "ArgumentGrammar": {
+          "mode": "fixed",
+          "numeric": [
+            "Zoom"
+          ]
+        }
       },
       {
         "Type": "Request",
@@ -3905,27 +4674,57 @@
       {
         "Type": "Request",
         "Token": ".sv",
-        "Args": "[space]"
+        "Args": "[space]",
+        "ArgumentGrammar": {
+          "mode": "fixed",
+          "numeric": [
+            "Space"
+          ]
+        }
       },
       {
         "Type": "Request",
         "Token": ".bp",
-        "Args": "[page]"
+        "Args": "[page]",
+        "ArgumentGrammar": {
+          "mode": "fixed",
+          "numeric": [
+            "Page"
+          ]
+        }
       },
       {
         "Type": "Request",
         "Token": ".pn",
-        "Args": "page"
+        "Args": "page",
+        "ArgumentGrammar": {
+          "mode": "fixed",
+          "numeric": [
+            "Page"
+          ]
+        }
       },
       {
         "Type": "Request",
         "Token": ".lt",
-        "Args": "[length]"
+        "Args": "[length]",
+        "ArgumentGrammar": {
+          "mode": "fixed",
+          "numeric": [
+            "Length"
+          ]
+        }
       },
       {
         "Type": "Request",
         "Token": ".pl",
-        "Args": "[length]"
+        "Args": "[length]",
+        "ArgumentGrammar": {
+          "mode": "fixed",
+          "numeric": [
+            "Length"
+          ]
+        }
       },
       {
         "Type": "Register",
@@ -3935,27 +4734,55 @@
       {
         "Type": "Request",
         "Token": ".ll",
-        "Args": "[length]"
+        "Args": "[length]",
+        "ArgumentGrammar": {
+          "mode": "fixed",
+          "numeric": [
+            "Length"
+          ]
+        }
       },
       {
         "Type": "Request",
         "Token": ".ti",
-        "Args": "offset"
+        "Args": "offset",
+        "ArgumentGrammar": {
+          "mode": "fixed",
+          "numeric": [
+            "Offset"
+          ]
+        }
       },
       {
         "Type": "Request",
         "Token": ".in",
-        "Args": "[indent]"
+        "Args": "[indent]",
+        "ArgumentGrammar": {
+          "mode": "fixed",
+          "numeric": [
+            "Indent"
+          ]
+        }
       },
       {
         "Type": "Request",
         "Token": ".po",
-        "Args": "[offset]"
+        "Args": "[offset]",
+        "ArgumentGrammar": {
+          "mode": "fixed",
+          "numeric": [
+            "Offset"
+          ]
+        }
       },
       {
         "Type": "Request",
         "Token": ".tr",
-        "Args": "abcd…"
+        "Args": "abcd…",
+        "ArgumentGrammar": {
+          "mode": "raw",
+          "rest": "AbcdEllipse"
+        }
       },
       {
         "Type": "Request",
@@ -3965,12 +4792,36 @@
       {
         "Type": "Request",
         "Token": ".linetabs",
-        "Args": "n"
+        "Args": "n",
+        "ArgumentGrammar": {
+          "mode": "fixed",
+          "numeric": [
+            "N"
+          ]
+        }
       },
       {
         "Type": "Request",
         "Token": ".ta",
-        "Args": "[n1 n2 … nn T r1 r2 … rn]"
+        "Args": "[n1 n2 … nn T r1 r2 … rn]",
+        "ArgumentGrammar": {
+          "mode": "variadic",
+          "rest": "Rn",
+          "optional": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "minimum": 0,
+          "repeat_from": 0,
+          "step": 1
+        }
       },
       {
         "Type": "Request",
@@ -3985,7 +4836,13 @@
       {
         "Type": "Request",
         "Token": ".ls",
-        "Args": "[nnn]"
+        "Args": "[nnn]",
+        "ArgumentGrammar": {
+          "mode": "fixed",
+          "numeric": [
+            "Nnn"
+          ]
+        }
       },
       {
         "Type": "Request",
@@ -3995,12 +4852,24 @@
       {
         "Type": "Request",
         "Token": ".hys",
-        "Args": "[hyphenation_space]"
+        "Args": "[hyphenation_space]",
+        "ArgumentGrammar": {
+          "mode": "fixed",
+          "numeric": [
+            "Hyphenation_space"
+          ]
+        }
       },
       {
         "Type": "Request",
         "Token": ".hym",
-        "Args": "[length]"
+        "Args": "[length]",
+        "ArgumentGrammar": {
+          "mode": "fixed",
+          "numeric": [
+            "Length"
+          ]
+        }
       },
       {
         "Type": "Request",
@@ -4020,22 +4889,46 @@
       {
         "Type": "Request",
         "Token": ".hlm",
-        "Args": "[nnn]"
+        "Args": "[nnn]",
+        "ArgumentGrammar": {
+          "mode": "fixed",
+          "numeric": [
+            "Nnn"
+          ]
+        }
       },
       {
         "Type": "Request",
         "Token": ".hy",
-        "Args": "[mode]"
+        "Args": "[mode]",
+        "ArgumentGrammar": {
+          "mode": "fixed",
+          "numeric": [
+            "Mode"
+          ]
+        }
       },
       {
         "Type": "Request",
         "Token": ".rj",
-        "Args": "[nnn]"
+        "Args": "[nnn]",
+        "ArgumentGrammar": {
+          "mode": "fixed",
+          "numeric": [
+            "Nnn"
+          ]
+        }
       },
       {
         "Type": "Request",
         "Token": ".ce",
-        "Args": "[nnn]"
+        "Args": "[nnn]",
+        "ArgumentGrammar": {
+          "mode": "fixed",
+          "numeric": [
+            "Nnn"
+          ]
+        }
       },
       {
         "Type": "Register",
@@ -4045,7 +4938,14 @@
       {
         "Type": "Request",
         "Token": ".ss",
-        "Args": "word_space_size [sentence_space_size]"
+        "Args": "word_space_size [sentence_space_size]",
+        "ArgumentGrammar": {
+          "mode": "fixed",
+          "numeric": [
+            "Word_space_size",
+            "Sentence_space_size"
+          ]
+        }
       },
       {
         "Type": "Request",
@@ -4065,12 +4965,18 @@
       {
         "Type": "Request",
         "Token": ".nr",
-        "Args": "ident +value"
+        "Args": "ident +value",
+        "ArgumentGrammar": {
+          "mode": "register"
+        }
       },
       {
         "Type": "Request",
         "Token": ".nr",
-        "Args": "ident value"
+        "Args": "ident value",
+        "ArgumentGrammar": {
+          "mode": "register"
+        }
       },
       {
         "Type": "String",
@@ -4155,17 +5061,26 @@
       {
         "Type": "Macro",
         "Token": ".OF",
-        "Args": "'left'center'right'"
+        "Args": "'left'center'right'",
+        "ArgumentGrammar": {
+          "mode": "delimited"
+        }
       },
       {
         "Type": "Macro",
         "Token": ".EH",
-        "Args": "'left'center'right'"
+        "Args": "'left'center'right'",
+        "ArgumentGrammar": {
+          "mode": "delimited"
+        }
       },
       {
         "Type": "Macro",
         "Token": ".OH",
-        "Args": "'left'center'right'"
+        "Args": "'left'center'right'",
+        "ArgumentGrammar": {
+          "mode": "delimited"
+        }
       },
       {
         "Type": "String",
@@ -4305,7 +5220,11 @@
       {
         "Type": "Macro",
         "Token": ".NH",
-        "Args": "curr-level"
+        "Args": "curr-level",
+        "ArgumentGrammar": {
+          "mode": "joined",
+          "rest": "Level"
+        }
       },
       {
         "Type": "Macro",
@@ -4375,7 +5294,11 @@
       {
         "Type": "Macro",
         "Token": ".ME",
-        "Args": "[trailing-text]"
+        "Args": "[trailing-text]",
+        "ArgumentGrammar": {
+          "mode": "joined",
+          "rest": "Trailingtext"
+        }
       }
     ]
   },
@@ -4395,12 +5318,16 @@
       {
         "Type": "Macro",
         "Token": ".UE",
-        "Args": "[trailing-text]"
+        "Args": "[trailing-text]",
+        "ArgumentGrammar": {
+          "mode": "joined",
+          "rest": "Trailingtext"
+        }
       }
     ]
   },
   {
-    "Description": "Set an additional tag for a paragraph tagged with .TP. An input trap is\nplanted as with .TP. This macro is a GNU extension not defined on\nsystems running AT\u0026T, Plan 9, or Solaris troff.",
+    "Description": "Set an additional tag for a paragraph tagged with .TP. An input trap is\nplanted as with .TP. This macro is a GNU extension not defined on\nsystems running AT&T, Plan 9, or Solaris troff.",
     "Contents": [
       {
         "Type": "Macro",

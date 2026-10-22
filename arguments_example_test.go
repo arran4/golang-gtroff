@@ -27,3 +27,24 @@ func ExampleParseArguments() {
 	// source="  café\\ mocha \"世界\" \\\" comment"
 	// canonical="\"café mocha\" 世界"
 }
+
+func ExampleCanonicalToken() {
+	token, err := groff.ParseLine(`.if 1 .IP "two words" 4`)
+	if err != nil {
+		panic(err)
+	}
+	canonical, err := groff.CanonicalToken(token)
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println(canonical)
+	header := &groff.TokenMacroTH{Title: "", Section: "1", Extra3: "Manual title"}
+	canonical, err = header.CanonicalString()
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println(canonical)
+	// Output:
+	// .if 1 .IP "two words" 4
+	// .TH "" 1 "" "" "Manual title"
+}
