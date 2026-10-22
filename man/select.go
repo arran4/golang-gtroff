@@ -89,6 +89,9 @@ func (d *Document) SelectSection(heading string, normalized bool) (*Selection, e
 
 // SelectAST selects the smallest semantic block explicitly originating at an AST
 // ID. Section container IDs and heading-line IDs both resolve to the section.
+// Supported indent/preformatted block IDs resolve to their group. Captured
+// block, nested-block and physical-line IDs resolve to their literal owner.
+// Inline IDs are separate syntax identities; use their physical line's ID.
 func (d *Document) SelectAST(id groff.NodeID) (*Selection, error) {
 	var chosen ID
 	for _, n := range d.Nodes {

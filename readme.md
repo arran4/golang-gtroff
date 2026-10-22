@@ -177,8 +177,11 @@ atomic as a collection. Resource and strict failures preserve existing outputs.
 ## Libraries and development
 
 [Library guide](docs/library.md) · [AST](docs/ast.md) · [semantic model](docs/man.md) ·
-[executable AST example](ast_example_test.go). `cmd/lex` remains the legacy token
-inspection utility. Generated catalogue coverage is not semantic support.
+[executable AST example](ast_example_test.go). Rendering accepts structural AST
+block IDs and physical lines inside captured regions, selecting their complete
+semantic owner with its surrounding style and indentation context. `cmd/lex`
+remains the legacy token inspection utility. Generated catalogue coverage is
+not semantic support.
 The [document reader](docs/document.md) also exposes exact captured source,
 per-token raw bytes, partial results and configurable byte/line limits. AST
 reader failures return a partial tree with positioned causes; `SourceComplete()`

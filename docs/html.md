@@ -48,7 +48,9 @@ selected body retains its enclosing item/relative indentation without replaying
 roff requests.
 
 CLI `--node` uses an **AST source ID**, matching `gtroff ast` output. Inline IDs
-resolve to their physical line's complete semantic block. IDs that have no
+resolve to their physical line's complete semantic block. Supported indent and
+preformatted AST block IDs select their semantic group. Header/body/terminator
+lines and nested block IDs inside a capture select its complete literal owner. IDs that have no
 semantic content are errors, not implicit whole-page exports. API callers can
 use `document.SelectAST` before `RenderSelection` for the same mapping. The
 library's original syntax/source APIs remain separate from HTML formatting.
