@@ -104,6 +104,36 @@ Process input files.
 }
 ```
 
+### Explicit legacy includes
+
+`ParseDocument` reads no included files unless given `WithIncludeResolver`.
+For a caller-selected directory, use
+`WithIncludeResolver(NewSafeDirectoryIncludeResolver(directory, 10))` and
+`WithMaxIncludeDepth(10)`. The directory resolver uses Go's `os.Root` to keep
+relative symlink targets within that tree; absolute paths and escaping symlinks
+are rejected. Treat the chosen root and its filesystem contents as trusted;
+`os.Root` does not prohibit mount points or special files beneath a root.
+
+`IncludeResolver.Resolve` keeps its `io.Reader` signature. A successful call
+transfers ownership to the parser: readers implementing `io.Closer` are closed
+on success or failure, and close errors are reported. Wrap a borrowed reader
+as `struct{ io.Reader }{reader}` to retain ownership. The original reader passed
+to `ParseDocument` remains caller-owned.
+
+The parser bounds nested includes for every resolver (default 10, maximum 128),
+detects repeated active include names, and forwards line/line-length limits to
+each included source. These are per-source line limits, not a total byte budget
+across the include tree. The directory resolver also detects active file aliases
+and bounds open include readers with its `MaxDepth`; closing a reader releases
+that reservation, so sequential/repeated sibling includes and resolver reuse
+work. Configure resolver fields before concurrent use. Included diagnostics and
+source locations are retained. Strict mode rejects failed includes; permissive
+mode preserves the refused directive and reports a warning.
+
+`ParseAST`, the new CLI, exporters and man-library server never execute includes.
+This repair addresses containment, reader ownership and recursion under #12;
+it does not complete that issue's handler registration or raw-block contracts.
+
 ### Line-by-Line Parsing
 
 ```go

@@ -1,0 +1,11 @@
+A missing include remains visible with a warning, or fails strict parsing.
+-- input.1 --
+.so missing.1
+after
+-- error.txt --
+file does not exist
+-- diagnostic.txt --
+input.1:1 warning
+-- expected.txt --
+input.1:1 .so missing.1
+input.1:2 after

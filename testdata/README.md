@@ -40,6 +40,12 @@ When adding new test files:
 scenarios for their respective APIs. Original source remains distinct from
 semantic/canonical expectations.
 
+`include/*.txtar` exercises explicitly enabled legacy `.so`/`.mso` parsing with
+in-memory files: syntax-only visibility, ordering/provenance, repeated siblings,
+missing files, cycles and depth failures. Expectations are small, hand-reviewed
+text; ordinary tests never rewrite them. Separate OS tests cover directory-root
+containment, symlinks and reader lifecycle.
+
 `image/*.txtar` names source/options and expected textual layout, pagination,
 paths and diagnostics. Binary PNG/JPEG goldens are separate under `golden/image`.
 Normal tests do not modify them. Approve a refresh explicitly with

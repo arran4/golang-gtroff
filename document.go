@@ -2,6 +2,7 @@ package groff
 
 import (
 	"bufio"
+	"errors"
 	"fmt"
 	"io"
 	"strings"
@@ -51,6 +52,7 @@ type ParserOptions struct {
 	SourceName      string
 	MaxLineLength   int
 	MaxLines        int
+	MaxIncludeDepth int // default 10, capped at 128; ParseDocument only
 	IncludeResolver IncludeResolver
 	CustomHandlers  []CustomHandler
 }
@@ -82,11 +84,20 @@ func WithIncludeResolver(resolver IncludeResolver) Option {
 	return func(o *ParserOptions) { o.IncludeResolver = resolver }
 }
 
+// WithMaxIncludeDepth limits nested includes, including for custom resolvers.
+// Non-positive values use 10; values above 128 are capped. Line budgets apply
+// separately to each source. ParseAST never executes includes.
+func WithMaxIncludeDepth(n int) Option {
+	return func(o *ParserOptions) { o.MaxIncludeDepth = n }
+}
+
 func WithCustomHandler(h CustomHandler) Option {
 	return func(o *ParserOptions) { o.CustomHandlers = append(o.CustomHandlers, h) }
 }
 
-// ParseDocument reads and tokenizes an entire groff document from r without loss.
+// ParseDocument reads roff tokens and optionally expands explicitly resolved
+// includes. Structured block RawLine values use canonical formatting; use
+// ParseAST for an independent snapshot of the original source bytes.
 func ParseDocument(r io.Reader, opts ...Option) (*Document, error) {
 	options := ParserOptions{
 		SourceName:    "<input>",
@@ -96,7 +107,21 @@ func ParseDocument(r io.Reader, opts ...Option) (*Document, error) {
 	for _, opt := range opts {
 		opt(&options)
 	}
+	if options.MaxIncludeDepth <= 0 {
+		options.MaxIncludeDepth = 10
+	}
+	if options.MaxIncludeDepth > 128 {
+		options.MaxIncludeDepth = 128
+	}
+	return parseDocument(r, options, &includeState{active: make(map[string]bool)})
+}
 
+type includeState struct {
+	depth  int
+	active map[string]bool
+}
+
+func parseDocument(r io.Reader, options ParserOptions, includes *includeState) (*Document, error) {
 	doc := &Document{}
 	br := bufio.NewReader(r)
 
@@ -232,7 +257,7 @@ func ParseDocument(r io.Reader, opts ...Option) (*Document, error) {
 
 			// 4. Source directive (.so, .mso)
 			if (cmd == ".so" || cmd == ".mso") && options.IncludeResolver != nil && args != "" {
-				incTokens, err := resolveInclude(args, options)
+				included, err := resolveInclude(args, options, includes)
 				if err != nil {
 					if options.Strict {
 						return nil, err
@@ -243,7 +268,8 @@ func ParseDocument(r io.Reader, opts ...Option) (*Document, error) {
 						Severity: "warning",
 					})
 				} else {
-					doc.Tokens = append(doc.Tokens, incTokens...)
+					doc.Tokens = append(doc.Tokens, included.Tokens...)
+					doc.Diagnostics = append(doc.Diagnostics, included.Diagnostics...)
 					lineNum++
 					if readErr == io.EOF {
 						break
@@ -482,21 +508,34 @@ func readIgnoredBlock(args, header string, br *bufio.Reader, offset *int, lineNu
 	}
 }
 
-func resolveInclude(args string, opts ParserOptions) ([]DocumentToken, error) {
+func resolveInclude(args string, opts ParserOptions, state *includeState) (doc *Document, err error) {
 	cleanFile := strings.TrimSpace(args)
+	if state.active[cleanFile] {
+		return nil, fmt.Errorf("include cycle detected: %s", cleanFile)
+	}
+	if state.depth >= opts.MaxIncludeDepth {
+		return nil, fmt.Errorf("maximum include depth exceeded (%d)", opts.MaxIncludeDepth)
+	}
 	reader, err := opts.IncludeResolver.Resolve(cleanFile)
 	if err != nil {
 		return nil, err
 	}
 
-	subDoc, err := ParseDocument(reader,
-		WithPackage(opts.Package),
-		WithStrict(opts.Strict),
-		WithSourceName(cleanFile),
-		WithIncludeResolver(opts.IncludeResolver),
-	)
-	if err != nil {
-		return nil, err
+	if reader == nil {
+		return nil, fmt.Errorf("include resolver returned a nil reader: %s", cleanFile)
 	}
-	return subDoc.Tokens, nil
+	state.active[cleanFile] = true
+	state.depth++
+	defer func() {
+		if closer, ok := reader.(io.Closer); ok {
+			err = errors.Join(err, closer.Close())
+		}
+		delete(state.active, cleanFile)
+		state.depth--
+		if err != nil {
+			err = fmt.Errorf("include %q: %w", cleanFile, err)
+		}
+	}()
+	opts.SourceName = cleanFile
+	return parseDocument(reader, opts, state)
 }
