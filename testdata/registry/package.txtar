@@ -1,0 +1,11 @@
+A man-only custom handler must not consume an ms request.
+-- options.json --
+{"package":"ms","handlers":["local"]}
+-- input.1 --
+.LOCAL preserve  raw
+-- expected.txt --
+.LOCAL preserve  raw | .LOCAL preserve  raw
+-- error.txt --
+no token match
+-- extract.txt --
+.LOCAL preserve  raw

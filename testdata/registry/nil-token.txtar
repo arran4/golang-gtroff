@@ -1,0 +1,11 @@
+A handled request cannot succeed with a nil token or silently lose its source.
+-- options.json --
+{"package":"man","handlers":["nil-token"]}
+-- input.1 --
+.LOCAL keep this
+-- expected.txt --
+.LOCAL keep this | .LOCAL keep this
+-- error.txt --
+invalid custom handler
+-- extract.txt --
+.LOCAL keep this

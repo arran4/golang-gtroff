@@ -23,6 +23,10 @@ func ParseLinePermissive(line string, pkg string) (Token, error) {
 }
 
 func parseLineInternal(line string, pkg string, permissive bool) (Token, error) {
+	return parseLineWithRegistry(line, pkg, permissive, defaultRegistry)
+}
+
+func parseLineWithRegistry(line string, pkg string, permissive bool, registry *Registry) (Token, error) {
 	if len(line) == 0 {
 		return TokenText(""), nil
 	}
@@ -65,7 +69,7 @@ func parseLineInternal(line string, pkg string, permissive bool) (Token, error) 
 	}
 
 	// Check custom handlers first
-	if tok, handled, err := defaultRegistry.DispatchCustom(cmd, args, pkg); handled {
+	if tok, handled, err := registry.DispatchCustom(cmd, args, pkg); handled {
 		return tok, err
 	}
 

@@ -1,0 +1,11 @@
+An explicit custom syntax failure preserves the line with an error diagnostic.
+-- options.json --
+{"package":"man","handlers":["reject"]}
+-- input.1 --
+.LOCAL malformed
+-- expected.txt --
+.LOCAL malformed | .LOCAL malformed
+-- error.txt --
+custom syntax rejected
+-- extract.txt --
+.LOCAL malformed

@@ -23,7 +23,7 @@ func WithASTBytes(n int) Option { return func(o *ParserOptions) { o.ASTBytes = n
 func WithASTNodes(n int) Option { return func(o *ParserOptions) { o.ASTNodes = n } }
 
 // ParseAST builds a source-preserving syntax tree without executing macros or
-// resolving includes. It uses generated line tokens and ParseInline, while
+// resolving includes. It uses generated/custom line tokens and ParseInline, while
 // owning physical source boundaries independently of legacy Document formatting.
 //
 // Syntax errors produce diagnostics and preserved nodes. Strict mode also returns
@@ -36,6 +36,7 @@ func ParseAST(r io.Reader, opts ...Option) (*AST, error) {
 			opt(&o)
 		}
 	}
+	registry := registryForOptions(o)
 	if o.ASTDepth <= 0 {
 		o.ASTDepth = 128
 	}
@@ -168,7 +169,7 @@ func ParseAST(r io.Reader, opts ...Option) (*AST, error) {
 			n.text = raw
 			diagnostic(n, "invalid UTF-8 preserved as opaque source", "error")
 		} else {
-			tok, err := ParseLineWithPackage(body, o.Package)
+			tok, err := parseLineWithRegistry(body, o.Package, false, registry)
 			if err != nil {
 				n.attrs.TokenKind = KindUnknown
 				n.text = raw
