@@ -1,6 +1,7 @@
 # Bounded block capture
 
-`ParseDocument` captures `.de`, `.am`, `.ig`, `.TS`/`.TE`, `.EQ`/`.EN`,
+`ParseDocument` captures `.de`, `.am`, `.de1`, `.dei`, `.dei1`, `.am1`,
+`.ami`, `.ami1`, `.ig`, `.TS`/`.TE`, `.EQ`/`.EN`,
 `.PS`/`.PE` (also `.PF`) and `.[`/`.]` as logical source blocks. Registrations
 come from `Block` declarations in `cmd/gen/in.json`; capture and token factories
 are handwritten. Parsing does not execute definitions, ending macros, includes
@@ -54,6 +55,58 @@ Existing document byte, line and line-length limits also bound capture.
 `WithMaxBlockDepth` bounds declared nested pairs (default/maximum 128).
 Input/resource failures return partial source and an error in both modes.
 
+## Definition variants and indirect boundaries
+
+The six variant requests produce `TokenMacroDefinitionVariant` instead of
+masquerading as ordinary `.de`/`.am` blocks. `Request` retains the variant name;
+`Name` and `End` retain decoded header values; `Delimiter` records the actual
+closing command. Body lines remain opaque. Existing generated
+`TokenRequestDe1`/`TokenRequestDei`/etc. are still the line-only API and retain
+existing fields. The ordinary macro block types keep their layouts.
+
+GNU distinguishes compatibility-mode and indirect definition behavior; see
+[Writing Macros](https://www.gnu.org/software/groff/manual/groff.html.node/Writing-Macros.html).
+Structural parsing does not execute those behaviors. In particular, an indirect
+`End` value is a **string reference**, so treating it as a literal end name can
+close at the wrong line. With no explicit end reference, the default `..` boundary
+is known and capture proceeds without resolution. Name references stay symbolic;
+resolving the target macro name is not needed to find the body boundary.
+
+Use `WithBlockNameResolver` with a `BlockNameResolver` or
+`BlockNameResolverFunc` when the end reference is present. The callback receives
+the exact header context and reference and returns the final name without its
+control prefix. It is called once for an encountered indirect opener, never for
+direct/default ends, line overrides or headers inside an opaque definition body.
+An explicit empty result selects `..`; results over 64 KiB, invalid UTF-8,
+ASCII whitespace or NUL are rejected. A result is treated as a literal name, not
+interpolated again. See the [executable example](../definition_variant_example_test.go).
+
+There is no default resolver and parsing does not execute preceding `.ds`/`.as`
+requests or consult evaluator state. A missing, typed-nil, failing or invalid
+resolver leaves the delimiter unresolved. The parser retains the entire bounded
+remainder as one opaque block, including plausible `.REF`, `.STOP` and `..`
+lines; it never guesses where top-level syntax resumes. Both document modes
+record the diagnostic; strict mode additionally returns an error after capture.
+An unresolved `BlockSource.Rule.UnresolvedEnd` and AST `UnresolvedEnd` attribute
+identify the reference. `Closed` remains false. Reader/byte/line/node limits
+still apply and retain partial source. `BlockDelimiterError` unwraps to
+`ErrUnresolvedBlockDelimiter` and retains a resolver cause in document errors.
+The shared block contract also allows an explicit `UnresolvedEnd` rule or a
+`BlockDelimiterError` from `Begin` for other context-dependent grammars.
+
+Registration snapshots and explicit includes retain the supplied resolver. It is
+trusted Go code: protect shared state and bound its own work/allocation. This
+option does not enable includes, preprocessor launches or evaluation. Its callback
+is not stored in source snapshots. Keep the same explicit state when reparsing
+canonical indirect syntax; `String()` cannot make an indirect boundary independent
+of the state in which it is read.
+
+Opt-in evaluation currently preserves complete variant tokens and emits an
+unsupported-semantics diagnostic. It neither executes their body requests nor
+silently treats their compatibility/indirection behavior as ordinary definitions.
+Compatibility-mode execution, indirect name evaluation, copy mode and ending
+macro execution remain separate evaluator work.
+
 ## Custom handlers
 
 Register a `BlockHandler` with `Registry.RegisterBlock` and select that registry
@@ -103,15 +156,15 @@ also apply, including line-length checks inside opaque payloads.
 
 This implements capture/registration work under #5/#12/#14. It does not provide
 preprocessor rendering, arbitrary parser callbacks consuming a reader, roff
-copy-mode evaluation or execution of a macro named by an end delimiter. Only
-the listed opener names have built-in block registrations. Definition variants
-such as `.de1` still have generated line tokens and need separate multiline
-handling; catalogue syntax coverage does not complete the broader #12 scope.
+copy-mode evaluation or execution of a macro named by an end delimiter.
+Catalogue syntax coverage does not complete the broader #12/#13 execution scope.
 
-Eleven small TXTAR scenarios cover exact source, headers, all built-in families,
+Nineteen small TXTAR scenarios cover exact source, headers, all built-in families,
 nesting, mismatches, strict recovery, custom capture and bounds. Separate tests
 exercise callback/registration failures, snapshots, concurrency, include
-inheritance, reader faults and mutation isolation. Fixtures refresh only with:
+inheritance, reader faults, unresolved boundaries and mutation isolation. A
+separate evaluation scenario verifies that variant bodies do not execute. Fixtures
+refresh only with:
 
 ```sh
 go test . -run '^TestBlockScenarios$' -update-blocks

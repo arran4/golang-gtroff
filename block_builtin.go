@@ -10,6 +10,7 @@ import (
 type builtinBlockHandler struct {
 	command, kind string
 	ends          []string
+	resolver      BlockNameResolver
 }
 
 func (h builtinBlockHandler) CanHandle(cmd, pkg string) bool {
@@ -18,13 +19,19 @@ func (h builtinBlockHandler) CanHandle(cmd, pkg string) bool {
 func (h builtinBlockHandler) Begin(header BlockHeader) (BlockRule, error) {
 	rule := BlockRule{Ends: append([]string(nil), h.ends...)}
 	switch h.kind {
-	case "definition", "append", "ignore":
+	case "definition", "append", "ignore", "definition_variant", "append_variant":
 		_, end, err := blockHeaderNames(h.kind, header.Args)
 		if err != nil {
 			return BlockRule{}, err
 		}
 		rule.Ends = []string{".."}
-		if end != "" {
+		if h.indirect() && end != "" {
+			resolved, err := h.resolveDelimiter(header, end)
+			if err != nil {
+				return BlockRule{}, err
+			}
+			rule.Ends = []string{resolved}
+		} else if end != "" {
 			rule.Ends[0] = "." + end
 		}
 	default:
@@ -65,10 +72,13 @@ func (h builtinBlockHandler) ParseBlock(source BlockSource) (Token, error) {
 		body = append(body, line.Text())
 	}
 	switch h.kind {
-	case "definition", "append", "ignore":
+	case "definition", "append", "ignore", "definition_variant", "append_variant":
 		name, end, err := blockHeaderNames(h.kind, source.Header.Args)
 		if err != nil {
 			return nil, err
+		}
+		if h.variant() {
+			return &TokenMacroDefinitionVariant{Request: h.command, Name: name, End: end, Delimiter: normalizedBlockCommand(source.Terminator.Text()), Body: body}, nil
 		}
 		switch h.kind {
 		case "definition":

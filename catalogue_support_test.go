@@ -101,6 +101,8 @@ func TestCatalogueSupportRoutes(t *testing.T) {
 				}
 				var body []string
 				switch token := doc.Tokens[0].Token.(type) {
+				case *TokenMacroDefinitionVariant:
+					body = token.Body
 				case *TokenMacroDefinition:
 					body = token.Body
 				case *TokenMacroAppend:

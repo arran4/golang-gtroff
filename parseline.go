@@ -1024,8 +1024,20 @@ func generatedBlockHandler(cmd string) BlockHandler {
 		return builtinBlockHandler{command: ".[", kind: "reference", ends: []string{".]"}}
 	case ".am":
 		return builtinBlockHandler{command: ".am", kind: "append", ends: []string{}}
+	case ".am1":
+		return builtinBlockHandler{command: ".am1", kind: "append_variant", ends: []string{}}
+	case ".ami":
+		return builtinBlockHandler{command: ".ami", kind: "append_variant", ends: []string{}}
+	case ".ami1":
+		return builtinBlockHandler{command: ".ami1", kind: "append_variant", ends: []string{}}
 	case ".de":
 		return builtinBlockHandler{command: ".de", kind: "definition", ends: []string{}}
+	case ".de1":
+		return builtinBlockHandler{command: ".de1", kind: "definition_variant", ends: []string{}}
+	case ".dei":
+		return builtinBlockHandler{command: ".dei", kind: "definition_variant", ends: []string{}}
+	case ".dei1":
+		return builtinBlockHandler{command: ".dei1", kind: "definition_variant", ends: []string{}}
 	case ".ig":
 		return builtinBlockHandler{command: ".ig", kind: "ignore", ends: []string{}}
 	}

@@ -17,22 +17,25 @@ type BlockDefinition struct {
 	Preprocessor  bool
 }
 
-var blockCommands = map[string]string{"definition": ".de", "append": ".am", "ignore": ".ig", "table": ".TS", "equation": ".EQ", "picture": ".PS", "reference": ".["}
+var blockKinds = map[string]string{
+	".de": "definition", ".am": "append", ".ig": "ignore", ".TS": "table", ".EQ": "equation", ".PS": "picture", ".[": "reference",
+	".de1": "definition_variant", ".dei": "definition_variant", ".dei1": "definition_variant",
+	".am1": "append_variant", ".ami": "append_variant", ".ami1": "append_variant",
+}
 
 func validateBlockPolicy(e *NormalizedEntry) error {
 	if e.Block == nil {
-		for _, command := range blockCommands {
-			if e.Token == command {
-				return fmt.Errorf("missing block declaration for %s", e.Token)
-			}
+		if _, known := blockKinds[e.Token]; known {
+			return fmt.Errorf("missing block declaration for %s", e.Token)
 		}
 		return nil
 	}
 	p := e.Block
-	if blockCommands[p.Kind] != e.Token || (e.Kind != KindMacro && e.Kind != KindRequest) {
+	if expected, known := blockKinds[e.Token]; !known || p.Kind != expected || (e.Kind != KindMacro && e.Kind != KindRequest) {
 		return fmt.Errorf("unregistered block implementation %q for %s", p.Kind, e.Token)
 	}
-	dynamic := p.Kind == "definition" || p.Kind == "append" || p.Kind == "ignore"
+
+	dynamic := p.Kind == "definition" || p.Kind == "append" || p.Kind == "ignore" || p.Kind == "definition_variant" || p.Kind == "append_variant"
 	if dynamic && len(p.Ends) != 0 || !dynamic && (len(p.Ends) == 0 || len(p.Ends) > 128) {
 		return fmt.Errorf("invalid block closing declaration")
 	}
@@ -52,7 +55,7 @@ func prepareBlockDefinitions(cat *Catalog) []BlockDefinition {
 			continue
 		}
 		p := e.Block
-		defs[e.Token] = BlockDefinition{Command: e.Token, Kind: p.Kind, Ends: append([]string(nil), p.Ends...), Preprocessor: p.Kind != "definition" && p.Kind != "append" && p.Kind != "ignore"}
+		defs[e.Token] = BlockDefinition{Command: e.Token, Kind: p.Kind, Ends: append([]string(nil), p.Ends...), Preprocessor: p.Kind != "definition" && p.Kind != "append" && p.Kind != "ignore" && p.Kind != "definition_variant" && p.Kind != "append_variant"}
 	}
 	names := make([]string, 0, len(defs))
 	for name := range defs {

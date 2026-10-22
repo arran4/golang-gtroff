@@ -1,0 +1,26 @@
+Explicit delimiter state resolves the boundary; the header reference stays symbolic.
+-- input.roff --
+.dei NAME REF
+.de1 INNER
+raw
+..
+.終 args
+'ami1 NAME REF
+more
+'終
+suffix
+-- options.json --
+{"Names": {"REF": "終"}, "CRLF": true, "NoFinalLF": true}
+-- expected.txt --
+document error=<nil>
+token *groff.TokenMacroDefinitionVariant [0,47) raw=".dei NAME REF\r\n.de1 INNER\r\nraw\r\n..\r\n.終 args\r\n"
+  variant {"Request":".dei","Name":"NAME","End":"REF","Delimiter":".終","Body":[".de1 INNER","raw",".."]}
+  closed=true header=".dei NAME REF\r\n" body=".de1 INNER\r\nraw\r\n..\r\n" end=".終 args\r\n"
+token *groff.TokenMacroDefinitionVariant [47,75) raw="'ami1 NAME REF\r\nmore\r\n'終\r\n"
+  variant {"Request":".ami1","Name":"NAME","End":"REF","Delimiter":".終","Body":["more"]}
+  closed=true header="'ami1 NAME REF\r\n" body="more\r\n" end="'終\r\n"
+token groff.TokenText [75,81) raw="suffix"
+ast error=<nil>
+ast block .dei closed=true raw=".dei NAME REF\r\n.de1 INNER\r\nraw\r\n..\r\n.終 args\r\n"
+ast block .de1 closed=true raw=".de1 INNER\r\nraw\r\n..\r\n"
+ast block .ami1 closed=true raw="'ami1 NAME REF\r\nmore\r\n'終\r\n"

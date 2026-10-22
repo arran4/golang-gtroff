@@ -69,6 +69,7 @@ type Catalog struct {
 }
 
 var customTokens = map[string]bool{
+	".de1": true, ".dei": true, ".dei1": true, ".am1": true, ".ami": true, ".ami1": true,
 	".de":  true,
 	".am":  true,
 	".ig":  true,

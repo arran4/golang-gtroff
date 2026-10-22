@@ -64,21 +64,22 @@ func (d *Document) Source() string { return d.source }
 
 // ParserOptions configures document parsing behaviour.
 type ParserOptions struct {
-	ASTDepth        int // ParseAST only
-	ASTBytes        int // ParseAST only
-	ASTNodes        int // ParseAST only
-	DocumentBytes   int // ParseDocument only; shared across explicit includes
-	Package         string
-	Strict          bool
-	SourceName      string
-	MaxLineLength   int
-	MaxLines        int
-	MaxIncludeDepth int // default 10, capped at 128; ParseDocument only
-	IncludeResolver IncludeResolver
-	Registry        *Registry
-	CustomHandlers  []CustomHandler
-	BlockHandlers   []BlockHandler
-	MaxBlockDepth   int
+	ASTDepth          int // ParseAST only
+	ASTBytes          int // ParseAST only
+	ASTNodes          int // ParseAST only
+	DocumentBytes     int // ParseDocument only; shared across explicit includes
+	Package           string
+	Strict            bool
+	SourceName        string
+	MaxLineLength     int
+	MaxLines          int
+	MaxIncludeDepth   int // default 10, capped at 128; ParseDocument only
+	IncludeResolver   IncludeResolver
+	Registry          *Registry
+	CustomHandlers    []CustomHandler
+	BlockHandlers     []BlockHandler
+	BlockNameResolver BlockNameResolver
+	MaxBlockDepth     int
 }
 
 // Option configures document parsing.
@@ -136,6 +137,12 @@ func WithCustomHandler(h CustomHandler) Option {
 // WithBlockHandler adds a parse-local, parser-bounded document/AST block handler.
 func WithBlockHandler(h BlockHandler) Option {
 	return func(o *ParserOptions) { o.BlockHandlers = append(o.BlockHandlers, h) }
+}
+
+// WithBlockNameResolver supplies explicit state for indirect end-name references.
+// It is inherited by includes; it never enables macro evaluation or file access.
+func WithBlockNameResolver(resolver BlockNameResolver) Option {
+	return func(o *ParserOptions) { o.BlockNameResolver = resolver }
 }
 
 // WithMaxBlockDepth bounds declared nested block capture (default/max 128).
@@ -242,6 +249,7 @@ func parseDocument(r io.Reader, options ParserOptions, includes *includeState) (
 		}
 		var capture *blockCapture
 		if selectionErr == nil && blockHandler != nil {
+			blockHandler = withBlockNameResolver(blockHandler, options.BlockNameResolver)
 			originalCmd, _ := splitCommandAndArgs(body)
 			capture, selectionErr = beginBlockCapture(blockHandler, BlockHeader{Command: originalCmd, Args: args, Package: options.Package, Line: BlockLine{RawSource: line.raw, Span: line.span}}, options.MaxBlockDepth)
 		}

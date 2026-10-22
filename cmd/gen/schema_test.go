@@ -22,7 +22,7 @@ func TestNormalizeCatalog(t *testing.T) {
 	if summary.UnexplainedGaps != 0 {
 		t.Errorf("expected 0 unexplained gaps, got %d", summary.UnexplainedGaps)
 	}
-	for status, want := range map[string]int{supportGenerated: 336, supportCustom: 11, supportPreserved: 171} {
+	for status, want := range map[string]int{supportGenerated: 330, supportCustom: 17, supportPreserved: 171} {
 		if got := summary.EntriesByParseStatus[status]; got != want {
 			t.Errorf("unexpected %s classification: got %d, want %d", status, got, want)
 		}

@@ -58,14 +58,15 @@ type ASTNode struct {
 // Argument Start/End positions are rune indexes relative to the argument string,
 // as in LexArguments. Source spans always use byte offsets.
 type ASTAttributes struct {
-	Name      string           `json:"name,omitempty"`
-	Package   string           `json:"package,omitempty"`
-	TokenKind TokenKind        `json:"tokenKind,omitempty"`
-	Arguments []ArgumentLexeme `json:"arguments,omitempty"`
-	Heading   string           `json:"heading,omitempty"`
-	EndMarker string           `json:"endMarker,omitempty"`
-	Closed    bool             `json:"closed,omitempty"`
-	Opaque    bool             `json:"opaque,omitempty"`
+	Name          string           `json:"name,omitempty"`
+	Package       string           `json:"package,omitempty"`
+	TokenKind     TokenKind        `json:"tokenKind,omitempty"`
+	Arguments     []ArgumentLexeme `json:"arguments,omitempty"`
+	Heading       string           `json:"heading,omitempty"`
+	EndMarker     string           `json:"endMarker,omitempty"`
+	UnresolvedEnd string           `json:"unresolvedEnd,omitempty"`
+	Closed        bool             `json:"closed,omitempty"`
+	Opaque        bool             `json:"opaque,omitempty"`
 }
 
 func (a *AST) Root() *ASTNode            { return a.root }

@@ -34,8 +34,9 @@ type BlockPair struct {
 // inside this block; their contents remain raw and never dispatch handlers.
 // With no Nested pairs, the first matching terminator closes the block.
 type BlockRule struct {
-	Ends   []string
-	Nested []BlockPair
+	UnresolvedEnd string // Unknown indirect boundary: retain opaque bytes through EOF.
+	Ends          []string
+	Nested        []BlockPair
 }
 
 // BlockSource is a bounded, non-evaluated block snapshot. Body excludes the
@@ -128,6 +129,12 @@ func validBlockCommand(cmd string) bool {
 	return len(cmd) > 1 && cmd[0] == '.' && utf8.ValidString(cmd) && !strings.ContainsAny(cmd, " \t\r\n\x00")
 }
 func validateBlockRule(rule BlockRule) error {
+	if rule.UnresolvedEnd != "" {
+		if len(rule.Ends) != 0 || len(rule.Nested) != 0 {
+			return fmt.Errorf("%w: unresolved rules cannot declare delimiters", ErrInvalidHandler)
+		}
+		return nil
+	}
 	if len(rule.Ends) == 0 || len(rule.Ends) > 128 || len(rule.Nested) > 128 {
 		return fmt.Errorf("%w: invalid block rule size", ErrInvalidHandler)
 	}
@@ -187,6 +194,10 @@ func newBlockCapture(header BlockHeader, rule BlockRule, limit int) *blockCaptur
 	return &blockCapture{source: BlockSource{Header: header, Rule: rule}, stack: [][]string{rule.Ends}, limit: limit}
 }
 func (c *blockCapture) consume(line BlockLine) error {
+	if c.source.Rule.UnresolvedEnd != "" {
+		c.source.Body = append(c.source.Body, line)
+		return nil
+	}
 	cmd := normalizedBlockCommand(line.Text())
 	match := -1
 	for i := len(c.stack) - 1; i >= 0; i-- {
@@ -232,15 +243,21 @@ func (c *blockCapture) mismatch(line BlockLine, cmd string) {
 	}
 }
 func (c *blockCapture) finishError() error {
+	if c.source.Rule.UnresolvedEnd != "" {
+		if c.failure != nil {
+			return c.failure
+		}
+		return blockSyntax(c.source.Header.Line.Span.Start, &BlockDelimiterError{Reference: c.source.Rule.UnresolvedEnd})
+	}
 	if c.source.Closed {
 		return c.failure
 	}
 	cmd := normalizedBlockCommand(c.source.Header.Line.Text())
 	label := "block " + cmd + " (expected " + strings.Join(c.stack[len(c.stack)-1], " or ") + ")"
-	switch cmd {
-	case ".de", ".am":
+	switch {
+	case isMacroDefinitionBlock(cmd):
 		label = "macro definition " + cmd
-	case ".ig":
+	case cmd == ".ig":
 		label = "ignored block (.ig)"
 	}
 	return errors.Join(c.failure, blockSyntax(c.source.Header.Line.Span.Start, fmt.Errorf("unterminated %s", label)))

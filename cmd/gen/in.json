@@ -3402,7 +3402,10 @@
       {
         "Type": "Request",
         "Token": ".dei1",
-        "Args": "name [end]"
+        "Args": "name [end]",
+        "Block": {
+          "kind": "definition_variant"
+        }
       }
     ]
   },
@@ -3412,7 +3415,10 @@
       {
         "Type": "Request",
         "Token": ".ami1",
-        "Args": "name [end]"
+        "Args": "name [end]",
+        "Block": {
+          "kind": "append_variant"
+        }
       }
     ]
   },
@@ -4433,12 +4439,18 @@
       {
         "Type": "Request",
         "Token": ".ami",
-        "Args": "name [end]"
+        "Args": "name [end]",
+        "Block": {
+          "kind": "append_variant"
+        }
       },
       {
         "Type": "Request",
         "Token": ".am1",
-        "Args": "name [end]"
+        "Args": "name [end]",
+        "Block": {
+          "kind": "append_variant"
+        }
       },
       {
         "Type": "Request",
@@ -4451,12 +4463,18 @@
       {
         "Type": "Request",
         "Token": ".dei",
-        "Args": "name [end]"
+        "Args": "name [end]",
+        "Block": {
+          "kind": "definition_variant"
+        }
       },
       {
         "Type": "Request",
         "Token": ".de1",
-        "Args": "name [end]"
+        "Args": "name [end]",
+        "Block": {
+          "kind": "definition_variant"
+        }
       },
       {
         "Type": "Request",

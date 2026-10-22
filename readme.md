@@ -183,7 +183,9 @@ The [document reader](docs/document.md) also exposes exact captured source,
 per-token raw bytes, partial results and configurable byte/line limits.
 [Block handlers](docs/blocks.md) inspect bounded raw regions with exact headers,
 bodies, terminators and spans; their registration never enables preprocessing
-or external execution automatically.
+or external execution automatically. Definition variants keep their bodies
+opaque; indirect end names require explicit delimiter state. Unresolved regions
+remain visible with diagnostics.
 The [syntax support report](docs/catalogue-support.md) lists every canonical
 entry and the parser route exercised by tests, separately from evaluation.
 The [argument API](docs/arguments.md) retains raw quoting/comments and byte spans;
