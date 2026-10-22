@@ -28,13 +28,14 @@ From the reviewed feature checkout, use Go 1.26 or newer (tested: 1.26.10):
 go build -o gtroff ./cmd/gtroff
 ```
 
-Or install this feature revision directly, with Go's bin directory on PATH:
+Or install from the same reviewed checkout, with Go's bin directory on PATH:
 
 ```sh
-go install github.com/arran4/golang-gtroff/cmd/gtroff@codex/issue-29-release-ci
+go install ./cmd/gtroff
 ```
 
-A tagged release can replace the branch suffix once published. For library use,
+After a tagged release is published, remote installation can use
+`go install github.com/arran4/golang-gtroff/cmd/gtroff@VERSION`. For library use,
 use `go get github.com/arran4/golang-gtroff` with an appropriate reviewed revision.
 The optional desktop command has a separate module and build below.
 
