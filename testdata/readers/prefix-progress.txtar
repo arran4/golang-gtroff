@@ -1,0 +1,13 @@
+Validated prefix bytes survive a later no-progress failure.
+-- input.roff --
+雪
+-- options.json --
+{"Mode": "prefix-zero"}
+-- expected.txt --
+ast source="雪\n" complete=false calls=101
+error="input.1:2:1: multiple Read calls return no data or error" readerCause=false noProgress=true invalidCount=false
+input position=4/2:1
+ast error 2:1 "multiple Read calls return no data or error"
+document source="雪\n" complete=false calls=101
+error="input.1:2:1: multiple Read calls return no data or error" readerCause=false noProgress=true invalidCount=false
+document error 2:1 "multiple Read calls return no data or error"

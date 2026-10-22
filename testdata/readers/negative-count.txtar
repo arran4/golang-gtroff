@@ -1,0 +1,12 @@
+Invalid counts never reach slice operations or fabricate source bytes.
+-- input.roff --
+-- options.json --
+{"Mode": "negative"}
+-- expected.txt --
+ast source="" complete=false calls=1
+error="input.1:1:1: invalid source reader count: got -1 for buffer of 512 bytes" readerCause=true noProgress=false invalidCount=true
+input position=0/1:1
+ast error 1:1 "invalid source reader count: got -1 for buffer of 512 bytes"
+document source="" complete=false calls=1
+error="input.1:1:1: invalid source reader count: got -1 for buffer of 4096 bytes" readerCause=true noProgress=false invalidCount=true
+document error 1:1 "invalid source reader count: got -1 for buffer of 4096 bytes"

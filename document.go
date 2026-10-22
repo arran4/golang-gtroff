@@ -57,7 +57,8 @@ type DocumentInclude struct {
 	Document  *Document
 }
 
-// Source returns all bytes read from this document's own reader. On a terminal
+// Source returns bytes from validated Read results from this document's reader.
+// An invalid reader count cannot establish source bytes for that call. On a terminal
 // failure, buffered but unparsed bytes remain visible as an opaque tail token.
 // Included sources are separate documents in Includes.
 func (d *Document) Source() string { return d.source }
@@ -362,7 +363,7 @@ func resolveInclude(args string, opts ParserOptions, state *includeState) (doc *
 		return nil, err
 	}
 
-	if reader == nil {
+	if nilInterface(reader) {
 		return nil, fmt.Errorf("include resolver returned a nil reader: %s", cleanFile)
 	}
 	state.active[cleanFile] = true

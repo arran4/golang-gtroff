@@ -27,10 +27,11 @@ type NodeID uint64
 // AST is an immutable source snapshot. ParseAST never evaluates requests or
 // resolves includes. The older Document and Node token APIs remain independent.
 type AST struct {
-	source      string
-	root        *ASTNode
-	nodes       []*ASTNode
-	diagnostics []Diagnostic
+	source         string
+	sourceComplete bool
+	root           *ASTNode
+	nodes          []*ASTNode
+	diagnostics    []Diagnostic
 }
 
 // ASTNode has immutable structure and metadata. All slice accessors return copies.
@@ -69,8 +70,13 @@ type ASTAttributes struct {
 	Opaque        bool             `json:"opaque,omitempty"`
 }
 
-func (a *AST) Root() *ASTNode            { return a.root }
-func (a *AST) Source() string            { return a.source }
+func (a *AST) Root() *ASTNode { return a.root }
+func (a *AST) Source() string { return a.source }
+
+// SourceComplete reports whether this source's reader actually returned EOF.
+// It does not imply valid syntax or success; check ParseAST's error/diagnostics.
+func (a *AST) SourceComplete() bool { return a.sourceComplete }
+
 func (a *AST) Diagnostics() []Diagnostic { return append([]Diagnostic(nil), a.diagnostics...) }
 
 // Node looks up a document-local identity in O(1); zero and out-of-range IDs are absent.

@@ -82,7 +82,7 @@ type documentStream struct {
 }
 
 func newDocumentStream(r io.Reader, o ParserOptions, budget *documentByteBudget) *documentStream {
-	input := &documentCapture{reader: r, budget: budget}
+	input := &documentCapture{reader: &checkedSourceReader{reader: r}, budget: budget}
 	return &documentStream{input: input, buffer: bufio.NewReaderSize(input, 4096), position: Position{Filename: o.SourceName, Line: 1, Column: 1}, maxLines: o.MaxLines, maxLine: o.MaxLineLength}
 }
 func (s *documentStream) next() (documentLine, error) {
