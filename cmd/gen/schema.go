@@ -39,6 +39,7 @@ type RawContainer struct {
 }
 
 type RawContent struct {
+	Block           *BlockPolicy    `json:"Block,omitempty"`
 	ArgumentGrammar *ArgumentPolicy `json:"ArgumentGrammar,omitempty"`
 	Type            string          `json:"Type"`
 	Token           string          `json:"Token"`
@@ -47,6 +48,7 @@ type RawContent struct {
 
 // NormalizedEntry is the canonical definition for each item in the catalogue
 type NormalizedEntry struct {
+	Block           *BlockPolicy    `json:"block,omitempty"`
 	ArgumentGrammar *ArgumentPolicy `json:"argument_grammar,omitempty"`
 	Index           int             `json:"index"`
 	Kind            DefinitionKind  `json:"kind"`
@@ -160,6 +162,7 @@ func NormalizeCatalog(inJson []byte) (*Catalog, error) {
 			goName := buildGoName(kind, pkg, token, cleanName)
 
 			entry := &NormalizedEntry{
+				Block:           m.Block,
 				ArgumentGrammar: m.ArgumentGrammar,
 				Index:           idx,
 				Kind:            kind,
@@ -266,12 +269,17 @@ func (c *Catalog) Validate() error {
 	}
 	goNames := map[string]string{}
 	grammars := map[string]string{}
+	blocks := map[string]string{}
+	globalBlocks := map[string]string{}
 	for i, entry := range c.Entries {
 		if err := validateEntry(entry); err != nil {
 			return err
 		}
 		if entry.Index != i {
 			return fmt.Errorf("entry %d has inconsistent index %d", i, entry.Index)
+		}
+		if err := validateBlockPolicy(entry); err != nil {
+			return fmt.Errorf("entry %d block: %w", i, err)
 		}
 		if entry.Kind == KindMacro || entry.Kind == KindRequest {
 			key := string(entry.Package) + "/" + entry.GoName
@@ -291,6 +299,17 @@ func (c *Catalog) Validate() error {
 				return fmt.Errorf("conflicting argument grammars for %s", entry.Token)
 			}
 			grammars[key] = plan.Literal
+			blockJSON, _ := json.Marshal(entry.Block)
+			if entry.Block != nil {
+				if previous, exists := globalBlocks[entry.Token]; exists && previous != string(blockJSON) {
+					return fmt.Errorf("conflicting block declarations for %s", entry.Token)
+				}
+				globalBlocks[entry.Token] = string(blockJSON)
+			}
+			if previous, exists := blocks[key]; exists && previous != string(blockJSON) {
+				return fmt.Errorf("conflicting block declarations for %s", entry.Token)
+			}
+			blocks[key] = string(blockJSON)
 		}
 	}
 	return nil

@@ -157,3 +157,31 @@ func FuzzNormalizeCatalogue(f *testing.F) {
 		}
 	})
 }
+
+func TestBlockPlanCoverage(t *testing.T) {
+	for _, duplicate := range []bool{false, true} {
+		cat, err := NormalizeCatalog(inJson)
+		if err != nil {
+			t.Fatal(err)
+		}
+		macros, err := prepareMacrosData(cat)
+		if err != nil {
+			t.Fatal(err)
+		}
+		lines := prepareParselineData(cat, macros)
+		for i, block := range lines.Blocks {
+			if block.Command == ".TS" {
+				if duplicate {
+					lines.Blocks = append(lines.Blocks, block)
+				} else {
+					lines.Blocks = append(lines.Blocks[:i], lines.Blocks[i+1:]...)
+				}
+				break
+			}
+		}
+		report := buildSupportReport(cat, macros, lines)
+		if report.Summary.UnexplainedGaps != 2 {
+			t.Fatalf("block plan corruption escaped: %+v", report.Summary)
+		}
+	}
+}

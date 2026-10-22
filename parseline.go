@@ -1009,3 +1009,40 @@ func parseLineWithRegistry(line string, pkg string, permissive bool, registry *R
 
 	return nil, fmt.Errorf("%w: %#v: %s", ErrNoTokenMatch, cmd, args)
 }
+
+// Block dispatch comes from catalogue declarations; handwritten implementations
+// receive bounded source snapshots and never an unrestricted reader.
+func generatedBlockHandler(cmd string) BlockHandler {
+	switch cmd {
+	case ".EQ":
+		return builtinBlockHandler{command: ".EQ", kind: "equation", ends: []string{".EN"}}
+	case ".PS":
+		return builtinBlockHandler{command: ".PS", kind: "picture", ends: []string{".PE", ".PF"}}
+	case ".TS":
+		return builtinBlockHandler{command: ".TS", kind: "table", ends: []string{".TE"}}
+	case ".[":
+		return builtinBlockHandler{command: ".[", kind: "reference", ends: []string{".]"}}
+	case ".am":
+		return builtinBlockHandler{command: ".am", kind: "append", ends: []string{}}
+	case ".de":
+		return builtinBlockHandler{command: ".de", kind: "definition", ends: []string{}}
+	case ".ig":
+		return builtinBlockHandler{command: ".ig", kind: "ignore", ends: []string{}}
+	}
+	return nil
+}
+func generatedPreprocessorPairs() []BlockPair {
+	return []BlockPair{
+		{Start: ".EQ", Ends: []string{".EN"}}, {Start: ".PS", Ends: []string{".PE", ".PF"}}, {Start: ".TS", Ends: []string{".TE"}}, {Start: ".[", Ends: []string{".]"}},
+	}
+}
+func generatedBlockClosing(cmd string) bool {
+	for _, pair := range generatedPreprocessorPairs() {
+		for _, end := range pair.Ends {
+			if end == cmd {
+				return true
+			}
+		}
+	}
+	return false
+}

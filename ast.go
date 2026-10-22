@@ -36,6 +36,7 @@ type AST struct {
 // ASTNode has immutable structure and metadata. All slice accessors return copies.
 // A zero ASTNode is not a parsed node; obtain nodes through ParseAST.
 type ASTNode struct {
+	block       *BlockSource
 	tree        *AST
 	id          NodeID
 	kind        ASTKind
@@ -78,6 +79,28 @@ func (a *AST) Node(id NodeID) *ASTNode {
 	}
 	return a.nodes[id-1]
 }
+
+// BlockSource returns a caller-owned capture snapshot for a block node. Raw
+// strings and spans remain independent of handler tokens and String formatting.
+func (n *ASTNode) BlockSource() (*BlockSource, bool) {
+	if n.block == nil {
+		return nil, false
+	}
+	copy := n.block.clone()
+	// Derive physical body metadata lazily from the immutable source. Retaining
+	// one body-line slice per enclosing definition would multiply memory by depth.
+	end := n.span.End.Offset
+	if copy.Closed {
+		end = copy.Terminator.Span.Start.Offset
+	}
+	if copy.Tail.RawSource != "" {
+		end = copy.Tail.Span.Start.Offset
+	}
+	start := copy.Header.Line.Span.End
+	copy.Body = physicalBlockLines(n.tree.source[start.Offset:end], start)
+	return &copy, true
+}
+
 func (n *ASTNode) ID() NodeID           { return n.id }
 func (n *ASTNode) Kind() ASTKind        { return n.kind }
 func (n *ASTNode) Parent() *ASTNode     { return n.parent }
@@ -130,8 +153,9 @@ func (n *ASTNode) Descendants() []*ASTNode {
 }
 
 // Token returns a caller-owned JSON-round-tripped copy of the concrete line
-// token. Custom tokens must support JSON round trips for inspectable state.
-// Containers/inline nodes have no Token. Mutating a copy cannot edit the AST.
+// or custom block token. Custom tokens must support JSON round trips for
+// inspectable state. Ordinary containers and inline nodes have no Token.
+// Mutating a copy cannot edit the AST.
 func (n *ASTNode) Token() (Token, error) {
 	if n.tokenType == nil {
 		return nil, nil

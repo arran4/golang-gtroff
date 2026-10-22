@@ -1815,7 +1815,10 @@
       {
         "Type": "Request",
         "Token": ".ig",
-        "Args": "[end]"
+        "Args": "[end]",
+        "Block": {
+          "kind": "ignore"
+        }
       }
     ]
   },
@@ -4440,7 +4443,10 @@
       {
         "Type": "Request",
         "Token": ".am",
-        "Args": "name [end]"
+        "Args": "name [end]",
+        "Block": {
+          "kind": "append"
+        }
       },
       {
         "Type": "Request",
@@ -4455,7 +4461,10 @@
       {
         "Type": "Request",
         "Token": ".de",
-        "Args": "name [end]"
+        "Args": "name [end]",
+        "Block": {
+          "kind": "definition"
+        }
       },
       {
         "Type": "Request",
@@ -5110,22 +5119,47 @@
       {
         "Type": "Macro",
         "Token": ".[",
-        "Args": ""
+        "Args": "",
+        "Block": {
+          "kind": "reference",
+          "ends": [
+            ".]"
+          ]
+        }
       },
       {
         "Type": "Macro",
         "Token": ".EQ",
-        "Args": "[align]"
+        "Args": "[align]",
+        "Block": {
+          "kind": "equation",
+          "ends": [
+            ".EN"
+          ]
+        }
       },
       {
         "Type": "Macro",
         "Token": ".PS",
-        "Args": ""
+        "Args": "",
+        "Block": {
+          "kind": "picture",
+          "ends": [
+            ".PE",
+            ".PF"
+          ]
+        }
       },
       {
         "Type": "Macro",
         "Token": ".TS",
-        "Args": "[H]"
+        "Args": "[H]",
+        "Block": {
+          "kind": "table",
+          "ends": [
+            ".TE"
+          ]
+        }
       },
       {
         "Type": "Macro",

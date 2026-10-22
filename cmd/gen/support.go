@@ -20,6 +20,8 @@ const (
 )
 
 type SupportEntry struct {
+	BlockKind        string         `json:"block_kind,omitempty"`
+	BlockEnds        []string       `json:"block_ends,omitempty"`
 	ArgumentMode     string         `json:"argument_mode,omitempty"`
 	MinimumArguments int            `json:"minimum_arguments"`
 	MaximumArguments int            `json:"maximum_arguments"`
@@ -47,20 +49,16 @@ type SupportReport struct {
 
 type documentSupport struct{ tokenType, example string }
 
-// These are syntax-only routes: source requests and conditionals still use
-// generated line tokens. Their optional execution is not counted as coverage.
-var documentSupportRoutes = map[string]documentSupport{
-	".de": {"TokenMacroDefinition", ".de LOCAL\nbody\n..\n"},
-	".am": {"TokenMacroAppend", ".am LOCAL\nbody\n..\n"},
-	".ig": {"TokenIgnoredBlock", ".ig\nbody\n..\n"},
-	".TS": {"TokenTableBlock", ".TS\nbody\n.TE\n"},
-	".TE": {"TokenTableBlock", ".TS\nbody\n.TE\n"},
-	".EQ": {"TokenEquationBlock", ".EQ\nbody\n.EN\n"},
-	".EN": {"TokenEquationBlock", ".EQ\nbody\n.EN\n"},
-	".PS": {"TokenPictureBlock", ".PS\nbody\n.PE\n"},
-	".PE": {"TokenPictureBlock", ".PS\nbody\n.PE\n"},
-	".[":  {"TokenReferenceBlock", ".[\nbody\n.]\n"},
-	".]":  {"TokenReferenceBlock", ".[\nbody\n.]\n"},
+// These examples describe handwritten implementations. Routing itself comes
+// from the same block plan emitted by the dispatcher template.
+var documentBlockExamples = map[string]documentSupport{
+	"definition": {"TokenMacroDefinition", ".de LOCAL\nbody\n..\n"},
+	"append":     {"TokenMacroAppend", ".am LOCAL\nbody\n..\n"},
+	"ignore":     {"TokenIgnoredBlock", ".ig\nbody\n..\n"},
+	"table":      {"TokenTableBlock", ".TS\nbody\n.TE\n"},
+	"equation":   {"TokenEquationBlock", ".EQ\nbody\n.EN\n"},
+	"picture":    {"TokenPictureBlock", ".PS\nbody\n.PE\n"},
+	"reference":  {"TokenReferenceBlock", ".[\nbody\n.]\n"},
 }
 
 // buildSupportReport consumes the same concrete generation plan as the Go
@@ -76,6 +74,14 @@ func buildSupportReport(cat *Catalog, macros MacrosTemplateData, lines Parseline
 	for _, dispatch := range lines.Dispatches {
 		dispatches[dispatch.Command] = append(dispatches[dispatch.Command], dispatch)
 	}
+	blockRoutes := map[string][]BlockDefinition{}
+	for _, block := range lines.Blocks {
+		blockRoutes[block.Command] = append(blockRoutes[block.Command], block)
+		for _, end := range block.Ends {
+			blockRoutes[end] = append(blockRoutes[end], block)
+		}
+	}
+
 	for i, entry := range cat.Entries {
 		support := SupportEntry{Index: i, ParseStatus: supportMissing, EvaluationStatus: "not_assessed"}
 		if entry == nil {
@@ -83,7 +89,7 @@ func buildSupportReport(cat *Catalog, macros MacrosTemplateData, lines Parseline
 		} else {
 			support.Kind, support.Package, support.Token, support.DeclaredStatus = entry.Kind, entry.Package, entry.Token, entry.Status
 			support.Index = entry.Index
-			classifySupport(entry, &support, definitions, dispatches)
+			classifySupport(entry, &support, definitions, dispatches, blockRoutes)
 		}
 		if support.ParseStatus == supportMissing || support.ParseStatus == supportAmbiguous {
 			report.Summary.UnexplainedGaps++
@@ -94,7 +100,7 @@ func buildSupportReport(cat *Catalog, macros MacrosTemplateData, lines Parseline
 	return report
 }
 
-func classifySupport(entry *NormalizedEntry, support *SupportEntry, definitions map[string]*MacroDef, dispatches map[string][]DispatchEntry) {
+func classifySupport(entry *NormalizedEntry, support *SupportEntry, definitions map[string]*MacroDef, dispatches map[string][]DispatchEntry, blockRoutes map[string][]BlockDefinition) {
 	if err := validateEntry(entry); err != nil {
 		support.Reason = err.Error()
 		return
@@ -140,7 +146,18 @@ func classifySupport(entry *NormalizedEntry, support *SupportEntry, definitions 
 	if def.ArgumentPlan.Mode == "delimited" {
 		support.Example = entry.Token + " 'left'center'right'"
 	}
-	if route, ok := documentSupportRoutes[entry.Token]; ok {
+	if blocks := blockRoutes[entry.Token]; len(blocks) > 0 {
+		if len(blocks) != 1 {
+			support.ParseStatus, support.Reason = supportAmbiguous, "duplicate block registrations"
+			return
+		}
+		block := blocks[0]
+		route, ok := documentBlockExamples[block.Kind]
+		if !ok {
+			support.ParseStatus, support.Reason = supportMissing, "missing block implementation"
+			return
+		}
+		support.BlockKind, support.BlockEnds = block.Kind, append([]string(nil), block.Ends...)
 		support.ParseStatus, support.API = supportCustom, "ParseDocument"
 		support.DocumentType, support.DocumentExample = route.tokenType, route.example
 	} else if entry.IsCustom {

@@ -1,0 +1,16 @@
+Nested preprocessor pairs remain inside one opaque outer payload.
+-- input.roff --
+.TS
+.EQ
+x + y
+.EN
+cell
+.TE
+after
+-- expected.txt --
+document error=<nil>
+token *groff.TokenTableBlock [0,27) raw=".TS\n.EQ\nx + y\n.EN\ncell\n.TE\n"
+  closed=true header=".TS\n" body=".EQ\nx + y\n.EN\ncell\n" end=".TE\n"
+token groff.TokenText [27,33) raw="after\n"
+ast error=<nil>
+ast block .TS closed=true raw=".TS\n.EQ\nx + y\n.EN\ncell\n.TE\n"

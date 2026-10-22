@@ -1713,6 +1713,10 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "block_kind": "table",
+      "block_ends": [
+        ".TE"
+      ],
       "argument_mode": "fixed",
       "minimum_arguments": 0,
       "maximum_arguments": 0,
@@ -1730,6 +1734,11 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "block_kind": "picture",
+      "block_ends": [
+        ".PE",
+        ".PF"
+      ],
       "argument_mode": "fixed",
       "minimum_arguments": 0,
       "maximum_arguments": 0,
@@ -1747,6 +1756,10 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "block_kind": "equation",
+      "block_ends": [
+        ".EN"
+      ],
       "argument_mode": "fixed",
       "minimum_arguments": 0,
       "maximum_arguments": 0,
@@ -1764,6 +1777,10 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "block_kind": "reference",
+      "block_ends": [
+        ".]"
+      ],
       "argument_mode": "fixed",
       "minimum_arguments": 0,
       "maximum_arguments": 0,
@@ -2420,6 +2437,7 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "block_kind": "ignore",
       "argument_mode": "fixed",
       "minimum_arguments": 0,
       "maximum_arguments": 1,
@@ -5727,6 +5745,7 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "block_kind": "append",
       "argument_mode": "fixed",
       "minimum_arguments": 1,
       "maximum_arguments": 2,
@@ -5774,6 +5793,7 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "block_kind": "definition",
       "argument_mode": "fixed",
       "minimum_arguments": 1,
       "maximum_arguments": 2,
@@ -6962,6 +6982,10 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "block_kind": "reference",
+      "block_ends": [
+        ".]"
+      ],
       "argument_mode": "fixed",
       "minimum_arguments": 0,
       "maximum_arguments": 0,
@@ -6979,6 +7003,10 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "block_kind": "equation",
+      "block_ends": [
+        ".EN"
+      ],
       "argument_mode": "fixed",
       "minimum_arguments": 0,
       "maximum_arguments": 1,
@@ -6996,6 +7024,11 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "block_kind": "picture",
+      "block_ends": [
+        ".PE",
+        ".PF"
+      ],
       "argument_mode": "fixed",
       "minimum_arguments": 0,
       "maximum_arguments": 0,
@@ -7013,6 +7046,10 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "block_kind": "table",
+      "block_ends": [
+        ".TE"
+      ],
       "argument_mode": "fixed",
       "minimum_arguments": 0,
       "maximum_arguments": 1,
