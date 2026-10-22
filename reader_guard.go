@@ -4,6 +4,8 @@ import (
 	"errors"
 	"fmt"
 	"io"
+
+	"github.com/arran4/golang-gtroff/internal/sourceio"
 )
 
 // ErrInvalidReadCount identifies a reader violating 0 <= n <= len(p).
@@ -30,37 +32,18 @@ func (e *ReaderCountError) Unwrap() []error {
 // terminal outcomes and rejects 100 consecutive empty/no-error reads. It does
 // not close the caller's reader or interrupt a blocked Read method.
 type checkedSourceReader struct {
-	reader     io.Reader
-	terminal   error
-	emptyReads int
+	reader   io.Reader
+	terminal error
+	guard    *sourceio.Reader
 }
 
 func (r *checkedSourceReader) Read(p []byte) (int, error) {
-	if r.terminal != nil {
-		return 0, r.terminal
+	if r.guard == nil {
+		r.guard = sourceio.NewReader(r.reader, func(count, size int, err error) error {
+			return &ReaderCountError{Count: count, Size: size, Err: err}
+		})
 	}
-	if len(p) == 0 {
-		return 0, nil
-	}
-	if nilInterface(r.reader) {
-		r.terminal = errors.New("nil source reader")
-		return 0, r.terminal
-	}
-	n, err := r.reader.Read(p)
-	if n < 0 || n > len(p) {
-		r.terminal = &ReaderCountError{Count: n, Size: len(p), Err: err}
-		return 0, r.terminal
-	}
-	if n > 0 {
-		r.emptyReads = 0
-	} else if err == nil {
-		r.emptyReads++
-		if r.emptyReads >= 100 {
-			err = io.ErrNoProgress
-		}
-	}
-	if err != nil {
-		r.terminal = err
-	}
+	n, err := r.guard.Read(p)
+	r.terminal = r.guard.Terminal()
 	return n, err
 }

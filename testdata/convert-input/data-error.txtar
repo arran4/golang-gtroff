@@ -1,0 +1,14 @@
+Conversion input boundary: data-error.
+-- input.txt --
+<p>雪</p>
+-- options.json --
+{"Mode":"data-error"}
+-- expected.txt --
+html source="<p>雪</p>\n" document=false calls=1
+error="input.txt:2:1: input fixture failed" readerCause=true limit=false noProgress=false invalidCount=false
+position=11/2:1
+adapterError=true wrote=false
+roff source="<p>雪</p>\n" document=false calls=1
+error="input.txt:2:1: input fixture failed" readerCause=true limit=false noProgress=false invalidCount=false
+position=11/2:1
+adapterError=true wrote=false

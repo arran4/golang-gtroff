@@ -30,7 +30,7 @@ func ImportHTML(r io.Reader, o Options) (Input, error) {
 	o = defaults(o)
 	source, err := read(r, o)
 	if err != nil {
-		return Input{}, err
+		return Input{Source: source}, err
 	}
 	in := Input{Source: source}
 	b := &importer{o: o, d: &man.Document{Version: 1}, origin: man.Origin{Span: groff.Span{End: groff.Position{Offset: len(source)}}}}
