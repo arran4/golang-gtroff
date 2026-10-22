@@ -220,6 +220,16 @@ for _, tok := range tokens {
 }
 ```
 
+### Argument source and formatting
+
+`ParseArguments` retains raw bytes, comments, byte spans and partial arguments
+alongside decoded values. `ArgumentParser` and `LexArguments` share its scanner
+and retain legacy rune indices. `CanonicalArguments` reports unrepresentable
+values instead of claiming a universal quoting round trip. See the
+[argument contracts](arguments.md) and [executable example](../arguments_example_test.go).
+Generated zero-argument parsers now report extras; broader catalogue grammar is
+still tracked separately under #7.
+
 ### Optional Bounded Evaluation
 
 Evaluation is a separate opt-in pass. It returns partial output on errors and

@@ -3,9 +3,11 @@ package groff
 import (
 	"fmt"
 	"strings"
+	"unicode/utf8"
 )
 
-// ArgumentLexeme represents a parsed argument with its position and raw lexeme.
+// ArgumentLexeme holds a decoded argument and its original lexeme. Start and End
+// retain the legacy half-open rune offsets; Raw preserves original bytes.
 type ArgumentLexeme struct {
 	Raw    string
 	Value  string
@@ -14,146 +16,175 @@ type ArgumentLexeme struct {
 	Quoted bool
 }
 
-// LexArguments tokenizes roff arguments with full Unicode and quote awareness.
-func LexArguments(l string) ([]ArgumentLexeme, int, error) {
-	var lexemes []ArgumentLexeme
-	rs := []rune(l)
-	n := len(rs)
+// ArgumentSpan is a half-open byte range in an ArgumentList's Source.
+type ArgumentSpan struct{ Start, End int }
 
-	i := 0
-	for i < n {
-		// Skip unquoted leading whitespace
-		for i < n && (rs[i] == ' ' || rs[i] == '\t') {
-			i++
+type argumentCapture uint8
+
+const (
+	captureArgumentValues argumentCapture = iota
+	captureArgumentLexemes
+	captureArgumentSource
+)
+
+// ArgumentList preserves argument source independently of decoded/canonical data.
+// Its accessors return copies. A malformed quote leaves successfully scanned
+// arguments available and marks the incomplete argument as Unparsed.
+type ArgumentList struct {
+	values                  []string
+	source                  string
+	lexemes                 []ArgumentLexeme
+	spans                   []ArgumentSpan
+	byteStop, runeStop      int
+	comment, unparsed       ArgumentSpan
+	hasComment, hasUnparsed bool
+	err                     error
+}
+
+func (a *ArgumentList) Source() string            { return a.source }
+func (a *ArgumentList) Lexemes() []ArgumentLexeme { return append([]ArgumentLexeme(nil), a.lexemes...) }
+func (a *ArgumentList) ByteSpans() []ArgumentSpan { return append([]ArgumentSpan(nil), a.spans...) }
+
+// Stop returns byte and rune offsets at the comment marker or end of source.
+func (a *ArgumentList) Stop() (byteOffset, runeOffset int) { return a.byteStop, a.runeStop }
+func (a *ArgumentList) Comment() (ArgumentSpan, bool)      { return a.comment, a.hasComment }
+func (a *ArgumentList) Unparsed() (ArgumentSpan, bool)     { return a.unparsed, a.hasUnparsed }
+
+// ArgumentSyntaxError locates an incomplete quoted argument, preserving
+// errors.Is(err, ErrUnclosedQuote). Offsets are relative to the argument source.
+type ArgumentSyntaxError struct {
+	Span               ArgumentSpan
+	RuneStart, RuneEnd int
+}
+
+func (e *ArgumentSyntaxError) Error() string {
+	return fmt.Sprintf("%v: unterminated quote starting at index %d", ErrUnclosedQuote, e.RuneStart)
+}
+func (e *ArgumentSyntaxError) Unwrap() error { return ErrUnclosedQuote }
+
+// ParseArguments scans the existing argument profile once and returns a non-nil
+// source snapshot even on a syntax error. Source and Raw retain invalid UTF-8
+// bytes; decoded Value changes only lexical quoting/escaped-space syntax.
+func ParseArguments(source string) (*ArgumentList, error) {
+	list, err := scanArguments(source, captureArgumentSource)
+	return &list, err
+}
+
+// LexArguments is the compatibility lexer. Start/End and the returned stop index
+// are rune offsets. It returns no lexemes on an error; ParseArguments exposes
+// preserved partial arguments, byte spans, comments and malformed tails.
+func LexArguments(source string) ([]ArgumentLexeme, int, error) {
+	list, err := scanArguments(source, captureArgumentLexemes)
+	if err != nil {
+		return nil, list.runeStop, err
+	}
+	return list.lexemes, list.runeStop, nil
+}
+
+func scanArguments(source string, capture argumentCapture) (ArgumentList, error) {
+	list := ArgumentList{source: source}
+	pos, runePos := 0, 0
+	advance := func() {
+		_, width := utf8.DecodeRuneInString(source[pos:])
+		pos += width
+		runePos++
+	}
+	for pos < len(source) {
+		for pos < len(source) && (source[pos] == ' ' || source[pos] == '\t') {
+			pos++
+			runePos++
 		}
-		if i >= n {
+		if pos == len(source) {
 			break
 		}
-
-		// Check for unquoted comment \"
-		if rs[i] == '\\' && i+1 < n && rs[i+1] == '"' {
-			// Comment starts here; consumes remainder of line
-			return lexemes, i, nil
+		if source[pos] == '\\' && pos+1 < len(source) && source[pos+1] == '"' {
+			list.comment = ArgumentSpan{pos, len(source)}
+			list.hasComment = true
+			break
 		}
-
-		argStart := i
-		var valBuilder strings.Builder
-		var rawBuilder strings.Builder
-		isQuoted := false
-
-		if rs[i] == '"' {
-			isQuoted = true
-			rawBuilder.WriteRune(rs[i])
-			i++ // skip opening quote
-
-			closed := false
-			for i < n {
-				r := rs[i]
-				rawBuilder.WriteRune(r)
-
-				if r == '\\' {
-					if i+1 < n {
-						next := rs[i+1]
-						if next == '"' {
-							// Literal escaped quote inside quotes: \"
-							rawBuilder.WriteRune(next)
-							valBuilder.WriteRune('"')
-							i += 2
-							continue
-						} else if next == ' ' {
-							// Escaped space inside quotes
-							rawBuilder.WriteRune(next)
-							valBuilder.WriteRune(' ')
-							i += 2
-							continue
-						} else {
-							// Keep backslash and next char
-							rawBuilder.WriteRune(next)
-							valBuilder.WriteRune('\\')
-							valBuilder.WriteRune(next)
-							i += 2
-							continue
-						}
-					} else {
-						// Lone trailing backslash
-						valBuilder.WriteRune('\\')
-						i++
-						continue
-					}
-				}
-
-				if r == '"' {
-					// Check for doubled quote: "" inside quotes is literal quote
-					if i+1 < n && rs[i+1] == '"' {
-						rawBuilder.WriteRune(rs[i+1])
-						valBuilder.WriteRune('"')
-						i += 2
-						continue
-					}
-					// Closing quote
-					closed = true
-					i++
+		byteStart, runeStart := pos, runePos
+		quoted := source[pos] == '"'
+		if quoted {
+			pos++
+			runePos++
+		}
+		closed := !quoted
+		var value strings.Builder
+		for pos < len(source) {
+			if !quoted && (source[pos] == ' ' || source[pos] == '\t') {
+				break
+			}
+			if !quoted && source[pos] == '\\' && pos+1 < len(source) && source[pos+1] == '"' {
+				break
+			}
+			if source[pos] == '\\' {
+				start := pos
+				pos++
+				runePos++
+				if pos == len(source) {
+					value.WriteByte('\\')
 					break
 				}
-
-				valBuilder.WriteRune(r)
-				i++
+				next := source[pos]
+				advance()
+				if next == ' ' || quoted && next == '"' {
+					value.WriteByte(next)
+				} else {
+					value.WriteString(source[start:pos])
+				}
+				continue
 			}
-
-			if !closed {
-				return nil, i, fmt.Errorf("%w: unterminated quote starting at index %d", ErrUnclosedQuote, argStart)
+			if quoted && source[pos] == '"' {
+				pos++
+				runePos++
+				if pos < len(source) && source[pos] == '"' {
+					value.WriteByte('"')
+					pos++
+					runePos++
+					continue
+				}
+				closed = true
+				break
 			}
+			start := pos
+			advance()
+			value.WriteString(source[start:pos])
+		}
+		if !closed {
+			list.byteStop, list.runeStop = pos, runePos
+			list.unparsed = ArgumentSpan{byteStart, len(source)}
+			list.hasUnparsed = true
+			list.err = &ArgumentSyntaxError{Span: list.unparsed, RuneStart: runeStart, RuneEnd: runePos}
+			return list, list.err
+		}
+		if capture == captureArgumentValues {
+			list.values = append(list.values, value.String())
 		} else {
-			// Unquoted argument
-			for i < n {
-				r := rs[i]
-				if r == ' ' || r == '\t' {
-					break
-				}
-
-				// Check for comment
-				if r == '\\' && i+1 < n && rs[i+1] == '"' {
-					// Comment starts
-					break
-				}
-
-				if r == '\\' {
-					rawBuilder.WriteRune(r)
-					if i+1 < n {
-						next := rs[i+1]
-						rawBuilder.WriteRune(next)
-						if next == ' ' {
-							// Escaped space
-							valBuilder.WriteRune(' ')
-						} else if next == '"' {
-							valBuilder.WriteRune('"')
-						} else {
-							valBuilder.WriteRune('\\')
-							valBuilder.WriteRune(next)
-						}
-						i += 2
-						continue
-					} else {
-						valBuilder.WriteRune('\\')
-						i++
-						continue
-					}
-				}
-
-				rawBuilder.WriteRune(r)
-				valBuilder.WriteRune(r)
-				i++
+			raw := source[byteStart:pos]
+			if capture == captureArgumentLexemes {
+				raw = strings.Clone(raw)
+			}
+			list.lexemes = append(list.lexemes, ArgumentLexeme{Raw: raw, Value: value.String(), Start: runeStart, End: runePos, Quoted: quoted})
+			if capture == captureArgumentSource {
+				list.spans = append(list.spans, ArgumentSpan{byteStart, pos})
 			}
 		}
-
-		lexemes = append(lexemes, ArgumentLexeme{
-			Raw:    rawBuilder.String(),
-			Value:  valBuilder.String(),
-			Start:  argStart,
-			End:    i,
-			Quoted: isQuoted,
-		})
 	}
-
-	return lexemes, i, nil
+	list.byteStop, list.runeStop = pos, runePos
+	return list, nil
 }
+
+// ArgumentParser retains decoded values and rune-index/error-text compatibility
+// while using the same scanner as LexArguments and ParseArguments.
+func ArgumentParser(source string) ([]string, int, error) {
+	list, err := scanArguments(source, captureArgumentValues)
+	if err != nil {
+		return nil, list.runeStop, argumentParserError{err}
+	}
+	return list.values, list.runeStop, nil
+}
+
+type argumentParserError struct{ cause error }
+
+func (e argumentParserError) Error() string { return ErrUnclosedQuote.Error() + `: stack "` }
+func (e argumentParserError) Unwrap() error { return e.cause }

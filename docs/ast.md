@@ -123,6 +123,11 @@ executes all 518 catalogue routes in tests. It also found and repaired the small
 #7 optional-slot reservation/serialization defect in `.Pn`; it does not establish
 full grammar, evaluator or byte-exact legacy token serialization coverage.
 
+The #7 [argument-source repair](arguments.md) unifies lexical scanning, preserves
+raw bytes and partial arguments with byte/rune offsets, and adds checked
+canonical formatting. Zero-field generated parsers reject extra values with
+source-preserving diagnostics; nonzero/rest/repeating grammar remains separate.
+
 The #13 [bounded evaluation repair](evaluation.md) adds cancellation, limits on
 state/work/output/recursion and propagated expansion errors to the opt-in legacy
 profile. The core follow-up adds checked roff expressions, composable state,
