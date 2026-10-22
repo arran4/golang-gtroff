@@ -37,6 +37,9 @@ func (m *evaluation) expand(text string) (string, error) {
 			}
 			continue
 		}
+		if m.copiedReference(text, i) {
+			i++
+		}
 		i++
 		if i == len(text) {
 			if err := write(text[start:i]); err != nil {
@@ -47,19 +50,22 @@ func (m *evaluation) expand(text string) (string, error) {
 		kind := text[i]
 		_, n := utf8.DecodeRuneInString(text[i:])
 		i += n
-		if kind != 'n' && kind != '*' {
+		if kind != 'n' && kind != '*' && (kind != '$' || len(m.frames) == 0) {
 			if err := write(text[start:i]); err != nil {
 				return "", err
 			}
 			continue
 		}
+		direction := byte(0)
 		if kind == 'n' && i < len(text) && (text[i] == '+' || text[i] == '-') {
-			return "", fmt.Errorf("register auto-increment escapes are unsupported")
+			direction = text[i]
+			i++
 		}
 		if i == len(text) {
 			return "", fmt.Errorf("missing interpolation name")
 		}
 		var name string
+		parameterZero := text[i] == '0'
 		switch text[i] {
 		case '[':
 			i++
@@ -89,14 +95,66 @@ func (m *evaluation) expand(text string) (string, error) {
 			return "", fmt.Errorf("empty interpolation name")
 		}
 		value := text[start:i]
-		if kind == 'n' {
-			value = strconv.Itoa(m.env.GetRegister(name))
-		} else if defined, ok := m.env.GetString(name); ok {
-			value = defined
+		if kind == '$' {
+			parameter, err := m.parameter(name, parameterZero)
+			if err != nil {
+				return "", err
+			}
+			value = parameter
+		} else if kind == 'n' {
+			number, err := m.registerReference(name, direction)
+			if err != nil {
+				return "", err
+			}
+			value = strconv.Itoa(number)
+		} else {
+			_, kind, defined, ok, err := m.definition(name)
+			if err != nil {
+				return "", err
+			}
+			if ok && kind == EvaluationString {
+				value = defined.Text
+			}
 		}
 		if err := write(value); err != nil {
 			return "", err
 		}
 	}
 	return out.String(), nil
+}
+
+func (m *evaluation) registerReference(name string, direction byte) (int, error) {
+	if name == ".$" {
+		if direction != 0 {
+			return 0, fmt.Errorf("parameter-count register is read-only")
+		}
+		if len(m.frames) == 0 {
+			return 0, nil
+		}
+		return len(m.frames[len(m.frames)-1].args), nil
+	}
+	register, _, err := m.load(EvaluationRegister, name)
+	if err != nil {
+		return 0, err
+	}
+	increment, _, err := m.load(EvaluationIncrement, name)
+	if err != nil {
+		return 0, err
+	}
+	value, incr := register.Number, increment.Number
+	if direction == 0 || incr == 0 {
+		return value, nil
+	}
+	if direction == '+' {
+		value, err = evaluationAdd(value, incr)
+	} else {
+		value, err = evaluationSubtract(value, incr)
+	}
+	if err != nil {
+		return 0, fmt.Errorf("auto-increment register %q: %w", name, err)
+	}
+	if err := m.save(EvaluationRegister, name, EvaluationValue{Number: value}); err != nil {
+		return 0, err
+	}
+	return value, nil
 }

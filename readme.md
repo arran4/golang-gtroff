@@ -165,7 +165,8 @@ are not promised. Unsupported content remains visible with diagnostics. Source
 includes, commands and remote resources are never loaded by these workflows.
 The [opt-in evaluator](docs/evaluation.md) is separate from render/convert/serve;
 it provides cancellation, resource limits, partial results and diagnostics for
-preserved requests. Its limited language profile does not implement full roff.
+preserved requests. It supports checked integer expressions, strings, register
+updates, aliases and positional macro calls within a documented subset of roff.
 
 Parser/evaluator/include/generator findings under
 [#3–#17](https://github.com/arran4/golang-gtroff/issues/3) remain separate contracts.

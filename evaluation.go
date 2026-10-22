@@ -3,7 +3,6 @@ package groff
 import (
 	"context"
 	"fmt"
-	"strconv"
 	"strings"
 )
 
@@ -43,6 +42,7 @@ type evaluation struct {
 	index   int
 	path    []string
 	pending []bool
+	frames  []evaluationFrame
 	output  []Token
 
 	work, outputBytes, stateBytes int
@@ -56,6 +56,7 @@ type evaluation struct {
 	tokenLimit  int
 	lineLimit   int
 
+	store    EvaluationState
 	registry Registry // Isolate expansion parsing from process-global handlers.
 }
 
@@ -73,7 +74,6 @@ func newEvaluation(ctx context.Context, env *Environment) (*evaluation, error) {
 	if env == nil {
 		env = NewEnvironment()
 	}
-	env.init()
 	env.Diagnostics = nil
 	env.Depth = 0
 	if ctx == nil {
@@ -93,31 +93,49 @@ func newEvaluation(ctx context.Context, env *Environment) (*evaluation, error) {
 	if env.StepCount < 0 {
 		return nil, fmt.Errorf("negative evaluation StepCount")
 	}
-	// Account for caller-supplied state before interpreting any token. The fixed
-	// overhead also bounds empty names, values, body lines and map entries.
-	for name := range env.Registers {
-		if err := m.state("r", name, 32); err != nil {
-			return nil, m.failure(err)
-		}
+	m.store = env.State
+	if nilInterface(m.store) {
+		env.init()
+		m.store = env
 	}
-	for name := range env.AutoIncrs {
-		if err := m.state("i", name, 32); err != nil {
-			return nil, m.failure(err)
+	var visitErr error
+	err := m.store.Walk(func(kind EvaluationStateKind, name string, value EvaluationValue) bool {
+		if visitErr != nil {
+			return false
 		}
+		if visitErr = m.charge(len(name)); visitErr != nil {
+			return false
+		}
+		if visitErr = m.charge(len(kind)); visitErr != nil {
+			return false
+		}
+		if name == "" {
+			visitErr = fmt.Errorf("empty evaluation state binding name")
+			return false
+		}
+		if name == ".$" && (kind == EvaluationRegister || kind == EvaluationIncrement) {
+			visitErr = fmt.Errorf("parameter-count register is read-only")
+			return false
+		}
+		if _, duplicate := m.sizes[evaluationStateKey(kind, name)]; duplicate {
+			visitErr = fmt.Errorf("duplicate evaluation binding %s %q", kind, name)
+			return false
+		}
+		var size int
+		size, visitErr = m.valueSize(kind, value)
+		if visitErr == nil {
+			visitErr = m.state(string(kind), name, size)
+		}
+		return visitErr == nil
+	})
+	if visitErr != nil {
+		return nil, m.failure(visitErr)
 	}
-	for name, value := range env.Strings {
-		if err := m.state("s", name, len(value)+32); err != nil {
-			return nil, m.failure(err)
-		}
+	if err != nil {
+		return nil, m.failure(fmt.Errorf("walk evaluation state: %w", err))
 	}
-	for name, body := range env.Macros {
-		size, err := m.bodySize(body)
-		if err != nil {
-			return nil, m.failure(err)
-		}
-		if err := m.state("m", name, size); err != nil {
-			return nil, m.failure(err)
-		}
+	if err := m.validateDefinitions(); err != nil {
+		return nil, m.failure(err)
 	}
 	return m, nil
 }
@@ -153,7 +171,7 @@ func (m *evaluation) state(kind, name string, size int) error {
 		return &EvaluationLimitError{Kind: "state byte", Limit: m.stateLimit}
 	}
 	size += len(name)
-	key := kind + name
+	key := kind + "\x00" + name
 	if size-m.sizes[key] > m.stateLimit-m.stateBytes {
 		return &EvaluationLimitError{Kind: "state byte", Limit: m.stateLimit}
 	}
@@ -162,7 +180,7 @@ func (m *evaluation) state(kind, name string, size int) error {
 	return nil
 }
 func (m *evaluation) removeState(kind, name string) {
-	key := kind + name
+	key := kind + "\x00" + name
 	m.stateBytes -= m.sizes[key]
 	delete(m.sizes, key)
 }
@@ -239,7 +257,7 @@ func (m *evaluation) branch(body string) error {
 	if strings.HasPrefix(strings.TrimSpace(body), `\{`) {
 		return fmt.Errorf("multiline conditional blocks are unsupported")
 	}
-	return m.nested("conditional", func() error { return m.line(body) })
+	return m.nested("conditional", func() error { return m.line(strings.TrimLeft(body, " \t")) })
 }
 func (m *evaluation) token(tok Token) error {
 	if err := m.tick(); err != nil {
@@ -248,68 +266,61 @@ func (m *evaluation) token(tok Token) error {
 	if nilInterface(tok) {
 		return fmt.Errorf("nil evaluation token")
 	}
+	if collision, err := m.generatedCollision(tok); err != nil {
+		return err
+	} else if collision {
+		return m.preserve(tok, "definition name collides with generated syntax")
+	}
 	switch t := tok.(type) {
 	case *TokenRequestNr:
 		return m.register(t)
 	case *TokenRequestRr:
-		if err := m.charge(len(t.Ident)); err != nil {
-			return err
-		}
-		m.env.RemoveRegister(t.Ident)
-		m.removeState("r", t.Ident)
-		m.removeState("i", t.Ident)
+		return m.names(t.Ident, func(name string) error {
+			if name == ".$" {
+				return fmt.Errorf("parameter-count register is read-only")
+			}
+			if err := m.erase(EvaluationRegister, name); err != nil {
+				return err
+			}
+			return m.erase(EvaluationIncrement, name)
+		})
 	case *TokenRequestDs:
 		if err := m.charge(len(t.StringVal)); err != nil {
 			return err
 		}
-		if err := m.state("s", t.Name, len(t.StringVal)+32); err != nil {
-			return err
-		}
-		m.env.SetString(t.Name, t.StringVal)
+		return m.setDefinition(EvaluationString, t.Name, EvaluationValue{Text: t.StringVal})
 	case *TokenRequestAs:
-		if err := m.charge(len(t.Name)); err != nil {
-			return err
-		}
 		if err := m.charge(len(t.StringVal)); err != nil {
 			return err
 		}
-		old := m.env.Strings[t.Name]
-		if len(t.StringVal) > m.stateLimit-len(old)-32 {
-			return &EvaluationLimitError{Kind: "state byte", Limit: m.stateLimit}
-		}
-		if err := m.state("s", t.Name, len(old)+len(t.StringVal)+32); err != nil {
-			return err
-		}
-		if err := m.charge(len(old)); err != nil {
-			return err
-		}
-		m.env.AppendString(t.Name, t.StringVal)
+		return m.appendString(t.Name, t.StringVal)
 	case *TokenMacroDefinition:
-		size, err := m.bodySize(t.Body)
-		if err != nil {
-			return err
-		}
-		if err := m.state("m", t.Name, size); err != nil {
-			return err
-		}
-		m.env.DefineMacro(t.Name, t.Body)
+		return m.setDefinition(EvaluationMacro, t.Name, EvaluationValue{Body: t.Body})
+	case *TokenMacroAppend:
+		return m.appendMacro(t.Name, t.Body)
+	case *TokenRequestAls:
+		return m.aliasDefinition(t)
+	case *TokenRequestRm:
+		return m.names(t.Xx, m.removeDefinition)
+	case *TokenIgnoredBlock:
+		return nil
 	case *TokenRequestIf:
-		cond, err := m.condition(t.Cond)
+		cond, body, err := m.conditional(t.Cond, t.Anything)
 		if err != nil {
 			return err
 		}
 		if cond {
-			return m.branch(t.Anything)
+			return m.branch(body)
 		}
 	case *TokenRequestIe:
-		cond, err := m.condition(t.Cond)
+		cond, body, err := m.conditional(t.Cond, t.Anything)
 		if err != nil {
 			return err
 		}
 		// The pending stack also consumes steps even when no output is emitted.
 		m.pending = append(m.pending, cond)
 		if cond {
-			return m.branch(t.Anything)
+			return m.branch(body)
 		}
 	case *TokenRequestEl:
 		if len(m.pending) == 0 {
@@ -336,27 +347,22 @@ func (m *evaluation) token(tok Token) error {
 				return err
 			}
 			name := strings.TrimLeft(rawName, ".'")
-			if body, ok := m.env.Macros[name]; ok {
-				// Argument substitution and request shadowing require a richer
-				// grammar. Preserve argument-bearing calls instead of dropping args.
-				unknown, ok := tok.(*TokenUnknownControl)
-				if !ok {
-					return m.preserve(tok, "macro invocation requires an unknown control without arguments")
+			_, kind, macro, ok, err := m.definition(name)
+			if err != nil {
+				return err
+			}
+			if ok && kind == EvaluationMacro {
+				if unknown, ok := tok.(*TokenUnknownControl); ok {
+					return m.invokeMacro(name, unknown, macro.Body)
 				}
-				if err := m.charge(len(unknown.RawArgs)); err != nil {
-					return err
-				}
-				if strings.TrimSpace(unknown.RawArgs) != "" {
-					return m.preserve(tok, "macro invocation requires an unknown control without arguments")
-				}
-				return m.nested("macro "+name, func() error {
-					for i, line := range body {
-						if err := m.nested(fmt.Sprintf("body line %d", i+1), func() error { return m.line(line) }); err != nil {
-							return err
-						}
-					}
-					return nil
-				})
+				return m.preserve(tok, "macro name collides with generated syntax")
+			}
+			expanded, changed, err := m.formattingArguments(tok, node)
+			if err != nil {
+				return err
+			}
+			if changed {
+				return m.preserve(expanded, "formatting arguments interpolated; layout semantics not evaluated")
 			}
 		}
 		return m.preserve(tok, "token preserved without evaluation")
@@ -364,20 +370,6 @@ func (m *evaluation) token(tok Token) error {
 	return nil
 }
 
-func (m *evaluation) integer(text string) (int, error) {
-	if err := m.charge(len(text)); err != nil {
-		return 0, err
-	}
-	expanded, err := m.expand(strings.TrimSpace(text))
-	if err != nil {
-		return 0, err
-	}
-	value, err := strconv.Atoi(expanded)
-	if err != nil {
-		return 0, fmt.Errorf("unsupported or invalid integer %q: %w", expanded, err)
-	}
-	return value, nil
-}
 func evaluationAdd(a, b int) (int, error) {
 	max := int(^uint(0) >> 1)
 	min := -max - 1
@@ -393,37 +385,74 @@ func (m *evaluation) register(t *TokenRequestNr) error {
 	if err := m.charge(len(t.Value)); err != nil {
 		return err
 	}
-	valueText := strings.TrimSpace(t.Value)
-	if t.Ident == "" || valueText == "" {
-		return fmt.Errorf(".nr requires name and value")
-	}
-	value, err := m.integer(valueText)
+	valueText, incrText, err := m.expressionParts(t.Value, t.Incr)
 	if err != nil {
 		return err
 	}
-	if strings.HasPrefix(valueText, "+") || strings.HasPrefix(valueText, "-") {
-		value, err = evaluationAdd(m.env.GetRegister(t.Ident), value)
+	valueText = strings.TrimSpace(valueText)
+	if t.Ident == ".$" {
+		return fmt.Errorf("parameter-count register is read-only")
+	}
+	if t.Ident == "" || valueText == "" {
+		return fmt.Errorf(".nr requires name and value")
+	}
+	expanded, err := m.expand(valueText)
+	if err != nil {
+		return err
+	}
+	expanded = strings.TrimSpace(expanded)
+	direction := byte(0)
+	if len(expanded) > 0 && (expanded[0] == '+' || expanded[0] == '-') {
+		direction = expanded[0]
+		expanded = expanded[1:]
+	}
+	value, err := m.parseExpression(expanded)
+	if err != nil {
+		return err
+	}
+	current, _, err := m.load(EvaluationRegister, t.Ident)
+	if err != nil {
+		return err
+	}
+	if direction == '+' {
+		value, err = evaluationAdd(current.Number, value)
+	}
+	if direction == '-' {
+		value, err = evaluationSubtract(current.Number, value)
+	}
+	if err != nil {
+		return err
+	}
+	previous, _, err := m.load(EvaluationIncrement, t.Ident)
+	if err != nil {
+		return err
+	}
+	incr := previous.Number
+	if err := m.charge(len(incrText)); err != nil {
+		return err
+	}
+	if strings.TrimSpace(incrText) != "" {
+		incr, err = m.expression(incrText)
 		if err != nil {
 			return err
 		}
 	}
-	incr := 0
-	if t.Incr != "" {
-		incr, err = m.integer(t.Incr)
-		if err != nil {
-			return err
-		}
-	}
-	if err := m.state("r", t.Ident, 32); err != nil {
+	// Reserve both bindings before applying either assignment.
+	if err := m.state(string(EvaluationRegister), t.Ident, 32); err != nil {
 		return err
 	}
 	if incr != 0 {
-		if err := m.state("i", t.Ident, 32); err != nil {
+		if err := m.state(string(EvaluationIncrement), t.Ident, 32); err != nil {
 			return err
 		}
 	}
-	m.env.SetRegister(t.Ident, value, incr)
-	return nil
+	if err := m.save(EvaluationRegister, t.Ident, EvaluationValue{Number: value}); err != nil {
+		return err
+	}
+	if incr != 0 {
+		return m.save(EvaluationIncrement, t.Ident, EvaluationValue{Number: incr})
+	}
+	return m.erase(EvaluationIncrement, t.Ident)
 }
 func (m *evaluation) condition(cond string) (bool, error) {
 	if err := m.charge(len(cond)); err != nil {
@@ -462,34 +491,9 @@ func (m *evaluation) condition(cond string) (bool, error) {
 		}
 		value = left == right
 	default:
-		matched := false
-		for _, op := range []string{"==", ">", "<"} {
-			if i := strings.Index(cond, op); i >= 0 {
-				left, e := m.integer(cond[:i])
-				if e != nil {
-					return false, e
-				}
-				right, e := m.integer(cond[i+len(op):])
-				if e != nil {
-					return false, e
-				}
-				switch op {
-				case "==":
-					value = left == right
-				case ">":
-					value = left > right
-				case "<":
-					value = left < right
-				}
-				matched = true
-				break
-			}
-		}
-		if !matched {
-			var n int
-			n, err = m.integer(cond)
-			value = n > 0
-		}
+		var n int
+		n, err = m.expression(cond)
+		value = n > 0
 	}
 	if negate {
 		value = !value

@@ -11,3 +11,7 @@ output byte budget exceeded
 groff.TokenText "ok"
 string S="123456"
 error evaluate token 2 (): evaluation output byte budget exceeded (8)
+-- parsed.txt --
+*groff.TokenRequestDs ".ds S 123456"
+groff.TokenText "ok"
+groff.TokenText "\\*[S]\\*[S]"

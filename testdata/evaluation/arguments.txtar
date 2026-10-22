@@ -1,0 +1,32 @@
+Positional arguments are opaque values expanded once at invocation. Standard
+single/double escape parameter spellings work; nested calls restore the caller
+frame. Formatting-token fields are copied, preserving spaces and empty args.
+-- input.roff --
+.de INNER
+.B "\\$1"
+name=\\$0 count=\\n[.$] second=\\$2 missing=\\$9
+..
+.de OUTER
+.INNER "\\$2" "\\$1"
+after=\\$1
+..
+.OUTER first "two words"
+.als ALIAS INNER
+.ALIAS "" "quote ""inside"""
+count=\n[.$]
+-- expected.txt --
+*groff.TokenManB ".B \"two words\""
+groff.TokenText "name=INNER count=2 second=first missing="
+groff.TokenText "after=first"
+*groff.TokenManB ".B"
+groff.TokenText "name=ALIAS count=2 second=quote \"inside\" missing="
+groff.TokenText "count=0"
+diagnostic token=2 path=["macro OUTER" "body line 1" "macro INNER" "body line 1"] formatting arguments interpolated; layout semantics not evaluated
+diagnostic token=4 path=["macro ALIAS" "body line 1"] formatting arguments interpolated; layout semantics not evaluated
+-- parsed.txt --
+*groff.TokenMacroDefinition ".de INNER\n.B \"\\\\$1\"\nname=\\\\$0 count=\\\\n[.$] second=\\\\$2 missing=\\\\$9\n.."
+*groff.TokenMacroDefinition ".de OUTER\n.INNER \"\\\\$2\" \"\\\\$1\"\nafter=\\\\$1\n.."
+*groff.TokenUnknownControl ".OUTER first \"two words\""
+*groff.TokenRequestAls ".als ALIAS INNER"
+*groff.TokenUnknownControl ".ALIAS \"\" \"quote \"\"inside\"\"\""
+groff.TokenText "count=\\n[.$]"

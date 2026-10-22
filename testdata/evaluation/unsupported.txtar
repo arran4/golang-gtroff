@@ -1,5 +1,5 @@
 Unsafe and unsupported requests remain visible, with one diagnostic per token.
-No includes, shell commands, string aliases or macro arguments are evaluated.
+No includes or shell commands run. Undefined aliases report a diagnostic.
 -- input.roff --
 .so /etc/passwd
 .sy echo unsafe
@@ -16,12 +16,17 @@ hello
 *groff.TokenRequestSo ".so /etc/passwd"
 *groff.TokenRequestSy ".sy \"echo unsafe\""
 *groff.TokenRequestAls ".als ALIAS SOURCE"
-*groff.TokenMacroAppend ".am GREET\nappended\n.."
-*groff.TokenUnknownControl ".GREET argument"
+groff.TokenText "hello"
 *groff.TokenUnknownControl ".UNKNOWN raw"
 diagnostic token=0 path=[] token preserved without evaluation
 diagnostic token=1 path=[] token preserved without evaluation
-diagnostic token=2 path=[] token preserved without evaluation
-diagnostic token=3 path=[] token preserved without evaluation
-diagnostic token=5 path=[] macro invocation requires an unknown control without arguments
+diagnostic token=2 path=[] alias target is undefined
 diagnostic token=6 path=[] token preserved without evaluation
+-- parsed.txt --
+*groff.TokenRequestSo ".so /etc/passwd"
+*groff.TokenRequestSy ".sy \"echo unsafe\""
+*groff.TokenRequestAls ".als ALIAS SOURCE"
+*groff.TokenMacroAppend ".am GREET\nappended\n.."
+*groff.TokenMacroDefinition ".de GREET\nhello\n.."
+*groff.TokenUnknownControl ".GREET argument"
+*groff.TokenUnknownControl ".UNKNOWN raw"

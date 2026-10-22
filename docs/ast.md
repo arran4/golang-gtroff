@@ -125,8 +125,10 @@ full grammar, evaluator or byte-exact legacy token serialization coverage.
 
 The #13 [bounded evaluation repair](evaluation.md) adds cancellation, limits on
 state/work/output/recursion and propagated expansion errors to the opt-in legacy
-profile. Unsupported tokens stay visible with diagnostics. Arithmetic, aliases,
-macro arguments and multiline conditionals still require separately scoped work.
+profile. The core follow-up adds checked roff expressions, composable state,
+alias/append/remove semantics and positional macro arguments. Unsupported tokens
+stay visible with diagnostics; multiline conditionals, general copy mode and
+request shadowing remain outside the documented core subset.
 
 The #16 [generation repair](generation.md) renders every parser output before
 writing, adds a non-mutating check and restores earlier files on ordinary batch

@@ -1,0 +1,23 @@
+Reconstruct only parenthesized numeric arguments split by the legacy argument
+parser. Disabled branch text is not interpolated while recovering predicates.
+-- input.roff --
+.nr X (3 + 5)*4 (1 + 1)
+.nr Y 1+(2 + 2)+1
+.nr Z 0 1
+.if (\n[X] == 32) .B yes
+.if (0 + 0) \n+[Z]
+\n[X] \n+[X] \n[Y] \n[Z]
+-- expected.txt --
+*groff.TokenManB ".B yes"
+groff.TokenText "32 34 6 0"
+register X=34
+register Y=6
+register Z=0
+diagnostic token=3 path=["conditional"] token preserved without evaluation
+-- parsed.txt --
+*groff.TokenRequestNr ".nr X (3 \"+ 5)*4 (1 + 1)\""
+*groff.TokenRequestNr ".nr Y 1+(2 \"+ 2)+1\""
+*groff.TokenRequestNr ".nr Z 0 1"
+*groff.TokenRequestIf ".if (\\n[X] \"== 32) .B yes\""
+*groff.TokenRequestIf ".if (0 \"+ 0) \\n+[Z]\""
+groff.TokenText "\\n[X] \\n+[X] \\n[Y] \\n[Z]"
