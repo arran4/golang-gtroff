@@ -1,0 +1,38 @@
+Stored controls cannot change document metadata, headings or following text style.
+-- input.1 --
+.TH OUTER 1
+.SH REAL
+before
+.de1 SAVED
+.TH HIDDEN 9
+.SH HIDDEN
+.ft B
+stored text
+..
+after
+-- expected-man.json --
+{
+  "version": 1,
+  "metadata": {"title":"OUTER","section":"1"},
+  "metadataOrigin": {"astIds":[2],"span":{"Start":{"Filename":"input.1","Offset":0,"Line":1,"Column":1},"End":{"Filename":"input.1","Offset":12,"Line":2,"Column":1}}},
+  "nodes": [
+    {"id":1,"children":[2],"kind":"document","state":{"style":{},"previous":{},"fill":true},"origin":{"astIds":[1],"span":{"Start":{"Filename":"input.1","Offset":0,"Line":1,"Column":1},"End":{"Filename":"input.1","Offset":90,"Line":11,"Column":1}}}},
+    {"id":2,"parent":1,"children":[3,4,5],"kind":"section","heading":"REAL","runs":[{"text":"REAL","style":{"bold":true},"origin":{"astIds":[5],"span":{"Start":{"Filename":"input.1","Offset":12,"Line":2,"Column":1},"End":{"Filename":"input.1","Offset":21,"Line":3,"Column":1}}}}],"state":{"style":{},"previous":{},"fill":true},"origin":{"astIds":[5,4],"span":{"Start":{"Filename":"input.1","Offset":12,"Line":2,"Column":1},"End":{"Filename":"input.1","Offset":90,"Line":11,"Column":1}}}},
+    {"id":3,"parent":2,"kind":"paragraph","runs":[{"text":"before","style":{},"origin":{"astIds":[7],"span":{"Start":{"Filename":"input.1","Offset":21,"Line":3,"Column":1},"End":{"Filename":"input.1","Offset":28,"Line":4,"Column":1}}}}],"state":{"style":{},"previous":{},"fill":true},"origin":{"astIds":[7],"span":{"Start":{"Filename":"input.1","Offset":21,"Line":3,"Column":1},"End":{"Filename":"input.1","Offset":28,"Line":4,"Column":1}}}},
+    {"id":4,"parent":2,"kind":"unsupported","value":".de1","runs":[{"text":".de1 SAVED\n.TH HIDDEN 9\n.SH HIDDEN\n.ft B\nstored text\n..\n","style":{},"unsupported":true,"origin":{"astIds":[9],"span":{"Start":{"Filename":"input.1","Offset":28,"Line":4,"Column":1},"End":{"Filename":"input.1","Offset":84,"Line":10,"Column":1}}}}],"state":{"style":{},"previous":{},"fill":true},"origin":{"astIds":[9],"span":{"Start":{"Filename":"input.1","Offset":28,"Line":4,"Column":1},"End":{"Filename":"input.1","Offset":84,"Line":10,"Column":1}}}},
+    {"id":5,"parent":2,"kind":"paragraph","runs":[{"text":"after","style":{},"origin":{"astIds":[17],"span":{"Start":{"Filename":"input.1","Offset":84,"Line":10,"Column":1},"End":{"Filename":"input.1","Offset":90,"Line":11,"Column":1}}}}],"state":{"style":{},"previous":{},"fill":true},"origin":{"astIds":[17],"span":{"Start":{"Filename":"input.1","Offset":84,"Line":10,"Column":1},"End":{"Filename":"input.1","Offset":90,"Line":11,"Column":1}}}}
+  ],
+  "diagnostics": [{"Message":"unsupported semantics preserved without evaluation: .de1","Position":{"Filename":"input.1","Offset":28,"Line":4,"Column":1},"Severity":"warning"}]
+}
+-- expected-text.txt --
+REAL
+before
+.de1 SAVED
+.TH HIDDEN 9
+.SH HIDDEN
+.ft B
+stored text
+..
+after
+-- expected-canonical.json --
+{"metadata":{"title":"OUTER","section":"1"},"nodes":[{"kind":"document","state":{"style":{},"previous":{},"fill":true}},{"kind":"section","parent":1,"heading":"REAL","runs":[{"text":"REAL","style":{"bold":true}}],"state":{"style":{},"previous":{},"fill":true}},{"kind":"paragraph","parent":2,"runs":[{"text":"before","style":{}}],"state":{"style":{},"previous":{},"fill":true}},{"kind":"unsupported","parent":2,"value":".de1","runs":[{"text":".de1 SAVED\n.TH HIDDEN 9\n.SH HIDDEN\n.ft B\nstored text\n..\n","style":{},"unsupported":true}],"state":{"style":{},"previous":{},"fill":true}},{"kind":"paragraph","parent":2,"runs":[{"text":"after","style":{}}],"state":{"style":{},"previous":{},"fill":true}}]}

@@ -76,13 +76,11 @@ func Build(tree *groff.AST, o Options) (*Document, error) {
 		}
 		cmd, args, lexErr := lineArgs(n)
 		rawBody := body(n.Raw())
-		if len(rawBody) >= 3 && (rawBody[0] == '.' || rawBody[0] == '\'') && rawBody[1] == '\\' && (rawBody[2] == '"' || rawBody[2] == '#') {
-			continue
-		}
-		// Preserve complex definitions/preprocessors as one inspectable fallback.
-		if cmd == ".de" || cmd == ".am" || cmd == ".ig" || cmd == ".TS" || cmd == ".EQ" || cmd == ".PS" || cmd == ".[" {
-			p := n.Parent()
-			if p != nil && p.Kind() == groff.ASTBlock && p.Attributes().Name == cmd {
+		// Parser-owned captures are data, regardless of their command spelling or
+		// handler token. Use the AST boundary so new/custom blocks cannot interpret
+		// stored headings, metadata or state changes as live page content.
+		if p := n.Parent(); p != nil && p.Kind() == groff.ASTBlock && p.Span().Start.Offset == n.Span().Start.Offset {
+			if _, captured := p.BlockSource(); captured {
 				if b.pre != 0 {
 					node := d.Node(b.pre)
 					node.Runs = append(node.Runs, Run{Text: p.Raw(), Style: b.state.Style, Unsupported: true, Origin: origin(p)})
@@ -104,6 +102,9 @@ func Build(tree *groff.AST, o Options) (*Document, error) {
 				}
 				continue
 			}
+		}
+		if len(rawBody) >= 3 && (rawBody[0] == '.' || rawBody[0] == '\'') && rawBody[1] == '\\' && (rawBody[2] == '"' || rawBody[2] == '#') {
+			continue
 		}
 		if cmd == ".SH" || cmd == ".SS" {
 			if lexErr != nil {
