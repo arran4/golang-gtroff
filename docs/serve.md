@@ -103,9 +103,13 @@ unsupported input. No include resolver/evaluator is exposed; any future opt-in
 resolver must retain the root sandbox.
 
 All opened files are closed, including read/decode/error paths. Caller-owned FS
-operations can block according to their implementation; cancellation is checked
-between operations and throughout bounded reads/search. Synchronous parser/render
-work checks context at stage boundaries rather than promising immediate CPU
+readers have their byte counts checked before use; invalid counts and 100
+consecutive empty reads produce the existing unreadable-page notice. Valid
+prefix bytes still consume the shared budget, but failed pages never enter the
+snapshot. This guard does not recover panics raised inside caller methods.
+Caller-owned FS operations can block according to their implementation;
+cancellation is checked between operations and throughout bounded reads/search.
+Synchronous parser/render work checks context at stage boundaries rather than promising immediate CPU
 preemption. Root directories should be stable and trusted; OS roots do not block
 mounts/devices placed inside them. Nonregular entries are skipped/rechecked, but
 this is not a sandbox for an adversary actively replacing regular files with

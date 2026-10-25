@@ -19,6 +19,7 @@ import (
 	"unicode/utf8"
 
 	groff "github.com/arran4/golang-gtroff"
+	"github.com/arran4/golang-gtroff/internal/sourceio"
 	"github.com/arran4/golang-gtroff/man"
 )
 
@@ -329,7 +330,10 @@ func (b *pageByteBudget) read(ctx context.Context, r io.Reader, maxBytes int) ([
 	if remaining < 0 {
 		return nil, ErrLimit
 	}
-	data, err := io.ReadAll(io.LimitReader(contextReader{ctx, r}, int64(remaining)+1))
+	checked := sourceio.NewReader(r, func(count, size int, err error) error {
+		return &groff.ReaderCountError{Count: count, Size: size, Err: err}
+	})
+	data, err := io.ReadAll(io.LimitReader(contextReader{ctx, checked}, int64(remaining)+1))
 	b.used += len(data)
 	if len(data) > remaining {
 		err = errors.Join(ErrLimit, err)
