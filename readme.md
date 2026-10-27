@@ -1,15 +1,20 @@
 # golang-gtroff
 
-A Go library for parsing groff/troff documents. This parser focuses on extracting macros and requests from groff documents, particularly those using the `man` and `ms` macro packages.
+A Go library and CLI for complete, extensible groff and troff document parsing, macro extraction, and bounded evaluation.
+
+`golang-gtroff` is designed as a **loss-aware, structured syntax and document parser**. It provides typed nodes for groff macros and requests, preserves physical lines and source positions, models complex constructs like multiline macro definitions and preprocessor blocks, and provides an optional bounded semantic evaluator. It does **not** attempt to be a full typesetter or pixel/page-layout engine.
 
 ## Features
 
-- **Macro Parsing**: Parses groff macros and requests into structured Go types
-- **Man Page Support**: Comprehensive support for `man` macro package (`.TH`, `.SH`, `.SS`, `.TP`, `.IP`, etc.)
-- **MS Macro Support**: Support for `ms` macro package (`.TL`, `.AU`, `.AI`, `.AB`, `.NH`, etc.)
-- **Text Extraction**: Primarily designed for extracting text content from groff documents
-- **Token-based**: Line-by-line parsing that returns typed tokens for each macro/request
-- **Extensible**: Easy to add support for additional macros via code generation
+- **Catalogue Coverage**: 518 canonical definitions across macros (141 entries, 111 distinct), requests (206 entries, 179 distinct), strings (59 entries), and registers (112 entries) with 0 unexplained gaps.
+- **Package-Aware Macro Resolution**: Full support for both `man` and `ms` packages with automatic collision resolution for shared macros (`.SH`, `.B`, `.BI`, `.NH`, `.DS`, etc.).
+- **Roff Request Support**: Typed support for low-level roff requests including `.nf`, `.fi`, `.br`, `.sp`, `.nr`, `.ds`, `.so`, and more.
+- **Preprocessor Blocks**: Structured capture of `tbl` (`.TS`/`.TE`), `eqn` (`.EQ`/`.EN`), `pic` (`.PS`/`.PE`), and `refer` (`.[`/`.]`) regions.
+- **Multiline & Definition Handlers**: Structured blocks for macro definitions (`.de`, `.am`), ignored text (`.ig`), and source directives (`.so`, `.mso`).
+- **Inline Escapes & References**: Reusable inline parser for string interpolations (`\*[HF]`), register references (`\n[PO]`), special characters (`\(bu`, `\[bu]`), font changes (`\fB`), and size escapes.
+- **Streaming Document Parser**: `ParseDocument` preserves every physical line, source positions (line, column, byte offset), blank lines, comments, and unterminated final lines.
+- **Optional Bounded Evaluator**: Opt-in semantic evaluation for number registers (`.nr`, `.rr`), strings (`.ds`, `.as`), conditionals (`.if`, `.ie`, `.el`), and macro expansion with strict recursion and step budgets.
+- **Deterministic Code Generation**: Atomic, `go/format`-verified code generation backed by schema validation.
 
 ## Installation
 
@@ -19,159 +24,159 @@ go get github.com/arran4/golang-gtroff
 
 ## Usage
 
-### Basic Parsing
+### Document Parsing (Streaming & Structured)
 
 ```go
 package main
 
 import (
-    "bufio"
     "fmt"
     "log"
-    "os"
-    
+    "strings"
+
     groff "github.com/arran4/golang-gtroff"
 )
 
 func main() {
-    file, err := os.Open("example.1")
+    input := `.TH MYTOOL 1 2024-01-01 "Linux" "User Commands"
+.SH NAME
+mytool \- demonstrate groff parsing
+.SH SYNOPSIS
+.nf
+.B mytool [options] file
+.fi
+.SH DESCRIPTION
+Process input files.
+`
+
+    doc, err := groff.ParseDocument(strings.NewReader(input),
+        groff.WithPackage("man"),
+        groff.WithStrict(false),
+        groff.WithSourceName("mytool.1"),
+    )
     if err != nil {
-        log.Fatal(err)
+        log.Fatalf("Parse error: %v", err)
     }
-    defer file.Close()
-    
-    scanner := bufio.NewScanner(file)
-    for scanner.Scan() {
-        line := scanner.Text()
-        token, err := groff.ParseLine(line)
-        if err != nil {
-            log.Printf("Error parsing line: %v", err)
-            continue
-        }
-        
-        // Process the token
-        switch t := token.(type) {
-        case *groff.TokenMacroTH:
-            fmt.Printf("Title: %s, Section: %s\n", t.Title, t.Section)
-        case *groff.TokenMacroSH:
-            fmt.Printf("Section Heading: %s\n", t.Heading)
-        case groff.TokenText:
-            fmt.Printf("Text: %s\n", t)
-        }
+
+    for _, dt := range doc.Tokens {
+        fmt.Printf("%s:%d:%d: %s\n", dt.Span.Start.Filename, dt.Span.Start.Line, dt.Span.Start.Column, dt.Token.String())
     }
 }
 ```
 
-### Using the Command-Line Tool
-
-A simple lexer tool is included for parsing groff files:
-
-```bash
-go run ./cmd/lex/main.go example.1
-```
-
-## Supported Macros
-
-### Man Macro Package
-
-- **Document Structure**: `.TH`, `.SH`, `.SS`
-- **Paragraphs**: `.P`, `.PP`, `.LP`, `.TP`, `.IP`, `.HP`
-- **Font Styles**: `.B`, `.I`, `.BI`, `.IB`, `.BR`, `.RB`, `.IR`, `.RI`
-- **Text Formatting**: `.SM`, `.SB`, `.EX`, `.EE`
-- **Indentation**: `.RS`, `.RE`
-- **Hyperlinks**: `.UR`, `.UE`, `.MT`, `.ME`, `.MR`
-- **Synopsis**: `.SY`, `.YS`, `.OP`, `.TQ`
-- **Miscellaneous**: `.DT`, `.PD`, `.AT`, `.UC`, `.PT`, `.BT`, `.CT`, `.CW`
-
-### MS Macro Package
-
-- **Document Metadata**: `.DA`, `.ND`, `.TL`, `.AU`, `.AI`
-- **Abstract**: `.AB`, `.AE`
-- **Paragraphs**: `.PP`, `.LP`, `.QP`, `.QE`, `.XP`
-- **Headings**: `.NH`
-- **Displays**: `.DS`, `.DE`, `.ID`, `.BD`, `.CD`, `.LD`, `.RD`
-- **Keeps**: `.KS`, `.KE`, `.KF`
-- **Footnotes**: `.FS`, `.FE`
-- **Tables/Figures**: `.TS`, `.TE`, `.PS`, `.PE`, `.EQ`, `.EN`
-- **Boxes**: `.B1`, `.B2`, `.BX`
-- **Columns**: `.1C`, `.2C`, `.MC`
-- **Index/TOC**: `.IX`, `.XS`, `.XA`, `.XE`, `.TC`, `.PX`
-- **Headers/Footers**: `.HD`, `.EH`, `.OH`, `.EF`, `.OF`
-
-### Other
-
-- **Comments**: `.\"`
-- **References**: `.[`, `.]`
-
-## API
-
-### Core Types
+### Line-by-Line Parsing
 
 ```go
-type Token interface {
-    String() string
+token, err := groff.ParseLine(`.TH "TOOL" 1 "" "Header" "Footer"`)
+if err != nil {
+    log.Fatal(err)
+}
+
+switch t := token.(type) {
+case *groff.TokenMacroTH:
+    fmt.Printf("Title: %s, Section: %s\n", t.Title, t.Section)
 }
 ```
 
-All parsed macros implement the `Token` interface and can be converted back to their string representation.
+### Package Selection (`man` vs `ms`)
 
-### Main Functions
+```go
+// In man mode, .SH takes a heading argument
+tokMan, _ := groff.ParseLineWithPackage(`.SH "DESCRIPTION"`, "man")
+fmt.Println(tokMan.(*groff.TokenManSH).Heading) // "DESCRIPTION"
 
-- `ParseLine(line string) (Token, error)` - Parse a single line of groff input
-- `ArgumentParser(l string) ([]string, int, error)` - Parse macro arguments with quote handling
+// In ms mode, .SH takes an optional match-level argument
+tokMs, _ := groff.ParseLineWithPackage(`.SH 2`, "ms")
+fmt.Println(tokMs.(*groff.TokenMsSH).Matchlevel) // "2"
+```
 
-## Current Limitations
+### Inline Escapes and References
 
-This is a **minimal parser** built for specific purposes. Notable limitations:
+```go
+tokens, err := groff.ParseInline(`Check font \*[HF] and symbol \(bu at offset \n[PO]`)
+if err != nil {
+    log.Fatal(err)
+}
 
-- **Escapes**: Escape sequences are not fully processed
-- **Registers**: Number registers are ignored
-- **Conditionals**: No support for conditional processing (`.if`, `.ie`, `.el`)
-- **String Definitions**: String definitions (`.ds`) are not tracked
-- **Diversions**: No support for diversions
-- **Requests**: Many low-level groff requests are not implemented
+for _, tok := range tokens {
+    fmt.Printf("[%s] %s (name: %s)\n", tok.Kind, tok.Raw, tok.Name)
+}
+```
 
-**Contributions welcome!** PRs to add missing functionality are appreciated.
+### Optional Bounded Evaluation
+
+```go
+input := `.nr PO 72
+.ds GREET Hello
+\*[GREET] from offset \n[PO]!
+`
+doc, _ := groff.ParseDocument(strings.NewReader(input))
+var raw []groff.Token
+for _, dt := range doc.Tokens {
+    raw = append(raw, dt.Token)
+}
+
+env := groff.NewEnvironment()
+evaluated, err := groff.Evaluate(raw, env)
+if err != nil {
+    log.Fatal(err)
+}
+
+for _, tok := range evaluated {
+    fmt.Println(tok.String())
+}
+// Outputs: Hello from offset 72!
+```
+
+## Command-Line Tool
+
+A CLI lexer is included for inspecting groff files:
+
+```bash
+# Parse a man page file
+go run ./cmd/lex/main.go -package man myfile.1
+
+# Parse in strict mode (fails on unknown commands)
+go run ./cmd/lex/main.go -strict myfile.1
+
+# Read from stdin
+cat myfile.1 | go run ./cmd/lex/main.go
+```
+
+## Supported Scope & Honest Boundaries
+
+- **Syntax & AST Layer (Complete)**: Dot control lines, apostrophe control lines, line arguments, quotes, escapes, preprocessor blocks, macro definitions, comments, and unknown controls.
+- **Macro Packages**: `man` and `ms` macro packages are fully typed with package disambiguation.
+- **Requests**: 179 distinct roff requests are typed and dispatched.
+- **Semantic Evaluation (Opt-in)**: Core register arithmetic (`.nr`, `.rr`), strings (`.ds`, `.as`), conditionals (`.if`, `.ie`, `.el`), and macro definitions (`.de`).
+- **Out of Scope**: Full groff typesetting, hyphenation engines, diversion rendering, and font rasterization/page layout.
 
 ## Development
 
 ### Code Generation
 
-Many macros are generated from templates. To regenerate:
+To regenerate macro and request definitions, ParseLine dispatchers, and catalogue metadata:
 
 ```bash
-go run ./cmd/gen/maingen.go
+go generate ./...
 ```
 
 The generator uses:
-- `cmd/gen/in.json` - Macro definitions
-- `cmd/gen/macros.go.template` - Template for macro structs and parsers
-- `cmd/gen/parseline.go.template` - Template for the ParseLine switch cases
+- `cmd/gen/in.json` - Raw catalogue definitions
+- `cmd/gen/schema.go` - Normalization and validation schema
+- `cmd/gen/*.template` - Code generation templates
 
-### Testing
+### Testing & Validation
 
 ```bash
-go test ./...
+go test -v ./...
+go vet ./...
 ```
 
 ## License
 
 This project follows the licensing of the source material:
+- Documentation derived from the [GNU groff manual](https://www.gnu.org/software/groff/manual/groff.html#Copying-This-Manual)
+- Source code - GPL (to maintain compatibility with groff source material)
 
-- Documentation derived from the [GNU groff manual](https://www.gnu.org/software/groff/manual/groff.html#Copying-This-Manual) - See manual for terms
-- All other code - GPL (to maintain compatibility with groff source material)
-
-See [LICENSE](LICENSE) file for details.
-
-## Contributing
-
-Contributions are welcome! Areas where help is particularly appreciated:
-
-- Adding support for missing macros and requests
-- Implementing escape sequence processing
-- Adding register tracking
-- Improving documentation
-- Adding more test cases
-- Performance improvements
-
-Please feel free to open issues or submit pull requests.
+See [LICENSE](LICENSE) for details.

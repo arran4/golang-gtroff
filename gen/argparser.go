@@ -141,6 +141,11 @@ func ParseArgs(in string) (result *ArgStruct, err error) {
 		if len(word) > 0 {
 			word = strings.ToUpper(word[:1]) + word[1:]
 		}
+		if word == "String" {
+			word = "StringVal"
+		} else if word == "TokenName" || word == "TokenKind" || word == "PackageName" {
+			word = "Arg" + word
+		}
 
 		// Ensure uniqueness
 		base := word

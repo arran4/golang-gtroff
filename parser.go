@@ -41,6 +41,7 @@ func ArgumentParser(l string) ([]string, int, error) {
 	stack := []rune{}
 	result := []string{}
 	a := ""
+	quotedArg := false
 	acomment := false
 	i := 0
 	rs := []rune(l)
@@ -48,10 +49,11 @@ func ArgumentParser(l string) ([]string, int, error) {
 		switch rs[i] {
 		case ' ':
 			if len(stack) == 0 {
-				if len(a) != 0 {
+				if len(a) != 0 || quotedArg {
 					result = append(result, a)
 				}
 				a = ""
+				quotedArg = false
 				continue
 			}
 		case '\\':
@@ -72,14 +74,24 @@ func ArgumentParser(l string) ([]string, int, error) {
 				break
 			}
 			if len(stack) > 0 && stack[len(stack)-1] == '"' {
+				// Check for doubled quote inside quotes: ""
+				if i+1 < len(rs) && rs[i+1] == '"' {
+					a += `"`
+					i++
+					continue
+				}
 				stack = stack[:len(stack)-1]
-				if len(stack) == 0 && len(a) != 0 {
-					result = append(result, a)
-					a = ""
+				if len(stack) == 0 {
+					if len(a) != 0 || quotedArg {
+						result = append(result, a)
+						a = ""
+						quotedArg = false
+					}
 				}
 				continue
 			} else if len(a) == 0 {
 				stack = append(stack, '"')
+				quotedArg = true
 				continue
 			}
 		}
@@ -88,7 +100,7 @@ func ArgumentParser(l string) ([]string, int, error) {
 	if len(stack) > 0 {
 		return nil, i, fmt.Errorf("%w: stack %s", ErrUnclosedQuote, string(stack))
 	}
-	if len(a) > 0 {
+	if len(a) > 0 || quotedArg {
 		result = append(result, a)
 	}
 	return result, i, nil
