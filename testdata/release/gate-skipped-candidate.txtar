@@ -1,0 +1,12 @@
+Strict aggregate checks skipped-candidate.
+-- scenario.json --
+{
+  "Block": "gate",
+  "Env": {
+    "VERIFY_RESULT": "success",
+    "CANDIDATES_RESULT": "skipped",
+    "NATIVE_RESULT": "success",
+    "FULL": "true"
+  },
+  "Exit": 1
+}

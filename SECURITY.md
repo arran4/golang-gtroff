@@ -21,7 +21,7 @@ Please include:
 - Steps to reproduce, test fixtures, or proof of concept.
 - Affected commands, packages, or HTTP endpoints (e.g., `gtroff serve`, parser bounds, path handling).
 
-You should receive an acknowledgment within 48 hours, followed by status updates as the issue is investigated and remediated.
+The maintainer will aim to acknowledge reports promptly and provide updates as the issue is investigated. This is a best-effort project without a guaranteed response-time SLA.
 
 ## Pre-Publication Secret Auditing & Guidelines
 
@@ -38,6 +38,6 @@ The repository undergoes automated and manual secret auditing prior to any publi
 ## Security Boundaries & Resource Limits
 
 `golang-gtroff` implements defensive bounds against malformed or hostile input:
-- **Path Traversal & Host Isolation**: The HTTP library (`internal/serve`, `gtroff serve`) rejects directory traversal sequences (`..`), forbidden control characters, and untrusted `Host` headers.
+- **Path Traversal & Host Isolation**: The HTTP library (`manlib`, `gtroff serve`) rejects directory traversal sequences (`..`), forbidden control characters, and untrusted `Host` headers.
 - **Resource Limits**: Configurable read budgets (`MaxFileBytes`, `MaxMemoryBytes`) and recursion depth limits protect against memory exhaustion or infinite macro expansion loops.
-- **Pure-Go Sandboxing**: Headless CLI binaries require no CGO and operate without executing external shell processes for core operations.
+- **Headless implementation**: Core parsing and rendering paths are pure Go and do not invoke an external groff interpreter. This does not constitute an operating-system security sandbox.

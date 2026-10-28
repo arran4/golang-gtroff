@@ -1,0 +1,92 @@
+Strict mode returns an inspectable layout and diagnostics but permits no painting or output.
+-- input.1 --
+.UNKNOWN literal
+-- options.json --
+{"Width":256,"PageHeight":256,"Margin":16,"Strict":true}
+-- error.txt --
+strict image rendering rejected diagnostics
+-- expected-layout.json --
+[
+  {
+    "Number": 1,
+    "Width": 256,
+    "Height": 256,
+    "Lines": [
+      {
+        "Node": 2,
+        "Kind": "unsupported",
+        "Top": 16,
+        "Baseline": 39,
+        "Bottom": 49,
+        "HardBreak": true,
+        "Fragments": [
+          {
+            "Text": ".UNKNOWN literal",
+            "Source": ".UNKNOWN literal",
+            "Face": "mono@15",
+            "Style": {
+              "mono": true
+            },
+            "X": 16,
+            "Advance": 192,
+            "Bounds": {
+              "Min": {
+                "X": 20,
+                "Y": 23
+              },
+              "Max": {
+                "X": 207,
+                "Y": 40
+              }
+            }
+          }
+        ]
+      }
+    ]
+  }
+]
+-- expected-diagnostics.json --
+[
+  {
+    "Message": "unsupported semantics preserved: .UNKNOWN",
+    "Position": {
+      "Filename": "input.1",
+      "Offset": 0,
+      "Line": 1,
+      "Column": 1
+    },
+    "Severity": "warning"
+  },
+  {
+    "Message": "no token match: \".UNKNOWN\": literal",
+    "Position": {
+      "Filename": "input.1",
+      "Offset": 0,
+      "Line": 1,
+      "Column": 1
+    },
+    "Severity": "warning"
+  },
+  {
+    "Message": "unsupported source rendered as literal mono text",
+    "Position": {
+      "Filename": "input.1",
+      "Offset": 0,
+      "Line": 1,
+      "Column": 1
+    },
+    "Severity": "warning"
+  },
+  {
+    "Message": "unsupported inline source rendered literally",
+    "Position": {
+      "Filename": "input.1",
+      "Offset": 0,
+      "Line": 1,
+      "Column": 1
+    },
+    "Severity": "warning"
+  }
+]
+-- expected-paths.json --
+null

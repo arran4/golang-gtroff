@@ -1,0 +1,12 @@
+Strict aggregate checks unexpected-native.
+-- scenario.json --
+{
+  "Block": "gate",
+  "Env": {
+    "VERIFY_RESULT": "success",
+    "CANDIDATES_RESULT": "success",
+    "NATIVE_RESULT": "success",
+    "FULL": "false"
+  },
+  "Exit": 1
+}

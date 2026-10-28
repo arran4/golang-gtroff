@@ -1,0 +1,1207 @@
+roff/showcase crosses AST, validation, semantic, HTML, canonical roff and raster boundaries.
+-- options.json --
+{"example":true,"status":"valid","server":true,"minPages":3}
+-- expected-ast.json --
+[
+  {
+    "ID": 1,
+    "Kind": "document",
+    "Path": "/",
+    "Text": "MAN-TOOL 1 2026-10-21 Linux User Commands\nNAME\nman-tool \\- inspect a source document\nSYNOPSIS\nman-tool\n\\-v\n\\-o file\ninput\nDESCRIPTION\nRead\ninput\nand inspect its structure.\nOutput preserves the original source independently of canonical text.\nInput formats\nThe first implementation handles typical Linux man pages.\nOPTIONS\n8\n\\-v\nDisplay verbose diagnostics\non standard error.\n\\-o  file\nWrite the selected document to\nfile .\n\\(bu 2\nNo automatic includes or external commands.\n4\nIndented explanatory text.\nEXAMPLES\n  man-tool -v input.1\n  man-tool -o output.txt input.1\nSEE ALSO\nman 7 ,\nprintf 3\nAUTHORS\nhttps://example.invalid/man-tool\nExample maintainers\n.\n"
+  },
+  {
+    "ID": 2,
+    "Kind": "line",
+    "Path": "/0",
+    "Text": ""
+  },
+  {
+    "ID": 3,
+    "Kind": "line",
+    "Path": "/1",
+    "Text": "MAN-TOOL 1 2026-10-21 Linux User Commands\n"
+  },
+  {
+    "ID": 4,
+    "Kind": "inline",
+    "Path": "/1/0",
+    "Text": ".TH MAN-TOOL 1 \"2026-10-21\" \"Linux\" \"User Commands\""
+  },
+  {
+    "ID": 5,
+    "Kind": "section",
+    "Path": "/2",
+    "Text": "NAME\nman-tool \\- inspect a source document\n"
+  },
+  {
+    "ID": 6,
+    "Kind": "line",
+    "Path": "/2/0",
+    "Text": "NAME\n"
+  },
+  {
+    "ID": 7,
+    "Kind": "inline",
+    "Path": "/2/0/0",
+    "Text": ".SH NAME"
+  },
+  {
+    "ID": 8,
+    "Kind": "line",
+    "Path": "/2/1",
+    "Text": "man-tool \\- inspect a source document\n"
+  },
+  {
+    "ID": 9,
+    "Kind": "inline",
+    "Path": "/2/1/0",
+    "Text": "man-tool "
+  },
+  {
+    "ID": 10,
+    "Kind": "inline",
+    "Path": "/2/1/1",
+    "Text": "\\-"
+  },
+  {
+    "ID": 11,
+    "Kind": "inline",
+    "Path": "/2/1/2",
+    "Text": " inspect a source document"
+  },
+  {
+    "ID": 12,
+    "Kind": "section",
+    "Path": "/3",
+    "Text": "SYNOPSIS\nman-tool\n\\-v\n\\-o file\ninput\n"
+  },
+  {
+    "ID": 13,
+    "Kind": "line",
+    "Path": "/3/0",
+    "Text": "SYNOPSIS\n"
+  },
+  {
+    "ID": 14,
+    "Kind": "inline",
+    "Path": "/3/0/0",
+    "Text": ".SH SYNOPSIS"
+  },
+  {
+    "ID": 15,
+    "Kind": "line",
+    "Path": "/3/1",
+    "Text": "man-tool\n"
+  },
+  {
+    "ID": 16,
+    "Kind": "inline",
+    "Path": "/3/1/0",
+    "Text": ".SY man-tool"
+  },
+  {
+    "ID": 17,
+    "Kind": "line",
+    "Path": "/3/2",
+    "Text": "\\-v\n"
+  },
+  {
+    "ID": 18,
+    "Kind": "inline",
+    "Path": "/3/2/0",
+    "Text": ".OP "
+  },
+  {
+    "ID": 19,
+    "Kind": "inline",
+    "Path": "/3/2/1",
+    "Text": "\\-"
+  },
+  {
+    "ID": 20,
+    "Kind": "inline",
+    "Path": "/3/2/2",
+    "Text": "v"
+  },
+  {
+    "ID": 21,
+    "Kind": "line",
+    "Path": "/3/3",
+    "Text": "\\-o file\n"
+  },
+  {
+    "ID": 22,
+    "Kind": "inline",
+    "Path": "/3/3/0",
+    "Text": ".OP "
+  },
+  {
+    "ID": 23,
+    "Kind": "inline",
+    "Path": "/3/3/1",
+    "Text": "\\-"
+  },
+  {
+    "ID": 24,
+    "Kind": "inline",
+    "Path": "/3/3/2",
+    "Text": "o file"
+  },
+  {
+    "ID": 25,
+    "Kind": "line",
+    "Path": "/3/4",
+    "Text": "input\n"
+  },
+  {
+    "ID": 26,
+    "Kind": "inline",
+    "Path": "/3/4/0",
+    "Text": ".I input"
+  },
+  {
+    "ID": 27,
+    "Kind": "line",
+    "Path": "/3/5",
+    "Text": ""
+  },
+  {
+    "ID": 28,
+    "Kind": "inline",
+    "Path": "/3/5/0",
+    "Text": ".YS"
+  },
+  {
+    "ID": 29,
+    "Kind": "section",
+    "Path": "/4",
+    "Text": "DESCRIPTION\nRead\ninput\nand inspect its structure.\nOutput preserves the original source independently of canonical text.\nInput formats\nThe first implementation handles typical Linux man pages.\n"
+  },
+  {
+    "ID": 30,
+    "Kind": "line",
+    "Path": "/4/0",
+    "Text": "DESCRIPTION\n"
+  },
+  {
+    "ID": 31,
+    "Kind": "inline",
+    "Path": "/4/0/0",
+    "Text": ".SH DESCRIPTION"
+  },
+  {
+    "ID": 32,
+    "Kind": "line",
+    "Path": "/4/1",
+    "Text": "Read\n"
+  },
+  {
+    "ID": 33,
+    "Kind": "inline",
+    "Path": "/4/1/0",
+    "Text": "Read"
+  },
+  {
+    "ID": 34,
+    "Kind": "line",
+    "Path": "/4/2",
+    "Text": "input\n"
+  },
+  {
+    "ID": 35,
+    "Kind": "inline",
+    "Path": "/4/2/0",
+    "Text": ".I input"
+  },
+  {
+    "ID": 36,
+    "Kind": "line",
+    "Path": "/4/3",
+    "Text": "and inspect its structure.\n"
+  },
+  {
+    "ID": 37,
+    "Kind": "inline",
+    "Path": "/4/3/0",
+    "Text": "and inspect its structure."
+  },
+  {
+    "ID": 38,
+    "Kind": "line",
+    "Path": "/4/4",
+    "Text": ""
+  },
+  {
+    "ID": 39,
+    "Kind": "inline",
+    "Path": "/4/4/0",
+    "Text": ".PP"
+  },
+  {
+    "ID": 40,
+    "Kind": "line",
+    "Path": "/4/5",
+    "Text": "Output preserves the original source independently of canonical text.\n"
+  },
+  {
+    "ID": 41,
+    "Kind": "inline",
+    "Path": "/4/5/0",
+    "Text": "Output preserves the original source independently of canonical text."
+  },
+  {
+    "ID": 42,
+    "Kind": "subsection",
+    "Path": "/4/6",
+    "Text": "Input formats\nThe first implementation handles typical Linux man pages.\n"
+  },
+  {
+    "ID": 43,
+    "Kind": "line",
+    "Path": "/4/6/0",
+    "Text": "Input formats\n"
+  },
+  {
+    "ID": 44,
+    "Kind": "inline",
+    "Path": "/4/6/0/0",
+    "Text": ".SS \"Input formats\""
+  },
+  {
+    "ID": 45,
+    "Kind": "line",
+    "Path": "/4/6/1",
+    "Text": "The first implementation handles typical Linux man pages.\n"
+  },
+  {
+    "ID": 46,
+    "Kind": "inline",
+    "Path": "/4/6/1/0",
+    "Text": "The first implementation handles typical Linux man pages."
+  },
+  {
+    "ID": 47,
+    "Kind": "section",
+    "Path": "/5",
+    "Text": "OPTIONS\n8\n\\-v\nDisplay verbose diagnostics\non standard error.\n\\-o  file\nWrite the selected document to\nfile .\n\\(bu 2\nNo automatic includes or external commands.\n4\nIndented explanatory text.\n"
+  },
+  {
+    "ID": 48,
+    "Kind": "line",
+    "Path": "/5/0",
+    "Text": "OPTIONS\n"
+  },
+  {
+    "ID": 49,
+    "Kind": "inline",
+    "Path": "/5/0/0",
+    "Text": ".SH OPTIONS"
+  },
+  {
+    "ID": 50,
+    "Kind": "line",
+    "Path": "/5/1",
+    "Text": "8\n"
+  },
+  {
+    "ID": 51,
+    "Kind": "inline",
+    "Path": "/5/1/0",
+    "Text": ".TP 8"
+  },
+  {
+    "ID": 52,
+    "Kind": "line",
+    "Path": "/5/2",
+    "Text": "\\-v\n"
+  },
+  {
+    "ID": 53,
+    "Kind": "inline",
+    "Path": "/5/2/0",
+    "Text": ".B "
+  },
+  {
+    "ID": 54,
+    "Kind": "inline",
+    "Path": "/5/2/1",
+    "Text": "\\-"
+  },
+  {
+    "ID": 55,
+    "Kind": "inline",
+    "Path": "/5/2/2",
+    "Text": "v"
+  },
+  {
+    "ID": 56,
+    "Kind": "line",
+    "Path": "/5/3",
+    "Text": "Display verbose diagnostics\n"
+  },
+  {
+    "ID": 57,
+    "Kind": "inline",
+    "Path": "/5/3/0",
+    "Text": "Display verbose diagnostics"
+  },
+  {
+    "ID": 58,
+    "Kind": "line",
+    "Path": "/5/4",
+    "Text": "on standard error.\n"
+  },
+  {
+    "ID": 59,
+    "Kind": "inline",
+    "Path": "/5/4/0",
+    "Text": "on standard error."
+  },
+  {
+    "ID": 60,
+    "Kind": "line",
+    "Path": "/5/5",
+    "Text": ""
+  },
+  {
+    "ID": 61,
+    "Kind": "inline",
+    "Path": "/5/5/0",
+    "Text": ".TP"
+  },
+  {
+    "ID": 62,
+    "Kind": "line",
+    "Path": "/5/6",
+    "Text": "\\-o  file\n"
+  },
+  {
+    "ID": 63,
+    "Kind": "inline",
+    "Path": "/5/6/0",
+    "Text": ".BI \""
+  },
+  {
+    "ID": 64,
+    "Kind": "inline",
+    "Path": "/5/6/1",
+    "Text": "\\-"
+  },
+  {
+    "ID": 65,
+    "Kind": "inline",
+    "Path": "/5/6/2",
+    "Text": "o \" file"
+  },
+  {
+    "ID": 66,
+    "Kind": "line",
+    "Path": "/5/7",
+    "Text": "Write the selected document to\n"
+  },
+  {
+    "ID": 67,
+    "Kind": "inline",
+    "Path": "/5/7/0",
+    "Text": "Write the selected document to"
+  },
+  {
+    "ID": 68,
+    "Kind": "line",
+    "Path": "/5/8",
+    "Text": "file .\n"
+  },
+  {
+    "ID": 69,
+    "Kind": "inline",
+    "Path": "/5/8/0",
+    "Text": ".IR file ."
+  },
+  {
+    "ID": 70,
+    "Kind": "line",
+    "Path": "/5/9",
+    "Text": "\\(bu 2\n"
+  },
+  {
+    "ID": 71,
+    "Kind": "inline",
+    "Path": "/5/9/0",
+    "Text": ".IP "
+  },
+  {
+    "ID": 72,
+    "Kind": "inline",
+    "Path": "/5/9/1",
+    "Text": "\\(bu"
+  },
+  {
+    "ID": 73,
+    "Kind": "inline",
+    "Path": "/5/9/2",
+    "Text": " 2"
+  },
+  {
+    "ID": 74,
+    "Kind": "line",
+    "Path": "/5/10",
+    "Text": "No automatic includes or external commands.\n"
+  },
+  {
+    "ID": 75,
+    "Kind": "inline",
+    "Path": "/5/10/0",
+    "Text": "No automatic includes or external commands."
+  },
+  {
+    "ID": 76,
+    "Kind": "block",
+    "Path": "/5/11",
+    "Text": "4\nIndented explanatory text.\n"
+  },
+  {
+    "ID": 77,
+    "Kind": "line",
+    "Path": "/5/11/0",
+    "Text": "4\n"
+  },
+  {
+    "ID": 78,
+    "Kind": "inline",
+    "Path": "/5/11/0/0",
+    "Text": ".RS 4"
+  },
+  {
+    "ID": 79,
+    "Kind": "line",
+    "Path": "/5/11/1",
+    "Text": "Indented explanatory text.\n"
+  },
+  {
+    "ID": 80,
+    "Kind": "inline",
+    "Path": "/5/11/1/0",
+    "Text": "Indented explanatory text."
+  },
+  {
+    "ID": 81,
+    "Kind": "line",
+    "Path": "/5/11/2",
+    "Text": ""
+  },
+  {
+    "ID": 82,
+    "Kind": "section",
+    "Path": "/6",
+    "Text": "EXAMPLES\n  man-tool -v input.1\n  man-tool -o output.txt input.1\n"
+  },
+  {
+    "ID": 83,
+    "Kind": "line",
+    "Path": "/6/0",
+    "Text": "EXAMPLES\n"
+  },
+  {
+    "ID": 84,
+    "Kind": "inline",
+    "Path": "/6/0/0",
+    "Text": ".SH EXAMPLES"
+  },
+  {
+    "ID": 85,
+    "Kind": "block",
+    "Path": "/6/1",
+    "Text": "  man-tool -v input.1\n  man-tool -o output.txt input.1\n"
+  },
+  {
+    "ID": 86,
+    "Kind": "line",
+    "Path": "/6/1/0",
+    "Text": ""
+  },
+  {
+    "ID": 87,
+    "Kind": "inline",
+    "Path": "/6/1/0/0",
+    "Text": ".EX"
+  },
+  {
+    "ID": 88,
+    "Kind": "line",
+    "Path": "/6/1/1",
+    "Text": "  man-tool -v input.1\n"
+  },
+  {
+    "ID": 89,
+    "Kind": "line",
+    "Path": "/6/1/2",
+    "Text": "  man-tool -o output.txt input.1\n"
+  },
+  {
+    "ID": 90,
+    "Kind": "line",
+    "Path": "/6/1/3",
+    "Text": ""
+  },
+  {
+    "ID": 91,
+    "Kind": "section",
+    "Path": "/7",
+    "Text": "SEE ALSO\nman 7 ,\nprintf 3\n"
+  },
+  {
+    "ID": 92,
+    "Kind": "line",
+    "Path": "/7/0",
+    "Text": "SEE ALSO\n"
+  },
+  {
+    "ID": 93,
+    "Kind": "inline",
+    "Path": "/7/0/0",
+    "Text": ".SH SEE ALSO"
+  },
+  {
+    "ID": 94,
+    "Kind": "line",
+    "Path": "/7/1",
+    "Text": "man 7 ,\n"
+  },
+  {
+    "ID": 95,
+    "Kind": "inline",
+    "Path": "/7/1/0",
+    "Text": ".MR man 7 ,"
+  },
+  {
+    "ID": 96,
+    "Kind": "line",
+    "Path": "/7/2",
+    "Text": "printf 3\n"
+  },
+  {
+    "ID": 97,
+    "Kind": "inline",
+    "Path": "/7/2/0",
+    "Text": ".MR printf 3"
+  },
+  {
+    "ID": 98,
+    "Kind": "section",
+    "Path": "/8",
+    "Text": "AUTHORS\nhttps://example.invalid/man-tool\nExample maintainers\n.\n"
+  },
+  {
+    "ID": 99,
+    "Kind": "line",
+    "Path": "/8/0",
+    "Text": "AUTHORS\n"
+  },
+  {
+    "ID": 100,
+    "Kind": "inline",
+    "Path": "/8/0/0",
+    "Text": ".SH AUTHORS"
+  },
+  {
+    "ID": 101,
+    "Kind": "line",
+    "Path": "/8/1",
+    "Text": "https://example.invalid/man-tool\n"
+  },
+  {
+    "ID": 102,
+    "Kind": "inline",
+    "Path": "/8/1/0",
+    "Text": ".UR https://example.invalid/man-tool"
+  },
+  {
+    "ID": 103,
+    "Kind": "line",
+    "Path": "/8/2",
+    "Text": "Example maintainers\n"
+  },
+  {
+    "ID": 104,
+    "Kind": "inline",
+    "Path": "/8/2/0",
+    "Text": "Example maintainers"
+  },
+  {
+    "ID": 105,
+    "Kind": "line",
+    "Path": "/8/3",
+    "Text": ".\n"
+  },
+  {
+    "ID": 106,
+    "Kind": "inline",
+    "Path": "/8/3/0",
+    "Text": ".UE ."
+  }
+]
+-- expected-layout.json --
+[
+  {
+    "Number": 1,
+    "Width": 320,
+    "Height": 320,
+    "Text": [
+      "MAN-TOOL(1)",
+      "User Commands · Linux · 2026-10-21",
+      "NAME",
+      "man-tool - inspect a source document",
+      "SYNOPSIS",
+      "man-tool [-v] [-o file] input",
+      "DESCRIPTION",
+      "Read input and inspect its structure."
+    ]
+  },
+  {
+    "Number": 2,
+    "Width": 320,
+    "Height": 320,
+    "Text": [
+      "Output preserves the original source",
+      "independently of canonical text.",
+      "Input formats",
+      "The first implementation handles typical Linux",
+      "man pages.",
+      "OPTIONS",
+      "-v",
+      "Display verbose diagnostics on",
+      "standard error.",
+      "-o file"
+    ]
+  },
+  {
+    "Number": 3,
+    "Width": 320,
+    "Height": 320,
+    "Text": [
+      "Write the selected document to file.",
+      "•",
+      "No automatic includes or external commands.",
+      "Indented explanatory text.",
+      "EXAMPLES",
+      "  man-tool -v input.1",
+      "  man-tool -o output.txt input.1",
+      "SEE ALSO",
+      "man(7), printf(3)"
+    ]
+  },
+  {
+    "Number": 4,
+    "Width": 320,
+    "Height": 320,
+    "Text": [
+      "AUTHORS",
+      "Example maintainers."
+    ]
+  }
+]
+-- expected-semantics.json --
+{
+  "metadata": {
+    "title": "MAN-TOOL",
+    "section": "1",
+    "date": "2026-10-21",
+    "source": "Linux",
+    "manual": "User Commands"
+  },
+  "children": [
+    {
+      "kind": "section",
+      "runs": [
+        {
+          "text": "NAME",
+          "style": {
+            "bold": true
+          }
+        }
+      ],
+      "children": [
+        {
+          "kind": "paragraph",
+          "runs": [
+            {
+              "text": "man-tool - inspect a source document",
+              "style": {}
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "section",
+      "runs": [
+        {
+          "text": "SYNOPSIS",
+          "style": {
+            "bold": true
+          }
+        }
+      ],
+      "children": [
+        {
+          "kind": "paragraph",
+          "runs": [
+            {
+              "text": "man-tool",
+              "style": {
+                "bold": true
+              }
+            },
+            {
+              "text": " [",
+              "style": {}
+            },
+            {
+              "text": "-v",
+              "style": {
+                "bold": true
+              }
+            },
+            {
+              "text": "] [",
+              "style": {}
+            },
+            {
+              "text": "-o",
+              "style": {
+                "bold": true
+              }
+            },
+            {
+              "text": " ",
+              "style": {}
+            },
+            {
+              "text": "file",
+              "style": {
+                "italic": true
+              }
+            },
+            {
+              "text": "] ",
+              "style": {}
+            },
+            {
+              "text": "input",
+              "style": {
+                "italic": true
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "section",
+      "runs": [
+        {
+          "text": "DESCRIPTION",
+          "style": {
+            "bold": true
+          }
+        }
+      ],
+      "children": [
+        {
+          "kind": "paragraph",
+          "runs": [
+            {
+              "text": "Read ",
+              "style": {}
+            },
+            {
+              "text": "input",
+              "style": {
+                "italic": true
+              }
+            },
+            {
+              "text": " and inspect its structure.",
+              "style": {}
+            }
+          ]
+        },
+        {
+          "kind": "paragraph",
+          "runs": [
+            {
+              "text": "Output preserves the original source independently of canonical text.",
+              "style": {}
+            }
+          ]
+        },
+        {
+          "kind": "subsection",
+          "runs": [
+            {
+              "text": "Input formats",
+              "style": {
+                "bold": true
+              }
+            }
+          ],
+          "children": [
+            {
+              "kind": "paragraph",
+              "runs": [
+                {
+                  "text": "The first implementation handles typical Linux man pages.",
+                  "style": {}
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "section",
+      "runs": [
+        {
+          "text": "OPTIONS",
+          "style": {
+            "bold": true
+          }
+        }
+      ],
+      "children": [
+        {
+          "kind": "definition-list",
+          "children": [
+            {
+              "kind": "item",
+              "value": "4em",
+              "tag": [
+                {
+                  "text": "-v",
+                  "style": {
+                    "bold": true
+                  }
+                }
+              ],
+              "children": [
+                {
+                  "kind": "paragraph",
+                  "runs": [
+                    {
+                      "text": "Display verbose diagnostics on standard error.",
+                      "style": {}
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "kind": "item",
+              "value": "4em",
+              "tag": [
+                {
+                  "text": "-o ",
+                  "style": {
+                    "bold": true
+                  }
+                },
+                {
+                  "text": "file",
+                  "style": {
+                    "italic": true
+                  }
+                }
+              ],
+              "children": [
+                {
+                  "kind": "paragraph",
+                  "runs": [
+                    {
+                      "text": "Write the selected document to ",
+                      "style": {}
+                    },
+                    {
+                      "text": "file",
+                      "style": {
+                        "italic": true
+                      }
+                    },
+                    {
+                      "text": ".",
+                      "style": {}
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "kind": "item",
+              "value": "1em",
+              "tag": [
+                {
+                  "text": "•",
+                  "style": {}
+                }
+              ],
+              "children": [
+                {
+                  "kind": "paragraph",
+                  "runs": [
+                    {
+                      "text": "No automatic includes or external commands.",
+                      "style": {}
+                    }
+                  ]
+                },
+                {
+                  "kind": "indent",
+                  "value": "2em",
+                  "children": [
+                    {
+                      "kind": "paragraph",
+                      "runs": [
+                        {
+                          "text": "Indented explanatory text.",
+                          "style": {}
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "section",
+      "runs": [
+        {
+          "text": "EXAMPLES",
+          "style": {
+            "bold": true
+          }
+        }
+      ],
+      "children": [
+        {
+          "kind": "preformatted",
+          "runs": [
+            {
+              "text": "  man-tool -v input.1\n  man-tool -o output.txt input.1\n",
+              "style": {
+                "mono": true
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "section",
+      "runs": [
+        {
+          "text": "SEE ALSO",
+          "style": {
+            "bold": true
+          }
+        }
+      ],
+      "children": [
+        {
+          "kind": "paragraph",
+          "runs": [
+            {
+              "text": "man(7)",
+              "style": {},
+              "reference": "man(7)"
+            },
+            {
+              "text": ", ",
+              "style": {}
+            },
+            {
+              "text": "printf(3)",
+              "style": {},
+              "reference": "printf(3)"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "section",
+      "runs": [
+        {
+          "text": "AUTHORS",
+          "style": {
+            "bold": true
+          }
+        }
+      ],
+      "children": [
+        {
+          "kind": "paragraph",
+          "runs": [
+            {
+              "text": "Example maintainers",
+              "style": {},
+              "link": "https://example.invalid/man-tool"
+            },
+            {
+              "text": ".",
+              "style": {}
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+-- expected-validation.json --
+[
+  {
+    "Strict": false,
+    "Exit": 0,
+    "Status": "valid",
+    "Diagnostics": []
+  },
+  {
+    "Strict": true,
+    "Exit": 0,
+    "Status": "valid",
+    "Diagnostics": []
+  }
+]
+-- expected.1 --
+.TH "MAN-TOOL" "1" "2026-10-21" "Linux" "User Commands"
+.SH "\f[B]NAME\f[R]"
+.PP
+\&\f[R]man-tool - inspect a source document\f[R]\c
+.SH "\f[B]SYNOPSIS\f[R]"
+.PP
+\&\f[B]man-tool\f[R]\c
+\&\f[R] [\f[R]\c
+\&\f[B]-v\f[R]\c
+\&\f[R]] [\f[R]\c
+\&\f[B]-o\f[R]\c
+\&\f[R] \f[R]\c
+\&\f[I]file\f[R]\c
+\&\f[R]] \f[R]\c
+\&\f[I]input\f[R]\c
+.SH "\f[B]DESCRIPTION\f[R]"
+.PP
+\&\f[R]Read \f[R]\c
+\&\f[I]input\f[R]\c
+\&\f[R] and inspect its structure.\f[R]\c
+.PP
+\&\f[R]Output preserves the original source independently of canonical text.\f[R]\c
+.SS "\f[B]Input formats\f[R]"
+.PP
+\&\f[R]The first implementation handles typical Linux man pages.\f[R]\c
+.SH "\f[B]OPTIONS\f[R]"
+.PP
+.TP "8"
+\&\f[B]-v\f[R]
+
+\&\f[R]Display verbose diagnostics on standard error.\f[R]\c
+.TP "8"
+\&\f[B]-o \f[R]\f[I]file\f[R]
+
+\&\f[R]Write the selected document to \f[R]\c
+\&\f[I]file\f[R]\c
+\&\f[R].\f[R]\c
+.TP "2"
+\&\f[R]•\f[R]
+
+\&\f[R]No automatic includes or external commands.\f[R]\c
+.RS "4"
+.PP
+\&\f[R]Indented explanatory text.\f[R]\c
+.RE
+.SH "\f[B]EXAMPLES\f[R]"
+.nf
+\&\f[CR]  man-tool -v input.1\f[R]\c
+
+\&\f[CR]  man-tool -o output.txt input.1\f[R]\c
+
+.fi
+.SH "\f[B]SEE ALSO\f[R]"
+.PP
+.ft R
+.MR "man" "7" "\c"
+.ft R
+\&\f[R], \f[R]\c
+.ft R
+.MR "printf" "3" "\c"
+.ft R
+.SH "\f[B]AUTHORS\f[R]"
+.PP
+.UR "https://example.invalid/man-tool"
+\&\f[R]Example maintainers\f[R]\c
+.UE
+\&\f[R].\f[R]\c
+-- expected.html --
+<style>
+.gtroff-document{margin:0;background:#ffffff;color:#202124}
+.man-page{box-sizing:border-box;max-width:960px;margin:0 auto;padding:2rem;font-family:GTroffText,serif;font-size:18px;line-height:1.5;background:#ffffff;color:#202124;overflow-wrap:anywhere}
+.man-page a{color:#174ea6}.man-page h1{font-size:1.7em}.man-page h2{font-size:1.3em;margin-top:1.7em}.man-page h3{font-size:1.1em;margin-top:1.3em}
+.man-page p{margin:.75em 0}.man-page pre{white-space:pre-wrap;overflow:auto;padding:1em;background:#f3f4f6;border-radius:.25em}
+.man-page code{font-family:GTroffMono,monospace}.man-page small{font-size:.9em}.man-page dt{font-weight:normal;margin-top:.75em}.man-page dd{margin-inline-start:2em}.man-page dd>:first-child{margin-top:0}
+.man-page .manual-meta{opacity:.8;font-size:.9em}.man-page .permalink{font-size:.8em;text-decoration:none;margin-inline-start:.5em}.man-page .unsupported{border-inline-start:.25em solid currentColor}.man-page .conversion-notes{border:1px solid currentColor;padding:1em;margin-top:2em}
+@media(max-width:600px){.man-page{padding:1rem}.man-page dd{margin-inline-start:1em}}
+@media print{.man-page{max-width:none;color:#000000;background:#ffffff;padding:0}.man-page .permalink{display:none}.man-page pre{break-inside:avoid}}
+</style>
+<article class="man-page theme-light" data-man-version="1" data-man-title="MAN-TOOL" data-man-section="1" data-man-date="2026-10-21" data-man-source="Linux" data-man-manual="User Commands">
+<header class="document-header"><h1>MAN-TOOL(1)</h1><p class="manual-meta">User Commands · Linux · 2026-10-21</p></header>
+<section data-kind="section" data-node-id="2" data-source-start="124" aria-labelledby="man-node-2">
+<h2 id="man-node-2"><strong>NAME</strong><a class="permalink" href="#man-node-2" aria-label="Link to NAME">#</a></h2>
+<p data-kind="paragraph" data-node-id="3" data-source-start="133">man-tool - inspect a source document</p>
+</section>
+<section data-kind="section" data-node-id="4" data-source-start="171" aria-labelledby="man-node-4">
+<h2 id="man-node-4"><strong>SYNOPSIS</strong><a class="permalink" href="#man-node-4" aria-label="Link to SYNOPSIS">#</a></h2>
+<p data-kind="paragraph" data-node-id="5" data-source-start="184"><strong>man-tool</strong> [<strong>-</strong><strong>v</strong>] [<strong>-</strong><strong>o</strong> <em>file</em>] <em>input</em></p>
+</section>
+<section data-kind="section" data-node-id="6" data-source-start="231" aria-labelledby="man-node-6">
+<h2 id="man-node-6"><strong>DESCRIPTION</strong><a class="permalink" href="#man-node-6" aria-label="Link to DESCRIPTION">#</a></h2>
+<p data-kind="paragraph" data-node-id="7" data-source-start="247">Read <em>input</em> and inspect its structure.</p>
+<p data-kind="paragraph" data-node-id="8" data-source-start="292">Output preserves the original source independently of canonical text.</p>
+<section data-kind="subsection" data-node-id="9" data-source-start="362" aria-labelledby="man-node-9">
+<h3 id="man-node-9"><strong>Input formats</strong><a class="permalink" href="#man-node-9" aria-label="Link to Input formats">#</a></h3>
+<p data-kind="paragraph" data-node-id="10" data-source-start="382">The first implementation handles typical Linux man pages.</p>
+</section>
+</section>
+<section data-kind="section" data-node-id="11" data-source-start="440" aria-labelledby="man-node-11">
+<h2 id="man-node-11"><strong>OPTIONS</strong><a class="permalink" href="#man-node-11" aria-label="Link to OPTIONS">#</a></h2>
+<dl class="definitions" data-kind="definition-list" data-node-id="12" data-source-start="452">
+<dt data-kind="item" data-node-id="13" data-source-start="452" data-value="8" id="man-node-13"><strong>-</strong><strong>v</strong></dt>
+<dd style="margin-inline-start:4em"><p data-kind="paragraph" data-node-id="14" data-source-start="465">Display verbose diagnostics on standard error.</p>
+</dd>
+<dt data-kind="item" data-node-id="15" data-source-start="512" data-value="8" id="man-node-15"><strong>-</strong><strong>o </strong><em>file</em></dt>
+<dd style="margin-inline-start:4em"><p data-kind="paragraph" data-node-id="16" data-source-start="532">Write the selected document to <em>file</em>.</p>
+</dd>
+<dt data-kind="item" data-node-id="17" data-source-start="574" data-value="2" id="man-node-17">•</dt>
+<dd style="margin-inline-start:1em"><p data-kind="paragraph" data-node-id="18" data-source-start="585">No automatic includes or external commands.</p>
+<div class="indent" data-kind="indent" data-node-id="19" data-source-start="629" data-value="4" style="margin-inline-start:2em">
+<p data-kind="paragraph" data-node-id="20" data-source-start="635">Indented explanatory text.</p>
+</div>
+</dd>
+</dl>
+</section>
+<section data-kind="section" data-node-id="21" data-source-start="666" aria-labelledby="man-node-21">
+<h2 id="man-node-21"><strong>EXAMPLES</strong><a class="permalink" href="#man-node-21" aria-label="Link to EXAMPLES">#</a></h2>
+<pre class="preformatted" data-kind="preformatted" data-node-id="22" data-source-start="679"><code>  man-tool -v input.1
+  man-tool -o output.txt input.1
+</code></pre>
+</section>
+<section data-kind="section" data-node-id="23" data-source-start="742" aria-labelledby="man-node-23">
+<h2 id="man-node-23"><strong>SEE ALSO</strong><a class="permalink" href="#man-node-23" aria-label="Link to SEE ALSO">#</a></h2>
+<p data-kind="paragraph" data-node-id="24" data-source-start="755"><span class="man-reference" data-reference="man(7)">man(7)</span>, <span class="man-reference" data-reference="printf(3)">printf(3)</span></p>
+</section>
+<section data-kind="section" data-node-id="25" data-source-start="780" aria-labelledby="man-node-25">
+<h2 id="man-node-25"><strong>AUTHORS</strong><a class="permalink" href="#man-node-25" aria-label="Link to AUTHORS">#</a></h2>
+<p data-kind="paragraph" data-node-id="26" data-source-start="829"><a href="https://example.invalid/man-tool" rel="noreferrer noopener">Example maintainers</a>.</p>
+</section>
+</article>

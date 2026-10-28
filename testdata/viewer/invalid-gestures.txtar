@@ -1,0 +1,204 @@
+Rejected geometry/zoom/actions preserve the previous state.
+-- scenario.json --
+{"pages":[{"X":1000,"Y":1400}],"viewport":{"X":800,"Y":600},"actions":[{"Kind":"resize","Width":2147483647,"Height":2147483647},{"Kind":"zoom","Factor":0},{"Kind":"unknown"},{"Kind":"zoom","Factor":1000000,"X":400,"Y":336},{"Kind":"zoom","Factor":0.000001,"X":400,"Y":336}]}
+-- expected.json --
+[
+  {
+    "State": {
+      "Page": 0,
+      "Pages": 1,
+      "Zoom": 1,
+      "PanX": 0,
+      "PanY": 0,
+      "Viewport": {
+        "X": 800,
+        "Y": 600
+      },
+      "FitWidth": false,
+      "Help": false,
+      "Diagnostics": false,
+      "Dragging": false,
+      "Closed": false
+    },
+    "Content": {
+      "Min": {
+        "X": 0,
+        "Y": 72
+      },
+      "Max": {
+        "X": 800,
+        "Y": 600
+      }
+    },
+    "Destination": {
+      "Min": {
+        "X": 0,
+        "Y": 72
+      },
+      "Max": {
+        "X": 1000,
+        "Y": 1472
+      }
+    },
+    "Changed": false,
+    "Error": "viewer viewport exceeds resource limits"
+  },
+  {
+    "State": {
+      "Page": 0,
+      "Pages": 1,
+      "Zoom": 1,
+      "PanX": 0,
+      "PanY": 0,
+      "Viewport": {
+        "X": 800,
+        "Y": 600
+      },
+      "FitWidth": false,
+      "Help": false,
+      "Diagnostics": false,
+      "Dragging": false,
+      "Closed": false
+    },
+    "Content": {
+      "Min": {
+        "X": 0,
+        "Y": 72
+      },
+      "Max": {
+        "X": 800,
+        "Y": 600
+      }
+    },
+    "Destination": {
+      "Min": {
+        "X": 0,
+        "Y": 72
+      },
+      "Max": {
+        "X": 1000,
+        "Y": 1472
+      }
+    },
+    "Changed": false,
+    "Error": "zoom factor must be positive"
+  },
+  {
+    "State": {
+      "Page": 0,
+      "Pages": 1,
+      "Zoom": 1,
+      "PanX": 0,
+      "PanY": 0,
+      "Viewport": {
+        "X": 800,
+        "Y": 600
+      },
+      "FitWidth": false,
+      "Help": false,
+      "Diagnostics": false,
+      "Dragging": false,
+      "Closed": false
+    },
+    "Content": {
+      "Min": {
+        "X": 0,
+        "Y": 72
+      },
+      "Max": {
+        "X": 800,
+        "Y": 600
+      }
+    },
+    "Destination": {
+      "Min": {
+        "X": 0,
+        "Y": 72
+      },
+      "Max": {
+        "X": 1000,
+        "Y": 1472
+      }
+    },
+    "Changed": false,
+    "Error": "unknown viewer action \"unknown\""
+  },
+  {
+    "State": {
+      "Page": 0,
+      "Pages": 1,
+      "Zoom": 4,
+      "PanX": 1200,
+      "PanY": 792,
+      "Viewport": {
+        "X": 800,
+        "Y": 600
+      },
+      "FitWidth": false,
+      "Help": false,
+      "Diagnostics": false,
+      "Dragging": false,
+      "Closed": false
+    },
+    "Content": {
+      "Min": {
+        "X": 0,
+        "Y": 72
+      },
+      "Max": {
+        "X": 800,
+        "Y": 600
+      }
+    },
+    "Destination": {
+      "Min": {
+        "X": -1200,
+        "Y": -720
+      },
+      "Max": {
+        "X": 2800,
+        "Y": 4880
+      }
+    },
+    "Changed": true
+  },
+  {
+    "State": {
+      "Page": 0,
+      "Pages": 1,
+      "Zoom": 0.25,
+      "PanX": 0,
+      "PanY": 0,
+      "Viewport": {
+        "X": 800,
+        "Y": 600
+      },
+      "FitWidth": false,
+      "Help": false,
+      "Diagnostics": false,
+      "Dragging": false,
+      "Closed": false
+    },
+    "Content": {
+      "Min": {
+        "X": 0,
+        "Y": 72
+      },
+      "Max": {
+        "X": 800,
+        "Y": 600
+      }
+    },
+    "Destination": {
+      "Min": {
+        "X": 275,
+        "Y": 161
+      },
+      "Max": {
+        "X": 525,
+        "Y": 511
+      }
+    },
+    "Changed": true
+  }
+]

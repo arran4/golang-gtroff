@@ -1,0 +1,232 @@
+Unknown input remains literal mono content and diagnostics; includes are never loaded.
+-- input.1 --
+.SH CONTENT
+.so /etc/passwd
+.UNKNOWN VISIBLE CONTENT
+.PP
+A \*[missing] reference.
+-- options.json --
+{"Width":520,"PageHeight":500,"Margin":32}
+-- expected-layout.json --
+[
+  {
+    "Number": 1,
+    "Width": 520,
+    "Height": 500,
+    "Lines": [
+      {
+        "Node": 2,
+        "Kind": "section",
+        "Top": 32,
+        "Baseline": 61,
+        "Bottom": 73,
+        "Fragments": [
+          {
+            "Text": "CONTENT",
+            "Source": "CONTENT",
+            "Face": "bold@18.75",
+            "Style": {
+              "bold": true
+            },
+            "X": 32,
+            "Advance": 120,
+            "Bounds": {
+              "Min": {
+                "X": 32,
+                "Y": 42
+              },
+              "Max": {
+                "X": 152,
+                "Y": 62
+              }
+            }
+          }
+        ]
+      },
+      {
+        "Node": 3,
+        "Kind": "unsupported",
+        "Top": 83,
+        "Baseline": 106,
+        "Bottom": 116,
+        "HardBreak": true,
+        "Fragments": [
+          {
+            "Text": ".so /etc/passwd",
+            "Source": ".so /etc/passwd",
+            "Face": "mono@15",
+            "Style": {
+              "mono": true
+            },
+            "X": 32,
+            "Advance": 180,
+            "Bounds": {
+              "Min": {
+                "X": 36,
+                "Y": 90
+              },
+              "Max": {
+                "X": 212,
+                "Y": 110
+              }
+            }
+          }
+        ]
+      },
+      {
+        "Node": 4,
+        "Kind": "unsupported",
+        "Top": 126,
+        "Baseline": 149,
+        "Bottom": 159,
+        "HardBreak": true,
+        "Fragments": [
+          {
+            "Text": ".UNKNOWN VISIBLE CONTENT",
+            "Source": ".UNKNOWN VISIBLE CONTENT",
+            "Face": "mono@15",
+            "Style": {
+              "mono": true
+            },
+            "X": 32,
+            "Advance": 288,
+            "Bounds": {
+              "Min": {
+                "X": 36,
+                "Y": 134
+              },
+              "Max": {
+                "X": 320,
+                "Y": 150
+              }
+            }
+          }
+        ]
+      },
+      {
+        "Node": 5,
+        "Kind": "paragraph",
+        "Top": 169,
+        "Baseline": 192,
+        "Bottom": 202,
+        "Fragments": [
+          {
+            "Text": "A \\*[missing] reference.",
+            "Source": "A \\*[missing] reference.",
+            "Face": "regular@15",
+            "Style": {},
+            "X": 32,
+            "Advance": 215.265625,
+            "Bounds": {
+              "Min": {
+                "X": 32,
+                "Y": 176
+              },
+              "Max": {
+                "X": 246,
+                "Y": 197
+              }
+            }
+          }
+        ]
+      }
+    ]
+  }
+]
+-- expected-diagnostics.json --
+[
+  {
+    "Message": "unsupported semantics preserved: .so",
+    "Position": {
+      "Filename": "input.1",
+      "Offset": 12,
+      "Line": 2,
+      "Column": 1
+    },
+    "Severity": "warning"
+  },
+  {
+    "Message": "unsupported semantics preserved: .UNKNOWN",
+    "Position": {
+      "Filename": "input.1",
+      "Offset": 28,
+      "Line": 3,
+      "Column": 1
+    },
+    "Severity": "warning"
+  },
+  {
+    "Message": "no token match: \".UNKNOWN\": VISIBLE CONTENT",
+    "Position": {
+      "Filename": "input.1",
+      "Offset": 28,
+      "Line": 3,
+      "Column": 1
+    },
+    "Severity": "warning"
+  },
+  {
+    "Message": "unevaluated inline syntax preserved: \\*[missing]",
+    "Position": {
+      "Filename": "input.1",
+      "Offset": 57,
+      "Line": 5,
+      "Column": 1
+    },
+    "Severity": "warning"
+  },
+  {
+    "Message": "unsupported source rendered as literal mono text",
+    "Position": {
+      "Filename": "input.1",
+      "Offset": 12,
+      "Line": 2,
+      "Column": 1
+    },
+    "Severity": "warning"
+  },
+  {
+    "Message": "unsupported inline source rendered literally",
+    "Position": {
+      "Filename": "input.1",
+      "Offset": 12,
+      "Line": 2,
+      "Column": 1
+    },
+    "Severity": "warning"
+  },
+  {
+    "Message": "unsupported source rendered as literal mono text",
+    "Position": {
+      "Filename": "input.1",
+      "Offset": 28,
+      "Line": 3,
+      "Column": 1
+    },
+    "Severity": "warning"
+  },
+  {
+    "Message": "unsupported inline source rendered literally",
+    "Position": {
+      "Filename": "input.1",
+      "Offset": 28,
+      "Line": 3,
+      "Column": 1
+    },
+    "Severity": "warning"
+  },
+  {
+    "Message": "unsupported inline source rendered literally",
+    "Position": {
+      "Filename": "input.1",
+      "Offset": 57,
+      "Line": 5,
+      "Column": 1
+    },
+    "Severity": "warning"
+  }
+]
+-- expected-paths.json --
+[
+  "page.png"
+]

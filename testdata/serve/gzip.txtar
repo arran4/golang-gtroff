@@ -1,0 +1,151 @@
+Readable source is compressed by the fixture adapter, never stored as opaque TXTAR bytes.
+-- tree/man1/zip.1.gz --
+.TH ZIP 1
+.SH NAME
+zip \- compressed utility
+.SH DESCRIPTION
+Decoded source content.
+-- tree/man1/broken.1.gz --
+this is not gzip
+-- scenario.json --
+{"gzip":["man1/zip.1.gz"],"requests":[{"target":"/","status":200,"contains":["zip(1)","invalid compressed page; skipped"]},{"target":"/page/1/zip","status":200,"contains":["Decoded source content."]},{"target":"/page/1/broken","status":404}]}
+-- expected/entries.json --
+[
+  {
+    "Name": "zip",
+    "Section": "1",
+    "Description": "compressed utility",
+    "Root": "fixture",
+    "Path": "man1/zip.1.gz",
+    "URL": "/page/1/zip?root=fixture",
+    "Diagnostics": 0
+  }
+]
+-- expected/notices.json --
+[
+  {
+    "Root": "fixture",
+    "Path": "man1/broken.1.gz",
+    "Message": "unreadable or invalid compressed page; skipped"
+  }
+]
+-- expected/response-001.body --
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Man library</title>
+<style>body{margin:0;background:#ffffff;color:#202124;font:18px/1.5 sans-serif}body>header,body>main{max-width:1100px;margin:auto;padding:1rem}a{color:#174ea6}input,button{font:inherit}input{max-width:65vw}nav ul{padding-left:1.5em}.subsection{margin-left:1em}.notice{border-left:3px solid #8c3700;padding-left:1em}.results li{margin:.5em 0}.source{font-size:.85em;color:#555}.man-page{border-top:1px solid #ccc}</style>
+</head><body><header><a href="/">Man library</a><form action="/search" method="get"><label>Search <input type="search" name="q" value="" maxlength="256"></label> <button type="submit">Search</button></form><p>Read-only source snapshot. Unsupported syntax is shown with conversion notes.</p></header>
+<main><details><summary>Collection notices</summary><ul><li>fixture:man1/broken.1.gz — unreadable or invalid compressed page; skipped</li></ul></details>
+
+<h1>Man library</h1><p>1 matches</p><ul class="results"><li><a href="/page/1/zip?root=fixture">zip(1)</a> — compressed utility <span class="source">[fixture]</span></li></ul>
+<nav aria-label="Result pages"> </nav></main></body></html>
+-- expected/response-002.body --
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>zip(1)</title>
+<style>body{margin:0;background:#ffffff;color:#202124;font:18px/1.5 sans-serif}body>header,body>main{max-width:1100px;margin:auto;padding:1rem}a{color:#174ea6}input,button{font:inherit}input{max-width:65vw}nav ul{padding-left:1.5em}.subsection{margin-left:1em}.notice{border-left:3px solid #8c3700;padding-left:1em}.results li{margin:.5em 0}.source{font-size:.85em;color:#555}.man-page{border-top:1px solid #ccc}</style>
+</head><body><header><a href="/">Man library</a><form action="/search" method="get"><label>Search <input type="search" name="q" value="" maxlength="256"></label> <button type="submit">Search</button></form><p>Read-only source snapshot. Unsupported syntax is shown with conversion notes.</p></header>
+<main><details><summary>Collection notices</summary><ul><li>fixture:man1/broken.1.gz — unreadable or invalid compressed page; skipped</li></ul></details>
+<nav aria-label="Page sections"><ul><li><a href="/page/1/zip?root=fixture#man-node-2">NAME</a></li><li><a href="/page/1/zip?root=fixture#man-node-4">DESCRIPTION</a></li></ul></nav><style>
+.gtroff-document{margin:0;background:#ffffff;color:#202124}
+.man-page{box-sizing:border-box;max-width:960px;margin:0 auto;padding:2rem;font-family:GTroffText,serif;font-size:18px;line-height:1.5;background:#ffffff;color:#202124;overflow-wrap:anywhere}
+.man-page a{color:#174ea6}.man-page h1{font-size:1.7em}.man-page h2{font-size:1.3em;margin-top:1.7em}.man-page h3{font-size:1.1em;margin-top:1.3em}
+.man-page p{margin:.75em 0}.man-page pre{white-space:pre-wrap;overflow:auto;padding:1em;background:#f3f4f6;border-radius:.25em}
+.man-page code{font-family:GTroffMono,monospace}.man-page small{font-size:.9em}.man-page dt{font-weight:normal;margin-top:.75em}.man-page dd{margin-inline-start:2em}.man-page dd>:first-child{margin-top:0}
+.man-page .manual-meta{opacity:.8;font-size:.9em}.man-page .permalink{font-size:.8em;text-decoration:none;margin-inline-start:.5em}.man-page .unsupported{border-inline-start:.25em solid currentColor}.man-page .conversion-notes{border:1px solid currentColor;padding:1em;margin-top:2em}
+@media(max-width:600px){.man-page{padding:1rem}.man-page dd{margin-inline-start:1em}}
+@media print{.man-page{max-width:none;color:#000000;background:#ffffff;padding:0}.man-page .permalink{display:none}.man-page pre{break-inside:avoid}}
+</style>
+<article class="man-page theme-light" data-man-version="1" data-man-title="ZIP" data-man-section="1" data-man-date="" data-man-source="" data-man-manual="">
+<header class="document-header"><h1>ZIP(1)</h1></header>
+<section data-kind="section" data-node-id="2" data-source-start="10" aria-labelledby="man-node-2">
+<h2 id="man-node-2"><strong>NAME</strong><a class="permalink" href="#man-node-2" aria-label="Link to NAME">#</a></h2>
+<p data-kind="paragraph" data-node-id="3" data-source-start="19">zip - compressed utility</p>
+</section>
+<section data-kind="section" data-node-id="4" data-source-start="45" aria-labelledby="man-node-4">
+<h2 id="man-node-4"><strong>DESCRIPTION</strong><a class="permalink" href="#man-node-4" aria-label="Link to DESCRIPTION">#</a></h2>
+<p data-kind="paragraph" data-node-id="5" data-source-start="61">Decoded source content.</p>
+</section>
+</article>
+</main></body></html>
+-- expected/response-003.body --
+page not found
+-- expected/responses.json --
+[
+  {
+    "Method": "GET",
+    "Target": "/",
+    "Status": 200,
+    "Headers": {
+      "Cache-Control": [
+        "no-store"
+      ],
+      "Content-Length": [
+        "1270"
+      ],
+      "Content-Security-Policy": [
+        "default-src 'none'; font-src data:; style-src 'unsafe-inline'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'"
+      ],
+      "Content-Type": [
+        "text/html; charset=utf-8"
+      ],
+      "Referrer-Policy": [
+        "no-referrer"
+      ],
+      "X-Content-Type-Options": [
+        "nosniff"
+      ]
+    },
+    "Body": "expected/response-001.body"
+  },
+  {
+    "Method": "GET",
+    "Target": "/page/1/zip",
+    "Status": 200,
+    "Headers": {
+      "Cache-Control": [
+        "no-store"
+      ],
+      "Content-Length": [
+        "3382"
+      ],
+      "Content-Security-Policy": [
+        "default-src 'none'; font-src data:; style-src 'unsafe-inline'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'"
+      ],
+      "Content-Type": [
+        "text/html; charset=utf-8"
+      ],
+      "Referrer-Policy": [
+        "no-referrer"
+      ],
+      "X-Content-Type-Options": [
+        "nosniff"
+      ]
+    },
+    "Body": "expected/response-002.body"
+  },
+  {
+    "Method": "GET",
+    "Target": "/page/1/broken",
+    "Status": 404,
+    "Headers": {
+      "Cache-Control": [
+        "no-store"
+      ],
+      "Content-Length": [
+        "15"
+      ],
+      "Content-Security-Policy": [
+        "default-src 'none'; font-src data:; style-src 'unsafe-inline'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'"
+      ],
+      "Content-Type": [
+        "text/plain; charset=utf-8"
+      ],
+      "Referrer-Policy": [
+        "no-referrer"
+      ],
+      "X-Content-Type-Options": [
+        "nosniff"
+      ]
+    },
+    "Body": "expected/response-003.body"
+  }
+]
