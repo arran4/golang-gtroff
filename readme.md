@@ -301,10 +301,15 @@ go test -v ./...
 go vet ./...
 ```
 
+## Security
+
+For vulnerability reporting guidelines, secret handling, and resource limits, see [SECURITY.md](SECURITY.md).
+
 ## License
 
 This project follows the licensing of the source material:
-- Documentation derived from the [GNU groff manual](https://www.gnu.org/software/groff/manual/groff.html#Copying-This-Manual)
-- Source code - GPL (to maintain compatibility with groff source material)
+- Documentation derived from the [GNU groff manual](https://www.gnu.org/software/groff/manual/groff.html#Copying-This-Manual) (GFDL v1.3+)
+- Source code - GNU General Public License v3 ([LICENSE](LICENSE))
+- Bundled Go Fonts - Bigelow & Holmes 3-Clause BSD ([fontset/LICENSE-Go-Fonts.txt](fontset/LICENSE-Go-Fonts.txt))
 
-See [LICENSE](LICENSE) for details.
+See [Licensing and Provenance](docs/licensing.md) and [LICENSE](LICENSE) for full details.
