@@ -22,3 +22,6 @@ testdata/golden/image/*.png binary
 testdata/golden/image/*.jpg binary
 examples/man-tool.png binary
 examples/man-tool.jpg binary
+
+# HTTP scenarios contain readable virtual trees, requests and response bodies.
+testdata/serve/*.txtar -text

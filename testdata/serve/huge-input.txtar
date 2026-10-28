@@ -1,0 +1,7 @@
+The input byte budget prevents starting a server with an oversized source collection.
+-- tree/man1/large.1 --
+.TH LARGE 1
+.SH NAME
+large \- exceeds the tiny fixture budget
+-- scenario.json --
+{"limits":{"MaxFileBytes":16},"error":"man library resource limit exceeded","requests":[]}

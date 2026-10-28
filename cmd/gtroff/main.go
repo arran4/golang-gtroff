@@ -2,8 +2,15 @@
 package main
 
 import (
+	"context"
+	"github.com/arran4/golang-gtroff/manlib"
 	"io"
+	"net"
 	"os"
+	"os/exec"
+	"os/signal"
+	"syscall"
+	"time"
 
 	"github.com/arran4/golang-gtroff/internal/atomicfile"
 	"github.com/arran4/golang-gtroff/internal/cli"
@@ -17,7 +24,24 @@ var (
 )
 
 func main() {
-	os.Exit(cli.Run(os.Args[1:], cli.Environment{
+	ctx := context.Background()
+	cancel := func() {}
+	if len(os.Args) > 1 && os.Args[1] == "serve" {
+		ctx, cancel = signal.NotifyContext(ctx, os.Interrupt, syscall.SIGTERM)
+	}
+	code := cli.Run(os.Args[1:], cli.Environment{
+		Context: ctx,
+		OpenRoot: func(path string) (manlib.Root, io.Closer, error) {
+			d, err := manlib.OpenDirectory(path)
+			if err != nil {
+				return manlib.Root{}, nil, err
+			}
+			return d.Root("configured"), d, nil
+		},
+		Listen: func(address string) (net.Listener, error) { return net.Listen("tcp", address) },
+		SystemSearch: func() (manlib.SearchProvider, error) {
+			return manlib.DetectSystemSearch(exec.LookPath, manlib.RunCommand, time.Second, 64<<10)
+		},
 		In: os.Stdin, Out: os.Stdout, Err: os.Stderr,
 		Open:        func(path string) (io.ReadCloser, error) { return os.Open(path) },
 		WriteOutput: atomicfile.Write,
@@ -29,5 +53,7 @@ func main() {
 			return atomicfile.WriteMany(source, outputs)
 		},
 		Build: cli.BuildInfo{Version: version, Commit: commit, Date: date},
-	}))
+	})
+	cancel()
+	os.Exit(code)
 }

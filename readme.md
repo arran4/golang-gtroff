@@ -88,6 +88,22 @@ use pixels; image font size uses points at the requested DPI. Default bundled Go
 fonts need no installed files. Unsupported syntax and missing Unicode glyphs
 remain visible with diagnostics. See [image options, APIs, limits and tests](docs/images.md).
 
+### Browse a local man library
+
+```sh
+./gtroff serve --root examples --listen 127.0.0.1:8080
+# Open http://127.0.0.1:8080 and search for man-tool.
+# On Linux, choose an installed collection explicitly:
+./gtroff serve --root /usr/share/man/man1 --root /usr/share/man/man3
+```
+
+The read-only browser lists plain/gzip pages, searches names/descriptions/full
+text and links to actual page headings. It uses the same semantic HTML renderer
+and bundled Go fonts on Linux, Windows and macOS. No system `man` utility is
+required; `--system-search` optionally supplements built-in results when available.
+Requests never select filesystem paths or load includes. The snapshot refreshes
+on restart. See [HTTP API, roots, budgets and scenarios](docs/serve.md).
+
 ### Convert HTML and man structure
 
 ```sh
@@ -291,7 +307,8 @@ cat myfile.1 | go run ./cmd/lex/main.go
 - **HTML export**: `gtroff render --format html` exports whole/selected semantic content with self-contained CSS/fonts and safe atomic file output.
 - **Semantic conversion**: `gtroff convert` maps a documented HTML/man subset in both directions, with canonical escaping and semantic loop tests.
 - **Image export**: paginated PNG/JPEG and bounded single-image output use bundled Go fonts and pure-Go measurement/painting.
-- **Planned**: HTTP library, optional viewer and release integration remain tracked in #26–#29.
+- **HTTP library**: `gtroff serve --root DIR` provides read-only catalogue/search/page navigation with explicit filesystem roots and optional system search.
+- **Planned**: optional viewer and release integration remain tracked in #26, #28 and #29.
 - **Parser dependencies**: #3–#17 remain open contracts, including include safety, full argument/document fidelity, evaluation, and generation coverage. The AST never follows includes. See [specific dependencies](docs/ast.md#parser-dependencies).
 
 ## Development

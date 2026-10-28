@@ -45,3 +45,8 @@ paths and diagnostics. Binary PNG/JPEG goldens are separate under `golden/image`
 Normal tests do not modify them. Approve a refresh explicitly with
 `go test . -run '^TestImageScenarios$' -update-images`, then review text diffs and
 visually inspect changed images. See [image contracts](../docs/images.md).
+
+`serve/*.txtar` combines a virtual man tree with HTTP request/status/header/body
+expectations. Its test adapter synthesizes gzip for explicitly named text sources;
+no opaque archive data is embedded. Approve changes with
+`go test . -run '^TestServeScenarios$' -update-serve` and review the response diff.

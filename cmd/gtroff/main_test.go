@@ -1,11 +1,14 @@
 package main
 
 import (
+	"bufio"
 	"bytes"
 	"context"
 	"encoding/json"
 	"errors"
 	"image/png"
+	"io"
+	"net/http"
 	"os"
 	"os/exec"
 	"path/filepath"
@@ -300,6 +303,89 @@ func TestExecutableFlows(t *testing.T) {
 		got, err := os.ReadFile(first)
 		if err != nil || string(got) != "original" {
 			t.Fatal("batch preflight damaged first destination")
+		}
+	})
+	t.Run("HTTP executable collection", func(t *testing.T) {
+		root := filepath.Join(work, "collection")
+		if err := os.MkdirAll(filepath.Join(root, "man1"), 0700); err != nil {
+			t.Fatal(err)
+		}
+		if err := os.WriteFile(filepath.Join(root, "man1", "tool.1"), []byte(".TH TOOL 1\n.SH NAME\ntool \\- browse a document\n.SH OPTIONS\nVisible HTTP content.\n"), 0600); err != nil {
+			t.Fatal(err)
+		}
+		command := exec.CommandContext(ctx, binary, "serve", "--root", root, "--listen", "127.0.0.1:0", "--assets", "omit-fonts")
+		stderr, err := command.StderrPipe()
+		if err != nil {
+			t.Fatal(err)
+		}
+		var out bytes.Buffer
+		command.Stdout = &out
+		if err = command.Start(); err != nil {
+			t.Fatal(err)
+		}
+		stopped := false
+		defer func() {
+			if !stopped {
+				_ = command.Process.Kill()
+			}
+		}()
+		ready := make(chan string, 1)
+		go func() {
+			scanner := bufio.NewScanner(stderr)
+			for scanner.Scan() {
+				select {
+				case ready <- scanner.Text():
+				default:
+				}
+			}
+		}()
+		done := make(chan error, 1)
+		go func() { done <- command.Wait() }()
+		var line string
+		select {
+		case line = <-ready:
+		case err := <-done:
+			t.Fatal("server exited before ready", err)
+		case <-time.After(5 * time.Second):
+			t.Fatal("server did not announce readiness")
+		}
+		var address string
+		for _, field := range strings.Fields(line) {
+			if strings.HasPrefix(field, "http://") {
+				address = field
+			}
+		}
+		if address == "" {
+			t.Fatal("missing listener address", line)
+		}
+		client := &http.Client{Timeout: 2 * time.Second, Transport: &http.Transport{}}
+		for _, target := range []string{"/search?q=document", "/page/1/tool"} {
+			res, err := client.Get(address + target)
+			if err != nil {
+				t.Fatal(err)
+			}
+			body, err := io.ReadAll(res.Body)
+			_ = res.Body.Close()
+			if err != nil || res.StatusCode != 200 || !bytes.Contains(body, []byte("tool(1)")) {
+				t.Fatalf("HTTP %s %d %s %v", target, res.StatusCode, body, err)
+			}
+		}
+		if runtime.GOOS == "windows" {
+			_ = command.Process.Kill()
+		} else if err := command.Process.Signal(os.Interrupt); err != nil {
+			t.Fatal(err)
+		}
+		select {
+		case err := <-done:
+			stopped = true
+			if runtime.GOOS != "windows" && err != nil {
+				t.Fatal("graceful process shutdown", err)
+			}
+		case <-time.After(5 * time.Second):
+			t.Fatal("HTTP process did not stop")
+		}
+		if out.Len() != 0 {
+			t.Fatal("serve wrote stdout")
 		}
 	})
 
