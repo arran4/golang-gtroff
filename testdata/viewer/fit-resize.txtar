@@ -1,0 +1,357 @@
+Fit width tracks real viewport resize, pages and the diagnostic panel without unbounded allocation.
+-- scenario.json --
+{"pages":[{"X":1000,"Y":1400},{"X":800,"Y":1200}],"viewport":{"X":800,"Y":600},"actions":[{"Kind":"fit"},{"Kind":"scroll","DY":600},{"Kind":"resize","Width":600,"Height":400},{"Kind":"next"},{"Kind":"notes"},{"Kind":"end"},{"Kind":"help"},{"Kind":"resize","Width":0,"Height":0},{"Kind":"resize","Width":900,"Height":700}]}
+-- expected.json --
+[
+  {
+    "State": {
+      "Page": 0,
+      "Pages": 2,
+      "Zoom": 0.8,
+      "PanX": 0,
+      "PanY": 0,
+      "Viewport": {
+        "X": 800,
+        "Y": 600
+      },
+      "FitWidth": true,
+      "Help": false,
+      "Diagnostics": false,
+      "Dragging": false,
+      "Closed": false
+    },
+    "Content": {
+      "Min": {
+        "X": 0,
+        "Y": 72
+      },
+      "Max": {
+        "X": 800,
+        "Y": 600
+      }
+    },
+    "Destination": {
+      "Min": {
+        "X": 0,
+        "Y": 72
+      },
+      "Max": {
+        "X": 800,
+        "Y": 1192
+      }
+    },
+    "Changed": true
+  },
+  {
+    "State": {
+      "Page": 0,
+      "Pages": 2,
+      "Zoom": 0.8,
+      "PanX": 0,
+      "PanY": 592,
+      "Viewport": {
+        "X": 800,
+        "Y": 600
+      },
+      "FitWidth": true,
+      "Help": false,
+      "Diagnostics": false,
+      "Dragging": false,
+      "Closed": false
+    },
+    "Content": {
+      "Min": {
+        "X": 0,
+        "Y": 72
+      },
+      "Max": {
+        "X": 800,
+        "Y": 600
+      }
+    },
+    "Destination": {
+      "Min": {
+        "X": 0,
+        "Y": -520
+      },
+      "Max": {
+        "X": 800,
+        "Y": 600
+      }
+    },
+    "Changed": true
+  },
+  {
+    "State": {
+      "Page": 0,
+      "Pages": 2,
+      "Zoom": 0.6,
+      "PanX": 0,
+      "PanY": 512,
+      "Viewport": {
+        "X": 600,
+        "Y": 400
+      },
+      "FitWidth": true,
+      "Help": false,
+      "Diagnostics": false,
+      "Dragging": false,
+      "Closed": false
+    },
+    "Content": {
+      "Min": {
+        "X": 0,
+        "Y": 72
+      },
+      "Max": {
+        "X": 600,
+        "Y": 400
+      }
+    },
+    "Destination": {
+      "Min": {
+        "X": 0,
+        "Y": -440
+      },
+      "Max": {
+        "X": 600,
+        "Y": 400
+      }
+    },
+    "Changed": true
+  },
+  {
+    "State": {
+      "Page": 1,
+      "Pages": 2,
+      "Zoom": 0.75,
+      "PanX": 0,
+      "PanY": 0,
+      "Viewport": {
+        "X": 600,
+        "Y": 400
+      },
+      "FitWidth": true,
+      "Help": false,
+      "Diagnostics": false,
+      "Dragging": false,
+      "Closed": false
+    },
+    "Content": {
+      "Min": {
+        "X": 0,
+        "Y": 72
+      },
+      "Max": {
+        "X": 600,
+        "Y": 400
+      }
+    },
+    "Destination": {
+      "Min": {
+        "X": 0,
+        "Y": 72
+      },
+      "Max": {
+        "X": 600,
+        "Y": 972
+      }
+    },
+    "Changed": true
+  },
+  {
+    "State": {
+      "Page": 1,
+      "Pages": 2,
+      "Zoom": 0.75,
+      "PanX": 0,
+      "PanY": 0,
+      "Viewport": {
+        "X": 600,
+        "Y": 400
+      },
+      "FitWidth": true,
+      "Help": false,
+      "Diagnostics": true,
+      "Dragging": false,
+      "Closed": false
+    },
+    "Content": {
+      "Min": {
+        "X": 0,
+        "Y": 72
+      },
+      "Max": {
+        "X": 600,
+        "Y": 236
+      }
+    },
+    "Destination": {
+      "Min": {
+        "X": 0,
+        "Y": 72
+      },
+      "Max": {
+        "X": 600,
+        "Y": 972
+      }
+    },
+    "Changed": true
+  },
+  {
+    "State": {
+      "Page": 1,
+      "Pages": 2,
+      "Zoom": 0.75,
+      "PanX": 0,
+      "PanY": 736,
+      "Viewport": {
+        "X": 600,
+        "Y": 400
+      },
+      "FitWidth": true,
+      "Help": false,
+      "Diagnostics": true,
+      "Dragging": false,
+      "Closed": false
+    },
+    "Content": {
+      "Min": {
+        "X": 0,
+        "Y": 72
+      },
+      "Max": {
+        "X": 600,
+        "Y": 236
+      }
+    },
+    "Destination": {
+      "Min": {
+        "X": 0,
+        "Y": -664
+      },
+      "Max": {
+        "X": 600,
+        "Y": 236
+      }
+    },
+    "Changed": true
+  },
+  {
+    "State": {
+      "Page": 1,
+      "Pages": 2,
+      "Zoom": 0.75,
+      "PanX": 0,
+      "PanY": 736,
+      "Viewport": {
+        "X": 600,
+        "Y": 400
+      },
+      "FitWidth": true,
+      "Help": true,
+      "Diagnostics": true,
+      "Dragging": false,
+      "Closed": false
+    },
+    "Content": {
+      "Min": {
+        "X": 0,
+        "Y": 72
+      },
+      "Max": {
+        "X": 600,
+        "Y": 236
+      }
+    },
+    "Destination": {
+      "Min": {
+        "X": 0,
+        "Y": -664
+      },
+      "Max": {
+        "X": 600,
+        "Y": 236
+      }
+    },
+    "Changed": true
+  },
+  {
+    "State": {
+      "Page": 1,
+      "Pages": 2,
+      "Zoom": 0.75,
+      "PanX": 0,
+      "PanY": 736,
+      "Viewport": {
+        "X": 0,
+        "Y": 0
+      },
+      "FitWidth": true,
+      "Help": true,
+      "Diagnostics": true,
+      "Dragging": false,
+      "Closed": false
+    },
+    "Content": {
+      "Min": {
+        "X": 0,
+        "Y": 0
+      },
+      "Max": {
+        "X": 0,
+        "Y": 0
+      }
+    },
+    "Destination": {
+      "Min": {
+        "X": 0,
+        "Y": -736
+      },
+      "Max": {
+        "X": 600,
+        "Y": 164
+      }
+    },
+    "Changed": true
+  },
+  {
+    "State": {
+      "Page": 1,
+      "Pages": 2,
+      "Zoom": 1.125,
+      "PanX": 0,
+      "PanY": 736,
+      "Viewport": {
+        "X": 900,
+        "Y": 700
+      },
+      "FitWidth": true,
+      "Help": true,
+      "Diagnostics": true,
+      "Dragging": false,
+      "Closed": false
+    },
+    "Content": {
+      "Min": {
+        "X": 0,
+        "Y": 72
+      },
+      "Max": {
+        "X": 900,
+        "Y": 520
+      }
+    },
+    "Destination": {
+      "Min": {
+        "X": 0,
+        "Y": -664
+      },
+      "Max": {
+        "X": 900,
+        "Y": 686
+      }
+    },
+    "Changed": true
+  }
+]

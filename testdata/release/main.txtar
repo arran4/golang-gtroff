@@ -1,0 +1,14 @@
+Workflow routing: main
+-- scenario.json --
+{
+  "Block": "policy",
+  "Env": {
+    "EVENT_NAME": "push",
+    "GITHUB_REF": "refs/heads/main"
+  },
+  "Exit": 0,
+  "Outputs": {
+    "full": "true",
+    "release": "false"
+  }
+}

@@ -1,0 +1,373 @@
+roff/preformatted-pagination crosses AST, validation, semantic, HTML, canonical roff and raster boundaries.
+-- options.json --
+{"status":"valid","snapshot":"png","pageHeight":180,"minPages":3}
+-- input.1 --
+.TH DEMO 1
+.SH EXAMPLES
+.EX
+  command --value 00
+  command --value 01
+  command --value 02
+  command --value 03
+  command --value 04
+  command --value 05
+  command --value 06
+  command --value 07
+  command --value 08
+  command --value 09
+  command --value 10
+  command --value 11
+  command --value 12
+  command --value 13
+  command --value 14
+  command --value 15
+  command --value 16
+  command --value 17
+.EE
+-- expected-ast.json --
+[
+  {
+    "ID": 1,
+    "Kind": "document",
+    "Path": "/",
+    "Text": "DEMO 1\nEXAMPLES\n  command --value 00\n  command --value 01\n  command --value 02\n  command --value 03\n  command --value 04\n  command --value 05\n  command --value 06\n  command --value 07\n  command --value 08\n  command --value 09\n  command --value 10\n  command --value 11\n  command --value 12\n  command --value 13\n  command --value 14\n  command --value 15\n  command --value 16\n  command --value 17\n"
+  },
+  {
+    "ID": 2,
+    "Kind": "line",
+    "Path": "/0",
+    "Text": "DEMO 1\n"
+  },
+  {
+    "ID": 3,
+    "Kind": "inline",
+    "Path": "/0/0",
+    "Text": ".TH DEMO 1"
+  },
+  {
+    "ID": 4,
+    "Kind": "section",
+    "Path": "/1",
+    "Text": "EXAMPLES\n  command --value 00\n  command --value 01\n  command --value 02\n  command --value 03\n  command --value 04\n  command --value 05\n  command --value 06\n  command --value 07\n  command --value 08\n  command --value 09\n  command --value 10\n  command --value 11\n  command --value 12\n  command --value 13\n  command --value 14\n  command --value 15\n  command --value 16\n  command --value 17\n"
+  },
+  {
+    "ID": 5,
+    "Kind": "line",
+    "Path": "/1/0",
+    "Text": "EXAMPLES\n"
+  },
+  {
+    "ID": 6,
+    "Kind": "inline",
+    "Path": "/1/0/0",
+    "Text": ".SH EXAMPLES"
+  },
+  {
+    "ID": 7,
+    "Kind": "block",
+    "Path": "/1/1",
+    "Text": "  command --value 00\n  command --value 01\n  command --value 02\n  command --value 03\n  command --value 04\n  command --value 05\n  command --value 06\n  command --value 07\n  command --value 08\n  command --value 09\n  command --value 10\n  command --value 11\n  command --value 12\n  command --value 13\n  command --value 14\n  command --value 15\n  command --value 16\n  command --value 17\n"
+  },
+  {
+    "ID": 8,
+    "Kind": "line",
+    "Path": "/1/1/0",
+    "Text": ""
+  },
+  {
+    "ID": 9,
+    "Kind": "inline",
+    "Path": "/1/1/0/0",
+    "Text": ".EX"
+  },
+  {
+    "ID": 10,
+    "Kind": "line",
+    "Path": "/1/1/1",
+    "Text": "  command --value 00\n"
+  },
+  {
+    "ID": 11,
+    "Kind": "line",
+    "Path": "/1/1/2",
+    "Text": "  command --value 01\n"
+  },
+  {
+    "ID": 12,
+    "Kind": "line",
+    "Path": "/1/1/3",
+    "Text": "  command --value 02\n"
+  },
+  {
+    "ID": 13,
+    "Kind": "line",
+    "Path": "/1/1/4",
+    "Text": "  command --value 03\n"
+  },
+  {
+    "ID": 14,
+    "Kind": "line",
+    "Path": "/1/1/5",
+    "Text": "  command --value 04\n"
+  },
+  {
+    "ID": 15,
+    "Kind": "line",
+    "Path": "/1/1/6",
+    "Text": "  command --value 05\n"
+  },
+  {
+    "ID": 16,
+    "Kind": "line",
+    "Path": "/1/1/7",
+    "Text": "  command --value 06\n"
+  },
+  {
+    "ID": 17,
+    "Kind": "line",
+    "Path": "/1/1/8",
+    "Text": "  command --value 07\n"
+  },
+  {
+    "ID": 18,
+    "Kind": "line",
+    "Path": "/1/1/9",
+    "Text": "  command --value 08\n"
+  },
+  {
+    "ID": 19,
+    "Kind": "line",
+    "Path": "/1/1/10",
+    "Text": "  command --value 09\n"
+  },
+  {
+    "ID": 20,
+    "Kind": "line",
+    "Path": "/1/1/11",
+    "Text": "  command --value 10\n"
+  },
+  {
+    "ID": 21,
+    "Kind": "line",
+    "Path": "/1/1/12",
+    "Text": "  command --value 11\n"
+  },
+  {
+    "ID": 22,
+    "Kind": "line",
+    "Path": "/1/1/13",
+    "Text": "  command --value 12\n"
+  },
+  {
+    "ID": 23,
+    "Kind": "line",
+    "Path": "/1/1/14",
+    "Text": "  command --value 13\n"
+  },
+  {
+    "ID": 24,
+    "Kind": "line",
+    "Path": "/1/1/15",
+    "Text": "  command --value 14\n"
+  },
+  {
+    "ID": 25,
+    "Kind": "line",
+    "Path": "/1/1/16",
+    "Text": "  command --value 15\n"
+  },
+  {
+    "ID": 26,
+    "Kind": "line",
+    "Path": "/1/1/17",
+    "Text": "  command --value 16\n"
+  },
+  {
+    "ID": 27,
+    "Kind": "line",
+    "Path": "/1/1/18",
+    "Text": "  command --value 17\n"
+  },
+  {
+    "ID": 28,
+    "Kind": "line",
+    "Path": "/1/1/19",
+    "Text": ""
+  }
+]
+-- expected-layout.json --
+[
+  {
+    "Number": 1,
+    "Width": 320,
+    "Height": 180,
+    "Text": [
+      "DEMO(1)",
+      "EXAMPLES",
+      "  command --value 00",
+      "  command --value 01"
+    ]
+  },
+  {
+    "Number": 2,
+    "Width": 320,
+    "Height": 180,
+    "Text": [
+      "  command --value 02",
+      "  command --value 03",
+      "  command --value 04",
+      "  command --value 05",
+      "  command --value 06",
+      "  command --value 07"
+    ]
+  },
+  {
+    "Number": 3,
+    "Width": 320,
+    "Height": 180,
+    "Text": [
+      "  command --value 08",
+      "  command --value 09",
+      "  command --value 10",
+      "  command --value 11",
+      "  command --value 12",
+      "  command --value 13"
+    ]
+  },
+  {
+    "Number": 4,
+    "Width": 320,
+    "Height": 180,
+    "Text": [
+      "  command --value 14",
+      "  command --value 15",
+      "  command --value 16",
+      "  command --value 17"
+    ]
+  }
+]
+-- expected-semantics.json --
+{
+  "metadata": {
+    "title": "DEMO",
+    "section": "1"
+  },
+  "children": [
+    {
+      "kind": "section",
+      "runs": [
+        {
+          "text": "EXAMPLES",
+          "style": {
+            "bold": true
+          }
+        }
+      ],
+      "children": [
+        {
+          "kind": "preformatted",
+          "runs": [
+            {
+              "text": "  command --value 00\n  command --value 01\n  command --value 02\n  command --value 03\n  command --value 04\n  command --value 05\n  command --value 06\n  command --value 07\n  command --value 08\n  command --value 09\n  command --value 10\n  command --value 11\n  command --value 12\n  command --value 13\n  command --value 14\n  command --value 15\n  command --value 16\n  command --value 17\n",
+              "style": {
+                "mono": true
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+-- expected-validation.json --
+[
+  {
+    "Strict": false,
+    "Exit": 0,
+    "Status": "valid",
+    "Diagnostics": []
+  },
+  {
+    "Strict": true,
+    "Exit": 0,
+    "Status": "valid",
+    "Diagnostics": []
+  }
+]
+-- expected.1 --
+.TH "DEMO" "1" "" "" ""
+.SH "\f[B]EXAMPLES\f[R]"
+.nf
+\&\f[CR]  command --value 00\f[R]\c
+
+\&\f[CR]  command --value 01\f[R]\c
+
+\&\f[CR]  command --value 02\f[R]\c
+
+\&\f[CR]  command --value 03\f[R]\c
+
+\&\f[CR]  command --value 04\f[R]\c
+
+\&\f[CR]  command --value 05\f[R]\c
+
+\&\f[CR]  command --value 06\f[R]\c
+
+\&\f[CR]  command --value 07\f[R]\c
+
+\&\f[CR]  command --value 08\f[R]\c
+
+\&\f[CR]  command --value 09\f[R]\c
+
+\&\f[CR]  command --value 10\f[R]\c
+
+\&\f[CR]  command --value 11\f[R]\c
+
+\&\f[CR]  command --value 12\f[R]\c
+
+\&\f[CR]  command --value 13\f[R]\c
+
+\&\f[CR]  command --value 14\f[R]\c
+
+\&\f[CR]  command --value 15\f[R]\c
+
+\&\f[CR]  command --value 16\f[R]\c
+
+\&\f[CR]  command --value 17\f[R]\c
+
+.fi
+-- expected.html --
+<style>
+.gtroff-document{margin:0;background:#ffffff;color:#202124}
+.man-page{box-sizing:border-box;max-width:960px;margin:0 auto;padding:2rem;font-family:GTroffText,serif;font-size:18px;line-height:1.5;background:#ffffff;color:#202124;overflow-wrap:anywhere}
+.man-page a{color:#174ea6}.man-page h1{font-size:1.7em}.man-page h2{font-size:1.3em;margin-top:1.7em}.man-page h3{font-size:1.1em;margin-top:1.3em}
+.man-page p{margin:.75em 0}.man-page pre{white-space:pre-wrap;overflow:auto;padding:1em;background:#f3f4f6;border-radius:.25em}
+.man-page code{font-family:GTroffMono,monospace}.man-page small{font-size:.9em}.man-page dt{font-weight:normal;margin-top:.75em}.man-page dd{margin-inline-start:2em}.man-page dd>:first-child{margin-top:0}
+.man-page .manual-meta{opacity:.8;font-size:.9em}.man-page .permalink{font-size:.8em;text-decoration:none;margin-inline-start:.5em}.man-page .unsupported{border-inline-start:.25em solid currentColor}.man-page .conversion-notes{border:1px solid currentColor;padding:1em;margin-top:2em}
+@media(max-width:600px){.man-page{padding:1rem}.man-page dd{margin-inline-start:1em}}
+@media print{.man-page{max-width:none;color:#000000;background:#ffffff;padding:0}.man-page .permalink{display:none}.man-page pre{break-inside:avoid}}
+</style>
+<article class="man-page theme-light" data-man-version="1" data-man-title="DEMO" data-man-section="1" data-man-date="" data-man-source="" data-man-manual="">
+<header class="document-header"><h1>DEMO(1)</h1></header>
+<section data-kind="section" data-node-id="2" data-source-start="11" aria-labelledby="man-node-2">
+<h2 id="man-node-2"><strong>EXAMPLES</strong><a class="permalink" href="#man-node-2" aria-label="Link to EXAMPLES">#</a></h2>
+<pre class="preformatted" data-kind="preformatted" data-node-id="3" data-source-start="24"><code>  command --value 00
+  command --value 01
+  command --value 02
+  command --value 03
+  command --value 04
+  command --value 05
+  command --value 06
+  command --value 07
+  command --value 08
+  command --value 09
+  command --value 10
+  command --value 11
+  command --value 12
+  command --value 13
+  command --value 14
+  command --value 15
+  command --value 16
+  command --value 17
+</code></pre>
+</section>
+</article>

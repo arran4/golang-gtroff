@@ -1,0 +1,14 @@
+Workflow routing: pr
+-- scenario.json --
+{
+  "Block": "policy",
+  "Env": {
+    "EVENT_NAME": "pull_request",
+    "GITHUB_REF": "refs/pull/40/merge"
+  },
+  "Exit": 0,
+  "Outputs": {
+    "full": "false",
+    "release": "false"
+  }
+}

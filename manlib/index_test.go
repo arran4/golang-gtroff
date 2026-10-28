@@ -99,6 +99,9 @@ func TestDirectorySymlinksAndSnapshot(t *testing.T) {
 	if e != nil {
 		t.Fatal(e)
 	}
+	// Keep the root closed even when an assertion fails before the explicit
+	// close below. Windows otherwise retains a handle during TempDir cleanup.
+	t.Cleanup(func() { _ = d.Close() })
 	root := d.Root("safe")
 	idx, e := manlib.Build(context.Background(), []manlib.Root{root}, manlib.Limits{})
 	if e != nil {
