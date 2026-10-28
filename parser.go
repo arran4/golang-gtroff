@@ -47,7 +47,7 @@ func ArgumentParser(l string) ([]string, int, error) {
 	rs := []rune(l)
 	for ; i < len(rs) && !acomment; i++ {
 		switch rs[i] {
-		case ' ':
+		case ' ', '\t':
 			if len(stack) == 0 {
 				if len(a) != 0 || quotedArg {
 					result = append(result, a)

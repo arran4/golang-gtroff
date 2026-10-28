@@ -1,0 +1,85 @@
+test: realistic sections, tagged paragraphs, indentation and selected extraction
+Only DESCRIPTION is extracted; its SS content remains in source order.
+-- options.json --
+{"selectSection":"DESCRIPTION"}
+-- input.1 --
+.TH MYTOOL 1 "2026-10-21" "Linux" "User Commands"
+.SH NAME
+mytool \- inspect documents
+.SH DESCRIPTION
+Read a document.
+.SS "Input files"
+.TP
+.B \-f
+Choose a file.
+.IP "Note:" 4
+Unknown syntax is preserved.
+.RS 2
+Indented text.
+.RE
+.SH OPTIONS
+.TP
+.B \-v
+Verbose output.
+-- expected-ast.json --
+{
+  "nodes": [
+    {"id":1,"children":[2,4,11,37],"kind":"document","span":{"Start":{"Filename":"input.1","Offset":0,"Line":1,"Column":1},"End":{"Filename":"input.1","Offset":271,"Line":19,"Column":1}},"attributes":{}},
+    {"id":2,"parent":1,"children":[3],"kind":"line","span":{"Start":{"Filename":"input.1","Offset":0,"Line":1,"Column":1},"End":{"Filename":"input.1","Offset":50,"Line":2,"Column":1}},"attributes":{"name":".TH","package":"man","tokenKind":"Macro","arguments":[{"Raw":"MYTOOL","Value":"MYTOOL","Start":0,"End":6,"Quoted":false},{"Raw":"1","Value":"1","Start":7,"End":8,"Quoted":false},{"Raw":"\"2026-10-21\"","Value":"2026-10-21","Start":9,"End":21,"Quoted":true},{"Raw":"\"Linux\"","Value":"Linux","Start":22,"End":29,"Quoted":true},{"Raw":"\"User Commands\"","Value":"User Commands","Start":30,"End":45,"Quoted":true}]},"token":{"Title":"MYTOOL","Section":"1","Extra1":"2026-10-21","Extra2":"Linux","Extra3":"User Commands"}},
+    {"id":3,"parent":2,"kind":"inline","span":{"Start":{"Filename":"input.1","Offset":0,"Line":1,"Column":1},"End":{"Filename":"input.1","Offset":49,"Line":1,"Column":50}},"attributes":{},"inline":{"Kind":"Text","Raw":".TH MYTOOL 1 \"2026-10-21\" \"Linux\" \"User Commands\"","Name":"","Value":".TH MYTOOL 1 \"2026-10-21\" \"Linux\" \"User Commands\""}},
+    {"id":4,"parent":1,"children":[5,7],"kind":"section","span":{"Start":{"Filename":"input.1","Offset":50,"Line":2,"Column":1},"End":{"Filename":"input.1","Offset":87,"Line":4,"Column":1}},"attributes":{"heading":"NAME"}},
+    {"id":5,"parent":4,"children":[6],"kind":"line","span":{"Start":{"Filename":"input.1","Offset":50,"Line":2,"Column":1},"End":{"Filename":"input.1","Offset":59,"Line":3,"Column":1}},"attributes":{"name":".SH","package":"man","tokenKind":"Macro","arguments":[{"Raw":"NAME","Value":"NAME","Start":0,"End":4,"Quoted":false}]},"token":{"Heading":"NAME"}},
+    {"id":6,"parent":5,"kind":"inline","span":{"Start":{"Filename":"input.1","Offset":50,"Line":2,"Column":1},"End":{"Filename":"input.1","Offset":58,"Line":2,"Column":9}},"attributes":{},"inline":{"Kind":"Text","Raw":".SH NAME","Name":"","Value":".SH NAME"}},
+    {"id":7,"parent":4,"children":[8,9,10],"kind":"line","span":{"Start":{"Filename":"input.1","Offset":59,"Line":3,"Column":1},"End":{"Filename":"input.1","Offset":87,"Line":4,"Column":1}},"attributes":{"tokenKind":"Text"},"token":"mytool \\- inspect documents"},
+    {"id":8,"parent":7,"kind":"inline","span":{"Start":{"Filename":"input.1","Offset":59,"Line":3,"Column":1},"End":{"Filename":"input.1","Offset":66,"Line":3,"Column":8}},"attributes":{},"inline":{"Kind":"Text","Raw":"mytool ","Name":"","Value":"mytool "}},
+    {"id":9,"parent":7,"kind":"inline","span":{"Start":{"Filename":"input.1","Offset":66,"Line":3,"Column":8},"End":{"Filename":"input.1","Offset":68,"Line":3,"Column":10}},"attributes":{},"inline":{"Kind":"Escape","Raw":"\\-","Name":"-","Value":""}},
+    {"id":10,"parent":7,"kind":"inline","span":{"Start":{"Filename":"input.1","Offset":68,"Line":3,"Column":10},"End":{"Filename":"input.1","Offset":86,"Line":3,"Column":28}},"attributes":{},"inline":{"Kind":"Text","Raw":" inspect documents","Name":"","Value":" inspect documents"}},
+    {"id":11,"parent":1,"children":[12,14,16],"kind":"section","span":{"Start":{"Filename":"input.1","Offset":87,"Line":4,"Column":1},"End":{"Filename":"input.1","Offset":232,"Line":15,"Column":1}},"attributes":{"heading":"DESCRIPTION"}},
+    {"id":12,"parent":11,"children":[13],"kind":"line","span":{"Start":{"Filename":"input.1","Offset":87,"Line":4,"Column":1},"End":{"Filename":"input.1","Offset":103,"Line":5,"Column":1}},"attributes":{"name":".SH","package":"man","tokenKind":"Macro","arguments":[{"Raw":"DESCRIPTION","Value":"DESCRIPTION","Start":0,"End":11,"Quoted":false}]},"token":{"Heading":"DESCRIPTION"}},
+    {"id":13,"parent":12,"kind":"inline","span":{"Start":{"Filename":"input.1","Offset":87,"Line":4,"Column":1},"End":{"Filename":"input.1","Offset":102,"Line":4,"Column":16}},"attributes":{},"inline":{"Kind":"Text","Raw":".SH DESCRIPTION","Name":"","Value":".SH DESCRIPTION"}},
+    {"id":14,"parent":11,"children":[15],"kind":"line","span":{"Start":{"Filename":"input.1","Offset":103,"Line":5,"Column":1},"End":{"Filename":"input.1","Offset":120,"Line":6,"Column":1}},"attributes":{"tokenKind":"Text"},"token":"Read a document."},
+    {"id":15,"parent":14,"kind":"inline","span":{"Start":{"Filename":"input.1","Offset":103,"Line":5,"Column":1},"End":{"Filename":"input.1","Offset":119,"Line":5,"Column":17}},"attributes":{},"inline":{"Kind":"Text","Raw":"Read a document.","Name":"","Value":"Read a document."}},
+    {"id":16,"parent":11,"children":[17,19,21,25,27,29,31],"kind":"subsection","span":{"Start":{"Filename":"input.1","Offset":120,"Line":6,"Column":1},"End":{"Filename":"input.1","Offset":232,"Line":15,"Column":1}},"attributes":{"heading":"Input files"}},
+    {"id":17,"parent":16,"children":[18],"kind":"line","span":{"Start":{"Filename":"input.1","Offset":120,"Line":6,"Column":1},"End":{"Filename":"input.1","Offset":138,"Line":7,"Column":1}},"attributes":{"name":".SS","package":"man","tokenKind":"Macro","arguments":[{"Raw":"\"Input files\"","Value":"Input files","Start":0,"End":13,"Quoted":true}]},"token":{"Heading":"Input files"}},
+    {"id":18,"parent":17,"kind":"inline","span":{"Start":{"Filename":"input.1","Offset":120,"Line":6,"Column":1},"End":{"Filename":"input.1","Offset":137,"Line":6,"Column":18}},"attributes":{},"inline":{"Kind":"Text","Raw":".SS \"Input files\"","Name":"","Value":".SS \"Input files\""}},
+    {"id":19,"parent":16,"children":[20],"kind":"line","span":{"Start":{"Filename":"input.1","Offset":138,"Line":7,"Column":1},"End":{"Filename":"input.1","Offset":142,"Line":8,"Column":1}},"attributes":{"name":".TP","package":"man","tokenKind":"Macro"},"token":{"Nnn":""}},
+    {"id":20,"parent":19,"kind":"inline","span":{"Start":{"Filename":"input.1","Offset":138,"Line":7,"Column":1},"End":{"Filename":"input.1","Offset":141,"Line":7,"Column":4}},"attributes":{},"inline":{"Kind":"Text","Raw":".TP","Name":"","Value":".TP"}},
+    {"id":21,"parent":16,"children":[22,23,24],"kind":"line","span":{"Start":{"Filename":"input.1","Offset":142,"Line":8,"Column":1},"End":{"Filename":"input.1","Offset":149,"Line":9,"Column":1}},"attributes":{"name":".B","package":"man","tokenKind":"Macro","arguments":[{"Raw":"\\-f","Value":"\\-f","Start":0,"End":3,"Quoted":false}]},"token":{"Text":"\\-f"}},
+    {"id":22,"parent":21,"kind":"inline","span":{"Start":{"Filename":"input.1","Offset":142,"Line":8,"Column":1},"End":{"Filename":"input.1","Offset":145,"Line":8,"Column":4}},"attributes":{},"inline":{"Kind":"Text","Raw":".B ","Name":"","Value":".B "}},
+    {"id":23,"parent":21,"kind":"inline","span":{"Start":{"Filename":"input.1","Offset":145,"Line":8,"Column":4},"End":{"Filename":"input.1","Offset":147,"Line":8,"Column":6}},"attributes":{},"inline":{"Kind":"Escape","Raw":"\\-","Name":"-","Value":""}},
+    {"id":24,"parent":21,"kind":"inline","span":{"Start":{"Filename":"input.1","Offset":147,"Line":8,"Column":6},"End":{"Filename":"input.1","Offset":148,"Line":8,"Column":7}},"attributes":{},"inline":{"Kind":"Text","Raw":"f","Name":"","Value":"f"}},
+    {"id":25,"parent":16,"children":[26],"kind":"line","span":{"Start":{"Filename":"input.1","Offset":149,"Line":9,"Column":1},"End":{"Filename":"input.1","Offset":164,"Line":10,"Column":1}},"attributes":{"tokenKind":"Text"},"token":"Choose a file."},
+    {"id":26,"parent":25,"kind":"inline","span":{"Start":{"Filename":"input.1","Offset":149,"Line":9,"Column":1},"End":{"Filename":"input.1","Offset":163,"Line":9,"Column":15}},"attributes":{},"inline":{"Kind":"Text","Raw":"Choose a file.","Name":"","Value":"Choose a file."}},
+    {"id":27,"parent":16,"children":[28],"kind":"line","span":{"Start":{"Filename":"input.1","Offset":164,"Line":10,"Column":1},"End":{"Filename":"input.1","Offset":178,"Line":11,"Column":1}},"attributes":{"name":".IP","package":"man","tokenKind":"Macro","arguments":[{"Raw":"\"Note:\"","Value":"Note:","Start":0,"End":7,"Quoted":true},{"Raw":"4","Value":"4","Start":8,"End":9,"Quoted":false}]},"token":{"Designator":"Note:","Nnn":"4"}},
+    {"id":28,"parent":27,"kind":"inline","span":{"Start":{"Filename":"input.1","Offset":164,"Line":10,"Column":1},"End":{"Filename":"input.1","Offset":177,"Line":10,"Column":14}},"attributes":{},"inline":{"Kind":"Text","Raw":".IP \"Note:\" 4","Name":"","Value":".IP \"Note:\" 4"}},
+    {"id":29,"parent":16,"children":[30],"kind":"line","span":{"Start":{"Filename":"input.1","Offset":178,"Line":11,"Column":1},"End":{"Filename":"input.1","Offset":207,"Line":12,"Column":1}},"attributes":{"tokenKind":"Text"},"token":"Unknown syntax is preserved."},
+    {"id":30,"parent":29,"kind":"inline","span":{"Start":{"Filename":"input.1","Offset":178,"Line":11,"Column":1},"End":{"Filename":"input.1","Offset":206,"Line":11,"Column":29}},"attributes":{},"inline":{"Kind":"Text","Raw":"Unknown syntax is preserved.","Name":"","Value":"Unknown syntax is preserved."}},
+    {"id":31,"parent":16,"children":[32,34,36],"kind":"block","span":{"Start":{"Filename":"input.1","Offset":207,"Line":12,"Column":1},"End":{"Filename":"input.1","Offset":232,"Line":15,"Column":1}},"attributes":{"name":".RS","endMarker":".RE","closed":true}},
+    {"id":32,"parent":31,"children":[33],"kind":"line","span":{"Start":{"Filename":"input.1","Offset":207,"Line":12,"Column":1},"End":{"Filename":"input.1","Offset":213,"Line":13,"Column":1}},"attributes":{"name":".RS","package":"man","tokenKind":"Macro","arguments":[{"Raw":"2","Value":"2","Start":0,"End":1,"Quoted":false}]},"token":{"Nnn":"2"}},
+    {"id":33,"parent":32,"kind":"inline","span":{"Start":{"Filename":"input.1","Offset":207,"Line":12,"Column":1},"End":{"Filename":"input.1","Offset":212,"Line":12,"Column":6}},"attributes":{},"inline":{"Kind":"Text","Raw":".RS 2","Name":"","Value":".RS 2"}},
+    {"id":34,"parent":31,"children":[35],"kind":"line","span":{"Start":{"Filename":"input.1","Offset":213,"Line":13,"Column":1},"End":{"Filename":"input.1","Offset":228,"Line":14,"Column":1}},"attributes":{"tokenKind":"Text"},"token":"Indented text."},
+    {"id":35,"parent":34,"kind":"inline","span":{"Start":{"Filename":"input.1","Offset":213,"Line":13,"Column":1},"End":{"Filename":"input.1","Offset":227,"Line":13,"Column":15}},"attributes":{},"inline":{"Kind":"Text","Raw":"Indented text.","Name":"","Value":"Indented text."}},
+    {"id":36,"parent":31,"kind":"line","span":{"Start":{"Filename":"input.1","Offset":228,"Line":14,"Column":1},"End":{"Filename":"input.1","Offset":232,"Line":15,"Column":1}},"attributes":{"name":".RE","tokenKind":"Control"}},
+    {"id":37,"parent":1,"children":[38,40,42,46],"kind":"section","span":{"Start":{"Filename":"input.1","Offset":232,"Line":15,"Column":1},"End":{"Filename":"input.1","Offset":271,"Line":19,"Column":1}},"attributes":{"heading":"OPTIONS"}},
+    {"id":38,"parent":37,"children":[39],"kind":"line","span":{"Start":{"Filename":"input.1","Offset":232,"Line":15,"Column":1},"End":{"Filename":"input.1","Offset":244,"Line":16,"Column":1}},"attributes":{"name":".SH","package":"man","tokenKind":"Macro","arguments":[{"Raw":"OPTIONS","Value":"OPTIONS","Start":0,"End":7,"Quoted":false}]},"token":{"Heading":"OPTIONS"}},
+    {"id":39,"parent":38,"kind":"inline","span":{"Start":{"Filename":"input.1","Offset":232,"Line":15,"Column":1},"End":{"Filename":"input.1","Offset":243,"Line":15,"Column":12}},"attributes":{},"inline":{"Kind":"Text","Raw":".SH OPTIONS","Name":"","Value":".SH OPTIONS"}},
+    {"id":40,"parent":37,"children":[41],"kind":"line","span":{"Start":{"Filename":"input.1","Offset":244,"Line":16,"Column":1},"End":{"Filename":"input.1","Offset":248,"Line":17,"Column":1}},"attributes":{"name":".TP","package":"man","tokenKind":"Macro"},"token":{"Nnn":""}},
+    {"id":41,"parent":40,"kind":"inline","span":{"Start":{"Filename":"input.1","Offset":244,"Line":16,"Column":1},"End":{"Filename":"input.1","Offset":247,"Line":16,"Column":4}},"attributes":{},"inline":{"Kind":"Text","Raw":".TP","Name":"","Value":".TP"}},
+    {"id":42,"parent":37,"children":[43,44,45],"kind":"line","span":{"Start":{"Filename":"input.1","Offset":248,"Line":17,"Column":1},"End":{"Filename":"input.1","Offset":255,"Line":18,"Column":1}},"attributes":{"name":".B","package":"man","tokenKind":"Macro","arguments":[{"Raw":"\\-v","Value":"\\-v","Start":0,"End":3,"Quoted":false}]},"token":{"Text":"\\-v"}},
+    {"id":43,"parent":42,"kind":"inline","span":{"Start":{"Filename":"input.1","Offset":248,"Line":17,"Column":1},"End":{"Filename":"input.1","Offset":251,"Line":17,"Column":4}},"attributes":{},"inline":{"Kind":"Text","Raw":".B ","Name":"","Value":".B "}},
+    {"id":44,"parent":42,"kind":"inline","span":{"Start":{"Filename":"input.1","Offset":251,"Line":17,"Column":4},"End":{"Filename":"input.1","Offset":253,"Line":17,"Column":6}},"attributes":{},"inline":{"Kind":"Escape","Raw":"\\-","Name":"-","Value":""}},
+    {"id":45,"parent":42,"kind":"inline","span":{"Start":{"Filename":"input.1","Offset":253,"Line":17,"Column":6},"End":{"Filename":"input.1","Offset":254,"Line":17,"Column":7}},"attributes":{},"inline":{"Kind":"Text","Raw":"v","Name":"","Value":"v"}},
+    {"id":46,"parent":37,"children":[47],"kind":"line","span":{"Start":{"Filename":"input.1","Offset":255,"Line":18,"Column":1},"End":{"Filename":"input.1","Offset":271,"Line":19,"Column":1}},"attributes":{"tokenKind":"Text"},"token":"Verbose output."},
+    {"id":47,"parent":46,"kind":"inline","span":{"Start":{"Filename":"input.1","Offset":255,"Line":18,"Column":1},"End":{"Filename":"input.1","Offset":270,"Line":18,"Column":16}},"attributes":{},"inline":{"Kind":"Text","Raw":"Verbose output.","Name":"","Value":"Verbose output."}}
+  ]
+}
+-- expected-extract.txt --
+DESCRIPTION
+Read a document.
+Input files
+\-f
+Choose a file.
+Note: 4
+Unknown syntax is preserved.
+2
+Indented text.

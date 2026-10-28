@@ -1,0 +1,55 @@
+test: distinct terminators describe nested definitions without macro evaluation
+The nested body stays opaque; invocation is preserved as an unknown control.
+-- input.1 --
+.de OUTER OUTEREND
+first raw line
+.de INNER INNEREND
+.B body
+.INNEREND
+.ig IGNOREEND
+ignored .SH is not a section
+.IGNOREEND
+.OUTEREND
+.am OUTER APPENDEND
+later body
+.APPENDEND
+.OUTER
+-- expected-extract.txt --
+OUTER OUTEREND
+first raw line
+INNER INNEREND
+.B body
+IGNOREEND
+ignored .SH is not a section
+OUTER APPENDEND
+later body
+.OUTER
+-- expected-ast.json --
+{
+  "nodes": [
+    {"id":1,"children":[2,17,22],"kind":"document","span":{"Start":{"Filename":"input.1","Offset":0,"Line":1,"Column":1},"End":{"Filename":"input.1","Offset":184,"Line":14,"Column":1}},"attributes":{}},
+    {"id":2,"parent":1,"children":[3,5,6,11,16],"kind":"block","span":{"Start":{"Filename":"input.1","Offset":0,"Line":1,"Column":1},"End":{"Filename":"input.1","Offset":135,"Line":10,"Column":1}},"attributes":{"name":".de","endMarker":".OUTEREND","closed":true,"opaque":true}},
+    {"id":3,"parent":2,"children":[4],"kind":"line","span":{"Start":{"Filename":"input.1","Offset":0,"Line":1,"Column":1},"End":{"Filename":"input.1","Offset":19,"Line":2,"Column":1}},"attributes":{"name":".de","package":"roff","tokenKind":"Request","arguments":[{"Raw":"OUTER","Value":"OUTER","Start":0,"End":5,"Quoted":false},{"Raw":"OUTEREND","Value":"OUTEREND","Start":6,"End":14,"Quoted":false}]},"token":{"Name":"OUTER","End":"OUTEREND"}},
+    {"id":4,"parent":3,"kind":"inline","span":{"Start":{"Filename":"input.1","Offset":0,"Line":1,"Column":1},"End":{"Filename":"input.1","Offset":18,"Line":1,"Column":19}},"attributes":{},"inline":{"Kind":"Text","Raw":".de OUTER OUTEREND","Name":"","Value":".de OUTER OUTEREND"}},
+    {"id":5,"parent":2,"kind":"line","span":{"Start":{"Filename":"input.1","Offset":19,"Line":2,"Column":1},"End":{"Filename":"input.1","Offset":34,"Line":3,"Column":1}},"attributes":{"tokenKind":"Text","opaque":true}},
+    {"id":6,"parent":2,"children":[7,9,10],"kind":"block","span":{"Start":{"Filename":"input.1","Offset":34,"Line":3,"Column":1},"End":{"Filename":"input.1","Offset":71,"Line":6,"Column":1}},"attributes":{"name":".de","endMarker":".INNEREND","closed":true,"opaque":true}},
+    {"id":7,"parent":6,"children":[8],"kind":"line","span":{"Start":{"Filename":"input.1","Offset":34,"Line":3,"Column":1},"End":{"Filename":"input.1","Offset":53,"Line":4,"Column":1}},"attributes":{"name":".de","package":"roff","tokenKind":"Request","arguments":[{"Raw":"INNER","Value":"INNER","Start":0,"End":5,"Quoted":false},{"Raw":"INNEREND","Value":"INNEREND","Start":6,"End":14,"Quoted":false}]},"token":{"Name":"INNER","End":"INNEREND"}},
+    {"id":8,"parent":7,"kind":"inline","span":{"Start":{"Filename":"input.1","Offset":34,"Line":3,"Column":1},"End":{"Filename":"input.1","Offset":52,"Line":3,"Column":19}},"attributes":{},"inline":{"Kind":"Text","Raw":".de INNER INNEREND","Name":"","Value":".de INNER INNEREND"}},
+    {"id":9,"parent":6,"kind":"line","span":{"Start":{"Filename":"input.1","Offset":53,"Line":4,"Column":1},"End":{"Filename":"input.1","Offset":61,"Line":5,"Column":1}},"attributes":{"name":".B","tokenKind":"Text","opaque":true}},
+    {"id":10,"parent":6,"kind":"line","span":{"Start":{"Filename":"input.1","Offset":61,"Line":5,"Column":1},"End":{"Filename":"input.1","Offset":71,"Line":6,"Column":1}},"attributes":{"name":".INNEREND","tokenKind":"Control"}},
+    {"id":11,"parent":2,"children":[12,14,15],"kind":"block","span":{"Start":{"Filename":"input.1","Offset":71,"Line":6,"Column":1},"End":{"Filename":"input.1","Offset":125,"Line":9,"Column":1}},"attributes":{"name":".ig","endMarker":".IGNOREEND","closed":true,"opaque":true}},
+    {"id":12,"parent":11,"children":[13],"kind":"line","span":{"Start":{"Filename":"input.1","Offset":71,"Line":6,"Column":1},"End":{"Filename":"input.1","Offset":85,"Line":7,"Column":1}},"attributes":{"name":".ig","package":"roff","tokenKind":"Request","arguments":[{"Raw":"IGNOREEND","Value":"IGNOREEND","Start":0,"End":9,"Quoted":false}]},"token":{"End":"IGNOREEND"}},
+    {"id":13,"parent":12,"kind":"inline","span":{"Start":{"Filename":"input.1","Offset":71,"Line":6,"Column":1},"End":{"Filename":"input.1","Offset":84,"Line":6,"Column":14}},"attributes":{},"inline":{"Kind":"Text","Raw":".ig IGNOREEND","Name":"","Value":".ig IGNOREEND"}},
+    {"id":14,"parent":11,"kind":"line","span":{"Start":{"Filename":"input.1","Offset":85,"Line":7,"Column":1},"End":{"Filename":"input.1","Offset":114,"Line":8,"Column":1}},"attributes":{"tokenKind":"Text","opaque":true}},
+    {"id":15,"parent":11,"kind":"line","span":{"Start":{"Filename":"input.1","Offset":114,"Line":8,"Column":1},"End":{"Filename":"input.1","Offset":125,"Line":9,"Column":1}},"attributes":{"name":".IGNOREEND","tokenKind":"Control"}},
+    {"id":16,"parent":2,"kind":"line","span":{"Start":{"Filename":"input.1","Offset":125,"Line":9,"Column":1},"End":{"Filename":"input.1","Offset":135,"Line":10,"Column":1}},"attributes":{"name":".OUTEREND","tokenKind":"Control"}},
+    {"id":17,"parent":1,"children":[18,20,21],"kind":"block","span":{"Start":{"Filename":"input.1","Offset":135,"Line":10,"Column":1},"End":{"Filename":"input.1","Offset":177,"Line":13,"Column":1}},"attributes":{"name":".am","endMarker":".APPENDEND","closed":true,"opaque":true}},
+    {"id":18,"parent":17,"children":[19],"kind":"line","span":{"Start":{"Filename":"input.1","Offset":135,"Line":10,"Column":1},"End":{"Filename":"input.1","Offset":155,"Line":11,"Column":1}},"attributes":{"name":".am","package":"roff","tokenKind":"Request","arguments":[{"Raw":"OUTER","Value":"OUTER","Start":0,"End":5,"Quoted":false},{"Raw":"APPENDEND","Value":"APPENDEND","Start":6,"End":15,"Quoted":false}]},"token":{"Name":"OUTER","End":"APPENDEND"}},
+    {"id":19,"parent":18,"kind":"inline","span":{"Start":{"Filename":"input.1","Offset":135,"Line":10,"Column":1},"End":{"Filename":"input.1","Offset":154,"Line":10,"Column":20}},"attributes":{},"inline":{"Kind":"Text","Raw":".am OUTER APPENDEND","Name":"","Value":".am OUTER APPENDEND"}},
+    {"id":20,"parent":17,"kind":"line","span":{"Start":{"Filename":"input.1","Offset":155,"Line":11,"Column":1},"End":{"Filename":"input.1","Offset":166,"Line":12,"Column":1}},"attributes":{"tokenKind":"Text","opaque":true}},
+    {"id":21,"parent":17,"kind":"line","span":{"Start":{"Filename":"input.1","Offset":166,"Line":12,"Column":1},"End":{"Filename":"input.1","Offset":177,"Line":13,"Column":1}},"attributes":{"name":".APPENDEND","tokenKind":"Control"}},
+    {"id":22,"parent":1,"children":[23],"kind":"line","span":{"Start":{"Filename":"input.1","Offset":177,"Line":13,"Column":1},"End":{"Filename":"input.1","Offset":184,"Line":14,"Column":1}},"attributes":{"name":".OUTER","tokenKind":"Unknown"},"token":{"ControlChar":46,"Name":".OUTER","RawArgs":"","RawLine":".OUTER"},"diagnostics":[{"Message":"no token match: \".OUTER\": ","Position":{"Filename":"input.1","Offset":177,"Line":13,"Column":1},"Severity":"warning"}]},
+    {"id":23,"parent":22,"kind":"inline","span":{"Start":{"Filename":"input.1","Offset":177,"Line":13,"Column":1},"End":{"Filename":"input.1","Offset":183,"Line":13,"Column":7}},"attributes":{},"inline":{"Kind":"Text","Raw":".OUTER","Name":"","Value":".OUTER"}}
+  ],
+  "diagnostics": [{"Message":"no token match: \".OUTER\": ","Position":{"Filename":"input.1","Offset":177,"Line":13,"Column":1},"Severity":"warning"}]
+}

@@ -1,0 +1,79 @@
+test: raw preprocessor and preformatted regions preserve their contents
+Control-looking content inside an opaque block does not create sections.
+-- input.1 --
+.SH EXAMPLES
+.EX
+.SH literal text
+  demo --help
+.EE
+.nf
+first \fBline\fR
+.fi
+.TS
+l l.
+Name	Value
+.TE
+.EQ
+x sup 2
+.EN
+.PS
+box "hello"
+.PE
+.[
+%A Example Author
+.]
+-- expected-ast.json --
+{
+  "nodes": [
+    {"id":1,"children":[2],"kind":"document","span":{"Start":{"Filename":"input.1","Offset":0,"Line":1,"Column":1},"End":{"Filename":"input.1","Offset":161,"Line":22,"Column":1}},"attributes":{}},
+    {"id":2,"parent":1,"children":[3,5,11,20,26,31,36],"kind":"section","span":{"Start":{"Filename":"input.1","Offset":0,"Line":1,"Column":1},"End":{"Filename":"input.1","Offset":161,"Line":22,"Column":1}},"attributes":{"heading":"EXAMPLES"}},
+    {"id":3,"parent":2,"children":[4],"kind":"line","span":{"Start":{"Filename":"input.1","Offset":0,"Line":1,"Column":1},"End":{"Filename":"input.1","Offset":13,"Line":2,"Column":1}},"attributes":{"name":".SH","package":"man","tokenKind":"Macro","arguments":[{"Raw":"EXAMPLES","Value":"EXAMPLES","Start":0,"End":8,"Quoted":false}]},"token":{"Heading":"EXAMPLES"}},
+    {"id":4,"parent":3,"kind":"inline","span":{"Start":{"Filename":"input.1","Offset":0,"Line":1,"Column":1},"End":{"Filename":"input.1","Offset":12,"Line":1,"Column":13}},"attributes":{},"inline":{"Kind":"Text","Raw":".SH EXAMPLES","Name":"","Value":".SH EXAMPLES"}},
+    {"id":5,"parent":2,"children":[6,8,9,10],"kind":"block","span":{"Start":{"Filename":"input.1","Offset":13,"Line":2,"Column":1},"End":{"Filename":"input.1","Offset":52,"Line":6,"Column":1}},"attributes":{"name":".EX","endMarker":".EE","closed":true,"opaque":true}},
+    {"id":6,"parent":5,"children":[7],"kind":"line","span":{"Start":{"Filename":"input.1","Offset":13,"Line":2,"Column":1},"End":{"Filename":"input.1","Offset":17,"Line":3,"Column":1}},"attributes":{"name":".EX","package":"man","tokenKind":"Macro"},"token":{"Indent":""}},
+    {"id":7,"parent":6,"kind":"inline","span":{"Start":{"Filename":"input.1","Offset":13,"Line":2,"Column":1},"End":{"Filename":"input.1","Offset":16,"Line":2,"Column":4}},"attributes":{},"inline":{"Kind":"Text","Raw":".EX","Name":"","Value":".EX"}},
+    {"id":8,"parent":5,"kind":"line","span":{"Start":{"Filename":"input.1","Offset":17,"Line":3,"Column":1},"End":{"Filename":"input.1","Offset":34,"Line":4,"Column":1}},"attributes":{"name":".SH","tokenKind":"Text","opaque":true}},
+    {"id":9,"parent":5,"kind":"line","span":{"Start":{"Filename":"input.1","Offset":34,"Line":4,"Column":1},"End":{"Filename":"input.1","Offset":48,"Line":5,"Column":1}},"attributes":{"tokenKind":"Text","opaque":true}},
+    {"id":10,"parent":5,"kind":"line","span":{"Start":{"Filename":"input.1","Offset":48,"Line":5,"Column":1},"End":{"Filename":"input.1","Offset":52,"Line":6,"Column":1}},"attributes":{"name":".EE","tokenKind":"Control"}},
+    {"id":11,"parent":2,"children":[12,14,19],"kind":"block","span":{"Start":{"Filename":"input.1","Offset":52,"Line":6,"Column":1},"End":{"Filename":"input.1","Offset":77,"Line":9,"Column":1}},"attributes":{"name":".nf","endMarker":".fi","closed":true}},
+    {"id":12,"parent":11,"children":[13],"kind":"line","span":{"Start":{"Filename":"input.1","Offset":52,"Line":6,"Column":1},"End":{"Filename":"input.1","Offset":56,"Line":7,"Column":1}},"attributes":{"name":".nf","package":"roff","tokenKind":"Request"},"token":{}},
+    {"id":13,"parent":12,"kind":"inline","span":{"Start":{"Filename":"input.1","Offset":52,"Line":6,"Column":1},"End":{"Filename":"input.1","Offset":55,"Line":6,"Column":4}},"attributes":{},"inline":{"Kind":"Text","Raw":".nf","Name":"","Value":".nf"}},
+    {"id":14,"parent":11,"children":[15,16,17,18],"kind":"line","span":{"Start":{"Filename":"input.1","Offset":56,"Line":7,"Column":1},"End":{"Filename":"input.1","Offset":73,"Line":8,"Column":1}},"attributes":{"tokenKind":"Text"},"token":"first \\fBline\\fR"},
+    {"id":15,"parent":14,"kind":"inline","span":{"Start":{"Filename":"input.1","Offset":56,"Line":7,"Column":1},"End":{"Filename":"input.1","Offset":62,"Line":7,"Column":7}},"attributes":{},"inline":{"Kind":"Text","Raw":"first ","Name":"","Value":"first "}},
+    {"id":16,"parent":14,"kind":"inline","span":{"Start":{"Filename":"input.1","Offset":62,"Line":7,"Column":7},"End":{"Filename":"input.1","Offset":65,"Line":7,"Column":10}},"attributes":{},"inline":{"Kind":"FontChange","Raw":"\\fB","Name":"B","Value":""}},
+    {"id":17,"parent":14,"kind":"inline","span":{"Start":{"Filename":"input.1","Offset":65,"Line":7,"Column":10},"End":{"Filename":"input.1","Offset":69,"Line":7,"Column":14}},"attributes":{},"inline":{"Kind":"Text","Raw":"line","Name":"","Value":"line"}},
+    {"id":18,"parent":14,"kind":"inline","span":{"Start":{"Filename":"input.1","Offset":69,"Line":7,"Column":14},"End":{"Filename":"input.1","Offset":72,"Line":7,"Column":17}},"attributes":{},"inline":{"Kind":"FontChange","Raw":"\\fR","Name":"R","Value":""}},
+    {"id":19,"parent":11,"kind":"line","span":{"Start":{"Filename":"input.1","Offset":73,"Line":8,"Column":1},"End":{"Filename":"input.1","Offset":77,"Line":9,"Column":1}},"attributes":{"name":".fi","tokenKind":"Control"}},
+    {"id":20,"parent":2,"children":[21,23,24,25],"kind":"block","span":{"Start":{"Filename":"input.1","Offset":77,"Line":9,"Column":1},"End":{"Filename":"input.1","Offset":101,"Line":13,"Column":1}},"attributes":{"name":".TS","endMarker":".TE","closed":true,"opaque":true}},
+    {"id":21,"parent":20,"children":[22],"kind":"line","span":{"Start":{"Filename":"input.1","Offset":77,"Line":9,"Column":1},"End":{"Filename":"input.1","Offset":81,"Line":10,"Column":1}},"attributes":{"name":".TS","package":"ms","tokenKind":"Macro"},"token":{"H":""}},
+    {"id":22,"parent":21,"kind":"inline","span":{"Start":{"Filename":"input.1","Offset":77,"Line":9,"Column":1},"End":{"Filename":"input.1","Offset":80,"Line":9,"Column":4}},"attributes":{},"inline":{"Kind":"Text","Raw":".TS","Name":"","Value":".TS"}},
+    {"id":23,"parent":20,"kind":"line","span":{"Start":{"Filename":"input.1","Offset":81,"Line":10,"Column":1},"End":{"Filename":"input.1","Offset":86,"Line":11,"Column":1}},"attributes":{"tokenKind":"Text","opaque":true}},
+    {"id":24,"parent":20,"kind":"line","span":{"Start":{"Filename":"input.1","Offset":86,"Line":11,"Column":1},"End":{"Filename":"input.1","Offset":97,"Line":12,"Column":1}},"attributes":{"tokenKind":"Text","opaque":true}},
+    {"id":25,"parent":20,"kind":"line","span":{"Start":{"Filename":"input.1","Offset":97,"Line":12,"Column":1},"End":{"Filename":"input.1","Offset":101,"Line":13,"Column":1}},"attributes":{"name":".TE","tokenKind":"Control"}},
+    {"id":26,"parent":2,"children":[27,29,30],"kind":"block","span":{"Start":{"Filename":"input.1","Offset":101,"Line":13,"Column":1},"End":{"Filename":"input.1","Offset":117,"Line":16,"Column":1}},"attributes":{"name":".EQ","endMarker":".EN","closed":true,"opaque":true}},
+    {"id":27,"parent":26,"children":[28],"kind":"line","span":{"Start":{"Filename":"input.1","Offset":101,"Line":13,"Column":1},"End":{"Filename":"input.1","Offset":105,"Line":14,"Column":1}},"attributes":{"name":".EQ","package":"ms","tokenKind":"Macro"},"token":{"Align":""}},
+    {"id":28,"parent":27,"kind":"inline","span":{"Start":{"Filename":"input.1","Offset":101,"Line":13,"Column":1},"End":{"Filename":"input.1","Offset":104,"Line":13,"Column":4}},"attributes":{},"inline":{"Kind":"Text","Raw":".EQ","Name":"","Value":".EQ"}},
+    {"id":29,"parent":26,"kind":"line","span":{"Start":{"Filename":"input.1","Offset":105,"Line":14,"Column":1},"End":{"Filename":"input.1","Offset":113,"Line":15,"Column":1}},"attributes":{"tokenKind":"Text","opaque":true}},
+    {"id":30,"parent":26,"kind":"line","span":{"Start":{"Filename":"input.1","Offset":113,"Line":15,"Column":1},"End":{"Filename":"input.1","Offset":117,"Line":16,"Column":1}},"attributes":{"name":".EN","tokenKind":"Control"}},
+    {"id":31,"parent":2,"children":[32,34,35],"kind":"block","span":{"Start":{"Filename":"input.1","Offset":117,"Line":16,"Column":1},"End":{"Filename":"input.1","Offset":137,"Line":19,"Column":1}},"attributes":{"name":".PS","endMarker":".PE","closed":true,"opaque":true}},
+    {"id":32,"parent":31,"children":[33],"kind":"line","span":{"Start":{"Filename":"input.1","Offset":117,"Line":16,"Column":1},"End":{"Filename":"input.1","Offset":121,"Line":17,"Column":1}},"attributes":{"name":".PS","package":"ms","tokenKind":"Macro"},"token":{}},
+    {"id":33,"parent":32,"kind":"inline","span":{"Start":{"Filename":"input.1","Offset":117,"Line":16,"Column":1},"End":{"Filename":"input.1","Offset":120,"Line":16,"Column":4}},"attributes":{},"inline":{"Kind":"Text","Raw":".PS","Name":"","Value":".PS"}},
+    {"id":34,"parent":31,"kind":"line","span":{"Start":{"Filename":"input.1","Offset":121,"Line":17,"Column":1},"End":{"Filename":"input.1","Offset":133,"Line":18,"Column":1}},"attributes":{"tokenKind":"Text","opaque":true}},
+    {"id":35,"parent":31,"kind":"line","span":{"Start":{"Filename":"input.1","Offset":133,"Line":18,"Column":1},"End":{"Filename":"input.1","Offset":137,"Line":19,"Column":1}},"attributes":{"name":".PE","tokenKind":"Control"}},
+    {"id":36,"parent":2,"children":[37,39,40],"kind":"block","span":{"Start":{"Filename":"input.1","Offset":137,"Line":19,"Column":1},"End":{"Filename":"input.1","Offset":161,"Line":22,"Column":1}},"attributes":{"name":".[","endMarker":".]","closed":true,"opaque":true}},
+    {"id":37,"parent":36,"children":[38],"kind":"line","span":{"Start":{"Filename":"input.1","Offset":137,"Line":19,"Column":1},"End":{"Filename":"input.1","Offset":140,"Line":20,"Column":1}},"attributes":{"name":".[","package":"ms","tokenKind":"Macro"},"token":{}},
+    {"id":38,"parent":37,"kind":"inline","span":{"Start":{"Filename":"input.1","Offset":137,"Line":19,"Column":1},"End":{"Filename":"input.1","Offset":139,"Line":19,"Column":3}},"attributes":{},"inline":{"Kind":"Text","Raw":".[","Name":"","Value":".["}},
+    {"id":39,"parent":36,"kind":"line","span":{"Start":{"Filename":"input.1","Offset":140,"Line":20,"Column":1},"End":{"Filename":"input.1","Offset":158,"Line":21,"Column":1}},"attributes":{"tokenKind":"Text","opaque":true}},
+    {"id":40,"parent":36,"kind":"line","span":{"Start":{"Filename":"input.1","Offset":158,"Line":21,"Column":1},"End":{"Filename":"input.1","Offset":161,"Line":22,"Column":1}},"attributes":{"name":".]","tokenKind":"Control"}}
+  ]
+}
+-- expected-extract.txt --
+EXAMPLES
+.SH literal text
+  demo --help
+first \fBline\fR
+l l.
+Name	Value
+x sup 2
+box "hello"
+%A Example Author

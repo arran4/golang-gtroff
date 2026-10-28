@@ -1,0 +1,30 @@
+test: CRLF, tabs, empty controls and comments retain exact source spans
+-- input.1 --
+.TH	DEMO	1
+.
+.\" comment
+
+.SH NAME
+Unicode: café 雪
+-- expected-ast.json --
+{
+  "nodes": [
+    {"id":1,"children":[2,4,6,7,8],"kind":"document","span":{"Start":{"Filename":"input.1","Offset":0,"Line":1,"Column":1},"End":{"Filename":"input.1","Offset":60,"Line":7,"Column":1}},"attributes":{}},
+    {"id":2,"parent":1,"children":[3],"kind":"line","span":{"Start":{"Filename":"input.1","Offset":0,"Line":1,"Column":1},"End":{"Filename":"input.1","Offset":12,"Line":2,"Column":1}},"attributes":{"name":".TH","package":"man","tokenKind":"Macro","arguments":[{"Raw":"DEMO","Value":"DEMO","Start":0,"End":4,"Quoted":false},{"Raw":"1","Value":"1","Start":5,"End":6,"Quoted":false}]},"token":{"Title":"DEMO","Section":"1","Extra1":"","Extra2":"","Extra3":""}},
+    {"id":3,"parent":2,"kind":"inline","span":{"Start":{"Filename":"input.1","Offset":0,"Line":1,"Column":1},"End":{"Filename":"input.1","Offset":10,"Line":1,"Column":11}},"attributes":{},"inline":{"Kind":"Text","Raw":".TH\tDEMO\t1","Name":"","Value":".TH\tDEMO\t1"}},
+    {"id":4,"parent":1,"children":[5],"kind":"line","span":{"Start":{"Filename":"input.1","Offset":12,"Line":2,"Column":1},"End":{"Filename":"input.1","Offset":15,"Line":3,"Column":1}},"attributes":{"name":".","tokenKind":"Control"},"token":{"ControlChar":46}},
+    {"id":5,"parent":4,"kind":"inline","span":{"Start":{"Filename":"input.1","Offset":12,"Line":2,"Column":1},"End":{"Filename":"input.1","Offset":13,"Line":2,"Column":2}},"attributes":{},"inline":{"Kind":"Text","Raw":".","Name":"","Value":"."}},
+    {"id":6,"parent":1,"kind":"line","span":{"Start":{"Filename":"input.1","Offset":15,"Line":3,"Column":1},"End":{"Filename":"input.1","Offset":28,"Line":4,"Column":1}},"attributes":{"name":".\\\"","tokenKind":"Comment"},"token":"comment"},
+    {"id":7,"parent":1,"kind":"line","span":{"Start":{"Filename":"input.1","Offset":28,"Line":4,"Column":1},"End":{"Filename":"input.1","Offset":30,"Line":5,"Column":1}},"attributes":{"tokenKind":"Text"},"token":""},
+    {"id":8,"parent":1,"children":[9,11],"kind":"section","span":{"Start":{"Filename":"input.1","Offset":30,"Line":5,"Column":1},"End":{"Filename":"input.1","Offset":60,"Line":7,"Column":1}},"attributes":{"heading":"NAME"}},
+    {"id":9,"parent":8,"children":[10],"kind":"line","span":{"Start":{"Filename":"input.1","Offset":30,"Line":5,"Column":1},"End":{"Filename":"input.1","Offset":40,"Line":6,"Column":1}},"attributes":{"name":".SH","package":"man","tokenKind":"Macro","arguments":[{"Raw":"NAME","Value":"NAME","Start":0,"End":4,"Quoted":false}]},"token":{"Heading":"NAME"}},
+    {"id":10,"parent":9,"kind":"inline","span":{"Start":{"Filename":"input.1","Offset":30,"Line":5,"Column":1},"End":{"Filename":"input.1","Offset":38,"Line":5,"Column":9}},"attributes":{},"inline":{"Kind":"Text","Raw":".SH NAME","Name":"","Value":".SH NAME"}},
+    {"id":11,"parent":8,"children":[12],"kind":"line","span":{"Start":{"Filename":"input.1","Offset":40,"Line":6,"Column":1},"End":{"Filename":"input.1","Offset":60,"Line":7,"Column":1}},"attributes":{"tokenKind":"Text"},"token":"Unicode: café 雪"},
+    {"id":12,"parent":11,"kind":"inline","span":{"Start":{"Filename":"input.1","Offset":40,"Line":6,"Column":1},"End":{"Filename":"input.1","Offset":58,"Line":6,"Column":16}},"attributes":{},"inline":{"Kind":"Text","Raw":"Unicode: café 雪","Name":"","Value":"Unicode: café 雪"}}
+  ]
+}
+-- expected-extract.txt --
+DEMO 1
+
+NAME
+Unicode: café 雪
