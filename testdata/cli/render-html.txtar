@@ -1,0 +1,47 @@
+test: render integrates into the CLI with semantic section selection and clean stdout
+-- args.json --
+["render","--format","html","--section","OPTIONS","--assets","omit-fonts","-"]
+-- stdin.1 --
+.TH DEMO 1
+.SH NAME
+outside
+.SH OPTIONS
+.TP
+.B \-v
+Verbose output.
+-- stdout.txt --
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; font-src data:; style-src 'unsafe-inline'; base-uri 'none'; form-action 'none'">
+<title>DEMO(1)</title>
+<style>
+.gtroff-document{margin:0;background:#ffffff;color:#202124}
+.man-page{box-sizing:border-box;max-width:960px;margin:0 auto;padding:2rem;font-family:GTroffText,serif;font-size:18px;line-height:1.5;background:#ffffff;color:#202124;overflow-wrap:anywhere}
+.man-page a{color:#174ea6}.man-page h1{font-size:1.7em}.man-page h2{font-size:1.3em;margin-top:1.7em}.man-page h3{font-size:1.1em;margin-top:1.3em}
+.man-page p{margin:.75em 0}.man-page pre{white-space:pre-wrap;overflow:auto;padding:1em;background:#f3f4f6;border-radius:.25em}
+.man-page code{font-family:GTroffMono,monospace}.man-page small{font-size:.9em}.man-page dt{font-weight:normal;margin-top:.75em}.man-page dd{margin-inline-start:2em}.man-page dd>:first-child{margin-top:0}
+.man-page .manual-meta{opacity:.8;font-size:.9em}.man-page .permalink{font-size:.8em;text-decoration:none;margin-inline-start:.5em}.man-page .unsupported{border-inline-start:.25em solid currentColor}.man-page .conversion-notes{border:1px solid currentColor;padding:1em;margin-top:2em}
+@media(max-width:600px){.man-page{padding:1rem}.man-page dd{margin-inline-start:1em}}
+@media print{.man-page{max-width:none;color:#000000;background:#ffffff;padding:0}.man-page .permalink{display:none}.man-page pre{break-inside:avoid}}
+</style>
+</head>
+<body class="gtroff-document">
+<article class="man-page theme-light" data-man-version="1" data-man-title="DEMO" data-man-section="1" data-man-date="" data-man-source="" data-man-manual="">
+<header class="document-header"><h1>DEMO(1)</h1></header>
+<section data-kind="section" data-node-id="4" data-source-start="28" aria-labelledby="man-node-4">
+<h2 id="man-node-4"><strong>OPTIONS</strong><a class="permalink" href="#man-node-4" aria-label="Link to OPTIONS">#</a></h2>
+<dl class="definitions" data-kind="definition-list" data-node-id="5" data-source-start="40">
+<dt data-kind="item" data-node-id="6" data-source-start="40" id="man-node-6"><strong>-</strong><strong>v</strong></dt>
+<dd style="margin-inline-start:2em"><p data-kind="paragraph" data-node-id="7" data-source-start="51">Verbose output.</p>
+</dd>
+</dl>
+</section>
+</article>
+</body>
+</html>
+-- stderr.txt --
+-- exit.txt --
+0

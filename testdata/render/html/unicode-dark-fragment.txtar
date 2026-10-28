@@ -1,0 +1,73 @@
+test: Unicode content and inherited indent render in a dark fragment
+-- options.json --
+{"Fragment":true,"Theme":"dark","Section":"雪 Café","NoAnchors":true}
+-- input.1 --
+.TH TOOL 1
+.SH "雪 Café"
+Unicode Ω and café.
+.RS 4
+.B "bold 雪"
+.RE
+-- expected.html --
+<style>
+/* These fonts were created by the Bigelow & Holmes foundry specifically for the
+Go project. See https://blog.golang.org/go-fonts for details.
+
+They are licensed under the same open source license as the rest of the Go
+project's software:
+
+Copyright (c) 2016 Bigelow & Holmes Inc.. All rights reserved.
+
+Distribution of this font is governed by the following license. If you do not
+agree to this license, including the disclaimer, do not distribute or modify
+this font.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
+
+	* Redistributions of source code must retain the above copyright notice,
+	  this list of conditions and the following disclaimer.
+
+	* Redistributions in binary form must reproduce the above copyright notice,
+	  this list of conditions and the following disclaimer in the documentation
+	  and/or other materials provided with the distribution.
+
+	* Neither the name of Google Inc. nor the names of its contributors may be
+	  used to endorse or promote products derived from this software without
+	  specific prior written permission.
+
+DISCLAIMER: THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE
+FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+@font-face{font-family:GTroffText;font-style:normal;font-weight:400;font-display:swap;src:url(data:font/ttf;base64,{{font:regular sha256:197d9f3703b4c00af609178876a8d73e396f64fe438b2c871778566632374be3 bytes:148672}}) format('truetype')}
+@font-face{font-family:GTroffText;font-style:normal;font-weight:700;font-display:swap;src:url(data:font/ttf;base64,{{font:bold sha256:c18494baa7ea35b8dbfac3861787d360b9c0ab91232562371a09e6fbf09aaa40 bytes:151748}}) format('truetype')}
+@font-face{font-family:GTroffText;font-style:italic;font-weight:400;font-display:swap;src:url(data:font/ttf;base64,{{font:italic sha256:6efef00d080c8fe68bbe2bf08526294c83d52d7b90b16f938953025c0868cc57 bytes:157164}}) format('truetype')}
+@font-face{font-family:GTroffMono;font-style:normal;font-weight:400;font-display:swap;src:url(data:font/ttf;base64,{{font:mono sha256:8bc66a0154bbf69cd24e5bde41a12ec9495c8a242c5def2255e4a164900f1ed7 bytes:173248}}) format('truetype')}
+.gtroff-document{margin:0;background:#17191c;color:#f1f3f4}
+.man-page{box-sizing:border-box;max-width:960px;margin:0 auto;padding:2rem;font-family:GTroffText,serif;font-size:18px;line-height:1.5;background:#17191c;color:#f1f3f4;overflow-wrap:anywhere}
+.man-page a{color:#8ab4f8}.man-page h1{font-size:1.7em}.man-page h2{font-size:1.3em;margin-top:1.7em}.man-page h3{font-size:1.1em;margin-top:1.3em}
+.man-page p{margin:.75em 0}.man-page pre{white-space:pre-wrap;overflow:auto;padding:1em;background:#25282d;border-radius:.25em}
+.man-page code{font-family:GTroffMono,monospace}.man-page small{font-size:.9em}.man-page dt{font-weight:normal;margin-top:.75em}.man-page dd{margin-inline-start:2em}.man-page dd>:first-child{margin-top:0}
+.man-page .manual-meta{opacity:.8;font-size:.9em}.man-page .permalink{font-size:.8em;text-decoration:none;margin-inline-start:.5em}.man-page .unsupported{border-inline-start:.25em solid currentColor}.man-page .conversion-notes{border:1px solid currentColor;padding:1em;margin-top:2em}
+@media(max-width:600px){.man-page{padding:1rem}.man-page dd{margin-inline-start:1em}}
+@media print{.man-page{max-width:none;color:#000000;background:#ffffff;padding:0}.man-page .permalink{display:none}.man-page pre{break-inside:avoid}}
+</style>
+<article class="man-page theme-dark" data-man-version="1" data-man-title="TOOL" data-man-section="1" data-man-date="" data-man-source="" data-man-manual="">
+<header class="document-header"><h1>TOOL(1)</h1></header>
+<section data-kind="section" data-node-id="2" data-source-start="11" aria-label="雪 Café">
+<h2><strong>雪 Café</strong></h2>
+<p data-kind="paragraph" data-node-id="3" data-source-start="27">Unicode Ω and café.</p>
+<div class="indent" data-kind="indent" data-node-id="4" data-source-start="49" data-value="4" style="margin-inline-start:2em">
+<p data-kind="paragraph" data-node-id="5" data-source-start="55"><strong>bold 雪</strong></p>
+</div>
+</section>
+</article>
+-- expected-diagnostics.txt --

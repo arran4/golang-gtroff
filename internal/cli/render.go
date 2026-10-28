@@ -1,0 +1,219 @@
+package cli
+
+import (
+	"bytes"
+	"errors"
+	"flag"
+	"fmt"
+	"io"
+	"strconv"
+
+	groff "github.com/arran4/golang-gtroff"
+	"github.com/arran4/golang-gtroff/fontset"
+	"github.com/arran4/golang-gtroff/man"
+	"github.com/arran4/golang-gtroff/renderhtml"
+)
+
+const renderHelp = `Usage: gtroff render --format html [OPTIONS] [FILE]
+
+Export common Linux man syntax to standalone HTML with bundled Go fonts.
+FILE defaults to '-' (stdin). No includes or external resources are loaded.
+
+  --section HEADING       Select all matching sections/subsections
+  --node ID               Select an AST source ID shown by gtroff ast
+  --theme light|dark      Default: light
+  --title TEXT            Override the document title
+  --fragment              Write a styled article without an HTML document shell
+  --no-anchors            Omit heading permalink anchors
+  --assets embed|omit-fonts  Default: embed (four bundled Go fonts)
+  --font-size PIXELS      8..72, default 18
+  --line-height RATIO     1..3, default 1.5
+  --max-width PIXELS      320..2400, default 960
+  --font-regular FILE     Explicit custom TTF/OTF; other faces keep bundled defaults
+  --font-bold FILE        Explicit custom bold font
+  --font-italic FILE      Explicit custom italic font
+  --font-mono FILE        Explicit custom mono font
+  --strict               Reject any semantic/render diagnostic before writing
+  -o FILE                Atomic regular-file replacement; '-' means stdout
+
+Diagnostics go to stderr. Malformed input may produce fallback HTML with exit 1;
+strict, resource and input/output failures leave existing output files intact.
+Exit codes: 0 success/warnings, 1 syntax/strict failure, 2 usage/selection,
+3 input/output/resource failure. No full groff typesetting promise is made.
+`
+
+func renderCommand(args []string, e Environment) int {
+	var o renderhtml.Options
+	var format, node, output string
+	var sourceNode groff.NodeID
+	var paths struct{ regular, bold, italic, mono string }
+	flags := flag.NewFlagSet("render", flag.ContinueOnError)
+	flags.SetOutput(io.Discard)
+	flags.StringVar(&format, "format", "html", "")
+	flags.StringVar(&o.Section, "section", "", "")
+	flags.StringVar(&node, "node", "", "")
+	flags.StringVar(&output, "o", "-", "")
+	flags.StringVar(&o.Theme, "theme", "light", "")
+	flags.StringVar(&o.Title, "title", "", "")
+	flags.BoolVar(&o.Fragment, "fragment", false, "")
+	flags.BoolVar(&o.NoAnchors, "no-anchors", false, "")
+	flags.BoolVar(&o.Strict, "strict", false, "")
+	assets := flags.String("assets", "embed", "")
+	flags.Float64Var(&o.FontSize, "font-size", 18, "")
+	flags.Float64Var(&o.LineHeight, "line-height", 1.5, "")
+	flags.IntVar(&o.MaxWidth, "max-width", 960, "")
+	flags.StringVar(&paths.regular, "font-regular", "", "")
+	flags.StringVar(&paths.bold, "font-bold", "", "")
+	flags.StringVar(&paths.italic, "font-italic", "", "")
+	flags.StringVar(&paths.mono, "font-mono", "", "")
+	if err := flags.Parse(args); err != nil {
+		if errors.Is(err, flag.ErrHelp) {
+			return writeString(e, renderHelp)
+		}
+		return usage(e, err.Error())
+	}
+	if flags.NArg() > 1 {
+		return usage(e, "expected at most one input file")
+	}
+	if format != "html" {
+		return usage(e, "render format must be html")
+	}
+	if node != "" {
+		id, err := strconv.ParseUint(node, 10, 64)
+		if err != nil || id == 0 {
+			return usage(e, "node requires a positive AST ID")
+		}
+		sourceNode = groff.NodeID(id)
+	}
+	if sourceNode != 0 && o.Section != "" {
+		return usage(e, "section and node selection are mutually exclusive")
+	}
+	o.Assets = renderhtml.AssetPolicy(*assets)
+	if o.FontSize < 8 || o.FontSize > 72 {
+		return usage(e, "font size must be 8..72 pixels")
+	}
+	if o.LineHeight < 1 || o.LineHeight > 3 {
+		return usage(e, "line height must be 1..3")
+	}
+	if o.MaxWidth < 320 || o.MaxWidth > 2400 {
+		return usage(e, "max width must be 320..2400 pixels")
+	}
+	// Validate ordinary options before opening any files.
+	if err := renderhtml.ValidateOptions(o); err != nil {
+		return usage(e, err.Error())
+	}
+	custom := paths.regular != "" || paths.bold != "" || paths.italic != "" || paths.mono != ""
+	if custom && o.Assets != renderhtml.EmbedFonts {
+		return usage(e, "custom fonts require embedded assets")
+	}
+	if output == "" {
+		return usage(e, "output path cannot be empty")
+	}
+	if output != "-" && e.WriteOutput == nil {
+		return failure(e, "output file writing is unavailable")
+	}
+	source := "<stdin>"
+	sourcePath := ""
+	reader := e.In
+	var owned io.ReadCloser
+	if flags.NArg() == 1 && flags.Arg(0) != "-" {
+		source = flags.Arg(0)
+		sourcePath = source
+		if e.Open == nil {
+			return failure(e, "file input is unavailable")
+		}
+		f, err := e.Open(source)
+		if err != nil {
+			return failure(e, "open "+strconv.Quote(source)+": "+err.Error())
+		}
+		reader = f
+		owned = f
+	}
+	tree, parseErr := groff.ParseAST(reader, groff.WithPackage("man"), groff.WithSourceName(source))
+	if owned != nil {
+		if err := owned.Close(); err != nil {
+			return failure(e, "close input: "+err.Error())
+		}
+	}
+	if parseErr != nil {
+		return failure(e, "read input: "+parseErr.Error())
+	}
+	doc, buildErr := man.Build(tree, man.Options{})
+	if buildErr != nil {
+		return failure(e, "semantic input: "+buildErr.Error())
+	}
+	// Resolve selection before loading optional user-requested fonts.
+	var selection *man.Selection
+	var selectionErr error
+	switch {
+	case o.Section != "":
+		selection, selectionErr = doc.SelectSection(o.Section, false)
+	case sourceNode != 0:
+		selected := tree.Node(sourceNode)
+		if selected == nil {
+			selectionErr = fmt.Errorf("AST node %d not found", sourceNode)
+		} else {
+			if selected.Kind() == groff.ASTInline {
+				selected = selected.Parent()
+			}
+			selection, selectionErr = doc.SelectAST(selected.ID())
+		}
+	default:
+		selection, selectionErr = doc.SelectNode(1)
+	}
+	if selectionErr != nil {
+		return usage(e, selectionErr.Error())
+	}
+	for _, face := range []struct {
+		path string
+		data *[]byte
+	}{{paths.regular, &o.Fonts.Regular}, {paths.bold, &o.Fonts.Bold}, {paths.italic, &o.Fonts.Italic}, {paths.mono, &o.Fonts.Mono}} {
+		if face.path == "" {
+			continue
+		}
+		if e.Open == nil {
+			return failure(e, "font file access is unavailable")
+		}
+		f, err := e.Open(face.path)
+		if err != nil {
+			return failure(e, "open font: "+err.Error())
+		}
+		data, readErr := io.ReadAll(io.LimitReader(f, fontset.MaxFaceBytes+1))
+		closeErr := f.Close()
+		if readErr != nil {
+			return failure(e, "read font: "+readErr.Error())
+		}
+		if closeErr != nil {
+			return failure(e, "close font: "+closeErr.Error())
+		}
+		if len(data) == 0 || len(data) > fontset.MaxFaceBytes {
+			return failure(e, "font exceeds size limit or is empty")
+		}
+		*face.data = data
+	}
+	if custom {
+		if err := o.Fonts.WithDefaults().Validate(); err != nil {
+			return failure(e, "font: "+err.Error())
+		}
+	}
+	var out bytes.Buffer
+	result, err := renderhtml.RenderSelection(&out, doc, selection, o)
+	if diagnosticErr := writeDiagnostics(e.Err, result.Diagnostics); diagnosticErr != nil {
+		return ExitIO
+	}
+	if err != nil {
+		if errors.Is(err, renderhtml.ErrStrict) {
+			return ExitInvalid
+		}
+		return failure(e, "render HTML: "+err.Error())
+	}
+	if output == "-" {
+		if err := writeBytes(e.Out, out.Bytes()); err != nil {
+			return failure(e, "write stdout: "+err.Error())
+		}
+	} else if err := e.WriteOutput(output, sourcePath, out.Bytes()); err != nil {
+		return failure(e, fmt.Sprintf("write %q: %v", output, err))
+	}
+	_, code := assessment(result.Diagnostics)
+	return code
+}

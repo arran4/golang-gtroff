@@ -9,3 +9,6 @@ testdata/cli/crlf.txtar whitespace=cr-at-eol
 
 # Semantic scenarios preserve original input independently of canonical JSON.
 testdata/man/*.txtar -text
+
+# HTML fixtures retain input bytes; font blobs are asserted via readable hashes.
+testdata/render/html/*.txtar -text
