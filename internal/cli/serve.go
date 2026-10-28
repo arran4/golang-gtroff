@@ -11,6 +11,7 @@ import (
 	"strconv"
 	"strings"
 
+	"github.com/arran4/golang-gtroff/cmd"
 	"github.com/arran4/golang-gtroff/manlib"
 	"github.com/arran4/golang-gtroff/renderhtml"
 )
@@ -50,6 +51,34 @@ func (r *rootFlags) Set(s string) error {
 	*r = append(*r, s)
 	return nil
 }
+// Serve is a subcommand `gtroff serve` Browse and search explicit man-page directories over HTTP
+//
+// Usage: gtroff serve --root DIR [--root DIR ...] [OPTIONS]
+//
+// Build a read-only man library from explicit directories and serve its snapshot.
+// Plain .1/.3p/etc and .gz pages are supported. No host man directories are scanned
+// implicitly. Includes, scripts, remote resources and arbitrary request paths are
+// never opened. Restart to refresh source changes.
+//
+// Flags:
+//
+//	listen: --listen (default: "127.0.0.1:8080") Default: 127.0.0.1:8080; port 0 chooses a free port
+//	root: --root (default: nil) Required, repeatable; configured order breaks ties
+//	systemSearch: --system-search (default: false) Explicitly probe apropos/whatis/man -k; optional fallback
+//	allowRemote: --allow-remote (default: false) Permit non-loopback binding and arbitrary HTTP Host values
+//	maxPages: --max-pages (default: 10000) Index cap, default 10000, ceiling 50000
+//	maxTotalBytes: --max-total-bytes (default: 67108864) Source/decode budget, default 67108864, ceiling 268435456
+//	maxFileBytes: --max-file-bytes (default: 2097152) Raw/decoded per-page cap, default 2097152, ceiling 8388608
+//	theme: --theme (default: "light") Page theme, default light
+//	assets: --assets (default: "embed") Default: embed (bundled Go fonts)
+func Serve(listen string, root []string, systemSearch, allowRemote bool, maxPages, maxTotalBytes, maxFileBytes int, theme, assets string) error {
+	code := runServe(listen, root, systemSearch, allowRemote, maxPages, maxTotalBytes, maxFileBytes, theme, assets, getEnv())
+	if code != ExitOK {
+		return &cmd.ErrExitCode{Code: code}
+	}
+	return nil
+}
+
 func serveCommand(args []string, e Environment) int {
 	var roots rootFlags
 	var bounds manlib.Limits
@@ -72,11 +101,23 @@ func serveCommand(args []string, e Environment) int {
 		}
 		return usage(e, err.Error())
 	}
-	if f.NArg() != 0 || len(roots) < 1 || len(roots) > 32 {
+	if f.NArg() != 0 {
 		return usage(e, "serve requires 1..32 explicit --root directories and no positional files")
 	}
-	if bounds.MaxEntries < 1 || bounds.MaxTotalBytes < 1 || bounds.MaxFileBytes < 1 {
+	return runServe(address, roots, system, remote, bounds.MaxEntries, bounds.MaxTotalBytes, bounds.MaxFileBytes, theme, assets, e)
+}
+
+func runServe(address string, roots []string, system, remote bool, maxPages, maxTotalBytes, maxFileBytes int, theme, assets string, e Environment) int {
+	if len(roots) < 1 || len(roots) > 32 {
+		return usage(e, "serve requires 1..32 explicit --root directories and no positional files")
+	}
+	if maxPages < 1 || maxTotalBytes < 1 || maxFileBytes < 1 {
 		return usage(e, "index limits must be positive")
+	}
+	bounds := manlib.Limits{
+		MaxEntries:    maxPages,
+		MaxTotalBytes: maxTotalBytes,
+		MaxFileBytes:  maxFileBytes,
 	}
 	if err := manlib.ValidateLimits(bounds); err != nil {
 		return usage(e, err.Error())
@@ -95,6 +136,12 @@ func serveCommand(args []string, e Environment) int {
 	}
 	if strings.EqualFold(host, "localhost") {
 		address = net.JoinHostPort("127.0.0.1", port)
+	}
+	if theme == "" {
+		theme = "light"
+	}
+	if assets == "" {
+		assets = "embed"
 	}
 	options := manlib.HandlerOptions{Render: renderhtml.Options{Theme: theme, Assets: renderhtml.AssetPolicy(assets)}}
 	if err := renderhtml.ValidateOptions(options.Render); err != nil {

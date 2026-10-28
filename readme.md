@@ -137,6 +137,14 @@ and request parameters never resolve arbitrary files. [Server guide](docs/serve.
 
 ## Open the optional viewer
 
+The optional desktop viewer can be launched directly via `gtroff view`:
+
+```sh
+./gtroff view examples/man-tool.1
+```
+
+If `gtroff-view` is not yet on your PATH, build it from the separate `desktop` module:
+
 ```sh
 cd desktop
 CGO_ENABLED=0 go build -o gtroff-view ./cmd/gtroff-view

@@ -81,6 +81,11 @@ func TestExecutableFlows(t *testing.T) {
 		{name: "convert roff stdin", args: []string{"convert", "--from", "roff", "--to", "html", "--fragment", "--assets", "omit-fonts"}, stdin: ".TH TOOL 1\n.SH NAME\ntext\n", stdoutContains: "<article"},
 		{name: "convert strict hostile", args: []string{"convert", "--from", "html", "--to", "roff", "--strict"}, stdin: "<script>literal</script>", code: 1, stderrContains: "unsupported <script>"},
 		{name: "render reject format", args: []string{"render", "--format", "gif"}, code: 2, stderrContains: "render format must be html"},
+		{name: "image generate help", args: []string{"image", "generate", "--help"}, stdoutContains: "Export common Linux man syntax to paginated PNG or JPEG"},
+		{name: "image reject format", args: []string{"image", "generate", "--format", "gif"}, code: 2, stderrContains: "image format must be png or jpg"},
+		{name: "view missing file", args: []string{"view"}, code: 2, stderrContains: "view requires a file argument"},
+		{name: "view unavailable", args: []string{"view", "missing.1"}, code: 3, stderrContains: "gtroff-view is unavailable"},
+		{name: "commands json", args: []string{"commands", "--format", "json"}, json: true, stdoutContains: "\"commands\""},
 	}
 	for _, tc := range cases {
 		t.Run(tc.name, func(t *testing.T) {
