@@ -1,0 +1,67 @@
+.TH "MAN-TOOL" "1" "2026-10-21" "Linux" "User Commands"
+.SH "\f[B]NAME\f[R]"
+.PP
+\&\f[R]man-tool - inspect a source document\f[R]\c
+.SH "\f[B]SYNOPSIS\f[R]"
+.PP
+\&\f[B]man-tool\f[R]\c
+\&\f[R] [\f[R]\c
+\&\f[B]-v\f[R]\c
+\&\f[R]] [\f[R]\c
+\&\f[B]-o\f[R]\c
+\&\f[R] \f[R]\c
+\&\f[I]file\f[R]\c
+\&\f[R]] \f[R]\c
+\&\f[I]input\f[R]\c
+.SH "\f[B]DESCRIPTION\f[R]"
+.PP
+\&\f[R]Read \f[R]\c
+\&\f[I]input\f[R]\c
+\&\f[R] and inspect its structure.\f[R]\c
+.PP
+\&\f[R]Output preserves the original source independently of canonical text.\f[R]\c
+.SS "\f[B]Input formats\f[R]"
+.PP
+\&\f[R]The first implementation handles typical Linux man pages.\f[R]\c
+.SH "\f[B]OPTIONS\f[R]"
+.PP
+.TP "8"
+\&\f[B]-v\f[R]
+
+\&\f[R]Display verbose diagnostics on standard error.\f[R]\c
+.TP "8"
+\&\f[B]-o \f[R]\f[I]file\f[R]
+
+\&\f[R]Write the selected document to \f[R]\c
+\&\f[I]file\f[R]\c
+\&\f[R].\f[R]\c
+.TP "2"
+\&\f[R]•\f[R]
+
+\&\f[R]No automatic includes or external commands.\f[R]\c
+.RS "4"
+.PP
+\&\f[R]Indented explanatory text.\f[R]\c
+.RE
+.SH "\f[B]EXAMPLES\f[R]"
+.nf
+\&\f[CR]  man-tool -v input.1\f[R]\c
+
+\&\f[CR]  man-tool -o output.txt input.1\f[R]\c
+
+.fi
+.SH "\f[B]SEE ALSO\f[R]"
+.PP
+.ft R
+.MR "man" "7" "\c"
+.ft R
+\&\f[R], \f[R]\c
+.ft R
+.MR "printf" "3" "\c"
+.ft R
+.SH "\f[B]AUTHORS\f[R]"
+.PP
+.UR "https://example.invalid/man-tool"
+\&\f[R]Example maintainers\f[R]\c
+.UE
+\&\f[R].\f[R]\c

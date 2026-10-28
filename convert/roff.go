@@ -186,7 +186,17 @@ func WriteMan(out io.Writer, d *man.Document, o Options) (Result, error) {
 			w.checkDimension(n.Value, true)
 			w.put(".sp " + QuoteArgument(n.Value) + "\n")
 		}
-		for _, c := range n.Children {
+		for i, c := range n.Children {
+			// A .TP item stays open until a flow boundary. Blocks such as
+			// .nf/.sp/.RS do not close it, so explicitly end a preceding list
+			// before emitting a sibling block outside an item. Nested lists
+			// already have their own zero-indent .RS/.RE boundary.
+			if i > 0 && !inItem && d.Node(n.Children[i-1]).Kind == man.DefinitionList {
+				switch d.Node(c).Kind {
+				case man.Preformatted, man.Unsupported, man.Space, man.Indent:
+					w.put(".PP\n")
+				}
+			}
 			visit(c, inItem)
 		}
 		if n.Kind == man.Indent || (n.Kind == man.DefinitionList && inItem) {

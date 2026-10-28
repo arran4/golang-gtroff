@@ -1,0 +1,332 @@
+html/unsupported crosses AST, validation, semantic, HTML, canonical roff and raster boundaries.
+-- options.json --
+{"status":"valid","skipLoopReason":"Unsupported HTML is retained as visible literal text, not executable markup.","retain":["retained-script","after"]}
+-- input.html --
+<h1>DEMO</h1><script>retained-script</script><p>after</p>
+-- expected-ast.json --
+[
+  {
+    "ID": 1,
+    "Kind": "document",
+    "Path": "/",
+    "Text": "DEMO 1   \n\\\u0026\\f[CR]\u003cscript\u003eretained-script\u003c/script\u003e\\f[R]\\c\n\\\u0026\\f[R]after\\f[R]\\c\n"
+  },
+  {
+    "ID": 2,
+    "Kind": "line",
+    "Path": "/0",
+    "Text": "DEMO 1   \n"
+  },
+  {
+    "ID": 3,
+    "Kind": "inline",
+    "Path": "/0/0",
+    "Text": ".TH \"DEMO\" \"1\" \"\" \"\" \"\""
+  },
+  {
+    "ID": 4,
+    "Kind": "block",
+    "Path": "/1",
+    "Text": "\\\u0026\\f[CR]\u003cscript\u003eretained-script\u003c/script\u003e\\f[R]\\c\n"
+  },
+  {
+    "ID": 5,
+    "Kind": "line",
+    "Path": "/1/0",
+    "Text": ""
+  },
+  {
+    "ID": 6,
+    "Kind": "inline",
+    "Path": "/1/0/0",
+    "Text": ".nf"
+  },
+  {
+    "ID": 7,
+    "Kind": "line",
+    "Path": "/1/1",
+    "Text": "\\\u0026\\f[CR]\u003cscript\u003eretained-script\u003c/script\u003e\\f[R]\\c\n"
+  },
+  {
+    "ID": 8,
+    "Kind": "inline",
+    "Path": "/1/1/0",
+    "Text": "\\\u0026"
+  },
+  {
+    "ID": 9,
+    "Kind": "inline",
+    "Path": "/1/1/1",
+    "Text": "\\f[CR]"
+  },
+  {
+    "ID": 10,
+    "Kind": "inline",
+    "Path": "/1/1/2",
+    "Text": "\u003cscript\u003eretained-script\u003c/script\u003e"
+  },
+  {
+    "ID": 11,
+    "Kind": "inline",
+    "Path": "/1/1/3",
+    "Text": "\\f[R]"
+  },
+  {
+    "ID": 12,
+    "Kind": "inline",
+    "Path": "/1/1/4",
+    "Text": "\\c"
+  },
+  {
+    "ID": 13,
+    "Kind": "line",
+    "Path": "/1/2",
+    "Text": ""
+  },
+  {
+    "ID": 14,
+    "Kind": "line",
+    "Path": "/2",
+    "Text": ""
+  },
+  {
+    "ID": 15,
+    "Kind": "inline",
+    "Path": "/2/0",
+    "Text": ".PP"
+  },
+  {
+    "ID": 16,
+    "Kind": "line",
+    "Path": "/3",
+    "Text": "\\\u0026\\f[R]after\\f[R]\\c\n"
+  },
+  {
+    "ID": 17,
+    "Kind": "inline",
+    "Path": "/3/0",
+    "Text": "\\\u0026"
+  },
+  {
+    "ID": 18,
+    "Kind": "inline",
+    "Path": "/3/1",
+    "Text": "\\f[R]"
+  },
+  {
+    "ID": 19,
+    "Kind": "inline",
+    "Path": "/3/2",
+    "Text": "after"
+  },
+  {
+    "ID": 20,
+    "Kind": "inline",
+    "Path": "/3/3",
+    "Text": "\\f[R]"
+  },
+  {
+    "ID": 21,
+    "Kind": "inline",
+    "Path": "/3/4",
+    "Text": "\\c"
+  }
+]
+-- expected-diagnostics.json --
+{
+  "canonical": [
+    {
+      "Message": "unsupported \u003cscript\u003e; literal markup retained",
+      "Position": {
+        "Filename": "input.html",
+        "Offset": -1,
+        "Line": 0,
+        "Column": 0
+      },
+      "Severity": "warning"
+    },
+    {
+      "Message": "unsupported block emitted as escaped literal preformatted text",
+      "Position": {
+        "Filename": "",
+        "Offset": -1,
+        "Line": 0,
+        "Column": 0
+      },
+      "Severity": "warning"
+    },
+    {
+      "Message": "unsupported inline annotation emitted as escaped literal text",
+      "Position": {
+        "Filename": "",
+        "Offset": -1,
+        "Line": 0,
+        "Column": 0
+      },
+      "Severity": "warning"
+    }
+  ],
+  "html": [
+    {
+      "Message": "unsupported \u003cscript\u003e; literal markup retained",
+      "Position": {
+        "Filename": "input.html",
+        "Offset": -1,
+        "Line": 0,
+        "Column": 0
+      },
+      "Severity": "warning"
+    },
+    {
+      "Message": "unsupported semantic content rendered as literal text",
+      "Position": {
+        "Filename": "",
+        "Offset": 0,
+        "Line": 0,
+        "Column": 0
+      },
+      "Severity": "warning"
+    }
+  ],
+  "image": [
+    {
+      "Message": "unsupported \u003cscript\u003e; literal markup retained",
+      "Position": {
+        "Filename": "input.html",
+        "Offset": -1,
+        "Line": 0,
+        "Column": 0
+      },
+      "Severity": "warning"
+    },
+    {
+      "Message": "unsupported source rendered as literal mono text",
+      "Position": {
+        "Filename": "",
+        "Offset": 0,
+        "Line": 0,
+        "Column": 0
+      },
+      "Severity": "warning"
+    },
+    {
+      "Message": "unsupported inline source rendered literally",
+      "Position": {
+        "Filename": "",
+        "Offset": 0,
+        "Line": 0,
+        "Column": 0
+      },
+      "Severity": "warning"
+    }
+  ],
+  "input-html": [
+    {
+      "Message": "unsupported \u003cscript\u003e; literal markup retained",
+      "Position": {
+        "Filename": "input.html",
+        "Offset": -1,
+        "Line": 0,
+        "Column": 0
+      },
+      "Severity": "warning"
+    }
+  ],
+  "semantic": [
+    {
+      "Message": "unsupported \u003cscript\u003e; literal markup retained",
+      "Position": {
+        "Filename": "input.html",
+        "Offset": -1,
+        "Line": 0,
+        "Column": 0
+      },
+      "Severity": "warning"
+    }
+  ]
+}
+-- expected-layout.json --
+[
+  {
+    "Number": 1,
+    "Width": 320,
+    "Height": 320,
+    "Text": [
+      "DEMO(1)",
+      "\u003cscript\u003eretained-script\u003c/script\u003e",
+      "after"
+    ]
+  }
+]
+-- expected-semantics.json --
+{
+  "metadata": {
+    "title": "DEMO",
+    "section": "1"
+  },
+  "children": [
+    {
+      "kind": "unsupported",
+      "runs": [
+        {
+          "text": "\u003cscript\u003eretained-script\u003c/script\u003e",
+          "style": {
+            "mono": true
+          },
+          "unsupported": true
+        }
+      ]
+    },
+    {
+      "kind": "paragraph",
+      "runs": [
+        {
+          "text": "after",
+          "style": {}
+        }
+      ]
+    }
+  ]
+}
+-- expected-validation.json --
+[
+  {
+    "Strict": false,
+    "Exit": 0,
+    "Status": "valid",
+    "Diagnostics": []
+  },
+  {
+    "Strict": true,
+    "Exit": 0,
+    "Status": "valid",
+    "Diagnostics": []
+  }
+]
+-- expected.1 --
+.TH "DEMO" "1" "" "" ""
+.nf
+\&\f[CR]<script>retained-script</script>\f[R]\c
+.fi
+.PP
+\&\f[R]after\f[R]\c
+-- expected.html --
+<style>
+.gtroff-document{margin:0;background:#ffffff;color:#202124}
+.man-page{box-sizing:border-box;max-width:960px;margin:0 auto;padding:2rem;font-family:GTroffText,serif;font-size:18px;line-height:1.5;background:#ffffff;color:#202124;overflow-wrap:anywhere}
+.man-page a{color:#174ea6}.man-page h1{font-size:1.7em}.man-page h2{font-size:1.3em;margin-top:1.7em}.man-page h3{font-size:1.1em;margin-top:1.3em}
+.man-page p{margin:.75em 0}.man-page pre{white-space:pre-wrap;overflow:auto;padding:1em;background:#f3f4f6;border-radius:.25em}
+.man-page code{font-family:GTroffMono,monospace}.man-page small{font-size:.9em}.man-page dt{font-weight:normal;margin-top:.75em}.man-page dd{margin-inline-start:2em}.man-page dd>:first-child{margin-top:0}
+.man-page .manual-meta{opacity:.8;font-size:.9em}.man-page .permalink{font-size:.8em;text-decoration:none;margin-inline-start:.5em}.man-page .unsupported{border-inline-start:.25em solid currentColor}.man-page .conversion-notes{border:1px solid currentColor;padding:1em;margin-top:2em}
+@media(max-width:600px){.man-page{padding:1rem}.man-page dd{margin-inline-start:1em}}
+@media print{.man-page{max-width:none;color:#000000;background:#ffffff;padding:0}.man-page .permalink{display:none}.man-page pre{break-inside:avoid}}
+</style>
+<article class="man-page theme-light" data-man-version="1" data-man-title="DEMO" data-man-section="1" data-man-date="" data-man-source="" data-man-manual="">
+<header class="document-header"><h1>DEMO(1)</h1></header>
+<pre class="unsupported" data-kind="unsupported" data-node-id="2" data-source-start="0"><code><span class="unsupported-inline">&lt;script&gt;retained-script&lt;/script&gt;</span></code></pre>
+<p data-kind="paragraph" data-node-id="3" data-source-start="0">after</p>
+<aside class="conversion-notes" aria-label="Conversion notes"><h2>Conversion notes</h2><ul>
+<li>input.html:0:0: warning: unsupported &lt;script&gt;; literal markup retained</li>
+<li>:0:0: warning: unsupported semantic content rendered as literal text</li>
+</ul></aside>
+</article>
