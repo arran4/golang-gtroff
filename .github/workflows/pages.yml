@@ -1,0 +1,63 @@
+name: Documentation (GitHub Pages)
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'docs/**'
+      - 'readme.md'
+      - '.gitmodules'
+      - '.github/workflows/pages.yml'
+  pull_request:
+    paths:
+      - 'docs/**'
+      - 'readme.md'
+      - '.gitmodules'
+      - '.github/workflows/pages.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: docs-pages-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  build:
+    name: Build Hugo documentation
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          submodules: recursive
+          persist-credentials: false
+      - uses: peaceiris/actions-hugo@v3
+        with:
+          hugo-version: latest
+          extended: true
+      - name: Stage maintained reference docs
+        run: python3 docs/scripts/stage-docs.py
+      - name: Build site
+        run: hugo --source docs --minify --baseURL 'https://arran4.github.io/golang-gtroff/'
+      - name: Upload site only for public main/explicit builds
+        if: ${{ github.event_name != 'pull_request' && github.event.repository.private == false }}
+        uses: actions/upload-pages-artifact@v5
+        with:
+          path: ./docs/public
+
+  deploy:
+    name: Deploy GitHub Pages
+    if: ${{ github.event_name != 'pull_request' && github.event.repository.private == false }}
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy site
+        id: deployment
+        uses: actions/deploy-pages@v5

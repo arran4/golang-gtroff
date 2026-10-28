@@ -1,5 +1,7 @@
 # golang-gtroff
 
+> **Work in progress — public development preview.** This project implements a documented subset of roff/man; it is not a replacement for the full GNU groff toolchain. The CLI and APIs may change, and no stable binary release is available yet. See [documentation](docs/) and the [planned GitHub Pages site](https://arran4.github.io/golang-gtroff/) (available after publication is enabled).
+
 A pure-Go library and lexer CLI for inspecting roff documents, navigating a source-aware AST, and extracting syntax text. Linux man pages are the primary target; typed man/ms macros and roff requests are available.
 
 `ParseAST` preserves original source independently of canonical token formatting. Inspect sections, select a subtree, search controls or content, and walk parent/child links without running roff commands or loading includes. Headless builds require no CGO, groff, browser, or system font tools. A separate semantic man model now renders whole pages or selections to self-contained HTML with embedded Go fonts. The `convert` command also converts a documented semantic HTML/man subset in both directions. Raster rendering remains planned.
