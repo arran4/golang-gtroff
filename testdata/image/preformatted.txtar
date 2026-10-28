@@ -1,0 +1,284 @@
+Whitespace, tabs and blank source lines survive. Long source lines wrap visibly with a diagnostic.
+-- input.1 --
+.SH EXAMPLES
+.EX
+  tool --flag
+	one tab
+
+    A deliberately long preformatted line that must wrap rather than be cropped at the canvas edge.
+last
+.EE
+-- options.json --
+{"Width":420,"PageHeight":500,"Margin":24}
+-- expected-layout.json --
+[
+  {
+    "Number": 1,
+    "Width": 420,
+    "Height": 500,
+    "Lines": [
+      {
+        "Node": 2,
+        "Kind": "section",
+        "Top": 24,
+        "Baseline": 53,
+        "Bottom": 65,
+        "Fragments": [
+          {
+            "Text": "EXAMPLES",
+            "Source": "EXAMPLES",
+            "Face": "bold@18.75",
+            "Style": {
+              "bold": true
+            },
+            "X": 24,
+            "Advance": 139.046875,
+            "Bounds": {
+              "Min": {
+                "X": 26,
+                "Y": 34
+              },
+              "Max": {
+                "X": 162,
+                "Y": 54
+              }
+            }
+          }
+        ]
+      },
+      {
+        "Node": 3,
+        "Kind": "preformatted",
+        "Top": 75,
+        "Baseline": 98,
+        "Bottom": 108,
+        "HardBreak": true,
+        "Fragments": [
+          {
+            "Text": "  tool --flag",
+            "Source": "  tool --flag",
+            "Face": "mono@15",
+            "Style": {
+              "mono": true
+            },
+            "X": 24,
+            "Advance": 156,
+            "Bounds": {
+              "Min": {
+                "X": 49,
+                "Y": 82
+              },
+              "Max": {
+                "X": 180,
+                "Y": 103
+              }
+            }
+          }
+        ]
+      },
+      {
+        "Node": 3,
+        "Kind": "preformatted",
+        "Top": 108,
+        "Baseline": 131,
+        "Bottom": 141,
+        "HardBreak": true,
+        "Fragments": [
+          {
+            "Text": "    one tab",
+            "Source": "\tone tab",
+            "Face": "mono@15",
+            "Style": {
+              "mono": true
+            },
+            "X": 24,
+            "Advance": 132,
+            "Bounds": {
+              "Min": {
+                "X": 73,
+                "Y": 115
+              },
+              "Max": {
+                "X": 155,
+                "Y": 132
+              }
+            }
+          }
+        ]
+      },
+      {
+        "Node": 3,
+        "Kind": "preformatted",
+        "Top": 141,
+        "Baseline": 164,
+        "Bottom": 174,
+        "HardBreak": true,
+        "Fragments": null
+      },
+      {
+        "Node": 3,
+        "Kind": "preformatted",
+        "Top": 174,
+        "Baseline": 197,
+        "Bottom": 207,
+        "Fragments": [
+          {
+            "Text": "    A deliberately long preform",
+            "Source": "    A deliberately long preform",
+            "Face": "mono@15",
+            "Style": {
+              "mono": true
+            },
+            "X": 24,
+            "Advance": 372,
+            "Bounds": {
+              "Min": {
+                "X": 72,
+                "Y": 181
+              },
+              "Max": {
+                "X": 396,
+                "Y": 202
+              }
+            }
+          }
+        ]
+      },
+      {
+        "Node": 3,
+        "Kind": "preformatted",
+        "Top": 207,
+        "Baseline": 230,
+        "Bottom": 240,
+        "Fragments": [
+          {
+            "Text": "atted line that must wrap rathe",
+            "Source": "atted line that must wrap rathe",
+            "Face": "mono@15",
+            "Style": {
+              "mono": true
+            },
+            "X": 24,
+            "Advance": 372,
+            "Bounds": {
+              "Min": {
+                "X": 25,
+                "Y": 214
+              },
+              "Max": {
+                "X": 395,
+                "Y": 234
+              }
+            }
+          }
+        ]
+      },
+      {
+        "Node": 3,
+        "Kind": "preformatted",
+        "Top": 240,
+        "Baseline": 263,
+        "Bottom": 273,
+        "Fragments": [
+          {
+            "Text": "r than be cropped at the canvas",
+            "Source": "r than be cropped at the canvas",
+            "Face": "mono@15",
+            "Style": {
+              "mono": true
+            },
+            "X": 24,
+            "Advance": 372,
+            "Bounds": {
+              "Min": {
+                "X": 24,
+                "Y": 247
+              },
+              "Max": {
+                "X": 395,
+                "Y": 267
+              }
+            }
+          }
+        ]
+      },
+      {
+        "Node": 3,
+        "Kind": "preformatted",
+        "Top": 273,
+        "Baseline": 296,
+        "Bottom": 306,
+        "HardBreak": true,
+        "Fragments": [
+          {
+            "Text": " edge.",
+            "Source": " edge.",
+            "Face": "mono@15",
+            "Style": {
+              "mono": true
+            },
+            "X": 24,
+            "Advance": 72,
+            "Bounds": {
+              "Min": {
+                "X": 37,
+                "Y": 280
+              },
+              "Max": {
+                "X": 92,
+                "Y": 301
+              }
+            }
+          }
+        ]
+      },
+      {
+        "Node": 3,
+        "Kind": "preformatted",
+        "Top": 306,
+        "Baseline": 329,
+        "Bottom": 339,
+        "HardBreak": true,
+        "Fragments": [
+          {
+            "Text": "last",
+            "Source": "last",
+            "Face": "mono@15",
+            "Style": {
+              "mono": true
+            },
+            "X": 24,
+            "Advance": 48,
+            "Bounds": {
+              "Min": {
+                "X": 24,
+                "Y": 313
+              },
+              "Max": {
+                "X": 71,
+                "Y": 330
+              }
+            }
+          }
+        ]
+      }
+    ]
+  }
+]
+-- expected-diagnostics.json --
+[
+  {
+    "Message": "preformatted line wrapped without clipping",
+    "Position": {
+      "Filename": "input.1",
+      "Offset": 13,
+      "Line": 2,
+      "Column": 1
+    },
+    "Severity": "warning"
+  }
+]
+-- expected-paths.json --
+[
+  "page.png"
+]

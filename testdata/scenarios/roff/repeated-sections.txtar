@@ -1,0 +1,352 @@
+roff/repeated-sections crosses AST, validation, semantic, HTML, canonical roff and raster boundaries.
+-- options.json --
+{"status":"valid"}
+-- input.1 --
+.TH DEMO 1
+.SH NAME
+demo \- inspect
+.SH OPTIONS
+.B first
+.SH OPTIONS
+.I second
+.SS Detail
+plain
+-- expected-ast.json --
+[
+  {
+    "ID": 1,
+    "Kind": "document",
+    "Path": "/",
+    "Text": "DEMO 1\nNAME\ndemo \\- inspect\nOPTIONS\nfirst\nOPTIONS\nsecond\nDetail\nplain\n"
+  },
+  {
+    "ID": 2,
+    "Kind": "line",
+    "Path": "/0",
+    "Text": "DEMO 1\n"
+  },
+  {
+    "ID": 3,
+    "Kind": "inline",
+    "Path": "/0/0",
+    "Text": ".TH DEMO 1"
+  },
+  {
+    "ID": 4,
+    "Kind": "section",
+    "Path": "/1",
+    "Text": "NAME\ndemo \\- inspect\n"
+  },
+  {
+    "ID": 5,
+    "Kind": "line",
+    "Path": "/1/0",
+    "Text": "NAME\n"
+  },
+  {
+    "ID": 6,
+    "Kind": "inline",
+    "Path": "/1/0/0",
+    "Text": ".SH NAME"
+  },
+  {
+    "ID": 7,
+    "Kind": "line",
+    "Path": "/1/1",
+    "Text": "demo \\- inspect\n"
+  },
+  {
+    "ID": 8,
+    "Kind": "inline",
+    "Path": "/1/1/0",
+    "Text": "demo "
+  },
+  {
+    "ID": 9,
+    "Kind": "inline",
+    "Path": "/1/1/1",
+    "Text": "\\-"
+  },
+  {
+    "ID": 10,
+    "Kind": "inline",
+    "Path": "/1/1/2",
+    "Text": " inspect"
+  },
+  {
+    "ID": 11,
+    "Kind": "section",
+    "Path": "/2",
+    "Text": "OPTIONS\nfirst\n"
+  },
+  {
+    "ID": 12,
+    "Kind": "line",
+    "Path": "/2/0",
+    "Text": "OPTIONS\n"
+  },
+  {
+    "ID": 13,
+    "Kind": "inline",
+    "Path": "/2/0/0",
+    "Text": ".SH OPTIONS"
+  },
+  {
+    "ID": 14,
+    "Kind": "line",
+    "Path": "/2/1",
+    "Text": "first\n"
+  },
+  {
+    "ID": 15,
+    "Kind": "inline",
+    "Path": "/2/1/0",
+    "Text": ".B first"
+  },
+  {
+    "ID": 16,
+    "Kind": "section",
+    "Path": "/3",
+    "Text": "OPTIONS\nsecond\nDetail\nplain\n"
+  },
+  {
+    "ID": 17,
+    "Kind": "line",
+    "Path": "/3/0",
+    "Text": "OPTIONS\n"
+  },
+  {
+    "ID": 18,
+    "Kind": "inline",
+    "Path": "/3/0/0",
+    "Text": ".SH OPTIONS"
+  },
+  {
+    "ID": 19,
+    "Kind": "line",
+    "Path": "/3/1",
+    "Text": "second\n"
+  },
+  {
+    "ID": 20,
+    "Kind": "inline",
+    "Path": "/3/1/0",
+    "Text": ".I second"
+  },
+  {
+    "ID": 21,
+    "Kind": "subsection",
+    "Path": "/3/2",
+    "Text": "Detail\nplain\n"
+  },
+  {
+    "ID": 22,
+    "Kind": "line",
+    "Path": "/3/2/0",
+    "Text": "Detail\n"
+  },
+  {
+    "ID": 23,
+    "Kind": "inline",
+    "Path": "/3/2/0/0",
+    "Text": ".SS Detail"
+  },
+  {
+    "ID": 24,
+    "Kind": "line",
+    "Path": "/3/2/1",
+    "Text": "plain\n"
+  },
+  {
+    "ID": 25,
+    "Kind": "inline",
+    "Path": "/3/2/1/0",
+    "Text": "plain"
+  }
+]
+-- expected-layout.json --
+[
+  {
+    "Number": 1,
+    "Width": 320,
+    "Height": 320,
+    "Text": [
+      "DEMO(1)",
+      "NAME",
+      "demo - inspect",
+      "OPTIONS",
+      "first",
+      "OPTIONS",
+      "second"
+    ]
+  },
+  {
+    "Number": 2,
+    "Width": 320,
+    "Height": 320,
+    "Text": [
+      "Detail",
+      "plain"
+    ]
+  }
+]
+-- expected-semantics.json --
+{
+  "metadata": {
+    "title": "DEMO",
+    "section": "1"
+  },
+  "children": [
+    {
+      "kind": "section",
+      "runs": [
+        {
+          "text": "NAME",
+          "style": {
+            "bold": true
+          }
+        }
+      ],
+      "children": [
+        {
+          "kind": "paragraph",
+          "runs": [
+            {
+              "text": "demo - inspect",
+              "style": {}
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "section",
+      "runs": [
+        {
+          "text": "OPTIONS",
+          "style": {
+            "bold": true
+          }
+        }
+      ],
+      "children": [
+        {
+          "kind": "paragraph",
+          "runs": [
+            {
+              "text": "first",
+              "style": {
+                "bold": true
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "section",
+      "runs": [
+        {
+          "text": "OPTIONS",
+          "style": {
+            "bold": true
+          }
+        }
+      ],
+      "children": [
+        {
+          "kind": "paragraph",
+          "runs": [
+            {
+              "text": "second",
+              "style": {
+                "italic": true
+              }
+            }
+          ]
+        },
+        {
+          "kind": "subsection",
+          "runs": [
+            {
+              "text": "Detail",
+              "style": {
+                "bold": true
+              }
+            }
+          ],
+          "children": [
+            {
+              "kind": "paragraph",
+              "runs": [
+                {
+                  "text": "plain",
+                  "style": {}
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+-- expected-validation.json --
+[
+  {
+    "Strict": false,
+    "Exit": 0,
+    "Status": "valid",
+    "Diagnostics": []
+  },
+  {
+    "Strict": true,
+    "Exit": 0,
+    "Status": "valid",
+    "Diagnostics": []
+  }
+]
+-- expected.1 --
+.TH "DEMO" "1" "" "" ""
+.SH "\f[B]NAME\f[R]"
+.PP
+\&\f[R]demo - inspect\f[R]\c
+.SH "\f[B]OPTIONS\f[R]"
+.PP
+\&\f[B]first\f[R]\c
+.SH "\f[B]OPTIONS\f[R]"
+.PP
+\&\f[I]second\f[R]\c
+.SS "\f[B]Detail\f[R]"
+.PP
+\&\f[R]plain\f[R]\c
+-- expected.html --
+<style>
+.gtroff-document{margin:0;background:#ffffff;color:#202124}
+.man-page{box-sizing:border-box;max-width:960px;margin:0 auto;padding:2rem;font-family:GTroffText,serif;font-size:18px;line-height:1.5;background:#ffffff;color:#202124;overflow-wrap:anywhere}
+.man-page a{color:#174ea6}.man-page h1{font-size:1.7em}.man-page h2{font-size:1.3em;margin-top:1.7em}.man-page h3{font-size:1.1em;margin-top:1.3em}
+.man-page p{margin:.75em 0}.man-page pre{white-space:pre-wrap;overflow:auto;padding:1em;background:#f3f4f6;border-radius:.25em}
+.man-page code{font-family:GTroffMono,monospace}.man-page small{font-size:.9em}.man-page dt{font-weight:normal;margin-top:.75em}.man-page dd{margin-inline-start:2em}.man-page dd>:first-child{margin-top:0}
+.man-page .manual-meta{opacity:.8;font-size:.9em}.man-page .permalink{font-size:.8em;text-decoration:none;margin-inline-start:.5em}.man-page .unsupported{border-inline-start:.25em solid currentColor}.man-page .conversion-notes{border:1px solid currentColor;padding:1em;margin-top:2em}
+@media(max-width:600px){.man-page{padding:1rem}.man-page dd{margin-inline-start:1em}}
+@media print{.man-page{max-width:none;color:#000000;background:#ffffff;padding:0}.man-page .permalink{display:none}.man-page pre{break-inside:avoid}}
+</style>
+<article class="man-page theme-light" data-man-version="1" data-man-title="DEMO" data-man-section="1" data-man-date="" data-man-source="" data-man-manual="">
+<header class="document-header"><h1>DEMO(1)</h1></header>
+<section data-kind="section" data-node-id="2" data-source-start="11" aria-labelledby="man-node-2">
+<h2 id="man-node-2"><strong>NAME</strong><a class="permalink" href="#man-node-2" aria-label="Link to NAME">#</a></h2>
+<p data-kind="paragraph" data-node-id="3" data-source-start="20">demo - inspect</p>
+</section>
+<section data-kind="section" data-node-id="4" data-source-start="36" aria-labelledby="man-node-4">
+<h2 id="man-node-4"><strong>OPTIONS</strong><a class="permalink" href="#man-node-4" aria-label="Link to OPTIONS">#</a></h2>
+<p data-kind="paragraph" data-node-id="5" data-source-start="48"><strong>first</strong></p>
+</section>
+<section data-kind="section" data-node-id="6" data-source-start="57" aria-labelledby="man-node-6">
+<h2 id="man-node-6"><strong>OPTIONS</strong><a class="permalink" href="#man-node-6" aria-label="Link to OPTIONS">#</a></h2>
+<p data-kind="paragraph" data-node-id="7" data-source-start="69"><em>second</em></p>
+<section data-kind="subsection" data-node-id="8" data-source-start="79" aria-labelledby="man-node-8">
+<h3 id="man-node-8"><strong>Detail</strong><a class="permalink" href="#man-node-8" aria-label="Link to Detail">#</a></h3>
+<p data-kind="paragraph" data-node-id="9" data-source-start="90">plain</p>
+</section>
+</section>
+</article>

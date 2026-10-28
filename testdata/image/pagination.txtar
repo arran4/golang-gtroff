@@ -1,0 +1,609 @@
+Multiple pages split at measured lines, retain all paragraphs and have deterministic numbered output paths.
+-- input.1 --
+.TH TOOL 1
+.SH NAME
+tool \- paginate
+.SH DESCRIPTION
+First paragraph with some useful words.
+.PP
+Second paragraph with more useful words.
+.PP
+Third paragraph with several useful words.
+.PP
+Fourth paragraph with more useful words.
+.PP
+Fifth paragraph with more useful words.
+.PP
+Sixth paragraph with more useful words.
+.PP
+Seventh paragraph with more useful words.
+.PP
+Eighth paragraph with more useful words.
+-- options.json --
+{"Width":400,"PageHeight":300,"Margin":24}
+-- expected-layout.json --
+[
+  {
+    "Number": 1,
+    "Width": 400,
+    "Height": 300,
+    "Lines": [
+      {
+        "Node": 1,
+        "Kind": "document",
+        "Top": 24,
+        "Baseline": 62,
+        "Bottom": 76,
+        "Fragments": [
+          {
+            "Text": "TOOL(1)",
+            "Source": "TOOL(1)",
+            "Face": "bold@24",
+            "Style": {
+              "bold": true
+            },
+            "X": 24,
+            "Advance": 130,
+            "Bounds": {
+              "Min": {
+                "X": 24,
+                "Y": 37
+              },
+              "Max": {
+                "X": 153,
+                "Y": 67
+              }
+            }
+          }
+        ]
+      },
+      {
+        "Node": 2,
+        "Kind": "section",
+        "Top": 96,
+        "Baseline": 125,
+        "Bottom": 137,
+        "Fragments": [
+          {
+            "Text": "NAME",
+            "Source": "NAME",
+            "Face": "bold@18.75",
+            "Style": {
+              "bold": true
+            },
+            "X": 24,
+            "Advance": 74,
+            "Bounds": {
+              "Min": {
+                "X": 26,
+                "Y": 106
+              },
+              "Max": {
+                "X": 97,
+                "Y": 125
+              }
+            }
+          }
+        ]
+      },
+      {
+        "Node": 3,
+        "Kind": "paragraph",
+        "Top": 146,
+        "Baseline": 169,
+        "Bottom": 179,
+        "Fragments": [
+          {
+            "Text": "tool - paginate",
+            "Source": "tool - paginate",
+            "Face": "regular@15",
+            "Style": {},
+            "X": 24,
+            "Advance": 134.109375,
+            "Bounds": {
+              "Min": {
+                "X": 24,
+                "Y": 153
+              },
+              "Max": {
+                "X": 158,
+                "Y": 174
+              }
+            }
+          }
+        ]
+      },
+      {
+        "Node": 4,
+        "Kind": "section",
+        "Top": 199,
+        "Baseline": 228,
+        "Bottom": 240,
+        "Fragments": [
+          {
+            "Text": "DESCRIPTION",
+            "Source": "DESCRIPTION",
+            "Face": "bold@18.75",
+            "Style": {
+              "bold": true
+            },
+            "X": 24,
+            "Advance": 179,
+            "Bounds": {
+              "Min": {
+                "X": 26,
+                "Y": 209
+              },
+              "Max": {
+                "X": 201,
+                "Y": 229
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "Number": 2,
+    "Width": 400,
+    "Height": 300,
+    "Lines": [
+      {
+        "Node": 5,
+        "Kind": "paragraph",
+        "Top": 24,
+        "Baseline": 47,
+        "Bottom": 57,
+        "Fragments": [
+          {
+            "Text": "First paragraph with some useful",
+            "Source": "First paragraph with some useful",
+            "Face": "regular@15",
+            "Style": {},
+            "X": 24,
+            "Advance": 294.578125,
+            "Bounds": {
+              "Min": {
+                "X": 25,
+                "Y": 31
+              },
+              "Max": {
+                "X": 319,
+                "Y": 52
+              }
+            }
+          }
+        ]
+      },
+      {
+        "Node": 5,
+        "Kind": "paragraph",
+        "Top": 57,
+        "Baseline": 80,
+        "Bottom": 90,
+        "Fragments": [
+          {
+            "Text": "words.",
+            "Source": "words.",
+            "Face": "regular@15",
+            "Style": {},
+            "X": 24,
+            "Advance": 59.3125,
+            "Bounds": {
+              "Min": {
+                "X": 24,
+                "Y": 64
+              },
+              "Max": {
+                "X": 82,
+                "Y": 81
+              }
+            }
+          }
+        ]
+      },
+      {
+        "Node": 6,
+        "Kind": "paragraph",
+        "Top": 99,
+        "Baseline": 122,
+        "Bottom": 132,
+        "Fragments": [
+          {
+            "Text": "Second paragraph with more useful",
+            "Source": "Second paragraph with more useful",
+            "Face": "regular@15",
+            "Style": {},
+            "X": 24,
+            "Advance": 318.578125,
+            "Bounds": {
+              "Min": {
+                "X": 25,
+                "Y": 106
+              },
+              "Max": {
+                "X": 343,
+                "Y": 127
+              }
+            }
+          }
+        ]
+      },
+      {
+        "Node": 6,
+        "Kind": "paragraph",
+        "Top": 132,
+        "Baseline": 155,
+        "Bottom": 165,
+        "Fragments": [
+          {
+            "Text": "words.",
+            "Source": "words.",
+            "Face": "regular@15",
+            "Style": {},
+            "X": 24,
+            "Advance": 59.3125,
+            "Bounds": {
+              "Min": {
+                "X": 24,
+                "Y": 139
+              },
+              "Max": {
+                "X": 82,
+                "Y": 156
+              }
+            }
+          }
+        ]
+      },
+      {
+        "Node": 7,
+        "Kind": "paragraph",
+        "Top": 174,
+        "Baseline": 197,
+        "Bottom": 207,
+        "Fragments": [
+          {
+            "Text": "Third paragraph with several useful",
+            "Source": "Third paragraph with several useful",
+            "Face": "regular@15",
+            "Style": {},
+            "X": 24,
+            "Advance": 316.703125,
+            "Bounds": {
+              "Min": {
+                "X": 24,
+                "Y": 181
+              },
+              "Max": {
+                "X": 341,
+                "Y": 202
+              }
+            }
+          }
+        ]
+      },
+      {
+        "Node": 7,
+        "Kind": "paragraph",
+        "Top": 207,
+        "Baseline": 230,
+        "Bottom": 240,
+        "Fragments": [
+          {
+            "Text": "words.",
+            "Source": "words.",
+            "Face": "regular@15",
+            "Style": {},
+            "X": 24,
+            "Advance": 59.3125,
+            "Bounds": {
+              "Min": {
+                "X": 24,
+                "Y": 214
+              },
+              "Max": {
+                "X": 82,
+                "Y": 231
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "Number": 3,
+    "Width": 400,
+    "Height": 300,
+    "Lines": [
+      {
+        "Node": 8,
+        "Kind": "paragraph",
+        "Top": 24,
+        "Baseline": 47,
+        "Bottom": 57,
+        "Fragments": [
+          {
+            "Text": "Fourth paragraph with more useful",
+            "Source": "Fourth paragraph with more useful",
+            "Face": "regular@15",
+            "Style": {},
+            "X": 24,
+            "Advance": 309.578125,
+            "Bounds": {
+              "Min": {
+                "X": 25,
+                "Y": 31
+              },
+              "Max": {
+                "X": 334,
+                "Y": 52
+              }
+            }
+          }
+        ]
+      },
+      {
+        "Node": 8,
+        "Kind": "paragraph",
+        "Top": 57,
+        "Baseline": 80,
+        "Bottom": 90,
+        "Fragments": [
+          {
+            "Text": "words.",
+            "Source": "words.",
+            "Face": "regular@15",
+            "Style": {},
+            "X": 24,
+            "Advance": 59.3125,
+            "Bounds": {
+              "Min": {
+                "X": 24,
+                "Y": 64
+              },
+              "Max": {
+                "X": 82,
+                "Y": 81
+              }
+            }
+          }
+        ]
+      },
+      {
+        "Node": 9,
+        "Kind": "paragraph",
+        "Top": 99,
+        "Baseline": 122,
+        "Bottom": 132,
+        "Fragments": [
+          {
+            "Text": "Fifth paragraph with more useful",
+            "Source": "Fifth paragraph with more useful",
+            "Face": "regular@15",
+            "Style": {},
+            "X": 24,
+            "Advance": 291.734375,
+            "Bounds": {
+              "Min": {
+                "X": 25,
+                "Y": 106
+              },
+              "Max": {
+                "X": 316,
+                "Y": 127
+              }
+            }
+          }
+        ]
+      },
+      {
+        "Node": 9,
+        "Kind": "paragraph",
+        "Top": 132,
+        "Baseline": 155,
+        "Bottom": 165,
+        "Fragments": [
+          {
+            "Text": "words.",
+            "Source": "words.",
+            "Face": "regular@15",
+            "Style": {},
+            "X": 24,
+            "Advance": 59.3125,
+            "Bounds": {
+              "Min": {
+                "X": 24,
+                "Y": 139
+              },
+              "Max": {
+                "X": 82,
+                "Y": 156
+              }
+            }
+          }
+        ]
+      },
+      {
+        "Node": 10,
+        "Kind": "paragraph",
+        "Top": 174,
+        "Baseline": 197,
+        "Bottom": 207,
+        "Fragments": [
+          {
+            "Text": "Sixth paragraph with more useful",
+            "Source": "Sixth paragraph with more useful",
+            "Face": "regular@15",
+            "Style": {},
+            "X": 24,
+            "Advance": 296.578125,
+            "Bounds": {
+              "Min": {
+                "X": 25,
+                "Y": 181
+              },
+              "Max": {
+                "X": 321,
+                "Y": 202
+              }
+            }
+          }
+        ]
+      },
+      {
+        "Node": 10,
+        "Kind": "paragraph",
+        "Top": 207,
+        "Baseline": 230,
+        "Bottom": 240,
+        "Fragments": [
+          {
+            "Text": "words.",
+            "Source": "words.",
+            "Face": "regular@15",
+            "Style": {},
+            "X": 24,
+            "Advance": 59.3125,
+            "Bounds": {
+              "Min": {
+                "X": 24,
+                "Y": 214
+              },
+              "Max": {
+                "X": 82,
+                "Y": 231
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "Number": 4,
+    "Width": 400,
+    "Height": 300,
+    "Lines": [
+      {
+        "Node": 11,
+        "Kind": "paragraph",
+        "Top": 24,
+        "Baseline": 47,
+        "Bottom": 57,
+        "Fragments": [
+          {
+            "Text": "Seventh paragraph with more useful",
+            "Source": "Seventh paragraph with more useful",
+            "Face": "regular@15",
+            "Style": {},
+            "X": 24,
+            "Advance": 324.578125,
+            "Bounds": {
+              "Min": {
+                "X": 25,
+                "Y": 31
+              },
+              "Max": {
+                "X": 349,
+                "Y": 52
+              }
+            }
+          }
+        ]
+      },
+      {
+        "Node": 11,
+        "Kind": "paragraph",
+        "Top": 57,
+        "Baseline": 80,
+        "Bottom": 90,
+        "Fragments": [
+          {
+            "Text": "words.",
+            "Source": "words.",
+            "Face": "regular@15",
+            "Style": {},
+            "X": 24,
+            "Advance": 59.3125,
+            "Bounds": {
+              "Min": {
+                "X": 24,
+                "Y": 64
+              },
+              "Max": {
+                "X": 82,
+                "Y": 81
+              }
+            }
+          }
+        ]
+      },
+      {
+        "Node": 12,
+        "Kind": "paragraph",
+        "Top": 99,
+        "Baseline": 122,
+        "Bottom": 132,
+        "Fragments": [
+          {
+            "Text": "Eighth paragraph with more useful",
+            "Source": "Eighth paragraph with more useful",
+            "Face": "regular@15",
+            "Style": {},
+            "X": 24,
+            "Advance": 308.578125,
+            "Bounds": {
+              "Min": {
+                "X": 25,
+                "Y": 106
+              },
+              "Max": {
+                "X": 333,
+                "Y": 127
+              }
+            }
+          }
+        ]
+      },
+      {
+        "Node": 12,
+        "Kind": "paragraph",
+        "Top": 132,
+        "Baseline": 155,
+        "Bottom": 165,
+        "Fragments": [
+          {
+            "Text": "words.",
+            "Source": "words.",
+            "Face": "regular@15",
+            "Style": {},
+            "X": 24,
+            "Advance": 59.3125,
+            "Bounds": {
+              "Min": {
+                "X": 24,
+                "Y": 139
+              },
+              "Max": {
+                "X": 82,
+                "Y": 156
+              }
+            }
+          }
+        ]
+      }
+    ]
+  }
+]
+-- expected-diagnostics.json --
+[]
+-- expected-paths.json --
+[
+  "page-001.png",
+  "page-002.png",
+  "page-003.png",
+  "page-004.png"
+]

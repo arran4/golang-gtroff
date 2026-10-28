@@ -12,11 +12,12 @@ import (
 	"github.com/arran4/golang-gtroff/fontset"
 	"github.com/arran4/golang-gtroff/man"
 	"github.com/arran4/golang-gtroff/renderhtml"
+	"github.com/arran4/golang-gtroff/renderimage"
 )
 
-const renderHelp = `Usage: gtroff render --format html [OPTIONS] [FILE]
+const renderHelp = `Usage: gtroff render --format html|png|jpg [OPTIONS] [FILE]
 
-Export common Linux man syntax to standalone HTML with bundled Go fonts.
+Export common Linux man syntax to HTML or paginated PNG/JPEG with bundled Go fonts.
 FILE defaults to '-' (stdin). No includes or external resources are loaded.
 
   --section HEADING       Select all matching sections/subsections
@@ -29,12 +30,30 @@ FILE defaults to '-' (stdin). No includes or external resources are loaded.
   --font-size PIXELS      8..72, default 18
   --line-height RATIO     1..3, default 1.5
   --max-width PIXELS      320..2400, default 960
+  --font FILE             Alias for --font-regular
   --font-regular FILE     Explicit custom TTF/OTF; other faces keep bundled defaults
   --font-bold FILE        Explicit custom bold font
   --font-italic FILE      Explicit custom italic font
   --font-mono FILE        Explicit custom mono font
   --strict               Reject any semantic/render diagnostic before writing
   -o FILE                Atomic regular-file replacement; '-' means stdout
+
+Image options (device pixels except --font-size in points and --dpi):
+  --width PIXELS          128..8192, default 1000
+  --margin PIXELS         Nonnegative, default 48 (0 supported)
+  --font-size POINTS      6..72, default 15 for images
+  --dpi NUMBER            36..300, default 96 pixels/inch
+  --line-height RATIO     1..3, default 1.35 for images
+  --page-height PIXELS    128..8192, default 1400
+  --single                Derive one image's height within guarded limits
+  --max-height PIXELS     128..32768, default 32768
+  --max-pixels COUNT      Total across all pages; default/hard ceiling 67108864
+  --quality NUMBER        JPEG 1..100, default 90
+
+Images on stdout require one page. Multi-page foo.png output uses foo-001.png,
+foo-002.png, etc. Files are all staged before per-file atomic replacements;
+a rename failure can leave earlier pages replaced. No collection-wide atomicity.
+Missing Unicode glyphs use visible code-point labels and diagnostics.
 
 Diagnostics go to stderr. Malformed input may produce fallback HTML with exit 1;
 strict, resource and input/output failures leave existing output files intact.
@@ -44,6 +63,7 @@ Exit codes: 0 success/warnings, 1 syntax/strict failure, 2 usage/selection,
 
 func renderCommand(args []string, e Environment) int {
 	var o renderhtml.Options
+	var raster renderimage.Options
 	var format, node, output string
 	var sourceNode groff.NodeID
 	var paths struct{ regular, bold, italic, mono string }
@@ -63,6 +83,15 @@ func renderCommand(args []string, e Environment) int {
 	flags.Float64Var(&o.LineHeight, "line-height", 1.5, "")
 	flags.IntVar(&o.MaxWidth, "max-width", 960, "")
 	flags.StringVar(&paths.regular, "font-regular", "", "")
+	flags.StringVar(&paths.regular, "font", "", "")
+	flags.IntVar(&raster.Width, "width", 1000, "")
+	flags.IntVar(&raster.Margin, "margin", 48, "")
+	flags.Float64Var(&raster.DPI, "dpi", 96, "")
+	flags.IntVar(&raster.PageHeight, "page-height", 1400, "")
+	flags.IntVar(&raster.MaxHeight, "max-height", 32768, "")
+	flags.Int64Var(&raster.MaxPixels, "max-pixels", renderimage.HardMaxPixels, "")
+	flags.IntVar(&raster.Quality, "quality", 90, "")
+	flags.BoolVar(&raster.Single, "single", false, "")
 	flags.StringVar(&paths.bold, "font-bold", "", "")
 	flags.StringVar(&paths.italic, "font-italic", "", "")
 	flags.StringVar(&paths.mono, "font-mono", "", "")
@@ -75,8 +104,8 @@ func renderCommand(args []string, e Environment) int {
 	if flags.NArg() > 1 {
 		return usage(e, "expected at most one input file")
 	}
-	if format != "html" {
-		return usage(e, "render format must be html")
+	if format != "html" && format != "png" && format != "jpg" && format != "jpeg" {
+		return usage(e, "render format must be html, png or jpg")
 	}
 	if node != "" {
 		id, err := strconv.ParseUint(node, 10, 64)
@@ -87,6 +116,39 @@ func renderCommand(args []string, e Environment) int {
 	}
 	if sourceNode != 0 && o.Section != "" {
 		return usage(e, "section and node selection are mutually exclusive")
+	}
+	visited := map[string]bool{}
+	flags.Visit(func(f *flag.Flag) { visited[f.Name] = true })
+	if format != "html" {
+		for _, name := range []string{"fragment", "no-anchors", "assets", "max-width"} {
+			if visited[name] {
+				return usage(e, name+" is an HTML-only option")
+			}
+		}
+		raster.Format = format
+		raster.Section = o.Section
+		raster.Strict = o.Strict
+		raster.Theme = o.Theme
+		raster.Title = o.Title
+		raster.FontSize = 15
+		if visited["font-size"] {
+			raster.FontSize = o.FontSize
+		}
+		raster.LineHeight = 1.35
+		if visited["line-height"] {
+			raster.LineHeight = o.LineHeight
+		}
+		raster.NoMargin = raster.Margin == 0
+		name := "-"
+		if flags.NArg() == 1 {
+			name = flags.Arg(0)
+		}
+		return renderRaster(e, name, output, sourceNode, raster, paths)
+	}
+	for _, name := range []string{"width", "margin", "dpi", "page-height", "max-height", "max-pixels", "quality", "single"} {
+		if visited[name] {
+			return usage(e, name+" is an image-only option")
+		}
 	}
 	o.Assets = renderhtml.AssetPolicy(*assets)
 	if o.FontSize < 8 || o.FontSize > 72 {

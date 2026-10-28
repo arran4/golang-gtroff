@@ -1,0 +1,60 @@
+Generated documentation/completion command contract: man-render
+-- args.json --
+["man", "render"]
+-- stdout.txt --
+.\" Generated from gtroff command help; do not edit.
+.TH "GTROFF-RENDER" 1 "" "golang-gtroff" "User Commands"
+.SH NAME
+\&gtroff-render
+.SH SYNOPSIS
+.nf
+\&Usage: gtroff render --format html|png|jpg [OPTIONS] [FILE]
+\&
+\&Export common Linux man syntax to HTML or paginated PNG/JPEG with bundled Go fonts.
+\&FILE defaults to '-' (stdin). No includes or external resources are loaded.
+\&
+\&  --section HEADING       Select all matching sections/subsections
+\&  --node ID               Select an AST source ID shown by gtroff ast
+\&  --theme light|dark      Default: light
+\&  --title TEXT            Override the document title
+\&  --fragment              Write a styled article without an HTML document shell
+\&  --no-anchors            Omit heading permalink anchors
+\&  --assets embed|omit-fonts  Default: embed (four bundled Go fonts)
+\&  --font-size PIXELS      8..72, default 18
+\&  --line-height RATIO     1..3, default 1.5
+\&  --max-width PIXELS      320..2400, default 960
+\&  --font FILE             Alias for --font-regular
+\&  --font-regular FILE     Explicit custom TTF/OTF; other faces keep bundled defaults
+\&  --font-bold FILE        Explicit custom bold font
+\&  --font-italic FILE      Explicit custom italic font
+\&  --font-mono FILE        Explicit custom mono font
+\&  --strict               Reject any semantic/render diagnostic before writing
+\&  -o FILE                Atomic regular-file replacement; '-' means stdout
+\&
+\&Image options (device pixels except --font-size in points and --dpi):
+\&  --width PIXELS          128..8192, default 1000
+\&  --margin PIXELS         Nonnegative, default 48 (0 supported)
+\&  --font-size POINTS      6..72, default 15 for images
+\&  --dpi NUMBER            36..300, default 96 pixels/inch
+\&  --line-height RATIO     1..3, default 1.35 for images
+\&  --page-height PIXELS    128..8192, default 1400
+\&  --single                Derive one image's height within guarded limits
+\&  --max-height PIXELS     128..32768, default 32768
+\&  --max-pixels COUNT      Total across all pages; default/hard ceiling 67108864
+\&  --quality NUMBER        JPEG 1..100, default 90
+\&
+\&Images on stdout require one page. Multi-page foo.png output uses foo-001.png,
+\&foo-002.png, etc. Files are all staged before per-file atomic replacements;
+\&a rename failure can leave earlier pages replaced. No collection-wide atomicity.
+\&Missing Unicode glyphs use visible code-point labels and diagnostics.
+\&
+\&Diagnostics go to stderr. Malformed input may produce fallback HTML with exit 1;
+\&strict, resource and input/output failures leave existing output files intact.
+\&Exit codes: 0 success/warnings, 1 syntax/strict failure, 2 usage/selection,
+\&3 input/output/resource failure. No full groff typesetting promise is made.
+.fi
+.SH SEE ALSO
+.MR man 7
+-- stderr.txt --
+-- exit.txt --
+0

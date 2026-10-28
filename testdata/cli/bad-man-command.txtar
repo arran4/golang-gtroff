@@ -1,0 +1,9 @@
+Generated documentation/completion command contract: bad-man-command
+-- args.json --
+["man", "unknown"]
+-- stdout.txt --
+-- stderr.txt --
+gtroff: unknown command "unknown"
+Run 'gtroff help' for usage.
+-- exit.txt --
+2

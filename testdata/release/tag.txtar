@@ -1,0 +1,14 @@
+Workflow routing: tag
+-- scenario.json --
+{
+  "Block": "policy",
+  "Env": {
+    "EVENT_NAME": "push",
+    "GITHUB_REF": "refs/tags/v1.2.3"
+  },
+  "Exit": 0,
+  "Outputs": {
+    "full": "true",
+    "release": "true"
+  }
+}

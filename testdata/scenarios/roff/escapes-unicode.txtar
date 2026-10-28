@@ -1,0 +1,187 @@
+roff/escapes-unicode crosses AST, validation, semantic, HTML, canonical roff and raster boundaries.
+-- options.json --
+{"status":"valid","retain":[".literal","\\ path","caf\u00e9"]}
+-- input.1 --
+.SH TEXT
+\&.literal \e path café naïve
+.UR https://example.invalid/a?q=one&x=two
+link
+.UE
+-- expected-ast.json --
+[
+  {
+    "ID": 1,
+    "Kind": "document",
+    "Path": "/",
+    "Text": "TEXT\n\\\u0026.literal \\e path café naïve\nhttps://example.invalid/a?q=one\u0026x=two\nlink\n"
+  },
+  {
+    "ID": 2,
+    "Kind": "section",
+    "Path": "/0",
+    "Text": "TEXT\n\\\u0026.literal \\e path café naïve\nhttps://example.invalid/a?q=one\u0026x=two\nlink\n"
+  },
+  {
+    "ID": 3,
+    "Kind": "line",
+    "Path": "/0/0",
+    "Text": "TEXT\n"
+  },
+  {
+    "ID": 4,
+    "Kind": "inline",
+    "Path": "/0/0/0",
+    "Text": ".SH TEXT"
+  },
+  {
+    "ID": 5,
+    "Kind": "line",
+    "Path": "/0/1",
+    "Text": "\\\u0026.literal \\e path café naïve\n"
+  },
+  {
+    "ID": 6,
+    "Kind": "inline",
+    "Path": "/0/1/0",
+    "Text": "\\\u0026"
+  },
+  {
+    "ID": 7,
+    "Kind": "inline",
+    "Path": "/0/1/1",
+    "Text": ".literal "
+  },
+  {
+    "ID": 8,
+    "Kind": "inline",
+    "Path": "/0/1/2",
+    "Text": "\\e"
+  },
+  {
+    "ID": 9,
+    "Kind": "inline",
+    "Path": "/0/1/3",
+    "Text": " path café naïve"
+  },
+  {
+    "ID": 10,
+    "Kind": "line",
+    "Path": "/0/2",
+    "Text": "https://example.invalid/a?q=one\u0026x=two\n"
+  },
+  {
+    "ID": 11,
+    "Kind": "inline",
+    "Path": "/0/2/0",
+    "Text": ".UR https://example.invalid/a?q=one\u0026x=two"
+  },
+  {
+    "ID": 12,
+    "Kind": "line",
+    "Path": "/0/3",
+    "Text": "link\n"
+  },
+  {
+    "ID": 13,
+    "Kind": "inline",
+    "Path": "/0/3/0",
+    "Text": "link"
+  },
+  {
+    "ID": 14,
+    "Kind": "line",
+    "Path": "/0/4",
+    "Text": ""
+  },
+  {
+    "ID": 15,
+    "Kind": "inline",
+    "Path": "/0/4/0",
+    "Text": ".UE"
+  }
+]
+-- expected-layout.json --
+[
+  {
+    "Number": 1,
+    "Width": 320,
+    "Height": 320,
+    "Text": [
+      "TEXT",
+      ".literal \\ path café naïve link"
+    ]
+  }
+]
+-- expected-semantics.json --
+{
+  "metadata": {},
+  "children": [
+    {
+      "kind": "section",
+      "runs": [
+        {
+          "text": "TEXT",
+          "style": {
+            "bold": true
+          }
+        }
+      ],
+      "children": [
+        {
+          "kind": "paragraph",
+          "runs": [
+            {
+              "text": ".literal \\ path café naïve ",
+              "style": {}
+            },
+            {
+              "text": "link",
+              "style": {},
+              "link": "https://example.invalid/a?q=one\u0026x=two"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+-- expected-validation.json --
+[
+  {
+    "Strict": false,
+    "Exit": 0,
+    "Status": "valid",
+    "Diagnostics": []
+  },
+  {
+    "Strict": true,
+    "Exit": 0,
+    "Status": "valid",
+    "Diagnostics": []
+  }
+]
+-- expected.1 --
+.SH "\f[B]TEXT\f[R]"
+.PP
+\&\f[R].literal \e path café naïve \f[R]\c
+.UR "https://example.invalid/a?q=one&x=two"
+\&\f[R]link\f[R]\c
+.UE
+-- expected.html --
+<style>
+.gtroff-document{margin:0;background:#ffffff;color:#202124}
+.man-page{box-sizing:border-box;max-width:960px;margin:0 auto;padding:2rem;font-family:GTroffText,serif;font-size:18px;line-height:1.5;background:#ffffff;color:#202124;overflow-wrap:anywhere}
+.man-page a{color:#174ea6}.man-page h1{font-size:1.7em}.man-page h2{font-size:1.3em;margin-top:1.7em}.man-page h3{font-size:1.1em;margin-top:1.3em}
+.man-page p{margin:.75em 0}.man-page pre{white-space:pre-wrap;overflow:auto;padding:1em;background:#f3f4f6;border-radius:.25em}
+.man-page code{font-family:GTroffMono,monospace}.man-page small{font-size:.9em}.man-page dt{font-weight:normal;margin-top:.75em}.man-page dd{margin-inline-start:2em}.man-page dd>:first-child{margin-top:0}
+.man-page .manual-meta{opacity:.8;font-size:.9em}.man-page .permalink{font-size:.8em;text-decoration:none;margin-inline-start:.5em}.man-page .unsupported{border-inline-start:.25em solid currentColor}.man-page .conversion-notes{border:1px solid currentColor;padding:1em;margin-top:2em}
+@media(max-width:600px){.man-page{padding:1rem}.man-page dd{margin-inline-start:1em}}
+@media print{.man-page{max-width:none;color:#000000;background:#ffffff;padding:0}.man-page .permalink{display:none}.man-page pre{break-inside:avoid}}
+</style>
+<article class="man-page theme-light" data-man-version="1" data-man-title="" data-man-section="" data-man-date="" data-man-source="" data-man-manual="">
+<header class="document-header"><h1>Manual page</h1></header>
+<section data-kind="section" data-node-id="2" data-source-start="0" aria-labelledby="man-node-2">
+<h2 id="man-node-2"><strong>TEXT</strong><a class="permalink" href="#man-node-2" aria-label="Link to TEXT">#</a></h2>
+<p data-kind="paragraph" data-node-id="3" data-source-start="9">.literal \ path café naïve <a href="https://example.invalid/a?q=one&amp;x=two" rel="noreferrer noopener">link</a></p>
+</section>
+</article>

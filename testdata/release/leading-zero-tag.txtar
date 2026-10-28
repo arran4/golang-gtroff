@@ -1,0 +1,11 @@
+Publication must reject leading-zero-tag.
+-- scenario.json --
+{
+  "Block": "policy",
+  "Env": {
+    "EVENT_NAME": "push",
+    "GITHUB_REF": "refs/tags/v01.2.3"
+  },
+  "Exit": 1,
+  "Error": "Publication requires"
+}

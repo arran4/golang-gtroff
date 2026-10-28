@@ -1,10 +1,16 @@
 package main
 
 import (
+	"bufio"
 	"bytes"
 	"context"
 	"encoding/json"
 	"errors"
+	"image"
+	_ "image/jpeg"
+	"image/png"
+	"io"
+	"net/http"
 	"os"
 	"os/exec"
 	"path/filepath"
@@ -31,7 +37,7 @@ func TestExecutableFlows(t *testing.T) {
 	if out, err := build.CombinedOutput(); err != nil {
 		t.Fatalf("build executable: %v\n%s", err, out)
 	}
-	source, err := os.ReadFile(filepath.Join("..", "..", "testdata", "simple.1"))
+	source, err := os.ReadFile(filepath.Join("..", "..", "examples", "man-tool.1"))
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -74,7 +80,7 @@ func TestExecutableFlows(t *testing.T) {
 		{name: "convert HTML stdin", args: []string{"convert", "--from", "html", "--to", "roff"}, stdin: "<h1>TOOL</h1><p>.danger</p>", stdoutContains: `\&\f[R].danger`},
 		{name: "convert roff stdin", args: []string{"convert", "--from", "roff", "--to", "html", "--fragment", "--assets", "omit-fonts"}, stdin: ".TH TOOL 1\n.SH NAME\ntext\n", stdoutContains: "<article"},
 		{name: "convert strict hostile", args: []string{"convert", "--from", "html", "--to", "roff", "--strict"}, stdin: "<script>literal</script>", code: 1, stderrContains: "unsupported <script>"},
-		{name: "HTML reject format", args: []string{"render", "--format", "png"}, code: 2, stderrContains: "render format must be html"},
+		{name: "render reject format", args: []string{"render", "--format", "gif"}, code: 2, stderrContains: "render format must be html"},
 	}
 	for _, tc := range cases {
 		t.Run(tc.name, func(t *testing.T) {
@@ -224,5 +230,262 @@ func TestExecutableFlows(t *testing.T) {
 			t.Fatal("strict conversion damaged output")
 		}
 	})
+	t.Run("raster executable pages and preservation", func(t *testing.T) {
+		execute := func(input string, args ...string) (int, []byte, string) {
+			c := exec.CommandContext(ctx, binary, args...)
+			c.Dir = work
+			c.Stdin = strings.NewReader(input)
+			var out, diags bytes.Buffer
+			c.Stdout = &out
+			c.Stderr = &diags
+			err := c.Run()
+			if err == nil {
+				return 0, out.Bytes(), diags.String()
+			}
+			var e *exec.ExitError
+			if !errors.As(err, &e) {
+				t.Fatal(err)
+			}
+			return e.ExitCode(), out.Bytes(), diags.String()
+		}
+		code, data, diags := execute("", "render", "--format", "png", "--section", "OPTIONS", "--single", "my page.1")
+		if code != 0 || diags != "" {
+			t.Fatalf("PNG stdout %d %s", code, diags)
+		}
+		if _, err := png.Decode(bytes.NewReader(data)); err != nil {
+			t.Fatal(err)
+		}
+		long := ".TH TOOL 1\n.SH CONTENT\n" + strings.Repeat(".PP\nvisible paragraph\n", 25)
+		if err := os.WriteFile(filepath.Join(work, "long.1"), []byte(long), 0600); err != nil {
+			t.Fatal(err)
+		}
+		if code, data, msg := execute("", "render", "--format", "png", "--width", "400", "--page-height", "300", "-o", "pages.png", "long.1"); code != 0 || len(data) != 0 || msg != "" {
+			t.Fatalf("pages %d %s", code, msg)
+		}
+		pages, err := filepath.Glob(filepath.Join(work, "pages-*.png"))
+		if err != nil || len(pages) < 2 {
+			t.Fatal("numbered pages missing", pages, err)
+		}
+		saved := map[string][]byte{}
+		for _, path := range pages {
+			data, err := os.ReadFile(path)
+			if err != nil {
+				t.Fatal(err)
+			}
+			if _, err = png.Decode(bytes.NewReader(data)); err != nil {
+				t.Fatal(err)
+			}
+			saved[path] = data
+		}
+		if _, err := os.Stat(filepath.Join(work, "pages.png")); !os.IsNotExist(err) {
+			t.Fatal("multi-page produced ambiguous base file")
+		}
+		if code, data, _ := execute(long, "render", "--format", "png", "--width", "400", "--page-height", "300"); code != 2 || len(data) > 0 {
+			t.Fatal("multi-page stdout was not refused")
+		}
+		if code, _, _ := execute(".UNKNOWN literal\n", "render", "--format", "png", "--strict", "-o", "pages.png"); code != 1 {
+			t.Fatal("strict image accepted")
+		}
+		for path, want := range saved {
+			got, err := os.ReadFile(path)
+			if err != nil || !bytes.Equal(got, want) {
+				t.Fatal("strict failure damaged image")
+			}
+		}
+		first := filepath.Join(work, "blocked-001.png")
+		if err := os.WriteFile(first, []byte("original"), 0600); err != nil {
+			t.Fatal(err)
+		}
+		if err := os.Mkdir(filepath.Join(work, "blocked-002.png"), 0700); err != nil {
+			t.Fatal(err)
+		}
+		if code, _, _ := execute("", "render", "--format", "png", "--width", "400", "--page-height", "300", "-o", "blocked.png", "long.1"); code != 3 {
+			t.Fatal("unsafe second destination accepted")
+		}
+		got, err := os.ReadFile(first)
+		if err != nil || string(got) != "original" {
+			t.Fatal("batch preflight damaged first destination")
+		}
+	})
+	t.Run("HTTP executable collection", func(t *testing.T) {
+		root := filepath.Join(work, "collection")
+		if err := os.MkdirAll(filepath.Join(root, "man1"), 0700); err != nil {
+			t.Fatal(err)
+		}
+		if err := os.WriteFile(filepath.Join(root, "man1", "man-tool.1"), source, 0600); err != nil {
+			t.Fatal(err)
+		}
+		command := exec.CommandContext(ctx, binary, "serve", "--root", root, "--listen", "127.0.0.1:0", "--assets", "omit-fonts")
+		stderr, err := command.StderrPipe()
+		if err != nil {
+			t.Fatal(err)
+		}
+		var out bytes.Buffer
+		command.Stdout = &out
+		if err = command.Start(); err != nil {
+			t.Fatal(err)
+		}
+		stopped := false
+		defer func() {
+			if !stopped {
+				_ = command.Process.Kill()
+			}
+		}()
+		ready := make(chan string, 1)
+		go func() {
+			scanner := bufio.NewScanner(stderr)
+			for scanner.Scan() {
+				select {
+				case ready <- scanner.Text():
+				default:
+				}
+			}
+		}()
+		done := make(chan error, 1)
+		go func() { done <- command.Wait() }()
+		var line string
+		select {
+		case line = <-ready:
+		case err := <-done:
+			t.Fatal("server exited before ready", err)
+		case <-time.After(5 * time.Second):
+			t.Fatal("server did not announce readiness")
+		}
+		var address string
+		for _, field := range strings.Fields(line) {
+			if strings.HasPrefix(field, "http://") {
+				address = field
+			}
+		}
+		if address == "" {
+			t.Fatal("missing listener address", line)
+		}
+		client := &http.Client{Timeout: 2 * time.Second, Transport: &http.Transport{}}
+		for _, target := range []string{"/search?q=inspect", "/page/1/man-tool", "/page/1/man-tool?heading=OPTIONS"} {
+			res, err := client.Get(address + target)
+			if err != nil {
+				t.Fatal(err)
+			}
+			body, err := io.ReadAll(res.Body)
+			_ = res.Body.Close()
+			if err != nil || res.StatusCode != 200 || !bytes.Contains(body, []byte("man-tool(1)")) {
+				t.Fatalf("HTTP %s %d %s %v", target, res.StatusCode, body, err)
+			}
+		}
+		if runtime.GOOS == "windows" {
+			_ = command.Process.Kill()
+		} else if err := command.Process.Signal(os.Interrupt); err != nil {
+			t.Fatal(err)
+		}
+		select {
+		case err := <-done:
+			stopped = true
+			if runtime.GOOS != "windows" && err != nil {
+				t.Fatal("graceful process shutdown", err)
+			}
+		case <-time.After(5 * time.Second):
+			t.Fatal("HTTP process did not stop")
+		}
+		if out.Len() != 0 {
+			t.Fatal("serve wrote stdout")
+		}
+	})
+	t.Run("README quickstart fences", func(t *testing.T) { smokeReadme(t, binary) })
 
+}
+
+// Only explicitly marked shell fences run. Commands are passed as argv, with
+// a single optional stdout redirect; no shell or platform command is invoked.
+func smokeReadme(t *testing.T, binary string) {
+	t.Helper()
+	work := t.TempDir()
+	if err := os.Mkdir(filepath.Join(work, "examples"), 0700); err != nil {
+		t.Fatal(err)
+	}
+	for _, name := range []string{"man-tool.1", "convert.html"} {
+		data, err := os.ReadFile(filepath.Join("..", "..", "examples", name))
+		if err != nil {
+			t.Fatal(err)
+		}
+		if err := os.WriteFile(filepath.Join(work, "examples", name), data, 0600); err != nil {
+			t.Fatal(err)
+		}
+	}
+	readme, err := os.ReadFile(filepath.Join("..", "..", "readme.md"))
+	if err != nil {
+		t.Fatal(err)
+	}
+	count := 0
+	for _, part := range strings.Split(string(readme), "```sh\n")[1:] {
+		block, _, ok := strings.Cut(part, "```")
+		if !ok {
+			t.Fatal("unclosed shell fence")
+		}
+		if !strings.HasPrefix(block, "# smoke\n") {
+			continue
+		}
+		for _, line := range strings.Split(block, "\n") {
+			if line == "" || strings.HasPrefix(line, "#") {
+				continue
+			}
+			args := strings.Fields(line)
+			if args[0] != "./gtroff" {
+				t.Fatalf("unsupported smoke command %q", line)
+			}
+			args = args[1:]
+			destination := ""
+			for i, arg := range args {
+				if arg == ">" {
+					if i != len(args)-2 {
+						t.Fatal("unsupported redirect")
+					}
+					destination = args[i+1]
+					args = args[:i]
+					break
+				}
+			}
+			ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+			command := exec.CommandContext(ctx, binary, args...)
+			command.Dir = work
+			var stdout, stderr bytes.Buffer
+			command.Stdout = &stdout
+			command.Stderr = &stderr
+			err := command.Run()
+			cancel()
+			if err != nil || stderr.Len() != 0 {
+				t.Fatalf("README %s: %v: %s", line, err, stderr.String())
+			}
+			if destination != "" {
+				if stdout.Len() == 0 {
+					t.Fatal("redirected command wrote nothing")
+				}
+				if err := os.WriteFile(filepath.Join(work, destination), stdout.Bytes(), 0600); err != nil {
+					t.Fatal(err)
+				}
+			}
+			count++
+		}
+	}
+	if count < 10 {
+		t.Fatalf("expected meaningful quickstart smoke, got %d commands", count)
+	}
+	for _, name := range []string{"page.html", "options.html", "converted.html", "converted.1", "options.json", "page.png", "page.jpg", "options.png", "gtroff-render.1", "gtroff.bash"} {
+		data, err := os.ReadFile(filepath.Join(work, name))
+		if err != nil || len(data) == 0 {
+			t.Fatalf("README missing output %s: %v", name, err)
+		}
+		if strings.HasSuffix(name, ".png") || strings.HasSuffix(name, ".jpg") {
+			im, _, err := image.Decode(bytes.NewReader(data))
+			if err != nil || im.Bounds().Dx() == 0 {
+				t.Fatalf("README invalid image %s: %v", name, err)
+			}
+		}
+		if strings.HasSuffix(name, ".html") && !bytes.Contains(data, []byte("<article")) {
+			t.Fatalf("README HTML lost article: %s", name)
+		}
+	}
+	pages, err := filepath.Glob(filepath.Join(work, "pages-*.png"))
+	if err != nil || len(pages) < 2 {
+		t.Fatal("README pagination did not produce numbered pages", err)
+	}
 }

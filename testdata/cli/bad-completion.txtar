@@ -1,0 +1,9 @@
+Generated documentation/completion command contract: bad-completion
+-- args.json --
+["completion", "unknown"]
+-- stdout.txt --
+-- stderr.txt --
+gtroff: completion shell must be bash, zsh, fish or powershell
+Run 'gtroff help' for usage.
+-- exit.txt --
+2

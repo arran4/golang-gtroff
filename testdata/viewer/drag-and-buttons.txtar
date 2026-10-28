@@ -1,0 +1,279 @@
+Native gestures and toolbar hit testing share the same controller actions.
+-- scenario.json --
+{"pages":[{"X":1000,"Y":1400},{"X":1000,"Y":1400}],"viewport":{"X":800,"Y":600},"actions":[{"Kind":"scroll","DX":50,"DY":200},{"Kind":"drag-start","X":400,"Y":300},{"Kind":"drag","X":300,"Y":200},{"Kind":"drag-end"},{"Kind":"click","X":90,"Y":45},{"Kind":"click","X":235,"Y":45},{"Kind":"click","X":350,"Y":45}]}
+-- expected.json --
+[
+  {
+    "State": {
+      "Page": 0,
+      "Pages": 2,
+      "Zoom": 1,
+      "PanX": 50,
+      "PanY": 200,
+      "Viewport": {
+        "X": 800,
+        "Y": 600
+      },
+      "FitWidth": false,
+      "Help": false,
+      "Diagnostics": false,
+      "Dragging": false,
+      "Closed": false
+    },
+    "Content": {
+      "Min": {
+        "X": 0,
+        "Y": 72
+      },
+      "Max": {
+        "X": 800,
+        "Y": 600
+      }
+    },
+    "Destination": {
+      "Min": {
+        "X": -50,
+        "Y": -128
+      },
+      "Max": {
+        "X": 950,
+        "Y": 1272
+      }
+    },
+    "Changed": true
+  },
+  {
+    "State": {
+      "Page": 0,
+      "Pages": 2,
+      "Zoom": 1,
+      "PanX": 50,
+      "PanY": 200,
+      "Viewport": {
+        "X": 800,
+        "Y": 600
+      },
+      "FitWidth": false,
+      "Help": false,
+      "Diagnostics": false,
+      "Dragging": true,
+      "Closed": false
+    },
+    "Content": {
+      "Min": {
+        "X": 0,
+        "Y": 72
+      },
+      "Max": {
+        "X": 800,
+        "Y": 600
+      }
+    },
+    "Destination": {
+      "Min": {
+        "X": -50,
+        "Y": -128
+      },
+      "Max": {
+        "X": 950,
+        "Y": 1272
+      }
+    },
+    "Changed": true
+  },
+  {
+    "State": {
+      "Page": 0,
+      "Pages": 2,
+      "Zoom": 1,
+      "PanX": 150,
+      "PanY": 300,
+      "Viewport": {
+        "X": 800,
+        "Y": 600
+      },
+      "FitWidth": false,
+      "Help": false,
+      "Diagnostics": false,
+      "Dragging": true,
+      "Closed": false
+    },
+    "Content": {
+      "Min": {
+        "X": 0,
+        "Y": 72
+      },
+      "Max": {
+        "X": 800,
+        "Y": 600
+      }
+    },
+    "Destination": {
+      "Min": {
+        "X": -150,
+        "Y": -228
+      },
+      "Max": {
+        "X": 850,
+        "Y": 1172
+      }
+    },
+    "Changed": true
+  },
+  {
+    "State": {
+      "Page": 0,
+      "Pages": 2,
+      "Zoom": 1,
+      "PanX": 150,
+      "PanY": 300,
+      "Viewport": {
+        "X": 800,
+        "Y": 600
+      },
+      "FitWidth": false,
+      "Help": false,
+      "Diagnostics": false,
+      "Dragging": false,
+      "Closed": false
+    },
+    "Content": {
+      "Min": {
+        "X": 0,
+        "Y": 72
+      },
+      "Max": {
+        "X": 800,
+        "Y": 600
+      }
+    },
+    "Destination": {
+      "Min": {
+        "X": -150,
+        "Y": -228
+      },
+      "Max": {
+        "X": 850,
+        "Y": 1172
+      }
+    },
+    "Changed": true
+  },
+  {
+    "State": {
+      "Page": 1,
+      "Pages": 2,
+      "Zoom": 1,
+      "PanX": 0,
+      "PanY": 0,
+      "Viewport": {
+        "X": 800,
+        "Y": 600
+      },
+      "FitWidth": false,
+      "Help": false,
+      "Diagnostics": false,
+      "Dragging": false,
+      "Closed": false
+    },
+    "Content": {
+      "Min": {
+        "X": 0,
+        "Y": 72
+      },
+      "Max": {
+        "X": 800,
+        "Y": 600
+      }
+    },
+    "Destination": {
+      "Min": {
+        "X": 0,
+        "Y": 72
+      },
+      "Max": {
+        "X": 1000,
+        "Y": 1472
+      }
+    },
+    "Changed": true
+  },
+  {
+    "State": {
+      "Page": 1,
+      "Pages": 2,
+      "Zoom": 0.8,
+      "PanX": 0,
+      "PanY": 0,
+      "Viewport": {
+        "X": 800,
+        "Y": 600
+      },
+      "FitWidth": true,
+      "Help": false,
+      "Diagnostics": false,
+      "Dragging": false,
+      "Closed": false
+    },
+    "Content": {
+      "Min": {
+        "X": 0,
+        "Y": 72
+      },
+      "Max": {
+        "X": 800,
+        "Y": 600
+      }
+    },
+    "Destination": {
+      "Min": {
+        "X": 0,
+        "Y": 72
+      },
+      "Max": {
+        "X": 800,
+        "Y": 1192
+      }
+    },
+    "Changed": true
+  },
+  {
+    "State": {
+      "Page": 1,
+      "Pages": 2,
+      "Zoom": 0.8,
+      "PanX": 0,
+      "PanY": 0,
+      "Viewport": {
+        "X": 800,
+        "Y": 600
+      },
+      "FitWidth": true,
+      "Help": true,
+      "Diagnostics": false,
+      "Dragging": false,
+      "Closed": false
+    },
+    "Content": {
+      "Min": {
+        "X": 0,
+        "Y": 72
+      },
+      "Max": {
+        "X": 800,
+        "Y": 600
+      }
+    },
+    "Destination": {
+      "Min": {
+        "X": 0,
+        "Y": 72
+      },
+      "Max": {
+        "X": 800,
+        "Y": 1192
+      }
+    },
+    "Changed": true
+  }
+]

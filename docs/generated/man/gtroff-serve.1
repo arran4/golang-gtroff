@@ -1,0 +1,32 @@
+.\" Generated from gtroff command help; do not edit.
+.TH "GTROFF-SERVE" 1 "" "golang-gtroff" "User Commands"
+.SH NAME
+\&gtroff-serve
+.SH SYNOPSIS
+.nf
+\&Usage: gtroff serve --root DIR [--root DIR ...] [OPTIONS]
+\&
+\&Build a read-only man library from explicit directories and serve its snapshot.
+\&Plain .1/.3p/etc and .gz pages are supported. No host man directories are scanned
+\&implicitly. Includes, scripts, remote resources and arbitrary request paths are
+\&never opened. Restart to refresh source changes.
+\&
+\&  --listen ADDRESS        Default: 127.0.0.1:8080; port 0 chooses a free port
+\&  --root DIR              Required, repeatable; configured order breaks ties
+\&  --system-search         Explicitly probe apropos/whatis/man -k; optional fallback
+\&  --allow-remote          Permit non-loopback binding and arbitrary HTTP Host values
+\&  --max-pages COUNT       Index cap, default 10000, ceiling 50000
+\&  --max-total-bytes COUNT  Source/decode budget, default 67108864, ceiling 268435456
+\&  --max-file-bytes COUNT   Raw/decoded per-page cap, default 2097152, ceiling 8388608
+\&  --theme light|dark      Page theme, default light
+\&  --assets embed|omit-fonts  Default: embed (bundled Go fonts)
+\&
+\&Search matches names, sections, NAME descriptions and full semantic text.
+\&System search only supplements indexed content and never opens its page paths.
+\&The listener is localhost-only by default. Remote mode has no authentication:
+\&serve only collections intended for every client able to reach that listener.
+\&Press Ctrl-C to stop. Listening address/status go to stderr; stdout is unused.
+\&Exit codes: 0 stopped normally, 2 usage, 3 filesystem/listener/resource failure.
+.fi
+.SH SEE ALSO
+.MR man 7

@@ -1,0 +1,19 @@
+Blank input produces a bounded blank page without fabricated source content.
+-- input.1 --
+-- options.json --
+{"Width":256,"PageHeight":256,"Margin":16}
+-- expected-layout.json --
+[
+  {
+    "Number": 1,
+    "Width": 256,
+    "Height": 256,
+    "Lines": null
+  }
+]
+-- expected-diagnostics.json --
+[]
+-- expected-paths.json --
+[
+  "page.png"
+]

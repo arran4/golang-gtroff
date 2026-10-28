@@ -1,0 +1,388 @@
+Tagged definitions and nested indentation remain visible and within the drawable bounds.
+-- input.1 --
+.TH TOOL 1
+.SH OPTIONS
+.TP 8
+.B --verbose
+Show verbose diagnostics across several words.
+.RS 2
+Indented detail with \f[CBI]styled mono\f[R].
+.RE
+.TP
+.B --quiet
+Show less detail.
+.IP \(bu 4
+A bulleted item.
+.PP
+Normal paragraph after the definitions.
+-- options.json --
+{"Width":520,"PageHeight":500,"Margin":32}
+-- expected-layout.json --
+[
+  {
+    "Number": 1,
+    "Width": 520,
+    "Height": 500,
+    "Lines": [
+      {
+        "Node": 1,
+        "Kind": "document",
+        "Top": 32,
+        "Baseline": 70,
+        "Bottom": 84,
+        "Fragments": [
+          {
+            "Text": "TOOL(1)",
+            "Source": "TOOL(1)",
+            "Face": "bold@24",
+            "Style": {
+              "bold": true
+            },
+            "X": 32,
+            "Advance": 130,
+            "Bounds": {
+              "Min": {
+                "X": 32,
+                "Y": 45
+              },
+              "Max": {
+                "X": 161,
+                "Y": 75
+              }
+            }
+          }
+        ]
+      },
+      {
+        "Node": 2,
+        "Kind": "section",
+        "Top": 104,
+        "Baseline": 133,
+        "Bottom": 145,
+        "Fragments": [
+          {
+            "Text": "OPTIONS",
+            "Source": "OPTIONS",
+            "Face": "bold@18.75",
+            "Style": {
+              "bold": true
+            },
+            "X": 32,
+            "Advance": 116,
+            "Bounds": {
+              "Min": {
+                "X": 32,
+                "Y": 114
+              },
+              "Max": {
+                "X": 147,
+                "Y": 134
+              }
+            }
+          }
+        ]
+      },
+      {
+        "Node": 4,
+        "Kind": "item",
+        "Top": 153,
+        "Baseline": 176,
+        "Bottom": 186,
+        "Fragments": [
+          {
+            "Text": "--verbose",
+            "Source": "--verbose",
+            "Face": "bold@15",
+            "Style": {
+              "bold": true
+            },
+            "X": 32,
+            "Advance": 100,
+            "Bounds": {
+              "Min": {
+                "X": 33,
+                "Y": 160
+              },
+              "Max": {
+                "X": 132,
+                "Y": 177
+              }
+            }
+          }
+        ]
+      },
+      {
+        "Node": 5,
+        "Kind": "paragraph",
+        "Top": 195,
+        "Baseline": 218,
+        "Bottom": 228,
+        "Fragments": [
+          {
+            "Text": "Show verbose diagnostics across several",
+            "Source": "Show verbose diagnostics across several",
+            "Face": "regular@15",
+            "Style": {},
+            "X": 112,
+            "Advance": 369.421875,
+            "Bounds": {
+              "Min": {
+                "X": 113,
+                "Y": 202
+              },
+              "Max": {
+                "X": 482,
+                "Y": 223
+              }
+            }
+          }
+        ]
+      },
+      {
+        "Node": 5,
+        "Kind": "paragraph",
+        "Top": 228,
+        "Baseline": 251,
+        "Bottom": 261,
+        "Fragments": [
+          {
+            "Text": "words.",
+            "Source": "words.",
+            "Face": "regular@15",
+            "Style": {},
+            "X": 112,
+            "Advance": 59.3125,
+            "Bounds": {
+              "Min": {
+                "X": 112,
+                "Y": 235
+              },
+              "Max": {
+                "X": 170,
+                "Y": 252
+              }
+            }
+          }
+        ]
+      },
+      {
+        "Node": 7,
+        "Kind": "paragraph",
+        "Top": 270,
+        "Baseline": 293,
+        "Bottom": 303,
+        "Fragments": [
+          {
+            "Text": "Indented detail with ",
+            "Source": "Indented detail with ",
+            "Face": "regular@15",
+            "Style": {},
+            "X": 132,
+            "Advance": 183.421875,
+            "Bounds": {
+              "Min": {
+                "X": 133,
+                "Y": 277
+              },
+              "Max": {
+                "X": 309,
+                "Y": 294
+              }
+            }
+          },
+          {
+            "Text": "styled mono",
+            "Source": "styled mono",
+            "Face": "mono-bold-italic@15",
+            "Style": {
+              "bold": true,
+              "italic": true,
+              "mono": true
+            },
+            "X": 315.421875,
+            "Advance": 140.65625,
+            "Bounds": {
+              "Min": {
+                "X": 317,
+                "Y": 277
+              },
+              "Max": {
+                "X": 457,
+                "Y": 297
+              }
+            }
+          },
+          {
+            "Text": ".",
+            "Source": ".",
+            "Face": "regular@15",
+            "Style": {},
+            "X": 456.078125,
+            "Advance": 6,
+            "Bounds": {
+              "Min": {
+                "X": 458,
+                "Y": 290
+              },
+              "Max": {
+                "X": 461,
+                "Y": 293
+              }
+            }
+          }
+        ]
+      },
+      {
+        "Node": 8,
+        "Kind": "item",
+        "Top": 312,
+        "Baseline": 335,
+        "Bottom": 345,
+        "Fragments": [
+          {
+            "Text": "--quiet",
+            "Source": "--quiet",
+            "Face": "bold@15",
+            "Style": {
+              "bold": true
+            },
+            "X": 32,
+            "Advance": 72,
+            "Bounds": {
+              "Min": {
+                "X": 33,
+                "Y": 319
+              },
+              "Max": {
+                "X": 104,
+                "Y": 339
+              }
+            }
+          }
+        ]
+      },
+      {
+        "Node": 9,
+        "Kind": "paragraph",
+        "Top": 354,
+        "Baseline": 377,
+        "Bottom": 387,
+        "Fragments": [
+          {
+            "Text": "Show less detail.",
+            "Source": "Show less detail.",
+            "Face": "regular@15",
+            "Style": {},
+            "X": 112,
+            "Advance": 152.53125,
+            "Bounds": {
+              "Min": {
+                "X": 113,
+                "Y": 361
+              },
+              "Max": {
+                "X": 263,
+                "Y": 378
+              }
+            }
+          }
+        ]
+      },
+      {
+        "Node": 10,
+        "Kind": "item",
+        "Top": 396,
+        "Baseline": 419,
+        "Bottom": 429,
+        "Fragments": [
+          {
+            "Text": "•",
+            "Source": "•",
+            "Face": "regular@15",
+            "Style": {},
+            "X": 32,
+            "Advance": 7,
+            "Bounds": {
+              "Min": {
+                "X": 32,
+                "Y": 408
+              },
+              "Max": {
+                "X": 39,
+                "Y": 414
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "Number": 2,
+    "Width": 520,
+    "Height": 500,
+    "Lines": [
+      {
+        "Node": 11,
+        "Kind": "paragraph",
+        "Top": 32,
+        "Baseline": 55,
+        "Bottom": 65,
+        "Fragments": [
+          {
+            "Text": "A bulleted item.",
+            "Source": "A bulleted item.",
+            "Face": "regular@15",
+            "Style": {},
+            "X": 72,
+            "Advance": 141.328125,
+            "Bounds": {
+              "Min": {
+                "X": 72,
+                "Y": 39
+              },
+              "Max": {
+                "X": 212,
+                "Y": 56
+              }
+            }
+          }
+        ]
+      },
+      {
+        "Node": 12,
+        "Kind": "paragraph",
+        "Top": 74,
+        "Baseline": 97,
+        "Bottom": 107,
+        "Fragments": [
+          {
+            "Text": "Normal paragraph after the definitions.",
+            "Source": "Normal paragraph after the definitions.",
+            "Face": "regular@15",
+            "Style": {},
+            "X": 32,
+            "Advance": 347.421875,
+            "Bounds": {
+              "Min": {
+                "X": 33,
+                "Y": 81
+              },
+              "Max": {
+                "X": 378,
+                "Y": 102
+              }
+            }
+          }
+        ]
+      }
+    ]
+  }
+]
+-- expected-diagnostics.json --
+[]
+-- expected-paths.json --
+[
+  "page-001.png",
+  "page-002.png"
+]

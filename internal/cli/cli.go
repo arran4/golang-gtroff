@@ -3,10 +3,13 @@
 package cli
 
 import (
+	"context"
 	"errors"
 	"flag"
 	"fmt"
+	"github.com/arran4/golang-gtroff/manlib"
 	"io"
+	"net"
 	"strconv"
 	"strings"
 
@@ -27,15 +30,26 @@ type BuildInfo struct {
 	Date    string `json:"date"`
 }
 
+// OutputFile is one explicitly named encoded image page.
+type OutputFile struct {
+	Path string
+	Data []byte
+}
+
 // Environment contains only the capabilities used by these commands. Open must
 // return an owned reader; named input is closed before any output is written.
 // In is borrowed and is never closed. Out/Err are borrowed writers.
 type Environment struct {
-	In          io.Reader
-	Out, Err    io.Writer
-	Open        func(string) (io.ReadCloser, error)
-	WriteOutput func(destination, source string, data []byte) error
-	Build       BuildInfo
+	Context      context.Context
+	OpenRoot     func(string) (manlib.Root, io.Closer, error)
+	Listen       func(string) (net.Listener, error)
+	SystemSearch func() (manlib.SearchProvider, error)
+	In           io.Reader
+	Out, Err     io.Writer
+	Open         func(string) (io.ReadCloser, error)
+	WriteOutput  func(destination, source string, data []byte) error
+	WriteOutputs func(source string, files []OutputFile) error
+	Build        BuildInfo
 }
 
 const rootHelp = `Usage: gtroff COMMAND [OPTIONS] [FILE]
@@ -43,8 +57,11 @@ const rootHelp = `Usage: gtroff COMMAND [OPTIONS] [FILE]
 Commands:
   validate  Check roff syntax and report diagnostics
   ast       Inspect a source-aware syntax tree
-  render    Export a semantic man page to standalone HTML
+  render    Export a semantic man page to HTML or paginated images
   convert   Convert supported HTML and man structure
+  serve     Browse and search explicit man-page directories over HTTP
+  man       Generate a man page from command help
+  completion  Generate shell completions
   version   Show build information
   help      Show help for a command
 
@@ -119,10 +136,16 @@ func Run(args []string, e Environment) int {
 		return writeString(e, fmt.Sprintf("gtroff %s (commit %s, built %s)\n", e.Build.Version, e.Build.Commit, e.Build.Date))
 	case "convert":
 		return convertCommand(args, e)
+	case "serve":
+		return serveCommand(args, e)
 	case "render":
 		return renderCommand(args, e)
 	case "validate", "ast":
 		return inspect(command, args, e)
+	case "man":
+		return manCommand(args, e)
+	case "completion":
+		return completionCommand(args, e)
 	default:
 		return usage(e, "unknown command "+strconv.Quote(command))
 	}
@@ -135,10 +158,16 @@ func commandHelp(e Environment, command string) int {
 		return writeString(e, astHelp)
 	case "convert":
 		return writeString(e, convertHelp)
+	case "serve":
+		return writeString(e, serveHelp)
 	case "render":
 		return writeString(e, renderHelp)
 	case "version":
 		return writeString(e, "Usage: gtroff version\nShow build version, commit and date.\n")
+	case "man":
+		return writeString(e, manHelp)
+	case "completion":
+		return writeString(e, completionHelp)
 	default:
 		return usage(e, "unknown command "+strconv.Quote(command))
 	}
