@@ -1,0 +1,10 @@
+baseURL = "https://arran4.github.io/golang-gtroff/"
+languageCode = "en-us"
+title = "gtroff — Work in progress"
+theme = "book"
+disableKinds = ["taxonomy", "term"]
+
+[params]
+  BookTheme = "auto"
+  BookToC = true
+  BookSection = "docs"
