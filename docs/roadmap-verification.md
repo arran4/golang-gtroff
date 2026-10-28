@@ -46,6 +46,14 @@ including md2png, were consulted read-only.
   unterminated-block repairs have positive/negative recovery tests. Full legacy
   fidelity/evaluation/include/generator contracts remain under #3–#17; see
   [specific dependencies](ast.md#parser-dependencies). Those issues were not closed.
+- The separate #12 containment/lifecycle repair rejects escaping symlinks with
+  `os.Root`, closes resolver-owned readers on success/failure, reports close errors,
+  forwards per-source line limits, preserves nested diagnostics and bounds custom
+  resolver recursion. Repeated siblings and resolver reuse release reservations.
+  A probe against parent `bf43d21` reproduced both escaping reads and an unclosed
+  reader; the same probe passed on the repair. Include TXTAR scenarios, OS boundary
+  tests and focused race tests cover these contracts. This does not complete the
+  rest of #12 or replace native Windows/macOS evidence.
 
 ### CLI and semantic model (#21–#22)
 

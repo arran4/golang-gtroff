@@ -95,12 +95,15 @@ address #7's tab-separated arguments and #11/#12/#14's nil-token panic and lost
 consumed source on unterminated blocks. Terminal block I/O/budget failures now
 return their preserved partial document instead of continuing a failed read.
 
+The separate #12 include-safety repair now confines the explicitly enabled legacy
+resolver with `os.Root`, closes owned readers, preserves nested diagnostics and
+bounds recursion for custom resolvers. See the [ownership and limit contracts](library.md#explicit-legacy-includes).
+
 Other parent-parser work remains separate: per-parser registry integration (#5),
 full argument fidelity (#7), document streaming/fidelity and consistent legacy
-spans (#11), include symlink containment and reader lifecycle (#12), bounded
-evaluation (#13), richer multiline/preprocessor grammar (#12/#14), honest
-catalogue coverage (#15), and multi-output generation atomicity (#16). AST source
-preservation is independent of legacy `DocumentToken.RawLine`, which still uses
+spans (#11), bounded evaluation (#13), richer multiline/preprocessor grammar
+(#12/#14), honest catalogue coverage (#15), and multi-output generation atomicity
+(#16). AST source preservation is independent of legacy `DocumentToken.RawLine`, which still uses
 canonical formatting for successfully parsed multiline blocks. Do not use that
 legacy field as a byte-exact source archive. Multi-line heading interpretation
 and fuller man paragraph semantics belong to #22; raw lines remain selectable.
