@@ -27,15 +27,22 @@ type BuildInfo struct {
 	Date    string `json:"date"`
 }
 
+// OutputFile is one explicitly named encoded image page.
+type OutputFile struct {
+	Path string
+	Data []byte
+}
+
 // Environment contains only the capabilities used by these commands. Open must
 // return an owned reader; named input is closed before any output is written.
 // In is borrowed and is never closed. Out/Err are borrowed writers.
 type Environment struct {
-	In          io.Reader
-	Out, Err    io.Writer
-	Open        func(string) (io.ReadCloser, error)
-	WriteOutput func(destination, source string, data []byte) error
-	Build       BuildInfo
+	In           io.Reader
+	Out, Err     io.Writer
+	Open         func(string) (io.ReadCloser, error)
+	WriteOutput  func(destination, source string, data []byte) error
+	WriteOutputs func(source string, files []OutputFile) error
+	Build        BuildInfo
 }
 
 const rootHelp = `Usage: gtroff COMMAND [OPTIONS] [FILE]
@@ -43,7 +50,7 @@ const rootHelp = `Usage: gtroff COMMAND [OPTIONS] [FILE]
 Commands:
   validate  Check roff syntax and report diagnostics
   ast       Inspect a source-aware syntax tree
-  render    Export a semantic man page to standalone HTML
+  render    Export a semantic man page to HTML or paginated images
   convert   Convert supported HTML and man structure
   version   Show build information
   help      Show help for a command

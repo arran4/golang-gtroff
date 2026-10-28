@@ -33,3 +33,15 @@ When adding new test files:
 2. Include a variety of macros to test different parsing scenarios
 3. Add corresponding test cases in `parser_file_test.go`
 4. Document the file's purpose in this README
+
+## Semantic and rendering scenarios
+
+`ast`, `cli`, `man`, `render/html` and `convert` contain embedded, readable TXTAR
+scenarios for their respective APIs. Original source remains distinct from
+semantic/canonical expectations.
+
+`image/*.txtar` names source/options and expected textual layout, pagination,
+paths and diagnostics. Binary PNG/JPEG goldens are separate under `golden/image`.
+Normal tests do not modify them. Approve a refresh explicitly with
+`go test . -run '^TestImageScenarios$' -update-images`, then review text diffs and
+visually inspect changed images. See [image contracts](../docs/images.md).

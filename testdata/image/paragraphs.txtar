@@ -1,0 +1,397 @@
+Styled words wrap without losing content; paragraph gaps and heading baselines are measured.
+-- input.1 --
+.TH TOOL 1 "2026-10-21" "Example tools" "User Commands"
+.SH NAME
+tool \- inspect documents
+.SH DESCRIPTION
+A paragraph with
+.B bold
+and
+.I italic
+and \f[BI]both\f[R] words across physical source lines.
+.PP
+This second paragraph wraps naturally across the available width while retaining all its content.
+-- options.json --
+{"Width":520,"PageHeight":500,"Margin":32}
+-- expected-layout.json --
+[
+  {
+    "Number": 1,
+    "Width": 520,
+    "Height": 500,
+    "Lines": [
+      {
+        "Node": 1,
+        "Kind": "document",
+        "Top": 32,
+        "Baseline": 70,
+        "Bottom": 84,
+        "Fragments": [
+          {
+            "Text": "TOOL(1)",
+            "Source": "TOOL(1)",
+            "Face": "bold@24",
+            "Style": {
+              "bold": true
+            },
+            "X": 32,
+            "Advance": 130,
+            "Bounds": {
+              "Min": {
+                "X": 32,
+                "Y": 45
+              },
+              "Max": {
+                "X": 161,
+                "Y": 75
+              }
+            }
+          }
+        ]
+      },
+      {
+        "Node": 1,
+        "Kind": "document",
+        "Top": 89,
+        "Baseline": 112,
+        "Bottom": 122,
+        "Fragments": [
+          {
+            "Text": "User Commands · Example tools · 2026-10-21",
+            "Source": "User Commands · Example tools · 2026-10-21",
+            "Face": "regular@13.5",
+            "Style": {
+              "small": true
+            },
+            "X": 32,
+            "Advance": 382.171875,
+            "Bounds": {
+              "Min": {
+                "X": 33,
+                "Y": 98
+              },
+              "Max": {
+                "X": 414,
+                "Y": 116
+              }
+            }
+          }
+        ]
+      },
+      {
+        "Node": 2,
+        "Kind": "section",
+        "Top": 142,
+        "Baseline": 171,
+        "Bottom": 183,
+        "Fragments": [
+          {
+            "Text": "NAME",
+            "Source": "NAME",
+            "Face": "bold@18.75",
+            "Style": {
+              "bold": true
+            },
+            "X": 32,
+            "Advance": 74,
+            "Bounds": {
+              "Min": {
+                "X": 34,
+                "Y": 152
+              },
+              "Max": {
+                "X": 105,
+                "Y": 171
+              }
+            }
+          }
+        ]
+      },
+      {
+        "Node": 3,
+        "Kind": "paragraph",
+        "Top": 192,
+        "Baseline": 215,
+        "Bottom": 225,
+        "Fragments": [
+          {
+            "Text": "tool - inspect documents",
+            "Source": "tool - inspect documents",
+            "Face": "regular@15",
+            "Style": {},
+            "X": 32,
+            "Advance": 225.109375,
+            "Bounds": {
+              "Min": {
+                "X": 32,
+                "Y": 199
+              },
+              "Max": {
+                "X": 256,
+                "Y": 219
+              }
+            }
+          }
+        ]
+      },
+      {
+        "Node": 4,
+        "Kind": "section",
+        "Top": 245,
+        "Baseline": 274,
+        "Bottom": 286,
+        "Fragments": [
+          {
+            "Text": "DESCRIPTION",
+            "Source": "DESCRIPTION",
+            "Face": "bold@18.75",
+            "Style": {
+              "bold": true
+            },
+            "X": 32,
+            "Advance": 179,
+            "Bounds": {
+              "Min": {
+                "X": 34,
+                "Y": 255
+              },
+              "Max": {
+                "X": 209,
+                "Y": 275
+              }
+            }
+          }
+        ]
+      },
+      {
+        "Node": 5,
+        "Kind": "paragraph",
+        "Top": 295,
+        "Baseline": 318,
+        "Bottom": 328,
+        "Fragments": [
+          {
+            "Text": "A paragraph with ",
+            "Source": "A paragraph with ",
+            "Face": "regular@15",
+            "Style": {},
+            "X": 32,
+            "Advance": 158.421875,
+            "Bounds": {
+              "Min": {
+                "X": 32,
+                "Y": 302
+              },
+              "Max": {
+                "X": 184,
+                "Y": 323
+              }
+            }
+          },
+          {
+            "Text": "bold",
+            "Source": "bold",
+            "Face": "bold@15",
+            "Style": {
+              "bold": true
+            },
+            "X": 190.421875,
+            "Advance": 42,
+            "Bounds": {
+              "Min": {
+                "X": 191,
+                "Y": 302
+              },
+              "Max": {
+                "X": 232,
+                "Y": 319
+              }
+            }
+          },
+          {
+            "Text": " and ",
+            "Source": " and ",
+            "Face": "regular@15",
+            "Style": {},
+            "X": 232.421875,
+            "Advance": 45,
+            "Bounds": {
+              "Min": {
+                "X": 239,
+                "Y": 302
+              },
+              "Max": {
+                "X": 271,
+                "Y": 319
+              }
+            }
+          },
+          {
+            "Text": "italic",
+            "Source": "italic",
+            "Face": "italic@15",
+            "Style": {
+              "italic": true
+            },
+            "X": 277.421875,
+            "Advance": 50.65625,
+            "Bounds": {
+              "Min": {
+                "X": 279,
+                "Y": 302
+              },
+              "Max": {
+                "X": 329,
+                "Y": 319
+              }
+            }
+          },
+          {
+            "Text": " and ",
+            "Source": " and ",
+            "Face": "regular@15",
+            "Style": {},
+            "X": 328.078125,
+            "Advance": 45,
+            "Bounds": {
+              "Min": {
+                "X": 335,
+                "Y": 302
+              },
+              "Max": {
+                "X": 366,
+                "Y": 319
+              }
+            }
+          },
+          {
+            "Text": "both",
+            "Source": "both",
+            "Face": "bold-italic@15",
+            "Style": {
+              "bold": true,
+              "italic": true
+            },
+            "X": 373.078125,
+            "Advance": 47.875,
+            "Bounds": {
+              "Min": {
+                "X": 374,
+                "Y": 302
+              },
+              "Max": {
+                "X": 421,
+                "Y": 319
+              }
+            }
+          },
+          {
+            "Text": " words",
+            "Source": " words",
+            "Face": "regular@15",
+            "Style": {},
+            "X": 420.953125,
+            "Advance": 59.3125,
+            "Bounds": {
+              "Min": {
+                "X": 427,
+                "Y": 302
+              },
+              "Max": {
+                "X": 480,
+                "Y": 319
+              }
+            }
+          }
+        ]
+      },
+      {
+        "Node": 5,
+        "Kind": "paragraph",
+        "Top": 328,
+        "Baseline": 351,
+        "Bottom": 361,
+        "Fragments": [
+          {
+            "Text": "across physical source lines.",
+            "Source": "across physical source lines.",
+            "Face": "regular@15",
+            "Style": {},
+            "X": 32,
+            "Advance": 258.21875,
+            "Bounds": {
+              "Min": {
+                "X": 32,
+                "Y": 335
+              },
+              "Max": {
+                "X": 289,
+                "Y": 355
+              }
+            }
+          }
+        ]
+      },
+      {
+        "Node": 6,
+        "Kind": "paragraph",
+        "Top": 370,
+        "Baseline": 393,
+        "Bottom": 403,
+        "Fragments": [
+          {
+            "Text": "This second paragraph wraps naturally across the",
+            "Source": "This second paragraph wraps naturally across the",
+            "Face": "regular@15",
+            "Style": {},
+            "X": 32,
+            "Advance": 446.546875,
+            "Bounds": {
+              "Min": {
+                "X": 32,
+                "Y": 377
+              },
+              "Max": {
+                "X": 478,
+                "Y": 398
+              }
+            }
+          }
+        ]
+      },
+      {
+        "Node": 6,
+        "Kind": "paragraph",
+        "Top": 403,
+        "Baseline": 426,
+        "Bottom": 436,
+        "Fragments": [
+          {
+            "Text": "available width while retaining all its content.",
+            "Source": "available width while retaining all its content.",
+            "Face": "regular@15",
+            "Style": {},
+            "X": 32,
+            "Advance": 402.171875,
+            "Bounds": {
+              "Min": {
+                "X": 32,
+                "Y": 410
+              },
+              "Max": {
+                "X": 433,
+                "Y": 431
+              }
+            }
+          }
+        ]
+      }
+    ]
+  }
+]
+-- expected-diagnostics.json --
+[]
+-- expected-paths.json --
+[
+  "page.png"
+]

@@ -1,0 +1,173 @@
+Selection excludes unrelated sections and retains the selected body's ancestor indentation.
+-- input.1 --
+.TH TOOL 1
+.SH NAME
+UNSELECTED NAME
+.SH OPTIONS
+.TP 8
+.B --flag
+Selected body.
+.RS 2
+Selected indented detail.
+.RE
+.SH AFTER
+UNSELECTED AFTER
+-- options.json --
+{"Width":500,"Margin":24,"Single":true,"Section":"OPTIONS"}
+-- expected-layout.json --
+[
+  {
+    "Number": 1,
+    "Width": 500,
+    "Height": 286,
+    "Lines": [
+      {
+        "Node": 1,
+        "Kind": "document",
+        "Top": 24,
+        "Baseline": 62,
+        "Bottom": 76,
+        "Fragments": [
+          {
+            "Text": "TOOL(1)",
+            "Source": "TOOL(1)",
+            "Face": "bold@24",
+            "Style": {
+              "bold": true
+            },
+            "X": 24,
+            "Advance": 130,
+            "Bounds": {
+              "Min": {
+                "X": 24,
+                "Y": 37
+              },
+              "Max": {
+                "X": 153,
+                "Y": 67
+              }
+            }
+          }
+        ]
+      },
+      {
+        "Node": 4,
+        "Kind": "section",
+        "Top": 96,
+        "Baseline": 125,
+        "Bottom": 137,
+        "Fragments": [
+          {
+            "Text": "OPTIONS",
+            "Source": "OPTIONS",
+            "Face": "bold@18.75",
+            "Style": {
+              "bold": true
+            },
+            "X": 24,
+            "Advance": 116,
+            "Bounds": {
+              "Min": {
+                "X": 24,
+                "Y": 106
+              },
+              "Max": {
+                "X": 139,
+                "Y": 126
+              }
+            }
+          }
+        ]
+      },
+      {
+        "Node": 6,
+        "Kind": "item",
+        "Top": 145,
+        "Baseline": 168,
+        "Bottom": 178,
+        "Fragments": [
+          {
+            "Text": "--flag",
+            "Source": "--flag",
+            "Face": "bold@15",
+            "Style": {
+              "bold": true
+            },
+            "X": 24,
+            "Advance": 60.1875,
+            "Bounds": {
+              "Min": {
+                "X": 25,
+                "Y": 152
+              },
+              "Max": {
+                "X": 83,
+                "Y": 173
+              }
+            }
+          }
+        ]
+      },
+      {
+        "Node": 7,
+        "Kind": "paragraph",
+        "Top": 187,
+        "Baseline": 210,
+        "Bottom": 220,
+        "Fragments": [
+          {
+            "Text": "Selected body.",
+            "Source": "Selected body.",
+            "Face": "regular@15",
+            "Style": {},
+            "X": 104,
+            "Advance": 133.109375,
+            "Bounds": {
+              "Min": {
+                "X": 105,
+                "Y": 194
+              },
+              "Max": {
+                "X": 236,
+                "Y": 214
+              }
+            }
+          }
+        ]
+      },
+      {
+        "Node": 9,
+        "Kind": "paragraph",
+        "Top": 229,
+        "Baseline": 252,
+        "Bottom": 262,
+        "Fragments": [
+          {
+            "Text": "Selected indented detail.",
+            "Source": "Selected indented detail.",
+            "Face": "regular@15",
+            "Style": {},
+            "X": 124,
+            "Advance": 222.21875,
+            "Bounds": {
+              "Min": {
+                "X": 125,
+                "Y": 236
+              },
+              "Max": {
+                "X": 345,
+                "Y": 253
+              }
+            }
+          }
+        ]
+      }
+    ]
+  }
+]
+-- expected-diagnostics.json --
+[]
+-- expected-paths.json --
+[
+  "page.png"
+]

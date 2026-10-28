@@ -5,6 +5,7 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
+	"image/png"
 	"os"
 	"os/exec"
 	"path/filepath"
@@ -74,7 +75,7 @@ func TestExecutableFlows(t *testing.T) {
 		{name: "convert HTML stdin", args: []string{"convert", "--from", "html", "--to", "roff"}, stdin: "<h1>TOOL</h1><p>.danger</p>", stdoutContains: `\&\f[R].danger`},
 		{name: "convert roff stdin", args: []string{"convert", "--from", "roff", "--to", "html", "--fragment", "--assets", "omit-fonts"}, stdin: ".TH TOOL 1\n.SH NAME\ntext\n", stdoutContains: "<article"},
 		{name: "convert strict hostile", args: []string{"convert", "--from", "html", "--to", "roff", "--strict"}, stdin: "<script>literal</script>", code: 1, stderrContains: "unsupported <script>"},
-		{name: "HTML reject format", args: []string{"render", "--format", "png"}, code: 2, stderrContains: "render format must be html"},
+		{name: "render reject format", args: []string{"render", "--format", "gif"}, code: 2, stderrContains: "render format must be html"},
 	}
 	for _, tc := range cases {
 		t.Run(tc.name, func(t *testing.T) {
@@ -222,6 +223,83 @@ func TestExecutableFlows(t *testing.T) {
 		after, err := os.ReadFile(filepath.Join(work, "canonical.1"))
 		if err != nil || !bytes.Equal(saved, after) {
 			t.Fatal("strict conversion damaged output")
+		}
+	})
+	t.Run("raster executable pages and preservation", func(t *testing.T) {
+		execute := func(input string, args ...string) (int, []byte, string) {
+			c := exec.CommandContext(ctx, binary, args...)
+			c.Dir = work
+			c.Stdin = strings.NewReader(input)
+			var out, diags bytes.Buffer
+			c.Stdout = &out
+			c.Stderr = &diags
+			err := c.Run()
+			if err == nil {
+				return 0, out.Bytes(), diags.String()
+			}
+			var e *exec.ExitError
+			if !errors.As(err, &e) {
+				t.Fatal(err)
+			}
+			return e.ExitCode(), out.Bytes(), diags.String()
+		}
+		code, data, diags := execute("", "render", "--format", "png", "--section", "OPTIONS", "--single", "my page.1")
+		if code != 0 || diags != "" {
+			t.Fatalf("PNG stdout %d %s", code, diags)
+		}
+		if _, err := png.Decode(bytes.NewReader(data)); err != nil {
+			t.Fatal(err)
+		}
+		long := ".TH TOOL 1\n.SH CONTENT\n" + strings.Repeat(".PP\nvisible paragraph\n", 25)
+		if err := os.WriteFile(filepath.Join(work, "long.1"), []byte(long), 0600); err != nil {
+			t.Fatal(err)
+		}
+		if code, data, msg := execute("", "render", "--format", "png", "--width", "400", "--page-height", "300", "-o", "pages.png", "long.1"); code != 0 || len(data) != 0 || msg != "" {
+			t.Fatalf("pages %d %s", code, msg)
+		}
+		pages, err := filepath.Glob(filepath.Join(work, "pages-*.png"))
+		if err != nil || len(pages) < 2 {
+			t.Fatal("numbered pages missing", pages, err)
+		}
+		saved := map[string][]byte{}
+		for _, path := range pages {
+			data, err := os.ReadFile(path)
+			if err != nil {
+				t.Fatal(err)
+			}
+			if _, err = png.Decode(bytes.NewReader(data)); err != nil {
+				t.Fatal(err)
+			}
+			saved[path] = data
+		}
+		if _, err := os.Stat(filepath.Join(work, "pages.png")); !os.IsNotExist(err) {
+			t.Fatal("multi-page produced ambiguous base file")
+		}
+		if code, data, _ := execute(long, "render", "--format", "png", "--width", "400", "--page-height", "300"); code != 2 || len(data) > 0 {
+			t.Fatal("multi-page stdout was not refused")
+		}
+		if code, _, _ := execute(".UNKNOWN literal\n", "render", "--format", "png", "--strict", "-o", "pages.png"); code != 1 {
+			t.Fatal("strict image accepted")
+		}
+		for path, want := range saved {
+			got, err := os.ReadFile(path)
+			if err != nil || !bytes.Equal(got, want) {
+				t.Fatal("strict failure damaged image")
+			}
+		}
+		first := filepath.Join(work, "blocked-001.png")
+		if err := os.WriteFile(first, []byte("original"), 0600); err != nil {
+			t.Fatal(err)
+		}
+		if err := os.Mkdir(filepath.Join(work, "blocked-002.png"), 0700); err != nil {
+			t.Fatal(err)
+		}
+		if code, _, _ := execute("", "render", "--format", "png", "--width", "400", "--page-height", "300", "-o", "blocked.png", "long.1"); code != 3 {
+			t.Fatal("unsafe second destination accepted")
+		}
+		got, err := os.ReadFile(first)
+		if err != nil || string(got) != "original" {
+			t.Fatal("batch preflight damaged first destination")
 		}
 	})
 

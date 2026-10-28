@@ -1,0 +1,254 @@
+Supported Unicode uses Go glyphs; missing glyphs have visible code-point labels and retain source text.
+-- input.1 --
+.TH CAFÉ 1
+.SH TEXT
+café Ελληνικά Кириллица 漢字 🚀
+.PP
+A safe
+.UR https://example.com
+link
+.UE
+and plain text.
+-- options.json --
+{"Width":520,"PageHeight":500,"Margin":32,"Theme":"dark","Format":"jpg","Quality":90}
+-- expected-layout.json --
+[
+  {
+    "Number": 1,
+    "Width": 520,
+    "Height": 500,
+    "Lines": [
+      {
+        "Node": 1,
+        "Kind": "document",
+        "Top": 32,
+        "Baseline": 70,
+        "Bottom": 84,
+        "Fragments": [
+          {
+            "Text": "CAFÉ(1)",
+            "Source": "CAFÉ(1)",
+            "Face": "bold@24",
+            "Style": {
+              "bold": true
+            },
+            "X": 32,
+            "Advance": 127,
+            "Bounds": {
+              "Min": {
+                "X": 33,
+                "Y": 39
+              },
+              "Max": {
+                "X": 158,
+                "Y": 75
+              }
+            }
+          }
+        ]
+      },
+      {
+        "Node": 2,
+        "Kind": "section",
+        "Top": 104,
+        "Baseline": 133,
+        "Bottom": 145,
+        "Fragments": [
+          {
+            "Text": "TEXT",
+            "Source": "TEXT",
+            "Face": "bold@18.75",
+            "Style": {
+              "bold": true
+            },
+            "X": 32,
+            "Advance": 64,
+            "Bounds": {
+              "Min": {
+                "X": 32,
+                "Y": 114
+              },
+              "Max": {
+                "X": 96,
+                "Y": 133
+              }
+            }
+          }
+        ]
+      },
+      {
+        "Node": 3,
+        "Kind": "paragraph",
+        "Top": 154,
+        "Baseline": 177,
+        "Bottom": 187,
+        "Fragments": [
+          {
+            "Text": "café Ελληνικά Кириллица ",
+            "Source": "café Ελληνικά Кириллица ",
+            "Face": "regular@15",
+            "Style": {},
+            "X": 32,
+            "Advance": 241.609375,
+            "Bounds": {
+              "Min": {
+                "X": 32,
+                "Y": 160
+              },
+              "Max": {
+                "X": 268,
+                "Y": 181
+              }
+            }
+          },
+          {
+            "Text": "[U+6F22][U+5B57]",
+            "Source": "漢字",
+            "Face": "fallback@15",
+            "Style": {},
+            "X": 273.609375,
+            "Advance": 192,
+            "Bounds": {
+              "Min": {
+                "X": 277,
+                "Y": 161
+              },
+              "Max": {
+                "X": 462,
+                "Y": 180
+              }
+            }
+          }
+        ]
+      },
+      {
+        "Node": 3,
+        "Kind": "paragraph",
+        "Top": 187,
+        "Baseline": 210,
+        "Bottom": 220,
+        "Fragments": [
+          {
+            "Text": "[U+1F680]",
+            "Source": "🚀",
+            "Face": "fallback@15",
+            "Style": {},
+            "X": 32,
+            "Advance": 108,
+            "Bounds": {
+              "Min": {
+                "X": 35,
+                "Y": 194
+              },
+              "Max": {
+                "X": 137,
+                "Y": 213
+              }
+            }
+          }
+        ]
+      },
+      {
+        "Node": 4,
+        "Kind": "paragraph",
+        "Top": 229,
+        "Baseline": 252,
+        "Bottom": 262,
+        "Fragments": [
+          {
+            "Text": "A safe ",
+            "Source": "A safe ",
+            "Face": "regular@15",
+            "Style": {},
+            "X": 32,
+            "Advance": 63.265625,
+            "Bounds": {
+              "Min": {
+                "X": 32,
+                "Y": 236
+              },
+              "Max": {
+                "X": 89,
+                "Y": 253
+              }
+            }
+          },
+          {
+            "Text": "link",
+            "Source": "link",
+            "Face": "regular@15",
+            "Style": {},
+            "Link": "https://example.com",
+            "X": 95.265625,
+            "Advance": 31.109375,
+            "Bounds": {
+              "Min": {
+                "X": 96,
+                "Y": 236
+              },
+              "Max": {
+                "X": 127,
+                "Y": 253
+              }
+            }
+          },
+          {
+            "Text": " and plain text.",
+            "Source": " and plain text.",
+            "Face": "regular@15",
+            "Style": {},
+            "X": 126.375,
+            "Advance": 133.109375,
+            "Bounds": {
+              "Min": {
+                "X": 133,
+                "Y": 236
+              },
+              "Max": {
+                "X": 258,
+                "Y": 256
+              }
+            }
+          }
+        ]
+      }
+    ]
+  }
+]
+-- expected-diagnostics.json --
+[
+  {
+    "Message": "font lacks U+6F22; visible code-point label substituted",
+    "Position": {
+      "Filename": "input.1",
+      "Offset": 21,
+      "Line": 3,
+      "Column": 1
+    },
+    "Severity": "warning"
+  },
+  {
+    "Message": "font lacks U+5B57; visible code-point label substituted",
+    "Position": {
+      "Filename": "input.1",
+      "Offset": 21,
+      "Line": 3,
+      "Column": 1
+    },
+    "Severity": "warning"
+  },
+  {
+    "Message": "font lacks U+1F680; visible code-point label substituted",
+    "Position": {
+      "Filename": "input.1",
+      "Offset": 21,
+      "Line": 3,
+      "Column": 1
+    },
+    "Severity": "warning"
+  }
+]
+-- expected-paths.json --
+[
+  "page.jpg"
+]

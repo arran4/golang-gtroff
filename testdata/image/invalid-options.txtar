@@ -1,0 +1,14 @@
+Hostile geometry is rejected before image allocation; no plan or output is fabricated.
+-- input.1 --
+.SH TEXT
+Visible input.
+-- options.json --
+{"Width":2147483647,"PageHeight":1400}
+-- error.txt --
+width must be 128..8192 pixels
+-- expected-layout.json --
+null
+-- expected-diagnostics.json --
+[]
+-- expected-paths.json --
+null
