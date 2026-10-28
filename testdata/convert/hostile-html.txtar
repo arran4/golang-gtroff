@@ -1,0 +1,275 @@
+No script, image, stylesheet or HTML include is executed or fetched.
+-- input.html --
+<h1>Hostile</h1>
+<script>fetch('file:///etc/passwd'); alert('SCRIPT CONTENT')</script>
+<img src="file:///etc/passwd" onerror="alert('IMAGE CONTENT')">
+<iframe src="https://example.com/remote">FRAME CONTENT</iframe>
+<link rel="stylesheet" href="https://example.com/style.css">
+<p onclick="run()"><a href="javascript:alert(1)">UNSAFE LABEL</a> <a href="file:///etc/passwd">FILE LABEL</a></p>
+-- case.json --
+{"equivalent":false,"retained":["SCRIPT CONTENT","IMAGE CONTENT","FRAME CONTENT","https://example.com/style.css","UNSAFE LABEL","FILE LABEL"]}
+-- expected.1 --
+.TH "Hostile" "1" "" "" ""
+.nf
+\&\f[CR]<script>fetch('file:///etc/passwd'); alert('SCRIPT CONTENT')</script>\f[R]\c
+.fi
+.nf
+\&\f[CR]<img src=\(dqfile:///etc/passwd\(dq onerror=\(dqalert(&#39;IMAGE CONTENT&#39;)\(dq/>\f[R]\c
+.fi
+.nf
+\&\f[CR]<iframe src=\(dqhttps://example.com/remote\(dq>FRAME CONTENT</iframe>\f[R]\c
+.fi
+.nf
+\&\f[CR]<link rel=\(dqstylesheet\(dq href=\(dqhttps://example.com/style.css\(dq/>\f[R]\c
+.fi
+.PP
+\&\f[R]UNSAFE LABEL FILE LABEL\f[R]\c
+-- expected.html --
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; font-src data:; style-src 'unsafe-inline'; base-uri 'none'; form-action 'none'">
+<title>Hostile(1)</title>
+<style>
+.gtroff-document{margin:0;background:#ffffff;color:#202124}
+.man-page{box-sizing:border-box;max-width:960px;margin:0 auto;padding:2rem;font-family:GTroffText,serif;font-size:18px;line-height:1.5;background:#ffffff;color:#202124;overflow-wrap:anywhere}
+.man-page a{color:#174ea6}.man-page h1{font-size:1.7em}.man-page h2{font-size:1.3em;margin-top:1.7em}.man-page h3{font-size:1.1em;margin-top:1.3em}
+.man-page p{margin:.75em 0}.man-page pre{white-space:pre-wrap;overflow:auto;padding:1em;background:#f3f4f6;border-radius:.25em}
+.man-page code{font-family:GTroffMono,monospace}.man-page small{font-size:.9em}.man-page dt{font-weight:normal;margin-top:.75em}.man-page dd{margin-inline-start:2em}.man-page dd>:first-child{margin-top:0}
+.man-page .manual-meta{opacity:.8;font-size:.9em}.man-page .permalink{font-size:.8em;text-decoration:none;margin-inline-start:.5em}.man-page .unsupported{border-inline-start:.25em solid currentColor}.man-page .conversion-notes{border:1px solid currentColor;padding:1em;margin-top:2em}
+@media(max-width:600px){.man-page{padding:1rem}.man-page dd{margin-inline-start:1em}}
+@media print{.man-page{max-width:none;color:#000000;background:#ffffff;padding:0}.man-page .permalink{display:none}.man-page pre{break-inside:avoid}}
+</style>
+</head>
+<body class="gtroff-document">
+<article class="man-page theme-light" data-man-version="1" data-man-title="Hostile" data-man-section="1" data-man-date="" data-man-source="" data-man-manual="">
+<header class="document-header"><h1>Hostile(1)</h1></header>
+<pre class="preformatted" data-kind="preformatted" data-node-id="2" data-source-start="27"><code>&lt;script&gt;fetch(&#39;file:///etc/passwd&#39;); alert(&#39;SCRIPT CONTENT&#39;)&lt;/script&gt;</code></pre>
+<pre class="preformatted" data-kind="preformatted" data-node-id="3" data-source-start="120"><code>&lt;img src=&#34;file:///etc/passwd&#34; onerror=&#34;alert(&amp;#39;IMAGE CONTENT&amp;#39;)&#34;/&gt;</code></pre>
+<pre class="preformatted" data-kind="preformatted" data-node-id="4" data-source-start="228"><code>&lt;iframe src=&#34;https://example.com/remote&#34;&gt;FRAME CONTENT&lt;/iframe&gt;</code></pre>
+<pre class="preformatted" data-kind="preformatted" data-node-id="5" data-source-start="321"><code>&lt;link rel=&#34;stylesheet&#34; href=&#34;https://example.com/style.css&#34;/&gt;</code></pre>
+<p data-kind="paragraph" data-node-id="6" data-source-start="422">UNSAFE LABEL FILE LABEL</p>
+</article>
+</body>
+</html>
+-- expected-semantics.json --
+{
+  "metadata": {
+    "title": "Hostile",
+    "section": "1"
+  },
+  "children": [
+    {
+      "kind": "unsupported",
+      "runs": [
+        {
+          "text": "\u003cscript\u003efetch('file:///etc/passwd'); alert('SCRIPT CONTENT')\u003c/script\u003e",
+          "style": {
+            "mono": true
+          },
+          "unsupported": true
+        }
+      ]
+    },
+    {
+      "kind": "unsupported",
+      "runs": [
+        {
+          "text": "\u003cimg src=\"file:///etc/passwd\" onerror=\"alert(\u0026#39;IMAGE CONTENT\u0026#39;)\"/\u003e",
+          "style": {
+            "mono": true
+          },
+          "unsupported": true
+        }
+      ]
+    },
+    {
+      "kind": "unsupported",
+      "runs": [
+        {
+          "text": "\u003ciframe src=\"https://example.com/remote\"\u003eFRAME CONTENT\u003c/iframe\u003e",
+          "style": {
+            "mono": true
+          },
+          "unsupported": true
+        }
+      ]
+    },
+    {
+      "kind": "unsupported",
+      "runs": [
+        {
+          "text": "\u003clink rel=\"stylesheet\" href=\"https://example.com/style.css\"/\u003e",
+          "style": {
+            "mono": true
+          },
+          "unsupported": true
+        }
+      ]
+    },
+    {
+      "kind": "paragraph",
+      "runs": [
+        {
+          "text": "UNSAFE LABEL FILE LABEL",
+          "style": {}
+        }
+      ]
+    }
+  ]
+}
+-- expected-diagnostics.json --
+[
+  {
+    "Message": "unsupported \u003cscript\u003e; literal markup retained",
+    "Position": {
+      "Filename": "input.html",
+      "Offset": -1,
+      "Line": 0,
+      "Column": 0
+    },
+    "Severity": "warning"
+  },
+  {
+    "Message": "unsupported \u003cimg\u003e; literal markup retained",
+    "Position": {
+      "Filename": "input.html",
+      "Offset": -1,
+      "Line": 0,
+      "Column": 0
+    },
+    "Severity": "warning"
+  },
+  {
+    "Message": "unsupported \u003ciframe\u003e; literal markup retained",
+    "Position": {
+      "Filename": "input.html",
+      "Offset": -1,
+      "Line": 0,
+      "Column": 0
+    },
+    "Severity": "warning"
+  },
+  {
+    "Message": "unsupported \u003clink\u003e; literal markup retained",
+    "Position": {
+      "Filename": "input.html",
+      "Offset": -1,
+      "Line": 0,
+      "Column": 0
+    },
+    "Severity": "warning"
+  },
+  {
+    "Message": "unsupported attribute onclick on \u003cp\u003e retained only in original HTML",
+    "Position": {
+      "Filename": "input.html",
+      "Offset": -1,
+      "Line": 0,
+      "Column": 0
+    },
+    "Severity": "warning"
+  },
+  {
+    "Message": "unsafe or absent HTML link omitted; label retained",
+    "Position": {
+      "Filename": "input.html",
+      "Offset": -1,
+      "Line": 0,
+      "Column": 0
+    },
+    "Severity": "warning"
+  },
+  {
+    "Message": "unsafe or absent HTML link omitted; label retained",
+    "Position": {
+      "Filename": "input.html",
+      "Offset": -1,
+      "Line": 0,
+      "Column": 0
+    },
+    "Severity": "warning"
+  },
+  {
+    "Message": "unsupported block emitted as escaped literal preformatted text",
+    "Position": {
+      "Filename": "input.html",
+      "Offset": -1,
+      "Line": 0,
+      "Column": 0
+    },
+    "Severity": "warning"
+  },
+  {
+    "Message": "unsupported inline annotation emitted as escaped literal text",
+    "Position": {
+      "Filename": "input.html",
+      "Offset": -1,
+      "Line": 0,
+      "Column": 0
+    },
+    "Severity": "warning"
+  },
+  {
+    "Message": "unsupported block emitted as escaped literal preformatted text",
+    "Position": {
+      "Filename": "input.html",
+      "Offset": -1,
+      "Line": 0,
+      "Column": 0
+    },
+    "Severity": "warning"
+  },
+  {
+    "Message": "unsupported inline annotation emitted as escaped literal text",
+    "Position": {
+      "Filename": "input.html",
+      "Offset": -1,
+      "Line": 0,
+      "Column": 0
+    },
+    "Severity": "warning"
+  },
+  {
+    "Message": "unsupported block emitted as escaped literal preformatted text",
+    "Position": {
+      "Filename": "input.html",
+      "Offset": -1,
+      "Line": 0,
+      "Column": 0
+    },
+    "Severity": "warning"
+  },
+  {
+    "Message": "unsupported inline annotation emitted as escaped literal text",
+    "Position": {
+      "Filename": "input.html",
+      "Offset": -1,
+      "Line": 0,
+      "Column": 0
+    },
+    "Severity": "warning"
+  },
+  {
+    "Message": "unsupported block emitted as escaped literal preformatted text",
+    "Position": {
+      "Filename": "input.html",
+      "Offset": -1,
+      "Line": 0,
+      "Column": 0
+    },
+    "Severity": "warning"
+  },
+  {
+    "Message": "unsupported inline annotation emitted as escaped literal text",
+    "Position": {
+      "Filename": "input.html",
+      "Offset": -1,
+      "Line": 0,
+      "Column": 0
+    },
+    "Severity": "warning"
+  }
+]

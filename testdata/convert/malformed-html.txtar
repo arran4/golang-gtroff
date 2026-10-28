@@ -1,0 +1,104 @@
+HTML repairs are diagnosed; repaired text remains visible and raw source stays separate.
+-- input.html --
+<h1>Broken</h1><h2>Heading</h2><p>FIRST <b>BOLD</p><p>SECOND
+-- case.json --
+{"equivalent":false,"retained":["FIRST","BOLD","SECOND"]}
+-- expected.1 --
+.TH "Broken" "1" "" "" ""
+.SH "\f[B]Heading\f[R]"
+.PP
+\&\f[R]FIRST \f[R]\c
+\&\f[B]BOLD\f[R]\c
+.PP
+\&\f[B]SECOND\f[R]\c
+-- expected.html --
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; font-src data:; style-src 'unsafe-inline'; base-uri 'none'; form-action 'none'">
+<title>Broken(1)</title>
+<style>
+.gtroff-document{margin:0;background:#ffffff;color:#202124}
+.man-page{box-sizing:border-box;max-width:960px;margin:0 auto;padding:2rem;font-family:GTroffText,serif;font-size:18px;line-height:1.5;background:#ffffff;color:#202124;overflow-wrap:anywhere}
+.man-page a{color:#174ea6}.man-page h1{font-size:1.7em}.man-page h2{font-size:1.3em;margin-top:1.7em}.man-page h3{font-size:1.1em;margin-top:1.3em}
+.man-page p{margin:.75em 0}.man-page pre{white-space:pre-wrap;overflow:auto;padding:1em;background:#f3f4f6;border-radius:.25em}
+.man-page code{font-family:GTroffMono,monospace}.man-page small{font-size:.9em}.man-page dt{font-weight:normal;margin-top:.75em}.man-page dd{margin-inline-start:2em}.man-page dd>:first-child{margin-top:0}
+.man-page .manual-meta{opacity:.8;font-size:.9em}.man-page .permalink{font-size:.8em;text-decoration:none;margin-inline-start:.5em}.man-page .unsupported{border-inline-start:.25em solid currentColor}.man-page .conversion-notes{border:1px solid currentColor;padding:1em;margin-top:2em}
+@media(max-width:600px){.man-page{padding:1rem}.man-page dd{margin-inline-start:1em}}
+@media print{.man-page{max-width:none;color:#000000;background:#ffffff;padding:0}.man-page .permalink{display:none}.man-page pre{break-inside:avoid}}
+</style>
+</head>
+<body class="gtroff-document">
+<article class="man-page theme-light" data-man-version="1" data-man-title="Broken" data-man-section="1" data-man-date="" data-man-source="" data-man-manual="">
+<header class="document-header"><h1>Broken(1)</h1></header>
+<section data-kind="section" data-node-id="2" data-source-start="26" aria-labelledby="man-node-2">
+<h2 id="man-node-2"><strong>Heading</strong><a class="permalink" href="#man-node-2" aria-label="Link to Heading">#</a></h2>
+<p data-kind="paragraph" data-node-id="3" data-source-start="54">FIRST <strong>BOLD</strong></p>
+<p data-kind="paragraph" data-node-id="4" data-source-start="98"><strong>SECOND</strong></p>
+</section>
+</article>
+</body>
+</html>
+-- expected-semantics.json --
+{
+  "metadata": {
+    "title": "Broken",
+    "section": "1"
+  },
+  "children": [
+    {
+      "kind": "section",
+      "runs": [
+        {
+          "text": "Heading",
+          "style": {
+            "bold": true
+          }
+        }
+      ],
+      "children": [
+        {
+          "kind": "paragraph",
+          "runs": [
+            {
+              "text": "FIRST ",
+              "style": {}
+            },
+            {
+              "text": "BOLD",
+              "style": {
+                "bold": true
+              }
+            }
+          ]
+        },
+        {
+          "kind": "paragraph",
+          "runs": [
+            {
+              "text": "SECOND",
+              "style": {
+                "bold": true
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+-- expected-diagnostics.json --
+[
+  {
+    "Message": "HTML has omitted or mismatched closing tags; parser repairs applied",
+    "Position": {
+      "Filename": "input.html",
+      "Offset": -1,
+      "Line": 0,
+      "Column": 0
+    },
+    "Severity": "warning"
+  }
+]

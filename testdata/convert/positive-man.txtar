@@ -1,0 +1,346 @@
+A Linux-style page exercises both conversion directions, metadata and selections.
+-- input.1 --
+.TH TOOL 1 "2026-10-21" "Example tools" "User Commands"
+.SH NAME
+tool \- inspect pages
+.SH DESCRIPTION
+Plain
+.B bold
+.I italic
+and ordinary text.
+.br
+A second line.
+.SS DETAIL
+.TP 8
+.B --flag
+A definition.
+.RS 2
+Indented text.
+.RE
+.TP
+.B --other
+Another definition.
+.PP
+A safe
+.UR https://example.com/docs?q=a&b=c
+link
+.UE .
+See
+.MR printf 3 ,
+then
+.SM small.
+.EX
+  tool --flag
+
+    indented
+.EE
+-- case.json --
+{"equivalent":true}
+-- expected.1 --
+.TH "TOOL" "1" "2026-10-21" "Example tools" "User Commands"
+.SH "\f[B]NAME\f[R]"
+.PP
+\&\f[R]tool - inspect pages\f[R]\c
+.SH "\f[B]DESCRIPTION\f[R]"
+.PP
+\&\f[R]Plain \f[R]\c
+\&\f[B]bold\f[R]\c
+\&\f[R] \f[R]\c
+\&\f[I]italic\f[R]\c
+\&\f[R] and ordinary text.\f[R]\c
+.br
+\&\f[R]A second line.\f[R]\c
+.SS "\f[B]DETAIL\f[R]"
+.PP
+.TP "8"
+\&\f[B]--flag\f[R]
+
+\&\f[R]A definition.\f[R]\c
+.RS "2"
+.PP
+\&\f[R]Indented text.\f[R]\c
+.RE
+.TP "8"
+\&\f[B]--other\f[R]
+
+\&\f[R]Another definition.\f[R]\c
+.PP
+\&\f[R]A safe \f[R]\c
+.UR "https://example.com/docs?q=a&b=c"
+\&\f[R]link\f[R]\c
+.UE
+\&\f[R]. See \f[R]\c
+.ft R
+.MR "printf" "3" "\c"
+.ft R
+\&\f[R], then \f[R]\c
+.SM "\&\f[R]small.\f[R]\c"
+.nf
+\&\f[CR]  tool --flag\f[R]\c
+
+
+\&\f[CR]    indented\f[R]\c
+
+.fi
+-- expected.html --
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; font-src data:; style-src 'unsafe-inline'; base-uri 'none'; form-action 'none'">
+<title>TOOL(1)</title>
+<style>
+.gtroff-document{margin:0;background:#ffffff;color:#202124}
+.man-page{box-sizing:border-box;max-width:960px;margin:0 auto;padding:2rem;font-family:GTroffText,serif;font-size:18px;line-height:1.5;background:#ffffff;color:#202124;overflow-wrap:anywhere}
+.man-page a{color:#174ea6}.man-page h1{font-size:1.7em}.man-page h2{font-size:1.3em;margin-top:1.7em}.man-page h3{font-size:1.1em;margin-top:1.3em}
+.man-page p{margin:.75em 0}.man-page pre{white-space:pre-wrap;overflow:auto;padding:1em;background:#f3f4f6;border-radius:.25em}
+.man-page code{font-family:GTroffMono,monospace}.man-page small{font-size:.9em}.man-page dt{font-weight:normal;margin-top:.75em}.man-page dd{margin-inline-start:2em}.man-page dd>:first-child{margin-top:0}
+.man-page .manual-meta{opacity:.8;font-size:.9em}.man-page .permalink{font-size:.8em;text-decoration:none;margin-inline-start:.5em}.man-page .unsupported{border-inline-start:.25em solid currentColor}.man-page .conversion-notes{border:1px solid currentColor;padding:1em;margin-top:2em}
+@media(max-width:600px){.man-page{padding:1rem}.man-page dd{margin-inline-start:1em}}
+@media print{.man-page{max-width:none;color:#000000;background:#ffffff;padding:0}.man-page .permalink{display:none}.man-page pre{break-inside:avoid}}
+</style>
+</head>
+<body class="gtroff-document">
+<article class="man-page theme-light" data-man-version="1" data-man-title="TOOL" data-man-section="1" data-man-date="2026-10-21" data-man-source="Example tools" data-man-manual="User Commands">
+<header class="document-header"><h1>TOOL(1)</h1><p class="manual-meta">User Commands · Example tools · 2026-10-21</p></header>
+<section data-kind="section" data-node-id="2" data-source-start="60" aria-labelledby="man-node-2">
+<h2 id="man-node-2"><strong>NAME</strong><a class="permalink" href="#man-node-2" aria-label="Link to NAME">#</a></h2>
+<p data-kind="paragraph" data-node-id="3" data-source-start="85">tool - inspect pages</p>
+</section>
+<section data-kind="section" data-node-id="4" data-source-start="120" aria-labelledby="man-node-4">
+<h2 id="man-node-4"><strong>DESCRIPTION</strong><a class="permalink" href="#man-node-4" aria-label="Link to DESCRIPTION">#</a></h2>
+<p data-kind="paragraph" data-node-id="5" data-source-start="152">Plain <strong>bold</strong> <em>italic</em> and ordinary text.<br>A second line.</p>
+<section data-kind="subsection" data-node-id="6" data-source-start="296" aria-labelledby="man-node-6">
+<h3 id="man-node-6"><strong>DETAIL</strong><a class="permalink" href="#man-node-6" aria-label="Link to DETAIL">#</a></h3>
+<dl class="definitions" data-kind="definition-list" data-node-id="7" data-source-start="323">
+<dt data-kind="item" data-node-id="8" data-source-start="323" data-value="8" id="man-node-8"><strong>--flag</strong></dt>
+<dd style="margin-inline-start:4em"><p data-kind="paragraph" data-node-id="9" data-source-start="351">A definition.</p>
+<div class="indent" data-kind="indent" data-node-id="10" data-source-start="379" data-value="2" style="margin-inline-start:1em">
+<p data-kind="paragraph" data-node-id="11" data-source-start="391">Indented text.</p>
+</div>
+</dd>
+<dt data-kind="item" data-node-id="12" data-source-start="424" data-value="8" id="man-node-12"><strong>--other</strong></dt>
+<dd style="margin-inline-start:4em"><p data-kind="paragraph" data-node-id="13" data-source-start="453">Another definition.</p>
+</dd>
+</dl>
+<p data-kind="paragraph" data-node-id="14" data-source-start="491">A safe <a href="https://example.com/docs?q=a&amp;b=c" rel="noreferrer noopener">link</a>. See <span class="man-reference" data-reference="printf(3)">printf(3)</span>, then <small>small.</small></p>
+<pre class="preformatted" data-kind="preformatted" data-node-id="15" data-source-start="679"><code>  tool --flag
+
+    indented
+</code></pre>
+</section>
+</section>
+</article>
+</body>
+</html>
+-- expected-semantics.json --
+{
+  "metadata": {
+    "title": "TOOL",
+    "section": "1",
+    "date": "2026-10-21",
+    "source": "Example tools",
+    "manual": "User Commands"
+  },
+  "children": [
+    {
+      "kind": "section",
+      "runs": [
+        {
+          "text": "NAME",
+          "style": {
+            "bold": true
+          }
+        }
+      ],
+      "children": [
+        {
+          "kind": "paragraph",
+          "runs": [
+            {
+              "text": "tool - inspect pages",
+              "style": {}
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "section",
+      "runs": [
+        {
+          "text": "DESCRIPTION",
+          "style": {
+            "bold": true
+          }
+        }
+      ],
+      "children": [
+        {
+          "kind": "paragraph",
+          "runs": [
+            {
+              "text": "Plain ",
+              "style": {}
+            },
+            {
+              "text": "bold",
+              "style": {
+                "bold": true
+              }
+            },
+            {
+              "text": " ",
+              "style": {}
+            },
+            {
+              "text": "italic",
+              "style": {
+                "italic": true
+              }
+            },
+            {
+              "text": " and ordinary text.",
+              "style": {}
+            },
+            {
+              "text": "\n",
+              "style": {},
+              "break": true
+            },
+            {
+              "text": "A second line.",
+              "style": {}
+            }
+          ]
+        },
+        {
+          "kind": "subsection",
+          "runs": [
+            {
+              "text": "DETAIL",
+              "style": {
+                "bold": true
+              }
+            }
+          ],
+          "children": [
+            {
+              "kind": "definition-list",
+              "children": [
+                {
+                  "kind": "item",
+                  "value": "4em",
+                  "tag": [
+                    {
+                      "text": "--flag",
+                      "style": {
+                        "bold": true
+                      }
+                    }
+                  ],
+                  "children": [
+                    {
+                      "kind": "paragraph",
+                      "runs": [
+                        {
+                          "text": "A definition.",
+                          "style": {}
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "indent",
+                      "value": "1em",
+                      "children": [
+                        {
+                          "kind": "paragraph",
+                          "runs": [
+                            {
+                              "text": "Indented text.",
+                              "style": {}
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "kind": "item",
+                  "value": "4em",
+                  "tag": [
+                    {
+                      "text": "--other",
+                      "style": {
+                        "bold": true
+                      }
+                    }
+                  ],
+                  "children": [
+                    {
+                      "kind": "paragraph",
+                      "runs": [
+                        {
+                          "text": "Another definition.",
+                          "style": {}
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "kind": "paragraph",
+              "runs": [
+                {
+                  "text": "A safe ",
+                  "style": {}
+                },
+                {
+                  "text": "link",
+                  "style": {},
+                  "link": "https://example.com/docs?q=a\u0026b=c"
+                },
+                {
+                  "text": ". See ",
+                  "style": {}
+                },
+                {
+                  "text": "printf(3)",
+                  "style": {},
+                  "reference": "printf(3)"
+                },
+                {
+                  "text": ", then ",
+                  "style": {}
+                },
+                {
+                  "text": "small.",
+                  "style": {
+                    "small": true
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "preformatted",
+              "runs": [
+                {
+                  "text": "  tool --flag\n\n    indented\n",
+                  "style": {
+                    "mono": true
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+-- expected-diagnostics.json --
+[]

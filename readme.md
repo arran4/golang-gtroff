@@ -2,7 +2,7 @@
 
 A pure-Go library and lexer CLI for inspecting roff documents, navigating a source-aware AST, and extracting syntax text. Linux man pages are the primary target; typed man/ms macros and roff requests are available.
 
-`ParseAST` preserves original source independently of canonical token formatting. Inspect sections, select a subtree, search controls or content, and walk parent/child links without running roff commands or loading includes. Headless builds require no CGO, groff, browser, or system font tools. A separate semantic man model now renders whole pages or selections to self-contained HTML with embedded Go fonts. Conversion and raster rendering remain planned.
+`ParseAST` preserves original source independently of canonical token formatting. Inspect sections, select a subtree, search controls or content, and walk parent/child links without running roff commands or loading includes. Headless builds require no CGO, groff, browser, or system font tools. A separate semantic man model now renders whole pages or selections to self-contained HTML with embedded Go fonts. The `convert` command also converts a documented semantic HTML/man subset in both directions. Raster rendering remains planned.
 
 ## Features
 
@@ -72,6 +72,20 @@ HTML preserves headings, paragraphs, definitions, styles, links and examples.
 Unknown source stays escaped and visible with diagnostics; `--strict` leaves
 existing output intact when diagnostics occur. Source text never executes as
 HTML or JavaScript. See [HTML API, selection, safety and output contracts](docs/html.md).
+
+### Convert HTML and man structure
+
+```sh
+./gtroff convert --from html --to roff --strict -i examples/convert.html -o converted.1
+./gtroff convert --from roff --to html -i converted.1 -o converted.html
+```
+
+Headings, paragraphs, nested emphasis, definitions/lists, preformatted text and
+safe links round-trip as documented semantics. Unknown tags, scripts, tables and
+arbitrary CSS produce visible literal fallback and diagnostics. `--strict` rejects
+warnings before replacing output. Original source, canonical roff and normalized
+semantics remain separate. See the [tested HTML input](examples/convert.html),
+[canonical man output](examples/convert.1) and [conversion contracts](docs/convert.md).
 
 ### Extract semantic man-page content
 

@@ -12,3 +12,6 @@ testdata/man/*.txtar -text
 
 # HTML fixtures retain input bytes; font blobs are asserted via readable hashes.
 testdata/render/html/*.txtar -text
+
+# Conversion scenarios keep source and canonical bytes separate.
+testdata/convert/*.txtar -text
