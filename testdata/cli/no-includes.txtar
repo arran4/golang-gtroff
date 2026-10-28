@@ -1,0 +1,11 @@
+test: include requests are preserved and diagnosed without file resolution
+The nonexistent include target must not be opened, even though the control parses.
+-- args.json --
+["validate","--format","json"]
+-- stdin.1 --
+.so never-open-this.1
+-- stdout.txt --
+{"schemaVersion":1,"command":"validate","sourceName":"<stdin>","assessment":"syntax-only","status":"partial","diagnostics":[{"Message":"include preserved; target was not loaded","Position":{"Filename":"<stdin>","Offset":0,"Line":1,"Column":1},"Severity":"warning"}]}
+-- stderr.txt --
+-- exit.txt --
+0

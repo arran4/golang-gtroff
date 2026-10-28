@@ -2,3 +2,7 @@
 testdata/ast/*.txtar -text
 # CR bytes in this fixture are source data, not trailing whitespace errors.
 testdata/ast/crlf.txtar whitespace=cr-at-eol
+
+# CLI archives also contain byte-exact source scenarios.
+testdata/cli/*.txtar -text
+testdata/cli/crlf.txtar whitespace=cr-at-eol

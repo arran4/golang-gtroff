@@ -1,0 +1,9 @@
+test: empty stdin is accepted as syntax and produces a document-only AST
+-- args.json --
+["ast"]
+-- stdin.1 --
+-- stdout.txt --
+{"schemaVersion":1,"command":"ast","sourceName":"<stdin>","assessment":"syntax-only","status":"valid","diagnostics":[],"selector":"","rootIds":[1],"externalParentIds":[],"source":"","nodes":[{"id":1,"path":"/","kind":"document","span":{"Start":{"Filename":"<stdin>","Offset":0,"Line":1,"Column":1},"End":{"Filename":"<stdin>","Offset":0,"Line":1,"Column":1}},"attributes":{},"raw":""}]}
+-- stderr.txt --
+-- exit.txt --
+0

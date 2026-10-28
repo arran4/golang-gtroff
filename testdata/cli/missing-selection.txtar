@@ -1,0 +1,12 @@
+test: a selection with no matches is a usage failure and leaves stdout empty
+-- args.json --
+["ast","--select","section:ABSENT"]
+-- stdin.1 --
+.SH NAME
+hello
+-- stdout.txt --
+-- stderr.txt --
+gtroff: selection "section:ABSENT" matched no nodes
+Run 'gtroff help' for usage.
+-- exit.txt --
+2

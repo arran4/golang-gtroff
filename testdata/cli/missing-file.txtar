@@ -1,0 +1,8 @@
+test: missing input fails without a fabricated validation report
+-- args.json --
+["validate","missing.1"]
+-- stdout.txt --
+-- stderr.txt --
+gtroff: open "missing.1": file does not exist
+-- exit.txt --
+3

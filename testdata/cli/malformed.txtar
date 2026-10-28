@@ -1,0 +1,11 @@
+test: permissive mode still fails malformed quotes and reports their position
+-- args.json --
+["validate","--format","json"]
+-- stdin.1 --
+.B "broken
+remaining content
+-- stdout.txt --
+{"schemaVersion":1,"command":"validate","sourceName":"<stdin>","assessment":"syntax-only","status":"invalid","diagnostics":[{"Message":"parse TokenManB arguments: \"broken, quote wasn't closed: stack \"","Position":{"Filename":"<stdin>","Offset":0,"Line":1,"Column":1},"Severity":"error"}]}
+-- stderr.txt --
+-- exit.txt --
+1

@@ -1,0 +1,12 @@
+test: node selection keeps original identity, source bytes and external parents
+-- args.json --
+["ast","--select","node:2","-"]
+-- stdin.1 --
+.TH DEMO 1
+.SH NAME
+demo
+-- stdout.txt --
+{"schemaVersion":1,"command":"ast","sourceName":"<stdin>","assessment":"syntax-only","status":"valid","diagnostics":[],"selector":"node:2","rootIds":[2],"externalParentIds":[1],"source":".TH DEMO 1\n.SH NAME\ndemo\n","nodes":[{"id":2,"parent":1,"children":[3],"path":"/0","kind":"line","span":{"Start":{"Filename":"<stdin>","Offset":0,"Line":1,"Column":1},"End":{"Filename":"<stdin>","Offset":11,"Line":2,"Column":1}},"attributes":{"name":".TH","package":"man","tokenKind":"Macro","arguments":[{"Raw":"DEMO","Value":"DEMO","Start":0,"End":4,"Quoted":false},{"Raw":"1","Value":"1","Start":5,"End":6,"Quoted":false}]},"raw":".TH DEMO 1\n","token":{"Title":"DEMO","Section":"1","Extra1":"","Extra2":"","Extra3":""}},{"id":3,"parent":2,"path":"/0/0","kind":"inline","span":{"Start":{"Filename":"<stdin>","Offset":0,"Line":1,"Column":1},"End":{"Filename":"<stdin>","Offset":10,"Line":1,"Column":11}},"attributes":{},"raw":".TH DEMO 1","inline":{"Kind":"Text","Raw":".TH DEMO 1","Name":"","Value":".TH DEMO 1"}}]}
+-- stderr.txt --
+-- exit.txt --
+0

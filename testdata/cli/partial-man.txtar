@@ -1,0 +1,11 @@
+test: a man fragment can be valid syntax without claiming semantic completeness
+-- args.json --
+["validate","--format","json","-"]
+-- stdin.1 --
+.B fragment
+Plain text without title or sections.
+-- stdout.txt --
+{"schemaVersion":1,"command":"validate","sourceName":"<stdin>","assessment":"syntax-only","status":"valid","diagnostics":[]}
+-- stderr.txt --
+-- exit.txt --
+0

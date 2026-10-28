@@ -1,0 +1,16 @@
+test: path selection writes deterministic text rows and source byte ranges
+-- args.json --
+["ast","--format","text","--select","path:/1","-"]
+-- stdin.1 --
+.TH DEMO 1
+.SH NAME
+雪 demo
+-- stdout.txt --
+4 /1 section "NAME" <stdin>:2:1 [11,29) raw=".SH NAME\n雪 demo\n"
+5 /1/0 line ".SH" <stdin>:2:1 [11,20) raw=".SH NAME\n"
+6 /1/0/0 inline "" <stdin>:2:1 [11,19) raw=".SH NAME"
+7 /1/1 line "" <stdin>:3:1 [20,29) raw="雪 demo\n"
+8 /1/1/0 inline "" <stdin>:3:1 [20,28) raw="雪 demo"
+-- stderr.txt --
+-- exit.txt --
+0

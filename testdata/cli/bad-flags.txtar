@@ -1,0 +1,9 @@
+test: unknown output format is rejected before reading input
+-- args.json --
+["ast","--format","yaml","missing.1"]
+-- stdout.txt --
+-- stderr.txt --
+gtroff: format must be json or text
+Run 'gtroff help' for usage.
+-- exit.txt --
+2
