@@ -26,6 +26,7 @@ import (
 
 var guiSmoke = flag.Bool("gui-smoke", false, "opt in to real X11 executable/input/resize smoke; requires DISPLAY and xdotool")
 var screenshot = flag.String("screenshot", "", "optional explicit filename for a genuine X11 screenshot")
+var guiBinary = flag.String("gui-binary", "", "optional explicit release candidate binary; otherwise build the command")
 
 func TestX11Executable(t *testing.T) {
 	if !*guiSmoke {
@@ -41,10 +42,18 @@ func TestX11Executable(t *testing.T) {
 	defer cancel()
 	work := t.TempDir()
 	binaryPath := filepath.Join(work, "gtroff-view")
-	build := exec.CommandContext(ctx, "go", "build", "-o", binaryPath, ".")
-	build.Env = append(os.Environ(), "CGO_ENABLED=0")
-	if out, e := build.CombinedOutput(); e != nil {
-		t.Fatalf("build %v %s", e, out)
+	if *guiBinary != "" {
+		var err error
+		binaryPath, err = filepath.Abs(*guiBinary)
+		if err != nil {
+			t.Fatal(err)
+		}
+	} else {
+		build := exec.CommandContext(ctx, "go", "build", "-o", binaryPath, ".")
+		build.Env = append(os.Environ(), "CGO_ENABLED=0")
+		if out, e := build.CombinedOutput(); e != nil {
+			t.Fatalf("build %v %s", e, out)
+		}
 	}
 	sourcePath, e := filepath.Abs("../../../examples/man-tool.1")
 	if e != nil {

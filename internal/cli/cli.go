@@ -60,6 +60,8 @@ Commands:
   render    Export a semantic man page to HTML or paginated images
   convert   Convert supported HTML and man structure
   serve     Browse and search explicit man-page directories over HTTP
+  man       Generate a man page from command help
+  completion  Generate shell completions
   version   Show build information
   help      Show help for a command
 
@@ -140,6 +142,10 @@ func Run(args []string, e Environment) int {
 		return renderCommand(args, e)
 	case "validate", "ast":
 		return inspect(command, args, e)
+	case "man":
+		return manCommand(args, e)
+	case "completion":
+		return completionCommand(args, e)
 	default:
 		return usage(e, "unknown command "+strconv.Quote(command))
 	}
@@ -158,6 +164,10 @@ func commandHelp(e Environment, command string) int {
 		return writeString(e, renderHelp)
 	case "version":
 		return writeString(e, "Usage: gtroff version\nShow build version, commit and date.\n")
+	case "man":
+		return writeString(e, manHelp)
+	case "completion":
+		return writeString(e, completionHelp)
 	default:
 		return usage(e, "unknown command "+strconv.Quote(command))
 	}

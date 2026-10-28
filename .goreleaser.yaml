@@ -1,0 +1,89 @@
+version: 2
+project_name: gtroff
+
+# Validation/tidy/generation run before this builder, in the owning CI workflow.
+# GitHub publication belongs exclusively to that workflow's publisher job.
+builds:
+  - main: ./cmd/gtroff
+    binary: gtroff
+    env: [CGO_ENABLED=0]
+    goos: [linux, windows, darwin]
+    goarch: [amd64, arm64]
+    flags: [-trimpath]
+    mod_timestamp: '{{ .CommitTimestamp }}'
+    # Keep GoReleaser's default version/commit/date ldflags.
+archives:
+  - formats: [tar.gz]
+    format_overrides:
+      - goos: windows
+        formats: [zip]
+    files:
+      - readme.md
+      - LICENSE
+      - fontset/LICENSE-Go-Fonts.txt
+      - renderimage/LICENSE-Go-Image.txt
+      - docs/**
+      - examples/man-tool.1
+      - examples/man-tool.html
+      - examples/man-tool.png
+      - examples/man-tool.jpg
+      - examples/man-tool.ast.json
+      - examples/man-tool.validation.json
+      - examples/man-tool.canonical.1
+      - examples/convert.html
+      - examples/convert.1
+nfpms:
+  - package_name: gtroff
+    maintainer: arran4 <arran4@users.noreply.github.com>
+    homepage: https://github.com/arran4/golang-gtroff
+    description: Inspect Linux man sources and export HTML or paginated images using pure Go.
+    license: GPL-3.0
+    formats: [deb, rpm, apk, archlinux]
+    contents:
+      - src: readme.md
+        dst: /usr/share/doc/gtroff/readme.md
+        file_info:
+          mode: 0644
+      - src: LICENSE
+        dst: /usr/share/doc/gtroff/LICENSE
+        file_info:
+          mode: 0644
+      - src: fontset/LICENSE-Go-Fonts.txt
+        dst: /usr/share/doc/gtroff/LICENSE-Go-Fonts.txt
+        file_info:
+          mode: 0644
+      - src: renderimage/LICENSE-Go-Image.txt
+        dst: /usr/share/doc/gtroff/LICENSE-Go-Image.txt
+        file_info:
+          mode: 0644
+      - src: docs/generated/man/*.1
+        dst: /usr/share/man/man1/
+        file_info:
+          mode: 0644
+      - src: docs/generated/completions/gtroff.bash
+        dst: /usr/share/bash-completion/completions/gtroff
+        file_info:
+          mode: 0644
+      - src: docs/generated/completions/_gtroff
+        dst: /usr/share/zsh/site-functions/_gtroff
+        file_info:
+          mode: 0644
+      - src: docs/generated/completions/gtroff.fish
+        dst: /usr/share/fish/vendor_completions.d/gtroff.fish
+        file_info:
+          mode: 0644
+      - src: docs/generated/completions/gtroff.ps1
+        dst: /usr/share/doc/gtroff/completions/gtroff.ps1
+        file_info:
+          mode: 0644
+      - src: examples/man-tool.1
+        dst: /usr/share/doc/gtroff/examples/man-tool.1
+        file_info:
+          mode: 0644
+source:
+  enabled: true
+changelog:
+  use: git
+release:
+  disable: true
+  prerelease: auto

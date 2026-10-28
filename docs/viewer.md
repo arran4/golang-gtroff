@@ -145,3 +145,21 @@ scroll/drag, zoom at a pointer, fit, resize the real window, switch pages, open
 notes/help and close. Repeat with `--section OPTIONS` and an unknown macro input
 with warnings. Record OS/architecture/backend/CGO and capture an actual window.
 A successful cross-build alone does not satisfy this runtime procedure.
+
+## Optional release candidate
+
+The separate root `.goreleaser-view.yaml` produces only the locally executed
+Linux amd64/X11/CGO-free distribution. It never participates in headless linking.
+Windows and macOS viewer artifacts are not advertised or packaged. Full CI lanes
+may attempt their native source builds as optional checks.
+
+After extracting a candidate archive, test that exact executable rather than
+rebuilding it:
+
+```sh
+CGO_ENABLED=0 xvfb-run -a -s '-screen 0 1600x1200x24 -nolisten tcp' go test ./cmd/gtroff-view -run '^TestX11Executable$' -count=1 -gui-smoke -gui-binary /absolute/path/to/gtroff-view
+```
+
+Run from `desktop`. The explicit `-gui-binary` path selects the existing candidate;
+without it the test retains its usual build-and-smoke behavior. See the
+[release graph, gates and verification scope](releasing.md).

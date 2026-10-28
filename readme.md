@@ -18,6 +18,9 @@ The export commands are currently an **unreleased, stacked feature series**.
 There are no published binary releases yet. Check the
 [release page](https://github.com/arran4/golang-gtroff/releases) for future archives;
 older default-branch revisions do not contain these commands.
+The [release/install guide](docs/releasing.md) describes checksum verification,
+archive/package contents and the publication gates. Snapshot candidates are
+available as CI artifacts after successful builds; they are development builds.
 
 From the reviewed feature checkout, use Go 1.26 or newer (tested: 1.26.10):
 
@@ -28,7 +31,7 @@ go build -o gtroff ./cmd/gtroff
 Or install this feature revision directly, with Go's bin directory on PATH:
 
 ```sh
-go install github.com/arran4/golang-gtroff/cmd/gtroff@codex/issue-28-integration-showcase
+go install github.com/arran4/golang-gtroff/cmd/gtroff@codex/issue-29-release-ci
 ```
 
 A tagged release can replace the branch suffix once published. For library use,
@@ -46,6 +49,8 @@ in tests; generated files go into a temporary directory there.
 # smoke
 ./gtroff validate --strict examples/man-tool.1
 ./gtroff ast --select section:OPTIONS examples/man-tool.1 > options.json
+./gtroff man render > gtroff-render.1
+./gtroff completion bash > gtroff.bash
 ./gtroff render --format html -o page.html examples/man-tool.1
 ./gtroff render --format png -o page.png examples/man-tool.1
 ./gtroff render --format jpg --theme dark -o page.jpg examples/man-tool.1
@@ -179,7 +184,8 @@ go generate ./...
 ```
 
 Generation rebuilds macro/request definitions, dispatchers and catalogue from
-`cmd/gen/in.json`, `schema.go` and templates, then **checks** committed CLI examples.
+`cmd/gen/in.json`, `schema.go` and templates, regenerates
+[man pages and completions](docs/generated), and **checks** committed CLI examples.
 It does not refresh example expectations. To approve a refresh:
 
 ```sh

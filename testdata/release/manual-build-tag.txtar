@@ -1,0 +1,15 @@
+Workflow routing: manual-build-tag
+-- scenario.json --
+{
+  "Block": "policy",
+  "Env": {
+    "EVENT_NAME": "workflow_dispatch",
+    "INPUT_MODE": "build",
+    "GITHUB_REF": "refs/tags/v1.2.3"
+  },
+  "Exit": 0,
+  "Outputs": {
+    "full": "false",
+    "release": "false"
+  }
+}

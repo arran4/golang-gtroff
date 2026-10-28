@@ -71,7 +71,7 @@ func (a *AST) Root() *ASTNode            { return a.root }
 func (a *AST) Source() string            { return a.source }
 func (a *AST) Diagnostics() []Diagnostic { return append([]Diagnostic(nil), a.diagnostics...) }
 
-// Node looks up identity in O(1); zero and foreign/out-of-range IDs are absent.
+// Node looks up a document-local identity in O(1); zero and out-of-range IDs are absent.
 func (a *AST) Node(id NodeID) *ASTNode {
 	if id == 0 || id > NodeID(len(a.nodes)) {
 		return nil

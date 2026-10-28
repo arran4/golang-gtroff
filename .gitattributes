@@ -34,3 +34,6 @@ examples/gtroff-view-linux.png binary
 testdata/scenarios/**/*.txtar -text
 testdata/golden/scenarios/*.png binary
 testdata/golden/scenarios/*.jpg binary
+
+# Release routing/gate contracts are readable, immutable test inputs.
+testdata/release/*.txtar -text

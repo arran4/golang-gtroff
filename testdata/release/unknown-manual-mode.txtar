@@ -1,0 +1,12 @@
+Publication must reject unknown-manual-mode.
+-- scenario.json --
+{
+  "Block": "policy",
+  "Env": {
+    "EVENT_NAME": "workflow_dispatch",
+    "INPUT_MODE": "release;echo injection",
+    "GITHUB_REF": "refs/heads/main"
+  },
+  "Exit": 1,
+  "Error": "Unknown manual mode"
+}

@@ -13,6 +13,7 @@ import (
 	"golang.org/x/image/font/gofont/gomonoitalic"
 	"golang.org/x/image/font/opentype"
 	"golang.org/x/image/font/sfnt"
+	"golang.org/x/image/math/fixed"
 )
 
 type faceKey struct {
@@ -83,8 +84,9 @@ func (b *fontBook) get(k faceKey) (font.Face, error) {
 	if err != nil {
 		return nil, err
 	}
-	b.faces[k] = f
-	return f, nil
+	stable := &stableFace{Face: f, parsed: parsed, scale: fixed.Int26_6(0.5 + (float64(k.size) / 64 * b.dpi * 64 / 72))}
+	b.faces[k] = stable
+	return stable, nil
 }
 func key(s man.Style, size float64) faceKey {
 	name := "regular"

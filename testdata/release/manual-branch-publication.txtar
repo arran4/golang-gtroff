@@ -1,0 +1,12 @@
+Publication must reject manual-branch-publication.
+-- scenario.json --
+{
+  "Block": "policy",
+  "Env": {
+    "EVENT_NAME": "workflow_dispatch",
+    "INPUT_MODE": "publish-tag",
+    "GITHUB_REF": "refs/heads/main"
+  },
+  "Exit": 1,
+  "Error": "Publication requires"
+}
