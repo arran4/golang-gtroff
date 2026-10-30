@@ -1,32 +1,33 @@
 # Licensing and Provenance
 
-> **Publication clearance pending:** This is a provenance inventory, **not a legal compatibility finding**. See [issue #67](https://github.com/arran4/golang-gtroff/issues/67) for the outstanding review of GNU FDL-derived descriptions incorporated into Go source comments and the exact GPL version declaration. Do not describe repository publication as approved on the basis of this page alone.
+> **Publication review:** This records the maintainer's mixed-license choice; it is not by itself a completed copyright-source audit or approval to make the repository public. The remaining checks are tracked by [#67](https://github.com/arran4/golang-gtroff/issues/67).
 
-`golang-gtroff` is free and open-source software. This document summarizes the copyright, licensing terms, and provenance of the repository's components.
+The license of a component is determined by its own copyright grant, not merely by its location in this repository. No third-party material is relicensed by this project.
 
-## Core Codebase
+| Component | License / distribution terms | Provenance |
+| --- | --- | --- |
+| Independently authored Go implementation, CLI, tooling and project-authored tests | **GPL-3.0-or-later** | [Root GPL license](../LICENSE) |
+| GNU groff-derived macro definitions and descriptions in `cmd/gen/in.json`, `catalogue.go` and generated Go comments | Use **GPL-3.0-or-later only for passages covered by GNU groff's upstream GPL grant or explicit dual-license permission**; retain copyright attribution. Any unmatched GFDL-only passages require separation, replacement or permission before public redistribution as part of compiled Go. | GNU groff man-page and GNU troff manual sources, detailed below |
+| Independent GNU groff reference documentation (`groff.txt`, `groff_man.txt`, `groff_ms.txt`) | Original source-specific GNU license terms, including **GFDL-1.3-or-later** where applicable, and any upstream GPL or permissive alternative | GNU groff 1.23.0 reference renders |
+| Bundled Go Fonts and independently exported font data | **BSD-3-Clause** | [Go Fonts license notice](../fontset/LICENSE-Go-Fonts.txt), `fontset.License()` |
+| `testdata/environ_snippet.7` | **GPL-2.0-or-later** | Adapted Linux `environ(7)` manual page, © 1993 Michael Haardt and Andries Brouwer |
 
-- **License text currently present**: [GNU General Public License v3.0](https://www.gnu.org/licenses/gpl-3.0.html). Whether the project's grant is GPL-3.0-only or GPL-3.0-or-later requires an explicit maintainer decision.
-- **Details**: Full text is provided in [LICENSE](../LICENSE).
-- Independently authored Go code and tooling are intended to follow the repository's GPL grant. Manual-derived text embedded in generated code must retain its original licensing rights and is subject to the compatibility review in #67.
+## GNU upstream licensing and generated code
 
-## GNU groff Documentation and Catalogue Derivations
+The catalogue contains prose derived from the GNU groff 1.23.0 man-page reference material. The upstream GNU groff project's `LICENSES` statement grants GPLv3-or-later for its distribution, and explicitly provides an FDL/GPL dual-license pathway for the GNU troff Texinfo manual. This is **permission from upstream**, not a purported relicensing by this project. The original GNU manual is also available under GFDL 1.3 or later (without invariant sections or cover texts in the cited modern edition).
 
-Portions of the macro and request documentation embedded in `cmd/gen/in.json` and generated into `catalogue.go`, `macros.go`, and parser docstrings are derived from the official [GNU groff manual](https://www.gnu.org/software/groff/manual/groff.html#Copying-This-Manual).
+- [Upstream GNU groff licensing statement and GPL clarification](https://www.mail-archive.com/groff-commit@gnu.org/msg13204.html)
+- [Upstream dual-license clarification for manual material](https://www.mail-archive.com/groff-commit@gnu.org/msg14955.html)
+- [GNU groff's man-page licensing discussion](https://www.mail-archive.com/groff-commit@gnu.org/msg13201.html)
+- [GNU troff manual and its copying notice](https://www.gnu.org/software/groff/manual/groff.html#Copying-This-Manual)
+- [GFDL v1.3 full license text](../LICENSES/GFDL-1.3.txt)
 
-- **Original Authors**: Trent A. Fisher, Werner Lemberg, G. Branden Robinson, James Clark, Larry Kollar, and GNU groff contributors.
-- **License**: [GNU Free Documentation License](https://www.gnu.org/licenses/fdl-1.3.html) (GFDL v1.3 or later), with no Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.
-- Review the need for the full FDL license text and any required modification/attribution notices before distributing this material. The reference text files in the repository root (`groff.txt`, `groff_man.txt`, `groff_ms.txt`) are plain-text renderings of GNU groff 1.23.0 manual pages (`groff(7)`, `groff_man(7)`, `groff_ms(7)`) included for offline verification and behavioral conformance reference.
+**Source verification still required before publication:** Confirm the origin and actual license grant for the substantial descriptions copied into `cmd/gen/in.json` and then into generated Go. Match the copied text against appropriately licensed upstream versions; record source version, authors, copyright notice and transformations. Do not infer that the presence of a newer dual-license declaration automatically covers every historical or third-party passage. If a passage is not covered by GPL-compatible permission, replace it with independently authored factual documentation or distribute it as genuinely separate GFDL reference material, **not** embedded into generated Go or binaries. Regenerate and run tests only if changing the catalogue source.
 
-## Bundled Go Fonts
+GNU groff documentation credits include Trent A. Fisher, Werner Lemberg, G. Branden Robinson, James Clark, Larry Kollar, and contributors. Source-specific credits and the actual upstream notices take precedence over this summary. The three bundled `.txt` renders are reference material, not project-authored Go code; preserve their provenance and applicable permissions.
 
-The `fontset` package and standalone rendered HTML documents bundle or embed the Go font family (Go Regular, Go Bold, Go Italic, Go Mono):
+## License boundaries
 
-- **Copyright**: © 2016 Bigelow & Holmes Inc. All rights reserved.
-- **License**: 3-Clause BSD License.
-- **Notice**: Preserved in [fontset/LICENSE-Go-Fonts.txt](../fontset/LICENSE-Go-Fonts.txt) and exposed programmatically via `fontset.License()`.
+The root `LICENSE` is an unmodified copy of GPLv3. The project's own code is offered under **GPL-3.0-or-later**; the full text itself need not be edited to express the “or later” grant. Third-party components retain the terms stated above. A generated source file or compiled binary containing copyrighted reference prose is not automatically a separate aggregate merely because the original prose also exists in a reference document.
 
-## Test Fixtures and Snippets
-
-- `testdata/environ_snippet.7` is adapted from the Linux `environ(7)` manual page (Copyright © 1993 Michael Haardt, Andries Brouwer; licensed under GPLv2 or later).
-- All other test scenarios and TXTAR fixtures under `testdata/` are authored for `golang-gtroff` test verification and released under the repository's GPLv3 license.
+Do not infer publication clearance, final secret-scanning completion, or permission to enable GitHub Pages solely from this license inventory.
