@@ -207,6 +207,6 @@ For coordinated reporting, secret-handling policies and security boundaries, see
 
 ## License and provenance
 
-Project-authored source code uses GPLv3 terms; GNU groff-derived reference material and font assets have their own licenses and attribution requirements. Read [LICENSE](LICENSE) and [Licensing and provenance](docs/licensing.md).
+Project-authored code is offered under **GPL-3.0-or-later**. Third-party fonts, fixtures, and GNU groff documentation retain their applicable original terms. See [LICENSE](LICENSE), [Licensing and provenance](docs/licensing.md), and the bundled [GFDL text](LICENSES/GFDL-1.3.txt).
 
-**Publication clearance remains under review in [issue #67](https://github.com/arran4/golang-gtroff/issues/67).** In particular, the incorporation of GNU FDL-derived manual descriptions into GPL source comments requires verification before the repository is made public.
+**Publication clearance remains under review in [issue #67](https://github.com/arran4/golang-gtroff/issues/67)** until source-by-source coverage of descriptions embedded in generated Go is verified.
