@@ -1,0 +1,17 @@
+A tree limit does not overwrite a previously observed input failure.
+-- input.roff --
+.TS
+body
+.TE
+-- options.json --
+{"Mode": "data-error", "Nodes": 5}
+-- expected.txt --
+ast source=".TS\nbody\n.TE\n" complete=false calls=1
+error="input.1:4:1: input fixture failed\nAST line/node budget exceeded" readerCause=true noProgress=false invalidCount=false
+input position=13/4:1
+ast error 1:1 "AST line/node budget exceeded; remaining source preserved as opaque text"
+ast error 4:1 "input fixture failed"
+ast error 1:1 "AST line/node budget exceeded"
+document source=".TS\nbody\n.TE\n" complete=false calls=1
+error="input.1:4:1: input fixture failed" readerCause=true noProgress=false invalidCount=false
+document error 4:1 "input fixture failed"

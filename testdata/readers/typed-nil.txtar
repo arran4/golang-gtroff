@@ -1,0 +1,12 @@
+Typed-nil readers are rejected before methods are invoked.
+-- input.roff --
+-- options.json --
+{"Mode": "typed-nil"}
+-- expected.txt --
+ast source="" complete=false calls=0
+error="input.1:1:1: nil source reader" readerCause=false noProgress=false invalidCount=false
+input position=0/1:1
+ast error 1:1 "nil source reader"
+document source="" complete=false calls=0
+error="input.1:1:1: nil document reader" readerCause=false noProgress=false invalidCount=false
+document error 1:1 "nil document reader"

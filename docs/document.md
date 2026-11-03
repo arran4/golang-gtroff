@@ -47,7 +47,13 @@ positions independently of error strings. Line-length failures identify the
 offending line's start; other input failures identify the consumed position.
 Readers returning data and an error together have both preserved. Terminal
 errors/EOF are cached so the underlying reader is never retried afterward;
-repeated zero-byte/no-error reads stop with `io.ErrNoProgress`.
+100 consecutive zero-byte/no-error reads stop with `io.ErrNoProgress`; a
+successful read resets the count. The [shared reader contract](ast.md#reader-failures-and-eof-facts)
+also validates counts before slicing. `ReaderCountError` unwraps to
+`ErrInvalidReadCount` and retains an accompanying reader error; bytes from an
+invalid-count call cannot be trusted, so only its preceding validated source is
+retained. Nil and typed-nil include readers are rejected before either `Read` or
+`Close` is invoked.
 
 `cmd/lex` uses this same reader and now prints available partial tokens and
 diagnostics before returning failure. Its `ParseFile` compatibility helper also

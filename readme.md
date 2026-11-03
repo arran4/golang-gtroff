@@ -180,7 +180,9 @@ atomic as a collection. Resource and strict failures preserve existing outputs.
 [executable AST example](ast_example_test.go). `cmd/lex` remains the legacy token
 inspection utility. Generated catalogue coverage is not semantic support.
 The [document reader](docs/document.md) also exposes exact captured source,
-per-token raw bytes, partial results and configurable byte/line limits.
+per-token raw bytes, partial results and configurable byte/line limits. AST
+reader failures return a partial tree with positioned causes; `SourceComplete()`
+distinguishes observed EOF from a captured prefix.
 [Block handlers](docs/blocks.md) inspect bounded raw regions with exact headers,
 bodies, terminators and spans; their registration never enables preprocessing
 or external execution automatically. Definition variants keep their bodies

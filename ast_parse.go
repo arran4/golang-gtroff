@@ -47,15 +47,9 @@ func ParseAST(r io.Reader, opts ...Option) (*AST, error) {
 	if o.ASTNodes <= 0 {
 		o.ASTNodes = 100000
 	}
-	readLimit := int64(o.ASTBytes)
-	if readLimit < 1<<63-1 {
-		readLimit++
-	}
-	data, readErr := io.ReadAll(io.LimitReader(r, readLimit))
-	if len(data) > o.ASTBytes {
-		readErr = fmt.Errorf("AST source budget exceeded (%d bytes)", o.ASTBytes)
-	}
-	a := &AST{source: string(data)}
+	data, complete, sourceErr := readASTInput(r, o)
+	var readErr error
+	a := &AST{source: string(data), sourceComplete: complete}
 	root := &ASTNode{tree: a, kind: ASTDocument, span: Span{Start: Position{Filename: o.SourceName, Line: 1, Column: 1}}}
 	a.root = root
 	pos := root.span.Start
@@ -406,11 +400,25 @@ func ParseAST(r io.Reader, opts ...Option) (*AST, error) {
 			}
 		}
 	}
+	if sourceErr != nil {
+		var inputErr *ASTInputError
+		if errors.As(sourceErr, &inputErr) {
+			diagnosticAt(root, inputErr.Err.Error(), "error", inputErr.Position)
+		}
+	}
 	if readErr != nil {
-		var inputErr *DocumentInputError
-		if !errors.As(readErr, &inputErr) {
+		var documentErr *DocumentInputError
+		if !errors.As(readErr, &documentErr) {
 			diagnostic(root, readErr.Error(), "error")
 		}
+	}
+	if sourceErr != nil && readErr != nil {
+		return a, errors.Join(sourceErr, readErr)
+	}
+	if sourceErr != nil {
+		return a, sourceErr
+	}
+	if readErr != nil {
 		return a, readErr
 	}
 	if o.Strict && failure != nil {

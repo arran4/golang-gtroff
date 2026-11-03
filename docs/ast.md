@@ -87,6 +87,43 @@ retains the line without child inline nodes. One recovery node can exceed the
 node budget. A line/depth failure preserves syntax as opaque input and returns
 an error. Callers must check errors before treating a tree as validated.
 
+### Reader failures and EOF facts
+
+`SourceComplete()` records whether the underlying reader actually returned EOF.
+It is independent of valid syntax and successful tree construction. A source
+byte limit retains its extra detection byte but does not claim EOF unless the
+reader reported it. A reader returning data and EOF together is handled without
+losing those bytes. See the [executable partial-reader example](../ast_input_example_test.go).
+The existing AST JSON shape is unchanged; this fact is available through the
+library method.
+
+`ASTInputError` carries the source name and the line/column/byte position after
+the validated input prefix. It unwraps original reader errors. A source-byte
+failure also exposes `ASTSourceLimitError{Limit}` through `errors.As`. If a byte
+or tree budget fails alongside I/O, the original I/O cause remains accessible
+through `errors.Is`; syntax diagnostics remain separate tree data. Input failures
+return a navigable non-nil partial AST in both strict and permissive modes.
+
+Nil and typed-nil readers return errors before their methods run. A shared
+reader guard stops after 100 consecutive nonempty-buffer reads returning zero
+bytes and no error, with `io.ErrNoProgress`; actual data resets that count.
+It caches EOF/errors, so a terminal reader is never retried. Negative counts or
+counts exceeding the supplied buffer produce `ErrInvalidReadCount` /
+`ReaderCountError` before any slice operation. That call's buffer is not trusted;
+only earlier validated bytes are exposed. The error retains an accompanying
+reader cause. These checks do not interrupt a blocked `Read` or recover a panic
+raised inside caller-supplied reader code; callers own I/O deadlines and reader
+implementations.
+
+Eleven small reader TXTAR scenarios exercise nil/typed-nil inputs, empty reads,
+invalid counts, prefix retention, data+error/EOF and simultaneous budget errors.
+Additional tests verify reset/terminal-cache behavior, include ownership, EOF
+facts, MaxInt limits and error identity. Expectations change only with:
+
+```sh
+go test . -run '^TestReaderContractScenarios$' -update-readers
+```
+
 ## Parser dependencies
 
 This implementation is stacked on unmerged PR #19 at `75d60db`. It does not
