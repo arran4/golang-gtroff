@@ -1,0 +1,10 @@
+Whitespace and an inline comment remain source independently of decoded values.
+-- input.args --
+ a\ b "a\"b" "say ""hello""" \" ignored "unterminated
+-- expected.txt --
+source=" a\\ b \"a\\\"b\" \"say \"\"hello\"\"\" \\\" ignored \"unterminated" stop=29/29
+arg 0 bytes=[1,5) runes=[1,5) quoted=false raw="a\\ b" value="a b"
+arg 1 bytes=[6,12) runes=[6,12) quoted=true raw="\"a\\\"b\"" value="a\"b"
+arg 2 bytes=[13,28) runes=[13,28) quoted=true raw="\"say \"\"hello\"\"\"" value="say \"hello\""
+comment [29,53) "\\\" ignored \"unterminated"
+canonical="\"a b\" \"a\"\"b\" \"say \"\"hello\"\"\""

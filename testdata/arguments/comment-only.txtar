@@ -1,0 +1,7 @@
+A comment-only input has no arguments; canonical output omits the source comment.
+-- input.hex --
+20095c2220636f6d6d656e7420e4b896e7958c
+-- expected.txt --
+source=" \t\\\" comment 世界" stop=2/2
+comment [2,19) "\\\" comment 世界"
+canonical=""

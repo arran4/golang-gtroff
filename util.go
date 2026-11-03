@@ -1,11 +1,27 @@
 package groff
 
 import (
+	"errors"
 	"fmt"
 	"strings"
 )
 
+// ErrUnexpectedArguments reports arguments supplied to a zero-argument binder.
+var ErrUnexpectedArguments = errors.New("unexpected arguments")
+
+// UnexpectedArgumentsError reports an actual argument count and the allowed
+// maximum. Nonzero legacy matcher slots still retain their historical joining.
+type UnexpectedArgumentsError struct{ Actual, Maximum int }
+
+func (e *UnexpectedArgumentsError) Error() string {
+	return fmt.Sprintf("%v: got %d, maximum %d", ErrUnexpectedArguments, e.Actual, e.Maximum)
+}
+func (e *UnexpectedArgumentsError) Unwrap() error { return ErrUnexpectedArguments }
+
 func ForwardMatcher(args []string, optional ...bool) ([]string, error) {
+	if len(optional) == 0 && len(args) > 0 {
+		return nil, &UnexpectedArgumentsError{Actual: len(args), Maximum: 0}
+	}
 	result := make([]string, len(optional))
 	required := requiredArguments(optional)
 	for i, opt := range optional {
@@ -35,6 +51,9 @@ func ForwardMatcher(args []string, optional ...bool) ([]string, error) {
 }
 
 func BackwardMatcher(args []string, optional ...bool) ([]string, error) {
+	if len(optional) == 0 && len(args) > 0 {
+		return nil, &UnexpectedArgumentsError{Actual: len(args), Maximum: 0}
+	}
 	result := make([]string, len(optional))
 	required := requiredArguments(optional)
 	for i := len(optional) - 1; i >= 0; i-- {
@@ -74,6 +93,8 @@ func requiredArguments(optional []bool) int {
 	return n
 }
 
+// Quote retains legacy argument formatting. CanonicalArguments provides checked
+// serialization when decoded values and argument boundaries must round trip.
 func Quote(s string) string {
 	if strings.ContainsAny(s, " \"\t\n") || s == "" {
 		return `"` + strings.ReplaceAll(s, `"`, `""`) + `"`

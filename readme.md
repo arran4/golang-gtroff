@@ -183,6 +183,8 @@ The [document reader](docs/document.md) also exposes exact captured source,
 per-token raw bytes, partial results and configurable byte/line limits.
 The [syntax support report](docs/catalogue-support.md) lists every canonical
 entry and the parser route exercised by tests, separately from evaluation.
+The [argument API](docs/arguments.md) retains raw quoting/comments and byte spans;
+checked formatting reports values it cannot encode faithfully.
 
 ```sh
 go test ./...

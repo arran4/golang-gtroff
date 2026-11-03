@@ -1,0 +1,12 @@
+Malformed quoted input keeps its successful prefix and exact remaining source.
+-- input.args --
+ok 世界 "unfinished\
+-- error.txt --
+quote wasn't closed
+-- expected.txt --
+source="ok 世界 \"unfinished\\" stop=22/18
+arg 0 bytes=[0,2) runes=[0,2) quoted=false raw="ok" value="ok"
+arg 1 bytes=[3,9) runes=[3,5) quoted=false raw="世界" value="世界"
+unparsed [10,22) "\"unfinished\\"
+canonical error=quote wasn't closed: unterminated quote starting at index 6
+syntax error=quote wasn't closed: unterminated quote starting at index 6

@@ -1,0 +1,10 @@
+Byte spans and legacy rune offsets differ on Unicode, including escaped spaces.
+-- input.args --
+  café\ mocha	"世界 🌍" "" tail\
+-- expected.txt --
+source="  café\\ mocha\t\"世界 🌍\" \"\" tail\\" stop=37/29
+arg 0 bytes=[2,14) runes=[2,13) quoted=false raw="café\\ mocha" value="café mocha"
+arg 1 bytes=[15,28) runes=[14,20) quoted=true raw="\"世界 🌍\"" value="世界 🌍"
+arg 2 bytes=[29,31) runes=[21,23) quoted=true raw="\"\"" value=""
+arg 3 bytes=[32,37) runes=[24,29) quoted=false raw="tail\\" value="tail\\"
+canonical="\"café mocha\" \"世界 🌍\" \"\" tail\\"
