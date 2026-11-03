@@ -84,10 +84,10 @@ func Build(tree *groff.AST, o Options) (*Document, error) {
 				if b.pre != 0 {
 					node := d.Node(b.pre)
 					node.Runs = append(node.Runs, Run{Text: p.Raw(), Style: b.state.Style, Unsupported: true, Origin: origin(p)})
-					b.touch(b.pre, p)
+					b.touchCapture(b.pre, p)
 				} else if b.expectTag && b.item != 0 {
-					b.appendContent(n, []Run{{Text: p.Raw(), Style: b.state.Style, Unsupported: true, Origin: origin(p)}}, false)
-					b.touch(b.item, p)
+					b.appendContent(p, []Run{{Text: p.Raw(), Style: b.state.Style, Unsupported: true, Origin: origin(p)}}, false)
+					b.touchCapture(b.item, p)
 				} else {
 					b.flush()
 					id := b.add(Unsupported, b.contentParent(), n)
@@ -95,6 +95,7 @@ func Build(tree *groff.AST, o Options) (*Document, error) {
 					node.Value = cmd
 					node.Origin = origin(p)
 					node.Runs = []Run{{Text: p.Raw(), Style: b.state.Style, Unsupported: true, Origin: origin(p)}}
+					b.touchCapture(id, p)
 				}
 				b.diag(n, "unsupported semantics preserved without evaluation: "+cmd, "warning")
 				for i+1 < len(lines) && lines[i+1].Span().Start.Offset < p.Span().End.Offset {
@@ -485,7 +486,9 @@ func Build(tree *groff.AST, o Options) (*Document, error) {
 
 func (b *builder) add(kind Kind, parent ID, n *groff.ASTNode) ID {
 	id := ID(len(b.doc.Nodes) + 1)
-	b.doc.Nodes = append(b.doc.Nodes, Node{ID: id, Parent: parent, Kind: kind, State: cloneState(b.before), Origin: origin(n)})
+	o := origin(n)
+	appendStructuralOrigin(&o, n, kind)
+	b.doc.Nodes = append(b.doc.Nodes, Node{ID: id, Parent: parent, Kind: kind, State: cloneState(b.before), Origin: o})
 	if parent != 0 {
 		p := b.doc.Node(parent)
 		p.Children = append(p.Children, id)
@@ -526,9 +529,35 @@ func (b *builder) touch(id ID, n *groff.ASTNode) {
 	if len(ids) == 0 || ids[len(ids)-1] != n.ID() {
 		node.Origin.ASTIDs = append(ids, n.ID())
 	}
+	appendStructuralOrigin(&node.Origin, n, node.Kind)
 	if n.Span().End.Offset > node.Origin.Span.End.Offset {
 		node.Origin.Span.End = n.Span().End
 	}
+}
+
+// A structural block and its physical opener contribute the same semantic
+// group. Inline nodes keep their separate syntax identity; CLI selection maps
+// them to their physical line before looking up the semantic owner.
+func appendStructuralOrigin(o *Origin, n *groff.ASTNode, kind Kind) {
+	if kind != Indent && kind != Preformatted {
+		return
+	}
+	if p := n.Parent(); n.Kind() == groff.ASTLine && p != nil && p.Kind() == groff.ASTBlock && p.Span().Start.Offset == n.Span().Start.Offset {
+		o.ASTIDs = append(o.ASTIDs, p.ID())
+	}
+}
+
+// A capture contributes every stored line and nested block as literal data to
+// one semantic owner. Record IDs once without expanding/evaluating the body.
+func (b *builder) touchCapture(id ID, block *groff.ASTNode) {
+	b.touch(id, block)
+	node := b.doc.Node(id)
+	block.Walk(func(n *groff.ASTNode) groff.WalkAction {
+		if n != block && (n.Kind() == groff.ASTLine || n.Kind() == groff.ASTBlock) {
+			node.Origin.ASTIDs = append(node.Origin.ASTIDs, n.ID())
+		}
+		return groff.WalkContinue
+	})
 }
 func (b *builder) diag(n *groff.ASTNode, message, severity string) {
 	b.doc.Diagnostics = append(b.doc.Diagnostics, groff.Diagnostic{Message: message, Position: n.Span().Start, Severity: severity})

@@ -234,7 +234,7 @@ func FuzzCapturedSemanticIsolation(f *testing.F) {
 		calls := 0
 		raw := ".LITERAL\n" + body + "\n.ENDCAPTURE\n"
 		source := ".TH OUTER 1\n.SH REAL\n" + raw + "after\n"
-		_, d := buildCaptured(t, source, groff.WithBlockHandler(semanticCaptureHandler{command: ".LITERAL", calls: &calls}))
+		tree, d := buildCaptured(t, source, groff.WithBlockHandler(semanticCaptureHandler{command: ".LITERAL", calls: &calls}))
 		assertCapturedState(t, d, true)
 		if calls != 1 {
 			t.Fatal("handler lifecycle changed")
@@ -250,6 +250,14 @@ func FuzzCapturedSemanticIsolation(f *testing.F) {
 		}
 		if count != 1 {
 			t.Fatal("captured body fragmented")
+		}
+		block := tree.Root().FindKind(groff.ASTBlock)[0]
+		lines := block.FindKind(groff.ASTLine)
+		for _, n := range []*groff.ASTNode{block, lines[0], lines[len(lines)/2], lines[len(lines)-1]} {
+			selected, err := d.SelectAST(n.ID())
+			if err != nil || selected.Text(man.TextOptions{Raw: true}) != raw {
+				t.Fatalf("captured source identity cannot select its complete owner: %v", err)
+			}
 		}
 	})
 }
