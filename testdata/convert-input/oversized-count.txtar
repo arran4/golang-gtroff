@@ -1,0 +1,13 @@
+Conversion input boundary: oversized-count.
+-- input.txt --
+-- options.json --
+{"Mode":"oversized"}
+-- expected.txt --
+html source="" document=false calls=1
+error="input.txt:1:1: invalid source reader count: got 513 for buffer of 512 bytes" readerCause=true limit=false noProgress=false invalidCount=true
+position=0/1:1
+adapterError=true wrote=false
+roff source="" document=false calls=1
+error="input.txt:1:1: invalid source reader count: got 513 for buffer of 512 bytes" readerCause=true limit=false noProgress=false invalidCount=true
+position=0/1:1
+adapterError=true wrote=false

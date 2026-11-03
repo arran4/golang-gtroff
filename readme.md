@@ -28,13 +28,14 @@ From the reviewed feature checkout, use Go 1.26 or newer (tested: 1.26.10):
 go build -o gtroff ./cmd/gtroff
 ```
 
-Or install this feature revision directly, with Go's bin directory on PATH:
+Or install from the same reviewed checkout, with Go's bin directory on PATH:
 
 ```sh
-go install github.com/arran4/golang-gtroff/cmd/gtroff@codex/issue-29-release-ci
+go install ./cmd/gtroff
 ```
 
-A tagged release can replace the branch suffix once published. For library use,
+After a tagged release is published, remote installation can use
+`go install github.com/arran4/golang-gtroff/cmd/gtroff@VERSION`. For library use,
 use `go get github.com/arran4/golang-gtroff` with an appropriate reviewed revision.
 The optional desktop command has a separate module and build below.
 
@@ -186,6 +187,8 @@ The [document reader](docs/document.md) also exposes exact captured source,
 per-token raw bytes, partial results and configurable byte/line limits. AST
 reader failures return a partial tree with positioned causes; `SourceComplete()`
 distinguishes observed EOF from a captured prefix.
+[Conversion imports](docs/convert.md#input-failures) retain captured source on
+input failure and return positioned causes while leaving output untouched.
 The [HTTP library](docs/serve.md) shares its raw/decode byte budget across roots
 and failed page attempts, and aborts startup before listening when exhausted.
 [Block handlers](docs/blocks.md) inspect bounded raw regions with exact headers,
