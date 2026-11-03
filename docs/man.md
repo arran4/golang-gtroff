@@ -71,7 +71,24 @@ escaped punctuation, spaces, `\&`, `\c` continuation and the existing special
 character decoder are supported. Unsupported fonts, size escapes, strings,
 registers and unknown glyphs remain literal syntax with diagnostics. Definitions,
 ignored regions and preprocessors are preserved as inspectable unsupported
-blocks. They are not expanded or silently discarded.
+blocks. They are not expanded or silently discarded. The model follows parser-owned
+`BlockSource` boundaries for every captured block, including definition variants
+(`.de1`, `.dei`, `.dei1`, `.am1`, `.ami`, `.ami1`) and custom block handlers.
+Stored `.TH`, `.SH`, font, link, fill and indentation controls remain literal
+bytes; they cannot change page metadata, sections or following content. Nested,
+unterminated and unresolved indirect captures keep their AST recovery boundary
+and diagnostics. A capture inside preformatted content or a pending tag remains
+in that semantic context. Model construction never reruns a block handler or
+interprets its formatted token as page content. Ordinary `.EX`, `.nf` and `.RS`
+structures keep their documented semantics unless a parser block handler
+explicitly overrides them.
+
+See the [captured-definition example](../man/captured_example_test.go), four
+focused TXTAR cases in `testdata/man/`, and the cross-feature
+[`captured-definition` scenario](../testdata/scenarios/captured-definition.txtar).
+That scenario checks literal retention through HTML, PNG encoding, canonical
+roff and HTTP. Canonical roff emits escaped preformatted text for unsupported
+source; its original unsupported syntax kind is outside semantic loop equality.
 
 ## Selection, text and source
 

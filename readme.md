@@ -185,7 +185,9 @@ reader failures return a partial tree with positioned causes; `SourceComplete()`
 distinguishes observed EOF from a captured prefix.
 [Block handlers](docs/blocks.md) inspect bounded raw regions with exact headers,
 bodies, terminators and spans; their registration never enables preprocessing
-or external execution automatically. Definition variants keep their bodies
+or external execution automatically. The semantic model follows captured block
+boundaries, so stored headings and state changes cannot affect the surrounding
+page. Definition variants keep their bodies
 opaque; indirect end names require explicit delimiter state. Unresolved regions
 remain visible with diagnostics.
 The [syntax support report](docs/catalogue-support.md) lists every canonical

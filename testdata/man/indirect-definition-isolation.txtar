@@ -1,0 +1,37 @@
+An indirect definition with the default delimiter remains one literal block.
+-- options.json --
+{"strict":true}
+-- error.txt --
+man semantics:
+-- input.1 --
+.TH OUTER 1
+.SH REAL
+.dei SAVED
+.TH HIDDEN 9
+.SH HIDDEN
+.UR https://stored.invalid
+..
+after
+-- expected-man.json --
+{
+  "version": 1,
+  "metadata": {"title":"OUTER","section":"1"},
+  "metadataOrigin": {"astIds":[2],"span":{"Start":{"Filename":"input.1","Offset":0,"Line":1,"Column":1},"End":{"Filename":"input.1","Offset":12,"Line":2,"Column":1}}},
+  "nodes": [
+    {"id":1,"children":[2],"kind":"document","state":{"style":{},"previous":{},"fill":true},"origin":{"astIds":[1],"span":{"Start":{"Filename":"input.1","Offset":0,"Line":1,"Column":1},"End":{"Filename":"input.1","Offset":92,"Line":9,"Column":1}}}},
+    {"id":2,"parent":1,"children":[3,4],"kind":"section","heading":"REAL","runs":[{"text":"REAL","style":{"bold":true},"origin":{"astIds":[5],"span":{"Start":{"Filename":"input.1","Offset":12,"Line":2,"Column":1},"End":{"Filename":"input.1","Offset":21,"Line":3,"Column":1}}}}],"state":{"style":{},"previous":{},"fill":true},"origin":{"astIds":[5,4],"span":{"Start":{"Filename":"input.1","Offset":12,"Line":2,"Column":1},"End":{"Filename":"input.1","Offset":92,"Line":9,"Column":1}}}},
+    {"id":3,"parent":2,"kind":"unsupported","value":".dei","runs":[{"text":".dei SAVED\n.TH HIDDEN 9\n.SH HIDDEN\n.UR https://stored.invalid\n..\n","style":{},"unsupported":true,"origin":{"astIds":[7],"span":{"Start":{"Filename":"input.1","Offset":21,"Line":3,"Column":1},"End":{"Filename":"input.1","Offset":86,"Line":8,"Column":1}}}}],"state":{"style":{},"previous":{},"fill":true},"origin":{"astIds":[7],"span":{"Start":{"Filename":"input.1","Offset":21,"Line":3,"Column":1},"End":{"Filename":"input.1","Offset":86,"Line":8,"Column":1}}}},
+    {"id":4,"parent":2,"kind":"paragraph","runs":[{"text":"after","style":{},"origin":{"astIds":[14],"span":{"Start":{"Filename":"input.1","Offset":86,"Line":8,"Column":1},"End":{"Filename":"input.1","Offset":92,"Line":9,"Column":1}}}}],"state":{"style":{},"previous":{},"fill":true},"origin":{"astIds":[14],"span":{"Start":{"Filename":"input.1","Offset":86,"Line":8,"Column":1},"End":{"Filename":"input.1","Offset":92,"Line":9,"Column":1}}}}
+  ],
+  "diagnostics": [{"Message":"unsupported semantics preserved without evaluation: .dei","Position":{"Filename":"input.1","Offset":21,"Line":3,"Column":1},"Severity":"warning"}]
+}
+-- expected-text.txt --
+REAL
+.dei SAVED
+.TH HIDDEN 9
+.SH HIDDEN
+.UR https://stored.invalid
+..
+after
+-- expected-canonical.json --
+{"metadata":{"title":"OUTER","section":"1"},"nodes":[{"kind":"document","state":{"style":{},"previous":{},"fill":true}},{"kind":"section","parent":1,"heading":"REAL","runs":[{"text":"REAL","style":{"bold":true}}],"state":{"style":{},"previous":{},"fill":true}},{"kind":"unsupported","parent":2,"value":".dei","runs":[{"text":".dei SAVED\n.TH HIDDEN 9\n.SH HIDDEN\n.UR https://stored.invalid\n..\n","style":{},"unsupported":true}],"state":{"style":{},"previous":{},"fill":true}},{"kind":"paragraph","parent":2,"runs":[{"text":"after","style":{}}],"state":{"style":{},"previous":{},"fill":true}}]}
