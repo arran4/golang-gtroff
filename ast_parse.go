@@ -154,6 +154,7 @@ func ParseAST(r io.Reader, opts ...Option) (*AST, error) {
 		if cmd != "" && !closing && !opaque && (o.MaxLineLength <= 0 || len(raw) <= o.MaxLineLength) {
 			selectedLine, selectedBlock, headerErr = registry.documentHandler(originalCmd, o.Package)
 			if headerErr == nil && selectedBlock != nil {
+				selectedBlock = withBlockNameResolver(selectedBlock, o.BlockNameResolver)
 				candidate, headerErr = beginBlockCapture(selectedBlock, BlockHeader{Command: originalCmd, Args: args, Package: o.Package, Line: physical}, o.MaxBlockDepth)
 			}
 		}
@@ -182,24 +183,27 @@ func ParseAST(r io.Reader, opts ...Option) (*AST, error) {
 			marker = ""
 		}
 		if candidate != nil {
-			marker = candidate.source.Rule.Ends[0]
+			if len(candidate.source.Rule.Ends) > 0 {
+				marker = candidate.source.Rule.Ends[0]
+			}
 			blockOpaque = true
 		}
 		// Distinct explicit macro terminators describe nested syntax only. No
 		// user callbacks run while inspecting an opaque definition body.
-		if opaque && top != nil && (top.attrs.Name == ".de" || top.attrs.Name == ".am") && (cmd == ".de" || cmd == ".am" || cmd == ".ig") {
+		if opaque && top != nil && top.attrs.UnresolvedEnd == "" && isMacroDefinitionBlock(top.attrs.Name) && (isMacroDefinitionBlock(cmd) || cmd == ".ig") {
 			selectedBlock = generatedBlockHandler(cmd)
 			if selectedBlock != nil {
 				candidate, headerErr = beginBlockCapture(selectedBlock, BlockHeader{Command: originalCmd, Args: args, Package: o.Package, Line: physical}, o.MaxBlockDepth)
-				if headerErr == nil {
+				if headerErr == nil && candidate.source.Rule.UnresolvedEnd == "" {
 					marker = candidate.source.Rule.Ends[0]
 					blockOpaque = true
 				} else {
 					marker = ""
+					candidate = nil
 				}
 			}
 		}
-		opening := marker != "" && !closing && (!opaque || ((cmd == ".de" || cmd == ".am" || cmd == ".ig") && top != nil && marker != top.attrs.EndMarker && (top.attrs.Name == ".de" || top.attrs.Name == ".am")))
+		opening := (marker != "" || candidate != nil && !opaque) && !closing && (!opaque || ((isMacroDefinitionBlock(cmd) || cmd == ".ig") && top != nil && marker != top.attrs.EndMarker && isMacroDefinitionBlock(top.attrs.Name)))
 
 		if opening && len(blocks) >= o.ASTDepth {
 			opening = false
@@ -212,7 +216,8 @@ func ParseAST(r io.Reader, opts ...Option) (*AST, error) {
 			b.attrs = ASTAttributes{Name: cmd, EndMarker: marker, Opaque: blockOpaque}
 			if candidate != nil {
 				_, builtin := selectedBlock.(builtinBlockHandler)
-				captures[b] = &astBlockCapture{handler: selectedBlock, capture: candidate, custom: !builtin, machine: !builtin || len(candidate.source.Rule.Nested) > 0}
+				b.attrs.UnresolvedEnd = candidate.source.Rule.UnresolvedEnd
+				captures[b] = &astBlockCapture{handler: selectedBlock, capture: candidate, custom: !builtin, machine: !builtin || len(candidate.source.Rule.Nested) > 0 || candidate.source.Rule.UnresolvedEnd != ""}
 			}
 
 			blocks = append(blocks, b)
@@ -371,7 +376,7 @@ func ParseAST(r io.Reader, opts ...Option) (*AST, error) {
 				}
 				diagnosticAt(b, state.capture.failure.Error(), "error", position)
 			}
-			if state.stopped || copy.Tail.RawSource != "" {
+			if state.stopped || copy.Tail.RawSource != "" || copy.Rule.UnresolvedEnd != "" {
 				continue
 			}
 		}

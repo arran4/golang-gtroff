@@ -8,8 +8,8 @@ Review its diff when approving catalogue or classification changes.
 
 | Parse status | Current records | Evidence |
 | --- | ---: | --- |
-| `supported_generated` | 336 | Generated line parser, concrete token type and metadata |
-| `supported_custom` | 11 | Generated line token plus handwritten document/block route |
+| `supported_generated` | 330 | Generated line parser, concrete token type and metadata |
+| `supported_custom` | 17 | Generated line token plus handwritten document/block route |
 | `syntactically_preserved` | 171 | String/register reference kind, name and exact raw spelling |
 | `unimplemented` | 0 | Missing definition/dispatch/custom route or invalid classification |
 | `ambiguous` | 0 | Duplicate dispatch or incorrect package-specific parser |
@@ -18,11 +18,14 @@ Review its diff when approving catalogue or classification changes.
 and an isolated registry. The examples probe dispatch with required arguments;
 they are not comprehensive grammar fixtures. For custom block/definition routes,
 the test also parses the complete example and checks its concrete handwritten
-token. A missing handwritten implementation cannot satisfy that check by falling
-back to an ordinary generated token. Includes remain syntax-only in these tests.
+token/body. Indirect variants use a default-end example; explicit/unresolved
+indirect boundaries are verified separately in the block scenarios. A missing
+handwritten implementation cannot satisfy that check by falling back to an ordinary generated token. Includes remain syntax-only in these tests.
 
-Historical `declared_status` is retained separately: its 331 `generated`, 16
-`custom_handler` and 171 `syntax_preserved` labels describe catalogue declarations.
+Catalogue `declared_status` is retained separately: its 325 `generated`, 22
+`custom_handler` and 171 `syntax_preserved` labels describe declarations. Six
+definition variants now declare handwritten multiline capture; their generated
+line-token APIs remain available.
 Five custom declarations (`.so`, `.mso`, `.if`, `.ie`, `.el`) have generated syntax
 tokens with separate optional execution. They count as generated syntax here;
 they do not count as verified custom evaluation.

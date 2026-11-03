@@ -153,6 +153,10 @@ func classifySupport(entry *NormalizedEntry, support *SupportEntry, definitions 
 		}
 		block := blocks[0]
 		route, ok := documentBlockExamples[block.Kind]
+		if block.Kind == "definition_variant" || block.Kind == "append_variant" {
+			route = documentSupport{tokenType: "TokenMacroDefinitionVariant", example: block.Command + " LOCAL\nbody\n..\n"}
+			ok = true
+		}
 		if !ok {
 			support.ParseStatus, support.Reason = supportMissing, "missing block implementation"
 			return

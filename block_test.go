@@ -108,6 +108,7 @@ func TestBlockScenarios(t *testing.T) {
 			var options struct {
 				Custom, Strict, CRLF, NoFinalLF bool
 				Depth                           int
+				Names                           map[string]string
 			}
 			if raw, ok := files["options.json"]; ok {
 				decoder := json.NewDecoder(bytes.NewReader(raw))
@@ -126,12 +127,24 @@ func TestBlockScenarios(t *testing.T) {
 			if options.Custom {
 				opts = append(opts, WithBlockHandler(&blockTestHandler{}))
 			}
+			if options.Names != nil {
+				opts = append(opts, WithBlockNameResolver(BlockNameResolverFunc(func(header BlockHeader, name string) (string, error) {
+					value, ok := options.Names[name]
+					if !ok {
+						return "", fmt.Errorf("missing delimiter reference %s", name)
+					}
+					return value, nil
+				})))
+			}
 			doc, docErr := ParseDocument(bytes.NewReader(input), opts...)
 			assertDocumentSource(t, doc, string(input))
 			var got strings.Builder
 			fmt.Fprintf(&got, "document error=%v\n", docErr)
 			for _, entry := range doc.Tokens {
 				fmt.Fprintf(&got, "token %T [%d,%d) raw=%q\n", entry.Token, entry.Span.Start.Offset, entry.Span.End.Offset, entry.RawSource)
+				if variant, ok := entry.Token.(*TokenMacroDefinitionVariant); ok {
+					fmt.Fprintf(&got, "  variant %s\n", mustBlockJSON(t, variant))
+				}
 				if entry.Block != nil {
 					assertBlockSource(t, *entry.Block, string(input))
 					if entry.Block.Source() != entry.RawSource {
@@ -159,9 +172,11 @@ func TestBlockScenarios(t *testing.T) {
 					if len(block.Body) > 0 {
 						block.Body[0].RawSource = "caller mutation"
 					}
-					block.Rule.Ends[0] = ".CHANGED"
+					if len(block.Rule.Ends) > 0 {
+						block.Rule.Ends[0] = ".CHANGED"
+					}
 					again, _ := node.BlockSource()
-					if again.BodySource() != original || again.Rule.Ends[0] == ".CHANGED" {
+					if again.BodySource() != original || len(again.Rule.Ends) > 0 && again.Rule.Ends[0] == ".CHANGED" {
 						t.Fatal("mutable AST capture")
 					}
 				}
@@ -457,7 +472,7 @@ func TestBlockFaultsLimitsAndIncludes(t *testing.T) {
 }
 
 func FuzzBlockCapture(f *testing.F) {
-	for _, s := range []string{".TS\ncell\n.TE\n", ".TS\n.EQ\nx\n.TE\n", ".BOX\n.BOX\nraw\n.END\n.END", ".de \"X\" \"END\"\n雪\n.END", ".ig\nraw", ".PS\ncircle\n.PF\n"} {
+	for _, s := range []string{".TS\ncell\n.TE\n", ".TS\n.EQ\nx\n.TE\n", ".BOX\n.BOX\nraw\n.END\n.END", ".de \"X\" \"END\"\n雪\n.END", ".ig\nraw", ".PS\ncircle\n.PF\n", ".de1 X\n.B body\n..\n", ".dei X REF\n.nr Y 9\n..\n"} {
 		f.Add(s)
 	}
 	f.Fuzz(func(t *testing.T, input string) {

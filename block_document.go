@@ -8,13 +8,26 @@ import (
 
 func beginBlockCapture(handler BlockHandler, header BlockHeader, limit int) (*blockCapture, error) {
 	rule, err := handler.Begin(header)
+	var unresolved *BlockDelimiterError
+	if errors.As(err, &unresolved) {
+		if unresolved.Reference == "" {
+			return nil, blockSyntax(header.Line.Span.Start, fmt.Errorf("%w: empty unresolved delimiter reference", ErrInvalidHandler))
+		}
+		capture := newBlockCapture(header, BlockRule{UnresolvedEnd: unresolved.Reference}, limit)
+		capture.failure = blockSyntax(header.Line.Span.Start, err)
+		return capture, nil
+	}
 	if err == nil {
 		err = validateBlockRule(rule)
 	}
 	if err != nil {
 		return nil, blockSyntax(header.Line.Span.Start, err)
 	}
-	return newBlockCapture(header, rule, limit), nil
+	capture := newBlockCapture(header, rule, limit)
+	if rule.UnresolvedEnd != "" {
+		capture.failure = blockSyntax(header.Line.Span.Start, &BlockDelimiterError{Reference: rule.UnresolvedEnd})
+	}
+	return capture, nil
 }
 func completeCapturedBlock(handler BlockHandler, capture *blockCapture) (Token, error) {
 	err := capture.finishError()

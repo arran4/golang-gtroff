@@ -17,13 +17,13 @@
       "String": 59
     },
     "entries_by_status": {
-      "custom_handler": 16,
-      "generated": 331,
+      "custom_handler": 22,
+      "generated": 325,
       "syntax_preserved": 171
     },
     "entries_by_parse_status": {
-      "supported_custom": 11,
-      "supported_generated": 336,
+      "supported_custom": 17,
+      "supported_generated": 330,
       "syntactically_preserved": 171
     },
     "entries_by_package": {
@@ -4192,6 +4192,7 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "block_kind": "definition_variant",
       "argument_mode": "fixed",
       "minimum_arguments": 1,
       "maximum_arguments": 2,
@@ -4199,14 +4200,17 @@
       "kind": "Request",
       "package": "roff",
       "token": ".dei1",
-      "declared_status": "generated",
-      "parse_status": "supported_generated",
-      "api": "ParseLineWithPackage",
+      "declared_status": "custom_handler",
+      "parse_status": "supported_custom",
+      "api": "ParseDocument",
       "parser": "ParseTokenRequestDei1",
       "example": ".dei1 value",
+      "document_type": "TokenMacroDefinitionVariant",
+      "document_example": ".dei1 LOCAL\nbody\n..\n",
       "evaluation_status": "not_assessed"
     },
     {
+      "block_kind": "append_variant",
       "argument_mode": "fixed",
       "minimum_arguments": 1,
       "maximum_arguments": 2,
@@ -4214,11 +4218,13 @@
       "kind": "Request",
       "package": "roff",
       "token": ".ami1",
-      "declared_status": "generated",
-      "parse_status": "supported_generated",
-      "api": "ParseLineWithPackage",
+      "declared_status": "custom_handler",
+      "parse_status": "supported_custom",
+      "api": "ParseDocument",
       "parser": "ParseTokenRequestAmi1",
       "example": ".ami1 value",
+      "document_type": "TokenMacroDefinitionVariant",
+      "document_example": ".ami1 LOCAL\nbody\n..\n",
       "evaluation_status": "not_assessed"
     },
     {
@@ -5715,6 +5721,7 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "block_kind": "append_variant",
       "argument_mode": "fixed",
       "minimum_arguments": 1,
       "maximum_arguments": 2,
@@ -5722,14 +5729,17 @@
       "kind": "Request",
       "package": "roff",
       "token": ".ami",
-      "declared_status": "generated",
-      "parse_status": "supported_generated",
-      "api": "ParseLineWithPackage",
+      "declared_status": "custom_handler",
+      "parse_status": "supported_custom",
+      "api": "ParseDocument",
       "parser": "ParseTokenRequestAmi",
       "example": ".ami value",
+      "document_type": "TokenMacroDefinitionVariant",
+      "document_example": ".ami LOCAL\nbody\n..\n",
       "evaluation_status": "not_assessed"
     },
     {
+      "block_kind": "append_variant",
       "argument_mode": "fixed",
       "minimum_arguments": 1,
       "maximum_arguments": 2,
@@ -5737,11 +5747,13 @@
       "kind": "Request",
       "package": "roff",
       "token": ".am1",
-      "declared_status": "generated",
-      "parse_status": "supported_generated",
-      "api": "ParseLineWithPackage",
+      "declared_status": "custom_handler",
+      "parse_status": "supported_custom",
+      "api": "ParseDocument",
       "parser": "ParseTokenRequestAm1",
       "example": ".am1 value",
+      "document_type": "TokenMacroDefinitionVariant",
+      "document_example": ".am1 LOCAL\nbody\n..\n",
       "evaluation_status": "not_assessed"
     },
     {
@@ -5763,6 +5775,7 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "block_kind": "definition_variant",
       "argument_mode": "fixed",
       "minimum_arguments": 1,
       "maximum_arguments": 2,
@@ -5770,14 +5783,17 @@
       "kind": "Request",
       "package": "roff",
       "token": ".dei",
-      "declared_status": "generated",
-      "parse_status": "supported_generated",
-      "api": "ParseLineWithPackage",
+      "declared_status": "custom_handler",
+      "parse_status": "supported_custom",
+      "api": "ParseDocument",
       "parser": "ParseTokenRequestDei",
       "example": ".dei value",
+      "document_type": "TokenMacroDefinitionVariant",
+      "document_example": ".dei LOCAL\nbody\n..\n",
       "evaluation_status": "not_assessed"
     },
     {
+      "block_kind": "definition_variant",
       "argument_mode": "fixed",
       "minimum_arguments": 1,
       "maximum_arguments": 2,
@@ -5785,11 +5801,13 @@
       "kind": "Request",
       "package": "roff",
       "token": ".de1",
-      "declared_status": "generated",
-      "parse_status": "supported_generated",
-      "api": "ParseLineWithPackage",
+      "declared_status": "custom_handler",
+      "parse_status": "supported_custom",
+      "api": "ParseDocument",
       "parser": "ParseTokenRequestDe1",
       "example": ".de1 value",
+      "document_type": "TokenMacroDefinitionVariant",
+      "document_example": ".de1 LOCAL\nbody\n..\n",
       "evaluation_status": "not_assessed"
     },
     {

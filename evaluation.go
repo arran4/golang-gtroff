@@ -294,6 +294,8 @@ func (m *evaluation) token(tok Token) error {
 			return err
 		}
 		return m.appendString(t.Name, t.StringVal)
+	case *TokenMacroDefinitionVariant:
+		return m.preserve(tok, "definition variant retained; compatibility and indirect definition execution are not implemented")
 	case *TokenMacroDefinition:
 		return m.setDefinition(EvaluationMacro, t.Name, EvaluationValue{Body: t.Body})
 	case *TokenMacroAppend:

@@ -34,6 +34,7 @@ and escape interpretation remain parser contracts, not a new roff input grammar.
 | `.nr name expression [increment]` | Checked Go `int` arithmetic after interpolation. A leading `+`/`-` adds/subtracts the **entire following expression** from the current register. Omitted increments retain metadata; explicit zero clears it. Invalid expressions and overflow error. |
 | `.rr name ...` | Removes each register and its increment metadata. |
 | `.ds name value`, `.as name value` | Store/append literal parsed string values; append is bounded before concatenation. |
+| `.de1`, `.dei`, `.dei1`, `.am1`, `.ami`, `.ami1` blocks | Preserved as complete variant tokens with a diagnostic; compatibility and indirect definition execution remain unsupported. Body requests do not execute. |
 | `.de name` / `.am name` blocks | Copy/append raw body lines; append to an undefined macro creates it. Redefinition replaces the object shared by its aliases. |
 | Unknown control matching a defined macro | Decode quoted/escaped arguments with `ArgumentParser`, interpolate each argument once, then reparse/evaluate body lines in a scoped call frame. Names colliding with generated syntax remain unsupported with diagnostics. |
 | `.als new old`, `.rm name ...` | Alias a string/macro object or remove names. Redefinition/append through either name updates the shared object. Removing its original name preserves the object under remaining aliases. Undefined alias targets retain the request with a diagnostic. |
