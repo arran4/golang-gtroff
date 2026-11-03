@@ -78,7 +78,7 @@ import (
 //	fontSize: --font-size 8..72, default 18 (default: 18)
 //	lineHeight: --line-height 1..3, default 1.5 (default: 1.5)
 //	maxWidth: --max-width 320..2400, default 960 (default: 960)
-//	fontRegular: --font-regular (alias: --font) Explicit custom TTF/OTF font
+//	fontRegular: --font-regular, --font Explicit custom TTF/OTF font
 //	fontBold: --font-bold Explicit custom bold font
 //	fontItalic: --font-italic Explicit custom italic font
 //	fontMono: --font-mono Explicit custom mono font

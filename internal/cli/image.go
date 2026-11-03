@@ -119,7 +119,7 @@ func Image() error {
 //	maxHeight: --max-height (default: 32768) 128..32768, default 32768
 //	maxPixels: --max-pixels (default: 67108864) Total across all pages; default/hard ceiling 67108864
 //	quality: --quality (default: 90) JPEG 1..100, default 90
-//	fontRegular: --font (default: "") Explicit custom TTF/OTF font
+//	fontRegular: --font-regular, --font (default: "") Explicit custom TTF/OTF font
 //	fontBold: --font-bold (default: "") Explicit custom bold font
 //	fontItalic: --font-italic (default: "") Explicit custom italic font
 //	fontMono: --font-mono (default: "") Explicit custom mono font
