@@ -1,0 +1,10 @@
+Arithmetic outside the legacy integer profile is rejected, not coerced to zero.
+-- input.roff --
+.nr X 4
+.nr X 2+3
+suffix
+-- error.txt --
+unsupported or invalid integer
+-- expected.txt --
+register X=4
+error evaluate token 1 (): unsupported or invalid integer "2+3": strconv.Atoi: parsing "2+3": invalid syntax
