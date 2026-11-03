@@ -54,6 +54,7 @@ type ParserOptions struct {
 	MaxLines        int
 	MaxIncludeDepth int // default 10, capped at 128; ParseDocument only
 	IncludeResolver IncludeResolver
+	Registry        *Registry
 	CustomHandlers  []CustomHandler
 }
 
@@ -91,6 +92,15 @@ func WithMaxIncludeDepth(n int) Option {
 	return func(o *ParserOptions) { o.MaxIncludeDepth = n }
 }
 
+// WithRegistry selects custom handlers for this parse instead of the global
+// registry. An empty NewRegistry isolates parsing from global handlers; nil uses
+// the legacy global default. Registrations are snapshotted when parsing starts.
+func WithRegistry(r *Registry) Option {
+	return func(o *ParserOptions) { o.Registry = r }
+}
+
+// WithCustomHandler adds a parse-local handler to the selected registry snapshot.
+// It does not register globally or mutate a registry supplied via WithRegistry.
 func WithCustomHandler(h CustomHandler) Option {
 	return func(o *ParserOptions) { o.CustomHandlers = append(o.CustomHandlers, h) }
 }
@@ -113,6 +123,7 @@ func ParseDocument(r io.Reader, opts ...Option) (*Document, error) {
 	if options.MaxIncludeDepth > 128 {
 		options.MaxIncludeDepth = 128
 	}
+	options.Registry = registryForOptions(options)
 	return parseDocument(r, options, &includeState{active: make(map[string]bool)})
 }
 
@@ -280,14 +291,7 @@ func parseDocument(r io.Reader, options ParserOptions, includes *includeState) (
 		}
 
 		// Standard line parsing
-		var tok Token
-		var parseErr error
-
-		if options.Strict {
-			tok, parseErr = ParseLineWithPackage(trimmedLine, options.Package)
-		} else {
-			tok, parseErr = ParseLinePermissive(trimmedLine, options.Package)
-		}
+		tok, parseErr := parseLineWithRegistry(trimmedLine, options.Package, !options.Strict, options.Registry)
 
 		if parseErr != nil {
 			if options.Strict {

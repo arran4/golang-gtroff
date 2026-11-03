@@ -104,6 +104,43 @@ Process input files.
 }
 ```
 
+### Custom line handlers
+
+Implement `CustomHandler` and register it with `NewRegistry().RegisterCustom`.
+Pass `WithRegistry(registry)` to `ParseDocument` or `ParseAST`, or call
+`registry.ParseLine(line, packageName)` / `registry.ParseLinePermissive` directly.
+`WithCustomHandler(handler)` adds a handler for just that parse without changing
+the supplied registry. See the executable `ExampleWithRegistry` in
+[`registry_example_test.go`](../registry_example_test.go).
+
+An explicit empty registry isolates a parse from process-global registrations.
+With no explicit registry (or `WithRegistry(nil)`), legacy global registration
+via `RegisterCustomHandler` remains available. Document/AST parsing snapshots
+registrations before reading input; includes use the same snapshot. Later
+registration affects subsequent parses. Handler objects themselves are shared:
+protect their mutable state when parsing concurrently.
+
+Custom handlers precede generated dispatch for ordinary control lines. `cmd`
+retains the original `.`/`'` prefix and `args` retains quoting/escaping with leading
+argument whitespace removed. `CanHandle` must be a pure predicate. Exactly one
+matching custom handler may parse: overlapping predicates/duplicate matches return
+`ErrAmbiguousHandler` before any `Parse` callback. Nil registrations and successful
+nil token results return `ErrInvalidHandler`. Predicate overlap is checked for
+encountered requests, not exhaustively across all possible command names.
+
+No match uses the generated token parser or the usual unknown-control behavior.
+Handler syntax errors stay errors; permissive document/AST parsing preserves the
+line and records a diagnostic. AST source bytes and copied typed token snapshots
+remain independent of a custom token's formatted `String()` value. Custom tokens
+must support JSON round trips for typed AST inspection; only serialized state is
+copied, and JSON encoding failures produce diagnostics. AST block and
+argument syntax rules, and legacy multiline/include handling, still belong to
+their respective parsers; this interface does not execute macro definitions.
+
+This #5 repair connects per-parse handlers and makes dispatch safe. Catalogue-wide
+validation of missing handwritten implementations remains separate; this is not
+a claim that all #5/#12 acceptance criteria are complete.
+
 ### Explicit legacy includes
 
 `ParseDocument` reads no included files unless given `WithIncludeResolver`.

@@ -1,0 +1,16 @@
+The handler sees raw dot/apostrophe spelling and quoted/escaped arguments.
+Generated .TH remains the fallback. Token formatting is separate from source.
+-- options.json --
+{"package":"man","handlers":["local"]}
+-- input.1 --
+.LOCAL "héllo world"
+'LOCAL second\ word
+.TH TOOL 1
+-- expected.txt --
+.CUSTOM man "héllo world" | .LOCAL "héllo world"
+.CUSTOM man second\ word | 'LOCAL second\ word
+.TH TOOL 1 | .TH TOOL 1
+-- extract.txt --
+héllo world
+second word
+TOOL 1

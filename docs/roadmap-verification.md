@@ -54,6 +54,14 @@ including md2png, were consulted read-only.
   reader; the same probe passed on the repair. Include TXTAR scenarios, OS boundary
   tests and focused race tests cover these contracts. This does not complete the
   rest of #12 or replace native Windows/macOS evidence.
+- The separate #5 registry repair wires previously ignored custom-handler options
+  through document/AST dispatch and inherited includes. Explicit registries isolate
+  callers; registration snapshots keep active parses stable. TXTAR cases cover
+  package/precedence, source vs. token formatting, custom errors and invalid or
+  ambiguous results. Race tests cover registration/dispatch and isolated parsers;
+  a subprocess verifies the legacy global API without polluting other tests. A
+  pre/post probe changed both document/AST handler call counts from 0 (rejected)
+  to 1 (accepted). Catalogue-wide implementation validation remains under #5.
 
 ### CLI and semantic model (#21–#22)
 

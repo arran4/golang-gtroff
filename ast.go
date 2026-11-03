@@ -129,8 +129,9 @@ func (n *ASTNode) Descendants() []*ASTNode {
 	return append([]*ASTNode(nil), n.tree.nodes[int(n.id):n.limit]...)
 }
 
-// Token returns a caller-owned copy of the original concrete generated token on
-// a line node. Containers/inline nodes have no Token. Mutating it cannot edit AST.
+// Token returns a caller-owned JSON-round-tripped copy of the concrete line
+// token. Custom tokens must support JSON round trips for inspectable state.
+// Containers/inline nodes have no Token. Mutating a copy cannot edit the AST.
 func (n *ASTNode) Token() (Token, error) {
 	if n.tokenType == nil {
 		return nil, nil

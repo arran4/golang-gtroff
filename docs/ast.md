@@ -99,9 +99,14 @@ The separate #12 include-safety repair now confines the explicitly enabled legac
 resolver with `os.Root`, closes owned readers, preserves nested diagnostics and
 bounds recursion for custom resolvers. See the [ownership and limit contracts](library.md#explicit-legacy-includes).
 
-Other parent-parser work remains separate: per-parser registry integration (#5),
-full argument fidelity (#7), document streaming/fidelity and consistent legacy
-spans (#11), bounded evaluation (#13), richer multiline/preprocessor grammar
+The separate #5 registry repair connects `WithRegistry` and `WithCustomHandler`
+to document/AST parsing, with registration snapshots and explicit errors for
+ambiguous or invalid handler results. [Custom handler contracts](library.md#custom-line-handlers)
+describe precedence, concurrency and retained structural grammar.
+
+Other parent-parser work remains separate: catalogue-wide custom implementation
+validation (#5), full argument fidelity (#7), document streaming/fidelity and
+consistent legacy spans (#11), bounded evaluation (#13), richer multiline/preprocessor grammar
 (#12/#14), honest catalogue coverage (#15), and multi-output generation atomicity
 (#16). AST source preservation is independent of legacy `DocumentToken.RawLine`, which still uses
 canonical formatting for successfully parsed multiline blocks. Do not use that
