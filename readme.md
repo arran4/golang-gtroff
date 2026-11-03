@@ -176,6 +176,8 @@ atomic as a collection. Resource and strict failures preserve existing outputs.
 [Library guide](docs/library.md) · [AST](docs/ast.md) · [semantic model](docs/man.md) ·
 [executable AST example](ast_example_test.go). `cmd/lex` remains the legacy token
 inspection utility. Generated catalogue coverage is not semantic support.
+The [syntax support report](docs/catalogue-support.md) lists every canonical
+entry and the parser route exercised by tests, separately from evaluation.
 
 ```sh
 go test ./...
@@ -185,6 +187,7 @@ go generate ./...
 
 Generation rebuilds macro/request definitions, dispatchers and catalogue from
 `cmd/gen/in.json`, `schema.go` and templates, regenerates
+[the syntax support matrix](docs/generated/catalogue-support.json),
 [man pages and completions](docs/generated), and **checks** committed CLI examples.
 It does not refresh example expectations. To approve a refresh:
 

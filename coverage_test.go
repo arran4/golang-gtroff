@@ -78,5 +78,5 @@ func TestCatalogueCoverage(t *testing.T) {
 		t.Errorf("expected to find .nf request in roff package, got %v", nfDef)
 	}
 
-	t.Logf("Catalogue validated successfully: 518 entries, 0 unexplained gaps.")
+	t.Logf("Catalogue metadata validated for 518 entries; TestCatalogueSupportRoutes separately executes syntax routes. No evaluator coverage is claimed.")
 }

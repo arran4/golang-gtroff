@@ -53,9 +53,11 @@ func (t *{{$e.StructName}}) String() string {
 {{- range $argi, $arg := $e.ArgWords}}
 	args = append(args, t.{{$arg.Id}})
 {{- end}}
+{{- if not $e.KeepArgumentSlots}}
 	for len(args) > 0 && args[len(args)-1] == "" {
 		args = args[:len(args)-1]
 	}
+{{- end}}
 	for i, arg := range args {
 		args[i] = Quote(arg)
 	}

@@ -83,7 +83,8 @@ var customTokens = map[string]bool{
 	".]":   true,
 }
 
-// NormalizeCatalog parses raw in.json and creates a fully normalized catalogue of 518 entries.
+// NormalizeCatalog parses raw input into a validated catalogue. Tests pin the
+// current in.json counts separately so small/new catalogues can be validated too.
 func NormalizeCatalog(inJson []byte) (*Catalog, error) {
 	var rawContainers []RawContainer
 	if err := json.Unmarshal(inJson, &rawContainers); err != nil {
@@ -257,77 +258,46 @@ func sanitizeIdentifier(s string) string {
 }
 
 func (c *Catalog) Validate() error {
-	if len(c.Entries) != 518 {
-		return fmt.Errorf("expected 518 catalogue entries, got %d", len(c.Entries))
+	if len(c.Entries) == 0 {
+		return fmt.Errorf("empty catalogue")
 	}
-
-	kindCounts := map[DefinitionKind]int{}
-	distinctNames := map[DefinitionKind]map[string]bool{
-		KindMacro:    {},
-		KindRequest:  {},
-		KindString:   {},
-		KindRegister: {},
-	}
-
-	for _, e := range c.Entries {
-		kindCounts[e.Kind]++
-		distinctNames[e.Kind][e.Token] = true
-
-		if e.Token == "" {
-			return fmt.Errorf("entry %d has empty token", e.Index)
+	goNames := map[string]string{}
+	for i, entry := range c.Entries {
+		if err := validateEntry(entry); err != nil {
+			return err
 		}
-		if e.Package == "" {
-			return fmt.Errorf("entry %s has empty package", e.Token)
+		if entry.Index != i {
+			return fmt.Errorf("entry %d has inconsistent index %d", i, entry.Index)
 		}
-		if e.Provenance == "" {
-			return fmt.Errorf("entry %s has empty provenance", e.Token)
-		}
-		if e.Status == "" {
-			return fmt.Errorf("entry %s has empty status", e.Token)
+		if entry.Kind == KindMacro || entry.Kind == KindRequest {
+			key := string(entry.Package) + "/" + entry.GoName
+			if previous, exists := goNames[key]; exists && previous != entry.Token {
+				return fmt.Errorf("tokens %q and %q collide as %s", previous, entry.Token, key)
+			}
+			goNames[key] = entry.Token
 		}
 	}
-
-	if kindCounts[KindMacro] != 141 {
-		return fmt.Errorf("expected 141 Macro entries, got %d", kindCounts[KindMacro])
-	}
-	if kindCounts[KindRequest] != 206 {
-		return fmt.Errorf("expected 206 Request entries, got %d", kindCounts[KindRequest])
-	}
-	if kindCounts[KindString] != 59 {
-		return fmt.Errorf("expected 59 String entries, got %d", kindCounts[KindString])
-	}
-	if kindCounts[KindRegister] != 112 {
-		return fmt.Errorf("expected 112 Register entries, got %d", kindCounts[KindRegister])
-	}
-
-	if len(distinctNames[KindMacro]) != 111 {
-		return fmt.Errorf("expected 111 distinct Macro names, got %d", len(distinctNames[KindMacro]))
-	}
-	if len(distinctNames[KindRequest]) != 179 {
-		return fmt.Errorf("expected 179 distinct Request names, got %d", len(distinctNames[KindRequest]))
-	}
-	if len(distinctNames[KindString]) != 59 {
-		return fmt.Errorf("expected 59 distinct String names, got %d", len(distinctNames[KindString]))
-	}
-	if len(distinctNames[KindRegister]) != 111 {
-		return fmt.Errorf("expected 111 distinct Register names, got %d", len(distinctNames[KindRegister]))
-	}
-
 	return nil
 }
 
 type CoverageSummary struct {
-	TotalEntries         int                    `json:"total_entries"`
-	TotalDistinctTokens  int                    `json:"total_distinct_tokens"`
-	EntriesByKind        map[string]int         `json:"entries_by_kind"`
-	DistinctTokensByKind map[string]int         `json:"distinct_tokens_by_kind"`
-	EntriesByStatus      map[string]int         `json:"entries_by_status"`
-	EntriesByPackage     map[string]int         `json:"entries_by_package"`
-	CollidingTokens      []string               `json:"colliding_tokens"`
-	UnexplainedGaps      int                    `json:"unexplained_gaps"`
+	TotalEntries         int            `json:"total_entries"`
+	TotalDistinctTokens  int            `json:"total_distinct_tokens"`
+	EntriesByKind        map[string]int `json:"entries_by_kind"`
+	DistinctTokensByKind map[string]int `json:"distinct_tokens_by_kind"`
+	EntriesByStatus      map[string]int `json:"entries_by_status"`
+	EntriesByParseStatus map[string]int `json:"entries_by_parse_status"`
+	EntriesByPackage     map[string]int `json:"entries_by_package"`
+	CollidingTokens      []string       `json:"colliding_tokens"`
+	UnexplainedGaps      int            `json:"unexplained_gaps"`
 }
 
 func (c *Catalog) GenerateCoverageSummary() CoverageSummary {
+	macros := prepareMacrosData(c)
+	return buildSupportReport(c, macros, prepareParselineData(c, macros)).Summary
+}
+
+func (c *Catalog) declarationSummary() CoverageSummary {
 	entriesByKind := map[string]int{}
 	distinctByKind := map[string]map[string]bool{}
 	entriesByStatus := map[string]int{}
@@ -336,6 +306,9 @@ func (c *Catalog) GenerateCoverageSummary() CoverageSummary {
 	collidingMap := map[string]bool{}
 
 	for _, e := range c.Entries {
+		if e == nil {
+			continue
+		}
 		k := string(e.Kind)
 		entriesByKind[k]++
 		if distinctByKind[k] == nil {
@@ -369,6 +342,5 @@ func (c *Catalog) GenerateCoverageSummary() CoverageSummary {
 		EntriesByStatus:      entriesByStatus,
 		EntriesByPackage:     entriesByPackage,
 		CollidingTokens:      colliding,
-		UnexplainedGaps:      0,
 	}
 }
