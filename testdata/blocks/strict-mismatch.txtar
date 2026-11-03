@@ -1,0 +1,18 @@
+Strict mode reports a consumed mismatched block and preserves buffered source.
+-- input.roff --
+.TS
+.EQ
+x
+.TE
+suffix
+-- options.json --
+{"Strict": true}
+-- expected.txt --
+document error=input.1:4:1: mismatched block delimiter .TE (expected .EN)
+token *groff.TokenUnknownControl [0,14) raw=".TS\n.EQ\nx\n.TE\n"
+  closed=true header=".TS\n" body=".EQ\nx\n" end=".TE\n"
+token *groff.TokenUnknownControl [14,21) raw="suffix\n"
+document error 4:1 "mismatched block delimiter .TE (expected .EN)"
+ast error=input.1:4:1: mismatched block delimiter .TE (expected .EN)
+ast block .TS closed=true raw=".TS\n.EQ\nx\n.TE\n"
+ast error 4:1 "mismatched block delimiter .TE (expected .EN)"

@@ -1,0 +1,5 @@
+Block registrations must name an implemented handler and consistent delimiters.
+-- catalogue.json --
+[{"Contents": [{"Type": "Request", "Token": ".de", "Args": "name [end]", "Block": {"kind": "unknown"}}]}]
+-- error.txt --
+unregistered block implementation

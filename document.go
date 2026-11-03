@@ -25,6 +25,7 @@ type Span struct {
 // exact consumed bytes, including line endings. RawLine retains its legacy line
 // text/canonical-block behavior; Token.String is canonical formatting.
 type DocumentToken struct {
+	Block     *BlockSource
 	Token     Token
 	Span      Span
 	RawLine   string
@@ -76,6 +77,8 @@ type ParserOptions struct {
 	IncludeResolver IncludeResolver
 	Registry        *Registry
 	CustomHandlers  []CustomHandler
+	BlockHandlers   []BlockHandler
+	MaxBlockDepth   int
 }
 
 // Option configures document parsing.
@@ -130,6 +133,22 @@ func WithCustomHandler(h CustomHandler) Option {
 	return func(o *ParserOptions) { o.CustomHandlers = append(o.CustomHandlers, h) }
 }
 
+// WithBlockHandler adds a parse-local, parser-bounded document/AST block handler.
+func WithBlockHandler(h BlockHandler) Option {
+	return func(o *ParserOptions) { o.BlockHandlers = append(o.BlockHandlers, h) }
+}
+
+// WithMaxBlockDepth bounds declared nested block capture (default/max 128).
+// ParseAST additionally applies its existing structural ASTDepth limit.
+func WithMaxBlockDepth(n int) Option { return func(o *ParserOptions) { o.MaxBlockDepth = n } }
+
+func blockDepthLimit(n int) int {
+	if n <= 0 || n > 128 {
+		return 128
+	}
+	return n
+}
+
 // ParseDocument reads roff tokens and optionally expands explicitly resolved
 // includes. RawSource and Source retain read bytes independently of canonical
 // formatting. Strict syntax failures and terminal input failures return a non-nil
@@ -152,6 +171,7 @@ func ParseDocument(r io.Reader, opts ...Option) (*Document, error) {
 		options.MaxIncludeDepth = 128
 	}
 	options.Registry = registryForOptions(options)
+	options.MaxBlockDepth = blockDepthLimit(options.MaxBlockDepth)
 	if options.DocumentBytes <= 0 {
 		options.DocumentBytes = 8 << 20
 	}
@@ -213,22 +233,51 @@ func parseDocument(r io.Reader, options ParserOptions, includes *includeState) (
 			cmd, args = splitCommandAndArgs(body)
 			cmd = "." + cmd[1:]
 		}
-		if isDocumentBlock(cmd) {
-			token, raw, span, blockErr := readDocumentBlock(cmd, args, line, stream)
-			doc.Tokens = append(doc.Tokens, DocumentToken{Token: token, Span: span, RawLine: token.String(), RawSource: raw})
+		var selectedLine CustomHandler
+		var blockHandler BlockHandler
+		var selectionErr error
+		if cmd != "" {
+			originalCmd, _ := splitCommandAndArgs(body)
+			selectedLine, blockHandler, selectionErr = options.Registry.documentHandler(originalCmd, options.Package)
+		}
+		var capture *blockCapture
+		if selectionErr == nil && blockHandler != nil {
+			originalCmd, _ := splitCommandAndArgs(body)
+			capture, selectionErr = beginBlockCapture(blockHandler, BlockHeader{Command: originalCmd, Args: args, Package: options.Package, Line: BlockLine{RawSource: line.raw, Span: line.span}}, options.MaxBlockDepth)
+		}
+		if selectionErr == nil && blockHandler == nil && selectedLine == nil && (generatedBlockClosing(cmd) || cmd == "..") {
+			selectionErr = blockSyntax(line.span.Start, fmt.Errorf("unmatched block delimiter %s", cmd))
+		}
+		if selectionErr != nil {
+			doc.Tokens = append(doc.Tokens, opaqueDocumentToken(line))
+			doc.Diagnostics = append(doc.Diagnostics, Diagnostic{Message: selectionErr.Error(), Position: line.span.Start, Severity: "error"})
+			if options.Strict {
+				return doc, documentSyntaxError(line.span.Start, selectionErr)
+			}
+			continue
+		}
+		if capture != nil {
+			token, blockErr := readCapturedBlock(blockHandler, capture, stream)
+			source := capture.source.clone()
+			doc.Tokens = append(doc.Tokens, DocumentToken{Token: token, Span: source.Span(), RawLine: token.String(), RawSource: source.Source(), Block: &source})
 			if blockErr != nil {
 				var inputErr *DocumentInputError
 				if errors.As(blockErr, &inputErr) {
 					return doc, failInput(blockErr)
 				}
-				doc.Diagnostics = append(doc.Diagnostics, Diagnostic{Message: blockErr.Error(), Position: line.span.Start, Severity: "error"})
+				position := line.span.Start
+				var syntax *BlockSyntaxError
+				if errors.As(blockErr, &syntax) {
+					position = syntax.Position
+				}
+				doc.Diagnostics = append(doc.Diagnostics, Diagnostic{Message: blockErr.Error(), Position: position, Severity: "error"})
 				if options.Strict {
-					return doc, documentSyntaxError(line.span.Start, blockErr)
+					return doc, documentSyntaxError(position, blockErr)
 				}
 			}
 			continue
 		}
-		if (cmd == ".so" || cmd == ".mso") && options.IncludeResolver != nil && args != "" {
+		if (cmd == ".so" || cmd == ".mso") && options.IncludeResolver != nil && args != "" && selectedLine == nil {
 			included, includeErr := resolveInclude(args, options, includes)
 			if included != nil {
 				doc.Includes = append(doc.Includes, DocumentInclude{Directive: line.span, Document: included})
@@ -290,91 +339,6 @@ func splitCommandAndArgs(line string) (string, string) {
 		return line, ""
 	}
 	return line[:wsIdx], strings.TrimLeft(line[wsIdx:], " \t")
-}
-
-func isDocumentBlock(cmd string) bool {
-	switch cmd {
-	case ".de", ".am", ".ig", ".TS", ".EQ", ".PS", ".[":
-		return true
-	}
-	return false
-}
-
-func readDocumentBlock(cmd, args string, header documentLine, stream *documentStream) (Token, string, Span, error) {
-	var raw strings.Builder
-	raw.WriteString(header.raw)
-	end := map[string]string{".TS": ".TE", ".EQ": ".EN", ".PS": ".PE", ".[": ".]"}[cmd]
-	name, endArg := "", ""
-	if cmd == ".de" || cmd == ".am" {
-		parts := strings.Fields(args)
-		if len(parts) > 0 {
-			name = parts[0]
-		}
-		if len(parts) > 1 {
-			endArg = parts[1]
-		}
-	}
-	if cmd == ".ig" {
-		endArg = strings.TrimSpace(args)
-	}
-	if end == "" {
-		end = ".."
-		if endArg != "" {
-			end = "." + endArg
-		}
-	}
-	var body []string
-	finish := func(err error) (Token, string, Span, error) {
-		span := Span{Start: header.span.Start, End: stream.position}
-		if err != nil {
-			return &TokenUnknownControl{RawLine: raw.String()}, raw.String(), span, err
-		}
-		var token Token
-		switch cmd {
-		case ".de":
-			token = &TokenMacroDefinition{Name: name, End: endArg, Body: body}
-		case ".am":
-			token = &TokenMacroAppend{Name: name, End: endArg, Body: body}
-		case ".ig":
-			token = &TokenIgnoredBlock{End: endArg, Body: body}
-		case ".TS":
-			token = &TokenTableBlock{Options: args, Lines: body}
-		case ".EQ":
-			token = &TokenEquationBlock{Args: args, Lines: body}
-		case ".PS":
-			token = &TokenPictureBlock{Args: args, Lines: body}
-		case ".[":
-			token = &TokenReferenceBlock{Lines: body}
-		}
-		return token, raw.String(), span, nil
-	}
-	for {
-		line, readErr := stream.next()
-		raw.WriteString(line.raw)
-		if readErr != nil && readErr != io.EOF {
-			raw.WriteString(stream.drainTail().raw)
-			return finish(readErr)
-		}
-		if line.raw == "" && readErr == io.EOF {
-			label := "block " + cmd + " (expected " + end + ")"
-			if cmd == ".de" || cmd == ".am" {
-				label = "macro definition " + cmd
-			}
-			if cmd == ".ig" {
-				label = "ignored block (.ig)"
-			}
-			return finish(fmt.Errorf("unterminated %s", label))
-		}
-		text := documentLineBody(line.raw)
-		closing, _ := splitCommandAndArgs(text)
-		if len(closing) > 0 && closing[0] == '\'' {
-			closing = "." + closing[1:]
-		}
-		if closing == end {
-			return finish(nil)
-		}
-		body = append(body, text)
-	}
 }
 
 func resolveInclude(args string, opts ParserOptions, state *includeState) (doc *Document, err error) {

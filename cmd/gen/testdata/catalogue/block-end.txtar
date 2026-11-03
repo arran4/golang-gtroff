@@ -1,0 +1,5 @@
+Block registrations must name an implemented handler and consistent delimiters.
+-- catalogue.json --
+[{"Contents": [{"Type": "Macro", "Token": ".TS", "Args": "", "Block": {"kind": "table"}}]}]
+-- error.txt --
+invalid block closing declaration

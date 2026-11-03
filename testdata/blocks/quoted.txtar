@@ -1,0 +1,25 @@
+Quoted definition names/terminators and comments bind before body capture.
+-- input.roff --
+.de "X" "END" \" comment
+.B raw
+'END arguments
+.am X STOP
+extra
+.STOP
+.ig FIN
+unknown
+.FIN
+-- options.json --
+{"CRLF": true, "NoFinalLF": true}
+-- expected.txt --
+document error=<nil>
+token *groff.TokenMacroDefinition [0,50) raw=".de \"X\" \"END\" \\\" comment\r\n.B raw\r\n'END arguments\r\n"
+  closed=true header=".de \"X\" \"END\" \\\" comment\r\n" body=".B raw\r\n" end="'END arguments\r\n"
+token *groff.TokenMacroAppend [50,76) raw=".am X STOP\r\nextra\r\n.STOP\r\n"
+  closed=true header=".am X STOP\r\n" body="extra\r\n" end=".STOP\r\n"
+token *groff.TokenIgnoredBlock [76,98) raw=".ig FIN\r\nunknown\r\n.FIN"
+  closed=true header=".ig FIN\r\n" body="unknown\r\n" end=".FIN"
+ast error=<nil>
+ast block .de closed=true raw=".de \"X\" \"END\" \\\" comment\r\n.B raw\r\n'END arguments\r\n"
+ast block .am closed=true raw=".am X STOP\r\nextra\r\n.STOP\r\n"
+ast block .ig closed=true raw=".ig FIN\r\nunknown\r\n.FIN"

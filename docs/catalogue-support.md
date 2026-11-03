@@ -28,9 +28,9 @@ tokens with separate optional execution. They count as generated syntax here;
 they do not count as verified custom evaluation.
 
 Every row's `evaluation_status` is **`not_assessed`**. This report proves neither
-formatter equivalence nor complete grammar/evaluation support. Full `.Pn`/`.TH`
-argument grammar, source-preserving serialization, richer blocks and bounded
-evaluation remain separate tracked contracts. Source snapshots belong to the
+formatter equivalence nor complete grammar/evaluation support. Declared [argument binding](arguments.md) and [block capture](blocks.md) have
+separate conformance tests; the syntax route count does not prove their complete
+GNU grammar or evaluation semantics. Source snapshots belong to the
 AST; canonical generated `String()` output is not a byte archive.
 
 Generator validation rejects unknown kinds/statuses/packages, empty data,
@@ -47,8 +47,10 @@ The all-entry probe found that `.Pn path` lost its required argument to an
 optional punctuation slot. The small #7 prerequisite repair reserves arguments
 for required slots in both legacy matchers and keeps explicit positional slots
 when generated canonical formatting would otherwise make `.Pn` ambiguous.
-Legacy rest-argument joining remains unchanged; this is not the complete #7
-grammar redesign.
+Generated parsers now use the declared binding policies described in the
+[argument contract](arguments.md), while legacy matcher joining remains a
+compatibility API. Block registrations/delimiters come from catalogue `Block`
+metadata; missing or duplicate block plans change the measured support gaps.
 
 Focused verification:
 

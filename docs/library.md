@@ -139,9 +139,9 @@ Handler syntax errors stay errors; permissive document/AST parsing preserves the
 line and records a diagnostic. AST source bytes and copied typed token snapshots
 remain independent of a custom token's formatted `String()` value. Custom tokens
 must support JSON round trips for typed AST inspection; only serialized state is
-copied, and JSON encoding failures produce diagnostics. AST block and
-argument syntax rules, and legacy multiline/include handling, still belong to
-their respective parsers; this interface does not execute macro definitions.
+copied, and JSON encoding failures produce diagnostics. For document/AST
+structure, [BlockHandler](blocks.md) supplies declarative bounded capture with
+shared registry precedence. Line handlers do not execute macro definitions.
 
 This #5 repair connects per-parse handlers and makes dispatch safe. Catalogue-wide
 validation of missing handwritten implementations remains separate; this is not
@@ -179,7 +179,8 @@ always propagate as errors.
 
 `ParseAST`, the new CLI, exporters and man-library server never execute includes.
 This repair addresses containment, reader ownership and recursion under #12;
-it does not complete that issue's handler registration or raw-block contracts.
+the [block capture follow-up](blocks.md) separately supplies handler registration
+and exact block-source inspection.
 
 ### Line-by-Line Parsing
 

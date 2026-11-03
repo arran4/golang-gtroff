@@ -148,7 +148,7 @@ func TestIncludeReaderOwnership(t *testing.T) {
 		text  string
 	}{
 		{name: "success", input: strings.NewReader("child\n")},
-		{name: "strict parse failure", input: strings.NewReader(".de\n"), text: "unterminated macro definition"},
+		{name: "strict parse failure", input: strings.NewReader(".de X\n"), text: "unterminated macro definition"},
 		{name: "read failure", input: includeErrorReader{readErr}, want: readErr},
 		{name: "line limit inherited", input: strings.NewReader("oversized\n"), opts: []Option{WithMaxLineLength(8)}, text: "line length budget"},
 		{name: "line count inherited", input: strings.NewReader("one\ntwo\n"), opts: []Option{WithMaxLines(1)}, text: "line budget"},

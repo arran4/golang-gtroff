@@ -22,9 +22,10 @@ Spans are half-open byte ranges. Line/column are one-based and columns count
 Unicode runes (tabs count as one); an ending LF moves the end position to the
 next line at column one. Invalid UTF-8 bytes remain intact and each advances a
 replacement-rune column. Physical line units and logical block tokens remain
-distinct: a definition/ignore/preprocessor token can span several lines. Roff
-execution, nested custom grammar and registry block-consumption interfaces are
-separate #7/#12/#14 work.
+distinct: a definition/ignore/preprocessor token can span several lines. The
+[block capture API](blocks.md) exposes exact header/body/terminator metadata
+and parser-bounded custom handlers. Roff execution and copy-mode expansion remain
+separate contracts.
 
 ## Errors and partial results
 

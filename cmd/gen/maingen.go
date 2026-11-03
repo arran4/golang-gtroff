@@ -43,6 +43,7 @@ type DispatchEntry struct {
 }
 
 type ParselineTemplateData struct {
+	Blocks     []BlockDefinition
 	Dispatches []DispatchEntry
 }
 
@@ -264,7 +265,7 @@ func prepareParselineData(cat *Catalog, macrosData MacrosTemplateData) Parseline
 		})
 	}
 
-	return ParselineTemplateData{Dispatches: orderedDispatches}
+	return ParselineTemplateData{Dispatches: orderedDispatches, Blocks: prepareBlockDefinitions(cat)}
 }
 
 func prepareCatalogueData(cat *Catalog) CatalogueTemplateData {

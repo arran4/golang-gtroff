@@ -138,6 +138,7 @@ var (
 type Registry struct {
 	mu       sync.RWMutex
 	handlers []CustomHandler
+	blocks   []BlockHandler
 }
 
 func NewRegistry() *Registry {
@@ -151,6 +152,46 @@ func (r *Registry) RegisterCustom(h CustomHandler) {
 	r.mu.Lock()
 	defer r.mu.Unlock()
 	r.handlers = append(r.handlers, h)
+}
+
+// RegisterBlock adds a document/AST handler. ParseLine remains a line-only API.
+// Custom line and block matches are checked together before document capture.
+func (r *Registry) RegisterBlock(h BlockHandler) {
+	r.mu.Lock()
+	defer r.mu.Unlock()
+	r.blocks = append(r.blocks, h)
+}
+
+func (r *Registry) documentHandler(cmd, pkg string) (CustomHandler, BlockHandler, error) {
+	snapshot := r.snapshot()
+	var line CustomHandler
+	var block BlockHandler
+	count := 0
+	for _, h := range snapshot.handlers {
+		if nilInterface(h) {
+			return nil, nil, fmt.Errorf("%w: nil registration", ErrInvalidHandler)
+		}
+		if h.CanHandle(cmd, pkg) {
+			count++
+			line = h
+		}
+	}
+	for _, h := range snapshot.blocks {
+		if nilInterface(h) {
+			return nil, nil, fmt.Errorf("%w: nil block registration", ErrInvalidHandler)
+		}
+		if h.CanHandle(cmd, pkg) {
+			count++
+			block = h
+		}
+	}
+	if count > 1 {
+		return nil, nil, fmt.Errorf("%w for %s in package %q", ErrAmbiguousHandler, cmd, pkg)
+	}
+	if count == 0 {
+		block = generatedBlockHandler(normalizedBlockCommand(cmd))
+	}
+	return line, block, nil
 }
 
 // DispatchCustom selects exactly one matching custom handler. Overlapping
@@ -197,7 +238,7 @@ func (r *Registry) snapshot() *Registry {
 	}
 	r.mu.RLock()
 	defer r.mu.RUnlock()
-	return &Registry{handlers: append([]CustomHandler(nil), r.handlers...)}
+	return &Registry{handlers: append([]CustomHandler(nil), r.handlers...), blocks: append([]BlockHandler(nil), r.blocks...)}
 }
 
 func registryForOptions(o ParserOptions) *Registry {
@@ -207,6 +248,7 @@ func registryForOptions(o ParserOptions) *Registry {
 	}
 	snapshot := r.snapshot()
 	snapshot.handlers = append(snapshot.handlers, o.CustomHandlers...)
+	snapshot.blocks = append(snapshot.blocks, o.BlockHandlers...)
 	return snapshot
 }
 

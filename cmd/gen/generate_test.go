@@ -179,7 +179,11 @@ func TestGeneratorCheckAndLateDestinationFailure(t *testing.T) {
 func TestGeneratedSpecialIdentifierEscaping(t *testing.T) {
 	for _, name := range []string{".café", ".[", ".tick`\"\\path"} {
 		t.Run(name, func(t *testing.T) {
-			raw, err := json.Marshal([]RawContainer{{Contents: []RawContent{{Type: "Macro", Token: name}}}})
+			entry := RawContent{Type: "Macro", Token: name}
+			if name == ".[" {
+				entry.Block = &BlockPolicy{Kind: "reference", Ends: []string{".]"}}
+			}
+			raw, err := json.Marshal([]RawContainer{{Contents: []RawContent{entry}}})
 			if err != nil {
 				t.Fatal(err)
 			}
