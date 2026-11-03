@@ -222,6 +222,11 @@ func imageCommand(args []string, e Environment) int {
 		}
 		return writeString(e, imageHelp)
 	case "generate":
+		for _, a := range args[1:] {
+			if a == "--help" || a == "-h" {
+				return writeString(e, imageGenerateHelp)
+			}
+		}
 		var f string
 		for i, a := range args[1:] {
 			if a == "--format" && i+1 < len(args[1:]) {

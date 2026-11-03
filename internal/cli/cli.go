@@ -153,6 +153,9 @@ func Run(args []string, e Environment) int {
 		if len(args) == 0 {
 			return writeString(e, rootHelp)
 		}
+		if len(args) == 2 && args[0] == "image" && args[1] == "generate" {
+			return writeString(e, imageGenerateHelp)
+		}
 		if len(args) != 1 {
 			return usage(e, "help expects at most one command")
 		}

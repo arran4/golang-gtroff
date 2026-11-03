@@ -7,6 +7,7 @@ package main
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"io"
 	"net"
@@ -77,11 +78,12 @@ func run(args []string, stderr io.Writer) int {
 	}
 
 	if err := root.Execute(args); err != nil {
-		if e, ok := err.(*cmd.ErrExitCode); ok {
-			if e.Err != nil {
-				fmt.Fprintf(stderr, "gtroff: %v\n", e.Err)
+		var exitCode *cmd.ErrExitCode
+		if errors.As(err, &exitCode) {
+			if exitCode.Err != nil {
+				fmt.Fprintf(stderr, "gtroff: %v\n", exitCode.Err)
 			}
-			return e.Code
+			return exitCode.Code
 		}
 		fmt.Fprintf(stderr, "gtroff: %v\nRun 'gtroff help' for usage.\n", err)
 		return cli.ExitUsage

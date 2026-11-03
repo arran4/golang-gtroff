@@ -97,7 +97,7 @@ an export as validated input.
 
 ## Implementation and verification
 
-Command dispatch is generated at build time using `go-subcommand` (`gosubc` v0.0.31),
+Command dispatch is generated at build time using `go-subcommand` (`gosubc` v0.0.32),
 pinned in `internal/tools/tools.go` and executed via `go generate ./...`.
 `cmd/gtroff/main.go` wires process arguments, build values, streams and an
 explicit file opener into the generated command root, while preserving the
