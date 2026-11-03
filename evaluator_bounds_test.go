@@ -156,7 +156,7 @@ func TestEvaluationInvalidStateAndIntegers(t *testing.T) {
 		value, incr string
 		initial     int
 	}{
-		{"bad", "", 7}, {"2+3", "", 7}, {"10", "invalid", 7}, {"+1", "", max}, {"-1", "", -max - 1},
+		{"bad", "", 7}, {"2+", "", 7}, {"10", "invalid", 7}, {"+1", "", max}, {"-1", "", -max - 1},
 	} {
 		env := NewEnvironment()
 		env.SetRegister("X", tc.initial, 0)
@@ -233,7 +233,7 @@ func TestEvaluationInterpolationProfile(t *testing.T) {
 	if env.GetRegister("X") != 7 {
 		t.Fatal("plain interpolation incremented register")
 	}
-	for _, input := range []string{`\n`, `\*[]`, `\n(X`, `\*[unclosed`, `\n+[X]`} {
+	for _, input := range []string{`\n`, `\*[]`, `\n(X`, `\*[unclosed`} {
 		if _, err := env.ExpandTextContext(context.Background(), input); err == nil {
 			t.Fatalf("invalid/unsupported interpolation %q accepted", input)
 		}
@@ -289,7 +289,7 @@ func TestEvaluationIgnoresGlobalHandlers(t *testing.T) {
 }
 
 func FuzzEvaluateBounded(f *testing.F) {
-	for _, seed := range []string{".nr X 1\n\\n[X]\n", ".if !0 visible\n", ".de M\n.M\n..\n.M\n", "\\*[unclosed"} {
+	for _, seed := range []string{".nr X 1\n\\n[X]\n", ".if !0 visible\n", ".de M\n.M\n..\n.M\n", "\\*[unclosed", ".nr X 3+5*4\n", ".ds S value\n.als A S\n.rm S\n\\*[A]\n", ".de M\n\\$1\n..\n.M \"quoted argument\"\n"} {
 		f.Add(seed)
 	}
 	f.Fuzz(func(t *testing.T, input string) {

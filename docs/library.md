@@ -225,7 +225,9 @@ for _, tok := range tokens {
 Evaluation is a separate opt-in pass. It returns partial output on errors and
 keeps earlier state changes. Inspect `env.Diagnostics` for preserved requests;
 use `EvaluateContext` for cancellation. The [evaluation guide](evaluation.md)
-documents supported syntax, byte/work limits and remaining #13 work.
+documents checked expressions, alias/append/remove semantics, positional macro
+arguments, byte/work limits and remaining unsupported syntax. `Environment.State`
+accepts a four-method storage interface for composing state access.
 
 ```go
 input := `.nr PO 72

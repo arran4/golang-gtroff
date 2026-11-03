@@ -37,7 +37,7 @@ func TestEvaluationScenarios(t *testing.T) {
 					t.Fatalf("duplicate %s", file.Name)
 				}
 				switch file.Name {
-				case "input.roff", "options.json", "error.txt", "expected.txt":
+				case "input.roff", "options.json", "error.txt", "expected.txt", "parsed.txt":
 				default:
 					t.Fatalf("unknown file %s", file.Name)
 				}
@@ -53,9 +53,11 @@ func TestEvaluationScenarios(t *testing.T) {
 			}
 			tokens := make([]Token, len(doc.Tokens))
 			before := make([]string, len(tokens))
+			var parsed strings.Builder
 			for i, dt := range doc.Tokens {
 				tokens[i] = dt.Token
 				before[i] = dt.Token.String()
+				fmt.Fprintf(&parsed, "%T %q\n", dt.Token, before[i])
 			}
 			env := NewEnvironment()
 			if options := files["options.json"]; options != nil {
@@ -102,22 +104,26 @@ func TestEvaluationScenarios(t *testing.T) {
 			if evalErr != nil {
 				fmt.Fprintf(&got, "error %v\n", evalErr)
 			}
-			if *updateEvaluation {
-				found := false
-				for i, file := range archive.Files {
-					if file.Name == "expected.txt" {
-						archive.Files[i].Data = []byte(got.String())
-						found = true
+			for _, part := range []struct{ name, text string }{{"parsed.txt", parsed.String()}, {"expected.txt", got.String()}} {
+				if *updateEvaluation {
+					found := false
+					for i, file := range archive.Files {
+						if file.Name == part.name {
+							archive.Files[i].Data = []byte(part.text)
+							found = true
+						}
 					}
+					if !found {
+						archive.Files = append(archive.Files, txtar.File{Name: part.name, Data: []byte(part.text)})
+					}
+				} else if part.text != string(files[part.name]) {
+					t.Fatalf("%s got:\n%s\nwant:\n%s", part.name, part.text, files[part.name])
 				}
-				if !found {
-					archive.Files = append(archive.Files, txtar.File{Name: "expected.txt", Data: []byte(got.String())})
-				}
+			}
+			if *updateEvaluation {
 				if err := os.WriteFile(fixture, txtar.Format(archive), 0644); err != nil {
 					t.Fatal(err)
 				}
-			} else if got.String() != string(files["expected.txt"]) {
-				t.Fatalf("got:\n%s\nwant:\n%s", got.String(), files["expected.txt"])
 			}
 		})
 	}

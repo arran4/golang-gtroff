@@ -14,3 +14,8 @@ parse expansion
 groff.TokenText "prefix"
 register X=9
 error evaluate token 2 (macro BROKEN / body line 2): parse expansion: fitting TokenMacroTH arguments: , missing required argument 1
+-- parsed.txt --
+groff.TokenText "prefix"
+*groff.TokenMacroDefinition ".de BROKEN\n.nr X 9\n.TH\n.."
+*groff.TokenUnknownControl ".BROKEN"
+groff.TokenText "suffix"

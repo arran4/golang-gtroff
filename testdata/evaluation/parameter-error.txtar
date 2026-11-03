@@ -1,0 +1,16 @@
+Unsupported aggregate macro parameters fail explicitly with their expansion
+path, preserving the preceding output; they are not accepted with fake meaning.
+-- input.roff --
+.de M
+prefix
+\\$@
+..
+.M arg
+-- error.txt --
+unsupported macro parameter
+-- expected.txt --
+groff.TokenText "prefix"
+error evaluate token 1 (macro M / body line 2): unsupported macro parameter "@"
+-- parsed.txt --
+*groff.TokenMacroDefinition ".de M\nprefix\n\\\\$@\n.."
+*groff.TokenUnknownControl ".M arg"

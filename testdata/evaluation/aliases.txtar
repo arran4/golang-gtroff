@@ -1,0 +1,59 @@
+Aliases share the object through redefinition/append. Removing a canonical name
+preserves it under remaining aliases; removing an alias removes only that name.
+-- input.roff --
+.ds S original
+.als A S
+.as A -tail
+\*[S] \*[A]
+.ds A replacement
+\*[S] \*[A]
+.rm S
+\*[A]
+.de M
+first
+..
+.als ALIAS M
+.am ALIAS
+second
+..
+.ALIAS
+.de ALIAS
+replaced
+..
+.M
+.rm M
+.ALIAS
+.rm ALIAS A
+.ALIAS
+\*[A]
+-- expected.txt --
+groff.TokenText "original-tail original-tail"
+groff.TokenText "replacement replacement"
+groff.TokenText "replacement"
+groff.TokenText "first"
+groff.TokenText "second"
+groff.TokenText "replaced"
+groff.TokenText "replaced"
+*groff.TokenUnknownControl ".ALIAS"
+groff.TokenText "\\*[A]"
+diagnostic token=17 path=[] token preserved without evaluation
+-- parsed.txt --
+*groff.TokenRequestDs ".ds S original"
+*groff.TokenRequestAls ".als A S"
+*groff.TokenRequestAs ".as A -tail"
+groff.TokenText "\\*[S] \\*[A]"
+*groff.TokenRequestDs ".ds A replacement"
+groff.TokenText "\\*[S] \\*[A]"
+*groff.TokenRequestRm ".rm S"
+groff.TokenText "\\*[A]"
+*groff.TokenMacroDefinition ".de M\nfirst\n.."
+*groff.TokenRequestAls ".als ALIAS M"
+*groff.TokenMacroAppend ".am ALIAS\nsecond\n.."
+*groff.TokenUnknownControl ".ALIAS"
+*groff.TokenMacroDefinition ".de ALIAS\nreplaced\n.."
+*groff.TokenUnknownControl ".M"
+*groff.TokenRequestRm ".rm M"
+*groff.TokenUnknownControl ".ALIAS"
+*groff.TokenRequestRm ".rm \"ALIAS A\""
+*groff.TokenUnknownControl ".ALIAS"
+groff.TokenText "\\*[A]"

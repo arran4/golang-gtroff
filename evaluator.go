@@ -11,6 +11,11 @@ type Environment struct {
 	AutoIncrs map[string]int
 	Strings   map[string]string
 	Macros    map[string][]string
+	Aliases   map[string]string
+
+	// State selects custom storage. Nil uses this environment's maps.
+	// With custom storage, the legacy maps are not read or written.
+	State EvaluationState
 
 	MaxDepth       int
 	MaxSteps       int
@@ -34,6 +39,9 @@ func NewEnvironment() *Environment {
 }
 
 func (env *Environment) init() {
+	if env.Aliases == nil {
+		env.Aliases = make(map[string]string)
+	}
 	if env.Registers == nil {
 		env.Registers = make(map[string]int)
 	}
@@ -54,6 +62,8 @@ func (env *Environment) SetRegister(name string, val, incr int) {
 	env.Registers[name] = val
 	if incr != 0 {
 		env.AutoIncrs[name] = incr
+	} else {
+		delete(env.AutoIncrs, name)
 	}
 }
 func (env *Environment) RemoveRegister(name string) {
@@ -61,17 +71,50 @@ func (env *Environment) RemoveRegister(name string) {
 	delete(env.AutoIncrs, name)
 }
 func (env *Environment) GetString(name string) (string, bool) {
+	var valid bool
+	name, valid = env.definitionName(name)
+	if !valid {
+		return "", false
+	}
 	v, ok := env.Strings[name]
 	return v, ok
 }
-func (env *Environment) SetString(name, val string)    { env.init(); env.Strings[name] = val }
-func (env *Environment) AppendString(name, val string) { env.init(); env.Strings[name] += val }
+func (env *Environment) SetString(name, val string) {
+	env.init()
+	if root, ok := env.definitionName(name); ok {
+		name = root
+	}
+	env.Strings[name] = val
+	delete(env.Macros, name)
+}
+func (env *Environment) AppendString(name, val string) {
+	env.init()
+	if root, ok := env.definitionName(name); ok {
+		name = root
+	}
+	env.Strings[name] += val
+}
 func (env *Environment) DefineMacro(name string, lines []string) {
 	env.init()
+	if root, ok := env.definitionName(name); ok {
+		name = root
+	}
 	env.Macros[name] = append([]string(nil), lines...)
+	delete(env.Strings, name)
 }
 
-// Evaluate runs the bounded, optional legacy evaluation profile. It returns the
+func (env *Environment) definitionName(name string) (string, bool) {
+	for depth := 0; depth < 128; depth++ {
+		target, ok := env.Aliases[name]
+		if !ok {
+			return name, true
+		}
+		name = target
+	}
+	return "", false
+}
+
+// Evaluate runs the bounded, optional integer evaluation profile. It returns the
 // emitted prefix on error; state changes already applied remain in env. Parsing,
 // AST construction and rendering do not invoke this function implicitly.
 func Evaluate(tokens []Token, env *Environment) ([]Token, error) {
