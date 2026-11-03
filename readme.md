@@ -176,6 +176,8 @@ atomic as a collection. Resource and strict failures preserve existing outputs.
 [Library guide](docs/library.md) · [AST](docs/ast.md) · [semantic model](docs/man.md) ·
 [executable AST example](ast_example_test.go). `cmd/lex` remains the legacy token
 inspection utility. Generated catalogue coverage is not semantic support.
+The [document reader](docs/document.md) also exposes exact captured source,
+per-token raw bytes, partial results and configurable byte/line limits.
 The [syntax support report](docs/catalogue-support.md) lists every canonical
 entry and the parser route exercised by tests, separately from evaluation.
 

@@ -105,13 +105,18 @@ ambiguous or invalid handler results. [Custom handler contracts](library.md#cust
 describe precedence, concurrency and retained structural grammar.
 
 Other parent-parser work remains separate: catalogue-wide custom implementation
-validation (#5), full argument fidelity (#7), document streaming/fidelity and
-consistent legacy spans (#11), bounded evaluation (#13), and richer
+validation (#5), full argument fidelity (#7), bounded evaluation (#13), and richer
 multiline/preprocessor grammar (#12/#14). AST source preservation is independent
 of legacy `DocumentToken.RawLine`, which still uses
 canonical formatting for successfully parsed multiline blocks. Do not use that
 legacy field as a byte-exact source archive. Multi-line heading interpretation
 and fuller man paragraph semantics belong to #22; raw lines remain selectable.
+
+The #11 [document-stream repair](document.md) adds independent `Source()` and
+`RawSource`, consistent half-open spans, partial results with classified input
+errors, aggregate byte limits and terminal-reader handling. `RawLine` remains a
+compatibility field; structural nesting and richer custom block grammars remain
+separate from the older document token API.
 
 The #15 [syntax support report](catalogue-support.md) now computes plan gaps and
 executes all 518 catalogue routes in tests. It also found and repaired the small

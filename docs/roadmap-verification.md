@@ -79,6 +79,15 @@ including md2png, were consulted read-only.
   Generated Go headers are recognized by `go/ast.IsGenerated`; Go-quoted command
   literals preserve Unicode, quotes and backticks. Renames are per-file atomic,
   without a cross-command, concurrent-writer or crash-atomicity claim.
+- The separate #11 document-stream repair preserves all read source bytes through
+  `Source()`/`RawSource`, distinguishes observed EOF, and retains child source
+  documents when includes fail. Strict/input failures return partial results;
+  typed input/resource errors retain reader identity. Independent position/source
+  checks, eight TXTAR cases and reader-chunk/error/budget/include tests exercise
+  LF/CRLF/EOF/Unicode, buffered tails, exact line boundaries and aggregate limits.
+  `cmd/lex` emits partial results and tests use injected writers. The existing
+  argument scanner uses a builder to avoid quadratic long-argument accumulation,
+  with unchanged grammar. Broader #7/#12/#14 syntax contracts remain separate.
 
 ### CLI and semantic model (#21–#22)
 

@@ -61,6 +61,13 @@ invalid catalogue/template/Go output. Error cases leave original destinations
 intact. OS tests separately inject staging, replacement and rollback failures;
 ordinary checks do not create staging or rewrite files.
 
+`document/*.txtar` exercises exact source vs. canonical tokens, byte/rune spans,
+LF/CRLF/EOF, unknown/malformed syntax and partial source under resource limits.
+Normal tests never rewrite these expectations. An approved refresh uses
+`go test . -run '^TestDocumentSourceScenarios$' -update-document`, followed by
+ordinary tests and inspection of the source/span diff. Reader-fault, chunk and
+include tests independently assert preservation and error identity.
+
 `image/*.txtar` names source/options and expected textual layout, pagination,
 paths and diagnostics. Binary PNG/JPEG goldens are separate under `golden/image`.
 Normal tests do not modify them. Approve a refresh explicitly with
