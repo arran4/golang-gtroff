@@ -1,0 +1,5 @@
+Invalid source catalogue fails without changing outputs.
+-- catalogue.json --
+[{"Contents":[{"Type":"Unknown","Token":".DEMO","Args":""}]}]
+-- error.txt --
+unknown kind

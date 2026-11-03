@@ -39,7 +39,9 @@ generated names before replacing outputs. `unexplained_gaps` is computed from
 invalid/missing/ambiguous planned routes. Tests deliberately remove definitions
 or dispatches and corrupt a package variant to ensure the count changes.
 Generated output drift and runtime route assertions form independent checks.
-Output replacement remains per file; collection-wide transaction work is #16.
+The #16 generation repair renders all outputs first, stages complete batches and
+rolls back ordinary replacement failures. Renames remain atomic per file, with
+no group visibility/crash guarantee. See [generation contracts](generation.md).
 
 The all-entry probe found that `.Pn path` lost its required argument to an
 optional punctuation slot. The small #7 prerequisite repair reserves arguments
