@@ -20,6 +20,9 @@ const (
 )
 
 type SupportEntry struct {
+	ArgumentMode     string         `json:"argument_mode,omitempty"`
+	MinimumArguments int            `json:"minimum_arguments"`
+	MaximumArguments int            `json:"maximum_arguments"`
 	Index            int            `json:"index"`
 	Kind             DefinitionKind `json:"kind"`
 	Package          PackageName    `json:"package"`
@@ -125,11 +128,17 @@ func classifySupport(entry *NormalizedEntry, support *SupportEntry, definitions 
 		return
 	}
 	support.ParseStatus, support.API, support.Parser = supportGenerated, "ParseLineWithPackage", "Parse"+parser
+	support.ArgumentMode = def.ArgumentPlan.Mode
+	support.MinimumArguments = def.ArgumentPlan.Minimum
+	support.MaximumArguments = def.ArgumentPlan.Maximum
 	support.Example = entry.Token
 	for _, arg := range def.ArgWords {
 		if !arg.Optional {
 			support.Example += " value"
 		}
+	}
+	if def.ArgumentPlan.Mode == "delimited" {
+		support.Example = entry.Token + " 'left'center'right'"
 	}
 	if route, ok := documentSupportRoutes[entry.Token]; ok {
 		support.ParseStatus, support.API = supportCustom, "ParseDocument"
@@ -192,6 +201,13 @@ func validateEntry(entry *NormalizedEntry) error {
 		return fmt.Errorf("entry %d has invalid control token %q", entry.Index, entry.Token)
 	}
 	if entry.Kind == KindMacro || entry.Kind == KindRequest {
+		words, err := entryArgumentWords(entry)
+		if err != nil {
+			return fmt.Errorf("entry %d argument fields: %w", entry.Index, err)
+		}
+		if _, err := planArguments(entry, words); err != nil {
+			return fmt.Errorf("entry %d argument grammar: %w", entry.Index, err)
+		}
 		if err := validateSignature(entry.ArgsRaw); err != nil {
 			return fmt.Errorf("entry %d has invalid signature: %w", entry.Index, err)
 		}

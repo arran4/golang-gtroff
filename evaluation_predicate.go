@@ -2,7 +2,6 @@ package groff
 
 import (
 	"strings"
-	"unicode/utf8"
 )
 
 // The legacy argument parser can split a parenthesized expression across the
@@ -15,7 +14,7 @@ func (m *evaluation) expressionParts(first, rest string) (string, string, error)
 	depth := 0
 	for i := 0; i < len(first); {
 		if first[i] == '\\' {
-			i = evaluationReferenceEnd(first, i)
+			i = argumentReferenceEnd(first, i)
 			continue
 		}
 		if first[i] == '(' {
@@ -51,7 +50,7 @@ func (m *evaluation) expressionParts(first, rest string) (string, string, error)
 		}
 		if scan[end] == '\\' {
 			start := end
-			end = evaluationReferenceEnd(scan, end)
+			end = argumentReferenceEnd(scan, end)
 			if err := m.charge(end - start); err != nil {
 				return "", "", err
 			}
@@ -73,45 +72,7 @@ func (m *evaluation) expressionParts(first, rest string) (string, string, error)
 	}
 	return first + " " + rest[:end], rest[end:], nil
 }
-func evaluationReferenceEnd(text string, pos int) int {
-	pos++
-	if pos == len(text) {
-		return pos
-	}
-	kind := text[pos]
-	if kind == '\\' && pos+1 < len(text) && strings.ContainsRune("n*$", rune(text[pos+1])) {
-		pos++
-		kind = text[pos]
-	}
-	pos++
-	if kind != 'n' && kind != '*' && kind != '$' {
-		return pos
-	}
-	if kind == 'n' && pos < len(text) && (text[pos] == '+' || text[pos] == '-') {
-		pos++
-	}
-	if pos == len(text) {
-		return pos
-	}
-	switch text[pos] {
-	case '[':
-		end := strings.IndexByte(text[pos+1:], ']')
-		if end < 0 {
-			return len(text)
-		}
-		return pos + end + 2
-	case '(':
-		pos++
-		for count := 0; count < 2 && pos < len(text); count++ {
-			_, n := utf8.DecodeRuneInString(text[pos:])
-			pos += n
-		}
-		return pos
-	default:
-		_, n := utf8.DecodeRuneInString(text[pos:])
-		return pos + n
-	}
-}
+
 func (m *evaluation) conditional(cond, body string) (bool, string, error) {
 	if err := m.charge(len(cond)); err != nil {
 		return false, "", err

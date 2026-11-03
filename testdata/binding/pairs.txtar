@@ -1,0 +1,5 @@
+Declared pairs reject odd arity; the aggregate remains a typed projection.
+-- input.roff --
+.hcode a 1 b 2 c 3
+-- fields.json --
+{"C1": "a", "Code1": "1", "C2": "b", "Code2": "2", "Ellipse": "c 3"}

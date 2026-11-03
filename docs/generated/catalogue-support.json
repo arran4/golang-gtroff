@@ -52,6 +52,9 @@
   },
   "entries": [
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 0,
       "kind": "Macro",
       "package": "man",
@@ -64,6 +67,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 2,
+      "maximum_arguments": 5,
       "index": 1,
       "kind": "Macro",
       "package": "man",
@@ -76,6 +82,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "joined",
+      "minimum_arguments": 0,
+      "maximum_arguments": -1,
       "index": 2,
       "kind": "Macro",
       "package": "man",
@@ -88,6 +97,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "joined",
+      "minimum_arguments": 0,
+      "maximum_arguments": -1,
       "index": 3,
       "kind": "Macro",
       "package": "man",
@@ -100,6 +112,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 1,
       "index": 4,
       "kind": "Macro",
       "package": "man",
@@ -112,6 +127,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 5,
       "kind": "Macro",
       "package": "man",
@@ -124,6 +142,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 2,
       "index": 6,
       "kind": "Macro",
       "package": "man",
@@ -136,6 +157,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 1,
       "index": 7,
       "kind": "Macro",
       "package": "man",
@@ -148,6 +172,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 1,
       "index": 8,
       "kind": "Macro",
       "package": "man",
@@ -160,6 +187,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 1,
       "index": 9,
       "kind": "Macro",
       "package": "man",
@@ -172,6 +202,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "joined",
+      "minimum_arguments": 0,
+      "maximum_arguments": -1,
       "index": 10,
       "kind": "Macro",
       "package": "man",
@@ -184,6 +217,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "joined",
+      "minimum_arguments": 0,
+      "maximum_arguments": -1,
       "index": 11,
       "kind": "Macro",
       "package": "man",
@@ -196,6 +232,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "joined",
+      "minimum_arguments": 1,
+      "maximum_arguments": -1,
       "index": 12,
       "kind": "Macro",
       "package": "man",
@@ -208,6 +247,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "joined",
+      "minimum_arguments": 1,
+      "maximum_arguments": -1,
       "index": 13,
       "kind": "Macro",
       "package": "man",
@@ -220,6 +262,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "joined",
+      "minimum_arguments": 1,
+      "maximum_arguments": -1,
       "index": 14,
       "kind": "Macro",
       "package": "man",
@@ -232,6 +277,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "joined",
+      "minimum_arguments": 1,
+      "maximum_arguments": -1,
       "index": 15,
       "kind": "Macro",
       "package": "man",
@@ -244,6 +292,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "joined",
+      "minimum_arguments": 1,
+      "maximum_arguments": -1,
       "index": 16,
       "kind": "Macro",
       "package": "man",
@@ -256,6 +307,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "joined",
+      "minimum_arguments": 1,
+      "maximum_arguments": -1,
       "index": 17,
       "kind": "Macro",
       "package": "man",
@@ -268,6 +322,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "joined",
+      "minimum_arguments": 0,
+      "maximum_arguments": -1,
       "index": 18,
       "kind": "Macro",
       "package": "man",
@@ -280,6 +337,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "joined",
+      "minimum_arguments": 0,
+      "maximum_arguments": -1,
       "index": 19,
       "kind": "Macro",
       "package": "man",
@@ -292,6 +352,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 20,
       "kind": "Macro",
       "package": "man",
@@ -304,6 +367,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 1,
       "index": 21,
       "kind": "Macro",
       "package": "man",
@@ -316,6 +382,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 2,
       "index": 22,
       "kind": "Macro",
       "package": "man",
@@ -328,6 +397,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 1,
       "index": 23,
       "kind": "Macro",
       "package": "man",
@@ -340,6 +412,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 24,
       "kind": "String",
       "package": "man",
@@ -351,6 +425,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 25,
       "kind": "String",
       "package": "man",
@@ -362,6 +438,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 26,
       "kind": "String",
       "package": "man",
@@ -373,6 +451,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 27,
       "kind": "String",
       "package": "man",
@@ -384,6 +464,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 28,
       "kind": "String",
       "package": "man",
@@ -395,6 +477,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 29,
       "kind": "Macro",
       "package": "man",
@@ -407,6 +492,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 30,
       "kind": "Macro",
       "package": "man",
@@ -419,6 +507,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 1,
+      "maximum_arguments": 1,
       "index": 31,
       "kind": "Macro",
       "package": "man",
@@ -431,6 +522,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 3,
       "index": 32,
       "kind": "Macro",
       "package": "man",
@@ -443,6 +537,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 33,
       "kind": "Macro",
       "package": "man",
@@ -455,6 +552,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 34,
       "kind": "Macro",
       "package": "man",
@@ -467,6 +567,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 1,
       "index": 35,
       "kind": "Macro",
       "package": "man",
@@ -479,6 +582,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 36,
       "kind": "Macro",
       "package": "man",
@@ -491,6 +597,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "joined",
+      "minimum_arguments": 0,
+      "maximum_arguments": -1,
       "index": 37,
       "kind": "Macro",
       "package": "man",
@@ -503,6 +612,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "joined",
+      "minimum_arguments": 0,
+      "maximum_arguments": -1,
       "index": 38,
       "kind": "Macro",
       "package": "man",
@@ -515,6 +627,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "joined",
+      "minimum_arguments": 0,
+      "maximum_arguments": -1,
       "index": 39,
       "kind": "Macro",
       "package": "man",
@@ -527,6 +642,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "joined",
+      "minimum_arguments": 0,
+      "maximum_arguments": -1,
       "index": 40,
       "kind": "Macro",
       "package": "man",
@@ -539,6 +657,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 2,
+      "maximum_arguments": 3,
       "index": 41,
       "kind": "Macro",
       "package": "man",
@@ -551,6 +672,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 2,
       "index": 42,
       "kind": "Macro",
       "package": "man",
@@ -563,6 +687,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 43,
       "kind": "Macro",
       "package": "man",
@@ -575,6 +702,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 1,
+      "maximum_arguments": 2,
       "index": 44,
       "kind": "Macro",
       "package": "man",
@@ -587,6 +717,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 1,
+      "maximum_arguments": 3,
       "index": 45,
       "kind": "Macro",
       "package": "man",
@@ -599,6 +732,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 46,
       "kind": "Macro",
       "package": "man",
@@ -611,6 +747,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 47,
       "kind": "Macro",
       "package": "man",
@@ -623,6 +762,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 1,
       "index": 48,
       "kind": "Macro",
       "package": "man",
@@ -635,6 +777,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 49,
       "kind": "Macro",
       "package": "man",
@@ -647,6 +792,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 50,
       "kind": "Register",
       "package": "ms",
@@ -658,6 +805,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 51,
       "kind": "Register",
       "package": "ms",
@@ -669,6 +818,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 52,
       "kind": "Register",
       "package": "ms",
@@ -680,6 +831,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 53,
       "kind": "Register",
       "package": "ms",
@@ -691,6 +844,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 54,
       "kind": "Register",
       "package": "ms",
@@ -702,6 +857,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 55,
       "kind": "Register",
       "package": "ms",
@@ -713,6 +870,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 56,
       "kind": "Register",
       "package": "ms",
@@ -724,6 +883,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 57,
       "kind": "Register",
       "package": "ms",
@@ -735,6 +896,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 58,
       "kind": "Register",
       "package": "ms",
@@ -746,6 +909,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 59,
       "kind": "Register",
       "package": "ms",
@@ -757,6 +922,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 60,
       "kind": "Register",
       "package": "ms",
@@ -768,6 +935,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 61,
       "kind": "Register",
       "package": "ms",
@@ -779,6 +948,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 62,
       "kind": "Register",
       "package": "ms",
@@ -790,6 +961,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 63,
       "kind": "Register",
       "package": "ms",
@@ -801,6 +974,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 64,
       "kind": "Register",
       "package": "ms",
@@ -812,6 +987,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 65,
       "kind": "Register",
       "package": "ms",
@@ -823,6 +1000,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 66,
       "kind": "Register",
       "package": "ms",
@@ -834,6 +1013,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 67,
       "kind": "Register",
       "package": "ms",
@@ -845,6 +1026,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 68,
       "kind": "Register",
       "package": "ms",
@@ -856,6 +1039,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 69,
       "kind": "Register",
       "package": "ms",
@@ -867,6 +1052,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 70,
       "kind": "Register",
       "package": "ms",
@@ -878,6 +1065,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 71,
       "kind": "Register",
       "package": "ms",
@@ -889,6 +1078,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 72,
       "kind": "Register",
       "package": "ms",
@@ -900,6 +1091,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 73,
       "kind": "Register",
       "package": "ms",
@@ -911,6 +1104,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 1,
       "index": 74,
       "kind": "Macro",
       "package": "ms",
@@ -923,6 +1119,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 75,
       "kind": "Macro",
       "package": "ms",
@@ -935,6 +1134,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "joined",
+      "minimum_arguments": 0,
+      "maximum_arguments": -1,
       "index": 76,
       "kind": "Macro",
       "package": "ms",
@@ -947,6 +1149,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "joined",
+      "minimum_arguments": 0,
+      "maximum_arguments": -1,
       "index": 77,
       "kind": "Macro",
       "package": "ms",
@@ -959,6 +1164,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 78,
       "kind": "Macro",
       "package": "ms",
@@ -971,6 +1179,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 79,
       "kind": "Macro",
       "package": "ms",
@@ -983,6 +1194,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 80,
       "kind": "Macro",
       "package": "ms",
@@ -995,6 +1209,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 1,
       "index": 81,
       "kind": "Macro",
       "package": "ms",
@@ -1007,6 +1224,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 82,
       "kind": "Macro",
       "package": "ms",
@@ -1019,6 +1239,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 83,
       "kind": "Macro",
       "package": "ms",
@@ -1031,6 +1254,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 84,
       "kind": "Macro",
       "package": "ms",
@@ -1043,6 +1269,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 85,
       "kind": "Macro",
       "package": "ms",
@@ -1055,6 +1284,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 86,
       "kind": "Macro",
       "package": "ms",
@@ -1067,6 +1299,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 87,
       "kind": "Macro",
       "package": "ms",
@@ -1079,6 +1314,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "joined",
+      "minimum_arguments": 0,
+      "maximum_arguments": -1,
       "index": 88,
       "kind": "Macro",
       "package": "ms",
@@ -1091,6 +1329,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 89,
       "kind": "String",
       "package": "ms",
@@ -1102,6 +1342,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 90,
       "kind": "String",
       "package": "ms",
@@ -1113,6 +1355,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 1,
       "index": 91,
       "kind": "Macro",
       "package": "ms",
@@ -1125,6 +1370,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 3,
       "index": 92,
       "kind": "Macro",
       "package": "ms",
@@ -1137,6 +1385,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 3,
       "index": 93,
       "kind": "Macro",
       "package": "ms",
@@ -1149,6 +1400,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 3,
       "index": 94,
       "kind": "Macro",
       "package": "ms",
@@ -1161,6 +1415,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 3,
       "index": 95,
       "kind": "Macro",
       "package": "ms",
@@ -1173,6 +1430,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 3,
       "index": 96,
       "kind": "Macro",
       "package": "ms",
@@ -1185,6 +1445,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 1,
       "index": 97,
       "kind": "Macro",
       "package": "ms",
@@ -1197,6 +1460,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 2,
       "index": 98,
       "kind": "Macro",
       "package": "ms",
@@ -1209,6 +1475,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 99,
       "kind": "Macro",
       "package": "ms",
@@ -1221,6 +1490,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 100,
       "kind": "Macro",
       "package": "ms",
@@ -1233,6 +1505,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 101,
       "kind": "Macro",
       "package": "ms",
@@ -1245,6 +1520,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 102,
       "kind": "String",
       "package": "ms",
@@ -1256,6 +1533,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 2,
       "index": 103,
       "kind": "Macro",
       "package": "ms",
@@ -1268,6 +1548,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 104,
       "kind": "Macro",
       "package": "ms",
@@ -1280,6 +1563,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 105,
       "kind": "Macro",
       "package": "ms",
@@ -1292,6 +1578,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 106,
       "kind": "Macro",
       "package": "ms",
@@ -1304,6 +1593,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 107,
       "kind": "Macro",
       "package": "ms",
@@ -1316,6 +1608,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 108,
       "kind": "Macro",
       "package": "ms",
@@ -1328,6 +1623,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 109,
       "kind": "Macro",
       "package": "ms",
@@ -1340,6 +1638,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 110,
       "kind": "Macro",
       "package": "ms",
@@ -1352,6 +1653,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 111,
       "kind": "Macro",
       "package": "ms",
@@ -1364,6 +1668,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 112,
       "kind": "Macro",
       "package": "ms",
@@ -1376,6 +1683,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 113,
       "kind": "Macro",
       "package": "ms",
@@ -1388,6 +1698,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 114,
       "kind": "Macro",
       "package": "ms",
@@ -1400,6 +1713,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 115,
       "kind": "Macro",
       "package": "ms",
@@ -1414,6 +1730,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 116,
       "kind": "Macro",
       "package": "ms",
@@ -1428,6 +1747,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 117,
       "kind": "Macro",
       "package": "ms",
@@ -1442,6 +1764,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 118,
       "kind": "Macro",
       "package": "ms",
@@ -1456,6 +1781,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 119,
       "kind": "String",
       "package": "ms",
@@ -1467,6 +1794,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 120,
       "kind": "Macro",
       "package": "ms",
@@ -1479,6 +1809,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 121,
       "kind": "String",
       "package": "ms",
@@ -1490,6 +1822,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 122,
       "kind": "String",
       "package": "ms",
@@ -1501,6 +1835,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "delimited",
+      "minimum_arguments": 1,
+      "maximum_arguments": -1,
       "index": 123,
       "kind": "Macro",
       "package": "ms",
@@ -1509,10 +1846,13 @@
       "parse_status": "supported_generated",
       "api": "ParseLineWithPackage",
       "parser": "ParseTokenMacroEF",
-      "example": ".EF value",
+      "example": ".EF 'left'center'right'",
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 124,
       "kind": "Macro",
       "package": "ms",
@@ -1525,6 +1865,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 125,
       "kind": "Macro",
       "package": "ms",
@@ -1537,6 +1880,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 126,
       "kind": "Macro",
       "package": "ms",
@@ -1549,6 +1895,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 2,
       "index": 127,
       "kind": "Macro",
       "package": "ms",
@@ -1561,6 +1910,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 128,
       "kind": "Macro",
       "package": "ms",
@@ -1573,6 +1925,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 1,
       "index": 129,
       "kind": "Macro",
       "package": "ms",
@@ -1585,6 +1940,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 1,
       "index": 130,
       "kind": "Macro",
       "package": "ms",
@@ -1597,6 +1955,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 131,
       "kind": "String",
       "package": "ms",
@@ -1608,6 +1968,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 132,
       "kind": "String",
       "package": "ms",
@@ -1619,6 +1981,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 133,
       "kind": "String",
       "package": "ms",
@@ -1630,6 +1994,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 134,
       "kind": "String",
       "package": "ms",
@@ -1641,6 +2007,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 135,
       "kind": "String",
       "package": "ms",
@@ -1652,6 +2020,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 136,
       "kind": "String",
       "package": "ms",
@@ -1663,6 +2033,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 137,
       "kind": "Macro",
       "package": "ms",
@@ -1675,6 +2048,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 138,
       "kind": "String",
       "package": "ms",
@@ -1686,6 +2061,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 139,
       "kind": "String",
       "package": "ms",
@@ -1697,6 +2074,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 140,
       "kind": "String",
       "package": "ms",
@@ -1708,6 +2087,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 141,
       "kind": "String",
       "package": "ms",
@@ -1719,6 +2100,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 142,
       "kind": "String",
       "package": "ms",
@@ -1730,6 +2113,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 143,
       "kind": "String",
       "package": "ms",
@@ -1741,6 +2126,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 144,
       "kind": "String",
       "package": "ms",
@@ -1752,6 +2139,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 145,
       "kind": "String",
       "package": "ms",
@@ -1763,6 +2152,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 146,
       "kind": "String",
       "package": "ms",
@@ -1774,6 +2165,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 147,
       "kind": "String",
       "package": "ms",
@@ -1785,6 +2178,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 148,
       "kind": "String",
       "package": "ms",
@@ -1796,6 +2191,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 149,
       "kind": "String",
       "package": "ms",
@@ -1807,6 +2204,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 150,
       "kind": "String",
       "package": "ms",
@@ -1818,6 +2217,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 151,
       "kind": "String",
       "package": "ms",
@@ -1829,6 +2230,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 152,
       "kind": "String",
       "package": "ms",
@@ -1840,6 +2243,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 153,
       "kind": "String",
       "package": "ms",
@@ -1851,6 +2256,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 154,
       "kind": "String",
       "package": "ms",
@@ -1862,6 +2269,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 155,
       "kind": "String",
       "package": "ms",
@@ -1873,6 +2282,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 156,
       "kind": "String",
       "package": "ms",
@@ -1884,6 +2295,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 157,
       "kind": "String",
       "package": "ms",
@@ -1895,6 +2308,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 158,
       "kind": "String",
       "package": "ms",
@@ -1906,6 +2321,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 159,
       "kind": "Register",
       "package": "ms",
@@ -1917,6 +2334,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 160,
       "kind": "Macro",
       "package": "ms",
@@ -1929,6 +2349,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 1,
       "index": 161,
       "kind": "Macro",
       "package": "ms",
@@ -1941,6 +2364,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 3,
       "index": 162,
       "kind": "Macro",
       "package": "ms",
@@ -1953,6 +2379,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 163,
       "kind": "Macro",
       "package": "ms",
@@ -1965,6 +2394,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 164,
       "kind": "Register",
       "package": "ms",
@@ -1976,6 +2407,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 165,
       "kind": "Register",
       "package": "ms",
@@ -1987,6 +2420,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 1,
       "index": 166,
       "kind": "Request",
       "package": "roff",
@@ -2001,6 +2437,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "register",
+      "minimum_arguments": 2,
+      "maximum_arguments": 3,
       "index": 167,
       "kind": "Request",
       "package": "roff",
@@ -2013,6 +2452,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "variadic",
+      "minimum_arguments": 1,
+      "maximum_arguments": -1,
       "index": 168,
       "kind": "Request",
       "package": "roff",
@@ -2025,6 +2467,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 2,
+      "maximum_arguments": 2,
       "index": 169,
       "kind": "Request",
       "package": "roff",
@@ -2037,6 +2482,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 2,
+      "maximum_arguments": 2,
       "index": 170,
       "kind": "Request",
       "package": "roff",
@@ -2049,6 +2497,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "register",
+      "minimum_arguments": 2,
+      "maximum_arguments": 3,
       "index": 171,
       "kind": "Request",
       "package": "roff",
@@ -2061,6 +2512,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 2,
+      "maximum_arguments": 2,
       "index": 172,
       "kind": "Request",
       "package": "roff",
@@ -2073,6 +2527,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 173,
       "kind": "Request",
       "package": "roff",
@@ -2085,6 +2542,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 174,
       "kind": "Register",
       "package": "roff",
@@ -2096,6 +2555,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 175,
       "kind": "Request",
       "package": "roff",
@@ -2108,6 +2570,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 176,
       "kind": "Register",
       "package": "roff",
@@ -2119,6 +2583,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 177,
       "kind": "Request",
       "package": "roff",
@@ -2131,6 +2598,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 178,
       "kind": "Register",
       "package": "roff",
@@ -2142,6 +2611,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 179,
       "kind": "Register",
       "package": "roff",
@@ -2153,6 +2624,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 180,
       "kind": "Register",
       "package": "roff",
@@ -2164,6 +2637,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 181,
       "kind": "Register",
       "package": "roff",
@@ -2175,6 +2650,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 182,
       "kind": "Request",
       "package": "roff",
@@ -2187,6 +2665,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 183,
       "kind": "Register",
       "package": "roff",
@@ -2198,6 +2678,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "variadic",
+      "minimum_arguments": 1,
+      "maximum_arguments": -1,
       "index": 184,
       "kind": "Request",
       "package": "roff",
@@ -2210,6 +2693,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 1,
       "index": 185,
       "kind": "Request",
       "package": "roff",
@@ -2222,6 +2708,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "variadic",
+      "minimum_arguments": 2,
+      "maximum_arguments": -1,
       "index": 186,
       "kind": "Request",
       "package": "roff",
@@ -2234,6 +2723,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "variadic",
+      "minimum_arguments": 2,
+      "maximum_arguments": -1,
       "index": 187,
       "kind": "Request",
       "package": "roff",
@@ -2246,6 +2738,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 188,
       "kind": "Register",
       "package": "roff",
@@ -2257,6 +2751,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 189,
       "kind": "Register",
       "package": "roff",
@@ -2268,6 +2764,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 1,
       "index": 190,
       "kind": "Request",
       "package": "roff",
@@ -2280,6 +2779,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 191,
       "kind": "Register",
       "package": "roff",
@@ -2291,6 +2792,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 1,
       "index": 192,
       "kind": "Request",
       "package": "roff",
@@ -2303,6 +2807,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 193,
       "kind": "Register",
       "package": "roff",
@@ -2314,6 +2820,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 194,
       "kind": "Register",
       "package": "roff",
@@ -2325,6 +2833,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 195,
       "kind": "Register",
       "package": "roff",
@@ -2336,6 +2846,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 196,
       "kind": "Register",
       "package": "roff",
@@ -2347,6 +2859,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 1,
       "index": 197,
       "kind": "Request",
       "package": "roff",
@@ -2359,6 +2874,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 198,
       "kind": "Register",
       "package": "roff",
@@ -2370,6 +2887,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 1,
       "index": 199,
       "kind": "Request",
       "package": "roff",
@@ -2382,6 +2902,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 2,
       "index": 200,
       "kind": "Request",
       "package": "roff",
@@ -2394,6 +2917,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 1,
       "index": 201,
       "kind": "Request",
       "package": "roff",
@@ -2406,6 +2932,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 1,
       "index": 202,
       "kind": "Request",
       "package": "roff",
@@ -2418,6 +2947,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 203,
       "kind": "Request",
       "package": "roff",
@@ -2430,6 +2962,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 1,
       "index": 204,
       "kind": "Request",
       "package": "roff",
@@ -2442,6 +2977,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 205,
       "kind": "Request",
       "package": "roff",
@@ -2454,6 +2992,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "raw",
+      "minimum_arguments": 1,
+      "maximum_arguments": -1,
       "index": 206,
       "kind": "Request",
       "package": "roff",
@@ -2466,6 +3007,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "raw",
+      "minimum_arguments": 1,
+      "maximum_arguments": -1,
       "index": 207,
       "kind": "Request",
       "package": "roff",
@@ -2478,6 +3022,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 208,
       "kind": "Request",
       "package": "roff",
@@ -2490,6 +3037,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 209,
       "kind": "Request",
       "package": "roff",
@@ -2502,6 +3052,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 1,
       "index": 210,
       "kind": "Request",
       "package": "roff",
@@ -2514,6 +3067,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 1,
       "index": 211,
       "kind": "Request",
       "package": "roff",
@@ -2526,6 +3082,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 212,
       "kind": "Register",
       "package": "roff",
@@ -2537,6 +3095,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 1,
       "index": 213,
       "kind": "Request",
       "package": "roff",
@@ -2549,6 +3110,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 1,
       "index": 214,
       "kind": "Request",
       "package": "roff",
@@ -2561,6 +3125,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 215,
       "kind": "Register",
       "package": "roff",
@@ -2572,6 +3138,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 1,
+      "maximum_arguments": 1,
       "index": 216,
       "kind": "Request",
       "package": "roff",
@@ -2584,6 +3153,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 1,
+      "maximum_arguments": 1,
       "index": 217,
       "kind": "Request",
       "package": "roff",
@@ -2596,6 +3168,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 218,
       "kind": "Register",
       "package": "roff",
@@ -2607,6 +3181,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 1,
       "index": 219,
       "kind": "Request",
       "package": "roff",
@@ -2619,6 +3196,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 1,
       "index": 220,
       "kind": "Request",
       "package": "roff",
@@ -2631,6 +3211,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 221,
       "kind": "Register",
       "package": "roff",
@@ -2642,6 +3224,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 222,
       "kind": "Register",
       "package": "roff",
@@ -2653,6 +3237,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 1,
       "index": 223,
       "kind": "Request",
       "package": "roff",
@@ -2665,6 +3252,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 1,
       "index": 224,
       "kind": "Request",
       "package": "roff",
@@ -2677,6 +3267,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 225,
       "kind": "Register",
       "package": "roff",
@@ -2688,6 +3280,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "delimited",
+      "minimum_arguments": 1,
+      "maximum_arguments": -1,
       "index": 226,
       "kind": "Request",
       "package": "roff",
@@ -2696,10 +3291,13 @@
       "parse_status": "supported_generated",
       "api": "ParseLineWithPackage",
       "parser": "ParseTokenRequestTl",
-      "example": ".tl value",
+      "example": ".tl 'left'center'right'",
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 1,
       "index": 227,
       "kind": "Request",
       "package": "roff",
@@ -2712,6 +3310,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 1,
       "index": 228,
       "kind": "Request",
       "package": "roff",
@@ -2724,6 +3325,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 229,
       "kind": "Register",
       "package": "roff",
@@ -2735,6 +3338,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 1,
+      "maximum_arguments": 1,
       "index": 230,
       "kind": "Request",
       "package": "roff",
@@ -2747,6 +3353,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 1,
+      "maximum_arguments": 1,
       "index": 231,
       "kind": "Request",
       "package": "roff",
@@ -2759,6 +3368,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 232,
       "kind": "Register",
       "package": "roff",
@@ -2770,6 +3381,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 1,
       "index": 233,
       "kind": "Request",
       "package": "roff",
@@ -2782,6 +3396,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 1,
       "index": 234,
       "kind": "Request",
       "package": "roff",
@@ -2794,6 +3411,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 1,
       "index": 235,
       "kind": "Request",
       "package": "roff",
@@ -2806,6 +3426,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 236,
       "kind": "Register",
       "package": "roff",
@@ -2817,6 +3439,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 1,
       "index": 237,
       "kind": "Request",
       "package": "roff",
@@ -2829,6 +3454,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 238,
       "kind": "Request",
       "package": "roff",
@@ -2841,6 +3469,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 239,
       "kind": "Register",
       "package": "roff",
@@ -2852,6 +3482,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 240,
       "kind": "Register",
       "package": "roff",
@@ -2863,6 +3495,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 1,
+      "maximum_arguments": 2,
       "index": 241,
       "kind": "Request",
       "package": "roff",
@@ -2875,6 +3510,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 242,
       "kind": "Register",
       "package": "roff",
@@ -2886,6 +3523,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 243,
       "kind": "Register",
       "package": "roff",
@@ -2897,6 +3536,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 2,
+      "maximum_arguments": 2,
       "index": 244,
       "kind": "Request",
       "package": "roff",
@@ -2909,6 +3551,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 245,
       "kind": "Register",
       "package": "roff",
@@ -2920,6 +3564,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 2,
+      "maximum_arguments": 2,
       "index": 246,
       "kind": "Request",
       "package": "roff",
@@ -2932,6 +3579,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "variadic",
+      "minimum_arguments": 2,
+      "maximum_arguments": -1,
       "index": 247,
       "kind": "Request",
       "package": "roff",
@@ -2944,6 +3594,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "raw",
+      "minimum_arguments": 1,
+      "maximum_arguments": -1,
       "index": 248,
       "kind": "Request",
       "package": "roff",
@@ -2956,6 +3609,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "variadic",
+      "minimum_arguments": 2,
+      "maximum_arguments": -1,
       "index": 249,
       "kind": "Request",
       "package": "roff",
@@ -2968,6 +3624,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "variadic",
+      "minimum_arguments": 2,
+      "maximum_arguments": -1,
       "index": 250,
       "kind": "Request",
       "package": "roff",
@@ -2980,6 +3639,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "variadic",
+      "minimum_arguments": 1,
+      "maximum_arguments": -1,
       "index": 251,
       "kind": "Request",
       "package": "roff",
@@ -2992,6 +3654,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 252,
       "kind": "Register",
       "package": "roff",
@@ -3003,6 +3667,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 253,
       "kind": "Register",
       "package": "roff",
@@ -3014,6 +3680,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 1,
       "index": 254,
       "kind": "Request",
       "package": "roff",
@@ -3026,6 +3695,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 1,
       "index": 255,
       "kind": "Request",
       "package": "roff",
@@ -3038,6 +3710,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 1,
+      "maximum_arguments": 1,
       "index": 256,
       "kind": "Request",
       "package": "roff",
@@ -3050,6 +3725,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 1,
+      "maximum_arguments": 3,
       "index": 257,
       "kind": "Request",
       "package": "roff",
@@ -3062,6 +3740,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 258,
       "kind": "Register",
       "package": "roff",
@@ -3073,6 +3753,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 1,
+      "maximum_arguments": 3,
       "index": 259,
       "kind": "Request",
       "package": "roff",
@@ -3085,6 +3768,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 260,
       "kind": "Register",
       "package": "roff",
@@ -3096,6 +3781,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 261,
       "kind": "Register",
       "package": "roff",
@@ -3107,6 +3794,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 5,
+      "maximum_arguments": 5,
       "index": 262,
       "kind": "Request",
       "package": "roff",
@@ -3119,6 +3809,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 1,
       "index": 263,
       "kind": "Request",
       "package": "roff",
@@ -3131,6 +3824,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 1,
       "index": 264,
       "kind": "Request",
       "package": "roff",
@@ -3143,6 +3839,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 265,
       "kind": "Register",
       "package": "roff",
@@ -3154,6 +3852,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "variadic",
+      "minimum_arguments": 1,
+      "maximum_arguments": -1,
       "index": 266,
       "kind": "Request",
       "package": "roff",
@@ -3166,6 +3867,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 1,
       "index": 267,
       "kind": "Request",
       "package": "roff",
@@ -3178,6 +3882,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 1,
       "index": 268,
       "kind": "Request",
       "package": "roff",
@@ -3190,6 +3897,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 269,
       "kind": "Register",
       "package": "roff",
@@ -3201,6 +3910,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 1,
       "index": 270,
       "kind": "Request",
       "package": "roff",
@@ -3213,6 +3925,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 1,
       "index": 271,
       "kind": "Request",
       "package": "roff",
@@ -3225,6 +3940,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 272,
       "kind": "Register",
       "package": "roff",
@@ -3236,6 +3953,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 273,
       "kind": "Register",
       "package": "roff",
@@ -3247,6 +3966,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 274,
       "kind": "Register",
       "package": "roff",
@@ -3258,6 +3979,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "string",
+      "minimum_arguments": 1,
+      "maximum_arguments": -1,
       "index": 275,
       "kind": "Request",
       "package": "roff",
@@ -3270,6 +3994,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 2,
+      "maximum_arguments": 3,
       "index": 276,
       "kind": "Request",
       "package": "roff",
@@ -3282,6 +4009,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "string",
+      "minimum_arguments": 1,
+      "maximum_arguments": -1,
       "index": 277,
       "kind": "Request",
       "package": "roff",
@@ -3294,6 +4024,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 2,
+      "maximum_arguments": 2,
       "index": 278,
       "kind": "Request",
       "package": "roff",
@@ -3306,6 +4039,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "variadic",
+      "minimum_arguments": 1,
+      "maximum_arguments": -1,
       "index": 279,
       "kind": "Request",
       "package": "roff",
@@ -3318,6 +4054,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 2,
+      "maximum_arguments": 2,
       "index": 280,
       "kind": "Request",
       "package": "roff",
@@ -3330,6 +4069,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 1,
+      "maximum_arguments": 1,
       "index": 281,
       "kind": "Request",
       "package": "roff",
@@ -3342,6 +4084,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "conditional",
+      "minimum_arguments": 1,
+      "maximum_arguments": -1,
       "index": 282,
       "kind": "Request",
       "package": "roff",
@@ -3354,6 +4099,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "raw",
+      "minimum_arguments": 1,
+      "maximum_arguments": -1,
       "index": 283,
       "kind": "Request",
       "package": "roff",
@@ -3366,6 +4114,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "raw",
+      "minimum_arguments": 0,
+      "maximum_arguments": -1,
       "index": 284,
       "kind": "Request",
       "package": "roff",
@@ -3378,6 +4129,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "conditional",
+      "minimum_arguments": 2,
+      "maximum_arguments": -1,
       "index": 285,
       "kind": "Request",
       "package": "roff",
@@ -3390,6 +4144,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 286,
       "kind": "Request",
       "package": "roff",
@@ -3402,6 +4159,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 287,
       "kind": "Request",
       "package": "roff",
@@ -3414,6 +4174,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 1,
+      "maximum_arguments": 2,
       "index": 288,
       "kind": "Request",
       "package": "roff",
@@ -3426,6 +4189,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 1,
+      "maximum_arguments": 2,
       "index": 289,
       "kind": "Request",
       "package": "roff",
@@ -3438,6 +4204,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "raw",
+      "minimum_arguments": 0,
+      "maximum_arguments": -1,
       "index": 290,
       "kind": "Request",
       "package": "roff",
@@ -3450,6 +4219,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 291,
       "kind": "Register",
       "package": "roff",
@@ -3461,6 +4232,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 1,
       "index": 292,
       "kind": "Request",
       "package": "roff",
@@ -3473,6 +4247,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 1,
       "index": 293,
       "kind": "Request",
       "package": "roff",
@@ -3485,6 +4262,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 294,
       "kind": "Register",
       "package": "roff",
@@ -3496,6 +4275,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 295,
       "kind": "Register",
       "package": "roff",
@@ -3507,6 +4288,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 296,
       "kind": "Register",
       "package": "roff",
@@ -3518,6 +4301,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 297,
       "kind": "Register",
       "package": "roff",
@@ -3529,6 +4314,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 1,
+      "maximum_arguments": 2,
       "index": 298,
       "kind": "Request",
       "package": "roff",
@@ -3541,6 +4329,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 299,
       "kind": "Register",
       "package": "roff",
@@ -3552,6 +4342,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 1,
+      "maximum_arguments": 2,
       "index": 300,
       "kind": "Request",
       "package": "roff",
@@ -3564,6 +4357,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 301,
       "kind": "Register",
       "package": "roff",
@@ -3575,6 +4370,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 302,
       "kind": "Register",
       "package": "roff",
@@ -3586,6 +4383,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 303,
       "kind": "Register",
       "package": "roff",
@@ -3597,6 +4396,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 2,
       "index": 304,
       "kind": "Request",
       "package": "roff",
@@ -3609,6 +4411,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 2,
+      "maximum_arguments": 2,
       "index": 305,
       "kind": "Request",
       "package": "roff",
@@ -3621,6 +4426,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 1,
+      "maximum_arguments": 1,
       "index": 306,
       "kind": "Request",
       "package": "roff",
@@ -3633,6 +4441,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 307,
       "kind": "Register",
       "package": "roff",
@@ -3644,6 +4454,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 1,
+      "maximum_arguments": 1,
       "index": 308,
       "kind": "Request",
       "package": "roff",
@@ -3656,6 +4469,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 1,
+      "maximum_arguments": 1,
       "index": 309,
       "kind": "Request",
       "package": "roff",
@@ -3668,6 +4484,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 1,
+      "maximum_arguments": 1,
       "index": 310,
       "kind": "Request",
       "package": "roff",
@@ -3680,6 +4499,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 311,
       "kind": "Register",
       "package": "roff",
@@ -3691,6 +4512,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 312,
       "kind": "Register",
       "package": "roff",
@@ -3702,6 +4525,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 313,
       "kind": "Register",
       "package": "roff",
@@ -3713,6 +4538,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "raw",
+      "minimum_arguments": 1,
+      "maximum_arguments": -1,
       "index": 314,
       "kind": "Request",
       "package": "roff",
@@ -3725,6 +4553,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 1,
+      "maximum_arguments": 1,
       "index": 315,
       "kind": "Request",
       "package": "roff",
@@ -3737,6 +4568,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 1,
+      "maximum_arguments": 1,
       "index": 316,
       "kind": "Request",
       "package": "roff",
@@ -3749,6 +4583,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 317,
       "kind": "Register",
       "package": "roff",
@@ -3760,6 +4596,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 1,
+      "maximum_arguments": 1,
       "index": 318,
       "kind": "Request",
       "package": "roff",
@@ -3772,6 +4611,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 319,
       "kind": "Register",
       "package": "roff",
@@ -3783,6 +4624,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 320,
       "kind": "Register",
       "package": "roff",
@@ -3794,6 +4637,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 321,
       "kind": "Register",
       "package": "roff",
@@ -3805,6 +4650,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "joined",
+      "minimum_arguments": 3,
+      "maximum_arguments": -1,
       "index": 322,
       "kind": "Request",
       "package": "roff",
@@ -3817,6 +4665,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 323,
       "kind": "Register",
       "package": "roff",
@@ -3828,6 +4678,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 324,
       "kind": "Register",
       "package": "roff",
@@ -3839,6 +4691,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 1,
+      "maximum_arguments": 1,
       "index": 325,
       "kind": "Request",
       "package": "roff",
@@ -3851,6 +4706,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "raw",
+      "minimum_arguments": 1,
+      "maximum_arguments": -1,
       "index": 326,
       "kind": "Request",
       "package": "roff",
@@ -3863,6 +4721,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 1,
+      "maximum_arguments": 1,
       "index": 327,
       "kind": "Request",
       "package": "roff",
@@ -3875,6 +4736,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 1,
+      "maximum_arguments": 1,
       "index": 328,
       "kind": "Request",
       "package": "roff",
@@ -3887,6 +4751,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 1,
       "index": 329,
       "kind": "Request",
       "package": "roff",
@@ -3899,6 +4766,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "variadic",
+      "minimum_arguments": 0,
+      "maximum_arguments": -1,
       "index": 330,
       "kind": "Request",
       "package": "roff",
@@ -3911,6 +4781,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "raw",
+      "minimum_arguments": 1,
+      "maximum_arguments": -1,
       "index": 331,
       "kind": "Request",
       "package": "roff",
@@ -3923,6 +4796,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 332,
       "kind": "Register",
       "package": "roff",
@@ -3934,6 +4809,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 2,
+      "maximum_arguments": 2,
       "index": 333,
       "kind": "Request",
       "package": "roff",
@@ -3946,6 +4824,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "raw",
+      "minimum_arguments": 2,
+      "maximum_arguments": -1,
       "index": 334,
       "kind": "Request",
       "package": "roff",
@@ -3958,6 +4839,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 2,
+      "maximum_arguments": 2,
       "index": 335,
       "kind": "Request",
       "package": "roff",
@@ -3970,6 +4854,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 1,
+      "maximum_arguments": 1,
       "index": 336,
       "kind": "Request",
       "package": "roff",
@@ -3982,6 +4869,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 4,
       "index": 337,
       "kind": "Request",
       "package": "roff",
@@ -3994,6 +4884,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 1,
       "index": 338,
       "kind": "Request",
       "package": "roff",
@@ -4006,6 +4899,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 1,
+      "maximum_arguments": 2,
       "index": 339,
       "kind": "Request",
       "package": "roff",
@@ -4018,6 +4914,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 340,
       "kind": "Register",
       "package": "roff",
@@ -4029,6 +4927,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 1,
+      "maximum_arguments": 2,
       "index": 341,
       "kind": "Request",
       "package": "roff",
@@ -4041,6 +4942,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "raw",
+      "minimum_arguments": 1,
+      "maximum_arguments": -1,
       "index": 342,
       "kind": "Request",
       "package": "roff",
@@ -4053,6 +4957,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "raw",
+      "minimum_arguments": 0,
+      "maximum_arguments": -1,
       "index": 343,
       "kind": "Request",
       "package": "roff",
@@ -4065,6 +4972,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 344,
       "kind": "Request",
       "package": "roff",
@@ -4077,6 +4987,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 345,
       "kind": "Request",
       "package": "roff",
@@ -4089,6 +5002,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 346,
       "kind": "Request",
       "package": "roff",
@@ -4101,6 +5017,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 347,
       "kind": "Request",
       "package": "roff",
@@ -4113,6 +5032,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 348,
       "kind": "Request",
       "package": "roff",
@@ -4125,6 +5047,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 349,
       "kind": "Request",
       "package": "roff",
@@ -4137,6 +5062,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 350,
       "kind": "Request",
       "package": "roff",
@@ -4149,6 +5077,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 351,
       "kind": "Register",
       "package": "roff",
@@ -4160,6 +5090,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 1,
+      "maximum_arguments": 1,
       "index": 352,
       "kind": "Request",
       "package": "roff",
@@ -4172,6 +5105,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 1,
       "index": 353,
       "kind": "Request",
       "package": "roff",
@@ -4184,6 +5120,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 354,
       "kind": "Register",
       "package": "roff",
@@ -4195,6 +5133,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 355,
       "kind": "Register",
       "package": "roff",
@@ -4206,6 +5146,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 356,
       "kind": "String",
       "package": "ms",
@@ -4217,6 +5159,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 357,
       "kind": "Register",
       "package": "ms",
@@ -4228,6 +5172,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "raw",
+      "minimum_arguments": 1,
+      "maximum_arguments": -1,
       "index": 358,
       "kind": "Request",
       "package": "roff",
@@ -4240,6 +5187,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 1,
       "index": 359,
       "kind": "Request",
       "package": "roff",
@@ -4252,6 +5202,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 1,
       "index": 360,
       "kind": "Request",
       "package": "roff",
@@ -4264,6 +5217,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "raw",
+      "minimum_arguments": 1,
+      "maximum_arguments": -1,
       "index": 361,
       "kind": "Request",
       "package": "roff",
@@ -4276,6 +5232,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "raw",
+      "minimum_arguments": 1,
+      "maximum_arguments": -1,
       "index": 362,
       "kind": "Request",
       "package": "roff",
@@ -4288,6 +5247,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 363,
       "kind": "Register",
       "package": "ms",
@@ -4299,6 +5260,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 364,
       "kind": "Register",
       "package": "ms",
@@ -4310,6 +5273,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 365,
       "kind": "Register",
       "package": "ms",
@@ -4321,6 +5286,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 1,
+      "maximum_arguments": 1,
       "index": 366,
       "kind": "Request",
       "package": "roff",
@@ -4333,6 +5301,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 1,
+      "maximum_arguments": 1,
       "index": 367,
       "kind": "Request",
       "package": "roff",
@@ -4345,6 +5316,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "raw",
+      "minimum_arguments": 1,
+      "maximum_arguments": -1,
       "index": 368,
       "kind": "Request",
       "package": "roff",
@@ -4357,6 +5331,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "raw",
+      "minimum_arguments": 2,
+      "maximum_arguments": -1,
       "index": 369,
       "kind": "Request",
       "package": "roff",
@@ -4369,6 +5346,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 2,
+      "maximum_arguments": 2,
       "index": 370,
       "kind": "Request",
       "package": "roff",
@@ -4381,6 +5361,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "raw",
+      "minimum_arguments": 1,
+      "maximum_arguments": -1,
       "index": 371,
       "kind": "Request",
       "package": "roff",
@@ -4393,6 +5376,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 1,
+      "maximum_arguments": 1,
       "index": 372,
       "kind": "Request",
       "package": "roff",
@@ -4405,6 +5391,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 1,
       "index": 373,
       "kind": "Request",
       "package": "roff",
@@ -4417,6 +5406,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 1,
       "index": 374,
       "kind": "Request",
       "package": "roff",
@@ -4429,6 +5421,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 1,
       "index": 375,
       "kind": "Request",
       "package": "roff",
@@ -4441,6 +5436,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 376,
       "kind": "Register",
       "package": "ms",
@@ -4452,6 +5449,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 377,
       "kind": "Register",
       "package": "ms",
@@ -4463,6 +5462,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 378,
       "kind": "Register",
       "package": "ms",
@@ -4474,6 +5475,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 1,
       "index": 379,
       "kind": "Request",
       "package": "roff",
@@ -4486,6 +5490,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 380,
       "kind": "Register",
       "package": "ms",
@@ -4497,6 +5503,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 381,
       "kind": "Register",
       "package": "ms",
@@ -4508,6 +5516,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 1,
+      "maximum_arguments": 1,
       "index": 382,
       "kind": "Request",
       "package": "roff",
@@ -4520,6 +5531,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 1,
+      "maximum_arguments": 1,
       "index": 383,
       "kind": "Request",
       "package": "roff",
@@ -4532,6 +5546,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 384,
       "kind": "Register",
       "package": "ms",
@@ -4543,6 +5559,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 1,
+      "maximum_arguments": 1,
       "index": 385,
       "kind": "Request",
       "package": "roff",
@@ -4555,6 +5574,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 2,
+      "maximum_arguments": 2,
       "index": 386,
       "kind": "Request",
       "package": "roff",
@@ -4567,6 +5589,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 1,
+      "maximum_arguments": 1,
       "index": 387,
       "kind": "Request",
       "package": "roff",
@@ -4579,6 +5604,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 388,
       "kind": "Register",
       "package": "ms",
@@ -4590,6 +5617,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 389,
       "kind": "Register",
       "package": "ms",
@@ -4601,6 +5630,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 390,
       "kind": "Register",
       "package": "ms",
@@ -4612,6 +5643,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 391,
       "kind": "Register",
       "package": "ms",
@@ -4623,6 +5656,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 392,
       "kind": "Register",
       "package": "ms",
@@ -4634,6 +5669,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 393,
       "kind": "Register",
       "package": "ms",
@@ -4645,6 +5682,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 1,
       "index": 394,
       "kind": "Request",
       "package": "roff",
@@ -4657,6 +5697,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 1,
+      "maximum_arguments": 2,
       "index": 395,
       "kind": "Request",
       "package": "roff",
@@ -4669,6 +5712,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 1,
+      "maximum_arguments": 2,
       "index": 396,
       "kind": "Request",
       "package": "roff",
@@ -4681,6 +5727,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 1,
+      "maximum_arguments": 2,
       "index": 397,
       "kind": "Request",
       "package": "roff",
@@ -4695,6 +5744,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 1,
+      "maximum_arguments": 2,
       "index": 398,
       "kind": "Request",
       "package": "roff",
@@ -4707,6 +5759,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 1,
+      "maximum_arguments": 2,
       "index": 399,
       "kind": "Request",
       "package": "roff",
@@ -4719,6 +5774,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 1,
+      "maximum_arguments": 2,
       "index": 400,
       "kind": "Request",
       "package": "roff",
@@ -4733,6 +5791,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "conditional",
+      "minimum_arguments": 1,
+      "maximum_arguments": -1,
       "index": 401,
       "kind": "Request",
       "package": "roff",
@@ -4745,6 +5806,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "string",
+      "minimum_arguments": 1,
+      "maximum_arguments": -1,
       "index": 402,
       "kind": "Request",
       "package": "roff",
@@ -4757,6 +5821,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "string",
+      "minimum_arguments": 1,
+      "maximum_arguments": -1,
       "index": 403,
       "kind": "Request",
       "package": "roff",
@@ -4769,6 +5836,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "string",
+      "minimum_arguments": 1,
+      "maximum_arguments": -1,
       "index": 404,
       "kind": "Request",
       "package": "roff",
@@ -4781,6 +5851,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 405,
       "kind": "Register",
       "package": "ms",
@@ -4792,6 +5864,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 1,
       "index": 406,
       "kind": "Request",
       "package": "roff",
@@ -4804,6 +5879,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 1,
       "index": 407,
       "kind": "Request",
       "package": "roff",
@@ -4816,6 +5894,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 1,
       "index": 408,
       "kind": "Request",
       "package": "roff",
@@ -4828,6 +5909,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 1,
       "index": 409,
       "kind": "Request",
       "package": "roff",
@@ -4840,6 +5924,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 1,
       "index": 410,
       "kind": "Request",
       "package": "roff",
@@ -4852,6 +5939,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 1,
+      "maximum_arguments": 3,
       "index": 411,
       "kind": "Request",
       "package": "roff",
@@ -4864,6 +5954,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "variadic",
+      "minimum_arguments": 0,
+      "maximum_arguments": -1,
       "index": 412,
       "kind": "Request",
       "package": "roff",
@@ -4876,6 +5969,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "variadic",
+      "minimum_arguments": 1,
+      "maximum_arguments": -1,
       "index": 413,
       "kind": "Request",
       "package": "roff",
@@ -4888,6 +5984,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "raw",
+      "minimum_arguments": 2,
+      "maximum_arguments": -1,
       "index": 414,
       "kind": "Request",
       "package": "roff",
@@ -4900,6 +5999,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "raw",
+      "minimum_arguments": 1,
+      "maximum_arguments": -1,
       "index": 415,
       "kind": "Request",
       "package": "roff",
@@ -4912,6 +6014,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "raw",
+      "minimum_arguments": 1,
+      "maximum_arguments": -1,
       "index": 416,
       "kind": "Request",
       "package": "roff",
@@ -4924,6 +6029,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 1,
       "index": 417,
       "kind": "Request",
       "package": "roff",
@@ -4936,6 +6044,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 418,
       "kind": "Register",
       "package": "ms",
@@ -4947,6 +6057,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 2,
+      "maximum_arguments": 3,
       "index": 419,
       "kind": "Request",
       "package": "roff",
@@ -4959,6 +6072,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 420,
       "kind": "Register",
       "package": "ms",
@@ -4970,6 +6085,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 1,
       "index": 421,
       "kind": "Request",
       "package": "roff",
@@ -4982,6 +6100,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 1,
+      "maximum_arguments": 2,
       "index": 422,
       "kind": "Request",
       "package": "roff",
@@ -4994,6 +6115,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 1,
       "index": 423,
       "kind": "Request",
       "package": "roff",
@@ -5006,6 +6130,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 1,
       "index": 424,
       "kind": "Request",
       "package": "roff",
@@ -5018,6 +6145,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 1,
       "index": 425,
       "kind": "Request",
       "package": "roff",
@@ -5030,6 +6160,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 1,
+      "maximum_arguments": 1,
       "index": 426,
       "kind": "Request",
       "package": "roff",
@@ -5042,6 +6175,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 1,
       "index": 427,
       "kind": "Request",
       "package": "roff",
@@ -5054,6 +6190,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 1,
       "index": 428,
       "kind": "Request",
       "package": "roff",
@@ -5066,6 +6205,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 429,
       "kind": "Register",
       "package": "ms",
@@ -5077,6 +6218,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 1,
       "index": 430,
       "kind": "Request",
       "package": "roff",
@@ -5089,6 +6233,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 1,
+      "maximum_arguments": 1,
       "index": 431,
       "kind": "Request",
       "package": "roff",
@@ -5101,6 +6248,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 1,
       "index": 432,
       "kind": "Request",
       "package": "roff",
@@ -5113,6 +6263,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 1,
       "index": 433,
       "kind": "Request",
       "package": "roff",
@@ -5125,6 +6278,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "raw",
+      "minimum_arguments": 1,
+      "maximum_arguments": -1,
       "index": 434,
       "kind": "Request",
       "package": "roff",
@@ -5137,6 +6293,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 435,
       "kind": "Request",
       "package": "roff",
@@ -5149,6 +6308,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 1,
+      "maximum_arguments": 1,
       "index": 436,
       "kind": "Request",
       "package": "roff",
@@ -5161,6 +6323,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "variadic",
+      "minimum_arguments": 0,
+      "maximum_arguments": -1,
       "index": 437,
       "kind": "Request",
       "package": "roff",
@@ -5173,6 +6338,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 438,
       "kind": "Request",
       "package": "roff",
@@ -5185,6 +6353,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 439,
       "kind": "Request",
       "package": "roff",
@@ -5197,6 +6368,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 1,
       "index": 440,
       "kind": "Request",
       "package": "roff",
@@ -5209,6 +6383,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 1,
+      "maximum_arguments": 1,
       "index": 441,
       "kind": "Request",
       "package": "roff",
@@ -5221,6 +6398,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 1,
       "index": 442,
       "kind": "Request",
       "package": "roff",
@@ -5233,6 +6413,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 1,
       "index": 443,
       "kind": "Request",
       "package": "roff",
@@ -5245,6 +6428,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 1,
+      "maximum_arguments": 1,
       "index": 444,
       "kind": "Request",
       "package": "roff",
@@ -5257,6 +6443,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 1,
+      "maximum_arguments": 1,
       "index": 445,
       "kind": "Request",
       "package": "roff",
@@ -5269,6 +6458,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 446,
       "kind": "Register",
       "package": "ms",
@@ -5280,6 +6471,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 1,
       "index": 447,
       "kind": "Request",
       "package": "roff",
@@ -5292,6 +6486,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 1,
       "index": 448,
       "kind": "Request",
       "package": "roff",
@@ -5304,6 +6501,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 1,
       "index": 449,
       "kind": "Request",
       "package": "roff",
@@ -5316,6 +6516,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 1,
       "index": 450,
       "kind": "Request",
       "package": "roff",
@@ -5328,6 +6531,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 451,
       "kind": "Register",
       "package": "ms",
@@ -5339,6 +6544,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 1,
+      "maximum_arguments": 2,
       "index": 452,
       "kind": "Request",
       "package": "roff",
@@ -5351,6 +6559,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 453,
       "kind": "Request",
       "package": "roff",
@@ -5363,6 +6574,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 1,
       "index": 454,
       "kind": "Request",
       "package": "roff",
@@ -5375,6 +6589,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 455,
       "kind": "Request",
       "package": "roff",
@@ -5387,6 +6604,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "register",
+      "minimum_arguments": 2,
+      "maximum_arguments": 3,
       "index": 456,
       "kind": "Request",
       "package": "roff",
@@ -5399,6 +6619,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "register",
+      "minimum_arguments": 2,
+      "maximum_arguments": 3,
       "index": 457,
       "kind": "Request",
       "package": "roff",
@@ -5411,6 +6634,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 458,
       "kind": "String",
       "package": "ms",
@@ -5422,6 +6647,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 459,
       "kind": "String",
       "package": "ms",
@@ -5433,6 +6660,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 460,
       "kind": "String",
       "package": "ms",
@@ -5444,6 +6673,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 461,
       "kind": "String",
       "package": "ms",
@@ -5455,6 +6686,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 462,
       "kind": "String",
       "package": "ms",
@@ -5466,6 +6699,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 463,
       "kind": "String",
       "package": "ms",
@@ -5477,6 +6712,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 464,
       "kind": "String",
       "package": "ms",
@@ -5488,6 +6725,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 465,
       "kind": "String",
       "package": "ms",
@@ -5499,6 +6738,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 466,
       "kind": "String",
       "package": "ms",
@@ -5510,6 +6751,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 467,
       "kind": "String",
       "package": "ms",
@@ -5521,6 +6764,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 468,
       "kind": "String",
       "package": "ms",
@@ -5532,6 +6777,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 469,
       "kind": "String",
       "package": "ms",
@@ -5543,6 +6790,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 1,
       "index": 470,
       "kind": "Macro",
       "package": "ms",
@@ -5555,6 +6805,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 1,
       "index": 471,
       "kind": "Macro",
       "package": "ms",
@@ -5567,6 +6820,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 472,
       "kind": "Macro",
       "package": "ms",
@@ -5579,6 +6835,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 473,
       "kind": "Macro",
       "package": "ms",
@@ -5591,6 +6850,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "delimited",
+      "minimum_arguments": 1,
+      "maximum_arguments": -1,
       "index": 474,
       "kind": "Macro",
       "package": "ms",
@@ -5599,10 +6861,13 @@
       "parse_status": "supported_generated",
       "api": "ParseLineWithPackage",
       "parser": "ParseTokenMacroOF",
-      "example": ".OF value",
+      "example": ".OF 'left'center'right'",
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "delimited",
+      "minimum_arguments": 1,
+      "maximum_arguments": -1,
       "index": 475,
       "kind": "Macro",
       "package": "ms",
@@ -5611,10 +6876,13 @@
       "parse_status": "supported_generated",
       "api": "ParseLineWithPackage",
       "parser": "ParseTokenMacroEH",
-      "example": ".EH value",
+      "example": ".EH 'left'center'right'",
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "delimited",
+      "minimum_arguments": 1,
+      "maximum_arguments": -1,
       "index": 476,
       "kind": "Macro",
       "package": "ms",
@@ -5623,10 +6891,12 @@
       "parse_status": "supported_generated",
       "api": "ParseLineWithPackage",
       "parser": "ParseTokenMacroOH",
-      "example": ".OH value",
+      "example": ".OH 'left'center'right'",
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 477,
       "kind": "String",
       "package": "ms",
@@ -5638,6 +6908,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 478,
       "kind": "String",
       "package": "ms",
@@ -5649,6 +6921,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 479,
       "kind": "String",
       "package": "ms",
@@ -5660,6 +6934,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 480,
       "kind": "String",
       "package": "ms",
@@ -5671,6 +6947,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 481,
       "kind": "Macro",
       "package": "ms",
@@ -5683,6 +6962,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 482,
       "kind": "Macro",
       "package": "ms",
@@ -5697,6 +6979,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 1,
       "index": 483,
       "kind": "Macro",
       "package": "ms",
@@ -5711,6 +6996,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 484,
       "kind": "Macro",
       "package": "ms",
@@ -5725,6 +7013,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 1,
       "index": 485,
       "kind": "Macro",
       "package": "ms",
@@ -5739,6 +7030,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 486,
       "kind": "Macro",
       "package": "ms",
@@ -5751,6 +7045,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 487,
       "kind": "Macro",
       "package": "ms",
@@ -5763,6 +7060,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 488,
       "kind": "Macro",
       "package": "ms",
@@ -5775,6 +7075,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 489,
       "kind": "Macro",
       "package": "ms",
@@ -5787,6 +7090,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 490,
       "kind": "Macro",
       "package": "ms",
@@ -5799,6 +7105,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 1,
       "index": 491,
       "kind": "Macro",
       "package": "ms",
@@ -5811,6 +7120,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 492,
       "kind": "Macro",
       "package": "ms",
@@ -5823,6 +7135,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 1,
       "index": 493,
       "kind": "Macro",
       "package": "ms",
@@ -5835,6 +7150,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 494,
       "kind": "Macro",
       "package": "ms",
@@ -5847,6 +7165,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 1,
       "index": 495,
       "kind": "Macro",
       "package": "ms",
@@ -5859,6 +7180,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 496,
       "kind": "Macro",
       "package": "ms",
@@ -5871,6 +7195,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 1,
       "index": 497,
       "kind": "Macro",
       "package": "ms",
@@ -5883,6 +7210,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 498,
       "kind": "Macro",
       "package": "ms",
@@ -5895,6 +7225,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 1,
       "index": 499,
       "kind": "Macro",
       "package": "ms",
@@ -5907,6 +7240,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 500,
       "kind": "Macro",
       "package": "ms",
@@ -5919,6 +7255,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 501,
       "kind": "String",
       "package": "ms",
@@ -5930,6 +7268,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 502,
       "kind": "String",
       "package": "ms",
@@ -5941,6 +7281,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 503,
       "kind": "String",
       "package": "ms",
@@ -5952,6 +7294,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "joined",
+      "minimum_arguments": 0,
+      "maximum_arguments": -1,
       "index": 504,
       "kind": "Macro",
       "package": "ms",
@@ -5964,6 +7309,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 505,
       "kind": "Macro",
       "package": "ms",
@@ -5976,6 +7324,8 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 506,
       "kind": "String",
       "package": "ms",
@@ -5987,6 +7337,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 507,
       "kind": "Macro",
       "package": "ms",
@@ -5999,6 +7352,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 508,
       "kind": "Macro",
       "package": "ms",
@@ -6011,6 +7367,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 1,
+      "maximum_arguments": 1,
       "index": 509,
       "kind": "Macro",
       "package": "man",
@@ -6023,6 +7382,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 510,
       "kind": "Macro",
       "package": "man",
@@ -6035,6 +7397,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 2,
+      "maximum_arguments": 3,
       "index": 511,
       "kind": "Macro",
       "package": "man",
@@ -6047,6 +7412,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 1,
+      "maximum_arguments": 1,
       "index": 512,
       "kind": "Macro",
       "package": "man",
@@ -6059,6 +7427,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "joined",
+      "minimum_arguments": 0,
+      "maximum_arguments": -1,
       "index": 513,
       "kind": "Macro",
       "package": "man",
@@ -6071,6 +7442,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 1,
+      "maximum_arguments": 1,
       "index": 514,
       "kind": "Macro",
       "package": "man",
@@ -6083,6 +7457,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "joined",
+      "minimum_arguments": 0,
+      "maximum_arguments": -1,
       "index": 515,
       "kind": "Macro",
       "package": "man",
@@ -6095,6 +7472,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 0,
+      "maximum_arguments": 0,
       "index": 516,
       "kind": "Macro",
       "package": "man",
@@ -6107,6 +7487,9 @@
       "evaluation_status": "not_assessed"
     },
     {
+      "argument_mode": "fixed",
+      "minimum_arguments": 1,
+      "maximum_arguments": 2,
       "index": 517,
       "kind": "Macro",
       "package": "man",

@@ -52,7 +52,10 @@ func renderOutputs(raw []byte, source fs.FS, paths outputPaths) ([]generatedOutp
 	if err != nil {
 		return nil, fmt.Errorf("parse generator templates: %w", err)
 	}
-	macros := prepareMacrosData(cat)
+	macros, err := prepareMacrosData(cat)
+	if err != nil {
+		return nil, err
+	}
 	lines := prepareParselineData(cat, macros)
 	report := buildSupportReport(cat, macros, lines)
 	if report.Summary.UnexplainedGaps != 0 {

@@ -1,0 +1,5 @@
+Special request syntax is bound without evaluation.
+-- input.roff --
+.tl §左側§中心§右側§
+-- fields.json --
+{"Leftcenterright": "§左側§中心§右側§"}
