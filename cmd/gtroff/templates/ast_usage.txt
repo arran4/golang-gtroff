@@ -1,0 +1,16 @@
+
+Usage: gtroff ast [--strict] [--package man|ms|roff] [--format json|text] [--select SELECTOR] [FILE]
+
+Inspect syntax with original source, stable document-local IDs and byte spans.
+FILE defaults to '-' (stdin). The default package is man and format is json.
+Selectors: node:ID, path:/0/1, section:HEADING. Repeated headings select all matches.
+Selection is exact and case-sensitive; quote a selector containing spaces.
+Selected subtrees retain original IDs and parent links; external parents are listed
+in externalParentIds. The source field always contains the complete input snapshot.
+JSON schemaVersion 1 includes diagnostics and an ordered node table.
+Text output lists nodes in preorder; diagnostics go to stderr.
+Includes, macros and external commands are never executed.
+
+Exit codes: 0 accepted syntax (possibly warnings), 1 invalid syntax,
+2 usage/selection error, 3 input/output/resource failure.
+Even invalid syntax produces a preserved AST. Output is stdout only.

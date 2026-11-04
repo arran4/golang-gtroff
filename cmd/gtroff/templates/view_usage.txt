@@ -1,0 +1,24 @@
+
+Usage: gtroff view [OPTIONS] FILE
+
+Open a man source file in the optional Shiny viewer. FILE '-' reads stdin.
+No includes, network resources or system man command are loaded.
+
+--title TEXT            Optional document/window title override
+--section HEADING       Display matching semantic sections
+--width PIXELS          Render page width, default 1000
+--page-height PIXELS    Render page height, default 1400
+--margin PIXELS         Page margin, default 48 (0 supported)
+--font-size POINTS      Default 15 at --dpi 96
+--dpi NUMBER            Document pixels/inch, default 96
+--theme light|dark      Default light
+--font FILE             Explicit regular TTF/OTF; other faces stay bundled
+--font-bold FILE        Explicit bold TTF/OTF
+--font-italic FILE      Explicit italic TTF/OTF
+--font-mono FILE        Explicit mono TTF/OTF
+--window-width PIXELS   Initial viewport, default 1000
+--window-height PIXELS  Initial viewport, default 800
+--strict               Reject conversion diagnostics before opening a window
+--version              Show build information without opening a window
+
+Exit codes: 0 normal close/help, 1 strict conversion, 2 usage, 3 IO/backend/resource.

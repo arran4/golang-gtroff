@@ -1,0 +1,5 @@
+
+Usage: gtroff commands [--format json|text]
+
+Write a machine-readable inventory of commands, flags, descriptions and capabilities to stdout.
+Default format is json.

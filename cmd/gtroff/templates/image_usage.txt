@@ -1,0 +1,9 @@
+
+Usage: gtroff image COMMAND [OPTIONS] [FILE]
+
+Export a man page to paginated PNG or JPEG images with bundled Go fonts.
+
+Commands:
+generate  Export a man page to paginated PNG or JPEG images
+
+Run 'gtroff help image generate' for options.
