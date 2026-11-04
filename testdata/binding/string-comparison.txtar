@@ -1,0 +1,5 @@
+Special request syntax is bound without evaluation.
+-- input.roff --
+.if 'one two'one two' .B yes
+-- fields.json --
+{"Cond": "'one two'one two'", "Anything": ".B yes"}

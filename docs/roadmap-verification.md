@@ -46,6 +46,48 @@ including md2png, were consulted read-only.
   unterminated-block repairs have positive/negative recovery tests. Full legacy
   fidelity/evaluation/include/generator contracts remain under #3–#17; see
   [specific dependencies](ast.md#parser-dependencies). Those issues were not closed.
+- The separate #12 containment/lifecycle repair rejects escaping symlinks with
+  `os.Root`, closes resolver-owned readers on success/failure, reports close errors,
+  forwards per-source line limits, preserves nested diagnostics and bounds custom
+  resolver recursion. Repeated siblings and resolver reuse release reservations.
+  A probe against parent `bf43d21` reproduced both escaping reads and an unclosed
+  reader; the same probe passed on the repair. Include TXTAR scenarios, OS boundary
+  tests and focused race tests cover these contracts. This does not complete the
+  rest of #12 or replace native Windows/macOS evidence.
+- The separate #5 registry repair wires previously ignored custom-handler options
+  through document/AST dispatch and inherited includes. Explicit registries isolate
+  callers; registration snapshots keep active parses stable. TXTAR cases cover
+  package/precedence, source vs. token formatting, custom errors and invalid or
+  ambiguous results. Race tests cover registration/dispatch and isolated parsers;
+  a subprocess verifies the legacy global API without polluting other tests. A
+  pre/post probe changed both document/AST handler call counts from 0 (rejected)
+  to 1 (accepted). Catalogue-wide implementation validation remains under #5.
+- The separate #15 support report computes coverage from the real generation
+  plan and executes each of 518 claimed syntax routes (336 generated, 11 custom,
+  171 inline-preserved). Negative plan mutations, invalid-data TXTAR and a
+  normalization fuzz target exercise missing definitions/dispatch, ambiguity and
+  bad classification. The report explicitly leaves evaluation unassessed.
+  Required file fixtures reject errors/diagnostics and retain blank lines; optional
+  untracked source files and formatted-reference prose are no longer presented as
+  macro coverage. Minimal `.Pn` probing exposed the #7 optional-slot defect;
+  matcher reservation and generated canonical serialization now have regressions.
+- The separate #16 generation repair renders/formats all four parser artifacts
+  before writing, uses a read-only `-check` gate, and stages complete output batches
+  with backups. The shared writer is also used for command documentation and
+  explicit example refreshes. Tests cover late template/format/path/staging/commit
+  failures, rollback and retained recovery backups when restoration fails.
+  Generated Go headers are recognized by `go/ast.IsGenerated`; Go-quoted command
+  literals preserve Unicode, quotes and backticks. Renames are per-file atomic,
+  without a cross-command, concurrent-writer or crash-atomicity claim.
+- The separate #11 document-stream repair preserves all read source bytes through
+  `Source()`/`RawSource`, distinguishes observed EOF, and retains child source
+  documents when includes fail. Strict/input failures return partial results;
+  typed input/resource errors retain reader identity. Independent position/source
+  checks, eight TXTAR cases and reader-chunk/error/budget/include tests exercise
+  LF/CRLF/EOF/Unicode, buffered tails, exact line boundaries and aggregate limits.
+  `cmd/lex` emits partial results and tests use injected writers. The existing
+  argument scanner uses a builder to avoid quadratic long-argument accumulation,
+  with unchanged grammar. Broader #7/#12/#14 syntax contracts remain separate.
 
 ### CLI and semantic model (#21–#22)
 

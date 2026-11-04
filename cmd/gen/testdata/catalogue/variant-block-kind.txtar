@@ -1,0 +1,5 @@
+Definition variants require distinct handwritten capture metadata.
+-- catalogue.json --
+[{"Contents": [{"Type": "Request", "Token": ".ami", "Args": "name [end]", "Block": {"kind": "definition_variant"}}]}]
+-- error.txt --
+unregistered block implementation

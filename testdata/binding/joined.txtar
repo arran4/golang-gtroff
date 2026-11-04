@@ -1,0 +1,5 @@
+The text projection intentionally joins decoded arguments.
+-- input.roff --
+.B one "two words"
+-- fields.json --
+{"Text": "one two words"}

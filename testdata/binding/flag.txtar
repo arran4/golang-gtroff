@@ -1,0 +1,5 @@
+An optional literal C is consumed only when present.
+-- input.roff --
+.NT "Title without C"
+-- fields.json --
+{"Title": "Title without C"}

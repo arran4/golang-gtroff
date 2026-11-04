@@ -1,0 +1,16 @@
+Zero-argument generated parsers report extra input instead of discarding it.
+Permissive document parsing keeps every rejected request and its source bytes.
+-- input.1 --
+.br ignored
+.nf ""
+.PP words
+still here
+-- expected.txt --
+sourceComplete=true bytes=40
+*groff.TokenUnknownControl [0,12) 1:1-2:1 raw=".br ignored\n" canonical=".br ignored"
+*groff.TokenUnknownControl [12,19) 2:1-3:1 raw=".nf \"\"\n" canonical=".nf \"\""
+*groff.TokenUnknownControl [19,29) 3:1-4:1 raw=".PP words\n" canonical=".PP words"
+groff.TokenText [29,40) 4:1-5:1 raw="still here\n" canonical="still here"
+error 1:1 fitting TokenRequestBr arguments: ignored, unexpected arguments: got 1, maximum 0
+error 2:1 fitting TokenRequestNf arguments: "", unexpected arguments: got 1, maximum 0
+error 3:1 fitting TokenMacroPP arguments: words, unexpected arguments: got 1, maximum 0

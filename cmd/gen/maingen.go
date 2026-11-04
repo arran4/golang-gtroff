@@ -1,17 +1,13 @@
 package main
 
 import (
-	"bytes"
 	"embed"
-	_ "embed"
+	"errors"
 	"flag"
 	"fmt"
-	"go/format"
-	"log"
 	"os"
 	"sort"
 	"strings"
-	"text/template"
 
 	"github.com/arran4/golang-gtroff/gen"
 )
@@ -21,13 +17,10 @@ var (
 	inJson []byte
 	//go:embed "*.template"
 	goTemplates embed.FS
-
-	outMacrosLoc    = flag.String("macrosloc", "macros.go", "Output file for macros")
-	outParselineLoc = flag.String("parselineloc", "parseline.go", "Output file for parse line")
-	outCatalogueLoc = flag.String("catalogueloc", "catalogue.go", "Output file for catalogue")
 )
 
 type MacroDef struct {
+	ArgumentPlan         argumentPlan
 	StructName           string
 	Aliases              []string
 	DescriptionCommented string
@@ -35,7 +28,7 @@ type MacroDef struct {
 	Kind                 string
 	Package              string
 	ArgWords             []*gen.Word
-	Forwards             bool
+	KeepArgumentSlots    bool
 }
 
 type MacrosTemplateData struct {
@@ -50,6 +43,7 @@ type DispatchEntry struct {
 }
 
 type ParselineTemplateData struct {
+	Blocks     []BlockDefinition
 	Dispatches []DispatchEntry
 }
 
@@ -73,16 +67,16 @@ type CatalogueTemplateData struct {
 }
 
 var consolidatedSignatures = map[string]string{
-	".po": "[offset]",
-	".in": "[indent]",
-	".ll": "[length]",
-	".pl": "[length]",
-	".lt": "[length]",
-	".pn": "page",
-	".bp": "[page]",
-	".bd": "font [font2 [offset]]",
-	".ps": "[size]",
-	".vs": "[space]",
+	".po":  "[offset]",
+	".in":  "[indent]",
+	".ll":  "[length]",
+	".pl":  "[length]",
+	".lt":  "[length]",
+	".pn":  "page",
+	".bp":  "[page]",
+	".bd":  "font [font2 [offset]]",
+	".ps":  "[size]",
+	".vs":  "[space]",
 	".pvs": "[space]",
 	".ft":  "[font]",
 	".ti":  "offset",
@@ -96,36 +90,20 @@ var consolidatedSignatures = map[string]string{
 }
 
 func main() {
-	flag.Parse()
-	log.SetFlags(log.Flags() | log.Lshortfile)
-
-	cat, err := NormalizeCatalog(inJson)
-	if err != nil {
-		log.Fatalf("Normalize catalog error: %v", err)
+	if err := run(os.Args[1:], os.Stderr); err != nil && !errors.Is(err, flag.ErrHelp) {
+		fmt.Fprintln(os.Stderr, err)
+		os.Exit(1)
 	}
-
-	templates := template.Must(template.ParseFS(goTemplates, "*.template"))
-
-	// 1. Prepare Macros data
-	macrosData := prepareMacrosData(cat)
-	GenerateFile(templates, macrosData, "macros.go.template", *outMacrosLoc)
-
-	// 2. Prepare Parseline data
-	parselineData := prepareParselineData(cat, macrosData)
-	GenerateFile(templates, parselineData, "parseline.go.template", *outParselineLoc)
-
-	// 3. Prepare Catalogue data
-	catalogueData := prepareCatalogueData(cat)
-	GenerateFile(templates, catalogueData, "catalogue.go.template", *outCatalogueLoc)
-
-	log.Println("Code generation complete.")
 }
 
-func prepareMacrosData(cat *Catalog) MacrosTemplateData {
+func prepareMacrosData(cat *Catalog) (MacrosTemplateData, error) {
 	defsByStruct := map[string]*MacroDef{}
 	var structNames []string
 
 	for _, e := range cat.Entries {
+		if e == nil {
+			continue
+		}
 		if e.Kind != KindMacro && e.Kind != KindRequest {
 			continue
 		}
@@ -154,14 +132,6 @@ func prepareMacrosData(cat *Catalog) MacrosTemplateData {
 			structName = "TokenRequest" + cleanName
 		}
 
-		if existing, ok := defsByStruct[structName]; ok {
-			// Append description if not duplicate
-			if !strings.Contains(existing.DescriptionCommented, e.Description) && len(e.Description) > 0 {
-				existing.DescriptionCommented += "\n//\n// " + strings.Join(strings.Split(e.Description, "\n"), "\n// ")
-			}
-			continue
-		}
-
 		// Determine signature
 		sig := e.ArgsRaw
 		if override, ok := consolidatedSignatures[e.Token]; ok {
@@ -169,14 +139,12 @@ func prepareMacrosData(cat *Catalog) MacrosTemplateData {
 		}
 
 		var words []*gen.Word
-		forwards := false
 		if len(strings.TrimSpace(sig)) > 0 {
 			a, err := gen.ParseArgs(sig)
 			if err != nil {
-				log.Printf("Warning: failed to parse signature %q for %s: %v", sig, e.Token, err)
+				return MacrosTemplateData{}, fmt.Errorf("signature %q for %s: %w", sig, e.Token, err)
 			} else {
 				words = a.Words
-				forwards = a.Forwards()
 			}
 		}
 
@@ -185,7 +153,21 @@ func prepareMacrosData(cat *Catalog) MacrosTemplateData {
 			descCommented = "// " + strings.Join(strings.Split(e.Description, "\n"), "\n// ")
 		}
 
+		plan, err := planArguments(e, words)
+		if err != nil {
+			return MacrosTemplateData{}, fmt.Errorf("%s argument grammar: %w", e.Token, err)
+		}
+		if existing, ok := defsByStruct[structName]; ok {
+			if existing.ArgumentPlan.Literal != plan.Literal {
+				return MacrosTemplateData{}, fmt.Errorf("conflicting argument grammars for %s", e.Token)
+			}
+			if !strings.Contains(existing.DescriptionCommented, e.Description) && e.Description != "" {
+				existing.DescriptionCommented += "\n//\n// " + strings.Join(strings.Split(e.Description, "\n"), "\n// ")
+			}
+			continue
+		}
 		def := &MacroDef{
+			ArgumentPlan:         plan,
 			StructName:           structName,
 			Aliases:              aliases,
 			DescriptionCommented: descCommented,
@@ -193,7 +175,16 @@ func prepareMacrosData(cat *Catalog) MacrosTemplateData {
 			Kind:                 string(e.Kind),
 			Package:              string(e.Package),
 			ArgWords:             words,
-			Forwards:             forwards,
+		}
+		optionalSeen := false
+		for _, word := range words {
+			if word.Optional {
+				optionalSeen = true
+			} else if optionalSeen {
+				// A serializer must retain positional empty slots around required
+				// arguments (e.g. .Pn [punct] path [punct]).
+				def.KeepArgumentSlots = true
+			}
 		}
 
 		defsByStruct[structName] = def
@@ -206,7 +197,7 @@ func prepareMacrosData(cat *Catalog) MacrosTemplateData {
 		orderedDefs = append(orderedDefs, defsByStruct[name])
 	}
 
-	return MacrosTemplateData{Definitions: orderedDefs}
+	return MacrosTemplateData{Definitions: orderedDefs}, nil
 }
 
 func prepareParselineData(cat *Catalog, macrosData MacrosTemplateData) ParselineTemplateData {
@@ -235,7 +226,7 @@ func prepareParselineData(cat *Catalog, macrosData MacrosTemplateData) Parseline
 
 	// For colliding tokens, ensure both DefaultParser and MsParser are set
 	for _, e := range cat.Entries {
-		if e.HasCollision && strings.HasPrefix(e.Token, ".") {
+		if e != nil && e.HasCollision && strings.HasPrefix(e.Token, ".") {
 			d := dispatches[e.Token]
 			d.HasVariants = true
 			cleanName := sanitizeIdentifier(e.Name)
@@ -274,7 +265,7 @@ func prepareParselineData(cat *Catalog, macrosData MacrosTemplateData) Parseline
 		})
 	}
 
-	return ParselineTemplateData{Dispatches: orderedDispatches}
+	return ParselineTemplateData{Dispatches: orderedDispatches, Blocks: prepareBlockDefinitions(cat)}
 }
 
 func prepareCatalogueData(cat *Catalog) CatalogueTemplateData {
@@ -296,34 +287,4 @@ func prepareCatalogueData(cat *Catalog) CatalogueTemplateData {
 		})
 	}
 	return CatalogueTemplateData{Entries: entries}
-}
-
-func GenerateFile(templates *template.Template, data any, templateFilename, outputFilename string) {
-	log.Printf("Generating: %s", outputFilename)
-
-	var buf bytes.Buffer
-	if err := templates.ExecuteTemplate(&buf, templateFilename, data); err != nil {
-		log.Fatalf("Template execution error for %s: %v", templateFilename, err)
-	}
-
-	formatted, err := format.Source(buf.Bytes())
-	if err != nil {
-		// Print lines around error for easier debugging
-		lines := strings.Split(buf.String(), "\n")
-		for i, line := range lines {
-			if i < 40 {
-				log.Printf("%4d: %s", i+1, line)
-			}
-		}
-		log.Fatalf("format.Source failed for %s: %v", outputFilename, err)
-	}
-
-	tmpFile := outputFilename + ".tmp"
-	if err := os.WriteFile(tmpFile, formatted, 0644); err != nil {
-		log.Fatalf("Failed to write temp file %s: %v", tmpFile, err)
-	}
-
-	if err := os.Rename(tmpFile, outputFilename); err != nil {
-		log.Fatalf("Failed to rename %s to %s: %v", tmpFile, outputFilename, err)
-	}
 }

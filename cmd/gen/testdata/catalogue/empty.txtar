@@ -1,0 +1,5 @@
+An empty catalogue cannot produce a misleading zero-gap report.
+-- catalogue.json --
+[]
+-- error.txt --
+empty catalogue

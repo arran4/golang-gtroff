@@ -6,6 +6,7 @@ import (
 	"os"
 	"path/filepath"
 	"strings"
+	"sync"
 )
 
 // TokenMacroDefinition represents a .de request and its multiline body.
@@ -127,16 +128,23 @@ func (t *TokenIgnoredBlock) PackageName() string {
 var _ Token = (*TokenIgnoredBlock)(nil)
 var _ Node = (*TokenIgnoredBlock)(nil)
 
-// IncludeResolver resolves file inclusion for .so and .mso directives.
+// IncludeResolver resolves explicitly enabled .so and .mso directives.
+// Each successful call transfers its reader to ParseDocument, which closes it
+// after parsing if it implements io.Closer. Direct callers must likewise close
+// readers they receive. Return a non-closing wrapper for a borrowed reader.
 type IncludeResolver interface {
 	Resolve(filename string) (io.Reader, error)
 }
 
-// SafeDirectoryIncludeResolver restricts includes to a base directory and prevents directory traversal.
+// SafeDirectoryIncludeResolver restricts includes to BaseDir, including symlink
+// targets. MaxDepth bounds simultaneously open include readers (default 10).
+// Close each returned reader to release its cycle/depth reservation. Configure
+// BaseDir and MaxDepth before use; Resolve and reader Close may run concurrently.
 type SafeDirectoryIncludeResolver struct {
-	BaseDir      string
-	MaxDepth     int
-	visitedFiles map[string]bool
+	BaseDir  string
+	MaxDepth int
+	mu       sync.Mutex
+	active   map[*directoryIncludeReader]os.FileInfo
 }
 
 func NewSafeDirectoryIncludeResolver(baseDir string, maxDepth int) *SafeDirectoryIncludeResolver {
@@ -144,36 +152,73 @@ func NewSafeDirectoryIncludeResolver(baseDir string, maxDepth int) *SafeDirector
 		maxDepth = 10
 	}
 	return &SafeDirectoryIncludeResolver{
-		BaseDir:      baseDir,
-		MaxDepth:     maxDepth,
-		visitedFiles: make(map[string]bool),
+		BaseDir:  baseDir,
+		MaxDepth: maxDepth,
 	}
 }
 
 func (r *SafeDirectoryIncludeResolver) Resolve(filename string) (io.Reader, error) {
-	// Clean and check path traversal
+	// Reject non-local names before the OS boundary. Root.Open also enforces
+	// containment while resolving symlinks; a lexical prefix check cannot do so.
 	cleaned := filepath.Clean(filename)
-	if strings.HasPrefix(cleaned, "../") || cleaned == ".." {
+	if !filepath.IsLocal(cleaned) {
 		return nil, fmt.Errorf("access denied: path traversal not allowed: %s", filename)
 	}
-
-	fullPath := filepath.Join(r.BaseDir, cleaned)
-	rel, err := filepath.Rel(r.BaseDir, fullPath)
-	if err != nil || strings.HasPrefix(rel, "..") {
-		return nil, fmt.Errorf("access denied: path escapes base directory: %s", filename)
-	}
-
-	if r.visitedFiles[fullPath] {
-		return nil, fmt.Errorf("include cycle detected: %s", filename)
-	}
-	if len(r.visitedFiles) >= r.MaxDepth {
-		return nil, fmt.Errorf("maximum include depth exceeded (%d)", r.MaxDepth)
-	}
-
-	f, err := os.Open(fullPath)
+	root, err := os.OpenRoot(r.BaseDir)
 	if err != nil {
 		return nil, err
 	}
-	r.visitedFiles[fullPath] = true
-	return f, nil
+	defer root.Close()
+	f, err := root.Open(cleaned)
+	if err != nil {
+		return nil, err
+	}
+	info, err := f.Stat()
+	if err != nil {
+		f.Close()
+		return nil, err
+	}
+	if !info.Mode().IsRegular() {
+		f.Close()
+		return nil, fmt.Errorf("include is not a regular file: %s", filename)
+	}
+	r.mu.Lock()
+	defer r.mu.Unlock()
+	for _, active := range r.active {
+		if os.SameFile(active, info) {
+			f.Close()
+			return nil, fmt.Errorf("include cycle detected: %s", filename)
+		}
+	}
+	limit := r.MaxDepth
+	if limit <= 0 {
+		limit = 10
+	}
+	if len(r.active) >= limit {
+		f.Close()
+		return nil, fmt.Errorf("maximum include depth exceeded (%d)", limit)
+	}
+	if r.active == nil {
+		r.active = make(map[*directoryIncludeReader]os.FileInfo)
+	}
+	reader := &directoryIncludeReader{File: f, resolver: r}
+	r.active[reader] = info
+	return reader, nil
+}
+
+type directoryIncludeReader struct {
+	*os.File
+	resolver *SafeDirectoryIncludeResolver
+	once     sync.Once
+	closeErr error
+}
+
+func (r *directoryIncludeReader) Close() error {
+	r.once.Do(func() {
+		r.resolver.mu.Lock()
+		defer r.resolver.mu.Unlock()
+		r.closeErr = r.File.Close()
+		delete(r.resolver.active, r)
+	})
+	return r.closeErr
 }

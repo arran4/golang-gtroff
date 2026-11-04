@@ -1,0 +1,13 @@
+Conversion input boundary: typed-nil.
+-- input.txt --
+-- options.json --
+{"Mode":"typed-nil"}
+-- expected.txt --
+html source="" document=false calls=0
+error="input.txt:1:1: nil input reader" readerCause=false limit=false noProgress=false invalidCount=false
+position=0/1:1
+adapterError=true wrote=false
+roff source="" document=false calls=0
+error="input.txt:1:1: nil input reader" readerCause=false limit=false noProgress=false invalidCount=false
+position=0/1:1
+adapterError=true wrote=false

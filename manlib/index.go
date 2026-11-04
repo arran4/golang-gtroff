@@ -19,6 +19,7 @@ import (
 	"unicode/utf8"
 
 	groff "github.com/arran4/golang-gtroff"
+	"github.com/arran4/golang-gtroff/internal/sourceio"
 	"github.com/arran4/golang-gtroff/man"
 )
 
@@ -32,6 +33,7 @@ type Root struct {
 	FS    fs.FS
 }
 type Limits struct {
+	// MaxTotalBytes counts raw and decompressed bytes, including failed attempts.
 	MaxEntries, MaxScanEntries, MaxDepth, MaxFileBytes, MaxTotalBytes, MaxNodes int
 }
 
@@ -71,7 +73,6 @@ type Index struct {
 	pages                []indexedPage
 	lookup               map[string][]int
 	notices              []Notice
-	bytes                int
 	nodeLimit, fileLimit int
 }
 
@@ -142,6 +143,7 @@ func Build(ctx context.Context, roots []Root, l Limits) (*Index, error) {
 	}
 	idx := &Index{lookup: map[string][]int{}, nodeLimit: l.MaxNodes, fileLimit: l.MaxFileBytes}
 	defer idx.finalize()
+	budget := &pageByteBudget{limit: l.MaxTotalBytes}
 	scan := 0
 	for _, r := range roots {
 		var walk func(string, int) error
@@ -194,7 +196,7 @@ func Build(ctx context.Context, roots []Root, l Limits) (*Index, error) {
 				if len(idx.pages) >= l.MaxEntries {
 					return ErrLimit
 				}
-				data, cost, err := readPage(ctx, r.FS, file, l.MaxFileBytes)
+				data, err := readPage(ctx, r.FS, file, l.MaxFileBytes, budget)
 				if err != nil {
 					if errors.Is(err, ErrLimit) || ctx.Err() != nil {
 						return err
@@ -202,10 +204,6 @@ func Build(ctx context.Context, roots []Root, l Limits) (*Index, error) {
 					idx.notice(r.Label, file, "unreadable or invalid compressed page; skipped")
 					continue
 				}
-				if cost > l.MaxTotalBytes-idx.bytes {
-					return ErrLimit
-				}
-				idx.bytes += cost
 				sourceName := r.Label + ":" + file
 				tree, err := groff.ParseAST(bytes.NewReader(data), groff.WithPackage("man"), groff.WithSourceName(sourceName), groff.WithASTBytes(l.MaxFileBytes), groff.WithASTNodes(l.MaxNodes))
 				if err != nil {
@@ -321,46 +319,56 @@ func (r contextReader) Read(b []byte) (int, error) {
 	}
 	return r.r.Read(b)
 }
-func readPage(ctx context.Context, sys fs.FS, name string, maxBytes int) ([]byte, int, error) {
+
+// A build shares one work budget across roots, files and gzip output. Failed
+// reads/decodes still consume bytes. One detection byte may exceed the limit;
+// after that Build stops, so oversized inputs cannot spend a full file budget.
+type pageByteBudget struct{ limit, used int }
+
+func (b *pageByteBudget) read(ctx context.Context, r io.Reader, maxBytes int) ([]byte, error) {
+	remaining := min(maxBytes, b.limit-b.used)
+	if remaining < 0 {
+		return nil, ErrLimit
+	}
+	checked := sourceio.NewReader(r, func(count, size int, err error) error {
+		return &groff.ReaderCountError{Count: count, Size: size, Err: err}
+	})
+	data, err := io.ReadAll(io.LimitReader(contextReader{ctx, checked}, int64(remaining)+1))
+	b.used += len(data)
+	if len(data) > remaining {
+		err = errors.Join(ErrLimit, err)
+	}
+	return data, err
+}
+
+func readPage(ctx context.Context, sys fs.FS, name string, maxBytes int, budget *pageByteBudget) ([]byte, error) {
 	f, err := sys.Open(name)
 	if err != nil {
-		return nil, 0, err
+		return nil, err
 	}
 	info, statErr := f.Stat()
 	if statErr != nil || !info.Mode().IsRegular() {
 		_ = f.Close()
-		return nil, 0, fmt.Errorf("page is not a readable regular file")
+		return nil, fmt.Errorf("page is not a readable regular file")
 	}
-	raw, err := io.ReadAll(io.LimitReader(contextReader{ctx, f}, int64(maxBytes)+1))
+	raw, err := budget.read(ctx, f, maxBytes)
 	closeErr := f.Close()
-	if err != nil {
-		return nil, 0, err
-	}
-	if closeErr != nil {
-		return nil, 0, closeErr
-	}
-	if len(raw) > maxBytes {
-		return nil, 0, ErrLimit
+	if err != nil || closeErr != nil {
+		return nil, errors.Join(err, closeErr)
 	}
 	if !strings.HasSuffix(name, ".gz") {
-		return raw, len(raw), nil
+		return raw, nil
 	}
 	z, err := gzip.NewReader(bytes.NewReader(raw))
 	if err != nil {
-		return nil, 0, err
+		return nil, err
 	}
-	data, err := io.ReadAll(io.LimitReader(contextReader{ctx, z}, int64(maxBytes)+1))
+	data, err := budget.read(ctx, z, maxBytes)
 	closeErr = z.Close()
-	if err != nil {
-		return nil, 0, err
+	if err != nil || closeErr != nil {
+		return nil, errors.Join(err, closeErr)
 	}
-	if closeErr != nil {
-		return nil, 0, closeErr
-	}
-	if len(data) > maxBytes {
-		return nil, 0, ErrLimit
-	}
-	return data, len(raw) + len(data), nil
+	return data, nil
 }
 func description(d *man.Document) string {
 	for _, n := range d.Nodes {

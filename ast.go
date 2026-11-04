@@ -27,15 +27,17 @@ type NodeID uint64
 // AST is an immutable source snapshot. ParseAST never evaluates requests or
 // resolves includes. The older Document and Node token APIs remain independent.
 type AST struct {
-	source      string
-	root        *ASTNode
-	nodes       []*ASTNode
-	diagnostics []Diagnostic
+	source         string
+	sourceComplete bool
+	root           *ASTNode
+	nodes          []*ASTNode
+	diagnostics    []Diagnostic
 }
 
 // ASTNode has immutable structure and metadata. All slice accessors return copies.
 // A zero ASTNode is not a parsed node; obtain nodes through ParseAST.
 type ASTNode struct {
+	block       *BlockSource
 	tree        *AST
 	id          NodeID
 	kind        ASTKind
@@ -57,18 +59,24 @@ type ASTNode struct {
 // Argument Start/End positions are rune indexes relative to the argument string,
 // as in LexArguments. Source spans always use byte offsets.
 type ASTAttributes struct {
-	Name      string           `json:"name,omitempty"`
-	Package   string           `json:"package,omitempty"`
-	TokenKind TokenKind        `json:"tokenKind,omitempty"`
-	Arguments []ArgumentLexeme `json:"arguments,omitempty"`
-	Heading   string           `json:"heading,omitempty"`
-	EndMarker string           `json:"endMarker,omitempty"`
-	Closed    bool             `json:"closed,omitempty"`
-	Opaque    bool             `json:"opaque,omitempty"`
+	Name          string           `json:"name,omitempty"`
+	Package       string           `json:"package,omitempty"`
+	TokenKind     TokenKind        `json:"tokenKind,omitempty"`
+	Arguments     []ArgumentLexeme `json:"arguments,omitempty"`
+	Heading       string           `json:"heading,omitempty"`
+	EndMarker     string           `json:"endMarker,omitempty"`
+	UnresolvedEnd string           `json:"unresolvedEnd,omitempty"`
+	Closed        bool             `json:"closed,omitempty"`
+	Opaque        bool             `json:"opaque,omitempty"`
 }
 
-func (a *AST) Root() *ASTNode            { return a.root }
-func (a *AST) Source() string            { return a.source }
+func (a *AST) Root() *ASTNode { return a.root }
+func (a *AST) Source() string { return a.source }
+
+// SourceComplete reports whether this source's reader actually returned EOF.
+// It does not imply valid syntax or success; check ParseAST's error/diagnostics.
+func (a *AST) SourceComplete() bool { return a.sourceComplete }
+
 func (a *AST) Diagnostics() []Diagnostic { return append([]Diagnostic(nil), a.diagnostics...) }
 
 // Node looks up a document-local identity in O(1); zero and out-of-range IDs are absent.
@@ -78,6 +86,28 @@ func (a *AST) Node(id NodeID) *ASTNode {
 	}
 	return a.nodes[id-1]
 }
+
+// BlockSource returns a caller-owned capture snapshot for a block node. Raw
+// strings and spans remain independent of handler tokens and String formatting.
+func (n *ASTNode) BlockSource() (*BlockSource, bool) {
+	if n.block == nil {
+		return nil, false
+	}
+	copy := n.block.clone()
+	// Derive physical body metadata lazily from the immutable source. Retaining
+	// one body-line slice per enclosing definition would multiply memory by depth.
+	end := n.span.End.Offset
+	if copy.Closed {
+		end = copy.Terminator.Span.Start.Offset
+	}
+	if copy.Tail.RawSource != "" {
+		end = copy.Tail.Span.Start.Offset
+	}
+	start := copy.Header.Line.Span.End
+	copy.Body = physicalBlockLines(n.tree.source[start.Offset:end], start)
+	return &copy, true
+}
+
 func (n *ASTNode) ID() NodeID           { return n.id }
 func (n *ASTNode) Kind() ASTKind        { return n.kind }
 func (n *ASTNode) Parent() *ASTNode     { return n.parent }
@@ -129,8 +159,10 @@ func (n *ASTNode) Descendants() []*ASTNode {
 	return append([]*ASTNode(nil), n.tree.nodes[int(n.id):n.limit]...)
 }
 
-// Token returns a caller-owned copy of the original concrete generated token on
-// a line node. Containers/inline nodes have no Token. Mutating it cannot edit AST.
+// Token returns a caller-owned JSON-round-tripped copy of the concrete line
+// or custom block token. Custom tokens must support JSON round trips for
+// inspectable state. Ordinary containers and inline nodes have no Token.
+// Mutating a copy cannot edit the AST.
 func (n *ASTNode) Token() (Token, error) {
 	if n.tokenType == nil {
 		return nil, nil

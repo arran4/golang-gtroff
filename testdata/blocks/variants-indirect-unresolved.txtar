@@ -1,0 +1,20 @@
+No preceding string request is executed to guess an indirect delimiter.
+-- input.roff --
+.ds REF STOP
+.dei NAME REF
+.nr BODY 9
+.REF
+.STOP
+..
+.de1 NEVER END
+raw
+suffix
+-- expected.txt --
+document error=<nil>
+token *groff.TokenRequestDs [0,13) raw=".ds REF STOP\n"
+token *groff.TokenUnknownControl [13,78) raw=".dei NAME REF\n.nr BODY 9\n.REF\n.STOP\n..\n.de1 NEVER END\nraw\nsuffix\n"
+  closed=false header=".dei NAME REF\n" body=".nr BODY 9\n.REF\n.STOP\n..\n.de1 NEVER END\nraw\nsuffix\n" end=""
+document error 2:1 "unresolved indirect block delimiter \"REF\"; remaining source preserved as opaque block"
+ast error=<nil>
+ast block .dei closed=false raw=".dei NAME REF\n.nr BODY 9\n.REF\n.STOP\n..\n.de1 NEVER END\nraw\nsuffix\n"
+ast error 2:1 "unresolved indirect block delimiter \"REF\"; remaining source preserved as opaque block"

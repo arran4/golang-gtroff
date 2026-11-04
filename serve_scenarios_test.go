@@ -9,6 +9,7 @@ import (
 	"errors"
 	"flag"
 	"fmt"
+	"io"
 	"io/fs"
 	"net/http/httptest"
 	"os"
@@ -37,6 +38,48 @@ func (p scenarioProvider) Search(context.Context, string) ([]manlib.Hit, error) 
 	}
 	return nil, nil
 }
+
+type scenarioFaultFS struct {
+	fs.FS
+	faults map[string]string
+	opened map[string]*scenarioFaultFile
+}
+
+func (s *scenarioFaultFS) Open(name string) (fs.File, error) {
+	f, err := s.FS.Open(name)
+	if err != nil || s.faults[name] == "" {
+		return f, err
+	}
+	w := &scenarioFaultFile{File: f, mode: s.faults[name]}
+	s.opened[name] = w
+	return w, nil
+}
+
+type scenarioFaultFile struct {
+	fs.File
+	mode          string
+	reads, closes int
+}
+
+func (f *scenarioFaultFile) Read(p []byte) (int, error) {
+	f.reads++
+	switch f.mode {
+	case "empty":
+		if f.reads > 100 {
+			return 0, io.ErrUnexpectedEOF
+		}
+		return 0, nil
+	case "negative":
+		return -1, io.ErrUnexpectedEOF
+	case "oversized":
+		return len(p) + 1, io.ErrUnexpectedEOF
+	default:
+		panic("unknown fixture read fault")
+	}
+}
+
+func (f *scenarioFaultFile) Close() error { f.closes++; return f.File.Close() }
+
 func TestServeScenarios(t *testing.T) {
 	paths, e := fs.Glob(serveCases, "testdata/serve/*.txtar")
 	if e != nil {
@@ -66,6 +109,8 @@ func TestServeScenarios(t *testing.T) {
 			}
 			var tc struct {
 				Gzip            []string
+				CorruptGzip     []string
+				ReadFaults      map[string]string
 				Limits          manlib.Limits
 				Error, Provider string
 				Requests        []struct {
@@ -90,7 +135,32 @@ func TestServeScenarios(t *testing.T) {
 				}
 				f.Data = out.Bytes()
 			}
-			idx, err := manlib.Build(context.Background(), []manlib.Root{{Label: "fixture", FS: sys}}, tc.Limits)
+			for _, name := range tc.CorruptGzip {
+				compressed := false
+				for _, generated := range tc.Gzip {
+					compressed = compressed || generated == name
+				}
+				if !compressed {
+					t.Fatal("checksum corruption requires a generated gzip fixture")
+				}
+				sys[name].Data[len(sys[name].Data)-8] ^= 0xff
+			}
+			faults := &scenarioFaultFS{FS: sys, faults: tc.ReadFaults, opened: map[string]*scenarioFaultFile{}}
+			for name, mode := range tc.ReadFaults {
+				if sys[name] == nil || (mode != "empty" && mode != "negative" && mode != "oversized") {
+					t.Fatal("invalid read-fault fixture", name, mode)
+				}
+			}
+			idx, err := manlib.Build(context.Background(), []manlib.Root{{Label: "fixture", FS: faults}}, tc.Limits)
+			for name, f := range faults.opened {
+				wantReads := 1
+				if f.mode == "empty" {
+					wantReads = 100
+				}
+				if f.closes != 1 || f.reads != wantReads {
+					t.Fatalf("%s: reads=%d want=%d closes=%d want=1", name, f.reads, wantReads, f.closes)
+				}
+			}
 			if tc.Error != "" {
 				if err == nil || !strings.Contains(err.Error(), tc.Error) {
 					t.Fatalf("want %q got %v", tc.Error, err)

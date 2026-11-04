@@ -13,6 +13,7 @@ import (
 	_ "image/png"
 	"io/fs"
 	"net/http/httptest"
+	"net/url"
 	"os"
 	"path/filepath"
 	"reflect"
@@ -45,6 +46,9 @@ type integrationOptions struct {
 	ValidateCode   int      `json:"validateCode"`
 	StrictCode     int      `json:"strictCode"`
 	Server         bool     `json:"server,omitempty"`
+	ServerQuery    string   `json:"serverQuery,omitempty"`
+	ServerHeading  string   `json:"serverHeading,omitempty"`
+	ServerText     string   `json:"serverText,omitempty"`
 	Snapshot       string   `json:"snapshot,omitempty"`
 	PageHeight     int      `json:"pageHeight,omitempty"`
 	MinPages       int      `json:"minPages,omitempty"`
@@ -221,6 +225,11 @@ func TestIntegrationScenarios(t *testing.T) {
 			}
 			reparse, err := conversion.ImportMan(bytes.NewReader(canonical.Bytes()), conversion.Options{})
 			mustIntegration(t, err)
+			// Even literal fallback cases must not turn stored controls into live
+			// metadata or headings when canonical roff is parsed again.
+			if reparse.Document.Metadata != doc.Metadata || !reflect.DeepEqual(integrationHeadings(doc), integrationHeadings(reparse.Document)) {
+				t.Fatal("canonical import changed page identity or headings")
+			}
 			for _, literal := range o.Retain {
 				for stage, text := range map[string]string{"semantic": doc.Text(1, man.TextOptions{}), "HTML": html.UnescapeString(rendered.String()), "canonical": reparse.Document.Text(1, man.TextOptions{})} {
 					if !strings.Contains(text, literal) {
@@ -286,7 +295,7 @@ func TestIntegrationScenarios(t *testing.T) {
 			})
 			mustIntegration(t, err)
 			if o.Server {
-				assertIntegrationServer(t, source)
+				assertIntegrationServer(t, source, o.ServerQuery, o.ServerHeading, o.ServerText)
 			}
 			after, err := doc.Canonical()
 			mustIntegration(t, err)
@@ -330,6 +339,15 @@ func mustIntegration(t *testing.T, err error) {
 	if err != nil {
 		t.Fatal(err)
 	}
+}
+func integrationHeadings(d *man.Document) []string {
+	var headings []string
+	for _, n := range d.Nodes {
+		if n.Kind == man.Section || n.Kind == man.Subsection {
+			headings = append(headings, string(n.Kind)+":"+n.Heading)
+		}
+	}
+	return headings
 }
 func integrationJSON(t *testing.T, v any) []byte {
 	t.Helper()
@@ -389,18 +407,27 @@ func assertIntegrationLoop(t *testing.T, original *man.Document, rendered, canon
 		t.Fatalf("second canonical HTML differs at %d\nfirst: %s\nsecond: %s", i, a[max(0, i-100):min(len(a), i+180)], b[max(0, i-100):min(len(b), i+180)])
 	}
 }
-func assertIntegrationServer(t *testing.T, source []byte) {
+func assertIntegrationServer(t *testing.T, source []byte, query, heading, text string) {
 	t.Helper()
+	if query == "" {
+		query = "inspect"
+	}
+	if heading == "" {
+		heading = "OPTIONS"
+	}
+	if text == "" {
+		text = "Display verbose diagnostics"
+	}
 	idx, e := manlib.Build(context.Background(), []manlib.Root{{Label: "demo", FS: fstest.MapFS{"man1/man-tool.1": &fstest.MapFile{Data: source}}}}, manlib.Limits{})
 	mustIntegration(t, e)
-	hits, e := idx.Search(context.Background(), "inspect", 10)
+	hits, e := idx.Search(context.Background(), query, 10)
 	mustIntegration(t, e)
 	if len(hits) != 1 || hits[0].Name != "man-tool" {
 		t.Fatalf("search lost example: %+v", hits)
 	}
 	handler, e := manlib.Handler(idx, manlib.HandlerOptions{Render: renderhtml.Options{Assets: renderhtml.OmitFonts}})
 	mustIntegration(t, e)
-	for _, tc := range []struct{ url, contains string }{{"/", "man-tool"}, {"/search?q=inspect", "man-tool"}, {"/page/1/man-tool?root=demo", "OPTIONS"}, {"/page/1/man-tool?root=demo&heading=OPTIONS", "Display verbose diagnostics"}} {
+	for _, tc := range []struct{ url, contains string }{{"/", "man-tool"}, {"/search?q=" + url.QueryEscape(query), "man-tool"}, {"/page/1/man-tool?root=demo", heading}, {"/page/1/man-tool?root=demo&heading=" + url.QueryEscape(heading), text}} {
 		r := httptest.NewRecorder()
 		handler.ServeHTTP(r, httptest.NewRequest("GET", "http://localhost"+tc.url, nil))
 		if r.Code != 200 || !strings.Contains(r.Body.String(), tc.contains) {

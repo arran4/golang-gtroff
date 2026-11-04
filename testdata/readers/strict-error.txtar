@@ -1,0 +1,16 @@
+Strict syntax diagnostics remain separate from an observed input failure.
+-- input.roff --
+.B "broken
+rest
+-- options.json --
+{"Mode": "data-error", "Strict": true}
+-- expected.txt --
+ast source=".B \"broken\nrest\n" complete=false calls=1
+error="input.1:3:1: input fixture failed" readerCause=true noProgress=false invalidCount=false
+input position=16/3:1
+ast error 1:1 "parse TokenManB arguments: \"broken, quote wasn't closed: stack \""
+ast error 3:1 "input fixture failed"
+document source=".B \"broken\nrest\n" complete=false calls=1
+error="input.1:1:1: parse TokenManB arguments: \"broken, quote wasn't closed: stack \"\ninput.1:3:1: input fixture failed" readerCause=true noProgress=false invalidCount=false
+document error 1:1 "parse TokenManB arguments: \"broken, quote wasn't closed: stack \""
+document error 3:1 "input fixture failed"

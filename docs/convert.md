@@ -97,6 +97,37 @@ writers untouched; actual writer failures may leave partial streams. CLI strict,
 resource and I/O failures preserve existing destination files. Exit codes follow
 `render`: 0 success/warnings, 1 syntax/strict failure, 2 usage, 3 I/O/resource.
 
+### Input failures
+
+`ImportHTML` and `ImportMan` keep every validated byte read in `Input.Source`,
+including on reader and input-byte-limit failures. Such failures return a nil
+`Document` and a positioned `InputError`; they do not interpret the prefix.
+Its `Position` identifies the end of captured bytes (byte offset and one-based
+line/rune column), using `Options.SourceName` or `<input>`. `errors.Is` retains
+original I/O errors and `ErrLimit` even when both happen in the same read. The
+extra byte used to detect an input limit remains in `Source`. Inspect both the
+returned input and error; a prefix is not proof of complete source.
+
+The shared parser/conversion guard rejects nil and typed-nil readers, invalid
+read counts and 100 consecutive zero-byte/no-error reads. Data resets that
+progress count, and terminal errors/EOF are cached. Invalid-count calls retain
+only prior validated bytes; `groff.ReaderCountError` exposes the count/buffer
+size and unwraps `groff.ErrInvalidReadCount` plus an accompanying reader error.
+The public error type remains in the groff package. Borrowed readers are never
+closed. Blocking reads and panics raised inside caller methods remain caller
+responsibilities.
+
+`HTMLToMan` / `ManToHTML` leave writers untouched on input failure. The CLI closes
+owned inputs before replacing output, rejects typed-nil files without calling
+methods, and reports both read and close failures when they coincide. See the
+[executable prefix-recovery example](../convert/input_example_test.go). Thirteen
+small `testdata/convert-input/*.txtar` cases verify these boundaries separately
+from semantic conversion loops. Expectations change only with:
+
+```sh
+go test . -run '^TestConvertInputScenarios$' -update-convert-input
+```
+
 ## Bounds and provenance
 
 Default input is 8 MiB, output 32 MiB, 100000 nodes/tokens and 128 levels.

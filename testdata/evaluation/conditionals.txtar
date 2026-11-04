@@ -1,0 +1,31 @@
+Disabled branches are not interpreted; nested ie/el pairs consume the most
+recent executed ie. Conditions use positive integer truth (negative is false).
+-- input.roff --
+.ds OS Linux
+.ie 'Linux'\*[OS]' .B yes
+.el .B no
+.if -1 .nr X bad
+.if !0 .nr X 7
+.ie 1 .ie 0 hidden
+.el inner
+.el outer
+.if t .TH
+.if n visible
+-- expected.txt --
+*groff.TokenManB ".B yes"
+groff.TokenText "inner"
+groff.TokenText "visible"
+register X=7
+string OS="Linux"
+diagnostic token=1 path=["conditional"] token preserved without evaluation
+-- parsed.txt --
+*groff.TokenRequestDs ".ds OS Linux"
+*groff.TokenRequestIe ".ie 'Linux'\\*[OS]' \".B yes\""
+*groff.TokenRequestEl ".el \".B no\""
+*groff.TokenRequestIf ".if -1 \".nr X bad\""
+*groff.TokenRequestIf ".if !0 \".nr X 7\""
+*groff.TokenRequestIe ".ie 1 \".ie 0 hidden\""
+*groff.TokenRequestEl ".el inner"
+*groff.TokenRequestEl ".el outer"
+*groff.TokenRequestIf ".if t .TH"
+*groff.TokenRequestIf ".if n visible"

@@ -1,0 +1,28 @@
+Macros store raw lines; evaluation uses definitions current at invocation time.
+-- input.roff --
+.de HELLO
+\*[S]
+.if 1 .nr N +2
+..
+.ds S first
+.HELLO
+.ds S second
+.HELLO
+.de HELLO
+replacement
+..
+.HELLO
+-- expected.txt --
+groff.TokenText "first"
+groff.TokenText "second"
+groff.TokenText "replacement"
+register N=4
+string S="second"
+-- parsed.txt --
+*groff.TokenMacroDefinition ".de HELLO\n\\*[S]\n.if 1 .nr N +2\n.."
+*groff.TokenRequestDs ".ds S first"
+*groff.TokenUnknownControl ".HELLO"
+*groff.TokenRequestDs ".ds S second"
+*groff.TokenUnknownControl ".HELLO"
+*groff.TokenMacroDefinition ".de HELLO\nreplacement\n.."
+*groff.TokenUnknownControl ".HELLO"

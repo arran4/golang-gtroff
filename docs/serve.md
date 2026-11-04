@@ -103,9 +103,13 @@ unsupported input. No include resolver/evaluator is exposed; any future opt-in
 resolver must retain the root sandbox.
 
 All opened files are closed, including read/decode/error paths. Caller-owned FS
-operations can block according to their implementation; cancellation is checked
-between operations and throughout bounded reads/search. Synchronous parser/render
-work checks context at stage boundaries rather than promising immediate CPU
+readers have their byte counts checked before use; invalid counts and 100
+consecutive empty reads produce the existing unreadable-page notice. Valid
+prefix bytes still consume the shared budget, but failed pages never enter the
+snapshot. This guard does not recover panics raised inside caller methods.
+Caller-owned FS operations can block according to their implementation;
+cancellation is checked between operations and throughout bounded reads/search.
+Synchronous parser/render work checks context at stage boundaries rather than promising immediate CPU
 preemption. Root directories should be stable and trusted; OS roots do not block
 mounts/devices placed inside them. Nonregular entries are skipped/rechecked, but
 this is not a sandbox for an adversary actively replacing regular files with
@@ -117,12 +121,20 @@ Default index limits are 10000 pages, 100000 scanned directory entries, 12 direc
 levels, 2 MiB raw/decoded per page, 64 MiB total source/decode bytes and 20000 AST/
 semantic nodes per page. Hard ceilings are respectively 50000, 500000, 64, 8 MiB,
 256 MiB and 100000. Compressed pages count both raw and decoded bytes against the
-total; decompression cannot expand past the per-page cap. AST physical-line limits
+total. The same budget is enforced during raw reads and decompression, shared
+across every configured root and including bytes returned by failed reads,
+failed closes and invalid gzip attempts (including output before a checksum
+error). One extra byte may be consumed to detect a limit violation; Build then
+stops without opening later pages. Decompression cannot spend a full per-page
+budget after the aggregate budget runs out. Exact-limit inputs are accepted if
+their own reads/decode succeed. Files within the limit that cannot be read or
+decoded still produce collection notices. AST physical-line limits
 also apply. Zero API limits request defaults; positive limits reduce or raise them
 within the ceilings. CLI `--max-pages`, `--max-file-bytes` and `--max-total-bytes`
 allow explicit budget changes. A budget failure aborts CLI startup before listening.
 Build returns a partial inspectable index alongside an error; serving it would be
-an explicit caller decision, not the CLI default.
+an explicit caller decision, not the CLI default. See the
+[executable failed-attempt budget example](../manlib/read_budget_example_test.go).
 
 The handler defaults to four simultaneous requests, a 4 MiB constructed-response
 budget and 1000 search hits. Hard ceilings are 32 concurrent requests, 16 MiB and
@@ -163,6 +175,8 @@ keep their ordinary process behavior.
 
 `testdata/serve/*.txtar` contains readable virtual trees, explicit gzip synthesis,
 requests, status/header/body snapshots and positive/negative substring assertions.
+Budget cases include invalid gzip headers and generated streams with explicitly
+corrupted checksum trailers; binary gzip data is synthesized from readable text.
 Normal tests never update them. Explicit refresh:
 `go test . -run '^TestServeScenarios$' -update-serve`. Unit/httptest, real-directory
 symlink, cancellation, bounded-process, HTTP fuzz and built-executable tests verify

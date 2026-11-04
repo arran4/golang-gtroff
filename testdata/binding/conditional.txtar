@@ -1,0 +1,5 @@
+The conditional body retains its nested quoting and comment.
+-- input.roff --
+.if 1 .IP "two words" 4 \" retained
+-- fields.json --
+{"Cond": "1", "Anything": ".IP \"two words\" 4 \\\" retained"}

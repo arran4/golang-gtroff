@@ -1,0 +1,5 @@
+Malformed optional-argument declarations must fail before output generation.
+-- catalogue.json --
+[{"Contents":[{"Type":"Macro","Token":".NEW","Args":"[argument"}]}]
+-- error.txt --
+unclosed optional-argument delimiter

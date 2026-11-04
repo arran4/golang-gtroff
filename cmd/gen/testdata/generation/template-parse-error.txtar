@@ -1,0 +1,7 @@
+Malformed template syntax fails before touching any destination.
+-- catalogue.json --
+[{"Contents":[{"Type":"Macro","Token":".DEMO","Args":""}]}]
+-- catalogue.go.template --
+{{if}}
+-- error.txt --
+parse generator templates

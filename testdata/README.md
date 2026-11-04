@@ -40,6 +40,34 @@ When adding new test files:
 scenarios for their respective APIs. Original source remains distinct from
 semantic/canonical expectations.
 
+`include/*.txtar` exercises explicitly enabled legacy `.so`/`.mso` parsing with
+in-memory files: syntax-only visibility, ordering/provenance, repeated siblings,
+missing files, cycles and depth failures. Expectations are small, hand-reviewed
+text; ordinary tests never rewrite them. Separate OS tests cover directory-root
+containment, symlinks and reader lifecycle.
+
+`registry/*.txtar` exercises parse-local custom line handlers in both document
+and AST APIs, with package isolation, generated fallback, preserved source vs.
+custom token formatting, syntax failures, ambiguous matches and nil results.
+These small text expectations are edited explicitly; tests never refresh them.
+
+`cmd/gen/testdata/catalogue/*.txtar` contains small declarative catalogue inputs
+and explicit support/error expectations. The full generated report under
+`docs/generated/catalogue-support.json` is separate from those hand-edited cases;
+root conformance tests execute every report row against the actual parser.
+
+`cmd/gen/testdata/generation/*.txtar` exercises deterministic generation and
+invalid catalogue/template/Go output. Error cases leave original destinations
+intact. OS tests separately inject staging, replacement and rollback failures;
+ordinary checks do not create staging or rewrite files.
+
+`document/*.txtar` exercises exact source vs. canonical tokens, byte/rune spans,
+LF/CRLF/EOF, unknown/malformed syntax and partial source under resource limits.
+Normal tests never rewrite these expectations. An approved refresh uses
+`go test . -run '^TestDocumentSourceScenarios$' -update-document`, followed by
+ordinary tests and inspection of the source/span diff. Reader-fault, chunk and
+include tests independently assert preservation and error identity.
+
 `image/*.txtar` names source/options and expected textual layout, pagination,
 paths and diagnostics. Binary PNG/JPEG goldens are separate under `golden/image`.
 Normal tests do not modify them. Approve a refresh explicitly with

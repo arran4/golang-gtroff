@@ -1,0 +1,19 @@
+Nested .so/.mso includes keep order and provenance; repeated siblings are valid.
+-- input.1 --
+.so a.1
+.mso b.1
+.so a.1
+after
+-- tree/a.1 --
+A
+-- tree/b.1 --
+.so c.1
+B
+-- tree/c.1 --
+C
+-- expected.txt --
+a.1:1 A
+c.1:1 C
+b.1:2 B
+a.1:1 A
+input.1:4 after

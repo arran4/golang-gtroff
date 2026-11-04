@@ -34,14 +34,18 @@ func run(args []string, out io.Writer) error {
 		names = append(names, name)
 	}
 	sort.Strings(names)
+	if *write {
+		outputs := make([]atomicfile.File, 0, len(names))
+		for _, name := range names {
+			outputs = append(outputs, atomicfile.File{Path: filepath.Join(*root, "examples", name), Data: artifacts[name]})
+		}
+		if err := atomicfile.WriteGenerated(outputs); err != nil {
+			return err
+		}
+	}
 	stale := false
 	for _, name := range names {
 		path := filepath.Join(*root, "examples", name)
-		if *write {
-			if err := atomicfile.Write(path, "", artifacts[name]); err != nil {
-				return err
-			}
-		}
 		want, err := os.ReadFile(path)
 		if err != nil || !bytes.Equal(want, artifacts[name]) {
 			fmt.Fprintf(out, "stale example: %s\n", name)

@@ -1,0 +1,34 @@
+A stored tag line selects its complete semantic item, retaining the description.
+-- options.json --
+{"astLine":"stored","raw":true}
+-- input.1 --
+.SH REAL
+.TP
+.de1 SAVED
+stored
+..
+description
+.PP
+outside
+-- expected-man.json --
+{
+  "version": 1,
+  "metadata": {},
+  "nodes": [
+    {"id":1,"children":[2],"kind":"document","state":{"style":{},"previous":{},"fill":true},"origin":{"astIds":[1],"span":{"Start":{"Filename":"input.1","Offset":0,"Line":1,"Column":1},"End":{"Filename":"input.1","Offset":58,"Line":9,"Column":1}}}},
+    {"id":2,"parent":1,"children":[3,6],"kind":"section","heading":"REAL","runs":[{"text":"REAL","style":{"bold":true},"origin":{"astIds":[3],"span":{"Start":{"Filename":"input.1","Offset":0,"Line":1,"Column":1},"End":{"Filename":"input.1","Offset":9,"Line":2,"Column":1}}}}],"state":{"style":{},"previous":{},"fill":true},"origin":{"astIds":[3,2,14],"span":{"Start":{"Filename":"input.1","Offset":0,"Line":1,"Column":1},"End":{"Filename":"input.1","Offset":58,"Line":9,"Column":1}}}},
+    {"id":3,"parent":2,"children":[4],"kind":"definition-list","state":{"style":{},"previous":{},"fill":true},"origin":{"astIds":[5],"span":{"Start":{"Filename":"input.1","Offset":9,"Line":2,"Column":1},"End":{"Filename":"input.1","Offset":46,"Line":7,"Column":1}}}},
+    {"id":4,"parent":3,"children":[5],"kind":"item","tag":[{"text":".de1 SAVED\nstored\n..\n","style":{},"unsupported":true,"origin":{"astIds":[7],"span":{"Start":{"Filename":"input.1","Offset":13,"Line":3,"Column":1},"End":{"Filename":"input.1","Offset":34,"Line":6,"Column":1}}}}],"state":{"style":{},"previous":{},"fill":true},"origin":{"astIds":[5,7,8,10,11],"span":{"Start":{"Filename":"input.1","Offset":9,"Line":2,"Column":1},"End":{"Filename":"input.1","Offset":46,"Line":7,"Column":1}}}},
+    {"id":5,"parent":4,"kind":"paragraph","runs":[{"text":"description","style":{},"origin":{"astIds":[12],"span":{"Start":{"Filename":"input.1","Offset":34,"Line":6,"Column":1},"End":{"Filename":"input.1","Offset":46,"Line":7,"Column":1}}}}],"state":{"style":{},"previous":{},"fill":true},"origin":{"astIds":[12],"span":{"Start":{"Filename":"input.1","Offset":34,"Line":6,"Column":1},"End":{"Filename":"input.1","Offset":46,"Line":7,"Column":1}}}},
+    {"id":6,"parent":2,"kind":"paragraph","runs":[{"text":"outside","style":{},"origin":{"astIds":[16],"span":{"Start":{"Filename":"input.1","Offset":50,"Line":8,"Column":1},"End":{"Filename":"input.1","Offset":58,"Line":9,"Column":1}}}}],"state":{"style":{},"previous":{},"fill":true},"origin":{"astIds":[16],"span":{"Start":{"Filename":"input.1","Offset":50,"Line":8,"Column":1},"End":{"Filename":"input.1","Offset":58,"Line":9,"Column":1}}}}
+  ],
+  "diagnostics": [{"Message":"unsupported semantics preserved without evaluation: .de1","Position":{"Filename":"input.1","Offset":13,"Line":3,"Column":1},"Severity":"warning"}]
+}
+-- expected-text.txt --
+.TP
+.de1 SAVED
+stored
+..
+description
+-- expected-canonical.json --
+{"metadata":{},"nodes":[{"kind":"document","state":{"style":{},"previous":{},"fill":true}},{"kind":"section","parent":1,"heading":"REAL","runs":[{"text":"REAL","style":{"bold":true}}],"state":{"style":{},"previous":{},"fill":true}},{"kind":"definition-list","parent":2,"state":{"style":{},"previous":{},"fill":true}},{"kind":"item","parent":3,"tag":[{"text":".de1 SAVED\nstored\n..\n","style":{},"unsupported":true}],"state":{"style":{},"previous":{},"fill":true}},{"kind":"paragraph","parent":4,"runs":[{"text":"description","style":{}}],"state":{"style":{},"previous":{},"fill":true}},{"kind":"paragraph","parent":2,"runs":[{"text":"outside","style":{}}],"state":{"style":{},"previous":{},"fill":true}}]}
