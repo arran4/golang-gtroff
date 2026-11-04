@@ -1,5 +1,7 @@
 # golang-gtroff
 
+> **Work in progress — public development preview.** This project implements a documented subset of roff/man; it is not a replacement for the full GNU groff toolchain. The CLI and APIs may change, and no stable binary release is available yet. See [documentation](docs/) and the [planned GitHub Pages site](https://arran4.github.io/golang-gtroff/) (available after publication is enabled).
+
 Read Linux man-page source, inspect its structure, export HTML or paginated
 PNG/JPEG, convert a supported HTML/man subset, and browse a local collection.
 The headless CLI and libraries use pure Go with bundled Go fonts. They need no
@@ -14,15 +16,15 @@ and [canonical roff](examples/man-tool.canonical.1).
 
 ## Install
 
-The export commands are currently an **unreleased, stacked feature series**.
+These commands remain **unreleased development features**.
 There are no published binary releases yet. Check the
 [release page](https://github.com/arran4/golang-gtroff/releases) for future archives;
-older default-branch revisions do not contain these commands.
+older revisions may not contain these commands.
 The [release/install guide](docs/releasing.md) describes checksum verification,
 archive/package contents and the publication gates. Snapshot candidates are
 available as CI artifacts after successful builds; they are development builds.
 
-From the reviewed feature checkout, use Go 1.26 or newer (tested: 1.26.10):
+From a checkout containing the merged features, use Go 1.26 or newer (tested: 1.26.10):
 
 ```sh
 go build -o gtroff ./cmd/gtroff
@@ -245,8 +247,12 @@ conversion loops, binary snapshots and focused update commands. The semantic
 model JSON uses `-update-man`; the viewer screenshot requires the explicit native
 smoke capture documented in its guide. Neither is silently regenerated.
 
-## License
+## Security
 
-Documentation derives from the [GNU groff manual](https://www.gnu.org/software/groff/manual/groff.html#Copying-This-Manual).
-Source code follows the repository's GPL licensing; see [LICENSE](LICENSE).
-Bundled Go fonts retain their separate license notices in exports.
+For coordinated reporting, secret-handling policies and security boundaries, see [SECURITY.md](SECURITY.md).
+
+## License and provenance
+
+Project-authored code is offered under **GPL-3.0-or-later**. Third-party fonts, fixtures, and GNU groff documentation retain their applicable original terms. See [LICENSE](LICENSE), [Licensing and provenance](docs/licensing.md), and the bundled [GFDL text](LICENSES/GFDL-1.3.txt).
+
+**Publication clearance remains under review in [issue #67](https://github.com/arran4/golang-gtroff/issues/67)** until source-by-source coverage of descriptions embedded in generated Go is verified.
