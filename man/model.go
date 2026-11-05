@@ -91,6 +91,8 @@ type Document struct {
 	Nodes          []Node             `json:"nodes"`
 	Diagnostics    []groff.Diagnostic `json:"diagnostics,omitempty"`
 	source         string
+	syntax         *groff.AST
+	syntaxLines    []*groff.ASTNode
 }
 
 func (d *Document) Source() string { return d.source }

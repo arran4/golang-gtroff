@@ -17,9 +17,10 @@ lines and delimiter lines have no generated token. `Inline()` returns a copied
 inline token. Group attributes expose headings and explicit block terminators.
 
 Man `.SH`/`.SS` headings with arguments form groups; repeated headings are
-separate nodes. `.TP`/`.IP` remain typed lines, so paragraph semantics can be
-added independently in #22. Ms macros use `WithPackage("ms")`, without treating
-ms `.SH` as a man heading. Conventional explicit blocks include `.RS`/`.RE`,
+separate nodes. `.TP`/`.IP` remain typed lines; the separately selected
+[`man.Build` hierarchy](man.md#optional-hierarchy-and-source-navigation) supplies
+definition-list/item/paragraph semantics. Ms macros use `WithPackage("ms")`,
+without treating ms `.SH` as a man heading. Conventional explicit blocks include `.RS`/`.RE`,
 `.nf`/`.fi`, `.EX`/`.EE`, ms displays/keeps/footnotes, definitions, ignores, and
 preprocessors. Macro definitions, ignores, `.EX`, and preprocessor bodies stay
 opaque. Within definitions, an explicit distinct terminator permits a nested
@@ -43,6 +44,50 @@ Normalized searches fold whitespace and lowercase Unicode; they do not perform
 Unicode NFC normalization. Content searches match line/inline contributions,
 not duplicated container text; use `Find` with `ASTLine` for one hit per line.
 
+## Inspection vocabulary
+
+| Syntax kind | Meaning | Common source |
+| --- | --- | --- |
+| `document` | Entire captured snapshot | Includes a partial or opaque recovery tail |
+| `section` | Man heading and following syntax | `.SH NAME` |
+| `subsection` | Heading within a section, or at root | `.SS Details` |
+| `block` | Explicit bounded source region | `.RS`/`.RE`, `.de`/`..`, `.TS`/`.TE` |
+| `line` | Physical source line (or recovery remainder) | Text, request, comment, blank line, delimiter |
+| `inline` | Inline syntax inside its owning line | Font/escape/reference syntax |
+
+Node kinds identify structure; `Attributes().Name` identifies a control,
+`Package` identifies its registered macro package, and `TokenKind` distinguishes
+request, macro, text, comment and other parser routes. An unknown control remains
+a named line with diagnostics; a known but unsupported control can still have a
+typed token. Neither token recognition nor an opaque block means successful
+semantic interpretation or rendering. `Opaque` marks source kept without live
+interpretation; `EndMarker`, `UnresolvedEnd` and `Closed` describe boundary facts,
+not execution. Use `BlockSource()` for a caller-owned capture with exact header,
+body, tail and terminator positions.
+
+`.TH` describes man metadata; `.SH`/`.SS` introduce headings; `.PP`/`.P`/`.LP`
+separate paragraphs; `.TP`/`.TQ`/`.IP` introduce tagged definitions; `.B`/`.I`
+and alternating font macros style text. `.RS`/`.RE` bound indentation. `.so`/`.mso`
+are include instructions retained without loading. `.de`/`.am`/`.ig` and
+preprocessor regions retain raw captures. Consult the [semantic vocabulary and
+supported subset](man.md) before interpreting these controls as content.
+
+The [external inspection example](../ast_inspection_example_test.go) starts from
+the root, locates ENVIRONMENT, enumerates `.TP` openers, inspects a concrete
+`TokenManB`, maps a span back to source bytes, and visits an opaque definition and
+unknown macro. Use `Token()` with a type switch for typed fields; token copies
+cannot mutate source. `NodeID` and `man.ID` are separate document-local identity
+spaces. `Origin.ASTIDs` and `man.Document.SourceNodes` connect them without
+reparenting syntax nodes. The syntax tree already groups explicit boundaries;
+the semantic hierarchy additionally groups paragraphs and definitions.
+
+The existing flat AST JSON table and semantic model version 1 are unchanged.
+These pre-release APIs have no promised cross-version stability beyond their
+documented contracts. Extend line tokens through the existing registry/custom
+handlers and bounded captures; add task-oriented helpers separately instead of
+inventing new kinds in the parser. Query selectors, feature classification and
+policy lint remain separate workstreams.
+
 ## Source, extraction and JSON
 
 `AST.Source()` and `ASTNode.Raw()` return original bytes, including unknown
@@ -59,8 +104,9 @@ argument values, comments and block delimiters contribute nothing, ordinary
 text and opaque/unknown/malformed lines contribute literal text. Existing line
 endings are retained on contributions. Container extraction visits each physical
 line exactly once, including section headings, without repeating inline content.
-Escapes, register references, and string references are not expanded. This is
-not the semantic man model planned in #22.
+Escapes, register references, and string references are not expanded. For decoded
+display text and paragraph/definition structure, use the separate
+[semantic man model](man.md).
 
 `json.Marshal(tree)` produces a deterministic flat preorder node table containing
 IDs, parent/child links, attributes, spans, token fields, inline fields, and

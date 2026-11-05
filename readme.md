@@ -188,7 +188,11 @@ atomic as a collection. Resource and strict failures preserve existing outputs.
 ## Libraries and development
 
 [Library guide](docs/library.md) · [AST](docs/ast.md) · [semantic model](docs/man.md) ·
-[executable AST example](ast_example_test.go). Rendering accepts structural AST
+[executable AST example](ast_example_test.go). Choose the optional
+[`man.Build` hierarchy](docs/man.md#optional-hierarchy-and-source-navigation) for
+sections, paragraphs and definitions; its `Syntax()` and `SourceNodes()` accessors
+retain the original AST and physical-line provenance, including comments and
+opaque source. Rendering accepts structural AST
 block IDs and physical lines inside captured regions, selecting their complete
 semantic owner with its surrounding style and indentation context. `cmd/lex`
 remains the legacy token inspection utility. Generated catalogue coverage is
