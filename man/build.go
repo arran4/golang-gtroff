@@ -56,11 +56,12 @@ func Build(tree *groff.AST, o Options) (*Document, error) {
 	if o.MaxBytes <= 0 {
 		o.MaxBytes = 8 << 20
 	}
-	d := &Document{Version: 1, source: tree.Source()}
+	d := &Document{Version: 1, source: tree.Source(), syntax: tree}
 	b := &builder{doc: d, state: State{Fill: true}, recovered: map[int]bool{}}
 	b.before = cloneState(b.state)
 	b.parent = b.add(DocumentNode, 0, tree.Root())
 	lines := tree.Root().FindKind(groff.ASTLine)
+	d.syntaxLines = lines
 	for i := 0; i < len(lines); i++ {
 		n := lines[i]
 		b.before = cloneState(b.state)

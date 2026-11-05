@@ -1,0 +1,21 @@
+Optional man hierarchy retains its original physical syntax.
+-- input.1 --
+.SH CONTENT
+.RS 2
+.TP
+.B TERM
+.RS 3
+nested
+.RE
+.RE
+.\" end
+-- expected-outline.txt --
+document
+  section CONTENT
+    indent
+      definition-list
+        item TERM
+          indent
+            paragraph
+-- options.json --
+{}

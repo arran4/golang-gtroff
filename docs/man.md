@@ -27,6 +27,48 @@ See the executable `man.ExampleBuild`, [representative source](../examples/man-t
 and its [tested semantic JSON](../examples/man-tool.semantic.json). The expected
 JSON uses the scenario source label `input.1` for deterministic provenance.
 
+## Optional hierarchy and source navigation
+
+Choose `groff.ParseAST` for original physical syntax and `man.Build(tree, options)`
+for an opinionated man hierarchy. No new parser mode or filesystem access is
+required. Both views remain available together: `document.Syntax()` returns the
+**same AST pointer** supplied to `Build`. This accessor is nil after decoding a
+semantic document from JSON, which does not carry the private source snapshot.
+
+For example, `.SH ENVIRONMENT` owns following content until the next `.SH`;
+`.SS` introduces a child subsection until the next `.SS` or `.SH`. Repeated
+headings remain separate nodes. A subsection before any section belongs to the
+document. Content before a heading also belongs to the document. Empty or broken
+headings remain diagnostic source; a successfully recovered next-line heading
+belongs only to the semantic interpretation. `.TP` and `.IP` become items within
+a definition list, with styled term runs in `Node.Tag` and description nodes in
+`Node.Children`. Indented bodies nest through `indent` nodes. These are bounded
+man conventions, not execution of user macro definitions.
+
+`Origin.ASTIDs` identifies semantic contributors, not every byte in a semantic
+span. `document.SourceNodes(id)` returns **all intersecting physical AST lines**
+in source order, including comments, blank lines, unknown controls, opaque bodies
+and terminators. Each returned node retains its original identity, attributes,
+diagnostics, children and byte span. The returned slice is caller-owned; its
+nodes remain immutable. This provides a source view of a paragraph, definition
+or section even when a comment has no semantic node of its own. Section spans
+include trailing comments and separators. The root covers the entire captured
+source. Container spans overlap their descendants, so concatenate only physical
+lines once when reconstructing bytes.
+
+The source lookup validates the caller-owned model, then uses binary searches
+in a physical-line index. Its total cost includes model validation plus the
+number of returned lines. An invalid ID/model or a JSON model without a syntax
+snapshot returns an error; an empty span returns no lines. Changes to semantic
+fields cannot edit the original AST. Check both parse/build errors: access to a
+partial hierarchy never proves the original read succeeded or reached EOF.
+
+The [external Go example](../man/source_example_test.go) extracts ENVIRONMENT
+terms and then visits comments and an unresolved `.so` through the same source
+identities. Low-level parsing and semantic building recognize includes as data;
+neither follows them. A source set with explicit include resolution is a separate
+high-level capability tracked in #82.
+
 ## Content and interpretation
 
 Version 1 contains title/manual-section/date/source/manual metadata, metadata

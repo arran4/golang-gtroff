@@ -1,0 +1,18 @@
+Optional man hierarchy retains its original physical syntax.
+-- input.1 --
+.SH SAME
+first
+.SS DETAIL
+second
+.SH SAME
+third
+-- expected-outline.txt --
+document
+  section SAME
+    paragraph
+    subsection DETAIL
+      paragraph
+  section SAME
+    paragraph
+-- options.json --
+{}

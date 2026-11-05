@@ -1,0 +1,18 @@
+Optional man hierarchy retains its original physical syntax.
+-- input.1 --
+.SH REAL
+.de SAVED
+.SH STORED
+..
+.TS
+.SS HIDDEN
+.TE
+.UNKNOWN value
+-- expected-outline.txt --
+document
+  section REAL
+    unsupported
+    unsupported
+    unsupported
+-- options.json --
+{"strictError":true}

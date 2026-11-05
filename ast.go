@@ -12,12 +12,21 @@ import (
 type ASTKind string
 
 const (
-	ASTDocument   ASTKind = "document"
-	ASTSection    ASTKind = "section"
+	// ASTDocument owns the entire captured source, including any recovery tail.
+	ASTDocument ASTKind = "document"
+	// ASTSection groups a man .SH heading and subsequent syntax up to the next .SH.
+	ASTSection ASTKind = "section"
+	// ASTSubsection groups a man .SS heading within a section, or at the root.
 	ASTSubsection ASTKind = "subsection"
-	ASTBlock      ASTKind = "block"
-	ASTLine       ASTKind = "line"
-	ASTInline     ASTKind = "inline"
+	// ASTBlock groups an explicit opener, its body and any captured terminator.
+	// Opaque blocks retain syntax without interpreting stored controls as live.
+	ASTBlock ASTKind = "block"
+	// ASTLine is a physical source line, or an opaque remainder on budget failure.
+	// Blank lines, comments, unknown controls and delimiters remain visible here.
+	ASTLine ASTKind = "line"
+	// ASTInline describes inline syntax within a physical line. Its source span
+	// overlaps its owning line; it is not an additional physical contribution.
+	ASTInline ASTKind = "inline"
 )
 
 // NodeID is a stable, one-based preorder index within one parsed source snapshot.
