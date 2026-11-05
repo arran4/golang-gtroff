@@ -177,7 +177,9 @@ failed includes; permissive mode preserves the refused directive and reports a
 warning for resolver/syntax failures. Terminal child reader/resource errors
 always propagate as errors.
 
-`ParseAST`, the new CLI, exporters and man-library server never execute includes.
+`ParseAST`, syntax-only CLI commands, exporters and the man-library server never
+execute includes. The separate [source-set API and `sources` command](sources.md)
+resolve bounded local sources without macro execution.
 This repair addresses containment, reader ownership and recursion under #12;
 the [block capture follow-up](blocks.md) separately supplies handler registration
 and exact block-source inspection.

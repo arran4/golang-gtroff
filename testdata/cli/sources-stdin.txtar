@@ -1,0 +1,13 @@
+test: bounded source graph and original-file context
+-- args.json --
+["sources", "--format", "text"]
+-- stdin.1 --
+.so common
+-- stdout.txt --
+sources: partial
+1 <stdin> depth=0 bytes=11 complete=true
+<stdin>:1:1: .so common [unresolved] -> 0
+<stdin>:1:1: unresolved: include unresolved: no explicit include filesystem context
+-- stderr.txt --
+-- exit.txt --
+0

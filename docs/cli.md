@@ -130,3 +130,11 @@ This phase depends on AST PR #32, itself stacked on unmerged parser PR #19 at
 `75d60db`. Parser issues #3–#17 remain separate contracts; see
 [the AST dependency notes](ast.md#parser-dependencies). No includes or evaluator
 capabilities are exposed. The semantic man model in #22 is the next phase.
+
+## Bounded source inspection
+
+`gtroff sources [--no-includes] [--root DIR] [FILE]` inspects safely bounded local
+includes and original-file provenance, with JSON or text output. Stdin needs an
+explicit root. See the [source-set guide](sources.md) for path policy, resource
+limits, strict diagnostics, source exactness and exit codes. `gtroff ast` remains
+a single-file syntax inspection command.

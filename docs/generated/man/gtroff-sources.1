@@ -1,0 +1,35 @@
+.\" Generated from gtroff command help; do not edit.
+.TH "GTROFF-SOURCES" 1 "" "golang-gtroff" "User Commands"
+.SH NAME
+\&gtroff-sources
+.SH SYNOPSIS
+.nf
+\&Usage: gtroff sources [OPTIONS] [FILE]
+\&
+\&Inspect a non-executing source graph and original-file provenance.
+\&Named files resolve literal local .so/.mso paths by default, relative to each
+\&referring file and confined to --root (default: the input file's directory).
+\&Stdin has no filesystem context unless --root is explicit. Use --no-includes
+\&for a single-file snapshot; directives remain visible with diagnostics.
+\&No macro execution, system macro search, network access or external tools.
+\&
+\&  --no-includes           Disable include loading, retaining references
+\&  --root DIR              Explicit allowed source root
+\&  --strict                Reject any syntax/include diagnostics
+\&  --package man|ms|roff   Default: man
+\&  --format json|text      Default: json
+\&  --max-bytes COUNT       Cumulative captured bytes, default: 8388608
+\&  --max-nodes COUNT       Cumulative AST nodes, default: 100000
+\&  --max-files COUNT       Source occurrence cap, default: 256
+\&  --max-depth COUNT       Include depth, default: 16; ceiling: 128
+\&
+\&JSON schemaVersion 1 contains sourceSet: files, include edges, logical lines and
+\&diagnostics. Each file retains its original source and AST. Repeated includes
+\&have separate occurrence IDs; byte offsets and node IDs are local to that file.
+\&Logical lines retain the directive before child lines, without executing it.
+\&JSON follows UTF-8 replacement rules; library AST.Source retains exact bytes.
+\&Exit codes: 0 permissive report, 1 strict diagnostics, 2 usage,
+\&3 input/output/resource/cancellation failure (partial report when available).
+.fi
+.SH SEE ALSO
+.MR man 7

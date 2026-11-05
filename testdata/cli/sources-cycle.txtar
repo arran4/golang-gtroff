@@ -1,0 +1,17 @@
+test: bounded source graph and original-file context
+-- args.json --
+["sources", "--format", "text", "main.1"]
+-- input/main.1 --
+.so common
+-- input/common --
+.so main.1
+-- stdout.txt --
+sources: partial
+1 main.1 depth=0 bytes=11 complete=true
+2 common depth=1 bytes=11 complete=true
+main.1:1:1: .so common [resolved] -> 2
+common:1:1: .so main.1 [cycle] -> 0
+common:1:1: cycle: include cycle: active source cycle
+-- stderr.txt --
+-- exit.txt --
+0

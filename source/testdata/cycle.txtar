@@ -1,0 +1,14 @@
+Bounded source graph with original-file line references.
+-- options.json --
+{"Root": "main.1"}
+-- input/main.1 --
+.so child
+-- input/child --
+.so main.1
+-- expected.txt --
+file 1 main.1 depth=0 parent=0
+file 2 child depth=1 parent=1
+edge 1 1:1 .so child resolved -> 2
+edge 2 2:1 .so main.1 cycle -> 0
+line 1:1
+line 2:1

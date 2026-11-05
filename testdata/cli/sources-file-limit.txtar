@@ -1,0 +1,16 @@
+test: bounded source graph and original-file context
+-- args.json --
+["sources", "--max-files", "1", "--format", "text", "main.1"]
+-- input/main.1 --
+.so common
+-- input/common --
+child
+-- stdout.txt --
+sources: incomplete
+1 main.1 depth=0 bytes=11 complete=true
+main.1:1:1: .so common [resource-limit] -> 0
+main.1:1:1: resource-limit: include resource-limit: source set resource limit exceeded
+source set resource limit exceeded
+-- stderr.txt --
+-- exit.txt --
+3

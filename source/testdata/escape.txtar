@@ -1,0 +1,9 @@
+Bounded source graph with original-file line references.
+-- options.json --
+{"Root": "main.1"}
+-- input/main.1 --
+.so ../outside
+-- expected.txt --
+file 1 main.1 depth=0 parent=0
+edge 1 1:1 .so ../outside denied -> 0
+line 1:1

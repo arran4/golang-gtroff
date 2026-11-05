@@ -1,5 +1,6 @@
 // Package cli implements the headless command boundary using explicit streams
-// and a caller-supplied file opener. No command evaluates roff or loads includes.
+// and caller-supplied file/root openers. Source loading uses explicitly bounded
+// roots; no command evaluates roff.
 package cli
 
 import (
@@ -85,6 +86,7 @@ const rootHelp = `Usage: gtroff COMMAND [OPTIONS] [FILE]
 Commands:
   validate  Check roff syntax and report diagnostics
   ast       Inspect a source-aware syntax tree
+  sources   Inspect bounded includes and source provenance
   render    Export a semantic man page to HTML or paginated images
   convert   Convert supported HTML and man structure
   serve     Browse and search explicit man-page directories over HTTP
@@ -96,7 +98,7 @@ Commands:
 Use FILE '-' or omit FILE to read stdin. Output is written to stdout.
 Run 'gtroff help validate' or 'gtroff help ast' for options.
 Validation checks syntax only; it does not establish typesetting success.
-No macros are evaluated and no local or remote includes are loaded.
+No macros are evaluated. sources resolves bounded local includes; no network access.
 `
 const validateHelp = `Usage: gtroff validate [--strict] [--package man|ms|roff] [--format text|json] [FILE]
 
@@ -177,6 +179,8 @@ func Run(args []string, e Environment) int {
 		return viewCommand(args, e)
 	case "commands":
 		return commandsCommand(args, e)
+	case "sources":
+		return sourcesCommand(args, e)
 	case "validate", "ast":
 		return inspectCommand(command, args, e)
 	case "man":
@@ -193,6 +197,8 @@ func commandHelp(e Environment, command string) int {
 		return writeString(e, validateHelp)
 	case "ast":
 		return writeString(e, astHelp)
+	case "sources":
+		return writeString(e, sourcesHelp)
 	case "convert":
 		return writeString(e, convertHelp)
 	case "serve":
@@ -353,20 +359,22 @@ func runInspect(command string, o inspectOptions, files []string, e Environment)
 // Usage: gtroff COMMAND [OPTIONS] [FILE]
 //
 // Commands:
-//   validate  Check roff syntax and report diagnostics
-//   ast       Inspect a source-aware syntax tree
-//   render    Export a semantic man page to HTML or paginated images
-//   convert   Convert supported HTML and man structure
-//   serve     Browse and search explicit man-page directories over HTTP
-//   man       Generate a man page from command help
-//   completion  Generate shell completions
-//   version   Show build information
-//   help      Show help for a command
+//
+//	validate  Check roff syntax and report diagnostics
+//	ast       Inspect a source-aware syntax tree
+//	sources   Inspect bounded includes and source provenance
+//	render    Export a semantic man page to HTML or paginated images
+//	convert   Convert supported HTML and man structure
+//	serve     Browse and search explicit man-page directories over HTTP
+//	man       Generate a man page from command help
+//	completion  Generate shell completions
+//	version   Show build information
+//	help      Show help for a command
 //
 // Use FILE '-' or omit FILE to read stdin. Output is written to stdout.
 // Run 'gtroff help validate' or 'gtroff help ast' for options.
 // Validation checks syntax only; it does not establish typesetting success.
-// No macros are evaluated and no local or remote includes are loaded.
+// No macros are evaluated. sources resolves bounded local includes; no network access.
 func Root() error {
 	return nil
 }

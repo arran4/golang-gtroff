@@ -1,0 +1,13 @@
+test: bounded source graph and original-file context
+-- args.json --
+["sources", "--format", "text", "main.1"]
+-- input/main.1 --
+.so missing
+-- stdout.txt --
+sources: partial
+1 main.1 depth=0 bytes=12 complete=true
+main.1:1:1: .so missing [missing] -> 0
+main.1:1:1: missing: include missing: open missing: file does not exist
+-- stderr.txt --
+-- exit.txt --
+0

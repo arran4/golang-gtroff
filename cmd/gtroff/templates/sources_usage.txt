@@ -1,0 +1,9 @@
+
+Usage: gtroff sources [OPTIONS] [FILE]
+
+Named files resolve literal local .so/.mso paths relative to the referring file,
+confined to --root (default: the input file's directory). Stdin needs an explicit
+--root for includes. --no-includes retains a single-file snapshot and references.
+No macros, system macro search, network resources or external tools are executed.
+JSON includes original-file ASTs and provenance; text summarizes the source graph.
+Exit codes: 0 permissive report, 1 strict diagnostics, 2 usage, 3 I/O/resource failure.
