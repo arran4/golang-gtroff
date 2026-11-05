@@ -66,8 +66,8 @@ partial hierarchy never proves the original read succeeded or reached EOF.
 The [external Go example](../man/source_example_test.go) extracts ENVIRONMENT
 terms and then visits comments and an unresolved `.so` through the same source
 identities. Low-level parsing and semantic building recognize includes as data;
-neither follows them. A source set with explicit include resolution is a separate
-high-level capability tracked in #82.
+neither follows them. The separate [source-set API and `sources` command](sources.md) provide explicit
+bounded include resolution without changing these low-level contracts.
 
 ## Content and interpretation
 

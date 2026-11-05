@@ -7,6 +7,7 @@ Usage: gtroff COMMAND [OPTIONS] [FILE]
 Commands:
   validate  Check roff syntax and report diagnostics
   ast       Inspect a source-aware syntax tree
+  sources   Inspect bounded includes and source provenance
   render    Export a semantic man page to HTML or paginated images
   convert   Convert supported HTML and man structure
   serve     Browse and search explicit man-page directories over HTTP
@@ -18,7 +19,7 @@ Commands:
 Use FILE '-' or omit FILE to read stdin. Output is written to stdout.
 Run 'gtroff help validate' or 'gtroff help ast' for options.
 Validation checks syntax only; it does not establish typesetting success.
-No macros are evaluated and no local or remote includes are loaded.
+No macros are evaluated. sources resolves bounded local includes; no network access.
 -- stderr.txt --
 -- exit.txt --
 0
