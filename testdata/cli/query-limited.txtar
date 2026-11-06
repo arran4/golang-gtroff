@@ -1,0 +1,14 @@
+test: stateless query with source-attributed results
+-- args.json --
+["query", "--max-results", "1", "--format", "csv", "--fields", "index,line", "paragraph"]
+-- stdin.1 --
+first
+.PP
+second
+-- stdout.txt --
+index,line
+1,1
+-- stderr.txt --
+gtroff: query resource limit exceeded
+-- exit.txt --
+3

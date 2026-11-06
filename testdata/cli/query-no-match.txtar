@@ -1,0 +1,10 @@
+test: stateless query with source-attributed results
+-- args.json --
+["query", "--format", "jsonl", "definition"]
+-- stdin.1 --
+.SH NAME
+name
+-- stdout.txt --
+-- stderr.txt --
+-- exit.txt --
+0

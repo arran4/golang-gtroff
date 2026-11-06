@@ -1,0 +1,17 @@
+test: stateless query with source-attributed results
+-- args.json --
+["query", "--no-includes", "--format", "csv", "--fields", "term", "section[name=\"ENVIRONMENT\"] definition", "main.1"]
+-- input/main.1 --
+.SH ENVIRONMENT
+.so terms
+-- input/terms --
+.TP
+.B TOOL_HOME
+Home directory.
+-- stdout.txt --
+term
+-- stderr.txt --
+main.1:2:1: disabled: include disabled: include loading explicitly disabled
+main.1:2:1: semantic: unsupported semantics preserved: .so
+-- exit.txt --
+0

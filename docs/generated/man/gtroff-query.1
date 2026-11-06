@@ -1,0 +1,42 @@
+.\" Generated from gtroff command help; do not edit.
+.TH "GTROFF-QUERY" 1 "" "golang-gtroff" "User Commands"
+.SH NAME
+\&gtroff-query
+.SH SYNOPSIS
+.nf
+\&Usage: gtroff query [OPTIONS] SELECTOR [FILE]
+\&
+\&Run a stateless structural selector over source syntax or an optional man hierarchy.
+\&Example: gtroff query 'section[name=\(dqENVIRONMENT\(dq] definition' document.1
+\&Steps use whitespace for descendants and > for direct children. Predicates use
+\&[field=value], [field*=substring] or numeric comparisons such as [line>=2].
+\&Quote values with spaces; escape double-quoted values using Go string syntax.
+\&Kinds, fields, quoting and semantic boundaries are documented in docs/query.md.
+\&
+\&  --view semantic|syntax  Default: semantic (man conventions)
+\&  --format FORMAT         json, jsonl, text, raw, grep, csv or tsv; default: json
+\&  --fields FIELD,...      Selected CSV/TSV fields; default: index,file,line,column,kind,term,text
+\&  --no-includes           Disable local include loading, retaining references
+\&  --root DIR              Allowed root; named-file default is its containing directory
+\&  --strict                Reject syntax/include diagnostics while retaining results
+\&  --package man|ms|roff   Default: man; semantic view uses man conventions
+\&  --max-bytes COUNT       Cumulative input bytes; default: 8388608
+\&  --max-nodes COUNT       Cumulative input AST nodes; default: 100000
+\&  --max-files COUNT       Source occurrence cap; default: 256
+\&  --max-depth COUNT       Include depth; default: 16, ceiling: 128
+\&  --max-results COUNT     Match cap; default: 10000
+\&  --max-work COUNT        Query work budget; default: 67108864
+\&  --max-result-bytes COUNT  Materialized match-data budget; default: 16777216
+\&
+\&Named files resolve bounded local includes by default; stdin needs explicit --root.
+\&Each result retains the original file/occurrence, span, IDs, source digest and a
+\&one-based ordinal. Included sources are descendants of their directive's owner;
+\&semantic grouping stays local to each file. Unknown/opaque source remains visible.
+\&Raw output concatenates selected source spans; overlapping matches repeat bytes.
+\&JSONL contains matches only; full JSON also contains global diagnostics/completeness.
+\&No query state, mutation, macro execution, network access or ambient library FS.
+\&Exit codes: 0 query complete (possibly no matches), 1 strict input diagnostics,
+\&2 selector/usage error, 3 I/O/resource/cancellation failure with a partial report.
+.fi
+.SH SEE ALSO
+.MR man 7

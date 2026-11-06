@@ -1,0 +1,14 @@
+test: stateless query with source-attributed results
+-- args.json --
+["query", "--strict", "--format", "csv", "--fields", "index,file,line", "paragraph"]
+-- stdin.1 --
+.UNKNOWN literal
+text
+-- stdout.txt --
+index,file,line
+1,<stdin>,2
+-- stderr.txt --
+<stdin>:1:1: syntax: no token match: ".UNKNOWN": literal
+<stdin>:1:1: semantic: unsupported semantics preserved: .UNKNOWN
+-- exit.txt --
+1

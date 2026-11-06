@@ -1,0 +1,12 @@
+test: stateless query with source-attributed results
+-- args.json --
+["query", "--format", "text", "definition > term[normalized-text=\"tool_home\"]"]
+-- stdin.1 --
+.TP
+.B TOOL_HOME
+Home directory.
+-- stdout.txt --
+TOOL_HOME
+-- stderr.txt --
+-- exit.txt --
+0

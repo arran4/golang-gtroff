@@ -1,0 +1,9 @@
+
+Usage: gtroff query [OPTIONS] SELECTOR [FILE]
+
+Example: gtroff query 'section[name="ENVIRONMENT"] definition' document.1
+Select semantic man structure or physical syntax without mutating documents.
+Named files resolve bounded local includes; stdin needs an explicit --root.
+Included sources retain original-file provenance; semantic grouping is file-local.
+Use whitespace for descendants, > for children and [field=value] predicates.
+Exit codes: 0 complete, 1 strict diagnostics, 2 usage/selector, 3 I/O/resource failure.
