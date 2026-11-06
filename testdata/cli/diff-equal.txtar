@@ -1,0 +1,22 @@
+Documentation diff scenario: equal.
+-- args.json --
+["diff", "before.1", "after.1"]
+-- input/before.1 --
+.TH TOOL 1
+.SH ENVIRONMENT
+.TP
+.B HOME
+Directory.
+-- input/after.1 --
+.TH TOOL 1
+.SH ENVIRONMENT
+.TP
+.B HOME
+Directory.
+-- stdout.txt --
+diff: equal (assessment=man-content-projection complete=true changes=0 ambiguities=0)
+before: "before.1" sources=1 objects=3
+after: "after.1" sources=1 objects=3
+-- stderr.txt --
+-- exit.txt --
+0

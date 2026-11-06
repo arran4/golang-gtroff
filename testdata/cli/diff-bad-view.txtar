@@ -1,0 +1,9 @@
+Documentation diff scenario: bad-view.
+-- args.json --
+["diff", "--view", "rendered", "before.1", "after.1"]
+-- stdout.txt --
+-- stderr.txt --
+gtroff: view must be semantic or source
+Run 'gtroff help' for usage.
+-- exit.txt --
+2

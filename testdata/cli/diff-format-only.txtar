@@ -1,0 +1,23 @@
+Documentation diff scenario: format-only.
+-- args.json --
+["diff", "before.1", "after.1"]
+-- input/before.1 --
+.TH TOOL 1
+.SH ENVIRONMENT
+.TP
+.B HOME
+Home directory.
+-- input/after.1 --
+.TH "TOOL" "1"
+.SH "ENVIRONMENT"
+.TP 8
+\fBHOME\fR
+Home
+directory.
+-- stdout.txt --
+diff: equal (assessment=man-content-projection complete=true changes=0 ambiguities=0)
+before: "before.1" sources=1 objects=3
+after: "after.1" sources=1 objects=3
+-- stderr.txt --
+-- exit.txt --
+0

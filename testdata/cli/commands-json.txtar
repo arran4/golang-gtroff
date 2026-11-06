@@ -376,6 +376,124 @@ test: commands produces schemaVersion 1 json inventory
       ]
     },
     {
+      "name": "diff",
+      "synopsis": "gtroff diff [OPTIONS] BEFORE AFTER",
+      "description": "Compare documentation revisions with original-source provenance",
+      "flags": [
+        {
+          "name": "view",
+          "type": "string",
+          "default": "semantic",
+          "description": "Compare semantic man content or source bytes"
+        },
+        {
+          "name": "format",
+          "type": "string",
+          "default": "text",
+          "description": "Output: text, json or jsonl"
+        },
+        {
+          "name": "strict",
+          "type": "bool",
+          "default": "false",
+          "description": "Reject source/model/ambiguity diagnostics"
+        },
+        {
+          "name": "root",
+          "type": "string",
+          "description": "Shared explicit allowed source root"
+        },
+        {
+          "name": "no-includes",
+          "type": "bool",
+          "default": "false",
+          "description": "Compare explicit root sources without loading includes"
+        },
+        {
+          "name": "package",
+          "type": "string",
+          "default": "man",
+          "description": "Parser context: man, ms or roff"
+        },
+        {
+          "name": "max-bytes",
+          "type": "int",
+          "default": "8388608",
+          "description": "Input bytes across both roots"
+        },
+        {
+          "name": "max-nodes",
+          "type": "int",
+          "default": "100000",
+          "description": "Input AST nodes across both roots"
+        },
+        {
+          "name": "max-files",
+          "type": "int",
+          "default": "256",
+          "description": "Source occurrences across both roots"
+        },
+        {
+          "name": "max-depth",
+          "type": "int",
+          "default": "16",
+          "description": "Include depth, ceiling 128"
+        },
+        {
+          "name": "max-diff-nodes",
+          "type": "int",
+          "default": "200000",
+          "description": "Per-revision projection node bound"
+        },
+        {
+          "name": "max-objects",
+          "type": "int",
+          "default": "10000",
+          "description": "Per-revision object cap"
+        },
+        {
+          "name": "max-changes",
+          "type": "int",
+          "default": "10000",
+          "description": "Changes plus ambiguities cap"
+        },
+        {
+          "name": "max-data-bytes",
+          "type": "int",
+          "default": "33554432",
+          "description": "Comparison data budget"
+        },
+        {
+          "name": "max-result-bytes",
+          "type": "int",
+          "default": "16777216",
+          "description": "Materialized change data budget"
+        },
+        {
+          "name": "max-work",
+          "type": "int",
+          "default": "67108864",
+          "description": "Shared comparison work budget"
+        },
+        {
+          "name": "max-output-bytes",
+          "type": "int",
+          "default": "33554432",
+          "description": "Serialized output byte budget"
+        }
+      ],
+      "capabilities": [
+        "semantic-diff",
+        "source-diff",
+        "change-provenance",
+        "ambiguous-matches",
+        "bounded-includes",
+        "json-output",
+        "jsonl-output",
+        "text-output"
+      ]
+    },
+    {
       "name": "render",
       "synopsis": "gtroff render --format html|png|jpg [OPTIONS] [FILE]",
       "description": "Export a semantic man page to HTML or paginated images",

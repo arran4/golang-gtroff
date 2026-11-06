@@ -1,0 +1,106 @@
+Documentation diff scenario: limit.
+-- args.json --
+["diff", "--format", "json", "--max-changes", "1", "before.1", "after.1"]
+-- input/before.1 --
+.TH TOOL 1
+.SH ENVIRONMENT
+.TP
+.B A
+Old.
+-- input/after.1 --
+.TH TOOL 1
+.SH ENVIRONMENT
+.TP
+.B B
+New.
+-- stdout.txt --
+{
+  "schemaVersion": 1,
+  "command": "diff",
+  "view": "semantic",
+  "assessment": "man-content-projection",
+  "status": "incomplete",
+  "complete": false,
+  "different": true,
+  "error": "documentation diff resource limit exceeded",
+  "before": {
+    "name": "before.1",
+    "files": [
+      {
+        "id": 1,
+        "name": "before.1",
+        "depth": 0,
+        "digest": "5b76aab6e4dbad2d58a3cd2fb9cae447644f77d6da49e27d5723857e9120fb74",
+        "complete": true
+      }
+    ],
+    "objects": 3,
+    "complete": true
+  },
+  "after": {
+    "name": "after.1",
+    "files": [
+      {
+        "id": 1,
+        "name": "after.1",
+        "depth": 0,
+        "digest": "da68f2a64ec7ab6690849da17b37f586252dfdae5ef16aa4672037ac3b05cffb",
+        "complete": true
+      }
+    ],
+    "objects": 3,
+    "complete": true
+  },
+  "changes": [
+    {
+      "schemaVersion": 1,
+      "index": 1,
+      "kind": "removed",
+      "before": {
+        "index": 3,
+        "kind": "definition",
+        "identity": "A",
+        "scope": "5:$root7:section11:ENVIRONMENT",
+        "location": {
+          "source": {
+            "id": 1,
+            "name": "before.1",
+            "depth": 0,
+            "digest": "5b76aab6e4dbad2d58a3cd2fb9cae447644f77d6da49e27d5723857e9120fb74",
+            "complete": true
+          },
+          "sourceKey": "$root",
+          "span": {
+            "Start": {
+              "Filename": "before.1",
+              "Offset": 27,
+              "Line": 3,
+              "Column": 1
+            },
+            "End": {
+              "Filename": "before.1",
+              "Offset": 41,
+              "Line": 6,
+              "Column": 1
+            }
+          },
+          "astIds": [
+            7,
+            9
+          ],
+          "semanticId": 4
+        },
+        "value": "[{\"kind\":\"flow\",\"text\":\"Old.\"}]",
+        "digest": "3363d53632893f74f08b029be9c91470305287b928d2274a87606b6b094fb9e1",
+        "uninterpreted": false
+      },
+      "confidence": "projected-content",
+      "reason": "identity has no counterpart in the inspected after snapshot"
+    }
+  ],
+  "ambiguities": []
+}
+-- stderr.txt --
+gtroff: documentation diff resource limit exceeded
+-- exit.txt --
+3

@@ -34,7 +34,11 @@ func fromQuery(ctx context.Context, set *source.Set, selected *query.Result, o O
 		ctx = context.Background()
 	}
 	report = newReport(selected, o)
+	var accounting *meter
 	defer func() {
+		if accounting != nil {
+			report.WorkUnits = o.MaxWork - accounting.remaining
+		}
 		if err == nil {
 			err = ctx.Err()
 		}
@@ -54,6 +58,7 @@ func fromQuery(ctx context.Context, set *source.Set, selected *query.Result, o O
 		return report, fmt.Errorf("%w: HTML requires semantic selection", ErrOptions)
 	}
 	b := &builder{set: set, models: map[source.ID]*man.Document{}, infos: map[source.ID]query.SourceInfo{}, meter: &meter{ctx, o.MaxWork}, options: o, report: report, edges: map[source.ID][]source.Edge{}, edgeByID: map[source.EdgeID]source.Edge{}, inherited: map[source.ID][]Heading{}, diagnostics: map[string]bool{}}
+	accounting = b.meter
 	if err = b.meter.spend(spent + 1); err != nil {
 		return report, err
 	}
@@ -232,6 +237,11 @@ func (b *builder) record(match query.Match) (Record, error) {
 		r.Semantic = true
 		metadata := model.Metadata
 		r.Metadata = &metadata
+		if model.MetadataOrigin != nil {
+			origin := *model.MetadataOrigin
+			origin.ASTIDs = append([]groff.NodeID(nil), origin.ASTIDs...)
+			r.MetadataOrigin = &origin
+		}
 		state := node.State
 		state.Indents = append([]string(nil), state.Indents...)
 		r.Context = &state
@@ -426,6 +436,9 @@ func recordSize(r Record) int {
 	}
 	if r.Metadata != nil {
 		size += len(r.Metadata.Title) + len(r.Metadata.Section) + len(r.Metadata.Date) + len(r.Metadata.Source) + len(r.Metadata.Manual)
+	}
+	if r.MetadataOrigin != nil {
+		size += 128 + len(r.MetadataOrigin.ASTIDs)*8
 	}
 	if r.Context != nil {
 		size += stateSize(*r.Context)

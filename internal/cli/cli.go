@@ -91,6 +91,7 @@ Commands:
   sources   Inspect bounded includes and source provenance
   query     Select source-aware documentation
   extract   Export fragments and structured documentation
+  diff      Compare source-aware documentation revisions
   render    Export a semantic man page to HTML or paginated images
   convert   Convert supported HTML and man structure
   serve     Browse and search explicit man-page directories over HTTP
@@ -189,6 +190,8 @@ func Run(args []string, e Environment) int {
 		return queryCommand(args, e)
 	case "extract":
 		return extractCommand(args, e)
+	case "diff":
+		return diffCommand(args, e)
 	case "validate", "ast":
 		return inspectCommand(command, args, e)
 	case "man":
@@ -211,6 +214,8 @@ func commandHelp(e Environment, command string) int {
 		return writeString(e, queryHelp)
 	case "extract":
 		return writeString(e, extractHelp)
+	case "diff":
+		return writeString(e, diffHelp)
 	case "convert":
 		return writeString(e, convertHelp)
 	case "serve":
@@ -377,6 +382,7 @@ func runInspect(command string, o inspectOptions, files []string, e Environment)
 //	sources   Inspect bounded includes and source provenance
 //	query     Select source-aware documentation
 //	extract   Export fragments and structured documentation
+//	diff      Compare source-aware documentation revisions
 //	render    Export a semantic man page to HTML or paginated images
 //	convert   Convert supported HTML and man structure
 //	serve     Browse and search explicit man-page directories over HTTP
