@@ -1,0 +1,21 @@
+test: explanatory non-executing feature analysis
+-- args.json --
+["analyze", "--strict"]
+-- stdin.1 --
+.CUSTOM value
+-- stdout.txt --
+profile: unknown (confidence=low)
+reason: no distinctive active macro-package evidence
+sources: 1; bytes: 14; nodes: 3; physical lines: 1; enumeration complete: true
+capabilities: syntax and optional man interpretation assessed separately; rendering not assessed
+flags: conditional=false include=false evaluation=false preprocessor=false side-effect-syntax=false unknown=true opaque=false partial-source=false
+requirements: advanced-interpretation
+features: control=1
+controls: .CUSTOM=1
+escapes:
+source 1: <stdin> (profile=unknown depth=0 bytes=14 eof=true)
+diagnostics: 2
+input error: source set rejected diagnostics: no token match: ".CUSTOM": value
+-- stderr.txt --
+-- exit.txt --
+1

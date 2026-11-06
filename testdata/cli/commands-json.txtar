@@ -142,6 +142,105 @@ test: commands produces schemaVersion 1 json inventory
       ]
     },
     {
+      "name": "analyze",
+      "synopsis": "gtroff analyze [OPTIONS] [FILE]",
+      "description": "Classify syntax, profiles and processing requirements without execution",
+      "flags": [
+        {
+          "name": "format",
+          "type": "string",
+          "default": "text",
+          "description": "text, json or jsonl"
+        },
+        {
+          "name": "details",
+          "type": "bool",
+          "default": "false",
+          "description": "Detailed evidence in text output"
+        },
+        {
+          "name": "rules",
+          "type": "string",
+          "description": "Explicit declarative JSON rules file"
+        },
+        {
+          "name": "no-includes",
+          "type": "bool",
+          "default": "false",
+          "description": "Disable include loading, retaining references"
+        },
+        {
+          "name": "root",
+          "type": "string",
+          "description": "Explicit allowed source root"
+        },
+        {
+          "name": "strict",
+          "type": "bool",
+          "default": "false",
+          "description": "Reject syntax/include diagnostics"
+        },
+        {
+          "name": "package",
+          "type": "string",
+          "default": "man",
+          "description": "Parser context: man, ms or roff"
+        },
+        {
+          "name": "max-bytes",
+          "type": "int",
+          "default": "8388608",
+          "description": "Cumulative input bytes"
+        },
+        {
+          "name": "max-nodes",
+          "type": "int",
+          "default": "100000",
+          "description": "Cumulative input AST nodes"
+        },
+        {
+          "name": "max-files",
+          "type": "int",
+          "default": "256",
+          "description": "Source occurrence cap"
+        },
+        {
+          "name": "max-depth",
+          "type": "int",
+          "default": "16",
+          "description": "Include depth, ceiling 128"
+        },
+        {
+          "name": "max-analysis-nodes",
+          "type": "int",
+          "default": "200000",
+          "description": "Analysis enumeration node budget"
+        },
+        {
+          "name": "max-findings",
+          "type": "int",
+          "default": "100000",
+          "description": "Maximum analysis findings"
+        },
+        {
+          "name": "max-work",
+          "type": "int",
+          "default": "67108864",
+          "description": "Node/rule/source-byte work budget"
+        }
+      ],
+      "capabilities": [
+        "feature-analysis",
+        "profile-evidence",
+        "source-provenance",
+        "bounded-includes",
+        "declarative-rules",
+        "json-output",
+        "jsonl-output",
+        "text-output"
+      ]
+    },
+    {
       "name": "render",
       "synopsis": "gtroff render --format html|png|jpg [OPTIONS] [FILE]",
       "description": "Export a semantic man page to HTML or paginated images",

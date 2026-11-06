@@ -102,6 +102,19 @@ Other faces retain bundled defaults. No font discovery runs automatically.
 Missing raster glyphs are displayed as code-point labels and diagnosed.
 [HTML options](docs/html.md) · [image layout and limits](docs/images.md).
 
+## Explain document features
+
+```sh
+./gtroff analyze examples/man-tool.1
+./gtroff analyze --format json --no-includes document.1
+```
+
+Analysis reports profile evidence, controls, escapes, definitions, references,
+programmatic syntax, preprocessors and include states without executing roff.
+Syntax recognition, man interpretation and rendering remain separate facts.
+Custom declarative questions supplement the built-in inventory.
+[Analysis API, rules and capability contracts](docs/analyze.md).
+
 ## Inspect local source sets
 
 ```sh

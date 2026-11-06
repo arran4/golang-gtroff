@@ -1,0 +1,22 @@
+test: explanatory non-executing feature analysis
+-- args.json --
+["analyze", "--rules", "rules.json"]
+-- stdin.1 --
+.TH TOOL 1
+-- input/rules.json --
+{"schemaVersion":1,"rules":[{"id":"project.title","match":{"macro":".TH"},"feature":"project-title","reason":"Review title"}]}
+-- stdout.txt --
+profile: man (confidence=high)
+reason: package-specific source spellings, without evaluating redefinitions
+sources: 1; bytes: 11; nodes: 3; physical lines: 1; enumeration complete: true
+capabilities: syntax and optional man interpretation assessed separately; rendering not assessed
+flags: conditional=false include=false evaluation=false preprocessor=false side-effect-syntax=false unknown=false opaque=false partial-source=false
+requirements:
+features: control=1 project-title=1
+controls: .TH=1
+escapes:
+source 1: <stdin> (profile=man depth=0 bytes=11 eof=true)
+diagnostics: 0
+-- stderr.txt --
+-- exit.txt --
+0

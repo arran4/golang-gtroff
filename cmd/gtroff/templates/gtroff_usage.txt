@@ -8,6 +8,7 @@ Commands:
 validate  Check roff syntax and report diagnostics
 ast       Inspect a source-aware syntax tree
 sources   Inspect bounded includes and source provenance
+analyze   Classify syntax and processing requirements
 render    Export a semantic man page to HTML or paginated images
 convert   Convert supported HTML and man structure
 serve     Browse and search explicit man-page directories over HTTP
