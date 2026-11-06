@@ -1,0 +1,27 @@
+Authoring scenario: quoted-unicode.
+-- input.json --
+{
+  "Title": "漢字 \"tool\" \\ path",
+  "Sections": [
+    {
+      "Heading": "Quoted \"heading\"",
+      "Blocks": [
+        {
+          "Type": "definition",
+          "Term": "A \"term\" \\",
+          "Text": "Unicode café and nonbreaking space."
+        }
+      ]
+    }
+  ],
+  "Section": "1"
+}
+-- output.roff --
+.TH "漢字 \(dqtool\(dq \e path" "1" "" "" ""
+.SH "\f[B]Quoted \(dqheading\(dq\f[R]"
+.PP
+.TP ""
+\&\f[B]A \(dqterm\(dq \e\f[R]
+
+\&\f[R]Unicode café and nonbreaking\~space.\f[R]\c
+-- error.txt --

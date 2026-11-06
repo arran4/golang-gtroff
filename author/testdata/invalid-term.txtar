@@ -1,0 +1,21 @@
+Authoring scenario: invalid-term.
+-- input.json --
+{
+  "Sections": [
+    {
+      "Heading": "BAD",
+      "Blocks": [
+        {
+          "Type": "definition",
+          "Term": "bad\nterm",
+          "Text": "Body"
+        }
+      ]
+    }
+  ],
+  "Title": "tool",
+  "Section": "1"
+}
+-- output.roff --
+-- error.txt --
+invalid authoring value: control character in literal text
