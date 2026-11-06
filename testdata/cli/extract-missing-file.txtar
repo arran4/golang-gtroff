@@ -1,0 +1,9 @@
+Extraction scenario: missing-file.
+-- args.json --
+["extract", "definition", "absent.1"]
+-- stdout.txt --
+{"schemaVersion":1,"type":"summary","report":{"schemaVersion":1,"command":"extract","view":"semantic","complete":true,"queryComplete":true,"inputError":"open root \"absent.1\": open absent.1: file does not exist","records":null,"htmlPrepared":false}}
+-- stderr.txt --
+gtroff: open root "absent.1": open absent.1: file does not exist
+-- exit.txt --
+3

@@ -65,3 +65,41 @@ func TestAtomicOutputAndSourceProtection(t *testing.T) {
 		}
 	}
 }
+
+func TestAtomicOutputProtectsIncludedSources(t *testing.T) {
+	dir := t.TempDir()
+	root := filepath.Join(dir, "root.1")
+	child := filepath.Join(dir, "child.roff")
+	original := []byte("Included source.\n")
+	if err := os.WriteFile(root, []byte(".so child.roff\n"), 0600); err != nil {
+		t.Fatal(err)
+	}
+	if err := os.WriteFile(child, original, 0600); err != nil {
+		t.Fatal(err)
+	}
+	inputs := []string{root, child}
+	if err := WriteSources(child, inputs, []byte("bad")); err == nil {
+		t.Fatal("included source replaceable")
+	}
+	alias := filepath.Join(dir, "alias")
+	if err := os.Link(child, alias); err == nil {
+		if err := WriteSources(alias, inputs, []byte("bad")); err == nil {
+			t.Fatal("included hardlink replaceable")
+		}
+	}
+	data, err := os.ReadFile(child)
+	if err != nil || !bytes.Equal(data, original) {
+		t.Fatal("source changed")
+	}
+	dest := filepath.Join(dir, "out")
+	if err := WriteSources(dest, inputs, []byte("export")); err != nil {
+		t.Fatal(err)
+	}
+	if err := WriteSources(dest, []string{filepath.Join(dir, "missing")}, []byte("bad")); err == nil {
+		t.Fatal("missing guard source ignored")
+	}
+	data, err = os.ReadFile(dest)
+	if err != nil || string(data) != "export" {
+		t.Fatal("failed preflight changed destination")
+	}
+}

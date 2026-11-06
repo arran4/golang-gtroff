@@ -1,0 +1,9 @@
+
+Usage: gtroff extract [OPTIONS] SELECTOR [FILE]
+
+Uses stateless query selectors; exports original spans or optional man records.
+Definitions retain separate term/description, heading context and provenance.
+Named files resolve bounded includes; stdin needs an explicit allowed root.
+JSONL has a summary and record envelopes. HTML uses the existing man renderer.
+File output is explicit, atomic and protects all loaded original sources.
+Exit codes: 0 complete, 1 strict diagnostics, 2 usage, 3 I/O/resource failure.

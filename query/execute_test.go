@@ -228,3 +228,19 @@ func TestIncludeWithinDefinitionKeepsLogicalMatchOrder(t *testing.T) {
 		t.Fatal("included source moved after later parent content", err)
 	}
 }
+
+func TestQueryWorkAccountingForExtraction(t *testing.T) {
+	set := environmentSet(t)
+	result, err := query.Execute(context.Background(), set, query.Select(query.Definition), query.Options{MaxWork: 100000})
+	if err != nil || result.WorkUnits <= 0 || result.WorkUnits > 100000 {
+		t.Fatal("query work accounting", result.WorkUnits, err)
+	}
+	data, err := json.Marshal(result)
+	if err != nil || strings.Contains(string(data), "workUnits") {
+		t.Fatal("query JSON contract changed")
+	}
+	bounded, err := query.Execute(context.Background(), set, query.Select(query.Definition), query.Options{MaxWork: result.WorkUnits - 1})
+	if !errors.Is(err, query.ErrLimit) || bounded.WorkUnits > result.WorkUnits-1 {
+		t.Fatal("query work budget", err)
+	}
+}

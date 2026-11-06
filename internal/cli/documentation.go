@@ -22,7 +22,7 @@ directory. Command and flag names come from the command help text.
 
 // DocumentationCommands returns a fresh ordered list of documented commands.
 func DocumentationCommands() []string {
-	return []string{"validate", "ast", "sources", "query", "render", "convert", "serve", "version", "man", "completion"}
+	return []string{"validate", "ast", "sources", "query", "extract", "render", "convert", "serve", "version", "man", "completion"}
 }
 
 // Man is a subcommand `gtroff man` Write a deterministic man(7) page for gtroff or one command to stdout

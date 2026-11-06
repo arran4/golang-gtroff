@@ -1,0 +1,47 @@
+.\" Generated from gtroff command help; do not edit.
+.TH "GTROFF-EXTRACT" 1 "" "golang-gtroff" "User Commands"
+.SH NAME
+\&gtroff-extract
+.SH SYNOPSIS
+.nf
+\&Usage: gtroff extract [OPTIONS] SELECTOR [FILE]
+\&
+\&Export selected source fragments or source-linked structured documentation records.
+\&Example: gtroff extract --format csv --fields term,description,file,line 'section[name=\(dqENVIRONMENT\(dq] definition' document.1
+\&Uses the query selector IR; selection is separate from extraction/serialization.
+\&Term and description, heading context, original spans/IDs/digests and unsupported
+\&content remain distinct. Semantic grouping and text are local to each source.
+\&Named files resolve bounded local includes; stdin needs explicit --root.
+\&
+\&  --view semantic|syntax  Default: semantic
+\&  --format FORMAT         json, jsonl, text, raw, grep, csv, tsv or html; default: jsonl
+\&  --fields FIELD,...      CSV/TSV columns; default includes term/description/location
+\&  --normalize             Fold whitespace in text output, preserving case
+\&  -o FILE                 Explicit atomic output; default: - (stdout)
+\&  --strict                Reject source and extraction diagnostics; named files untouched
+\&  --root DIR              Allowed root; default: input directory
+\&  --no-includes           Inspect one file, retaining include references
+\&  --package man|ms|roff   Default parser context: man
+\&  --max-bytes COUNT       Cumulative input bytes; default: 8388608
+\&  --max-nodes COUNT       Cumulative input AST nodes; default: 100000
+\&  --max-files COUNT       Source occurrence cap; default: 256
+\&  --max-depth COUNT       Include depth; default: 16, ceiling 128
+\&  --max-extract-nodes COUNT  Query projection/construction nodes; default: 200000
+\&  --max-records COUNT     Record cap; default: 10000
+\&  --max-record-bytes COUNT  Materialized record-data budget; default: 16777216
+\&  --max-work COUNT        Shared query/construction work; default: 67108864
+\&  --max-output-bytes COUNT  Serialized output budget; default: 33554432
+\&
+\&Raw concatenates exact selected per-file spans, with repeated overlap preserved.
+\&Text is syntax text or decoded optional-man text; normalization is not source-exact.
+\&JSON includes the full report; JSONL begins with a summary, then record envelopes.
+\&HTML uses the existing man renderer for selected semantic blocks/terms only.
+\&Unsupported material stays literal with diagnostics. No roff evaluation or edits.
+\&Explicit file output rejects aliases of all loaded input sources and is performed
+\&only after successful construction/serialization. Strict failures retain JSON/
+\&JSONL reports on stdout; other strict output is withheld. Permissive stdout can
+\&contain partial output on resource/I/O errors; always check the exit status.
+\&Exit codes: 0 complete, 1 strict diagnostics, 2 usage/selector, 3 I/O/resource failure.
+.fi
+.SH SEE ALSO
+.MR man 7

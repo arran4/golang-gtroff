@@ -55,11 +55,12 @@ func run(args []string, stderr io.Writer) int {
 		SystemSearch: func() (manlib.SearchProvider, error) {
 			return manlib.DetectSystemSearch(exec.LookPath, manlib.RunCommand, time.Second, 64<<10)
 		},
-		In:          os.Stdin,
-		Out:         os.Stdout,
-		Err:         stderr,
-		Open:        func(path string) (io.ReadCloser, error) { return os.Open(path) },
-		WriteOutput: atomicfile.Write,
+		In:                os.Stdin,
+		Out:               os.Stdout,
+		Err:               stderr,
+		Open:              func(path string) (io.ReadCloser, error) { return os.Open(path) },
+		WriteOutput:       atomicfile.Write,
+		WriteSourceOutput: atomicfile.WriteSources,
 		WriteOutputs: func(source string, files []cli.OutputFile) error {
 			outputs := make([]atomicfile.File, len(files))
 			for i, f := range files {
