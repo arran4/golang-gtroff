@@ -137,3 +137,8 @@ limits. Unit tests separately check symlink aliases/escape, shared failed-read
 budgets, cancellation, reader and close errors, exact bytes, immutable slices
 and explicit registries. A subprocess test builds and executes the generated CLI
 for named/default, disabled and stdin/root policies and strict exit behavior.
+
+`gtroff lint` reuses this loader for every explicit root input. Its byte/node/file
+budgets span the whole collection; policy findings retain document and source
+occurrence identities. See [lint policy](lint.md) for strict input handling and
+conservative behavior around missing or deliberately disabled includes.

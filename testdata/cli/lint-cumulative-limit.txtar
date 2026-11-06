@@ -1,0 +1,28 @@
+Lint scenario: cumulative-limit.
+-- args.json --
+["lint", "--max-files", "1", "a.1", "b.1"]
+-- input/a.1 --
+.TH TOOL 1
+.SH NAME
+tool \- example tool
+.SH SYNOPSIS
+.B tool
+.SH DESCRIPTION
+Description.
+-- input/b.1 --
+.TH TOOL 1
+.SH NAME
+tool \- example tool
+.SH SYNOPSIS
+.B tool
+.SH DESCRIPTION
+Description.
+-- stdout.txt --
+lint: documents=2 findings=0 suppressed=0 complete=true fail-on=error failed=true
+document 1: a.1 (profile=man input-invalid=false)
+document 2: b.1 (profile= input-invalid=true)
+  input error: source set resource limit exceeded
+-- stderr.txt --
+gtroff: source set resource limit exceeded
+-- exit.txt --
+3
