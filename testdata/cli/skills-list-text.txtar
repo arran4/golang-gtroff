@@ -1,0 +1,8 @@
+skills-list-text: portable skills discovery/export policy.
+-- args.json --
+["skills", "list"]
+-- stdout.txt --
+gtroff-query-extract 1.0.0 sha256:918eaf65f5eeb26d110dbd3ed40cf15decdaeb4a50be4b3ed5ffdd2469b782e1
+-- stderr.txt --
+-- exit.txt --
+0

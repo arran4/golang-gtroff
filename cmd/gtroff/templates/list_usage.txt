@@ -1,0 +1,4 @@
+
+Usage: gtroff skills list [--format text|json]
+
+Read-only discovery. JSON schemaVersion 1 contains deterministic manifest identities.

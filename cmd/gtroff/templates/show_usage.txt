@@ -1,0 +1,4 @@
+
+Usage: gtroff skills show [--format text|json] NAME
+
+Text prints SKILL.md; JSON prints its deterministic manifest. No file opens or execution.
