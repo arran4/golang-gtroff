@@ -1,0 +1,143 @@
+Documentation diff scenario: json-change.
+-- args.json --
+["diff", "--format", "json", "before.1", "after.1"]
+-- input/before.1 --
+.TH TOOL 1
+.SH ENVIRONMENT
+.TP
+.B HOME
+Old.
+-- input/after.1 --
+.TH TOOL 1
+.SH ENVIRONMENT
+.TP
+.B HOME
+New.
+-- stdout.txt --
+{
+  "schemaVersion": 1,
+  "command": "diff",
+  "view": "semantic",
+  "assessment": "man-content-projection",
+  "status": "different",
+  "complete": true,
+  "different": true,
+  "before": {
+    "name": "before.1",
+    "files": [
+      {
+        "id": 1,
+        "name": "before.1",
+        "depth": 0,
+        "digest": "966dd0a32b61a644eff7799a010db8cd1e9e761822423f61af176087dcfb8d17",
+        "complete": true
+      }
+    ],
+    "objects": 3,
+    "complete": true
+  },
+  "after": {
+    "name": "after.1",
+    "files": [
+      {
+        "id": 1,
+        "name": "after.1",
+        "depth": 0,
+        "digest": "64bcd2e27e859779feb11fc9167f48469d339df37bade075be6de84e929bcdf8",
+        "complete": true
+      }
+    ],
+    "objects": 3,
+    "complete": true
+  },
+  "changes": [
+    {
+      "schemaVersion": 1,
+      "index": 1,
+      "kind": "changed",
+      "before": {
+        "index": 3,
+        "kind": "definition",
+        "identity": "HOME",
+        "scope": "5:$root7:section11:ENVIRONMENT",
+        "location": {
+          "source": {
+            "id": 1,
+            "name": "before.1",
+            "depth": 0,
+            "digest": "966dd0a32b61a644eff7799a010db8cd1e9e761822423f61af176087dcfb8d17",
+            "complete": true
+          },
+          "sourceKey": "$root",
+          "span": {
+            "Start": {
+              "Filename": "before.1",
+              "Offset": 27,
+              "Line": 3,
+              "Column": 1
+            },
+            "End": {
+              "Filename": "before.1",
+              "Offset": 44,
+              "Line": 6,
+              "Column": 1
+            }
+          },
+          "astIds": [
+            7,
+            9
+          ],
+          "semanticId": 4
+        },
+        "value": "[{\"kind\":\"flow\",\"text\":\"Old.\"}]",
+        "digest": "3363d53632893f74f08b029be9c91470305287b928d2274a87606b6b094fb9e1",
+        "uninterpreted": false
+      },
+      "after": {
+        "index": 3,
+        "kind": "definition",
+        "identity": "HOME",
+        "scope": "5:$root7:section11:ENVIRONMENT",
+        "location": {
+          "source": {
+            "id": 1,
+            "name": "after.1",
+            "depth": 0,
+            "digest": "64bcd2e27e859779feb11fc9167f48469d339df37bade075be6de84e929bcdf8",
+            "complete": true
+          },
+          "sourceKey": "$root",
+          "span": {
+            "Start": {
+              "Filename": "after.1",
+              "Offset": 27,
+              "Line": 3,
+              "Column": 1
+            },
+            "End": {
+              "Filename": "after.1",
+              "Offset": 44,
+              "Line": 6,
+              "Column": 1
+            }
+          },
+          "astIds": [
+            7,
+            9
+          ],
+          "semanticId": 4
+        },
+        "value": "[{\"kind\":\"flow\",\"text\":\"New.\"}]",
+        "digest": "7e58daa25cdb0221d086c6a8aaf4a51f6e87f4c66c0495815364f1190a79cd16",
+        "uninterpreted": false
+      },
+      "contentChanged": true,
+      "confidence": "projected-content",
+      "reason": "compared content payload changed"
+    }
+  ],
+  "ambiguities": []
+}
+-- stderr.txt --
+-- exit.txt --
+1

@@ -54,6 +54,13 @@ func TestDefinitionRecordsAndRepeatedTerms(t *testing.T) {
 	if r.Records[0].Raw != ".TP\n.B TOOL_HOME\nFirst directory.\n" {
 		t.Fatal("raw not exact")
 	}
+	if r.Records[0].MetadataOrigin == nil || r.Records[0].MetadataOrigin.Span.Start.Line != 1 {
+		t.Fatal("metadata origin missing")
+	}
+	r.Records[0].MetadataOrigin.ASTIDs[0] = 999
+	if r.Records[1].MetadataOrigin.ASTIDs[0] == 999 {
+		t.Fatal("metadata origin alias")
+	}
 	r.Records[0].Metadata.Title = "CHANGED"
 	r.Records[0].Blocks[0].Tag[0].Text = "CHANGED"
 	if r.Records[1].Metadata.Title != "TOOL" || r.Records[1].TermRuns[0].Text != "TOOL_HOME" {

@@ -21,6 +21,25 @@ Search path.
   "queryError": "query resource limit exceeded",
   "records": [
     {
+      "metadataOrigin": {
+        "astIds": [
+          2
+        ],
+        "span": {
+          "Start": {
+            "Filename": "\u003cstdin\u003e",
+            "Offset": 0,
+            "Line": 1,
+            "Column": 1
+          },
+          "End": {
+            "Filename": "\u003cstdin\u003e",
+            "Offset": 11,
+            "Line": 2,
+            "Column": 1
+          }
+        }
+      },
       "semantic": true,
       "schemaVersion": 1,
       "index": 1,

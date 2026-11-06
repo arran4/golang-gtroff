@@ -118,3 +118,19 @@ func TestStoredDefinitionsAndEscapedContent(t *testing.T) {
 		t.Fatal("quoted/unsupported content lost", r.Records)
 	}
 }
+
+func TestExtractionWorkAccountingForDiff(t *testing.T) {
+	set := read(t, example)
+	report, err := extract.Select(context.Background(), set, query.Select(query.Document), extract.Options{MaxWork: 100000})
+	if err != nil || report.WorkUnits <= 0 || report.WorkUnits > 100000 {
+		t.Fatal("extraction work accounting", report.WorkUnits, err)
+	}
+	data, err := json.Marshal(report)
+	if err != nil || strings.Contains(string(data), "workUnits") {
+		t.Fatal("execution accounting changed JSON")
+	}
+	bounded, err := extract.Select(context.Background(), set, query.Select(query.Document), extract.Options{MaxWork: report.WorkUnits - 1})
+	if err == nil || bounded.WorkUnits > report.WorkUnits-1 {
+		t.Fatal("composed extraction budget", err)
+	}
+}

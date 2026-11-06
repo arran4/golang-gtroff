@@ -160,6 +160,12 @@ func NewRoot(name, version, commit, date string) (*RootCmd, error) {
 	}
 
 	{
+		subCmd := NewLazyCommand(func() Cmd { return c.NewDiff() })
+		c.Commands["diff"] = subCmd
+
+	}
+
+	{
 		subCmd := NewLazyCommand(func() Cmd { return c.NewExtract() })
 		c.Commands["extract"] = subCmd
 

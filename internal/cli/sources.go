@@ -10,6 +10,7 @@ import (
 	"path/filepath"
 	"strings"
 
+	groff "github.com/arran4/golang-gtroff"
 	"github.com/arran4/golang-gtroff/cmd"
 	"github.com/arran4/golang-gtroff/internal/sourceio"
 	"github.com/arran4/golang-gtroff/source"
@@ -253,4 +254,18 @@ func runSources(o sourceOptions, format string, files []string, e Environment) i
 		}
 	}
 	return code
+}
+
+// consumeSourceSnapshot deducts captured occurrences from a caller-owned shared
+// collection budget. loadSources still owns resolution/reader limits; this helper
+// never loads anything or resets a nonpositive remainder to library defaults.
+func consumeSourceSnapshot(remaining *sourceOptions, set *source.Set) {
+	if set == nil {
+		return
+	}
+	for _, file := range set.Files() {
+		remaining.MaxFiles--
+		remaining.MaxBytes -= len(file.AST().Source())
+		file.AST().Root().Walk(func(*groff.ASTNode) groff.WalkAction { remaining.MaxNodes--; return groff.WalkContinue })
+	}
 }

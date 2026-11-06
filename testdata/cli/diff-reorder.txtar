@@ -1,0 +1,31 @@
+Documentation diff scenario: reorder.
+-- args.json --
+["diff", "before.1", "after.1"]
+-- input/before.1 --
+.TH TOOL 1
+.SH ENVIRONMENT
+.TP
+.B A
+One.
+.TP
+.B B
+Two.
+-- input/after.1 --
+.TH TOOL 1
+.SH ENVIRONMENT
+.TP
+.B B
+Two.
+.TP
+.B A
+One.
+-- stdout.txt --
+diff: different (assessment=man-content-projection complete=true changes=1 ambiguities=0)
+before: "before.1" sources=1 objects=4
+after: "after.1" sources=1 objects=4
+1 moved definition "A" [confidence=projected-content moved=true content-changed=false]: relative order changed among matched siblings
+  before "before.1":3:1 source=1 [27,41) value="[{\"kind\":\"flow\",\"text\":\"One.\"}]"
+  after "after.1":6:1 source=1 [41,55) value="[{\"kind\":\"flow\",\"text\":\"One.\"}]"
+-- stderr.txt --
+-- exit.txt --
+1

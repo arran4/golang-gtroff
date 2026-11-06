@@ -1,0 +1,20 @@
+Documentation diff scenario: missing-include.
+-- args.json --
+["diff", "before.1", "after.1"]
+-- input/before.1 --
+.TH TOOL 1
+.SH ENVIRONMENT
+.so missing.roff
+-- input/after.1 --
+.TH TOOL 1
+.SH ENVIRONMENT
+-- stdout.txt --
+diff: incomplete (assessment=man-content-projection complete=false changes=0 ambiguities=0)
+before: "before.1" sources=1 objects=0
+after: "after.1" sources=1 objects=0
+before "before.1":3:1: input warning missing: include missing: open missing.roff: file does not exist
+diff error: documentation diff input is incomplete or invalid: before include "missing.roff" is missing
+-- stderr.txt --
+gtroff: documentation diff input is incomplete or invalid: before include "missing.roff" is missing
+-- exit.txt --
+3
