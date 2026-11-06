@@ -376,6 +376,74 @@ test: commands produces schemaVersion 1 json inventory
       ]
     },
     {
+      "name": "skills",
+      "synopsis": "gtroff skills COMMAND [OPTIONS]",
+      "description": "Discover static portable query/extraction instructions",
+      "capabilities": [
+        "bundled-agent-recipes",
+        "portable-skill-v1"
+      ]
+    },
+    {
+      "name": "skills list",
+      "synopsis": "gtroff skills list [--format text|json]",
+      "description": "List skill versions and manifest identities",
+      "flags": [
+        {
+          "name": "format",
+          "type": "string",
+          "default": "text",
+          "description": "text or json"
+        }
+      ],
+      "capabilities": [
+        "bundled-agent-recipes",
+        "json-output"
+      ]
+    },
+    {
+      "name": "skills show",
+      "synopsis": "gtroff skills show [--format text|json] NAME",
+      "description": "Read SKILL.md or deterministic content manifest",
+      "flags": [
+        {
+          "name": "format",
+          "type": "string",
+          "default": "text",
+          "description": "text or json"
+        }
+      ],
+      "capabilities": [
+        "portable-skill-v1",
+        "source-provenance",
+        "json-output"
+      ]
+    },
+    {
+      "name": "skills export",
+      "synopsis": "gtroff skills export --dir DIRECTORY [--format text|json] NAME",
+      "description": "Explicit new-directory local export without replacement",
+      "flags": [
+        {
+          "name": "dir",
+          "type": "string",
+          "description": "Explicit destination parent"
+        },
+        {
+          "name": "format",
+          "type": "string",
+          "default": "text",
+          "description": "text or json receipt"
+        }
+      ],
+      "capabilities": [
+        "explicit-local-export",
+        "no-replacement",
+        "portable-skill-v1",
+        "json-output"
+      ]
+    },
+    {
       "name": "render",
       "synopsis": "gtroff render --format html|png|jpg [OPTIONS] [FILE]",
       "description": "Export a semantic man page to HTML or paginated images",

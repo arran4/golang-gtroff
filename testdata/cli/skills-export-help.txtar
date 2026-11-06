@@ -1,0 +1,18 @@
+skills-export-help: portable skills discovery/export policy.
+-- args.json --
+["help", "skills", "export"]
+-- stdout.txt --
+Usage: gtroff skills export --dir DIRECTORY [--format text|json] NAME
+
+Export bundled portable instruction files into DIRECTORY/NAME. The parent is
+explicit; no agent config/home directory is guessed. Missing parent directories
+are created. Existing destinations (including identical skills, files and symlinks)
+are refused without modification. Select a new target to keep local customizations.
+All content stages/syncs in an owned sibling before one directory rename. Use
+exclusive writer access; this is not protection against hostile filesystem races.
+Text/JSON receipts describe the completed local export. Default: text.
+No remote downloads, registration, shell, plugins or bundled-code execution.
+Exit codes: 0 success, 1 existing-target conflict, 2 usage/name, 3 I/O/cancellation.
+-- stderr.txt --
+-- exit.txt --
+0

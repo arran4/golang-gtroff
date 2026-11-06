@@ -1,0 +1,8 @@
+skills-list-json: portable skills discovery/export policy.
+-- args.json --
+["skills", "list", "--format", "json"]
+-- stdout.txt --
+{"schemaVersion":1,"skills":[{"name":"gtroff-query-extract","version":"1.0.0","description":"Locate and cite roff/man documentation fragments with structural queries and source-linked extraction records.","manifestSha256":"918eaf65f5eeb26d110dbd3ed40cf15decdaeb4a50be4b3ed5ffdd2469b782e1"}]}
+-- stderr.txt --
+-- exit.txt --
+0

@@ -1,0 +1,8 @@
+skills-export-no-capability: portable skills discovery/export policy.
+-- args.json --
+["skills", "export", "--dir", "chosen-parent", "gtroff-query-extract"]
+-- stdout.txt --
+-- stderr.txt --
+gtroff: explicit local skill export capability unavailable
+-- exit.txt --
+3

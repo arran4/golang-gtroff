@@ -1,0 +1,7 @@
+
+Usage: gtroff skills export --dir DIRECTORY [--format text|json] NAME
+
+Explicit local installation/export to DIRECTORY/NAME, never guessed agent paths.
+Existing destinations are refused, including identical bundles and symlinks.
+Files stage/sync before one directory rename; exclusive writer access is required.
+No registration, network download, runtime plugins, shell or artifact execution.
