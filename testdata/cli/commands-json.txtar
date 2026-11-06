@@ -586,6 +586,133 @@ test: commands produces schemaVersion 1 json inventory
       ]
     },
     {
+      "name": "script",
+      "synopsis": "gtroff script [OPTIONS] SCRIPT [DOCUMENT]",
+      "description": "Execute optional Tengo with explicit document capabilities",
+      "flags": [
+        {
+          "name": "allow-edits",
+          "type": "bool",
+          "default": "false",
+          "description": "Grant in-memory editing; never grants filesystem writes"
+        },
+        {
+          "name": "include-edits",
+          "type": "bool",
+          "default": "false",
+          "description": "Allow selected included-file edits with allow-edits"
+        },
+        {
+          "name": "write-target",
+          "type": "string",
+          "description": "Authorize one explicit destination for doc.write requests"
+        },
+        {
+          "name": "in-place",
+          "type": "bool",
+          "default": "false",
+          "description": "Explicitly commit changed named original files after success"
+        },
+        {
+          "name": "dry-run",
+          "type": "bool",
+          "default": "false",
+          "description": "Suppress filesystem output, including authorized requests"
+        },
+        {
+          "name": "strict",
+          "type": "bool",
+          "default": "false",
+          "description": "Reject source diagnostics and ambiguous edit selections"
+        },
+        {
+          "name": "no-includes",
+          "type": "bool",
+          "default": "false",
+          "description": "Disable include loading, retaining references"
+        },
+        {
+          "name": "root",
+          "type": "string",
+          "description": "Explicit allowed source root for the document"
+        },
+        {
+          "name": "package",
+          "type": "string",
+          "default": "man",
+          "description": "Parser context: man, ms or roff"
+        },
+        {
+          "name": "max-bytes",
+          "type": "int",
+          "default": "8388608",
+          "description": "Cumulative input and working document bytes"
+        },
+        {
+          "name": "max-nodes",
+          "type": "int",
+          "default": "100000",
+          "description": "Cumulative source AST nodes"
+        },
+        {
+          "name": "max-files",
+          "type": "int",
+          "default": "256",
+          "description": "Source occurrence cap"
+        },
+        {
+          "name": "max-depth",
+          "type": "int",
+          "default": "16",
+          "description": "Include depth, ceiling 128"
+        },
+        {
+          "name": "max-script-bytes",
+          "type": "int",
+          "default": "65536",
+          "description": "Script source byte cap"
+        },
+        {
+          "name": "max-host-calls",
+          "type": "int",
+          "default": "1000",
+          "description": "Maximum host method calls"
+        },
+        {
+          "name": "max-steps",
+          "type": "int",
+          "default": "100000",
+          "description": "Statement/block checkpoints, not VM instructions"
+        },
+        {
+          "name": "max-allocs",
+          "type": "int",
+          "default": "100000",
+          "description": "Tengo object allocation count, not heap bytes"
+        },
+        {
+          "name": "timeout-ms",
+          "type": "int",
+          "default": "1000",
+          "description": "Compile and execution deadline in milliseconds"
+        },
+        {
+          "name": "max-output-bytes",
+          "type": "int",
+          "default": "16777216",
+          "description": "Staged emissions and write-request bytes"
+        }
+      ],
+      "capabilities": [
+        "optional-tengo",
+        "stateless-query",
+        "in-memory-transforms",
+        "staged-output",
+        "explicit-guarded-output",
+        "bounded-includes"
+      ]
+    },
+    {
       "name": "render",
       "synopsis": "gtroff render --format html|png|jpg [OPTIONS] [FILE]",
       "description": "Export a semantic man page to HTML or paginated images",

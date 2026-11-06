@@ -1,0 +1,18 @@
+Native Tengo scenario: host-call-exhaustion. Expected outputs are captured by the actual adapter.
+-- program.tengo --
+doc.emit("first");doc.emit("second")
+-- options.json --
+{"MaxHostCalls": 1}
+-- error.txt --
+Runtime Error: script resource limit exceeded
+	at program.tengo:1:19
+-- report.json --
+{
+  "Calls": 2,
+  "Steps": 2,
+  "Constants": 3,
+  "Diagnostics": null,
+  "SourceDiagnostics": null,
+  "Writes": null
+}
+-- stdout.txt --

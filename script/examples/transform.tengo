@@ -1,0 +1,7 @@
+for match in doc.query("section[name=ENVIRONMENT] definition") {
+    if match.term == "TOOL_HOME" {
+        doc.edit({selector: "definition[term=" + doc.quote(match.term) + "]",
+                  operation: "replace-description", text: "Updated tool data directory."})
+    }
+}
+doc.emit(doc.preview("diff"))

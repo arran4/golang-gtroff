@@ -1,0 +1,18 @@
+Native Tengo scenario: cyclic-json. Expected outputs are captured by the actual adapter.
+-- program.tengo --
+a:=[undefined];a[0]=a;doc.emit_json(a)
+-- options.json --
+{}
+-- error.txt --
+Runtime Error: invalid script options: cyclic JSON value
+	at program.tengo:1:23
+-- report.json --
+{
+  "Calls": 1,
+  "Steps": 3,
+  "Constants": 2,
+  "Diagnostics": null,
+  "SourceDiagnostics": null,
+  "Writes": null
+}
+-- stdout.txt --

@@ -1,0 +1,40 @@
+Native Tengo scenario: staged-write. Expected outputs are captured by the actual adapter.
+-- program.tengo --
+doc.write("out.1")
+-- options.json --
+{"AllowWrites": true}
+-- input/page.1 --
+.TH TOOL 1
+.SH ENVIRONMENT
+.TP
+.B TOOL_HOME
+Old directory.
+.TP
+PATH
+Search path.
+-- after/page.1 --
+.TH TOOL 1
+.SH ENVIRONMENT
+.TP
+.B TOOL_HOME
+Old directory.
+.TP
+PATH
+Search path.
+-- error.txt --
+-- report.json --
+{
+  "Calls": 1,
+  "Steps": 1,
+  "Constants": 2,
+  "Diagnostics": null,
+  "SourceDiagnostics": null,
+  "Writes": [
+    {
+      "Source": "page.1",
+      "Destination": "out.1",
+      "Data": "LlRIIFRPT0wgMQouU0ggRU5WSVJPTk1FTlQKLlRQCi5CIFRPT0xfSE9NRQpPbGQgZGlyZWN0b3J5LgouVFAKUEFUSApTZWFyY2ggcGF0aC4K"
+    }
+  ]
+}
+-- stdout.txt --

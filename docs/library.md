@@ -290,3 +290,12 @@ keeps mutable working bytes separate from original ASTs. Hash/version/span plans
 validate before Apply; filesystem writes require an explicit Commit callback or
 writer. [Complete Go examples](../edit/example_test.go) exercise source-exact
 patches, literal named transforms, document creation and commit acknowledgement.
+
+### Optional Tengo programs
+
+The independent [`script/` module](../script/README.md) embeds Tengo over the same
+source/query/extract/edit APIs. `script.Run` returns staged results after success;
+core `scriptapi` types provide an engine-free host port.
+[Complete executable Go examples](../script/example_test.go) demonstrate read-only
+records, conditional editing and explicit write intents. The core parser has no
+script-engine dependency. See [bounds/capabilities](script.md).

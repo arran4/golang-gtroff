@@ -1,0 +1,36 @@
+Native Tengo scenario: environment-jsonl. Expected outputs are captured by the actual adapter.
+-- program.tengo --
+for m in doc.query("section[name=ENVIRONMENT] definition") { doc.emit_json({term:m.term,source:m.source,index:m.index}) }
+-- options.json --
+{}
+-- input/page.1 --
+.TH TOOL 1
+.SH ENVIRONMENT
+.TP
+.B TOOL_HOME
+Old directory.
+.TP
+PATH
+Search path.
+-- after/page.1 --
+.TH TOOL 1
+.SH ENVIRONMENT
+.TP
+.B TOOL_HOME
+Old directory.
+.TP
+PATH
+Search path.
+-- error.txt --
+-- report.json --
+{
+  "Calls": 3,
+  "Steps": 3,
+  "Constants": 6,
+  "Diagnostics": null,
+  "SourceDiagnostics": null,
+  "Writes": null
+}
+-- stdout.txt --
+{"index":1,"source":"page.1","term":"TOOL_HOME"}
+{"index":2,"source":"page.1","term":"PATH"}
