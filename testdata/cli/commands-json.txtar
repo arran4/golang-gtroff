@@ -591,6 +591,30 @@ test: commands produces schemaVersion 1 json inventory
       "description": "Execute optional Tengo with explicit document capabilities",
       "flags": [
         {
+          "name": "repl",
+          "type": "bool",
+          "default": "false",
+          "description": "Persistent native cells from stdin"
+        },
+        {
+          "name": "prompt",
+          "type": "bool",
+          "default": "true",
+          "description": "REPL prompts on stderr"
+        },
+        {
+          "name": "max-cells",
+          "type": "int",
+          "default": "1000",
+          "description": "Cumulative attempted REPL cells"
+        },
+        {
+          "name": "max-session-bytes",
+          "type": "int",
+          "default": "4194304",
+          "description": "Total REPL input bytes"
+        },
+        {
           "name": "allow-edits",
           "type": "bool",
           "default": "false",
@@ -705,6 +729,9 @@ test: commands produces schemaVersion 1 json inventory
       ],
       "capabilities": [
         "optional-tengo",
+        "persistent-session",
+        "transactional-cells",
+        "pending-publication-retry",
         "stateless-query",
         "in-memory-transforms",
         "staged-output",

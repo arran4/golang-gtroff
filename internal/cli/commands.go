@@ -173,6 +173,10 @@ func GetInventory() []CommandInventoryItem {
 			{Name: "max-output-bytes", Type: "int", Default: "33554432", Description: "Serialized preview/output byte cap"},
 		}, Capabilities: []string{"source-backed-editing", "stateless-query", "selection-restrictions", "in-memory-plans", "explicit-guarded-output", "bounded-includes", "json-output", "diff-output", "raw-output"}},
 		{Name: "script", Synopsis: "gtroff script [OPTIONS] SCRIPT [DOCUMENT]", Description: "Execute optional Tengo with explicit document capabilities", Flags: []CommandFlag{
+			{Name: "repl", Type: "bool", Default: "false", Description: "Persistent native cells from stdin"},
+			{Name: "prompt", Type: "bool", Default: "true", Description: "REPL prompts on stderr"},
+			{Name: "max-cells", Type: "int", Default: "1000", Description: "Cumulative attempted REPL cells"},
+			{Name: "max-session-bytes", Type: "int", Default: "4194304", Description: "Total REPL input bytes"},
 			{Name: "allow-edits", Type: "bool", Default: "false", Description: "Grant in-memory editing; never grants filesystem writes"},
 			{Name: "include-edits", Type: "bool", Default: "false", Description: "Allow selected included-file edits with allow-edits"},
 			{Name: "write-target", Type: "string", Default: "", Description: "Authorize one explicit destination for doc.write requests"},
@@ -192,7 +196,7 @@ func GetInventory() []CommandInventoryItem {
 			{Name: "max-allocs", Type: "int", Default: "100000", Description: "Tengo object allocation count, not heap bytes"},
 			{Name: "timeout-ms", Type: "int", Default: "1000", Description: "Compile and execution deadline in milliseconds"},
 			{Name: "max-output-bytes", Type: "int", Default: "16777216", Description: "Staged emissions and write-request bytes"},
-		}, Capabilities: []string{"optional-tengo", "stateless-query", "in-memory-transforms", "staged-output", "explicit-guarded-output", "bounded-includes"}},
+		}, Capabilities: []string{"optional-tengo", "persistent-session", "transactional-cells", "pending-publication-retry", "stateless-query", "in-memory-transforms", "staged-output", "explicit-guarded-output", "bounded-includes"}},
 		{
 			Name:        "render",
 			Synopsis:    "gtroff render --format html|png|jpg [OPTIONS] [FILE]",

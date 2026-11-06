@@ -23,6 +23,12 @@ func TestScript_Execute(t *testing.T) {
 	}
 
 	args := []string{}
+	args = append(args, "--repl")
+	args = append(args, "--prompt")
+	args = append(args, "--max-cells")
+	args = append(args, "1")
+	args = append(args, "--max-session-bytes")
+	args = append(args, "1")
 	args = append(args, "--allow-edits")
 	args = append(args, "--include-edits")
 	args = append(args, "--write-target")
@@ -65,6 +71,18 @@ func TestScript_Execute(t *testing.T) {
 		t.Error("CommandAction was not called")
 	}
 
+	if cmd.repl != true {
+		t.Errorf("Expected repl to be true, got '%v'", cmd.repl)
+	}
+	if cmd.prompt != true {
+		t.Errorf("Expected prompt to be true, got '%v'", cmd.prompt)
+	}
+	if cmd.maxCells != 1 {
+		t.Errorf("Expected maxCells to be 1, got '%v'", cmd.maxCells)
+	}
+	if cmd.maxSessionBytes != 1 {
+		t.Errorf("Expected maxSessionBytes to be 1, got '%v'", cmd.maxSessionBytes)
+	}
 	if cmd.allowEdits != true {
 		t.Errorf("Expected allowEdits to be true, got '%v'", cmd.allowEdits)
 	}

@@ -45,10 +45,16 @@ writing separately requires an explicitly authorized destination or in-place
 flag; it reuses all-original-source hash/alias/staging/rollback guards. A failed
 program publishes none of its partial edits, emissions or requests.
 
-Persistent session/REPL state is separately tracked in
-[issue #92](https://github.com/arran4/golang-gtroff/issues/92). Re-running with the
-last source set would reset original write guards and is not a REPL. This first
-module intentionally scopes one program per invocation.
+`NewSession` and `script --repl` retain native globals/closures and the working
+document across transactional cells. Failed cells roll back their candidate
+state; failed output remains pending for explicit retry/discard. `--in-place`
+authorizes `:commit` in interactive mode, preserving guards across cells and
+advancing them only after successful commits. [Session API and controls](../docs/script-repl.md).
+
+```sh
+./gtroff script --repl script/examples/environment.1
+./gtroff script --repl --prompt=false script/examples/environment.1 < script/examples/session.tengo
+```
 
 Verification:
 
@@ -57,6 +63,7 @@ go -C script test -count=1 ./...
 go -C script test -race -count=1 ./...
 go -C script vet ./...
 go -C script test . -run '^TestScriptScenarios$' -update-script
+go -C script test . -run '^TestREPLScenarios$' -update-repl
 go -C script test . -run '^$' -fuzz '^FuzzNativeExactSource$' -fuzztime 15s
 ```
 
