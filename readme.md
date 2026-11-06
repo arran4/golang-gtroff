@@ -102,6 +102,21 @@ Other faces retain bundled defaults. No font discovery runs automatically.
 Missing raster glyphs are displayed as code-point labels and diagnosed.
 [HTML options](docs/html.md) · [image layout and limits](docs/images.md).
 
+## Check structural policy
+
+```sh
+# smoke
+./gtroff lint examples/man-tool.1
+./gtroff lint --format json --fail-on warning examples/man-tool.1 > lint.json
+```
+
+Lint checks man section/definition conventions separately from syntax validation
+and feature analysis. It supports explicit collections, scoped source-comment
+suppression, JSON policies, trusted Go rules and CI thresholds. Named files use
+the shared bounded include loader. Heuristic findings state their uncertainty;
+manual-reference checks require an opt-in closed collection.
+[Lint rules, API and failure policies](docs/lint.md).
+
 ## Explain document features
 
 ```sh

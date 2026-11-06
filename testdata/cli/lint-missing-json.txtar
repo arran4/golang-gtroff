@@ -1,0 +1,190 @@
+Lint scenario: missing-json.
+-- args.json --
+["lint", "--format", "json"]
+-- stdin.1 --
+.TH TOOL 1
+.SH DESCRIPTION
+Text.
+-- stdout.txt --
+{
+  "policy": {
+    "requiredSections": null
+  },
+  "referenceCheck": "not-requested",
+  "schemaVersion": 1,
+  "command": "lint",
+  "complete": true,
+  "strict": false,
+  "threshold": "error",
+  "documents": [
+    {
+      "index": 1,
+      "name": "\u003cstdin\u003e",
+      "profile": {
+        "name": "man",
+        "confidence": "high",
+        "reason": "package-specific source spellings, without evaluating redefinitions",
+        "evidence": [
+          {
+            "source": 1,
+            "node": 2,
+            "span": {
+              "Start": {
+                "Filename": "\u003cstdin\u003e",
+                "Offset": 0,
+                "Line": 1,
+                "Column": 1
+              },
+              "End": {
+                "Filename": "\u003cstdin\u003e",
+                "Offset": 11,
+                "Line": 2,
+                "Column": 1
+              }
+            },
+            "profile": "man",
+            "reason": "man-style title header spelling; runtime redefinition is not evaluated"
+          },
+          {
+            "source": 1,
+            "node": 5,
+            "span": {
+              "Start": {
+                "Filename": "\u003cstdin\u003e",
+                "Offset": 11,
+                "Line": 2,
+                "Column": 1
+              },
+              "End": {
+                "Filename": "\u003cstdin\u003e",
+                "Offset": 27,
+                "Line": 3,
+                "Column": 1
+              }
+            },
+            "profile": "ambiguous-fragment",
+            "reason": "common man fragment spelling; heading names can be package-ambiguous"
+          }
+        ]
+      },
+      "sources": [
+        {
+          "profile": {
+            "name": "man",
+            "confidence": "high",
+            "reason": "package-specific source spellings, without evaluating redefinitions",
+            "evidence": [
+              {
+                "source": 1,
+                "node": 2,
+                "span": {
+                  "Start": {
+                    "Filename": "\u003cstdin\u003e",
+                    "Offset": 0,
+                    "Line": 1,
+                    "Column": 1
+                  },
+                  "End": {
+                    "Filename": "\u003cstdin\u003e",
+                    "Offset": 11,
+                    "Line": 2,
+                    "Column": 1
+                  }
+                },
+                "profile": "man",
+                "reason": "man-style title header spelling; runtime redefinition is not evaluated"
+              },
+              {
+                "source": 1,
+                "node": 5,
+                "span": {
+                  "Start": {
+                    "Filename": "\u003cstdin\u003e",
+                    "Offset": 11,
+                    "Line": 2,
+                    "Column": 1
+                  },
+                  "End": {
+                    "Filename": "\u003cstdin\u003e",
+                    "Offset": 27,
+                    "Line": 3,
+                    "Column": 1
+                  }
+                },
+                "profile": "ambiguous-fragment",
+                "reason": "common man fragment spelling; heading names can be package-ambiguous"
+              }
+            ]
+          },
+          "id": 1,
+          "name": "\u003cstdin\u003e",
+          "depth": 0,
+          "bytes": 33,
+          "nodes": 8,
+          "lines": 3,
+          "maxBlockDepth": 0,
+          "complete": true
+        }
+      ],
+      "inputInvalid": false
+    }
+  ],
+  "findings": [
+    {
+      "schemaVersion": 1,
+      "index": 1,
+      "document": 1,
+      "rule": "man.required-section",
+      "severity": "error",
+      "category": "structural",
+      "source": 1,
+      "node": 1,
+      "span": {
+        "Start": {
+          "Filename": "\u003cstdin\u003e",
+          "Offset": 0,
+          "Line": 1,
+          "Column": 1
+        },
+        "End": {
+          "Filename": "\u003cstdin\u003e",
+          "Offset": 0,
+          "Line": 1,
+          "Column": 1
+        }
+      },
+      "message": "required section \"NAME\" was not found",
+      "suggestion": "Add the section or configure requiredSections for this document policy."
+    },
+    {
+      "schemaVersion": 1,
+      "index": 2,
+      "document": 1,
+      "rule": "man.required-section",
+      "severity": "warning",
+      "category": "structural",
+      "source": 1,
+      "node": 1,
+      "span": {
+        "Start": {
+          "Filename": "\u003cstdin\u003e",
+          "Offset": 0,
+          "Line": 1,
+          "Column": 1
+        },
+        "End": {
+          "Filename": "\u003cstdin\u003e",
+          "Offset": 0,
+          "Line": 1,
+          "Column": 1
+        }
+      },
+      "message": "required section \"SYNOPSIS\" was not found",
+      "suggestion": "Add the section or configure requiredSections for this document policy."
+    }
+  ],
+  "suppressed": []
+}
+-- stderr.txt --
+-- exit.txt --
+1

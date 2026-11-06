@@ -241,6 +241,133 @@ test: commands produces schemaVersion 1 json inventory
       ]
     },
     {
+      "name": "lint",
+      "synopsis": "gtroff lint [OPTIONS] [FILE ...]",
+      "description": "Apply structural man documentation policy to explicit source snapshots",
+      "flags": [
+        {
+          "name": "format",
+          "type": "string",
+          "default": "text",
+          "description": "Output: text, json or jsonl"
+        },
+        {
+          "name": "rules",
+          "type": "string",
+          "description": "Explicit JSON policy file"
+        },
+        {
+          "name": "enable",
+          "type": "string",
+          "description": "Comma-separated rule IDs to enable"
+        },
+        {
+          "name": "disable",
+          "type": "string",
+          "description": "Comma-separated rule IDs to disable"
+        },
+        {
+          "name": "required",
+          "type": "string",
+          "description": "Comma-separated required section headings"
+        },
+        {
+          "name": "fail-on",
+          "type": "string",
+          "default": "auto",
+          "description": "Threshold: auto, error, warning, info or never"
+        },
+        {
+          "name": "strict",
+          "type": "bool",
+          "default": "false",
+          "description": "Stricter policy and all source diagnostics"
+        },
+        {
+          "name": "closed-world",
+          "type": "bool",
+          "default": "false",
+          "description": "Check manual references within a complete collection"
+        },
+        {
+          "name": "no-includes",
+          "type": "bool",
+          "default": "false",
+          "description": "Disable include loading, retaining references"
+        },
+        {
+          "name": "root",
+          "type": "string",
+          "description": "Explicit allowed source root"
+        },
+        {
+          "name": "package",
+          "type": "string",
+          "default": "man",
+          "description": "Parser context: man, ms or roff"
+        },
+        {
+          "name": "max-bytes",
+          "type": "int",
+          "default": "8388608",
+          "description": "Cumulative collection captured bytes"
+        },
+        {
+          "name": "max-nodes",
+          "type": "int",
+          "default": "100000",
+          "description": "Cumulative collection input AST nodes"
+        },
+        {
+          "name": "max-files",
+          "type": "int",
+          "default": "256",
+          "description": "Cumulative source occurrence cap"
+        },
+        {
+          "name": "max-depth",
+          "type": "int",
+          "default": "16",
+          "description": "Include depth, ceiling 128"
+        },
+        {
+          "name": "max-documents",
+          "type": "int",
+          "default": "256",
+          "description": "Root document cap"
+        },
+        {
+          "name": "max-lint-nodes",
+          "type": "int",
+          "default": "200000",
+          "description": "Cumulative analysis AST node budget"
+        },
+        {
+          "name": "max-findings",
+          "type": "int",
+          "default": "100000",
+          "description": "Maximum findings including suppressed"
+        },
+        {
+          "name": "max-work",
+          "type": "int",
+          "default": "67108864",
+          "description": "Shared charged work budget"
+        }
+      ],
+      "capabilities": [
+        "structural-lint",
+        "extensible-rules",
+        "policy-suppression",
+        "collection-checks",
+        "source-provenance",
+        "bounded-includes",
+        "json-output",
+        "jsonl-output",
+        "text-output"
+      ]
+    },
+    {
       "name": "render",
       "synopsis": "gtroff render --format html|png|jpg [OPTIONS] [FILE]",
       "description": "Export a semantic man page to HTML or paginated images",

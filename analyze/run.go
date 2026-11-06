@@ -52,6 +52,7 @@ func Run(ctx context.Context, set *source.Set, o Options) (report *Report, err e
 	report = &Report{SchemaVersion: 1, CapabilityVersion: 1, Command: "analyze", SemanticProfile: "man", Findings: []Finding{}, Sources: []SourceInfo{}, Counts: Counts{Features: map[string]int{}, Controls: map[string]int{}, Escapes: map[string]int{}, Packages: map[string]int{}, Rules: map[string]int{}}}
 	r := &runner{report: report, options: o, budget: &budget{ctx, o.MaxWork}, catalogue: map[string][]groff.CatalogueDefinition{}, edges: map[source.ID]map[groff.NodeID]source.Edge{}, requirements: map[string]bool{}}
 	defer func() {
+		report.WorkUnits = o.MaxWork - r.budget.remaining
 		r.finish()
 		if err == nil && ctx.Err() != nil {
 			err = ctx.Err()

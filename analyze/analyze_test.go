@@ -292,3 +292,19 @@ func TestAcceptedStateControlsNeedNoInventedOrigin(t *testing.T) {
 		t.Fatal("state controls absent")
 	}
 }
+
+func TestWorkAccountingForComposedCallers(t *testing.T) {
+	set := readSet(t, ".TH TOOL 1\n.SH DESCRIPTION\nText.\n")
+	report, err := analyze.Run(context.Background(), set, analyze.Options{MaxWork: 100000})
+	if err != nil || report.WorkUnits <= 0 || report.WorkUnits > 100000 {
+		t.Fatalf("work accounting %d %v", report.WorkUnits, err)
+	}
+	bounded, err := analyze.Run(context.Background(), set, analyze.Options{MaxWork: report.WorkUnits - 1})
+	if !errors.Is(err, analyze.ErrLimit) || bounded.WorkUnits > report.WorkUnits-1 {
+		t.Fatal("sub-budget not enforced", err)
+	}
+	data, err := json.Marshal(report)
+	if err != nil || strings.Contains(string(data), "workUnits") {
+		t.Fatal("execution accounting changed serialized analysis contract")
+	}
+}
