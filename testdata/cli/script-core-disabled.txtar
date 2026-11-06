@@ -1,0 +1,8 @@
+Core script adapter: script-core-disabled. Expected output comes from the actual CLI.
+-- args.json --
+["script", "program.tengo"]
+-- stdout.txt --
+-- stderr.txt --
+gtroff: Tengo is not included in this build; build the self-contained variant with: go -C script build -o ../gtroff ./cli
+-- exit.txt --
+3

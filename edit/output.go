@@ -218,3 +218,11 @@ func nilWriter(out io.Writer) bool {
 	}
 	return false
 }
+
+// WritePreview reviews all pending changes against the last captured/committed
+// baseline, including changes made by several applied plans. It performs no I/O
+// beyond the explicit writer and does not acknowledge or commit the changes.
+func (w *Working) WritePreview(ctx context.Context, out io.Writer, format string, maxBytes int) error {
+	p := &Plan{version: w.version, before: w.original, after: w.files, set: w.set}
+	return p.WritePreview(ctx, out, format, maxBytes)
+}

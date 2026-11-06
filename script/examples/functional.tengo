@@ -1,0 +1,7 @@
+each := func(values, fn) { for value in values { fn(value) } }
+each(doc.query("section[name=ENVIRONMENT] definition"), func(match) {
+    if match.term == "TOOL_HOME" {
+        doc.emit_json({term: match.term, file: match.source, line: match.line,
+                       text: match.text})
+    }
+})

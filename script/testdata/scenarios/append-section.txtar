@@ -1,0 +1,30 @@
+Native Tengo scenario: append-section. Expected outputs are captured by the actual adapter.
+-- program.tengo --
+doc.edit({selector:"source[source-id=1]",operation:"append-section",heading:"NEW",text:"Added."});doc.emit(doc.source())
+-- options.json --
+{"AllowEdits": true}
+-- input/page.1 --
+.SH NAME
+old
+-- after/page.1 --
+.SH NAME
+old
+.SH "\f[B]NEW\f[R]"
+.PP
+\&\f[R]Added.\f[R]\c
+-- error.txt --
+-- report.json --
+{
+  "Calls": 3,
+  "Steps": 2,
+  "Constants": 11,
+  "Diagnostics": null,
+  "SourceDiagnostics": null,
+  "Writes": null
+}
+-- stdout.txt --
+.SH NAME
+old
+.SH "\f[B]NEW\f[R]"
+.PP
+\&\f[R]Added.\f[R]\c

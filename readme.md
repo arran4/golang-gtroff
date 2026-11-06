@@ -146,6 +146,22 @@ fragments. Included-file changes require explicit ownership. Writing requires
 `-o FILE` or `--in-place`; `--dry-run` suppresses both.
 [Editing API, selection policies, guarded writes and recovery](docs/edit.md).
 
+## Run document programs
+
+The optional pure-Go Tengo build supports procedural queries, map/filter helpers,
+in-memory edits and staged explicit exports:
+
+```sh
+CGO_ENABLED=0 go -C script build -o ../gtroff ./cli
+./gtroff script script/examples/inspect.tengo script/examples/environment.1
+./gtroff script --allow-edits --in-place --dry-run script/examples/transform.tengo script/examples/environment.1
+```
+
+Default core builds have no Tengo dependency and expose help for enabling this
+self-contained variant. Scripts get no arbitrary imports, shell or ambient file
+capabilities. Writing requires an explicit authorized target or in-place flag.
+[Native scripts, Go examples, limits and source-aware output](docs/script.md).
+
 ## Inspect local source sets
 
 ```sh

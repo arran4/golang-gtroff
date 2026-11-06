@@ -1,0 +1,38 @@
+Native Tengo scenario: no-includes. Expected outputs are captured by the actual adapter.
+-- program.tengo --
+doc.emit_json(doc.query("definition"))
+-- options.json --
+{"NoIncludes": true}
+-- input/page.1 --
+.so child
+-- input/child --
+.TP
+VALUE
+Old.
+-- after/page.1 --
+.so child
+-- error.txt --
+-- report.json --
+{
+  "Calls": 2,
+  "Steps": 1,
+  "Constants": 3,
+  "Diagnostics": null,
+  "SourceDiagnostics": [
+    {
+      "source": 1,
+      "code": "disabled",
+      "Message": "include disabled: include loading explicitly disabled",
+      "Position": {
+        "Filename": "page.1",
+        "Offset": 0,
+        "Line": 1,
+        "Column": 1
+      },
+      "Severity": "warning"
+    }
+  ],
+  "Writes": null
+}
+-- stdout.txt --
+[]

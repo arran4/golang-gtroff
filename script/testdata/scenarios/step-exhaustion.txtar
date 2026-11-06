@@ -1,0 +1,18 @@
+Native Tengo scenario: step-exhaustion. Expected outputs are captured by the actual adapter.
+-- program.tengo --
+for {}
+-- options.json --
+{"MaxSteps": 10}
+-- error.txt --
+Runtime Error: script resource limit exceeded: statement/block checkpoint budget
+	at program.tengo:1:5
+-- report.json --
+{
+  "Calls": 0,
+  "Steps": 11,
+  "Constants": 0,
+  "Diagnostics": null,
+  "SourceDiagnostics": null,
+  "Writes": null
+}
+-- stdout.txt --

@@ -10,17 +10,12 @@ import (
 	"errors"
 	"fmt"
 	"io"
-	"net"
 	"os"
-	"os/exec"
 	"os/signal"
 	"syscall"
-	"time"
 
 	"github.com/arran4/golang-gtroff/cmd"
-	"github.com/arran4/golang-gtroff/internal/atomicfile"
 	"github.com/arran4/golang-gtroff/internal/cli"
-	"github.com/arran4/golang-gtroff/manlib"
 )
 
 // Provenance
@@ -42,36 +37,7 @@ func run(args []string, stderr io.Writer) int {
 	}
 	defer cancel()
 
-	env := cli.Environment{
-		Context: ctx,
-		OpenRoot: func(path string) (manlib.Root, io.Closer, error) {
-			d, err := manlib.OpenDirectory(path)
-			if err != nil {
-				return manlib.Root{}, nil, err
-			}
-			return d.Root("configured"), d, nil
-		},
-		Listen: func(address string) (net.Listener, error) { return net.Listen("tcp", address) },
-		SystemSearch: func() (manlib.SearchProvider, error) {
-			return manlib.DetectSystemSearch(exec.LookPath, manlib.RunCommand, time.Second, 64<<10)
-		},
-		In:                os.Stdin,
-		Out:               os.Stdout,
-		Err:               stderr,
-		Open:              func(path string) (io.ReadCloser, error) { return os.Open(path) },
-		WriteOutput:       atomicfile.Write,
-		WriteSourceOutput: atomicfile.WriteSources,
-		CommitEdits:       atomicfile.WriteEdits,
-		WriteEditedOutput: atomicfile.WriteEditedOutput,
-		WriteOutputs: func(source string, files []cli.OutputFile) error {
-			outputs := make([]atomicfile.File, len(files))
-			for i, f := range files {
-				outputs[i] = atomicfile.File{Path: f.Path, Data: f.Data}
-			}
-			return atomicfile.WriteMany(source, outputs)
-		},
-		Build: cli.BuildInfo{Version: version, Commit: commit, Date: date},
-	}
+	env := cli.ProcessEnvironment(ctx, os.Stdin, os.Stdout, stderr, cli.BuildInfo{Version: version, Commit: commit, Date: date})
 	cli.SetDefaultEnvironment(env)
 
 	root, err := NewRoot("gtroff", version, commit, date)
