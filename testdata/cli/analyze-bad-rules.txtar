@@ -1,0 +1,13 @@
+test: explanatory non-executing feature analysis
+-- args.json --
+["analyze", "--rules", "rules.json"]
+-- stdin.1 --
+not read
+-- input/rules.json --
+{"schemaVersion":2}
+-- stdout.txt --
+-- stderr.txt --
+gtroff: invalid analysis rules: unsupported schemaVersion
+Run 'gtroff help' for usage.
+-- exit.txt --
+2

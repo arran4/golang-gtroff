@@ -138,3 +138,10 @@ includes and original-file provenance, with JSON or text output. Stdin needs an
 explicit root. See the [source-set guide](sources.md) for path policy, resource
 limits, strict diagnostics, source exactness and exit codes. `gtroff ast` remains
 a single-file syntax inspection command.
+
+## Feature analysis
+
+`gtroff analyze [OPTIONS] [FILE]` classifies source features and processing
+requirements with positioned evidence. It shares bounded include resolution and
+`--no-includes`, supports explicit declarative `--rules` files and text/JSON/JSONL
+reports, and does not execute roff or render. [Capability and rule contracts](analyze.md).

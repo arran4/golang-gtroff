@@ -87,6 +87,7 @@ Commands:
   validate  Check roff syntax and report diagnostics
   ast       Inspect a source-aware syntax tree
   sources   Inspect bounded includes and source provenance
+  analyze   Classify syntax and processing requirements
   render    Export a semantic man page to HTML or paginated images
   convert   Convert supported HTML and man structure
   serve     Browse and search explicit man-page directories over HTTP
@@ -181,6 +182,8 @@ func Run(args []string, e Environment) int {
 		return commandsCommand(args, e)
 	case "sources":
 		return sourcesCommand(args, e)
+	case "analyze":
+		return analyzeCommand(args, e)
 	case "validate", "ast":
 		return inspectCommand(command, args, e)
 	case "man":
@@ -199,6 +202,8 @@ func commandHelp(e Environment, command string) int {
 		return writeString(e, astHelp)
 	case "sources":
 		return writeString(e, sourcesHelp)
+	case "analyze":
+		return writeString(e, analyzeHelp)
 	case "convert":
 		return writeString(e, convertHelp)
 	case "serve":
@@ -363,6 +368,7 @@ func runInspect(command string, o inspectOptions, files []string, e Environment)
 //	validate  Check roff syntax and report diagnostics
 //	ast       Inspect a source-aware syntax tree
 //	sources   Inspect bounded includes and source provenance
+//	analyze   Classify syntax and processing requirements
 //	render    Export a semantic man page to HTML or paginated images
 //	convert   Convert supported HTML and man structure
 //	serve     Browse and search explicit man-page directories over HTTP

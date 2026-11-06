@@ -1,0 +1,24 @@
+test: explanatory non-executing feature analysis
+-- args.json --
+["analyze", "--max-findings", "1"]
+-- stdin.1 --
+.TH TOOL 1
+.SH NAME
+text
+-- stdout.txt --
+profile: man (confidence=high)
+reason: package-specific source spellings, without evaluating redefinitions
+sources: 1; bytes: 25; nodes: 8; physical lines: 3; enumeration complete: false
+capabilities: syntax and optional man interpretation assessed separately; rendering not assessed
+flags: conditional=false include=false evaluation=false preprocessor=false side-effect-syntax=false unknown=false opaque=false partial-source=false
+requirements:
+features: control=1
+controls: .TH=1
+escapes:
+source 1: <stdin> (profile=man depth=0 bytes=25 eof=true)
+diagnostics: 0
+analysis error: analysis resource limit exceeded
+-- stderr.txt --
+gtroff: analysis resource limit exceeded
+-- exit.txt --
+3
