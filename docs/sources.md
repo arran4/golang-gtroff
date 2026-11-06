@@ -137,3 +137,8 @@ limits. Unit tests separately check symlink aliases/escape, shared failed-read
 budgets, cancellation, reader and close errors, exact bytes, immutable slices
 and explicit registries. A subprocess test builds and executes the generated CLI
 for named/default, disabled and stdin/root policies and strict exit behavior.
+
+`gtroff extract` uses this shared source policy. Records retain original-file
+provenance and include relationships; exact parent source is not expanded into
+child bytes. Explicit file output protects every loaded original source. See
+[extraction](extract.md).

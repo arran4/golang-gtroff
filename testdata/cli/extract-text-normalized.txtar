@@ -1,0 +1,18 @@
+Extraction scenario: text-normalized.
+-- args.json --
+["extract", "--format", "text", "--normalize", "definition"]
+-- stdin.1 --
+.TH TOOL 1
+.SH ENVIRONMENT
+.TP
+.B TOOL_HOME
+Home directory.
+.TP
+.B TOOL_PATH
+Search path.
+-- stdout.txt --
+TOOL_HOME Home directory.
+TOOL_PATH Search path.
+-- stderr.txt --
+-- exit.txt --
+0

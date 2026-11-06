@@ -1,0 +1,18 @@
+Extraction scenario: bad-format.
+-- args.json --
+["extract", "--view", "syntax", "--format", "html", "line"]
+-- stdin.1 --
+.TH TOOL 1
+.SH ENVIRONMENT
+.TP
+.B TOOL_HOME
+Home directory.
+.TP
+.B TOOL_PATH
+Search path.
+-- stdout.txt --
+-- stderr.txt --
+gtroff: HTML requires semantic selection
+Run 'gtroff help' for usage.
+-- exit.txt --
+2

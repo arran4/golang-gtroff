@@ -1,0 +1,19 @@
+Extraction scenario: includes.
+-- args.json --
+["extract", "--format", "csv", "--fields", "term,description,file,line,headings", "section[name=\"ENVIRONMENT\"] definition", "main.1"]
+-- input/main.1 --
+.TH TOOL 1
+.SH ENVIRONMENT
+.so body.roff
+-- input/body.roff --
+.TP
+.B INCLUDED
+From child.
+-- stdout.txt --
+term,description,file,line,headings
+INCLUDED,"From child.
+",body.roff,1,ENVIRONMENT
+-- stderr.txt --
+main.1:3:1: warning semantic: unsupported semantics preserved: .so
+-- exit.txt --
+0

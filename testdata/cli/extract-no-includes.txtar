@@ -1,0 +1,17 @@
+Extraction scenario: no-includes.
+-- args.json --
+["extract", "--no-includes", "--format", "text", "section[name=\"ENVIRONMENT\"] definition", "main.1"]
+-- input/main.1 --
+.TH TOOL 1
+.SH ENVIRONMENT
+.so body.roff
+-- input/body.roff --
+.TP
+.B INCLUDED
+From child.
+-- stdout.txt --
+-- stderr.txt --
+main.1:3:1: warning disabled: include disabled: include loading explicitly disabled
+main.1:3:1: warning semantic: unsupported semantics preserved: .so
+-- exit.txt --
+0
