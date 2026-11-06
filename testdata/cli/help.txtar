@@ -10,6 +10,7 @@ Commands:
   sources   Inspect bounded includes and source provenance
   query     Select source-aware documentation
   extract   Export fragments and structured documentation
+  edit      Plan in-memory transformations and explicit writes
   render    Export a semantic man page to HTML or paginated images
   convert   Convert supported HTML and man structure
   serve     Browse and search explicit man-page directories over HTTP

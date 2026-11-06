@@ -1,0 +1,13 @@
+
+Usage: gtroff edit [OPTIONS] [FILE]
+
+Default output previews a source-backed patch plan without writing files.
+Non-strict broadcasts all matches; strict requires one after restrictions.
+Includes require explicit edit ownership. Source bytes remain separate from
+canonical literal fragments. Use -o or --in-place for explicit guarded output;
+--dry-run suppresses writes. Per-file renames are atomic, not group crash-atomic.
+Operations: replace-source, find-replace-source, delete, insert-before,
+insert-after, move-before, move-after, append-paragraph, append-section,
+append-definition, replace-description. Named operations escape literal data;
+source operations edit exact bytes. Complex descriptions need --rewrite.
+No roff execution, shell, network or implicit filesystem capability.

@@ -1,0 +1,18 @@
+Source-backed edit: range. Expectations are captured from the actual CLI.
+-- args.json --
+["edit", "--format", "json", "--range", "1:2", "--select", "definition", "--operation", "delete"]
+-- stdin.1 --
+.TH TOOL 1
+.SH ENVIRONMENT
+.TP
+.B HOME
+Old directory.
+.TP
+.B PATH
+Old path.
+-- stdout.txt --
+{"schemaVersion":1,"version":0,"changes":[{"source":"\u003cstdin\u003e","beforeDigest":"bfd7a36b375535656c2d96e577d9a0340efbf631dd3c3fa285740b33605a0a17","afterDigest":"809298a5f29346d44cdefe441cde88f29d6d40bc57b742b815c91768eafcdc80","before":"LlRIIFRPT0wgMQouU0ggRU5WSVJPTk1FTlQKLlRQCi5CIEhPTUUKT2xkIGRpcmVjdG9yeS4KLlRQCi5CIFBBVEgKT2xkIHBhdGguCg==","after":"LlRIIFRPT0wgMQouU0ggRU5WSVJPTk1FTlQK"}],"patches":[{"source":"\u003cstdin\u003e","digest":"bfd7a36b375535656c2d96e577d9a0340efbf631dd3c3fa285740b33605a0a17","start":27,"end":54,"data":null,"match":1,"step":1},{"source":"\u003cstdin\u003e","digest":"bfd7a36b375535656c2d96e577d9a0340efbf631dd3c3fa285740b33605a0a17","start":54,"end":76,"data":null,"match":2,"step":1}],"diagnostics":[{"code":"broadcast","message":"command 1 selects 2 logical matches"}]}
+-- stderr.txt --
+edit broadcast: command 1 selects 2 logical matches
+-- exit.txt --
+0

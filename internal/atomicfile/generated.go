@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"errors"
 	"fmt"
+	"io"
 	"os"
 	"path/filepath"
 	"runtime"
@@ -16,6 +17,13 @@ type outputOperations struct {
 	mkdirTemp func(string, string) (string, error)
 	rename    func(string, string) error
 	remove    func(string) error
+	// Optional source-edit guards leave generator behaviour unchanged.
+	validate     func([]stagedOutput) error
+	ready        func() error
+	check        func() error
+	finished     func() error
+	maxReadBytes int
+	newMode      os.FileMode
 }
 
 type stagedOutput struct {
@@ -45,9 +53,14 @@ func replaceOutputs(outputs []File, ops outputOperations) (err error) {
 	if ops.remove == nil {
 		ops.remove = os.Remove
 	}
-	staged, err := preflightOutputs(outputs)
+	staged, err := preflightOutputsLimit(outputs, ops.maxReadBytes)
 	if err != nil {
 		return err
+	}
+	if ops.validate != nil {
+		if err := ops.validate(staged); err != nil {
+			return err
+		}
 	}
 	defer func() {
 		for _, output := range staged {
@@ -66,6 +79,9 @@ func replaceOutputs(outputs []File, ops outputOperations) (err error) {
 		}
 		output.next = filepath.Join(output.dir, "new")
 		mode := os.FileMode(0644)
+		if ops.newMode != 0 {
+			mode = ops.newMode
+		}
 		if output.info != nil {
 			mode = output.info.Mode().Perm()
 			output.previous = filepath.Join(output.dir, "original")
@@ -80,7 +96,17 @@ func replaceOutputs(outputs []File, ops outputOperations) (err error) {
 			return err
 		}
 	}
+	if ops.ready != nil {
+		if err := ops.ready(); err != nil {
+			return err
+		}
+	}
 	for i := range staged {
+		if ops.check != nil {
+			if err := ops.check(); err != nil {
+				return rollbackOutputs(staged[:i], ops, err)
+			}
+		}
 		if err := outputUnchanged(staged[i]); err != nil {
 			return rollbackOutputs(staged[:i], ops, err)
 		}
@@ -88,10 +114,18 @@ func replaceOutputs(outputs []File, ops outputOperations) (err error) {
 			return rollbackOutputs(staged[:i], ops, fmt.Errorf("replace %s: %w", staged[i].Path, err))
 		}
 	}
+	if ops.finished != nil {
+		if err := ops.finished(); err != nil {
+			return rollbackOutputs(staged, ops, err)
+		}
+	}
 	return nil
 }
 
 func preflightOutputs(outputs []File) ([]stagedOutput, error) {
+	return preflightOutputsLimit(outputs, 0)
+}
+func preflightOutputsLimit(outputs []File, maxBytes int) ([]stagedOutput, error) {
 	if len(outputs) == 0 {
 		return nil, fmt.Errorf("no generated outputs")
 	}
@@ -133,7 +167,7 @@ func preflightOutputs(outputs []File) ([]stagedOutput, error) {
 					return nil, fmt.Errorf("generated outputs alias each other: %s", output.Path)
 				}
 			}
-			entry.original, err = os.ReadFile(output.Path)
+			entry.original, err = readOutput(output.Path, maxBytes)
 			if err != nil {
 				return nil, err
 			}
@@ -173,7 +207,7 @@ func outputUnchanged(output stagedOutput) error {
 	if output.info == nil || !info.Mode().IsRegular() || !os.SameFile(output.info, info) || info.Mode() != output.info.Mode() || !info.ModTime().Equal(output.info.ModTime()) {
 		return fmt.Errorf("generated destination changed during staging: %s", output.Path)
 	}
-	data, err := os.ReadFile(output.Path)
+	data, err := readOutput(output.Path, len(output.original)+1)
 	if err != nil {
 		return err
 	}
@@ -198,4 +232,23 @@ func rollbackOutputs(applied []stagedOutput, ops outputOperations, failure error
 		}
 	}
 	return failure
+}
+
+func readOutput(path string, maxBytes int) ([]byte, error) {
+	if maxBytes <= 0 {
+		return os.ReadFile(path)
+	}
+	f, err := os.Open(path)
+	if err != nil {
+		return nil, err
+	}
+	defer f.Close()
+	b, err := io.ReadAll(io.LimitReader(f, int64(maxBytes)+1))
+	if err != nil {
+		return nil, err
+	}
+	if len(b) > maxBytes {
+		return nil, fmt.Errorf("file exceeds bounded output preflight: %s", path)
+	}
+	return b, nil
 }
