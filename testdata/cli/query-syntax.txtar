@@ -1,0 +1,13 @@
+test: stateless query with source-attributed results
+-- args.json --
+["query", "--view", "syntax", "--format", "raw", "macro[macro=\".B\"][arg.0=\"TOOL_HOME\"]"]
+-- stdin.1 --
+.SH ENVIRONMENT
+.TP
+.B TOOL_HOME
+Home directory.
+-- stdout.txt --
+.B TOOL_HOME
+-- stderr.txt --
+-- exit.txt --
+0
