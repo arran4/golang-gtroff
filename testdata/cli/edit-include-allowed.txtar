@@ -1,0 +1,19 @@
+Source-backed edit: include-allowed. Expectations are captured from the actual CLI.
+-- args.json --
+["edit", "--include-edits", "--select", "definition", "--operation", "replace-description", "--text", "Updated", "docs/main.1"]
+-- input/docs/main.1 --
+.SH ENVIRONMENT
+.so child
+-- input/docs/child --
+.TP
+HOME
+Old directory.
+-- stdout.txt --
+--- "child" sha256:2460865cdb2148adcd18b7cbe8e7137d2bcbbfee5e4f215d6f2340b5407d47bb
++++ "child" sha256:1e813a3047a7db9e630cdc01653516eca592d7f82281569a246f1af7b9a5d11a
+@@ bytes [9,23) -> [9,18) @@
+- "Old directory."
++ "\\&Updated"
+-- stderr.txt --
+-- exit.txt --
+0

@@ -1,0 +1,15 @@
+Source-backed edit: commands. Expectations are captured from the actual CLI.
+-- args.json --
+["edit", "--commands", "commands.json", "--format", "raw"]
+-- stdin.1 --
+original
+-- input/commands.json --
+{"schemaVersion": 1, "commands": [{"selector": "source[source-id=1]", "operation": "append-section", "heading": "NEW", "text": "Added"}, {"selector": "section[name=NEW]", "operation": "find-replace-source", "find": "Added", "text": "Changed"}]}
+-- stdout.txt --
+original
+.SH "\f[B]NEW\f[R]"
+.PP
+\&\f[R]Changed\f[R]\c
+-- stderr.txt --
+-- exit.txt --
+0

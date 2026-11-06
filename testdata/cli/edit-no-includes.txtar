@@ -1,0 +1,20 @@
+Source-backed edit: no-includes. Expectations are captured from the actual CLI.
+-- args.json --
+["edit", "--no-includes", "--operation", "append-section", "--heading", "NEW", "docs/main.1"]
+-- input/docs/main.1 --
+.SH ENVIRONMENT
+.so child
+-- input/docs/child --
+.TP
+HOME
+Old directory.
+-- stdout.txt --
+--- "main.1" sha256:bcc423dfb5af9a045d258881d833d0949a5bcaedfd3057c2d31aba4b0697f12f
++++ "main.1" sha256:4407304a795285206b589916a6efeff02ad9684494de141f148432c5872268ab
+@@ bytes [26,26) -> [26,46) @@
+- ""
++ ".SH \"\\f[B]NEW\\f[R]\"\n"
+-- stderr.txt --
+main.1:2:1: warning: include disabled: include loading explicitly disabled
+-- exit.txt --
+0

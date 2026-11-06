@@ -1,0 +1,15 @@
+Source-backed edit: malformed-preserved. Expectations are captured from the actual CLI.
+-- args.json --
+["edit", "--format", "raw", "--select", "section", "--operation", "find-replace-source", "--find", "old", "--text", "new"]
+-- stdin.1 --
+.TH "unclosed
+.SH A
+old
+-- stdout.txt --
+.TH "unclosed
+.SH A
+new
+-- stderr.txt --
+<stdin>:1:1: error: parse TokenMacroTH arguments: "unclosed, quote wasn't closed: stack "
+-- exit.txt --
+0

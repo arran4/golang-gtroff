@@ -282,3 +282,11 @@ cat myfile.1 | go run ./cmd/lex/main.go
 
 
 See the [user guide](../readme.md) for commands and limitations.
+
+### Source-backed in-memory transforms
+
+The experimental [`edit` package](edit.md) shares source/query/model APIs and
+keeps mutable working bytes separate from original ASTs. Hash/version/span plans
+validate before Apply; filesystem writes require an explicit Commit callback or
+writer. [Complete Go examples](../edit/example_test.go) exercise source-exact
+patches, literal named transforms, document creation and commit acknowledgement.

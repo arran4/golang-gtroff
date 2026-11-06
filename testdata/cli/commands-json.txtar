@@ -376,6 +376,216 @@ test: commands produces schemaVersion 1 json inventory
       ]
     },
     {
+      "name": "edit",
+      "synopsis": "gtroff edit [OPTIONS] [FILE]",
+      "description": "Plan source-backed transformations and explicit guarded writes",
+      "flags": [
+        {
+          "name": "select",
+          "type": "string",
+          "default": "source[source-id=1]",
+          "description": "Stateless selector for each command"
+        },
+        {
+          "name": "operation",
+          "type": "string",
+          "description": "Transformation operation"
+        },
+        {
+          "name": "text",
+          "type": "string",
+          "description": "Literal data or exact source bytes, depending on operation"
+        },
+        {
+          "name": "find",
+          "type": "string",
+          "description": "Nonempty exact source bytes to replace"
+        },
+        {
+          "name": "heading",
+          "type": "string",
+          "description": "Literal heading for append-section"
+        },
+        {
+          "name": "term",
+          "type": "string",
+          "description": "Literal term for append-definition"
+        },
+        {
+          "name": "destination",
+          "type": "string",
+          "description": "Unique move destination selector"
+        },
+        {
+          "name": "view",
+          "type": "string",
+          "default": "semantic",
+          "description": "Select semantic man structure or syntax"
+        },
+        {
+          "name": "nth",
+          "type": "int",
+          "default": "-1",
+          "description": "One-based selected match; -1 means unset"
+        },
+        {
+          "name": "range",
+          "type": "string",
+          "description": "Inclusive one-based match range, e.g. 2:5"
+        },
+        {
+          "name": "first",
+          "type": "int",
+          "default": "-1",
+          "description": "First N matches; -1 means unset"
+        },
+        {
+          "name": "all",
+          "type": "bool",
+          "default": "false",
+          "description": "Explicitly select all matches"
+        },
+        {
+          "name": "rewrite",
+          "type": "bool",
+          "default": "false",
+          "description": "Permit canonical replacement of complex description source"
+        },
+        {
+          "name": "commands",
+          "type": "string",
+          "description": "Explicit schema-v1 JSON command file, maximum 64 KiB"
+        },
+        {
+          "name": "create",
+          "type": "bool",
+          "default": "false",
+          "description": "Create a new in-memory document without reading an input"
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "description": "Literal title for a new document"
+        },
+        {
+          "name": "section",
+          "type": "string",
+          "description": "Manual section for a new document"
+        },
+        {
+          "name": "format",
+          "type": "string",
+          "default": "diff",
+          "description": "Review diff, JSON or exact raw source on stdout"
+        },
+        {
+          "name": "source",
+          "type": "string",
+          "description": "Explicit captured physical source for raw/copy output"
+        },
+        {
+          "name": "o",
+          "type": "string",
+          "default": "-",
+          "description": "Explicit transformed source copy destination"
+        },
+        {
+          "name": "in-place",
+          "type": "bool",
+          "default": "false",
+          "description": "Explicit guarded replacement of changed original files"
+        },
+        {
+          "name": "dry-run",
+          "type": "bool",
+          "default": "false",
+          "description": "Preview without filesystem writes, even with output flags"
+        },
+        {
+          "name": "include-edits",
+          "type": "bool",
+          "default": "false",
+          "description": "Explicitly allow selected included-file edits"
+        },
+        {
+          "name": "strict",
+          "type": "bool",
+          "default": "false",
+          "description": "Require one match and reject source diagnostics"
+        },
+        {
+          "name": "no-includes",
+          "type": "bool",
+          "default": "false",
+          "description": "Disable include loading, retaining references"
+        },
+        {
+          "name": "root",
+          "type": "string",
+          "description": "Explicit allowed source root"
+        },
+        {
+          "name": "package",
+          "type": "string",
+          "default": "man",
+          "description": "Parser context: man, ms or roff"
+        },
+        {
+          "name": "max-bytes",
+          "type": "int",
+          "default": "8388608",
+          "description": "Cumulative source bytes and working-file budget"
+        },
+        {
+          "name": "max-nodes",
+          "type": "int",
+          "default": "100000",
+          "description": "Cumulative parser node budget"
+        },
+        {
+          "name": "max-files",
+          "type": "int",
+          "default": "256",
+          "description": "Source occurrence cap"
+        },
+        {
+          "name": "max-depth",
+          "type": "int",
+          "default": "16",
+          "description": "Include depth, ceiling 128"
+        },
+        {
+          "name": "max-patches",
+          "type": "int",
+          "default": "10000",
+          "description": "Maximum patches and query matches"
+        },
+        {
+          "name": "max-work",
+          "type": "int",
+          "default": "268435456",
+          "description": "Cumulative query, byte-processing and reparse work"
+        },
+        {
+          "name": "max-output-bytes",
+          "type": "int",
+          "default": "33554432",
+          "description": "Serialized preview/output byte cap"
+        }
+      ],
+      "capabilities": [
+        "source-backed-editing",
+        "stateless-query",
+        "selection-restrictions",
+        "in-memory-plans",
+        "explicit-guarded-output",
+        "bounded-includes",
+        "json-output",
+        "diff-output",
+        "raw-output"
+      ]
+    },
+    {
       "name": "render",
       "synopsis": "gtroff render --format html|png|jpg [OPTIONS] [FILE]",
       "description": "Export a semantic man page to HTML or paginated images",
