@@ -81,7 +81,11 @@ complete -c gtroff -n '__fish_seen_subcommand_from script' -l dry-run
 complete -c gtroff -n '__fish_seen_subcommand_from script' -l help
 complete -c gtroff -n '__fish_seen_subcommand_from script' -l in-place
 complete -c gtroff -n '__fish_seen_subcommand_from script' -l include-edits
+complete -c gtroff -n '__fish_seen_subcommand_from script' -l max-cells
+complete -c gtroff -n '__fish_seen_subcommand_from script' -l max-session-bytes
 complete -c gtroff -n '__fish_seen_subcommand_from script' -l no-includes
+complete -c gtroff -n '__fish_seen_subcommand_from script' -l prompt
+complete -c gtroff -n '__fish_seen_subcommand_from script' -l repl
 complete -c gtroff -n '__fish_seen_subcommand_from script' -l root
 complete -c gtroff -n '__fish_seen_subcommand_from script' -l write-target
 complete -c gtroff -n '__fish_seen_subcommand_from render' -l assets

@@ -19,11 +19,25 @@ import (
 )
 
 const scriptHelp = `Usage: gtroff script [OPTIONS] SCRIPT [DOCUMENT]
+       gtroff script --repl [OPTIONS] [DOCUMENT]
 
 Run native Tengo with captured roff query/extraction objects. Tengo is isolated in
 an optional module/build; the default core binary explains how to enable it.
 Build the self-contained variant: go -C script build -o ../gtroff ./cli
 No external script runtime, shell, network access, modules or ambient file imports.
+
+--repl reads persistent native Tengo cells from stdin and accepts one optional
+named DOCUMENT (never stdin). Prompts use stderr; --prompt=false suits scripts.
+Variables/functions persist, queries stay snapshot data. Multiline syntax is
+probed by the native parser; :cancel discards an incomplete cell. :help and :quit
+control the session. Failed cells roll back mutable globals, closures, document
+changes, emissions and intents. Successful cells stage output before publication;
+failed output/writes remain pending for :pending, :retry or :discard. Retrying
+stdout may repeat a previously written prefix. In REPL mode --in-place authorizes
+only an explicit :commit, not automatic writes after every cell. Successful
+commits advance guards; queries/edits and failed commits do not reset baselines.
+--max-cells/--max-session-bytes bound attempted cells/total input. Cumulative
+checkpoint/host/output and retained-state defaults also apply; see docs/script-repl.md.
 
 SCRIPT and DOCUMENT are explicit user inputs; at most one may be '-' for stdin.
 An omitted DOCUMENT gives no current document. Read-only queries are the default.
@@ -56,6 +70,12 @@ Exit: 0 success, 1 script/selection/capability failure, 2 usage,
 //
 // The default core build has no Tengo dependency. Build the optional self-contained
 // variant with: go -C script build -o ../gtroff ./cli
+// --repl reads persistent cells from stdin with an optional named document.
+// Prompts use stderr (--prompt=false for transcripts); :help/:quit control the
+// session, :cancel discards multiline input. Failed cells roll back globals and
+// document changes. Failed publication stays pending for :retry/:discard;
+// :pending previews it. --in-place authorizes an explicit :commit in REPL mode.
+// Original guards survive cells; only successful original commits advance them.
 // Inputs are explicit and at most one may read stdin. doc query/extract are read
 // only; allow-edits grants memory mutation, not file access. File writes require
 // an authorized staged doc.write or explicit in-place commit after success.
@@ -64,6 +84,10 @@ Exit: 0 success, 1 script/selection/capability failure, 2 usage,
 //
 // Flags:
 //
+//	repl: --repl (default: false) Persistent Tengo cells on stdin; optional named document
+//	prompt: --prompt (default: true) Show REPL prompts on stderr; disable for transcripts
+//	maxCells: --max-cells (default: 1000) Cumulative attempted REPL cells
+//	maxSessionBytes: --max-session-bytes (default: 4194304) Total REPL input bytes
 //	allowEdits: --allow-edits (default: false) Grant in-memory editing; never grants filesystem writes
 //	includeEdits: --include-edits (default: false) Allow selected included-file edits with allow-edits
 //	writeTarget: --write-target (default: "") Authorize one explicit destination for doc.write requests
@@ -84,8 +108,8 @@ Exit: 0 success, 1 script/selection/capability failure, 2 usage,
 //	durationMS: --timeout-ms (default: 1000) Compile and execution deadline in milliseconds
 //	maxOutputBytes: --max-output-bytes (default: 16777216) Staged emissions and write-request bytes
 //	files: ... Explicit script and optional document; at most one stdin
-func Script(allowEdits bool, includeEdits bool, writeTarget string, inPlace bool, dryRun bool, strict bool, noIncludes bool, sourceRoot string, pkg string, maxBytes int, maxNodes int, maxFiles int, maxDepth int, maxScriptBytes int, maxHostCalls int, maxAllocs int, maxSteps int, durationMS int, maxOutputBytes int, files ...string) error {
-	c := scriptCLI{}
+func Script(repl bool, prompt bool, maxCells int, maxSessionBytes int, allowEdits bool, includeEdits bool, writeTarget string, inPlace bool, dryRun bool, strict bool, noIncludes bool, sourceRoot string, pkg string, maxBytes int, maxNodes int, maxFiles int, maxDepth int, maxScriptBytes int, maxHostCalls int, maxAllocs int, maxSteps int, durationMS int, maxOutputBytes int, files ...string) error {
+	c := scriptCLI{repl: repl, prompt: prompt, maxCells: maxCells, maxSessionBytes: maxSessionBytes}
 	c.options.AllowEdits = allowEdits
 	c.options.Edit.IncludeEdits = includeEdits
 	c.writeTarget = writeTarget
@@ -113,17 +137,23 @@ func Script(allowEdits bool, includeEdits bool, writeTarget string, inPlace bool
 }
 
 type scriptCLI struct {
-	options               scriptapi.Options
-	input                 sourceOptions
-	writeTarget           string
-	inPlace, dryRun       bool
-	maxAllocs, durationMS int
+	repl, prompt              bool
+	maxCells, maxSessionBytes int
+	options                   scriptapi.Options
+	input                     sourceOptions
+	writeTarget               string
+	inPlace, dryRun           bool
+	maxAllocs, durationMS     int
 }
 
 func scriptCommand(args []string, e Environment) int {
 	c := scriptCLI{}
 	f := flag.NewFlagSet("script", flag.ContinueOnError)
 	f.SetOutput(io.Discard)
+	f.BoolVar(&c.repl, "repl", false, "")
+	f.BoolVar(&c.prompt, "prompt", true, "")
+	f.IntVar(&c.maxCells, "max-cells", 1000, "")
+	f.IntVar(&c.maxSessionBytes, "max-session-bytes", 4194304, "")
 	f.BoolVar(&c.options.AllowEdits, "allow-edits", false, "")
 	f.BoolVar(&c.options.Edit.IncludeEdits, "include-edits", false, "")
 	f.StringVar(&c.writeTarget, "write-target", "", "")
@@ -153,6 +183,9 @@ func scriptCommand(args []string, e Environment) int {
 }
 
 func runScript(c scriptCLI, files []string, e Environment) int {
+	if c.repl {
+		return runScriptREPL(c, files, e)
+	}
 	if len(files) < 1 || len(files) > 2 {
 		return usage(e, "script expects SCRIPT and optional DOCUMENT")
 	}
@@ -164,20 +197,8 @@ func runScript(c scriptCLI, files []string, e Environment) int {
 	if len(files) == 2 && files[0] == "-" && files[1] == "-" {
 		return usage(e, "script and document cannot both read stdin")
 	}
-	if c.inPlace && c.writeTarget != "" {
-		return usage(e, "in-place and write-target are exclusive")
-	}
-	if (c.inPlace || c.options.Edit.IncludeEdits) && !c.options.AllowEdits {
-		return usage(e, "in-place/include-edits require allow-edits")
-	}
-	if c.input.Package != "man" && c.input.Package != "ms" && c.input.Package != "roff" {
-		return usage(e, "package must be man, ms or roff")
-	}
-	if c.input.MaxBytes < 1 || c.input.MaxBytes > 64<<20 || c.input.MaxNodes < 6 || c.input.MaxNodes > 1000000 || c.input.MaxFiles < 1 || c.input.MaxFiles > 4096 || c.input.MaxDepth < 1 || c.input.MaxDepth > 128 || c.options.MaxScriptBytes < 1 || c.options.MaxScriptBytes > 1<<20 || c.options.MaxHostCalls < 1 || c.options.MaxHostCalls > 100000 || c.options.MaxOutputBytes < 1 || c.options.MaxOutputBytes > 64<<20 || c.maxAllocs < 1 || c.maxAllocs > 1000000 || c.options.MaxSteps < 1 || c.options.MaxSteps > 10000000 || c.durationMS < 1 || c.durationMS > 30000 {
-		return usage(e, "script/source/resource limits outside supported ranges")
-	}
-	if c.writeTarget == "-" {
-		return usage(e, "write-target must name a file; doc.emit writes stdout")
+	if code := validateScriptConfig(c, e); code != ExitOK {
+		return code
 	}
 	if e.Script == nil {
 		return failure(e, "Tengo is not included in this build; build the self-contained variant with: go -C script build -o ../gtroff ./cli")
@@ -216,31 +237,20 @@ func runScript(c scriptCLI, files []string, e Environment) int {
 	if err != nil {
 		return scriptFailure(e, err)
 	}
-	if result == nil || len(result.Output) > c.options.MaxOutputBytes {
-		return failure(e, "script backend returned invalid/oversized result")
-	}
-	if c.inPlace && (result.Working == nil || result.Created) {
-		return invalid(e, "in-place requires an original named working document; use write-target for a new document")
-	}
-	var guards []atomicfile.SourceGuard
+	return publishScriptResult(c, inputFile, set, files[0], code, result, e)
+}
+
+func publishScriptResult(c scriptCLI, inputFile string, set *source.Set, program string, code []byte, result *scriptapi.Result, e Environment) int {
+
 	paths := map[string]string{}
 	if set != nil {
 		paths = editSourcePaths(inputFile, c.input, e, set)
-		seen := map[string]bool{}
-		for _, f := range set.Files() {
-			if seen[f.Name()] {
-				continue
-			}
-			seen[f.Name()] = true
-			if path := paths[f.Name()]; path != "" {
-				b := []byte(f.AST().Source())
-				guards = append(guards, atomicfile.SourceGuard{Path: path, Digest: editSourceDigest(b), Bytes: len(b)})
-			}
-		}
 	}
-	if files[0] != "-" {
-		programGuard := atomicfile.SourceGuard{Path: files[0], Digest: editSourceDigest(code), Bytes: len(code)}
-		programPath, pathErr := filepath.Abs(files[0])
+	guards := scriptSourceGuards(set, paths)
+
+	if program != "" && program != "-" {
+		programGuard := atomicfile.SourceGuard{Path: program, Digest: editSourceDigest(code), Bytes: len(code)}
+		programPath, pathErr := filepath.Abs(program)
 		if pathErr != nil {
 			return failure(e, pathErr.Error())
 		}
@@ -261,6 +271,21 @@ func runScript(c scriptCLI, files []string, e Environment) int {
 		if !duplicate {
 			guards = append(guards, programGuard)
 		}
+	}
+	return publishScriptWithGuards(c, paths, guards, result, e)
+}
+
+func publishScriptWithGuards(c scriptCLI, paths map[string]string, guards []atomicfile.SourceGuard, result *scriptapi.Result, e Environment) int {
+	ctx := e.Context
+	if ctx == nil {
+		ctx = context.Background()
+	}
+	var err error
+	if result == nil || len(result.Output) > c.options.MaxOutputBytes {
+		return failure(e, "script backend returned invalid/oversized result")
+	}
+	if c.inPlace && (result.Working == nil || result.Created) {
+		return invalid(e, "in-place requires an original named working document; use write-target for a new document")
 	}
 	if len(result.Writes) > 1 {
 		return invalid(e, "one write-target permits at most one explicit copy request")
@@ -385,4 +410,42 @@ func (r scriptContextReader) Read(p []byte) (int, error) {
 		return 0, err
 	}
 	return r.r.Read(p)
+}
+
+func validateScriptConfig(c scriptCLI, e Environment) int {
+	if c.inPlace && c.writeTarget != "" {
+		return usage(e, "in-place and write-target are exclusive")
+	}
+	if (c.inPlace || c.options.Edit.IncludeEdits) && !c.options.AllowEdits {
+		return usage(e, "in-place/include-edits require allow-edits")
+	}
+	if c.input.Package != "man" && c.input.Package != "ms" && c.input.Package != "roff" {
+		return usage(e, "package must be man, ms or roff")
+	}
+	if c.input.MaxBytes < 1 || c.input.MaxBytes > 64<<20 || c.input.MaxNodes < 6 || c.input.MaxNodes > 1000000 || c.input.MaxFiles < 1 || c.input.MaxFiles > 4096 || c.input.MaxDepth < 1 || c.input.MaxDepth > 128 || c.options.MaxScriptBytes < 1 || c.options.MaxScriptBytes > 1<<20 || c.options.MaxHostCalls < 1 || c.options.MaxHostCalls > 100000 || c.options.MaxOutputBytes < 1 || c.options.MaxOutputBytes > 64<<20 || c.maxAllocs < 1 || c.maxAllocs > 1000000 || c.options.MaxSteps < 1 || c.options.MaxSteps > 10000000 || c.durationMS < 1 || c.durationMS > 30000 {
+		return usage(e, "script/source/resource limits outside supported ranges")
+	}
+	if c.writeTarget == "-" {
+		return usage(e, "write-target must name a file; doc.emit writes stdout")
+	}
+	return ExitOK
+}
+
+func scriptSourceGuards(set *source.Set, paths map[string]string) []atomicfile.SourceGuard {
+	var guards []atomicfile.SourceGuard
+	if set == nil {
+		return guards
+	}
+	seen := map[string]bool{}
+	for _, file := range set.Files() {
+		if seen[file.Name()] {
+			continue
+		}
+		seen[file.Name()] = true
+		if path := paths[file.Name()]; path != "" {
+			data := []byte(file.AST().Source())
+			guards = append(guards, atomicfile.SourceGuard{Path: path, Digest: editSourceDigest(data), Bytes: len(data)})
+		}
+	}
+	return guards
 }

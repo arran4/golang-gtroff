@@ -3,6 +3,12 @@ Usage: gtroff script [OPTIONS] SCRIPT [DOCUMENT]
 
 The default core build has no Tengo dependency. Build the optional self-contained
 variant with: go -C script build -o ../gtroff ./cli
+--repl reads persistent cells from stdin with an optional named document.
+Prompts use stderr (--prompt=false for transcripts); :help/:quit control the
+session, :cancel discards multiline input. Failed cells roll back globals and
+document changes. Failed publication stays pending for :retry/:discard;
+:pending previews it. --in-place authorizes an explicit :commit in REPL mode.
+Original guards survive cells; only successful original commits advance them.
 Inputs are explicit and at most one may read stdin. doc query/extract are read
 only; allow-edits grants memory mutation, not file access. File writes require
 an authorized staged doc.write or explicit in-place commit after success.

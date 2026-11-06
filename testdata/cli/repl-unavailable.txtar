@@ -1,0 +1,8 @@
+Core REPL discovery/capability boundary: repl-unavailable.
+-- args.json --
+["script", "--repl"]
+-- stdout.txt --
+-- stderr.txt --
+gtroff: Tengo REPL is not included in this build; build: go -C script build -o ../gtroff ./cli
+-- exit.txt --
+3

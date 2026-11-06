@@ -178,10 +178,11 @@ Use byte emission/source output for exact original bytes. Runtime/timing stats
 remain separate from emitted records. Exit codes are 0 success, 1 script/selection/
 capability errors, 2 CLI usage, 3 input/output/resource/cancellation failure.
 
-Persistent variables/documents across interactive cells require a separate
-transactional session design, tracked in [#92](https://github.com/arran4/golang-gtroff/issues/92).
-Repeatedly calling Run on the last Sources would reset write guards and is not a
-REPL. The full workbench queue retains that follow-up as actionable work.
+Persistent native variables/functions, transactional cells, original document
+guards and explicit publication/retry are available through `NewSession` and
+`script --repl`. [Session API, stream controls and limits](script-repl.md).
+`Run` remains an independent one-program API; feeding it the last Sources does
+not preserve a session or the original write baseline.
 
 Pinned engine documentation and its MIT notice are linked in the
 [optional module guide](../script/README.md). Root licensing/provenance/publication

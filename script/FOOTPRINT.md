@@ -46,3 +46,28 @@ An uninstrumented empty loop first exhausted the external test timeout; the
 checkpoint adapter fixed that concrete scheduling limitation. See the guide for
 remaining native-operation/heap-quota limits. Platform compilation and native
 runtime execution must be reported separately.
+
+
+## Persistent-session checkpoint (#92)
+
+The earlier build and one-program numbers above describe the #74 checkpoint.
+The following measurement covers the persistent adapter added on its exact
+5d532105bd2f6d1c0f06556d69994ba41d5d3d69 base, using the same local Go 1.26.10
+Linux/amd64 host. It includes session creation, a first cell retaining actual
+query records and a function, a second transaction copying that state and
+emitting a scalar JSON result, plus explicit no-I/O publication. Input parsing
+runs before timing. Source bytes and original baselines are preserved across both
+transactions. Default budgets suffice for these fixtures.
+
+| Definition count | Time / two-cell session | Bytes / session | Allocations / session |
+| --- | ---: | ---: | ---: |
+| 10 | 0.482 ms | 700,145 | 2,226 |
+| 1,000 | 17.6 ms | 21,572,151 | 124,082 |
+
+These indicative measurements include source-backed projection and two bounded
+state copies per successful cell. They are not a timing gate, an isolated VM
+cost or a promise of identical behavior for arbitrary native programs.
+
+```sh
+go -C script test . -run '^$' -bench '^BenchmarkSessionCells$' -benchmem -benchtime 200ms
+```

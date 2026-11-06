@@ -1,0 +1,18 @@
+Native Tengo REPL transcript: edit-rollback. Expected output is captured by the real CLI.
+-- args.json --
+["script", "--repl", "--prompt=false", "--allow-edits", "page.1"]
+-- session.txt --
+doc.edit({selector:"definition",operation:"find-replace-source",find:"Old",text:"New"});fail:=1/0
+doc.emit(doc.source())
+:quit
+-- input/page.1 --
+.SH ENVIRONMENT
+.TP
+VALUE
+Old.
+-- stdout.quoted --
+".SH ENVIRONMENT\n.TP\nVALUE\nOld.\n"
+-- stderr.quoted --
+"Tengo execution panic: runtime error: integer divide by zero\n"
+-- exit.txt --
+1

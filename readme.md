@@ -161,6 +161,9 @@ Default core builds have no Tengo dependency and expose help for enabling this
 self-contained variant. Scripts get no arbitrary imports, shell or ambient file
 capabilities. Writing requires an explicit authorized target or in-place flag.
 [Native scripts, Go examples, limits and source-aware output](docs/script.md).
+The optional build also supports `./gtroff script --repl DOCUMENT` with persistent
+native globals/functions and transactional cells. [REPL controls, explicit commits
+and publication recovery](docs/script-repl.md).
 
 ## Inspect local source sets
 
