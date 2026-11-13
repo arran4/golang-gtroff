@@ -199,9 +199,28 @@ func TestGeneratedWindowsNames(t *testing.T) {
 		t.Skip("Windows filename interpretation")
 	}
 	for _, name := range []string{"data:stream", "data.", "data ", "NUL"} {
-		if err := WriteGenerated([]File{{filepath.Join(t.TempDir(), name), []byte("x")}}); err == nil {
-			t.Errorf("accepted ambiguous filename %q", name)
-		}
+		t.Run("invalid-"+name, func(t *testing.T) {
+			dir := t.TempDir()
+			// Both trailing spellings would otherwise target this existing file.
+			data := filepath.Join(dir, "data")
+			mustGeneratedWrite(t, data, "retained")
+			if err := WriteGenerated([]File{{filepath.Join(dir, name), []byte("x")}}); err == nil {
+				t.Errorf("accepted ambiguous filename %q", name)
+			}
+			assertGeneratedBytes(t, data, "retained")
+			assertNoGenerationStaging(t, dir)
+		})
+	}
+	for _, name := range []string{"data", "data.txt", "data inside.txt", "λ.txt"} {
+		t.Run("valid-"+name, func(t *testing.T) {
+			dir := t.TempDir()
+			path := filepath.Join(dir, name)
+			if err := WriteGenerated([]File{{path, []byte("written")}}); err != nil {
+				t.Fatal(err)
+			}
+			assertGeneratedBytes(t, path, "written")
+			assertNoGenerationStaging(t, dir)
+		})
 	}
 }
 
