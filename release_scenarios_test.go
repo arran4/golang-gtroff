@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"embed"
 	"encoding/json"
+	"errors"
 	"io/fs"
 	"os"
 	"os/exec"
@@ -126,6 +127,57 @@ func TestReleasePolicyScenarios(t *testing.T) {
 				if got[key] != value {
 					t.Fatalf("%s=%s want %s", key, got[key], value)
 				}
+			}
+		})
+	}
+}
+
+func TestNativeVerificationStopsAfterFailedTests(t *testing.T) {
+	bash, err := exec.LookPath("bash")
+	if err != nil {
+		t.Skip("bash unavailable; workflow scripts are verified on the Linux owner job")
+	}
+	workflow, err := releaseCases.ReadFile(".github/workflows/ci.yaml")
+	if err != nil {
+		t.Fatal(err)
+	}
+	_, block, ok := strings.Cut(string(workflow), "# native-verification-begin")
+	if !ok {
+		t.Fatal("missing native verification block")
+	}
+	block, _, ok = strings.Cut(block, "# native-verification-end")
+	if !ok {
+		t.Fatal("unterminated native verification block")
+	}
+	// Substitute only the matrix label, as the Actions runner does. Execute the
+	// actual checked-in script with a Go stand-in that records both invocations.
+	block = strings.ReplaceAll(block, "${{ matrix.target }}", "linux/amd64")
+	const fakeGo = `
+go() {
+  printf '%s\n' "$1" >> "$CALLS_FILE"
+  if [[ "$1" == test ]]; then return "$TEST_STATUS"; fi
+  return 0
+}
+`
+	for _, status := range []string{"0", "23"} {
+		t.Run(status, func(t *testing.T) {
+			calls := filepath.Join(t.TempDir(), "calls")
+			cmd := exec.Command(bash, "-c", fakeGo+block)
+			cmd.Env = append(os.Environ(), "CALLS_FILE="+calls, "TEST_STATUS="+status)
+			out, err := cmd.CombinedOutput()
+			want := "test\nrun\n"
+			if status != "0" {
+				var exit *exec.ExitError
+				if !errors.As(err, &exit) || exit.ExitCode() != 23 {
+					t.Fatalf("test failure exit lost: %v %s", err, out)
+				}
+				want = "test\n"
+			} else if err != nil {
+				t.Fatalf("successful native verification: %v %s", err, out)
+			}
+			got, err := os.ReadFile(calls)
+			if err != nil || string(got) != want {
+				t.Fatalf("native invocation order: %q, want %q; %v", got, want, err)
 			}
 		})
 	}
