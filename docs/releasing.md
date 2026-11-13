@@ -222,7 +222,7 @@ the native lane still requires the full symlink/containment contract. A cleanup
 hook now closes the test root even if an assertion fails, preventing an unrelated
 Windows sharing violation from hiding the first failure.
 
-## Dependencies and unresolved hosted execution
+## Dependencies and hosted verification
 
 New CI tools are GoReleaser 2.18.3 (build/package; digest verified) and actionlint
 1.7.12 (workflow validation via a pinned Go module). They run without write tokens
@@ -232,11 +232,16 @@ use their supported current majors. The publisher uses GitHub's runner-provided
 The sole write token is scoped to the final publication job. No container registry,
 Homebrew/Scoop repository, announcement service or extra credential is configured.
 
-Prior hosted runs failed all jobs before any steps ran, with empty step lists and
-no logs. This is an unresolved pre-execution/infrastructure verification gap, not
-a demonstrated test assertion failure. No billing/capacity/policy cause is assumed.
-A successful local snapshot cannot establish native Windows/macOS or hosted green
-status. Consult the implementation PR's actual run evidence before first release.
+Earlier hosted runs failed before executing steps. Later runs executed the full
+source/package/native graph and exposed reproducible test and workflow defects;
+see the dated [verification record](roadmap-verification.md#platform-evidence-and-remaining-acceptance).
+A failed native source test is now fatal even when a later archive command would
+succeed. Text checkouts use LF, with literal TXTAR bytes excluded from conversion.
+
+A successful temporary combined candidate does not approve a release or establish
+that the eventual merged main revision is identical. Full verification on the
+exact release candidate, licensing issue #67, repository/release protection review
+and an explicit human publication request remain required.
 
 References: [current CI/CD standard](https://arran4.github.io/blog/post/2026/043-canonical-github-actions-ci-cd-super-reference/),
 [GoReleaser conventions](https://arran4.github.io/blog/post/2026/023-assembling-goreleaser-yaml/),
