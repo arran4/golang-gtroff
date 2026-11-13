@@ -45,15 +45,17 @@ type OutputFile struct {
 // return an owned reader; named input is closed before any output is written.
 // In is borrowed and is never closed. Out/Err are borrowed writers.
 type Environment struct {
-	Script       scriptapi.Backend
-	Context      context.Context
-	OpenRoot     func(string) (manlib.Root, io.Closer, error)
-	Listen       func(string) (net.Listener, error)
-	SystemSearch func() (manlib.SearchProvider, error)
-	In           io.Reader
-	Out, Err     io.Writer
-	Open         func(string) (io.ReadCloser, error)
-	WriteOutput  func(destination, source string, data []byte) error
+	// ScriptSession supplies the optional persistent engine; nil disables REPL.
+	ScriptSession scriptapi.SessionFactory
+	Script        scriptapi.Backend
+	Context       context.Context
+	OpenRoot      func(string) (manlib.Root, io.Closer, error)
+	Listen        func(string) (net.Listener, error)
+	SystemSearch  func() (manlib.SearchProvider, error)
+	In            io.Reader
+	Out, Err      io.Writer
+	Open          func(string) (io.ReadCloser, error)
+	WriteOutput   func(destination, source string, data []byte) error
 	// WriteSourceOutput protects all loaded source paths during explicit export.
 	WriteSourceOutput func(destination string, sources []string, data []byte) error
 	CommitEdits       func(context.Context, []atomicfile.SourceEdit, []atomicfile.SourceGuard) error

@@ -1,0 +1,21 @@
+Native Tengo REPL transcript: strict-selection. Expected output is captured by the real CLI.
+-- args.json --
+["script", "--repl", "--prompt=false", "--allow-edits", "--strict", "page.1"]
+-- session.txt --
+doc.edit({selector:"definition",operation:"find-replace-source",find:"Old",text:"New"})
+doc.emit(doc.source())
+:quit
+-- input/page.1 --
+.SH ENVIRONMENT
+.TP
+A
+Old.
+.TP
+B
+Old.
+-- stdout.quoted --
+".SH ENVIRONMENT\n.TP\nA\nOld.\n.TP\nB\nOld.\n"
+-- stderr.quoted --
+"Runtime Error: edit selection is missing or ambiguous\n\tat <repl-1>:1:1\n"
+-- exit.txt --
+1

@@ -1,0 +1,19 @@
+Native Tengo REPL transcript: disabled-includes. Expected output is captured by the real CLI.
+-- args.json --
+["script", "--repl", "--prompt=false", "--no-includes", "page.1"]
+-- session.txt --
+doc.emit_json(len(doc.query("definition")))
+:quit
+-- input/page.1 --
+.SH ENVIRONMENT
+.so child
+-- input/child --
+.TP
+VALUE
+Old.
+-- stdout.quoted --
+"0\n"
+-- stderr.quoted --
+"page.1:2:1: warning: include disabled: include loading explicitly disabled\n"
+-- exit.txt --
+0

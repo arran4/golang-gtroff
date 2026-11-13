@@ -1,0 +1,21 @@
+Native Tengo REPL transcript: pending-authorization. Expected output is captured by the real CLI.
+-- args.json --
+["script", "--repl", "--prompt=false", "--write-target", "copy.1", "page.1"]
+-- session.txt --
+doc.write("other.1")
+doc.emit("blocked")
+:pending
+:discard
+doc.emit("continued")
+:quit
+-- input/page.1 --
+.SH ENVIRONMENT
+.TP
+VALUE
+Old.
+-- stdout.quoted --
+"continued"
+-- stderr.quoted --
+"script write destination was not explicitly authorized\nscript session has an unpublished successful cell\n"
+-- exit.txt --
+1

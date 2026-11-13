@@ -5,11 +5,25 @@
 .SH SYNOPSIS
 .nf
 \&Usage: gtroff script [OPTIONS] SCRIPT [DOCUMENT]
+\&       gtroff script --repl [OPTIONS] [DOCUMENT]
 \&
 \&Run native Tengo with captured roff query/extraction objects. Tengo is isolated in
 \&an optional module/build; the default core binary explains how to enable it.
 \&Build the self-contained variant: go -C script build -o ../gtroff ./cli
 \&No external script runtime, shell, network access, modules or ambient file imports.
+\&
+\&--repl reads persistent native Tengo cells from stdin and accepts one optional
+\&named DOCUMENT (never stdin). Prompts use stderr; --prompt=false suits scripts.
+\&Variables/functions persist, queries stay snapshot data. Multiline syntax is
+\&probed by the native parser; :cancel discards an incomplete cell. :help and :quit
+\&control the session. Failed cells roll back mutable globals, closures, document
+\&changes, emissions and intents. Successful cells stage output before publication;
+\&failed output/writes remain pending for :pending, :retry or :discard. Retrying
+\&stdout may repeat a previously written prefix. In REPL mode --in-place authorizes
+\&only an explicit :commit, not automatic writes after every cell. Successful
+\&commits advance guards; queries/edits and failed commits do not reset baselines.
+\&--max-cells/--max-session-bytes bound attempted cells/total input. Cumulative
+\&checkpoint/host/output and retained-state defaults also apply; see docs/script-repl.md.
 \&
 \&SCRIPT and DOCUMENT are explicit user inputs; at most one may be '-' for stdin.
 \&An omitted DOCUMENT gives no current document. Read-only queries are the default.

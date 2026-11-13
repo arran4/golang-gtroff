@@ -12,7 +12,7 @@ else
     query) candidates=(--fields --format --help --max-bytes --max-depth --max-files --max-nodes --max-result-bytes --max-results --max-work --no-includes --package --root --strict --view) ;;
     extract) candidates=(--fields --format --help --max-bytes --max-depth --max-extract-nodes --max-files --max-nodes --max-output-bytes --max-record-bytes --max-records --max-work --no-includes --normalize --package --root --strict --view) ;;
     edit) candidates=(--all --commands --create --destination --dry-run --find --first --format --heading --help --in-place --include-edits --no-includes --nth --operation --range --rewrite --root --section --select --source --term --text --title) ;;
-    script) candidates=(--allow-edits --dry-run --help --in-place --include-edits --no-includes --root --write-target) ;;
+    script) candidates=(--allow-edits --dry-run --help --in-place --include-edits --max-cells --max-session-bytes --no-includes --prompt --repl --root --write-target) ;;
     render) candidates=(--assets --dpi --font --font-bold --font-italic --font-mono --font-regular --font-size --format --fragment --help --line-height --margin --max-height --max-pixels --max-width --no-anchors --node --page-height --quality --section --single --strict --theme --title --width -o) ;;
     convert) candidates=(--assets --fragment --from --help --strict --to -i -o) ;;
     serve) candidates=(--allow-remote --assets --help --listen --max-file-bytes --max-pages --max-total-bytes --root --system-search --theme) ;;

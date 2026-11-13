@@ -1,0 +1,16 @@
+Native Tengo REPL transcript: incomplete-eof. Expected output is captured by the real CLI.
+-- args.json --
+["script", "--repl", "--prompt=false", "page.1"]
+-- session.txt --
+f := func() {
+-- input/page.1 --
+.SH ENVIRONMENT
+.TP
+VALUE
+Old.
+-- stdout.quoted --
+""
+-- stderr.quoted --
+"incomplete Tengo cell at EOF\n"
+-- exit.txt --
+1
