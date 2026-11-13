@@ -1,0 +1,25 @@
+Documentation diff scenario: reference.
+-- args.json --
+["diff", "before.1", "after.1"]
+-- input/before.1 --
+.TH TOOL 1
+.SH ENVIRONMENT
+.UR https://old.example
+link
+.UE
+-- input/after.1 --
+.TH TOOL 1
+.SH ENVIRONMENT
+.UR https://new.example
+link
+.UE
+-- stdout.txt --
+diff: different (assessment=man-content-projection complete=true changes=1 ambiguities=0)
+before: "before.1" sources=1 objects=3
+after: "after.1" sources=1 objects=3
+1 changed reference "url link" [confidence=projected-content moved=false content-changed=true]: compared content payload changed
+  before "before.1":4:1 source=1 [51,56) value="{\"Kind\":\"url\",\"Target\":\"https://old.example\"}"
+  after "after.1":4:1 source=1 [51,56) value="{\"Kind\":\"url\",\"Target\":\"https://new.example\"}"
+-- stderr.txt --
+-- exit.txt --
+1

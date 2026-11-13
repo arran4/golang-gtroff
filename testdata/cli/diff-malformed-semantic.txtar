@@ -1,0 +1,20 @@
+Documentation diff scenario: malformed-semantic.
+-- args.json --
+["diff", "before.1", "after.1"]
+-- input/before.1 --
+.TH
+-- input/after.1 --
+.TH TOOL
+-- stdout.txt --
+diff: incomplete (assessment=man-content-projection complete=false changes=0 ambiguities=0)
+before: "before.1" sources=1 objects=0
+after: "after.1" sources=1 objects=0
+before "before.1":1:1: input error syntax: fitting TokenMacroTH arguments: , missing required arguments: got 0, minimum 2
+after "after.1":1:1: input error syntax: fitting TokenMacroTH arguments: TOOL, missing required arguments: got 1, minimum 2
+diff error: documentation diff input is incomplete or invalid: before has syntax errors
+documentation diff input is incomplete or invalid: after has syntax errors
+-- stderr.txt --
+gtroff: documentation diff input is incomplete or invalid: before has syntax errors
+documentation diff input is incomplete or invalid: after has syntax errors
+-- exit.txt --
+3

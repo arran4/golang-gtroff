@@ -1,0 +1,31 @@
+Documentation diff scenario: opaque.
+-- args.json --
+["diff", "before.1", "after.1"]
+-- input/before.1 --
+.TH TOOL 1
+.SH ENVIRONMENT
+.UNKNOWN old
+-- input/after.1 --
+.TH TOOL 1
+.SH ENVIRONMENT
+.UNKNOWN new
+-- stdout.txt --
+diff: different (assessment=man-content-projection complete=true changes=1 ambiguities=0)
+before: "before.1" sources=1 objects=3
+after: "after.1" sources=1 objects=3
+1 changed opaque ".UNKNOWN" [confidence=uninterpreted-source moved=false content-changed=true]: compared content payload changed
+  before "before.1":3:1 source=1 [27,40) value=".UNKNOWN old\n"
+  after "after.1":3:1 source=1 [27,40) value=".UNKNOWN new\n"
+before "before.1":3:1: input warning syntax: no token match: ".UNKNOWN": old
+after "after.1":3:1: input warning syntax: no token match: ".UNKNOWN": new
+before "before.1":1:1: unsupported-content: selected content includes unsupported optional-man semantics; literal source and blocks are retained
+before "before.1":3:1: semantic: unsupported semantics preserved: .UNKNOWN
+before "before.1":3:1: syntax: no token match: ".UNKNOWN": old
+before "before.1":3:1: uninterpreted-region: unsupported region is compared as source bytes, not interpreted meaning
+after "after.1":1:1: unsupported-content: selected content includes unsupported optional-man semantics; literal source and blocks are retained
+after "after.1":3:1: semantic: unsupported semantics preserved: .UNKNOWN
+after "after.1":3:1: syntax: no token match: ".UNKNOWN": new
+after "after.1":3:1: uninterpreted-region: unsupported region is compared as source bytes, not interpreted meaning
+-- stderr.txt --
+-- exit.txt --
+1

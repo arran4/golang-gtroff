@@ -14,6 +14,7 @@ Commands:
   script    Run optional Tengo with explicit document capabilities
   analyze   Classify syntax and processing requirements
   lint      Apply structural documentation policy
+  diff      Compare source-aware documentation revisions
   render    Export a semantic man page to HTML or paginated images
   convert   Convert supported HTML and man structure
   serve     Browse and search explicit man-page directories over HTTP

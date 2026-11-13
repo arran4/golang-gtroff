@@ -1,0 +1,21 @@
+Documentation diff scenario: shared-limit.
+-- args.json --
+["diff", "--max-files", "1", "before.1", "after.1"]
+-- input/before.1 --
+.TH TOOL 1
+.SH ENVIRONMENT
+-- input/after.1 --
+.TH TOOL 1
+.SH ENVIRONMENT
+-- stdout.txt --
+diff: incomplete (assessment=man-content-projection complete=false changes=0 ambiguities=0)
+before: "before.1" sources=1 objects=0
+after: "after.1" sources=0 objects=0
+after input error: source set resource limit exceeded
+diff error: documentation diff input is incomplete or invalid: after has no source snapshot
+source set resource limit exceeded
+-- stderr.txt --
+gtroff: documentation diff input is incomplete or invalid: after has no source snapshot
+source set resource limit exceeded
+-- exit.txt --
+3

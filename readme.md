@@ -193,6 +193,19 @@ Syntax recognition, man interpretation and rendering remain separate facts.
 Custom declarative questions supplement the built-in inventory.
 [Analysis API, rules and capability contracts](docs/analyze.md).
 
+## Compare documentation revisions
+
+```sh
+# smoke
+./gtroff diff examples/man-tool.1 examples/man-tool.1
+./gtroff diff --view source --format json examples/man-tool.1 examples/man-tool.1 > source-diff.json
+```
+
+`diff old.1 new.1` reports projected content changes, moves and ambiguous matches
+with both original locations. Semantic view ignores known formatting-only edits;
+source view compares captured bytes. Unsupported and unavailable evidence remains
+explicit, and no files are modified. [Diff API, identity and failure contracts](docs/diff.md).
+
 ## Inspect local source sets
 
 ```sh
