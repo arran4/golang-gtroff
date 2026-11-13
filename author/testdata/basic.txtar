@@ -1,0 +1,49 @@
+Authoring scenario: basic.
+-- input.json --
+{
+  "Title": "tool",
+  "Section": "1",
+  "Date": "2026-11-04",
+  "Sections": [
+    {
+      "Heading": "NAME",
+      "Blocks": [
+        {
+          "Type": "paragraph",
+          "Text": "tool - example"
+        }
+      ]
+    },
+    {
+      "Heading": "OPTIONS",
+      "Blocks": [
+        {
+          "Type": "definition",
+          "Term": "--verbose",
+          "Text": "Enable output."
+        },
+        {
+          "Type": "definition",
+          "Term": "--quiet",
+          "Text": "Reduce output."
+        }
+      ]
+    }
+  ]
+}
+-- output.roff --
+.TH "tool" "1" "2026-11-04" "" ""
+.SH "\f[B]NAME\f[R]"
+.PP
+\&\f[R]tool - example\f[R]\c
+.SH "\f[B]OPTIONS\f[R]"
+.PP
+.TP ""
+\&\f[B]--verbose\f[R]
+
+\&\f[R]Enable output.\f[R]\c
+.TP ""
+\&\f[B]--quiet\f[R]
+
+\&\f[R]Reduce output.\f[R]\c
+-- error.txt --

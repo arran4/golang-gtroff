@@ -289,6 +289,14 @@ Parser/evaluator/include/generator findings under
 Named outputs stage before per-file replacement; multipage replacement is not
 atomic as a collection. Resource and strict failures preserve existing outputs.
 
+## Create man pages from Go
+
+The small [authoring façade](docs/author.md) constructs new canonical man pages
+with typed paragraphs, definitions, subsections and literal examples. Constructors,
+Add/Append methods and functional options reuse the existing escaping/writer
+contracts. Output goes to an explicit writer; source-preserving editing is a
+separate capability. See the executable examples in `author/example_test.go`.
+
 ## Libraries and development
 
 [Library guide](docs/library.md) · [AST](docs/ast.md) · [semantic model](docs/man.md) ·
