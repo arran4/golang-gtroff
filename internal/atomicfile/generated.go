@@ -209,7 +209,7 @@ func outputUnchanged(output stagedOutput) error {
 	}
 	data, err := readOutput(output.Path, len(output.original)+1)
 	if err != nil {
-		return err
+		return fmt.Errorf("generated destination changed during staging: %s: %w", output.Path, err)
 	}
 	if !bytes.Equal(data, output.original) {
 		return fmt.Errorf("generated destination changed during staging: %s", output.Path)
