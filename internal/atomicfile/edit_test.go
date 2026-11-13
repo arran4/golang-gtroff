@@ -5,6 +5,7 @@ import (
 	"errors"
 	"os"
 	"path/filepath"
+	"runtime"
 	"strings"
 	"testing"
 )
@@ -32,9 +33,30 @@ func TestGuardedEditsAndRetry(t *testing.T) {
 	assertGeneratedBytes(t, b, "unrelated")
 }
 func TestGuardedEditRollbackAndRecovery(t *testing.T) {
-	for _, restoreFailure := range []bool{false, true} {
-		t.Run(map[bool]string{false: "restored", true: "recovery"}[restoreFailure], func(t *testing.T) {
+	for _, tc := range []struct {
+		name                    string
+		aliased, restoreFailure bool
+	}{
+		{"restored", false, false}, {"recovery", false, true},
+		{"restored-parent-alias", true, false}, {"recovery-parent-alias", true, true},
+	} {
+		t.Run(tc.name, func(t *testing.T) {
+			restoreFailure := tc.restoreFailure
 			dir := t.TempDir()
+			if tc.aliased {
+				alias := filepath.Join(t.TempDir(), "parent-alias")
+				if err := os.Symlink(dir, alias); err != nil {
+					if runtime.GOOS == "windows" {
+						t.Skipf("directory symlinks unavailable: %v", err)
+					}
+					t.Fatal(err)
+				}
+				dir = alias
+			}
+			canonicalDir, err := filepath.EvalSymlinks(dir)
+			if err != nil {
+				t.Fatal(err)
+			}
 			a, b := filepath.Join(dir, "a"), filepath.Join(dir, "b")
 			mustGeneratedWrite(t, a, "old-a")
 			mustGeneratedWrite(t, b, "old-b")
@@ -42,7 +64,7 @@ func TestGuardedEditRollbackAndRecovery(t *testing.T) {
 			edits := []SourceEdit{{a, guards[0].Digest, []byte("new-a")}, {b, guards[1].Digest, []byte("new-b")}}
 			failure := errors.New("injected rename failure")
 			calls := 0
-			err := writeEdits(context.Background(), edits, guards, outputOperations{rename: func(from, to string) error {
+			err = writeEdits(context.Background(), edits, guards, outputOperations{rename: func(from, to string) error {
 				calls++
 				if calls == 2 || restoreFailure && calls == 3 {
 					return failure
@@ -55,7 +77,7 @@ func TestGuardedEditRollbackAndRecovery(t *testing.T) {
 			assertGeneratedBytes(t, b, "old-b")
 			if restoreFailure {
 				assertGeneratedBytes(t, a, "new-a")
-				dirs, e := filepath.Glob(filepath.Join(dir, ".gtroff-gen-*"))
+				dirs, e := filepath.Glob(filepath.Join(canonicalDir, ".gtroff-gen-*"))
 				if e != nil || len(dirs) != 1 {
 					t.Fatalf("recovery dirs %v %v", dirs, e)
 				}
@@ -181,12 +203,24 @@ func TestGuardedCopyModeAndCancelledCopy(t *testing.T) {
 	if e != nil {
 		t.Fatal(e)
 	}
-	if info.Mode().Perm()&0077 != 0 {
+	if runtime.GOOS == "windows" {
+		// Go reports Windows' readonly attribute, not its access-control list.
+		if info.Mode().Perm()&0200 == 0 {
+			t.Fatal("new copy is unexpectedly readonly")
+		}
+	} else if info.Mode().Perm()&0077 != 0 {
 		t.Fatalf("new copy grants group/other access: %v", info.Mode())
 	}
 	assertGeneratedBytes(t, source, "old")
 	if e := os.Chmod(out, 0640); e != nil {
 		t.Fatal(e)
+	}
+	before, e := os.Stat(out)
+	if e != nil {
+		t.Fatal(e)
+	}
+	if runtime.GOOS != "windows" && before.Mode().Perm() != 0640 {
+		t.Fatal("requested POSIX mode not set", before.Mode())
 	}
 	if e := WriteEditedOutput(context.Background(), out, guards, []byte("again")); e != nil {
 		t.Fatal(e)
@@ -195,7 +229,7 @@ func TestGuardedCopyModeAndCancelledCopy(t *testing.T) {
 	if e != nil {
 		t.Fatal(e)
 	}
-	if info.Mode().Perm() != 0640 {
-		t.Fatal("existing permissions changed", info.Mode())
+	if info.Mode().Perm() != before.Mode().Perm() {
+		t.Fatal("existing reported mode changed", before.Mode(), info.Mode())
 	}
 }
