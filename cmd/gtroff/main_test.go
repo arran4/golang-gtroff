@@ -33,7 +33,8 @@ func TestExecutableFlows(t *testing.T) {
 	if runtime.GOOS == "windows" {
 		binary += ".exe"
 	}
-	buildCtx, stopBuild := context.WithTimeout(context.Background(), 45*time.Second)
+	// Cold native CI builds on macOS Intel can exceed 45 seconds.
+	buildCtx, stopBuild := context.WithTimeout(context.Background(), 2*time.Minute)
 	defer stopBuild()
 	build := exec.CommandContext(buildCtx, "go", "build", "-trimpath", "-ldflags", "-X main.version=integration-test -X main.commit=abc123 -X main.date=2026-10-21", "-o", binary, ".")
 	build.Env = append(os.Environ(), "CGO_ENABLED=0")
