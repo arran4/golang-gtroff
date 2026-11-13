@@ -128,3 +128,127 @@ func TestRejectIncompleteCatalogue(t *testing.T) {
 		}
 	}
 }
+
+func TestEffectiveEntryOwnership(t *testing.T) {
+	raw := []byte(`[
+ {"ID":"primary","Description":"Primary description.","Contents":[{"Type":"Macro","Token":".A"}]},
+ {"Description":"Unrelated fallback.","Contents":[
+  {"Type":"Macro","Token":".B","DescriptionRef":"primary"},
+  {"Type":"Macro","Token":".C","ID":"inline","Description":"Independent summary."},
+  {"Type":"Macro","Token":".D","DescriptionRef":"inline"}]},
+ {"DescriptionRef":"primary","Contents":[{"Type":"Macro","Token":".E"}]}
+]`)
+	sources := []source{{evidence: evidence{Label: "manual", Kind: "manual-html"}, definitions: []definition{{text: "Primary description.", anchor: "primary", line: 10}, {text: "Unrelated fallback.", anchor: "wrong", line: 20}}}}
+	r, err := compareEntries(raw, "reviewed-input", sources)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if r.Schema != 2 || r.Groups != 3 || r.Entries != 5 || r.MatchedEntries != 3 || r.UnmatchedEntries != 2 || r.SourceEntries["manual"] != 3 {
+		t.Fatalf("effective-entry coverage wrong: %+v", r)
+	}
+	for i, row := range r.Rows {
+		if row.Index != i {
+			t.Fatal("entry order changed")
+		}
+		if i == 0 || i == 1 || i == 4 {
+			if row.DescriptionPath != "/0/Description" || row.DescriptionLine != 2 || len(row.Matches) != 1 || row.Matches[0].Anchor != "primary" {
+				t.Fatalf("reference points at wrong owner: %+v", row)
+			}
+		} else if row.DescriptionPath != "/1/Contents/1/Description" || row.DescriptionLine != 5 || len(row.Matches) != 0 {
+			t.Fatalf("inline owner wrong: %+v", row)
+		}
+	}
+	if _, err := compare(raw, "reviewed-input", sources); err == nil {
+		t.Fatal("legacy group comparison accepted heterogeneous descriptions")
+	}
+	dir := t.TempDir()
+	file := filepath.Join(dir, "modern-history.json")
+	if err := os.WriteFile(file, raw, 0600); err != nil {
+		t.Fatal(err)
+	}
+	history, err := load("modern="+file, "historical-catalogue")
+	if err != nil || !history.history["Primary description."] || !history.history["Independent summary."] || history.history["Unrelated fallback."] {
+		t.Fatal("history attributed an unused fallback instead of effective entries")
+	}
+}
+
+func TestCommittedCorrectionReceipts(t *testing.T) {
+	root := filepath.Join("..", "..")
+	raw, err := os.ReadFile(filepath.Join(root, "cmd", "gen", "in.json"))
+	if err != nil {
+		t.Fatal(err)
+	}
+	actual, err := compareEntries(raw, "test", nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+	readJSON := func(name string, out any) {
+		t.Helper()
+		b, err := os.ReadFile(filepath.Join(root, "docs", "provenance", name))
+		if err != nil {
+			t.Fatal(err)
+		}
+		if err := json.Unmarshal(b, out); err != nil {
+			t.Fatal(err)
+		}
+	}
+	var receipt entryReport
+	readJSON("catalogue-corrections.json", &receipt)
+	if receipt.Schema != 2 || receipt.CatalogueSHA256 != digest(raw) || receipt.Entries != actual.Entries || len(receipt.Rows) != len(actual.Rows) {
+		t.Fatal("effective-description receipt is stale")
+	}
+	for i, row := range actual.Rows {
+		got := receipt.Rows[i]
+		if got.Index != i || got.Group != row.Group || got.Content != row.Content || got.SHA256 != row.SHA256 || got.DescriptionLine != row.DescriptionLine || got.DescriptionPath != row.DescriptionPath || got.Item != row.Item {
+			t.Fatalf("effective-description owner changed at entry %d", i)
+		}
+	}
+	var manifest struct {
+		CatalogueSHA256 string     `json:"catalogue_sha256"`
+		ChangedEntries  int        `json:"changed_entries"`
+		Sources         []evidence `json:"sources"`
+		Rows            []struct {
+			Index   int    `json:"index"`
+			SHA256  string `json:"description_sha256"`
+			Path    string `json:"description_path"`
+			Sources []struct {
+				Source   string `json:"source"`
+				Anchor   string `json:"anchor"`
+				Line     int    `json:"heading_line"`
+				BodyLine int    `json:"body_line"`
+				Basis    string `json:"basis"`
+			} `json:"sources"`
+		} `json:"rows"`
+	}
+	readJSON("association-corrections.json", &manifest)
+	if manifest.CatalogueSHA256 != digest(raw) || manifest.ChangedEntries != len(manifest.Rows) || len(manifest.Rows) != 179 {
+		t.Fatal("association inventory is stale")
+	}
+	labels := make(map[string]bool)
+	for _, s := range manifest.Sources {
+		if s.Kind != "manual-html" || len(s.SHA256) != 64 || labels[s.Label] {
+			t.Fatal("invalid source identity")
+		}
+		labels[s.Label] = true
+	}
+	seen := make(map[int]bool)
+	for _, row := range manifest.Rows {
+		if row.Index < 0 || row.Index >= len(actual.Rows) || seen[row.Index] || len(row.Sources) == 0 {
+			t.Fatalf("invalid association entry %d", row.Index)
+		}
+		seen[row.Index] = true
+		if row.SHA256 != actual.Rows[row.Index].SHA256 || row.Path != actual.Rows[row.Index].DescriptionPath {
+			t.Fatalf("association entry %d has a stale literal owner", row.Index)
+		}
+		for _, citation := range row.Sources {
+			if !labels[citation.Source] || citation.Anchor == "" || citation.Line <= 0 || citation.BodyLine <= citation.Line {
+				t.Fatalf("invalid source citation for entry %d", row.Index)
+			}
+			switch citation.Basis {
+			case "feature_heading", "shared_definition_body", "whitespace_identical_definition_body":
+			default:
+				t.Fatalf("unknown evidence basis %q", citation.Basis)
+			}
+		}
+	}
+}

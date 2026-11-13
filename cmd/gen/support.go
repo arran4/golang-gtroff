@@ -28,6 +28,7 @@ type SupportEntry struct {
 	Index            int            `json:"index"`
 	Kind             DefinitionKind `json:"kind"`
 	Package          PackageName    `json:"package"`
+	ParserPackage    PackageName    `json:"parser_package,omitempty"`
 	Token            string         `json:"token"`
 	DeclaredStatus   Status         `json:"declared_status"`
 	ParseStatus      string         `json:"parse_status"`
@@ -89,6 +90,10 @@ func buildSupportReport(cat *Catalog, macros MacrosTemplateData, lines Parseline
 		} else {
 			support.Kind, support.Package, support.Token, support.DeclaredStatus = entry.Kind, entry.Package, entry.Token, entry.Status
 			support.Index = entry.Index
+			parserPackage, _ := entry.parserNamespace()
+			if (entry.Kind == KindMacro || entry.Kind == KindRequest) && parserPackage != entry.Package {
+				support.ParserPackage = parserPackage
+			}
 			classifySupport(entry, &support, definitions, dispatches, blockRoutes)
 		}
 		if support.ParseStatus == supportMissing || support.ParseStatus == supportAmbiguous {
@@ -109,7 +114,8 @@ func classifySupport(entry *NormalizedEntry, support *SupportEntry, definitions 
 		support.ParseStatus, support.API, support.Example = supportPreserved, "ParseInline", entry.Token
 		return
 	}
-	def := definitions[string(entry.Kind)+"/"+string(entry.Package)+"/"+entry.Token]
+	parserPackage, _ := entry.parserNamespace()
+	def := definitions[string(entry.Kind)+"/"+string(parserPackage)+"/"+entry.Token]
 	if def == nil {
 		support.Reason = "missing generated token definition"
 		return
@@ -125,7 +131,7 @@ func classifySupport(entry *NormalizedEntry, support *SupportEntry, definitions 
 	}
 	dispatch := choices[0]
 	parser := dispatch.DefaultParser
-	if entry.Package == PackageMs && dispatch.HasVariants {
+	if parserPackage == PackageMs && dispatch.HasVariants {
 		parser = dispatch.MsParser
 	}
 	if parser != def.StructName {
@@ -195,6 +201,12 @@ func validateEntry(entry *NormalizedEntry) error {
 	case PackageMan, PackageMs, PackageRoff:
 	default:
 		return fmt.Errorf("entry %d has invalid package %q", entry.Index, entry.Package)
+	}
+	parserPackage, _ := entry.parserNamespace()
+	switch parserPackage {
+	case PackageMan, PackageMs, PackageRoff:
+	default:
+		return fmt.Errorf("entry %d has invalid parser package %q", entry.Index, parserPackage)
 	}
 	if entry.Token == "" || entry.Name == "" || entry.GoName == "" || entry.Provenance == "" {
 		return fmt.Errorf("entry %d is missing token/name/Go name/provenance", entry.Index)
