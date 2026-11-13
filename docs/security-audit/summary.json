@@ -1,0 +1,97 @@
+{
+  "schema": 1,
+  "main": "83e89c33b73b7cc8153f5d05733c61cd7774baad",
+  "integration_pr77": "4cbe44b5ed5cc713ce73a827b50250bfa68e790c",
+  "generated_cli_pr64": "a5359412d0363ade8b7dd611e365a79412397b98",
+  "git_commits": 189,
+  "branch_refs": 22,
+  "pull_head_refs": 52,
+  "pull_merge_refs": 17,
+  "tag_refs": 0,
+  "forks_returned": 0,
+  "release_records": 0,
+  "blobs": {
+    "blobs": 1715,
+    "bytes": 18007228,
+    "inventory_sha256": "7aa240f003bf35f5b81a321ee7828cda520aeec976ca390dbbc21f5af2b4e2b2",
+    "objects": 2550
+  },
+  "discussion_exports": [
+    {
+      "kind": "issues",
+      "pages": 1,
+      "records": 100
+    },
+    {
+      "kind": "issue-comments",
+      "pages": 2,
+      "records": 104
+    },
+    {
+      "kind": "review-comments",
+      "pages": 1,
+      "records": 0
+    }
+  ],
+  "additional_discussions": {
+    "pull_requests": 52,
+    "review_submissions": 0,
+    "releases": 0,
+    "attachment_urls": 0
+  },
+  "logs": {
+    "bundles": 100,
+    "files": 248,
+    "bytes": 2394425
+  },
+  "payloads": {
+    "archive_count": 57,
+    "regular_files": 3494,
+    "expanded_bytes": 641562957,
+    "nonregular_not_extracted": []
+  },
+  "binary_inspection": {
+    "copies": 60,
+    "unique_sha256": 18,
+    "go_versions": [
+      "go1.26.10"
+    ],
+    "cgo_enabled": "0",
+    "trimpath": "true",
+    "vcs_modified": "false",
+    "checked_host_path_marker_hits": 0
+  },
+  "settings": {
+    "private_vulnerability_reporting": false,
+    "dependabot_alerts_enabled": true,
+    "dependabot_alerts_returned": 0,
+    "main_branch_protection_rule": null,
+    "rulesets_returned": 0,
+    "secret_scanning": "unavailable: REST403 token permission",
+    "push_protection": "unavailable: repository security_and_analysis not returned; no inference",
+    "branch_protection_rest": "403 token permission; GraphQL field read separately",
+    "has_pages": false,
+    "read_methods": {
+      "private_vulnerability_reporting": "REST private-vulnerability-reporting",
+      "dependabot_enabled": "GraphQL hasVulnerabilityAlertsEnabled",
+      "main_rule": "GraphQL defaultBranchRef.branchProtectionRule",
+      "rulesets": "REST rulesets"
+    }
+  },
+  "confirmed_credentials": 0,
+  "privacy_review": {
+    "private_host_or_private_key_markers": 0,
+    "rfc1918_address_matches": 0,
+    "userinfo_urls": 2,
+    "userinfo_classification": "synthetic local/reserved URL rejection cases in renderhtml/render_test.go TestURLPolicy; two historical blobs",
+    "marker_scope": "Supplementary UTF-8 blobs without NUL bytes; not universal pattern coverage"
+  },
+  "limitations": [
+    "Historical candidate archives no longer retained; only three actual available artifacts inspected.",
+    "Current feature PR forest has no final integrated release candidate.",
+    "Configuration reads denied by token permission remain unverified; no settings changed.",
+    "Pattern-based scans and selected manual review are not universal proof of absence.",
+    "GNU/contributor rights and provenance remain tracked separately by #67/#81."
+  ],
+  "refs_sha256": "58cc96859754b6883f29e8ccbb0790133d96f7d91f34d3e9bb81697960d3c053"
+}
