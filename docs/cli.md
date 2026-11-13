@@ -161,3 +161,10 @@ inputs. The core binary is engine-free; build the self-contained optional varian
 from `script/cli` to execute programs. Read-only queries default on, while memory
 edits and guarded filesystem writes require separate grants.
 [Script syntax, build, source policy and output contracts](script.md).
+
+## Feature analysis
+
+`gtroff analyze [OPTIONS] [FILE]` classifies source features and processing
+requirements with positioned evidence. It shares bounded include resolution and
+`--no-includes`, supports explicit declarative `--rules` files and text/JSON/JSONL
+reports, and does not execute roff or render. [Capability and rule contracts](analyze.md).

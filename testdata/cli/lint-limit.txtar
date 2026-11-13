@@ -1,0 +1,15 @@
+Lint scenario: limit.
+-- args.json --
+["lint", "--max-findings", "1"]
+-- stdin.1 --
+.TH TOOL 1
+-- stdout.txt --
+lint: documents=1 findings=1 suppressed=0 complete=false fail-on=error failed=true
+document 1: <stdin> (profile=man input-invalid=false)
+document 1 source 1 <stdin>:1:1: error man.required-section [structural]: required section "NAME" was not found
+  suggestion: Add the section or configure requiredSections for this document policy.
+lint error: rule man.required-section: lint resource limit exceeded
+-- stderr.txt --
+gtroff: rule man.required-section: lint resource limit exceeded
+-- exit.txt --
+3

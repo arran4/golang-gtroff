@@ -1,0 +1,15 @@
+Lint scenario: suppression.
+-- args.json --
+["lint"]
+-- stdin.1 --
+.\" gtroff-lint-disable man.required-section
+.TH TOOL 1
+-- stdout.txt --
+lint: documents=1 findings=0 suppressed=3 complete=true fail-on=error failed=false
+document 1: <stdin> (profile=man input-invalid=false)
+suppressed document 1 source 1 <stdin>:1: man.required-section (<stdin>:1: gtroff-lint-disable)
+suppressed document 1 source 1 <stdin>:1: man.required-section (<stdin>:1: gtroff-lint-disable)
+suppressed document 1 source 1 <stdin>:1: man.required-section (<stdin>:1: gtroff-lint-disable)
+-- stderr.txt --
+-- exit.txt --
+0

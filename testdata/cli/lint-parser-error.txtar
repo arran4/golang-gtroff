@@ -1,0 +1,13 @@
+Lint scenario: parser-error.
+-- args.json --
+["lint", "--fail-on", "never", "--disable", "man.required-section"]
+-- stdin.1 --
+.TH
+-- stdout.txt --
+lint: documents=1 findings=0 suppressed=0 complete=true fail-on=never failed=true
+document 1: <stdin> (profile=man input-invalid=true)
+  source 1 <stdin>:1:1: input error syntax: fitting TokenMacroTH arguments: , missing required arguments: got 0, minimum 2
+  source 1 <stdin>:1:1: input warning semantic: title requires name and manual section
+-- stderr.txt --
+-- exit.txt --
+1

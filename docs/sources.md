@@ -14,8 +14,9 @@ parse one source without any implicit filesystem access.
 ```
 
 These are real generated commands. `sources` exposes the shared input layer for
-the implemented [query command](query.md) and subsequent analyze, lint and extract
-commands. The source-inspection command itself does not perform those operations. Existing `ast`, `validate`, rendering and conversion behavior stays
+the implemented query, analyze, lint, extract, edit and script commands. Source
+inspection itself does not perform those operations. Existing `ast`, `validate`,
+rendering and conversion behavior stays
 syntax-only with respect to include loading. The legacy opt-in
 `ParseDocument` resolver remains supported separately.
 
@@ -142,3 +143,8 @@ for named/default, disabled and stdin/root policies and strict exit behavior.
 provenance and include relationships; exact parent source is not expanded into
 child bytes. Explicit file output protects every loaded original source. See
 [extraction](extract.md).
+
+`gtroff lint` reuses this loader for every explicit root input. Its byte/node/file
+budgets span the whole collection; policy findings retain document and source
+occurrence identities. See [lint policy](lint.md) for strict input handling and
+conservative behavior around missing or deliberately disabled includes.

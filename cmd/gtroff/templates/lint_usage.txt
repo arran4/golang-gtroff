@@ -1,0 +1,8 @@
+
+Check a single file or explicit collection without executing roff or editing.
+Named files resolve bounded local includes; stdin needs an explicit root.
+Policy findings remain separate from source diagnostics and capability facts.
+Default man conventions require NAME/DESCRIPTION and suggest command SYNOPSIS.
+Strict uses a warning threshold, stricter conventions and source diagnostics.
+Closed-world reference checks are opt-in and require complete collection input.
+Exit codes: 0 pass, 1 policy/input invalid, 2 usage/config, 3 I/O/resource failure.

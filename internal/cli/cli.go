@@ -100,6 +100,8 @@ Commands:
   extract   Export fragments and structured documentation
   edit      Plan in-memory transformations and explicit writes
   script    Run optional Tengo with explicit document capabilities
+  analyze   Classify syntax and processing requirements
+  lint      Apply structural documentation policy
   render    Export a semantic man page to HTML or paginated images
   convert   Convert supported HTML and man structure
   serve     Browse and search explicit man-page directories over HTTP
@@ -202,6 +204,10 @@ func Run(args []string, e Environment) int {
 		return editCommand(args, e)
 	case "script":
 		return scriptCommand(args, e)
+	case "analyze":
+		return analyzeCommand(args, e)
+	case "lint":
+		return lintCommand(args, e)
 	case "validate", "ast":
 		return inspectCommand(command, args, e)
 	case "man":
@@ -228,6 +234,10 @@ func commandHelp(e Environment, command string) int {
 		return writeString(e, editHelp)
 	case "script":
 		return writeString(e, scriptHelp)
+	case "analyze":
+		return writeString(e, analyzeHelp)
+	case "lint":
+		return writeString(e, lintHelp)
 	case "convert":
 		return writeString(e, convertHelp)
 	case "serve":
@@ -396,6 +406,8 @@ func runInspect(command string, o inspectOptions, files []string, e Environment)
 //	extract   Export fragments and structured documentation
 //	edit      Plan in-memory transformations and explicit writes
 //	script    Run optional Tengo with explicit document capabilities
+//	analyze   Classify syntax and processing requirements
+//	lint      Apply structural documentation policy
 //	render    Export a semantic man page to HTML or paginated images
 //	convert   Convert supported HTML and man structure
 //	serve     Browse and search explicit man-page directories over HTTP

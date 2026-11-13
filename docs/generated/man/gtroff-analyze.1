@@ -1,0 +1,39 @@
+.\" Generated from gtroff command help; do not edit.
+.TH "GTROFF-ANALYZE" 1 "" "golang-gtroff" "User Commands"
+.SH NAME
+\&gtroff-analyze
+.SH SYNOPSIS
+.nf
+\&Usage: gtroff analyze [OPTIONS] [FILE]
+\&
+\&Classify roff syntax, profile evidence, feature usage and processing requirements.
+\&Recognition, typed parsing, optional man interpretation, include resolution and
+\&rendering are separate facts. Analysis never executes macros or external tools.
+\&Named files resolve bounded local includes; stdin needs an explicit --root.
+\&
+\&  --format text|json|jsonl  Default: text
+\&  --details                Detailed text evidence; JSON always includes evidence
+\&  --rules FILE             Explicit schema-version-1 declarative JSON questions
+\&  --no-includes            Retain source references without loading them
+\&  --root DIR               Allowed root; default: the input file's directory
+\&  --strict                 Reject syntax/include diagnostics, retaining the report
+\&  --package man|ms|roff    Default parser context: man; profiles are detected separately
+\&  --max-bytes COUNT        Cumulative input bytes; default: 8388608
+\&  --max-nodes COUNT        Cumulative input AST nodes; default: 100000
+\&  --max-files COUNT        Source occurrence cap; default: 256
+\&  --max-depth COUNT        Include depth; default: 16, ceiling: 128
+\&  --max-analysis-nodes COUNT  Enumeration budget; default: 200000
+\&  --max-findings COUNT     Finding cap; default: 100000
+\&  --max-work COUNT         Node/rule/source-byte work budget; default: 67108864
+\&
+\&Built-in detectors inventory controls, escapes, definitions, conditionals,
+\&side-effect-looking requests, references, preprocessors, includes and nesting.
+\&Opaque/stored syntax remains visible with active=false. Profile confidence is a
+\&lexical hypothesis; no rendering or runtime compatibility guarantee is implied.
+\&Rules add annotations; they cannot run scripts or override capability facts.
+\&JSONL begins with a summary record, then finding records, each schemaVersion 1.
+\&Exit codes: 0 enumeration complete, 1 strict input diagnostics, 2 usage/rule error,
+\&3 input/output/resource/cancellation failure, with partial reports when available.
+.fi
+.SH SEE ALSO
+.MR man 7

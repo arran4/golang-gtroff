@@ -165,6 +165,34 @@ The optional build also supports `./gtroff script --repl DOCUMENT` with persiste
 native globals/functions and transactional cells. [REPL controls, explicit commits
 and publication recovery](docs/script-repl.md).
 
+## Check structural policy
+
+```sh
+# smoke
+./gtroff lint examples/man-tool.1
+./gtroff lint --format json --fail-on warning examples/man-tool.1 > lint.json
+```
+
+Lint checks man section/definition conventions separately from syntax validation
+and feature analysis. It supports explicit collections, scoped source-comment
+suppression, JSON policies, trusted Go rules and CI thresholds. Named files use
+the shared bounded include loader. Heuristic findings state their uncertainty;
+manual-reference checks require an opt-in closed collection.
+[Lint rules, API and failure policies](docs/lint.md).
+
+## Explain document features
+
+```sh
+./gtroff analyze examples/man-tool.1
+./gtroff analyze --format json --no-includes document.1
+```
+
+Analysis reports profile evidence, controls, escapes, definitions, references,
+programmatic syntax, preprocessors and include states without executing roff.
+Syntax recognition, man interpretation and rendering remain separate facts.
+Custom declarative questions supplement the built-in inventory.
+[Analysis API, rules and capability contracts](docs/analyze.md).
+
 ## Inspect local source sets
 
 ```sh
