@@ -61,6 +61,8 @@ func run(args []string, stderr io.Writer) int {
 		Open:              func(path string) (io.ReadCloser, error) { return os.Open(path) },
 		WriteOutput:       atomicfile.Write,
 		WriteSourceOutput: atomicfile.WriteSources,
+		CommitEdits:       atomicfile.WriteEdits,
+		WriteEditedOutput: atomicfile.WriteEditedOutput,
 		WriteOutputs: func(source string, files []cli.OutputFile) error {
 			outputs := make([]atomicfile.File, len(files))
 			for i, f := range files {

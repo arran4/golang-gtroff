@@ -1,0 +1,15 @@
+Source-backed edit: description-explicit-rewrite. Expectations are captured from the actual CLI.
+-- args.json --
+["edit", "--rewrite", "--format", "raw", "--select", "definition", "--operation", "replace-description", "--text", "New"]
+-- stdin.1 --
+.TP
+TERM
+.B Old
+-- stdout.txt --
+.TP
+TERM
+\&New
+-- stderr.txt --
+edit canonical-rewrite: complex description replaced with escaped literal text; review removed source bytes [<stdin> match 1]
+-- exit.txt --
+0
