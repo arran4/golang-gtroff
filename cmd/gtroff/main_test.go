@@ -33,11 +33,14 @@ func TestExecutableFlows(t *testing.T) {
 	if runtime.GOOS == "windows" {
 		binary += ".exe"
 	}
-	ctx, cancel := context.WithTimeout(context.Background(), 45*time.Second)
-	defer cancel()
-	build := exec.CommandContext(ctx, "go", "build", "-trimpath", "-ldflags", "-X main.version=integration-test -X main.commit=abc123 -X main.date=2026-10-21", "-o", binary, ".")
+	// Cold native CI builds on macOS Intel can exceed 45 seconds.
+	buildCtx, stopBuild := context.WithTimeout(context.Background(), 2*time.Minute)
+	defer stopBuild()
+	build := exec.CommandContext(buildCtx, "go", "build", "-trimpath", "-ldflags", "-X main.version=integration-test -X main.commit=abc123 -X main.date=2026-10-21", "-o", binary, ".")
 	build.Env = append(os.Environ(), "CGO_ENABLED=0")
-	if out, err := build.CombinedOutput(); err != nil {
+	out, err := build.CombinedOutput()
+	stopBuild() // Compilation must not consume a later executable's deadline.
+	if err != nil {
 		t.Fatalf("build executable: %v\n%s", err, out)
 	}
 	source, err := os.ReadFile(filepath.Join("..", "..", "examples", "man-tool.1"))
@@ -335,7 +338,9 @@ func TestExecutableFlows(t *testing.T) {
 	})
 	t.Run("conversion atomic file loop", func(t *testing.T) {
 		execute := func(args ...string) (int, string) {
-			c := exec.CommandContext(ctx, binary, args...)
+			runCtx, stop := context.WithTimeout(context.Background(), 10*time.Second)
+			defer stop()
+			c := exec.CommandContext(runCtx, binary, args...)
 			c.Dir = work
 			out, err := c.CombinedOutput()
 			if err == nil {
@@ -373,7 +378,9 @@ func TestExecutableFlows(t *testing.T) {
 	})
 	t.Run("raster executable pages and preservation", func(t *testing.T) {
 		execute := func(input string, args ...string) (int, []byte, string) {
-			c := exec.CommandContext(ctx, binary, args...)
+			runCtx, stop := context.WithTimeout(context.Background(), 10*time.Second)
+			defer stop()
+			c := exec.CommandContext(runCtx, binary, args...)
 			c.Dir = work
 			c.Stdin = strings.NewReader(input)
 			var out, diags bytes.Buffer
@@ -456,7 +463,9 @@ func TestExecutableFlows(t *testing.T) {
 		if err := os.WriteFile(filepath.Join(root, "man1", "man-tool.1"), source, 0600); err != nil {
 			t.Fatal(err)
 		}
-		command := exec.CommandContext(ctx, binary, "serve", "--root", root, "--listen", "127.0.0.1:0", "--assets", "omit-fonts")
+		serverCtx, stopServer := context.WithTimeout(context.Background(), 30*time.Second)
+		defer stopServer()
+		command := exec.CommandContext(serverCtx, binary, "serve", "--root", root, "--listen", "127.0.0.1:0", "--assets", "omit-fonts")
 		stderr, err := command.StderrPipe()
 		if err != nil {
 			t.Fatal(err)
