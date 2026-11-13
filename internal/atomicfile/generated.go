@@ -101,14 +101,17 @@ func preflightOutputs(outputs []File) ([]stagedOutput, error) {
 		if output.Path == "" {
 			return nil, fmt.Errorf("empty generated output path")
 		}
+		// Windows Abs uses GetFullPathName, which can erase trailing dots and
+		// spaces. Validate the caller's basename before that normalization.
+		base := filepath.Base(output.Path)
+		if runtime.GOOS == "windows" && (!filepath.IsLocal(base) || strings.Contains(base, ":") || strings.TrimRight(base, ". ") != base) {
+			return nil, fmt.Errorf("ambiguous Windows generated filename: %s", base)
+		}
 		abs, err := filepath.Abs(output.Path)
 		if err != nil {
 			return nil, err
 		}
-		base := filepath.Base(abs)
-		if runtime.GOOS == "windows" && (!filepath.IsLocal(base) || strings.Contains(base, ":") || strings.TrimRight(base, ". ") != base) {
-			return nil, fmt.Errorf("ambiguous Windows generated filename: %s", base)
-		}
+		base = filepath.Base(abs)
 		parent, err := filepath.EvalSymlinks(filepath.Dir(abs))
 		if err != nil {
 			return nil, fmt.Errorf("resolve output directory for %s: %w", output.Path, err)
