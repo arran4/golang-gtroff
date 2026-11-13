@@ -4,6 +4,8 @@ The parser generator owns `macros.go`, `parseline.go`, `catalogue.go` and
 `docs/generated/catalogue-support.json`. Its inputs are the embedded canonical
 `cmd/gen/in.json`, normalized schema, generation plan and `*.template` files.
 Handwritten parser/handler code stays outside those outputs.
+[Catalogue documentation references and package bindings](provenance/corrections.md)
+are validated before the generation plan is built.
 
 ```sh
 # Read-only: validate inputs, render candidates, compare committed bytes.

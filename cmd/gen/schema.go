@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"sort"
 	"strings"
+
+	"github.com/arran4/golang-gtroff/internal/cataloguedoc"
 )
 
 type DefinitionKind string
@@ -34,11 +36,18 @@ const (
 
 // RawContainer mirrors the input structure in in.json
 type RawContainer struct {
-	Description string       `json:"Description"`
-	Contents    []RawContent `json:"Contents"`
+	ID             string       `json:"ID,omitempty"`
+	Description    string       `json:"Description,omitempty"`
+	DescriptionRef string       `json:"DescriptionRef,omitempty"`
+	Contents       []RawContent `json:"Contents"`
 }
 
 type RawContent struct {
+	ID              string          `json:"ID,omitempty"`
+	Description     string          `json:"Description,omitempty"`
+	DescriptionRef  string          `json:"DescriptionRef,omitempty"`
+	Package         PackageName     `json:"Package,omitempty"`
+	ParserPackage   PackageName     `json:"ParserPackage,omitempty"`
 	Block           *BlockPolicy    `json:"Block,omitempty"`
 	ArgumentGrammar *ArgumentPolicy `json:"ArgumentGrammar,omitempty"`
 	Type            string          `json:"Type"`
@@ -62,6 +71,18 @@ type NormalizedEntry struct {
 	IsCustom        bool            `json:"is_custom"`
 	Status          Status          `json:"status"`
 	HasCollision    bool            `json:"has_collision"`
+
+	// Source-package corrections must not rename existing concrete Go tokens
+	// or change ParseLineWithPackage's historical constructor selection.
+	parserPackage      PackageName
+	parserHasCollision bool
+}
+
+func (e *NormalizedEntry) parserNamespace() (PackageName, bool) {
+	if e.parserPackage != "" {
+		return e.parserPackage, e.parserHasCollision
+	}
+	return e.Package, e.HasCollision
 }
 
 type Catalog struct {
@@ -95,14 +116,21 @@ func NormalizeCatalog(inJson []byte) (*Catalog, error) {
 	if err := json.Unmarshal(inJson, &rawContainers); err != nil {
 		return nil, fmt.Errorf("unmarshal in.json: %w", err)
 	}
+	documentation, err := cataloguedoc.ParseJSON(inJson)
+	if err != nil {
+		return nil, fmt.Errorf("catalogue documentation: %w", err)
+	}
 
 	var entries []*NormalizedEntry
 	idx := 0
 
 	for cIdx, c := range rawContainers {
-		desc := strings.TrimSpace(c.Description)
-
-		for _, m := range c.Contents {
+		for mIdx, m := range c.Contents {
+			desc, _, err := documentation.Resolve(cIdx, mIdx)
+			if err != nil {
+				return nil, err
+			}
+			desc = strings.TrimSpace(desc)
 			kind := DefinitionKind(m.Type)
 			token := m.Token
 			argsRaw := m.Args
@@ -151,6 +179,24 @@ func NormalizeCatalog(inJson []byte) (*Catalog, error) {
 				prov = "groff(7)"
 			}
 
+			if m.Package != "" {
+				pkg = m.Package
+			}
+			parserPackage := pkg
+			if m.ParserPackage != "" {
+				parserPackage = m.ParserPackage
+			}
+			if m.Package != "" {
+				switch pkg {
+				case PackageMan:
+					prov = "groff_man(7)"
+				case PackageMs:
+					prov = "groff_ms(7)"
+				case PackageRoff:
+					prov = "groff(7)"
+				}
+			}
+
 			isCustom := customTokens[token]
 			status := StatusGenerated
 			if isCustom {
@@ -160,9 +206,10 @@ func NormalizeCatalog(inJson []byte) (*Catalog, error) {
 			}
 
 			// Generate Go struct/type name
-			goName := buildGoName(kind, pkg, token, cleanName)
+			goName := buildGoName(kind, parserPackage, token, cleanName)
 
 			entry := &NormalizedEntry{
+				parserPackage:   parserPackage,
 				Block:           m.Block,
 				ArgumentGrammar: m.ArgumentGrammar,
 				Index:           idx,
@@ -184,18 +231,26 @@ func NormalizeCatalog(inJson []byte) (*Catalog, error) {
 
 	// Detect collisions (e.g. same token in both man and ms)
 	tokenPackages := map[string]map[PackageName]bool{}
+	parserPackages := map[string]map[PackageName]bool{}
 	for _, e := range entries {
 		if e.Kind == KindMacro {
 			if tokenPackages[e.Token] == nil {
 				tokenPackages[e.Token] = map[PackageName]bool{}
 			}
 			tokenPackages[e.Token][e.Package] = true
+			if parserPackages[e.Token] == nil {
+				parserPackages[e.Token] = map[PackageName]bool{}
+			}
+			parserPackages[e.Token][e.parserPackage] = true
 		}
 	}
 
 	for _, e := range entries {
 		if e.Kind == KindMacro && len(tokenPackages[e.Token]) > 1 {
 			e.HasCollision = true
+		}
+		if e.Kind == KindMacro && len(parserPackages[e.Token]) > 1 {
+			e.parserHasCollision = true
 		}
 	}
 

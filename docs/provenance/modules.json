@@ -1,0 +1,344 @@
+{
+  "schema": 1,
+  "scope": "Module graph and named notice files; not a complete per-file binary SBOM or copyright clearance",
+  "core_and_desktop_revision": "a5359412d0363ade8b7dd611e365a79412397b98",
+  "optional_script_revision": "3dc1d364847f19a8cac0340eb590a71fe246fbac",
+  "modules": [
+    {
+      "module": "dmitri.shuralyov.com/gpu/mtl",
+      "version": "v0.0.0-20221208032759-85de2813cf6b",
+      "graphs": [
+        "desktop"
+      ],
+      "observed_terms": "BSD-3-Clause",
+      "notices": [
+        {
+          "path": "LICENSE",
+          "sha256": "4835612df0098ca95f8e7d9e3bffcb02358d435dbb38057c844c99d7f725eb20"
+        }
+      ]
+    },
+    {
+      "module": "github.com/arran4/go-subcommand",
+      "version": "v0.0.32",
+      "graphs": [
+        "core",
+        "desktop",
+        "script"
+      ],
+      "observed_terms": "BSD-3-Clause",
+      "notices": [
+        {
+          "path": "LICENSE",
+          "sha256": "356ee3152e6e66012d834ae92888609654d97b72b0de9159156535372474b4b9"
+        }
+      ]
+    },
+    {
+      "module": "github.com/arran4/strings2",
+      "version": "v0.0.19",
+      "graphs": [
+        "core",
+        "desktop",
+        "script"
+      ],
+      "observed_terms": "BSD-3-Clause",
+      "notices": [
+        {
+          "path": "LICENSE",
+          "sha256": "4bf6bd580d258121cdbb18ba6504173fa4b117e630836278471c41fe5a3143e1"
+        }
+      ]
+    },
+    {
+      "module": "github.com/d5/tengo/v2",
+      "version": "v2.17.0",
+      "graphs": [
+        "script"
+      ],
+      "observed_terms": "MIT",
+      "notices": [
+        {
+          "path": "LICENSE",
+          "sha256": "7150e12a44e955941375688e0abaf7a49dc9f675826ea87c310a16f8ae660516"
+        }
+      ]
+    },
+    {
+      "module": "github.com/go-gl/glfw/v3.3/glfw",
+      "version": "v0.0.0-20231223183121-56fa3ac82ce7",
+      "graphs": [
+        "desktop"
+      ],
+      "observed_terms": "BSD-3-Clause; bundled glfw/LICENSE.md uses Zlib",
+      "notices": [
+        {
+          "path": "LICENSE",
+          "sha256": "72f474049924563f43e5a5cc8e7e228a4fc8eb58e3dd7383bd3552c0725f566c"
+        },
+        {
+          "path": "glfw/LICENSE.md",
+          "sha256": "149704059b5d0bf551637e50042dd4de9c2cae921021f6636298911e3a5f9462"
+        }
+      ]
+    },
+    {
+      "module": "github.com/google/go-cmp",
+      "version": "v0.6.0",
+      "graphs": [
+        "core",
+        "desktop",
+        "script"
+      ],
+      "observed_terms": "BSD-3-Clause",
+      "notices": [
+        {
+          "path": "LICENSE",
+          "sha256": "17b5d209ba8f9684257ecfcff87df6ceda6194143a8fbd074f29727cff6f0c40"
+        }
+      ]
+    },
+    {
+      "module": "github.com/jezek/xgb",
+      "version": "v1.1.1",
+      "graphs": [
+        "desktop"
+      ],
+      "observed_terms": "BSD-3-Clause",
+      "notices": [
+        {
+          "path": "LICENSE",
+          "sha256": "2566d7f8d69e655b718d344d740ffde59543e6a337abed114b6fbaf6ec4e27f3"
+        }
+      ]
+    },
+    {
+      "module": "github.com/yuin/goldmark",
+      "version": "v1.4.13",
+      "graphs": [
+        "core",
+        "script"
+      ],
+      "observed_terms": "MIT",
+      "notices": [
+        {
+          "path": "LICENSE",
+          "sha256": "c1d6f653c38c80294dc7994647ba0dcc508ce64a86996303c804efa2f7982bff"
+        }
+      ]
+    },
+    {
+      "module": "golang.org/x/crypto",
+      "version": "v0.58.0",
+      "graphs": [
+        "core",
+        "script"
+      ],
+      "observed_terms": "BSD-3-Clause",
+      "notices": [
+        {
+          "path": "LICENSE",
+          "sha256": "911f8f5782931320f5b8d1160a76365b83aea6447ee6c04fa6d5591467db9dad"
+        }
+      ]
+    },
+    {
+      "module": "golang.org/x/exp/shiny",
+      "version": "v0.0.0-20261014143641-f0251eb4aa3e",
+      "graphs": [
+        "desktop"
+      ],
+      "observed_terms": "BSD-3-Clause",
+      "notices": [
+        {
+          "path": "LICENSE",
+          "sha256": "911f8f5782931320f5b8d1160a76365b83aea6447ee6c04fa6d5591467db9dad"
+        }
+      ]
+    },
+    {
+      "module": "golang.org/x/image",
+      "version": "v0.47.0",
+      "graphs": [
+        "core",
+        "desktop",
+        "script"
+      ],
+      "observed_terms": "BSD-3-Clause",
+      "notices": [
+        {
+          "path": "LICENSE",
+          "sha256": "911f8f5782931320f5b8d1160a76365b83aea6447ee6c04fa6d5591467db9dad"
+        }
+      ]
+    },
+    {
+      "module": "golang.org/x/mobile",
+      "version": "v0.0.0-20260908204917-8b95e45f8d3e",
+      "graphs": [
+        "desktop"
+      ],
+      "observed_terms": "BSD-3-Clause",
+      "notices": [
+        {
+          "path": "LICENSE",
+          "sha256": "911f8f5782931320f5b8d1160a76365b83aea6447ee6c04fa6d5591467db9dad"
+        }
+      ]
+    },
+    {
+      "module": "golang.org/x/mod",
+      "version": "v0.42.0",
+      "graphs": [
+        "core",
+        "desktop",
+        "script"
+      ],
+      "observed_terms": "BSD-3-Clause",
+      "notices": [
+        {
+          "path": "LICENSE",
+          "sha256": "911f8f5782931320f5b8d1160a76365b83aea6447ee6c04fa6d5591467db9dad"
+        }
+      ]
+    },
+    {
+      "module": "golang.org/x/net",
+      "version": "v0.61.0",
+      "graphs": [
+        "core",
+        "desktop",
+        "script"
+      ],
+      "observed_terms": "BSD-3-Clause",
+      "notices": [
+        {
+          "path": "LICENSE",
+          "sha256": "911f8f5782931320f5b8d1160a76365b83aea6447ee6c04fa6d5591467db9dad"
+        }
+      ]
+    },
+    {
+      "module": "golang.org/x/sync",
+      "version": "v0.24.0",
+      "graphs": [
+        "core",
+        "desktop",
+        "script"
+      ],
+      "observed_terms": "BSD-3-Clause",
+      "notices": [
+        {
+          "path": "LICENSE",
+          "sha256": "911f8f5782931320f5b8d1160a76365b83aea6447ee6c04fa6d5591467db9dad"
+        }
+      ]
+    },
+    {
+      "module": "golang.org/x/sys",
+      "version": "v0.49.0",
+      "graphs": [
+        "core",
+        "desktop",
+        "script"
+      ],
+      "observed_terms": "BSD-3-Clause",
+      "notices": [
+        {
+          "path": "LICENSE",
+          "sha256": "911f8f5782931320f5b8d1160a76365b83aea6447ee6c04fa6d5591467db9dad"
+        }
+      ]
+    },
+    {
+      "module": "golang.org/x/telemetry",
+      "version": "v0.0.0-20261009151841-97e8ea77aa2a",
+      "graphs": [
+        "core",
+        "script"
+      ],
+      "observed_terms": "BSD-3-Clause",
+      "notices": [
+        {
+          "path": "LICENSE",
+          "sha256": "911f8f5782931320f5b8d1160a76365b83aea6447ee6c04fa6d5591467db9dad"
+        }
+      ]
+    },
+    {
+      "module": "golang.org/x/term",
+      "version": "v0.47.0",
+      "graphs": [
+        "core",
+        "script"
+      ],
+      "observed_terms": "BSD-3-Clause",
+      "notices": [
+        {
+          "path": "LICENSE",
+          "sha256": "911f8f5782931320f5b8d1160a76365b83aea6447ee6c04fa6d5591467db9dad"
+        }
+      ]
+    },
+    {
+      "module": "golang.org/x/text",
+      "version": "v0.43.0",
+      "graphs": [
+        "core",
+        "desktop",
+        "script"
+      ],
+      "observed_terms": "BSD-3-Clause",
+      "notices": [
+        {
+          "path": "LICENSE",
+          "sha256": "911f8f5782931320f5b8d1160a76365b83aea6447ee6c04fa6d5591467db9dad"
+        }
+      ]
+    },
+    {
+      "module": "golang.org/x/tools",
+      "version": "v0.52.0",
+      "graphs": [
+        "core",
+        "desktop",
+        "script"
+      ],
+      "observed_terms": "BSD-3-Clause",
+      "notices": [
+        {
+          "path": "LICENSE",
+          "sha256": "911f8f5782931320f5b8d1160a76365b83aea6447ee6c04fa6d5591467db9dad"
+        }
+      ]
+    },
+    {
+      "module": "golang.org/x/tools/go/expect",
+      "version": "v0.1.1-deprecated",
+      "graphs": [
+        "desktop"
+      ],
+      "observed_terms": "BSD-3-Clause",
+      "notices": [
+        {
+          "path": "LICENSE",
+          "sha256": "911f8f5782931320f5b8d1160a76365b83aea6447ee6c04fa6d5591467db9dad"
+        }
+      ]
+    },
+    {
+      "module": "golang.org/x/tools/go/packages/packagestest",
+      "version": "v0.1.1-deprecated",
+      "graphs": [
+        "desktop"
+      ],
+      "observed_terms": "BSD-3-Clause",
+      "notices": [
+        {
+          "path": "LICENSE",
+          "sha256": "911f8f5782931320f5b8d1160a76365b83aea6447ee6c04fa6d5591467db9dad"
+        }
+      ]
+    }
+  ]
+}
