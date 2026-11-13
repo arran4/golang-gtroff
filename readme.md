@@ -223,6 +223,10 @@ go run ./cmd/gen -check
 go generate ./...
 ```
 
+For opt-in parser/AST/catalogue measurements, see the [benchmark inventory,
+runner and comparison procedure](docs/benchmarks.md). Correctness tests and
+performance observations remain separate.
+
 Generation rebuilds macro/request definitions, dispatchers and catalogue from
 `cmd/gen/in.json`, `schema.go` and templates, regenerates
 [the syntax support matrix](docs/generated/catalogue-support.json),

@@ -486,6 +486,7 @@ func getTokenTypeName(tok Token) string {
 
 // BenchmarkParseLine benchmarks parsing a single line
 func BenchmarkParseLine(b *testing.B) {
+	b.ReportAllocs()
 	testLines := []string{
 		`.TH TEST 1 2024-01-01 "Test" "Test Manual"`,
 		`.SH NAME`,
@@ -508,6 +509,7 @@ func BenchmarkParseLine(b *testing.B) {
 // BenchmarkParseFile benchmarks parsing a complete file
 func BenchmarkParseFile(b *testing.B) {
 	b.Run("simple", func(b *testing.B) {
+		b.ReportAllocs()
 		for i := 0; i < b.N; i++ {
 			if _, err := parseManPageFile("testdata/simple.1"); err != nil {
 				b.Fatal(err)
@@ -516,6 +518,7 @@ func BenchmarkParseFile(b *testing.B) {
 	})
 
 	b.Run("complex", func(b *testing.B) {
+		b.ReportAllocs()
 		for i := 0; i < b.N; i++ {
 			if _, err := parseManPageFile("testdata/complex.7"); err != nil {
 				b.Fatal(err)
@@ -524,6 +527,7 @@ func BenchmarkParseFile(b *testing.B) {
 	})
 
 	b.Run("environ_snippet", func(b *testing.B) {
+		b.ReportAllocs()
 		for i := 0; i < b.N; i++ {
 			if _, err := parseManPageFile("testdata/environ_snippet.7"); err != nil {
 				b.Fatal(err)
@@ -536,6 +540,7 @@ func BenchmarkParseFile(b *testing.B) {
 func BenchmarkParseReferenceText(b *testing.B) {
 	for _, path := range []string{"groff_man.txt", "groff_ms.txt"} {
 		b.Run(path, func(b *testing.B) {
+			b.ReportAllocs()
 			for i := 0; i < b.N; i++ {
 				if _, err := parseManPageFile(path); err != nil {
 					b.Fatal(err)

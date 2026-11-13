@@ -1,0 +1,296 @@
+goos: linux
+goarch: amd64
+pkg: github.com/arran4/golang-gtroff
+cpu: 12th Gen Intel(R) Core(TM) i5-12600KF
+BenchmarkParseLine                	  473038	       262.6 ns/op	     187 B/op	       6 allocs/op
+BenchmarkParseLine                	  459778	       260.9 ns/op	     187 B/op	       6 allocs/op
+BenchmarkParseLine                	  495002	       257.1 ns/op	     187 B/op	       6 allocs/op
+BenchmarkParseLine                	  485044	       256.9 ns/op	     187 B/op	       6 allocs/op
+BenchmarkParseLine                	  496572	       258.4 ns/op	     187 B/op	       6 allocs/op
+BenchmarkParseLine                	  496225	       257.4 ns/op	     187 B/op	       6 allocs/op
+BenchmarkParseLine                	  504400	       257.0 ns/op	     187 B/op	       6 allocs/op
+BenchmarkParseLine                	  498285	       257.0 ns/op	     187 B/op	       6 allocs/op
+BenchmarkParseLine                	  498787	       256.9 ns/op	     187 B/op	       6 allocs/op
+BenchmarkParseLine                	  484208	       261.9 ns/op	     187 B/op	       6 allocs/op
+BenchmarkParseFile/simple         	    6582	     18217 ns/op	   22232 B/op	     271 allocs/op
+BenchmarkParseFile/simple         	    8824	     18104 ns/op	   22232 B/op	     271 allocs/op
+BenchmarkParseFile/simple         	    8419	     17976 ns/op	   22232 B/op	     271 allocs/op
+BenchmarkParseFile/simple         	    7827	     18012 ns/op	   22232 B/op	     271 allocs/op
+BenchmarkParseFile/simple         	    7024	     18016 ns/op	   22232 B/op	     271 allocs/op
+BenchmarkParseFile/simple         	    8373	     18462 ns/op	   22232 B/op	     271 allocs/op
+BenchmarkParseFile/simple         	    8974	     18241 ns/op	   22232 B/op	     271 allocs/op
+BenchmarkParseFile/simple         	    7192	     18016 ns/op	   22232 B/op	     271 allocs/op
+BenchmarkParseFile/simple         	    8156	     17910 ns/op	   22232 B/op	     271 allocs/op
+BenchmarkParseFile/simple         	    7011	     17982 ns/op	   22232 B/op	     271 allocs/op
+BenchmarkParseFile/complex        	    3546	     34265 ns/op	   40016 B/op	     533 allocs/op
+BenchmarkParseFile/complex        	    3141	     34691 ns/op	   40016 B/op	     533 allocs/op
+BenchmarkParseFile/complex        	    3288	     34486 ns/op	   40016 B/op	     533 allocs/op
+BenchmarkParseFile/complex        	    3596	     35485 ns/op	   40016 B/op	     533 allocs/op
+BenchmarkParseFile/complex        	    3445	     35806 ns/op	   40016 B/op	     533 allocs/op
+BenchmarkParseFile/complex        	    3264	     34323 ns/op	   40016 B/op	     533 allocs/op
+BenchmarkParseFile/complex        	    3279	     34614 ns/op	   40016 B/op	     533 allocs/op
+BenchmarkParseFile/complex        	    3196	     34324 ns/op	   40016 B/op	     533 allocs/op
+BenchmarkParseFile/complex        	    3238	     34723 ns/op	   40016 B/op	     533 allocs/op
+BenchmarkParseFile/complex        	    3175	     34253 ns/op	   40016 B/op	     533 allocs/op
+BenchmarkParseFile/environ_snippet         	    2524	     44171 ns/op	   68816 B/op	     575 allocs/op
+BenchmarkParseFile/environ_snippet         	    2515	     44421 ns/op	   68816 B/op	     575 allocs/op
+BenchmarkParseFile/environ_snippet         	    2760	     44260 ns/op	   68816 B/op	     575 allocs/op
+BenchmarkParseFile/environ_snippet         	    2641	     44337 ns/op	   68816 B/op	     575 allocs/op
+BenchmarkParseFile/environ_snippet         	    2695	     44090 ns/op	   68816 B/op	     575 allocs/op
+BenchmarkParseFile/environ_snippet         	    2786	     44086 ns/op	   68816 B/op	     575 allocs/op
+BenchmarkParseFile/environ_snippet         	    2626	     43922 ns/op	   68816 B/op	     575 allocs/op
+BenchmarkParseFile/environ_snippet         	    2565	     43921 ns/op	   68816 B/op	     575 allocs/op
+BenchmarkParseFile/environ_snippet         	    2647	     44267 ns/op	   68816 B/op	     575 allocs/op
+BenchmarkParseFile/environ_snippet         	    2674	     44373 ns/op	   68816 B/op	     575 allocs/op
+BenchmarkParseReferenceText/groff_man.txt  	     580	    201997 ns/op	  505000 B/op	    1335 allocs/op
+BenchmarkParseReferenceText/groff_man.txt  	     596	    200955 ns/op	  505000 B/op	    1335 allocs/op
+BenchmarkParseReferenceText/groff_man.txt  	     592	    200512 ns/op	  505001 B/op	    1335 allocs/op
+BenchmarkParseReferenceText/groff_man.txt  	     592	    201727 ns/op	  505000 B/op	    1335 allocs/op
+BenchmarkParseReferenceText/groff_man.txt  	     574	    205674 ns/op	  505001 B/op	    1335 allocs/op
+BenchmarkParseReferenceText/groff_man.txt  	     564	    205623 ns/op	  505001 B/op	    1335 allocs/op
+BenchmarkParseReferenceText/groff_man.txt  	     585	    205645 ns/op	  505000 B/op	    1335 allocs/op
+BenchmarkParseReferenceText/groff_man.txt  	     525	    200384 ns/op	  505001 B/op	    1335 allocs/op
+BenchmarkParseReferenceText/groff_man.txt  	     596	    198954 ns/op	  505000 B/op	    1335 allocs/op
+BenchmarkParseReferenceText/groff_man.txt  	     598	    202594 ns/op	  505000 B/op	    1335 allocs/op
+BenchmarkParseReferenceText/groff_ms.txt   	     388	    294730 ns/op	  780329 B/op	    1868 allocs/op
+BenchmarkParseReferenceText/groff_ms.txt   	     396	    295340 ns/op	  780330 B/op	    1868 allocs/op
+BenchmarkParseReferenceText/groff_ms.txt   	     402	    294701 ns/op	  780330 B/op	    1868 allocs/op
+BenchmarkParseReferenceText/groff_ms.txt   	     399	    298619 ns/op	  780329 B/op	    1868 allocs/op
+BenchmarkParseReferenceText/groff_ms.txt   	     399	    306001 ns/op	  780329 B/op	    1868 allocs/op
+BenchmarkParseReferenceText/groff_ms.txt   	     386	    305617 ns/op	  780330 B/op	    1868 allocs/op
+BenchmarkParseReferenceText/groff_ms.txt   	     392	    302159 ns/op	  780329 B/op	    1868 allocs/op
+BenchmarkParseReferenceText/groff_ms.txt   	     391	    299136 ns/op	  780329 B/op	    1868 allocs/op
+BenchmarkParseReferenceText/groff_ms.txt   	     382	    299047 ns/op	  780328 B/op	    1868 allocs/op
+BenchmarkParseReferenceText/groff_ms.txt   	     396	    298243 ns/op	  780329 B/op	    1868 allocs/op
+BenchmarkParseDocument/man-small           	    9964	     15058 ns/op	  31.21 MB/s	   21096 B/op	     264 allocs/op
+BenchmarkParseDocument/man-small           	   10000	     14849 ns/op	  31.65 MB/s	   21096 B/op	     264 allocs/op
+BenchmarkParseDocument/man-small           	   10000	     15082 ns/op	  31.16 MB/s	   21096 B/op	     264 allocs/op
+BenchmarkParseDocument/man-small           	   10000	     15019 ns/op	  31.29 MB/s	   21096 B/op	     264 allocs/op
+BenchmarkParseDocument/man-small           	   10000	     15022 ns/op	  31.29 MB/s	   21096 B/op	     264 allocs/op
+BenchmarkParseDocument/man-small           	   10000	     14917 ns/op	  31.51 MB/s	   21096 B/op	     264 allocs/op
+BenchmarkParseDocument/man-small           	   10000	     15052 ns/op	  31.23 MB/s	   21096 B/op	     264 allocs/op
+BenchmarkParseDocument/man-small           	   10000	     14982 ns/op	  31.37 MB/s	   21096 B/op	     264 allocs/op
+BenchmarkParseDocument/man-small           	   10000	     14971 ns/op	  31.39 MB/s	   21096 B/op	     264 allocs/op
+BenchmarkParseDocument/man-small           	   10000	     14875 ns/op	  31.60 MB/s	   21096 B/op	     264 allocs/op
+BenchmarkParseDocument/man-medium          	     860	    142149 ns/op	  61.47 MB/s	  241048 B/op	    2377 allocs/op
+BenchmarkParseDocument/man-medium          	     865	    141057 ns/op	  61.95 MB/s	  241048 B/op	    2377 allocs/op
+BenchmarkParseDocument/man-medium          	     856	    142269 ns/op	  61.42 MB/s	  241048 B/op	    2377 allocs/op
+BenchmarkParseDocument/man-medium          	     859	    141777 ns/op	  61.63 MB/s	  241048 B/op	    2377 allocs/op
+BenchmarkParseDocument/man-medium          	     858	    142014 ns/op	  61.53 MB/s	  241048 B/op	    2377 allocs/op
+BenchmarkParseDocument/man-medium          	     856	    141390 ns/op	  61.80 MB/s	  241048 B/op	    2377 allocs/op
+BenchmarkParseDocument/man-medium          	     856	    142180 ns/op	  61.46 MB/s	  241048 B/op	    2377 allocs/op
+BenchmarkParseDocument/man-medium          	     868	    141293 ns/op	  61.84 MB/s	  241048 B/op	    2377 allocs/op
+BenchmarkParseDocument/man-medium          	     865	    142098 ns/op	  61.49 MB/s	  241048 B/op	    2377 allocs/op
+BenchmarkParseDocument/man-medium          	     856	    141304 ns/op	  61.84 MB/s	  241048 B/op	    2377 allocs/op
+BenchmarkParseDocument/ms-small            	   12952	      9259 ns/op	  40.39 MB/s	   17984 B/op	     134 allocs/op
+BenchmarkParseDocument/ms-small            	   12930	      9270 ns/op	  40.35 MB/s	   17984 B/op	     134 allocs/op
+BenchmarkParseDocument/ms-small            	   13008	      9222 ns/op	  40.55 MB/s	   17984 B/op	     134 allocs/op
+BenchmarkParseDocument/ms-small            	   12694	      9432 ns/op	  39.65 MB/s	   17984 B/op	     134 allocs/op
+BenchmarkParseDocument/ms-small            	   12726	      9393 ns/op	  39.82 MB/s	   17984 B/op	     134 allocs/op
+BenchmarkParseDocument/ms-small            	   13080	      9172 ns/op	  40.78 MB/s	   17984 B/op	     134 allocs/op
+BenchmarkParseDocument/ms-small            	   12988	      9278 ns/op	  40.31 MB/s	   17984 B/op	     134 allocs/op
+BenchmarkParseDocument/ms-small            	   12907	      9307 ns/op	  40.19 MB/s	   17984 B/op	     134 allocs/op
+BenchmarkParseDocument/ms-small            	   12754	      9380 ns/op	  39.87 MB/s	   17984 B/op	     134 allocs/op
+BenchmarkParseDocument/ms-small            	   12675	      9408 ns/op	  39.76 MB/s	   17984 B/op	     134 allocs/op
+BenchmarkParseDocument/roff-small          	   28033	      4291 ns/op	  45.22 MB/s	    8776 B/op	      65 allocs/op
+BenchmarkParseDocument/roff-small          	   27892	      4316 ns/op	  44.94 MB/s	    8776 B/op	      65 allocs/op
+BenchmarkParseDocument/roff-small          	   27964	      4315 ns/op	  44.95 MB/s	    8776 B/op	      65 allocs/op
+BenchmarkParseDocument/roff-small          	   27759	      4337 ns/op	  44.73 MB/s	    8776 B/op	      65 allocs/op
+BenchmarkParseDocument/roff-small          	   27798	      4335 ns/op	  44.75 MB/s	    8776 B/op	      65 allocs/op
+BenchmarkParseDocument/roff-small          	   28194	      4265 ns/op	  45.48 MB/s	    8776 B/op	      65 allocs/op
+BenchmarkParseDocument/roff-small          	   28268	      4280 ns/op	  45.33 MB/s	    8776 B/op	      65 allocs/op
+BenchmarkParseDocument/roff-small          	   28078	      4311 ns/op	  45.00 MB/s	    8776 B/op	      65 allocs/op
+BenchmarkParseDocument/roff-small          	   27813	      4321 ns/op	  44.90 MB/s	    8776 B/op	      65 allocs/op
+BenchmarkParseDocument/roff-small          	   27963	      4317 ns/op	  44.94 MB/s	    8776 B/op	      65 allocs/op
+BenchmarkParseAST/man-small                	    2295	     45871 ns/op	  10.25 MB/s	   52829 B/op	     667 allocs/op
+BenchmarkParseAST/man-small                	    2769	     45731 ns/op	  10.28 MB/s	   52819 B/op	     667 allocs/op
+BenchmarkParseAST/man-small                	    2733	     45134 ns/op	  10.41 MB/s	   52818 B/op	     667 allocs/op
+BenchmarkParseAST/man-small                	    2773	     45270 ns/op	  10.38 MB/s	   52819 B/op	     667 allocs/op
+BenchmarkParseAST/man-small                	    2575	     45515 ns/op	  10.33 MB/s	   52819 B/op	     667 allocs/op
+BenchmarkParseAST/man-small                	    2773	     45367 ns/op	  10.36 MB/s	   52818 B/op	     667 allocs/op
+BenchmarkParseAST/man-small                	    2770	     45589 ns/op	  10.31 MB/s	   52819 B/op	     667 allocs/op
+BenchmarkParseAST/man-small                	    2617	     45759 ns/op	  10.27 MB/s	   52818 B/op	     667 allocs/op
+BenchmarkParseAST/man-small                	    2700	     45759 ns/op	  10.27 MB/s	   52819 B/op	     667 allocs/op
+BenchmarkParseAST/man-small                	    2748	     45754 ns/op	  10.27 MB/s	   52818 B/op	     667 allocs/op
+BenchmarkParseAST/man-medium               	     267	    451758 ns/op	  19.34 MB/s	  487142 B/op	    5622 allocs/op
+BenchmarkParseAST/man-medium               	     252	    473054 ns/op	  18.47 MB/s	  487142 B/op	    5622 allocs/op
+BenchmarkParseAST/man-medium               	     266	    451999 ns/op	  19.33 MB/s	  487141 B/op	    5622 allocs/op
+BenchmarkParseAST/man-medium               	     266	    452128 ns/op	  19.33 MB/s	  487141 B/op	    5622 allocs/op
+BenchmarkParseAST/man-medium               	     256	    455770 ns/op	  19.17 MB/s	  487142 B/op	    5622 allocs/op
+BenchmarkParseAST/man-medium               	     265	    452482 ns/op	  19.31 MB/s	  487142 B/op	    5622 allocs/op
+BenchmarkParseAST/man-medium               	     266	    449609 ns/op	  19.43 MB/s	  487142 B/op	    5622 allocs/op
+BenchmarkParseAST/man-medium               	     265	    450324 ns/op	  19.40 MB/s	  487142 B/op	    5622 allocs/op
+BenchmarkParseAST/man-medium               	     264	    451670 ns/op	  19.35 MB/s	  487141 B/op	    5622 allocs/op
+BenchmarkParseAST/man-medium               	     266	    449973 ns/op	  19.42 MB/s	  487142 B/op	    5622 allocs/op
+BenchmarkParseAST/ms-small                 	    5073	     24608 ns/op	  15.20 MB/s	   30316 B/op	     320 allocs/op
+BenchmarkParseAST/ms-small                 	    5311	     24611 ns/op	  15.20 MB/s	   30313 B/op	     320 allocs/op
+BenchmarkParseAST/ms-small                 	    5600	     24514 ns/op	  15.26 MB/s	   30313 B/op	     320 allocs/op
+BenchmarkParseAST/ms-small                 	    5443	     24487 ns/op	  15.27 MB/s	   30313 B/op	     320 allocs/op
+BenchmarkParseAST/ms-small                 	    5163	     24738 ns/op	  15.12 MB/s	   30313 B/op	     320 allocs/op
+BenchmarkParseAST/ms-small                 	    5580	     24504 ns/op	  15.26 MB/s	   30313 B/op	     320 allocs/op
+BenchmarkParseAST/ms-small                 	    5300	     24497 ns/op	  15.27 MB/s	   30313 B/op	     320 allocs/op
+BenchmarkParseAST/ms-small                 	    5474	     24631 ns/op	  15.18 MB/s	   30313 B/op	     320 allocs/op
+BenchmarkParseAST/ms-small                 	    5392	     24497 ns/op	  15.27 MB/s	   30313 B/op	     320 allocs/op
+BenchmarkParseAST/ms-small                 	    5544	     24562 ns/op	  15.23 MB/s	   30313 B/op	     320 allocs/op
+BenchmarkParseAST/roff-small               	   10000	     12635 ns/op	  15.35 MB/s	   17841 B/op	     182 allocs/op
+BenchmarkParseAST/roff-small               	   10000	     12632 ns/op	  15.36 MB/s	   17841 B/op	     182 allocs/op
+BenchmarkParseAST/roff-small               	   10000	     12570 ns/op	  15.43 MB/s	   17841 B/op	     182 allocs/op
+BenchmarkParseAST/roff-small               	   10000	     12540 ns/op	  15.47 MB/s	   17841 B/op	     182 allocs/op
+BenchmarkParseAST/roff-small               	   10000	     12587 ns/op	  15.41 MB/s	   17841 B/op	     182 allocs/op
+BenchmarkParseAST/roff-small               	   10000	     12543 ns/op	  15.47 MB/s	   17841 B/op	     182 allocs/op
+BenchmarkParseAST/roff-small               	   10000	     12826 ns/op	  15.13 MB/s	   17841 B/op	     182 allocs/op
+BenchmarkParseAST/roff-small               	   10000	     12573 ns/op	  15.43 MB/s	   17841 B/op	     182 allocs/op
+BenchmarkParseAST/roff-small               	   10000	     12541 ns/op	  15.47 MB/s	   17841 B/op	     182 allocs/op
+BenchmarkParseAST/roff-small               	   10000	     12588 ns/op	  15.41 MB/s	   17841 B/op	     182 allocs/op
+BenchmarkManBuild/man-small                	    3549	     30162 ns/op	  15.58 MB/s	   55544 B/op	     405 allocs/op
+BenchmarkManBuild/man-small                	    4216	     29862 ns/op	  15.74 MB/s	   55544 B/op	     405 allocs/op
+BenchmarkManBuild/man-small                	    4172	     29909 ns/op	  15.71 MB/s	   55544 B/op	     405 allocs/op
+BenchmarkManBuild/man-small                	    4189	     29800 ns/op	  15.77 MB/s	   55544 B/op	     405 allocs/op
+BenchmarkManBuild/man-small                	    4005	     29930 ns/op	  15.70 MB/s	   55544 B/op	     405 allocs/op
+BenchmarkManBuild/man-small                	    4147	     29829 ns/op	  15.76 MB/s	   55544 B/op	     405 allocs/op
+BenchmarkManBuild/man-small                	    4130	     29773 ns/op	  15.79 MB/s	   55544 B/op	     405 allocs/op
+BenchmarkManBuild/man-small                	    4172	     29915 ns/op	  15.71 MB/s	   55544 B/op	     405 allocs/op
+BenchmarkManBuild/man-small                	    4189	     29852 ns/op	  15.74 MB/s	   55544 B/op	     405 allocs/op
+BenchmarkManBuild/man-small                	    4104	     29768 ns/op	  15.79 MB/s	   55544 B/op	     405 allocs/op
+BenchmarkManBuild/man-medium               	     441	    268994 ns/op	  32.48 MB/s	  382306 B/op	    3069 allocs/op
+BenchmarkManBuild/man-medium               	     447	    267006 ns/op	  32.73 MB/s	  382306 B/op	    3069 allocs/op
+BenchmarkManBuild/man-medium               	     446	    268326 ns/op	  32.56 MB/s	  382306 B/op	    3069 allocs/op
+BenchmarkManBuild/man-medium               	     453	    266443 ns/op	  32.80 MB/s	  382306 B/op	    3069 allocs/op
+BenchmarkManBuild/man-medium               	     454	    267385 ns/op	  32.68 MB/s	  382306 B/op	    3069 allocs/op
+BenchmarkManBuild/man-medium               	     446	    267173 ns/op	  32.71 MB/s	  382306 B/op	    3069 allocs/op
+BenchmarkManBuild/man-medium               	     447	    266935 ns/op	  32.73 MB/s	  382306 B/op	    3069 allocs/op
+BenchmarkManBuild/man-medium               	     453	    266872 ns/op	  32.74 MB/s	  382305 B/op	    3069 allocs/op
+BenchmarkManBuild/man-medium               	     453	    265728 ns/op	  32.88 MB/s	  382305 B/op	    3069 allocs/op
+BenchmarkManBuild/man-medium               	     448	    266964 ns/op	  32.73 MB/s	  382306 B/op	    3069 allocs/op
+BenchmarkParseArguments/ascii              	  168944	       707.2 ns/op	  36.77 MB/s	    1288 B/op	      14 allocs/op
+BenchmarkParseArguments/ascii              	  175552	       705.5 ns/op	  36.85 MB/s	    1288 B/op	      14 allocs/op
+BenchmarkParseArguments/ascii              	  175003	       706.4 ns/op	  36.81 MB/s	    1288 B/op	      14 allocs/op
+BenchmarkParseArguments/ascii              	  176517	       704.3 ns/op	  36.92 MB/s	    1288 B/op	      14 allocs/op
+BenchmarkParseArguments/ascii              	  177880	       704.5 ns/op	  36.91 MB/s	    1288 B/op	      14 allocs/op
+BenchmarkParseArguments/ascii              	  177086	       698.9 ns/op	  37.20 MB/s	    1288 B/op	      14 allocs/op
+BenchmarkParseArguments/ascii              	  178353	       700.2 ns/op	  37.13 MB/s	    1288 B/op	      14 allocs/op
+BenchmarkParseArguments/ascii              	  178543	       700.8 ns/op	  37.10 MB/s	    1288 B/op	      14 allocs/op
+BenchmarkParseArguments/ascii              	  178393	       701.6 ns/op	  37.06 MB/s	    1288 B/op	      14 allocs/op
+BenchmarkParseArguments/ascii              	  179192	       698.6 ns/op	  37.22 MB/s	    1288 B/op	      14 allocs/op
+BenchmarkParseArguments/quoted-escaped     	  212022	       604.6 ns/op	 102.54 MB/s	     744 B/op	      13 allocs/op
+BenchmarkParseArguments/quoted-escaped     	  212610	       606.5 ns/op	 102.23 MB/s	     744 B/op	      13 allocs/op
+BenchmarkParseArguments/quoted-escaped     	  209144	       604.9 ns/op	 102.49 MB/s	     744 B/op	      13 allocs/op
+BenchmarkParseArguments/quoted-escaped     	  209719	       603.9 ns/op	 102.67 MB/s	     744 B/op	      13 allocs/op
+BenchmarkParseArguments/quoted-escaped     	  214609	       603.4 ns/op	 102.75 MB/s	     744 B/op	      13 allocs/op
+BenchmarkParseArguments/quoted-escaped     	  212694	       611.0 ns/op	 101.47 MB/s	     744 B/op	      13 allocs/op
+BenchmarkParseArguments/quoted-escaped     	  206496	       612.2 ns/op	 101.27 MB/s	     744 B/op	      13 allocs/op
+BenchmarkParseArguments/quoted-escaped     	  213385	       605.4 ns/op	 102.40 MB/s	     744 B/op	      13 allocs/op
+BenchmarkParseArguments/quoted-escaped     	  214062	       603.7 ns/op	 102.69 MB/s	     744 B/op	      13 allocs/op
+BenchmarkParseArguments/quoted-escaped     	  215766	       602.0 ns/op	 102.99 MB/s	     744 B/op	      13 allocs/op
+BenchmarkParseArguments/unicode            	  241593	       525.0 ns/op	  64.76 MB/s	     728 B/op	      12 allocs/op
+BenchmarkParseArguments/unicode            	  246117	       525.3 ns/op	  64.72 MB/s	     728 B/op	      12 allocs/op
+BenchmarkParseArguments/unicode            	  243469	       528.6 ns/op	  64.32 MB/s	     728 B/op	      12 allocs/op
+BenchmarkParseArguments/unicode            	  248317	       526.8 ns/op	  64.54 MB/s	     728 B/op	      12 allocs/op
+BenchmarkParseArguments/unicode            	  245277	       526.5 ns/op	  64.58 MB/s	     728 B/op	      12 allocs/op
+BenchmarkParseArguments/unicode            	  247249	       526.8 ns/op	  64.54 MB/s	     728 B/op	      12 allocs/op
+BenchmarkParseArguments/unicode            	  246598	       526.7 ns/op	  64.55 MB/s	     728 B/op	      12 allocs/op
+BenchmarkParseArguments/unicode            	  247052	       527.1 ns/op	  64.51 MB/s	     728 B/op	      12 allocs/op
+BenchmarkParseArguments/unicode            	  243668	       527.6 ns/op	  64.44 MB/s	     728 B/op	      12 allocs/op
+BenchmarkParseArguments/unicode            	  248372	       526.6 ns/op	  64.56 MB/s	     728 B/op	      12 allocs/op
+BenchmarkLexArguments                      	  290727	       446.7 ns/op	 102.98 MB/s	     496 B/op	      11 allocs/op
+BenchmarkLexArguments                      	  295291	       448.6 ns/op	 102.54 MB/s	     496 B/op	      11 allocs/op
+BenchmarkLexArguments                      	  290841	       446.2 ns/op	 103.09 MB/s	     496 B/op	      11 allocs/op
+BenchmarkLexArguments                      	  291775	       446.4 ns/op	 103.04 MB/s	     496 B/op	      11 allocs/op
+BenchmarkLexArguments                      	  295162	       449.6 ns/op	 102.31 MB/s	     496 B/op	      11 allocs/op
+BenchmarkLexArguments                      	  290739	       448.3 ns/op	 102.61 MB/s	     496 B/op	      11 allocs/op
+BenchmarkLexArguments                      	  293671	       459.2 ns/op	 100.17 MB/s	     496 B/op	      11 allocs/op
+BenchmarkLexArguments                      	  294385	       452.7 ns/op	 101.62 MB/s	     496 B/op	      11 allocs/op
+BenchmarkLexArguments                      	  276086	       452.4 ns/op	 101.68 MB/s	     496 B/op	      11 allocs/op
+BenchmarkLexArguments                      	  287323	       452.5 ns/op	 101.67 MB/s	     496 B/op	      11 allocs/op
+BenchmarkGeneratorArgumentGrammar/required 	   85360	      1392 ns/op	   9.34 MB/s	     600 B/op	      69 allocs/op
+BenchmarkGeneratorArgumentGrammar/required 	   85774	      1378 ns/op	   9.43 MB/s	     600 B/op	      69 allocs/op
+BenchmarkGeneratorArgumentGrammar/required 	   87392	      1379 ns/op	   9.43 MB/s	     600 B/op	      69 allocs/op
+BenchmarkGeneratorArgumentGrammar/required 	   88323	      1366 ns/op	   9.51 MB/s	     600 B/op	      69 allocs/op
+BenchmarkGeneratorArgumentGrammar/required 	   86673	      1376 ns/op	   9.45 MB/s	     600 B/op	      69 allocs/op
+BenchmarkGeneratorArgumentGrammar/required 	   90904	      1376 ns/op	   9.45 MB/s	     600 B/op	      69 allocs/op
+BenchmarkGeneratorArgumentGrammar/required 	   90684	      1354 ns/op	   9.60 MB/s	     600 B/op	      69 allocs/op
+BenchmarkGeneratorArgumentGrammar/required 	   89683	      1355 ns/op	   9.59 MB/s	     600 B/op	      69 allocs/op
+BenchmarkGeneratorArgumentGrammar/required 	   89030	      1351 ns/op	   9.62 MB/s	     600 B/op	      69 allocs/op
+BenchmarkGeneratorArgumentGrammar/required 	   88627	      1357 ns/op	   9.58 MB/s	     600 B/op	      69 allocs/op
+BenchmarkGeneratorArgumentGrammar/nested-optional         	   33504	      3597 ns/op	  11.12 MB/s	    1880 B/op	     175 allocs/op
+BenchmarkGeneratorArgumentGrammar/nested-optional         	   33367	      3612 ns/op	  11.08 MB/s	    1880 B/op	     175 allocs/op
+BenchmarkGeneratorArgumentGrammar/nested-optional         	   33447	      3597 ns/op	  11.12 MB/s	    1880 B/op	     175 allocs/op
+BenchmarkGeneratorArgumentGrammar/nested-optional         	   33648	      3588 ns/op	  11.15 MB/s	    1880 B/op	     175 allocs/op
+BenchmarkGeneratorArgumentGrammar/nested-optional         	   33562	      3603 ns/op	  11.10 MB/s	    1880 B/op	     175 allocs/op
+BenchmarkGeneratorArgumentGrammar/nested-optional         	   33145	      3611 ns/op	  11.08 MB/s	    1880 B/op	     175 allocs/op
+BenchmarkGeneratorArgumentGrammar/nested-optional         	   33549	      3583 ns/op	  11.17 MB/s	    1880 B/op	     175 allocs/op
+BenchmarkGeneratorArgumentGrammar/nested-optional         	   33631	      3584 ns/op	  11.16 MB/s	    1880 B/op	     175 allocs/op
+BenchmarkGeneratorArgumentGrammar/nested-optional         	   33578	      3578 ns/op	  11.18 MB/s	    1880 B/op	     175 allocs/op
+BenchmarkGeneratorArgumentGrammar/nested-optional         	   33500	      3580 ns/op	  11.17 MB/s	    1880 B/op	     175 allocs/op
+BenchmarkGeneratorArgumentGrammar/repeating               	   68438	      1794 ns/op	  10.59 MB/s	     776 B/op	      76 allocs/op
+BenchmarkGeneratorArgumentGrammar/repeating               	   69229	      1793 ns/op	  10.60 MB/s	     776 B/op	      76 allocs/op
+BenchmarkGeneratorArgumentGrammar/repeating               	   63699	      1823 ns/op	  10.42 MB/s	     776 B/op	      76 allocs/op
+BenchmarkGeneratorArgumentGrammar/repeating               	   68968	      1783 ns/op	  10.66 MB/s	     776 B/op	      76 allocs/op
+BenchmarkGeneratorArgumentGrammar/repeating               	   69373	      1771 ns/op	  10.73 MB/s	     776 B/op	      76 allocs/op
+BenchmarkGeneratorArgumentGrammar/repeating               	   68052	      1772 ns/op	  10.72 MB/s	     776 B/op	      76 allocs/op
+BenchmarkGeneratorArgumentGrammar/repeating               	   68576	      1766 ns/op	  10.76 MB/s	     776 B/op	      76 allocs/op
+BenchmarkGeneratorArgumentGrammar/repeating               	   69162	      1764 ns/op	  10.77 MB/s	     776 B/op	      76 allocs/op
+BenchmarkGeneratorArgumentGrammar/repeating               	   69226	      1771 ns/op	  10.73 MB/s	     776 B/op	      76 allocs/op
+BenchmarkGeneratorArgumentGrammar/repeating               	   69739	      1774 ns/op	  10.71 MB/s	     776 B/op	      76 allocs/op
+BenchmarkCatalogueLookup/man                              	26569969	         4.545 ns/op	       0 B/op	       0 allocs/op
+BenchmarkCatalogueLookup/man                              	26688853	         4.501 ns/op	       0 B/op	       0 allocs/op
+BenchmarkCatalogueLookup/man                              	26837670	         4.573 ns/op	       0 B/op	       0 allocs/op
+BenchmarkCatalogueLookup/man                              	26858766	         4.506 ns/op	       0 B/op	       0 allocs/op
+BenchmarkCatalogueLookup/man                              	26840185	         4.506 ns/op	       0 B/op	       0 allocs/op
+BenchmarkCatalogueLookup/man                              	26568921	         4.518 ns/op	       0 B/op	       0 allocs/op
+BenchmarkCatalogueLookup/man                              	26865350	         4.506 ns/op	       0 B/op	       0 allocs/op
+BenchmarkCatalogueLookup/man                              	26847709	         4.555 ns/op	       0 B/op	       0 allocs/op
+BenchmarkCatalogueLookup/man                              	26764803	         4.502 ns/op	       0 B/op	       0 allocs/op
+BenchmarkCatalogueLookup/man                              	26752273	         4.492 ns/op	       0 B/op	       0 allocs/op
+BenchmarkCatalogueLookup/ms-collision                     	  669057	       200.8 ns/op	       0 B/op	       0 allocs/op
+BenchmarkCatalogueLookup/ms-collision                     	  526626	       197.6 ns/op	       0 B/op	       0 allocs/op
+BenchmarkCatalogueLookup/ms-collision                     	  607732	       194.8 ns/op	       0 B/op	       0 allocs/op
+BenchmarkCatalogueLookup/ms-collision                     	  681672	       194.8 ns/op	       0 B/op	       0 allocs/op
+BenchmarkCatalogueLookup/ms-collision                     	  631442	       190.1 ns/op	       0 B/op	       0 allocs/op
+BenchmarkCatalogueLookup/ms-collision                     	  529304	       195.9 ns/op	       0 B/op	       0 allocs/op
+BenchmarkCatalogueLookup/ms-collision                     	  627658	       190.5 ns/op	       0 B/op	       0 allocs/op
+BenchmarkCatalogueLookup/ms-collision                     	  593084	       189.4 ns/op	       0 B/op	       0 allocs/op
+BenchmarkCatalogueLookup/ms-collision                     	  550497	       196.0 ns/op	       0 B/op	       0 allocs/op
+BenchmarkCatalogueLookup/ms-collision                     	  609842	       195.1 ns/op	       0 B/op	       0 allocs/op
+BenchmarkCatalogueLookup/request                          	  311073	       384.7 ns/op	       0 B/op	       0 allocs/op
+BenchmarkCatalogueLookup/request                          	  312206	       397.1 ns/op	       0 B/op	       0 allocs/op
+BenchmarkCatalogueLookup/request                          	  257617	       394.8 ns/op	       0 B/op	       0 allocs/op
+BenchmarkCatalogueLookup/request                          	  280890	       383.0 ns/op	       0 B/op	       0 allocs/op
+BenchmarkCatalogueLookup/request                          	  318648	       382.5 ns/op	       0 B/op	       0 allocs/op
+BenchmarkCatalogueLookup/request                          	  291069	       371.1 ns/op	       0 B/op	       0 allocs/op
+BenchmarkCatalogueLookup/request                          	  305065	       371.4 ns/op	       0 B/op	       0 allocs/op
+BenchmarkCatalogueLookup/request                          	  332080	       367.7 ns/op	       0 B/op	       0 allocs/op
+BenchmarkCatalogueLookup/request                          	  318052	       381.6 ns/op	       0 B/op	       0 allocs/op
+BenchmarkCatalogueLookup/request                          	  332510	       377.9 ns/op	       0 B/op	       0 allocs/op
+BenchmarkCatalogueLookup/fallback                         	  132692	       939.5 ns/op	       0 B/op	       0 allocs/op
+BenchmarkCatalogueLookup/fallback                         	  127796	       996.9 ns/op	       0 B/op	       0 allocs/op
+BenchmarkCatalogueLookup/fallback                         	  135115	       926.0 ns/op	       0 B/op	       0 allocs/op
+BenchmarkCatalogueLookup/fallback                         	  115831	       943.1 ns/op	       0 B/op	       0 allocs/op
+BenchmarkCatalogueLookup/fallback                         	  111246	       949.2 ns/op	       0 B/op	       0 allocs/op
+BenchmarkCatalogueLookup/fallback                         	  118526	       970.9 ns/op	       0 B/op	       0 allocs/op
+BenchmarkCatalogueLookup/fallback                         	  131619	       955.4 ns/op	       0 B/op	       0 allocs/op
+BenchmarkCatalogueLookup/fallback                         	  129632	       960.6 ns/op	       0 B/op	       0 allocs/op
+BenchmarkCatalogueLookup/fallback                         	  133408	       926.9 ns/op	       0 B/op	       0 allocs/op
+BenchmarkCatalogueLookup/fallback                         	  124342	       965.0 ns/op	       0 B/op	       0 allocs/op
+BenchmarkCatalogueLookup/missing                          	  389343	       296.3 ns/op	       0 B/op	       0 allocs/op
+BenchmarkCatalogueLookup/missing                          	  386469	       292.3 ns/op	       0 B/op	       0 allocs/op
+BenchmarkCatalogueLookup/missing                          	  425828	       289.9 ns/op	       0 B/op	       0 allocs/op
+BenchmarkCatalogueLookup/missing                          	  440580	       293.4 ns/op	       0 B/op	       0 allocs/op
+BenchmarkCatalogueLookup/missing                          	  395216	       288.5 ns/op	       0 B/op	       0 allocs/op
+BenchmarkCatalogueLookup/missing                          	  461126	       284.4 ns/op	       0 B/op	       0 allocs/op
+BenchmarkCatalogueLookup/missing                          	  388063	       295.7 ns/op	       0 B/op	       0 allocs/op
+BenchmarkCatalogueLookup/missing                          	  389006	       296.4 ns/op	       0 B/op	       0 allocs/op
+BenchmarkCatalogueLookup/missing                          	  427339	       291.5 ns/op	       0 B/op	       0 allocs/op
+BenchmarkCatalogueLookup/missing                          	  385801	       290.1 ns/op	       0 B/op	       0 allocs/op
+BenchmarkGeneratorCheck                                   	       2	  95056204 ns/op	   12728 B/op	      46 allocs/op
+BenchmarkGeneratorCheck                                   	       2	  92250258 ns/op	   12728 B/op	      46 allocs/op
+BenchmarkGeneratorCheck                                   	       2	  92746085 ns/op	   12728 B/op	      46 allocs/op
+BenchmarkGeneratorCheck                                   	       2	  96506820 ns/op	   12728 B/op	      46 allocs/op
+BenchmarkGeneratorCheck                                   	       2	  91517400 ns/op	   12728 B/op	      46 allocs/op
+BenchmarkGeneratorCheck                                   	       2	  91975574 ns/op	   12728 B/op	      46 allocs/op
+BenchmarkGeneratorCheck                                   	       2	  94927754 ns/op	   12728 B/op	      46 allocs/op
+BenchmarkGeneratorCheck                                   	       2	  94800546 ns/op	   12728 B/op	      46 allocs/op
+BenchmarkGeneratorCheck                                   	       2	  92501166 ns/op	   12728 B/op	      46 allocs/op
+BenchmarkGeneratorCheck                                   	       2	  94202209 ns/op	   12728 B/op	      46 allocs/op
+PASS
+ok  	github.com/arran4/golang-gtroff	39.507s
