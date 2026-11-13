@@ -5,9 +5,12 @@
       {
         "Type": "Macro",
         "Token": ".QS",
-        "Args": ""
+        "Args": "",
+        "Package": "ms",
+        "ParserPackage": "man"
       }
-    ]
+    ],
+    "ID": "doc-0000"
   },
   {
     "Description": "Determine the contents of the page header and footer. The subject of the\nman page is topic and the section of the manual to which it belongs is\nsection. See man(1) or intro(1) for the manual sectioning applicable to\nyour system. topic and section are positioned together at the left and\nright in the header (with section in parentheses immediately appended to\ntopic). footer-middle is centered in the footer. The arrangement of the\nrest of the footer depends on whether double-sided layout is enabled\nwith the option -rD1. When disabled (the default), footer-inside is\npositioned at the bottom left. Otherwise, footer-inside appears at the\nbottom left on recto (odd-numbered) pages, and at the bottom right on\nverso (even-numbered) pages. The outside footer is the page number,\nexcept in the continuous-rendering mode enabled by the option -rcR=1, in\nwhich case it is the topic and section, as in the header. header-middle\nis centered in the header. If section is an integer between 1 and 9\n(inclusive), there is no need to specify header-middle; an.tmac will\nsupply text for it. The macro package may also abbreviate topic and\nfooter-inside with ellipses if they would overrun the space available in\nthe header and footer, respectively. For HTML output, headers and\nfooters are suppressed.\n\nAdditionally, this macro breaks the page, resetting the number to 1\n(unless the -rC1 option is given). This feature is intended only for\nformatting multiple man documents in sequence.\n\nA valid man document calls .TH once, early in the file, prior to any\nother macro calls.",
@@ -371,7 +374,8 @@
         "Token": "\\*[rq]",
         "Args": ""
       }
-    ]
+    ],
+    "ID": "doc-0028"
   },
   {
     "Description": "Set the page header text (“page trap”).",
@@ -967,7 +971,8 @@
         "Token": ".PP",
         "Args": ""
       }
-    ]
+    ],
+    "ID": "doc-0083"
   },
   {
     "Description": "Sets a paragraph without an initial indentation.",
@@ -977,7 +982,8 @@
         "Token": ".LP",
         "Args": ""
       }
-    ]
+    ],
+    "ID": "doc-0084"
   },
   {
     "Description": "Set a paragraph indented from both left and right margins by \\n[QI].",
@@ -1021,7 +1027,8 @@
           "rest": "Level"
         }
       }
-    ]
+    ],
+    "ID": "doc-0088"
   },
   {
     "Description": "After invocation of NH, the assigned section number is made available in\nthe strings SN-DOT (as it appears in a printed section heading with\ndefault formatting, followed by a terminating period), and SN-NO-DOT\n(with the terminating period omitted). The string SN is also defined, as\nan alias for SN-DOT; if preferred, you may redefine it as an alias for\nSN-NO-DOT, by including the initialization\n\n.als SN SN-NO-DOT\n\nat any time before you would like the change to take effect.",
@@ -1031,7 +1038,8 @@
         "Token": "\\*[SN-NO-DOT]",
         "Args": ""
       }
-    ]
+    ],
+    "ID": "doc-0089"
   },
   {
     "Description": "You may control the style used to print section numbers, within numbered\nsection headings, by defining an appropriate alias for the string\nSN-STYLE. The default style, in which the printed section number is\nfollowed by a terminating period, is obtained by defining the alias\n\n\n.als SN-STYLE SN-DOT\n\nIf you prefer to omit the terminating period, from section numbers\nappearing in numbered section headings, you may define the alias\n\n\n.als SN-STYLE SN-NO-DOT\n\nAny such change in section numbering style becomes effective from the\nnext use of .NH, following redefinition of the alias for SN-STYLE.",
@@ -1167,7 +1175,8 @@
         "Token": "\\*[}]",
         "Args": ""
       }
-    ]
+    ],
+    "ID": "doc-0102"
   },
   {
     "Description": "The marker is usually a bullet glyph (\\[bu]) for unordered lists, a\nnumber (or auto-incrementing number register) for numbered lists, or a\nword or phrase for indented (glossary-style) lists.\n\nThe width specifies the indentation for the body of each list item; its\ndefault unit is ‘n’. Once specified, the indentation remains the\nsame for all list items in the document until specified again.\n\nThe PORPHANS register (see ms Document Control Registers) operates in\nconjunction with the IP macro, to inhibit the printing of orphaned list\nmarkers at the bottom of any page.",
@@ -1187,7 +1196,8 @@
         "Token": ".RE",
         "Args": ""
       }
-    ]
+    ],
+    "ID": "doc-0104"
   },
   {
     "Description": "Use this macro to reset the tab stops to the default for ms (every 5n).\nYou can redefine the TA macro to create a different set of default tab\nstops.",
@@ -1207,7 +1217,8 @@
         "Token": ".DE",
         "Args": ""
       }
-    ]
+    ],
+    "ID": "doc-0106"
   },
   {
     "Description": "Indents the display as defined by the DI register. The ‘.DS I’ call\ngenerates a page break, if necessary, to keep the entire display on one\npage. The ID macro allows the display to break across pages. The DE\nmacro ends the display.",
@@ -1217,7 +1228,8 @@
         "Token": ".DE",
         "Args": ""
       }
-    ]
+    ],
+    "ID": "doc-0107"
   },
   {
     "Description": "Sets a block-centered display: the entire display is left-justified, but\nindented so that the longest line in the display is centered on the\npage. The ‘.DS B’ call generates a page break, if necessary, to keep\nthe entire display on one page. The BD macro allows the display to break\nacross pages. The DE macro ends the display.",
@@ -1227,7 +1239,8 @@
         "Token": ".DE",
         "Args": ""
       }
-    ]
+    ],
+    "ID": "doc-0108"
   },
   {
     "Description": "Sets a centered display: each line in the display is centered. The\n‘.DS C’ call generates a page break, if necessary, to keep the\nentire display on one page. The CD macro allows the display to break\nacross pages. The DE macro ends the display.",
@@ -1237,7 +1250,8 @@
         "Token": ".DE",
         "Args": ""
       }
-    ]
+    ],
+    "ID": "doc-0109"
   },
   {
     "Description": "Right-justifies each line in the display. The ‘.DS R’ call generates\na page break, if necessary, to keep the entire display on one page. The\nRD macro allows the display to break across pages. The DE macro ends the\ndisplay.",
@@ -1247,7 +1261,8 @@
         "Token": ".DE",
         "Args": ""
       }
-    ]
+    ],
+    "ID": "doc-0110"
   },
   {
     "Description": "These two macros were formerly provided as aliases for DS and DE,\nrespectively. They have been removed, and should no longer be used. The\noriginal implementations of DS and DE are retained, and should be used\ninstead. X11 documents that actually use Ds and De always load a\nspecific macro file from the X11 distribution (macros.t) that provides\nproper definitions for the two macros.",
@@ -1257,7 +1272,8 @@
         "Token": ".De",
         "Args": ""
       }
-    ]
+    ],
+    "ID": "doc-0111"
   },
   {
     "Description": "The KS macro begins a block of text to be kept on a single page, and the\nKE macro ends the block.",
@@ -1267,7 +1283,8 @@
         "Token": ".KE",
         "Args": ""
       }
-    ]
+    ],
+    "ID": "doc-0112"
   },
   {
     "Description": "Specifies a floating keep; if the keep cannot fit on the current page,\ngroff holds the contents of the keep and allows text following the keep\n(in the source file) to fill in the remainder of the current page. When\nthe page breaks, whether by an explicit bp request or by reaching the\nend of the page, groff prints the floating keep at the top of the new\npage. This is useful for printing large graphics or tables that do not\nneed to appear exactly where specified.",
@@ -1277,7 +1294,8 @@
         "Token": ".KE",
         "Args": ""
       }
-    ]
+    ],
+    "ID": "doc-0113"
   },
   {
     "Description": "Marks the beginning and ending of text that is to have a box drawn\naround it. The B1 macro begins the box; the B2 macro ends it. Text in\nthe box is automatically placed in a diversion (keep).",
@@ -1287,7 +1305,8 @@
         "Token": ".B2",
         "Args": ""
       }
-    ]
+    ],
+    "ID": "doc-0114"
   },
   {
     "Description": "Denotes a table, to be processed by the tbl preprocessor. The optional\nargument H to TS instructs groff to create a running header with the\ninformation up to the TH macro. groff prints the header at the beginning\nof the table; if the table runs onto another page, groff prints the\nheader on the next page as well.",
@@ -1297,7 +1316,8 @@
         "Token": ".TE",
         "Args": ""
       }
-    ]
+    ],
+    "ID": "doc-0115"
   },
   {
     "Description": "Denotes a graphic, to be processed by the pic preprocessor. You can\ncreate a pic file by hand, using the AT&T pic manual available on the\nWeb as a reference, or by using a graphics program such as xfig.",
@@ -1307,7 +1327,8 @@
         "Token": ".PE",
         "Args": ""
       }
-    ]
+    ],
+    "ID": "doc-0116"
   },
   {
     "Description": "Denotes an equation, to be processed by the eqn preprocessor. The\noptional align argument can be C, L, or I to center (the default),\nleft-justify, or indent the equation.",
@@ -1317,7 +1338,8 @@
         "Token": ".EN",
         "Args": ""
       }
-    ]
+    ],
+    "ID": "doc-0117"
   },
   {
     "Description": "Denotes a reference, to be processed by the refer preprocessor. The GNU\nrefer(1) man page provides a comprehensive reference to the preprocessor\nand the format of the bibliographic database.",
@@ -1327,7 +1349,8 @@
         "Token": ".]",
         "Args": ""
       }
-    ]
+    ],
+    "ID": "doc-0118"
   },
   {
     "Description": "Specifies the location of a numbered footnote marker in the text.",
@@ -1347,7 +1370,8 @@
         "Token": ".FE",
         "Args": ""
       }
-    ]
+    ],
+    "ID": "doc-0120"
   },
   {
     "Description": "Sets the left, center, and right headers.",
@@ -1357,7 +1381,8 @@
         "Token": "\\*[RH]",
         "Args": ""
       }
-    ]
+    ],
+    "ID": "doc-0121"
   },
   {
     "Description": "Sets the left, center, and right footers.",
@@ -1367,7 +1392,8 @@
         "Token": "\\*[RF]",
         "Args": ""
       }
-    ]
+    ],
+    "ID": "doc-0122"
   },
   {
     "Description": "The OH and EH macros define headers for the odd and even pages; the OF\nand EF macros define footers for the odd and even pages. This is more\nflexible than defining the individual strings.\n\nYou can replace the quote (') marks with any character not appearing in\nthe header or footer text.",
@@ -1380,7 +1406,8 @@
           "mode": "delimited"
         }
       }
-    ]
+    ],
+    "ID": "doc-0123"
   },
   {
     "Description": "The PT macro defines a custom header; the BT macro defines a custom\nfooter. These macros must handle odd/even/first page differences if\nnecessary.\n\nThe HD macro defines additional header processing to take place after\nexecuting the PT macro.",
@@ -1390,7 +1417,8 @@
         "Token": ".BT",
         "Args": ""
       }
-    ]
+    ],
+    "ID": "doc-0124"
   },
   {
     "Description": "Single-column mode.",
@@ -1437,7 +1465,8 @@
         "Token": ".XE",
         "Args": ""
       }
-    ]
+    ],
+    "ID": "doc-0128"
   },
   {
     "Description": "Prints the table of contents on a new page, setting the page number to i\n(Roman lowercase numeral one). You should usually place this macro at\nthe end of the file, since groff is a single-pass formatter and can only\nprint what has been collected up to the point that the TC macro appears.\n\nThe optional argument no suppresses printing the title specified by the\nstring register TOC.",
@@ -1497,7 +1526,8 @@
         "Token": "\\*[MONTH12]",
         "Args": ""
       }
-    ]
+    ],
+    "ID": "doc-0134"
   },
   {
     "Description": "Prints an em dash.",
@@ -1517,7 +1547,8 @@
         "Token": "\\*[U]",
         "Args": ""
       }
-    ]
+    ],
+    "ID": "doc-0136"
   },
   {
     "Description": "Specify this macro at the beginning of your document to enable extended\naccent marks and special characters. This is a Berkeley extension.\n\nTo use the accent marks, place them after the character being accented.\n\nNote that groff’s native support for accents is superior to the\nfollowing definitions.",
@@ -1805,7 +1836,8 @@
       {
         "Type": "Register",
         "Token": "\\n[.br]",
-        "Args": ""
+        "Args": "",
+        "Package": "roff"
       }
     ]
   },
@@ -1823,7 +1855,7 @@
     ]
   },
   {
-    "Description": "Escape: \\R'ident +value'",
+    "Description": "Add or subtract a numeric amount from a register's current value, according to the leading sign.",
     "Contents": [
       {
         "Type": "Request",
@@ -1833,7 +1865,8 @@
           "mode": "register"
         }
       }
-    ]
+    ],
+    "ID": "roff-relative-register-assignment"
   },
   {
     "Description": "Remove number register ident. If ident doesn’t exist, the request is\nignored.",
@@ -1916,7 +1949,8 @@
         "Token": "\\n[.u]",
         "Args": ""
       }
-    ]
+    ],
+    "ID": "doc-0174"
   },
   {
     "Description": "Activate no-fill mode.  Input lines are output as-is, retaining line\nbreaks and ignoring the current line length.  This command implicitly\ndisables adjusting; it also causes a break.  The number register\n.u is set to 0.\n\nThe fill mode status is associated with the current environment (see\nEnvironments).\n\nSee Line Control, for interaction with the \\c escape.",
@@ -1936,7 +1970,8 @@
         "Token": "\\n[.j]",
         "Args": ""
       }
-    ]
+    ],
+    "ID": "doc-0176"
   },
   {
     "Description": "Disable adjusting. This request won’t change the current adjustment\nmode: A subsequent call to ad uses the previous adjustment setting.\n\nThe adjustment mode status is associated with the current environment\n(see Environments).",
@@ -1956,7 +1991,8 @@
         "Token": "\\n[.sss]",
         "Args": ""
       }
-    ]
+    ],
+    "ID": "doc-0178"
   },
   {
     "Description": "Center text. While the ‘.ad c’ request also centers text, it fills\nthe text as well. ce does not fill the text it affects. This request\ncauses a break. The number of lines still to be centered is associated\nwith the current environment (see Environments).\n\nThe following example demonstrates the differences. Here is the input:\n\n\n.ll 4i\n.ce 1000\nThis is a small text fragment that shows the differences\nbetween the `.ce' and the `.ad c' request.\n.ce 0\n\n.ad c\nThis is a small text fragment that shows the differences\nbetween the `.ce' and the `.ad c' request.\n\nAnd here the result:\n\n\n  This is a small text fragment that\n         shows the differences\nbetween the `.ce' and the `.ad c' request.\n\n  This is a small text fragment that\nshows the differences between the `.ce'\n        and the `.ad c' request.\n\nWith no arguments, ce centers the next line of text. nnn specifies the\nnumber of lines to be centered. If the argument is zero or negative,\ncentering is disabled.\n\nThe basic length for centering text is the line length (as set with the\nll request) minus the indentation (as set with the in request).\nTemporary indentation is ignored.\n\nAs can be seen in the previous example, it is a common idiom to turn on\ncentering for a large number of lines, and to turn off centering after\ntext to be centered. This is useful for any request that takes a number\nof lines as an argument.\n\nThe .ce read-only number register contains the number of lines remaining\nto be centered, as set by the ce request.",
@@ -1966,7 +2002,8 @@
         "Token": "\\n[.ce]",
         "Args": ""
       }
-    ]
+    ],
+    "ID": "doc-0179"
   },
   {
     "Description": "Justify unfilled text to the right margin. Arguments are identical to\nthe ce request. The .rj read-only number register is the number of lines\nto be right-justified as set by the rj request. This request causes a\nbreak. The number of lines still to be right-justified is associated\nwith the current environment (see Environments).",
@@ -1976,7 +2013,8 @@
         "Token": "\\n[.rj]",
         "Args": ""
       }
-    ]
+    ],
+    "ID": "doc-0180"
   },
   {
     "Description": "Enable hyphenation. The request has an optional numeric argument, mode,\nto restrict hyphenation if necessary:\n\n1 The default argument if mode is omitted: hyphenation is enabled, and\nthe first and the last characters of a word are not hyphenated. This is\nalso the start-up value of gtroff.\n\n2 Do not hyphenate the last word on a page or column.\n\n4 Do not hyphenate the last two characters of a word.\n\n8 Do not hyphenate the first two characters of a word.\n\n16 Allow hyphenation before the last character of a word.\n\n32 Allow hyphenation after the first character of a word.\n\n\n\nThe values in the previous table are additive. For example, value 12\ncauses gtroff to neither hyphenate the last two nor the first two\ncharacters of a word. Note that value 13 would do exactly the same; in\nother words, value 1 need not be added if the value is larger than 1.\n\nSome values cannot be used together because they contradict; for\ninstance, values 4 and 16, and values 8 and 32.\n\nThe number of characters at the beginning of a word after which the\nfirst hyphenation point should be inserted is determined by the patterns\nthemselves; it can’t be reduced further without introducing\nadditional, invalid hyphenation points (unfortunately, this information\nis not part of a pattern file, you have to know it in advance). The same\nis true for the number of characters at the end of word before the last\nhyphenation point should be inserted. For example, the code\n\n\n.ll 1\n.hy 48\nsplitting\n\nreturns\n\ns- plit- t- in- g\n\ninstead of the correct ‘split-ting’. US-English patterns as\ndistributed with groff need two characters at the beginning and three\ncharacters at the end; this means that value 4 of hy is mandatory. Value\n8 is possible as an additional restriction, but values 1 (the default!),\n16, and 32 should be avoided.\n\nHere is a table of left and right minimum values for hyphenation as\nneeded by the patterns distributed with groff; see the groff_tmac(5) man\npage (type man groff_tmac at the command line) for more information on\ngroff’s language macro files.\n\nlanguagepattern nameleft minright min Czechcs22 US Englishus23\nFrenchfr23 German traditionaldet22 German reformedden22 Swedishsv12\n\nHyphenation exceptions within pattern files (i.e., the words within a\n\\hyphenation group) also obey the hyphenation restrictions given by hy.\nHowever, exceptions specified with the hw do not.\n\nThe current hyphenation restrictions can be found in the read-only\nnumber register ‘.hy’.\n\nThe hyphenation mode is associated with the current environment (see\nEnvironments).",
@@ -1986,7 +2024,8 @@
         "Token": "\\n[.hy]",
         "Args": ""
       }
-    ]
+    ],
+    "ID": "doc-0181"
   },
   {
     "Description": "Disable hyphenation (i.e., set the hyphenation mode to zero). Note that\nthe hyphenation mode of the last call to hy is not remembered.\n\nThe hyphenation mode is associated with the current environment (see\nEnvironments).",
@@ -2006,7 +2045,8 @@
         "Token": "\\n[.hlc]",
         "Args": ""
       }
-    ]
+    ],
+    "ID": "doc-0183"
   },
   {
     "Description": "Define how word1, word2, etc. are to be hyphenated. The words must be\ngiven with hyphens at the hyphenation points. For example:\n\n\n.hw in-sa-lub-rious\n\nBesides the space character, any character whose hyphenation code value\nis zero can be used to separate the arguments of hw (see the\ndocumentation for the hcode request below for more information). In\naddition, this request can be used more than once.\n\nHyphenation points specified with hw are not subject to the restrictions\ngiven by the hy request.\n\nHyphenation exceptions specified with the hw request are associated with\nthe current hyphenation language; it causes an error if there is no\ncurrent hyphenation language.\n\nThis request is ignored if there is no parameter.\n\nIn old versions of troff there was a limited amount of space to store\nsuch information; fortunately, with gtroff, this is no longer a\nrestriction.",
@@ -2062,7 +2102,8 @@
           "step": 2
         }
       }
-    ]
+    ],
+    "ID": "doc-0186"
   },
   {
     "Description": "Set the hyphenation code of character c1 to code1, that of c2 to code2,\netc. A hyphenation code must be a single input character (not a special\ncharacter) other than a digit or a space.\n\nTo make hyphenation work, hyphenation codes must be set up. At start-up,\ngroff only assigns hyphenation codes to the letters ‘a’–‘z’\n(mapped to themselves) and to the letters ‘A’–‘Z’ (mapped to\n‘a’–‘z’); all other hyphenation codes are set to zero.\nNormally, hyphenation patterns contain only lowercase letters, which\nshould be applied regardless of case. In other words, the words\n‘FOO’ and ‘Foo’ should be hyphenated exactly the same way as the\nword ‘foo’ is hyphenated, and this is what hcode is good for. Words\nthat contain other letters won’t be hyphenated properly if the\ncorresponding hyphenation patterns actually do contain them. For\nexample, the following hcode requests are necessary to assign\nhyphenation codes to the letters ‘ÄäÖöÜüß’ (this is needed\nfor German):\n\n\n.hcode ä ä  Ä ä\n.hcode ö ö  Ö ö\n.hcode ü ü  Ü ü\n.hcode ß ß\n\nWithout those assignments, groff treats German words like\n‘Kindergärten’ (the plural form of ‘kindergarten’) as two\nsubstrings ‘kinderg’ and ‘rten’ because the hyphenation code of\nthe umlaut a is zero by default. There is a German hyphenation pattern\nthat covers ‘kinder’, so groff finds the hyphenation ‘kin-der’.\nThe other two hyphenation points (‘kin-der-gär-ten’) are missed.\n\nThis request is ignored if it has no parameter.",
@@ -2096,7 +2137,8 @@
         "Token": "\\n[.hym]",
         "Args": ""
       }
-    ]
+    ],
+    "ID": "doc-0188"
   },
   {
     "Description": "Set the hyphenation space to hyphenation_space. If the current\nadjustment mode is ‘b’ or ‘n’, don’t hyphenate the line if it\ncan be justified by adding no more than hyphenation_space extra space to\neach word space. Without argument, the hyphenation space is set to its\ndefault value, which is 0. The default scaling indicator for this\nrequest is ‘m’. The hyphenation space is associated with the current\nenvironment (see Environments).\n\nA negative argument resets the hyphenation space to zero, emitting a\nwarning of type ‘range’.\n\nThe current hyphenation space is available in the .hys read-only number\nregister.",
@@ -2106,7 +2148,8 @@
         "Token": "\\n[.hys]",
         "Args": ""
       }
-    ]
+    ],
+    "ID": "doc-0189"
   },
   {
     "Description": "Set the soft hyphen character to glyph.14 If the argument is omitted,\nthe soft hyphen character is set to the default glyph \\(hy (this is the\nstart-up value of gtroff also). The soft hyphen character is the glyph\nthat is inserted when a word is hyphenated at a line break. If the soft\nhyphen character does not exist in the font of the character immediately\npreceding a potential break point, then the line is not broken at that\npoint. Neither definitions (specified with the char request) nor\ntranslations (specified with the tr request) are considered when finding\nthe soft hyphen character.",
@@ -2126,7 +2169,8 @@
         "Token": "\\n[.hla]",
         "Args": ""
       }
-    ]
+    ],
+    "ID": "doc-0191"
   },
   {
     "Description": "Space downwards distance. With no argument it advances 1 line. A\nnegative argument causes gtroff to move up the page the specified\ndistance. If the argument is preceded by a ‘|’ then gtroff moves\nthat distance from the top of the page. This request causes a line\nbreak, and that adds the current line spacing to the space you have just\nspecified. The default scaling indicator is ‘v’.\n\nFor convenience you may wish to use the following macros to set the\nheight of the next line at a given distance from the top or the bottom\nof the page:\n\n\n.de y-from-top-down\n.  sp |\\\\$1-\\\\n[.v]u\n..\n.\n.de y-from-bot-up\n.  sp |\\\\n[.p]u-\\\\$1-\\\\n[.v]u\n..\n\nA call to ‘.y-from-bot-up 10c’ means that the bottom of the next\nline will be at 10 cm from the paper edge at the bottom.\n\nIf a vertical trap is sprung during execution of sp, the amount of\nvertical space after the trap is discarded. For example, this\n\n\n.de xxx\n..\n.\n.wh 0 xxx\n.\n.pl 5v\nfoo\n.sp 2\nbar\n.sp 50\nbaz\n\nresults in\n\nfoo\n\nbar\n\nbaz\n\n\n\n\n\n\nThe amount of discarded space is available in the number register\n.trunc.\n\nTo protect sp against vertical traps, use the vpt request:\n\n\n.vpt 0\n.sp -3\n.vpt 1",
@@ -2152,7 +2196,8 @@
         "Token": "\\n[.L]",
         "Args": ""
       }
-    ]
+    ],
+    "ID": "doc-0193"
   },
   {
     "Description": "Sometimes, extra vertical spacing is only needed occasionally, e.g. to\nallow space for a tall construct (like an equation). The \\x escape does\nthis. The escape is given a numerical argument, usually enclosed in\nquotes (like ‘\\x'3p'’); the default scaling indicator is ‘v’. If\nthis number is positive extra vertical space is inserted below the\ncurrent line. A negative number adds space above. If this escape is used\nmultiple times on the same line, the maximum of the values is used.\n\nSee Escapes, for details on parameter delimiting characters.\n\nThe .a read-only number register contains the most recent (non-negative)\nextra vertical line space.\n\nUsing \\x can be necessary in combination with the \\b escape, as the\nfollowing example shows.\n\n\nThis is a test with the \\[rs]b escape.\n.br\nThis is a test with the \\[rs]b escape.\n.br\nThis is a test with \\b'xyz'\\x'-1m'\\x'1m'.\n.br\nThis is a test with the \\[rs]b escape.\n.br\nThis is a test with the \\[rs]b escape.\n\nproduces\n\n\nThis is a test with the \\b escape.\nThis is a test with the \\b escape.\n                    x\nThis is a test with y.\n                    z\nThis is a test with the \\b escape.\nThis is a test with the \\b escape.",
@@ -2172,7 +2217,8 @@
         "Token": "\\n[.ns]",
         "Args": ""
       }
-    ]
+    ],
+    "ID": "doc-0195"
   },
   {
     "Description": "Change tab stop positions. This request takes a series of tab specifiers\nas arguments (optionally divided into two groups with the letter\n‘T’) that indicate where each tab stop is to be (overriding any\nprevious settings).\n\nTab stops can be specified absolutely, i.e., as the distance from the\nleft margin. For example, the following sets 6 tab stops every one inch.\n\n\n.ta 1i 2i 3i 4i 5i 6i\n\nTab stops can also be specified using a leading ‘+’, which means\nthat the specified tab stop is set relative to the previous tab stop.\nFor example, the following is equivalent to the previous example.\n\n\n.ta 1i +1i +1i +1i +1i +1i\n\ngtroff supports an extended syntax to specify repeat values after the\n‘T’ mark (these values are always taken as relative) – this is the\nusual way to specify tabs set at equal intervals. The following is, yet\nagain, the same as the previous examples. It does even more since it\ndefines an infinite number of tab stops separated by one inch.\n\n\n.ta T 1i\n\nNow we are ready to interpret the full syntax given at the beginning:\nSet tabs at positions n1, n2, …, nn and then set tabs at nn+r1, nn+r2,\n…, nn+rn and then at nn+rn+r1, nn+rn+r2, …, nn+rn+rn, and so on.\n\nExample: ‘4c +6c T 3c 5c 2c’ is equivalent to ‘4c 10c 13c 18c 20c\n23c 28c 30c …’.\n\nThe material in each tab column (i.e., the column between two tab stops)\nmay be justified to the right or left or centered in the column. This is\nspecified by appending ‘R’, ‘L’, or ‘C’ to the tab\nspecifier. The default justification is ‘L’. Example:\n\n\n.ta 1i 2iC 3iR\n\nSome notes:\n\n\n The default unit of the ta request is ‘m’.\n\n A tab stop is converted into a non-breakable horizontal movement that\ncan be neither stretched nor squeezed.  For example,\n\n\n.ds foo a\\tb\\tc\n.ta T 5i\n\\*[foo]\n\ncreates a single line, which is a bit longer than 10 inches (a string is\nused to show exactly where the tab characters are). Now consider the\nfollowing:\n\n\n.ds bar a\\tb b\\tc\n.ta T 5i\n\\*[bar]\n\ngtroff first converts the tab stops of the line into unbreakable\nhorizontal movements, then splits the line after the second ‘b’\n(assuming a sufficiently short line length). Usually, this isn’t what\nthe user wants.\n\n Superfluous tabs (i.e., tab characters that do not correspond to a tab\nstop) are ignored except the first one, which delimits the characters\nbelonging to the last tab stop for right-justifying or centering.\nConsider the following example\n\n\n.ds Z   foo\\tbar\\tfoo\n.ds ZZ  foo\\tbar\\tfoobar\n.ds ZZZ foo\\tbar\\tfoo\\tbar\n.ta 2i 4iR\n\\*[Z]\n.br\n\\*[ZZ]\n.br\n\\*[ZZZ]\n.br\n\nwhich produces the following output:\n\nfoo bar foo foo bar foobar foo bar foobar\n\nThe first line right-justifies the second ‘foo’ relative to the tab\nstop. The second line right-justifies ‘foobar’. The third line\nfinally right-justifies only ‘foo’ because of the additional tab\ncharacter, which marks the end of the string belonging to the last\ndefined tab stop.\n\n Tab stops are associated with the current environment\n(see Environments).\n\n Calling ta without an argument removes all tab stops.\n\n \nThe start-up value of gtroff is ‘T 0.5i’.\n\n\n\nThe read-only number register .tabs contains a string representation of\nthe current tab settings suitable for use as an argument to the ta\nrequest.\n\n\n.ds tab-string \\n[.tabs]\n\\*[tab-string]\n    ⇒ T120u\n\n\n\nThe troff version of the Plan 9 operating system uses register .S for\nthe same purpose.",
@@ -2182,7 +2228,8 @@
         "Token": "\\n[.tabs]",
         "Args": ""
       }
-    ]
+    ],
+    "ID": "doc-0196"
   },
   {
     "Description": "Normally gtroff fills the space to the next tab stop with whitespace.\nThis can be changed with the tc request. With no argument gtroff reverts\nto using whitespace, which is the default. The value of this tab\nrepetition character is associated with the current environment (see\nEnvironments).15",
@@ -2202,7 +2249,8 @@
         "Token": "\\n[.linetabs]",
         "Args": ""
       }
-    ]
+    ],
+    "ID": "doc-0198"
   },
   {
     "Description": "Declare the leader repetition character.16 Without an argument, leaders\nact the same as tabs (i.e., using whitespace for filling). gtroff’s\nstart-up value is a dot (‘.’). The value of the leader repetition\ncharacter is associated with the current environment (see Environments).",
@@ -2272,7 +2320,8 @@
         "Token": ".ecr",
         "Args": ""
       }
-    ]
+    ],
+    "ID": "doc-0205"
   },
   {
     "Description": "Translate character a to glyph b, character c to glyph d, etc. If there\nis an odd number of arguments, the last one is translated to an\nunstretchable space (‘\\ ’).\n\nThe trin request is identical to tr, but when you unformat a diversion\nwith asciify it ignores the translation. See Diversions, for details\nabout the asciify request.\n\nSome notes:\n\n\n \n\n\n\n\n\n\n\n\n\n\n\nSpecial characters (\\(xx, \\[xxx], \\C'xxx', \\', \\`, \\-, \\_), glyphs\ndefined with the char request, and numbered glyphs (\\N'xxx') can be\ntranslated also.\n\n \nThe \\e escape can be translated also.\n\n \n\nCharacters can be mapped onto the \\% and \\~ escapes (but \\% and \\~\ncan’t be mapped onto another glyph).\n\n \n\n\n\n\n\n\n\n\n\nThe following characters can’t be translated: space (with one\nexception, see below), backspace, newline, leader (and \\a), tab (and\n\\t).\n\n \nTranslations are not considered for finding the soft hyphen character\nset with the shc request.\n\n \nThe pair ‘c\\&’ (this is an arbitrary character c\nfollowed by the zero width space character) maps this character to\nnothing.\n\n\n.tr a\\&\nfoo bar\n    ⇒ foo br\n\nIt is even possible to map the space character to nothing:\n\n\n.tr aa \\&\nfoo bar\n    ⇒ foobar\n\nAs shown in the example, the space character can’t be the first\ncharacter/glyph pair as an argument of tr. Additionally, it is not\npossible to map the space character to any other glyph; requests like\n‘.tr aa x’ undo ‘.tr aa \\&’ instead.\n\nIf justification is active, lines are justified in spite of the\n‘empty’ space character (but there is no minimal distance, i.e. the\nspace character, between words).\n\n After an output glyph has been constructed (this happens at the moment\nimmediately before the glyph is appended to an output glyph list, either\nby direct output, in a macro, diversion, or string), it is no longer\naffected by tr.\n\n Translating character to glyphs where one of them or both are undefined\nis possible also; tr does not check whether the entities in its\nargument do exist.\n\nSee Gtroff Internals.\n\n troff no longer has a hard-coded dependency on Latin-1; all\ncharXXX entities have been removed from the font\ndescription files.  This has a notable consequence that shows up in\nwarnings like can't find character with input code XXX if\nthe tr request isn’t handled properly.\n\nConsider the following translation:\n\n\n.tr éÉ\n\nThis maps input character é onto glyph É, which is identical to glyph\nchar201. But this glyph intentionally doesn’t exist! Instead,\n\\[char201] is treated as an input character entity and is by default\nmapped onto \\['E], and gtroff doesn’t handle translations of\ntranslations.\n\nThe right way to write the above translation is\n\n\n.tr é\\['E]\n\nIn other words, the first argument of tr should be an input character or\nentity, and the second one a glyph entity.\n\n Without an argument, the tr request is ignored.",
@@ -2286,7 +2335,8 @@
           "rest": "AbcdEllipse"
         }
       }
-    ]
+    ],
+    "ID": "doc-0206"
   },
   {
     "Description": "trnt is the same as the tr request except that the translations do not\napply to text that is transparently throughput into a diversion with \\!.\nSee Diversions, for more information.\n\nFor example,\n\n\n.tr ab\n.di x\n\\!.tm a\n.di\n.x\n\nprints ‘b’ to the standard error stream; if trnt is used instead of\ntr it prints ‘a’.",
@@ -2323,7 +2373,6 @@
     ]
   },
   {
-    "Description": "Request: .po -offset",
     "Contents": [
       {
         "Type": "Request",
@@ -2336,10 +2385,10 @@
           ]
         }
       }
-    ]
+    ],
+    "DescriptionRef": "doc-0212"
   },
   {
-    "Description": "Register: \\n[.o]",
     "Contents": [
       {
         "Type": "Request",
@@ -2352,7 +2401,8 @@
           ]
         }
       }
-    ]
+    ],
+    "DescriptionRef": "doc-0212"
   },
   {
     "Description": "Set horizontal page offset to offset (or increment or decrement the\ncurrent value by offset). Note that this request does not cause a break,\nso changing the page offset in the middle of text being filled may not\nyield the expected result. The initial value is 1i. For TTY output\ndevices, it is set to 0 in the startup file troffrc; the default scaling\nindicator is ‘m’ (and not ‘v’ as incorrectly documented in the\noriginal Unix troff manual).\n\nThe current page offset can be found in the read-only number register\n‘.o’.\n\nIf po is called without an argument, the page offset is reset to the\nprevious value before the last call to po.\n\n\n.po 3i\n\\n[.o]\n    ⇒ 720\n.po -1i\n\\n[.o]\n    ⇒ 480\n.po\n\\n[.o]\n    ⇒ 720",
@@ -2362,10 +2412,10 @@
         "Token": "\\n[.o]",
         "Args": ""
       }
-    ]
+    ],
+    "ID": "doc-0212"
   },
   {
-    "Description": "Request: .in -indent",
     "Contents": [
       {
         "Type": "Request",
@@ -2378,10 +2428,10 @@
           ]
         }
       }
-    ]
+    ],
+    "DescriptionRef": "doc-0215"
   },
   {
-    "Description": "Register: \\n[.i]",
     "Contents": [
       {
         "Type": "Request",
@@ -2394,7 +2444,8 @@
           ]
         }
       }
-    ]
+    ],
+    "DescriptionRef": "doc-0215"
   },
   {
     "Description": "Set indentation to indent (or increment or decrement the current value\nby indent). This request causes a break. Initially, there is no\nindentation.\n\nIf in is called without an argument, the indentation is reset to the\nprevious value before the last call to in. The default scaling indicator\nis ‘m’.\n\nThe indentation is associated with the current environment (see\nEnvironments).\n\nIf a negative indentation value is specified (which is not allowed),\ngtroff emits a warning of type ‘range’ and sets the indentation to\nzero.\n\nThe effect of in is delayed until a partially collected line (if it\nexists) is output. A temporary indentation value is reset to zero also.\n\nThe current indentation (as set by in) can be found in the read-only\nnumber register ‘.i’.",
@@ -2404,10 +2455,10 @@
         "Token": "\\n[.i]",
         "Args": ""
       }
-    ]
+    ],
+    "ID": "doc-0215"
   },
   {
-    "Description": "Request: .ti -offset",
     "Contents": [
       {
         "Type": "Request",
@@ -2420,10 +2471,10 @@
           ]
         }
       }
-    ]
+    ],
+    "DescriptionRef": "doc-0218"
   },
   {
-    "Description": "Register: \\n[.in]",
     "Contents": [
       {
         "Type": "Request",
@@ -2436,7 +2487,8 @@
           ]
         }
       }
-    ]
+    ],
+    "DescriptionRef": "doc-0218"
   },
   {
     "Description": "Temporarily indent the next output line by offset. If an increment or\ndecrement value is specified, adjust the temporary indentation relative\nto the value set by the in request.\n\nThis request causes a break; its value is associated with the current\nenvironment (see Environments). The default scaling indicator is\n‘m’. A call of ti without an argument is ignored.\n\nIf the total indentation value is negative (which is not allowed),\ngtroff emits a warning of type ‘range’ and sets the temporary\nindentation to zero. ‘Total indentation’ is either offset if\nspecified as an absolute value, or the temporary plus normal\nindentation, if offset is given as a relative value.\n\nThe effect of ti is delayed until a partially collected line (if it\nexists) is output.\n\nThe read-only number register .in is the indentation that applies to the\ncurrent output line.\n\nThe difference between .i and .in is that the latter takes into account\nwhether a partially collected line still uses the old indentation value\nor a temporary indentation value is active.",
@@ -2446,10 +2498,10 @@
         "Token": "\\n[.in]",
         "Args": ""
       }
-    ]
+    ],
+    "ID": "doc-0218"
   },
   {
-    "Description": "Request: .ll -length",
     "Contents": [
       {
         "Type": "Request",
@@ -2462,10 +2514,10 @@
           ]
         }
       }
-    ]
+    ],
+    "DescriptionRef": "doc-0221"
   },
   {
-    "Description": "Register: \\n[.l]",
     "Contents": [
       {
         "Type": "Request",
@@ -2478,7 +2530,8 @@
           ]
         }
       }
-    ]
+    ],
+    "DescriptionRef": "doc-0221"
   },
   {
     "Description": "Set the line length to length (or increment or decrement the current\nvalue by length). Initially, the line length is set to 6.5i. The effect\nof ll is delayed until a partially collected line (if it exists) is\noutput. The default scaling indicator is ‘m’.\n\nIf ll is called without an argument, the line length is reset to the\nprevious value before the last call to ll. If a negative line length is\nspecified (which is not allowed), gtroff emits a warning of type\n‘range’ and sets the line length to zero.\n\nThe line length is associated with the current environment (see\nEnvironments).\n\n\nThe current line length (as set by ll) can be found in the\nread-only number register ‘.l’.  The read-only number register\n.ll is the line length that applies to the current output line.\n\nSimilar to .i and .in, the difference between .l and .ll is that the\nlatter takes into account whether a partially collected line still uses\nthe old line length value.",
@@ -2488,7 +2541,8 @@
         "Token": "\\n[.ll]",
         "Args": ""
       }
-    ]
+    ],
+    "ID": "doc-0221"
   },
   {
     "Description": "Continue a line. \\RET (this is a backslash at the end of a line\nimmediately followed by a newline) works on the input level, suppressing\nthe effects of the following newline in the input.\n\n\nThis is a \\\n.test\n    ⇒ This is a .test\n\nThe ‘|’ operator is also affected.\n\n\\c works on the output level. Anything after this escape on the same\nline is ignored except \\R, which works as usual. Anything before \\c on\nthe same line is appended to the current partial output line. The next\nnon-command line after an interrupted line counts as a new input line.\n\nThe visual results depend on whether no-fill mode is active.\n\n\n \n\nIf no-fill mode is active (using the nf request), the next input text\nline after \\c is handled as a continuation of the same input text line.\n\n\n.nf\nThis is a \\c\ntest.\n    ⇒ This is a test.\n\n\n \n\nIf fill mode is active (using the fi request), a word interrupted with\n\\c is continued with the text on the next input text line, without an\nintervening space.\n\n\nThis is a te\\c\nst.\n    ⇒ This is a test.\n\n\n\nNote that an intervening control line that causes a break is stronger\nthan \\c, flushing out the current partial line in the usual way.\n\nThe .int register contains a positive value if the last output line was\ninterrupted with \\c; this is associated with the current environment\n(see Environments).",
@@ -2501,7 +2555,6 @@
     ]
   },
   {
-    "Description": "Request: .pl -length",
     "Contents": [
       {
         "Type": "Request",
@@ -2514,10 +2567,10 @@
           ]
         }
       }
-    ]
+    ],
+    "DescriptionRef": "doc-0225"
   },
   {
-    "Description": "Register: \\n[.p]",
     "Contents": [
       {
         "Type": "Request",
@@ -2530,7 +2583,8 @@
           ]
         }
       }
-    ]
+    ],
+    "DescriptionRef": "doc-0225"
   },
   {
     "Description": "Set the page length to length (or increment or decrement the current\nvalue by length). This is the length of the physical output page. The\ndefault scaling indicator is ‘v’.\n\nThe current setting can be found in the read-only number register\n‘.p’.\n\n\n\n\n\nNote that this only specifies the size of the page, not the top and\nbottom margins. Those are not set by gtroff directly. See Traps, for\nfurther information on how to do this.\n\nNegative pl values are possible also, but not very useful: No trap is\nsprung, and each line is output on a single page (thus suppressing all\nvertical spacing).\n\nIf no argument or an invalid argument is given, pl sets the page length\nto 11i.",
@@ -2540,7 +2594,8 @@
         "Token": "\\n[.p]",
         "Args": ""
       }
-    ]
+    ],
+    "ID": "doc-0225"
   },
   {
     "Description": "Print a title line. It consists of three parts: a left justified\nportion, a centered portion, and a right justified portion. The argument\nseparator ‘'’ can be replaced with any character not occurring in\nthe title line. The ‘%’ character is replaced with the current page\nnumber. This character can be changed with the pc request (see below).\n\nWithout argument, tl is ignored.\n\nSome notes:\n\n\n The line length set by the ll request is not honoured by\ntl; use the lt request (described below) instead, to\ncontrol line length for text set by tl.\n\n A title line is not restricted to the top or bottom of a page.\n\n tl prints the title line immediately, ignoring a partially filled\nline (which stays untouched).\n\n It is not an error to omit closing delimiters.  For example,\n‘.tl /foo’ is equivalent to ‘.tl /foo///’: It prints a\ntitle line with the left justified word ‘foo’; the centered and\nright justified parts are empty.\n\n tl accepts the same parameter delimiting characters as the\n\\A escape; see Escapes.",
@@ -2556,7 +2611,6 @@
     ]
   },
   {
-    "Description": "Request: .lt -length",
     "Contents": [
       {
         "Type": "Request",
@@ -2569,10 +2623,10 @@
           ]
         }
       }
-    ]
+    ],
+    "DescriptionRef": "doc-0229"
   },
   {
-    "Description": "Register: \\n[.lt]",
     "Contents": [
       {
         "Type": "Request",
@@ -2585,7 +2639,8 @@
           ]
         }
       }
-    ]
+    ],
+    "DescriptionRef": "doc-0229"
   },
   {
     "Description": "The title line is printed using its own line length, which is specified\n(or incremented or decremented) with the lt request. Initially, the\ntitle line length is set to 6.5i. If a negative line length is specified\n(which is not allowed), gtroff emits a warning of type ‘range’ and\nsets the title line length to zero. The default scaling indicator is\n‘m’. If lt is called without an argument, the title length is reset\nto the previous value before the last call to lt.\n\nThe current setting of this is available in the .lt read-only number\nregister; it is associated with the current environment (see\nEnvironments).",
@@ -2595,10 +2650,10 @@
         "Token": "\\n[.lt]",
         "Args": ""
       }
-    ]
+    ],
+    "ID": "doc-0229"
   },
   {
-    "Description": "Request: .pn -page",
     "Contents": [
       {
         "Type": "Request",
@@ -2611,10 +2666,10 @@
           ]
         }
       }
-    ]
+    ],
+    "DescriptionRef": "doc-0232"
   },
   {
-    "Description": "Register: \\n[.pn]",
     "Contents": [
       {
         "Type": "Request",
@@ -2627,7 +2682,8 @@
           ]
         }
       }
-    ]
+    ],
+    "DescriptionRef": "doc-0232"
   },
   {
     "Description": "Change (increase or decrease) the page number of the next page. The only\nargument is the page number; the request is ignored without a parameter.\n\nThe read-only number register .pn contains the number of the next page:\neither the value set by a pn request, or the number of the current page\nplus 1.",
@@ -2637,7 +2693,8 @@
         "Token": "\\n[.pn]",
         "Args": ""
       }
-    ]
+    ],
+    "ID": "doc-0232"
   },
   {
     "Description": "Change the page number character (used by the tl request) to a different\ncharacter. With no argument, this mechanism is disabled. Note that this\ndoesn’t affect the number register %.",
@@ -2650,7 +2707,6 @@
     ]
   },
   {
-    "Description": "Request: .bp -page",
     "Contents": [
       {
         "Type": "Request",
@@ -2663,10 +2719,10 @@
           ]
         }
       }
-    ]
+    ],
+    "DescriptionRef": "doc-0236"
   },
   {
-    "Description": "Register: \\n[%]",
     "Contents": [
       {
         "Type": "Request",
@@ -2679,7 +2735,8 @@
           ]
         }
       }
-    ]
+    ],
+    "DescriptionRef": "doc-0236"
   },
   {
     "Description": "Stop processing the current page and move to the next page. This request\ncauses a break. It can also take an argument to set (increase, decrease)\nthe page number of the next page (which actually becomes the current\npage after bp has finished). The difference between bp and pn is that pn\ndoes not cause a break or actually eject a page. See Page Layout.\n\n\n.de newpage                         \\\" define macro\n'bp                                 \\\" begin page\n'sp .5i                             \\\" vertical space\n.tl 'left top'center top'right top' \\\" title\n'sp .3i                             \\\" vertical space\n..                                  \\\" end macro\n\n\n\n\n\nbp has no effect if not called within the top-level diversion (see\nDiversions).\n\n\n\nThe read-write register % holds the current page number.\n\nThe number register .pe is set to 1 while bp is active. See Page\nLocation Traps.",
@@ -2689,7 +2746,8 @@
         "Token": "\\n[%]",
         "Args": ""
       }
-    ]
+    ],
+    "ID": "doc-0236"
   },
   {
     "Description": "It is often necessary to force a certain amount of space before a new\npage occurs. This is most useful to make sure that there is not a single\norphan line left at the bottom of a page. The ne request ensures that\nthere is a certain distance, specified by the first argument, before the\nnext page is triggered (see Traps, for further information). The default\nscaling indicator for ne is ‘v’; the default value of space is 1v if\nno argument is given.\n\nFor example, to make sure that no fewer than 2 lines get orphaned, do\nthe following before each paragraph:\n\n\n.ne 2\ntext text text\n\nne then automatically causes a page break if there is space for one line\nonly.",
@@ -2715,7 +2773,8 @@
         "Token": ".os",
         "Args": ""
       }
-    ]
+    ],
+    "ID": "doc-0238"
   },
   {
     "Description": "This register contains the current vertical position. If the vertical\nposition is zero and the top of page transition hasn’t happened yet,\nnl is set to negative value. gtroff itself does this at the very\nbeginning of a document before anything has been printed, but the main\nusage is to plant a header trap on a page if this page has already\nstarted.\n\nConsider the following:\n\n\n.de xxx\n.  sp\n.  tl ''Header''\n.  sp\n..\n.\nFirst page.\n.bp\n.wh 0 xxx\n.nr nl (-1)\nSecond page.\n\nResult:\n\nFirst page.\n\n...\n\n                             Header\n\nSecond page.\n\n...\n\nWithout resetting nl to a negative value, the just planted trap would be\nactive beginning with the next page, not the current one.\n\nSee Diversions, for a comparison with the .h and .d registers.",
@@ -2735,7 +2794,8 @@
         "Token": "\\n[.sty]",
         "Args": ""
       }
-    ]
+    ],
+    "ID": "doc-0240"
   },
   {
     "Description": "Translate font f to font g. Whenever a font named f is referred to in a\n\\f escape sequence, in the F and S conditional operators, or in the ft,\nul, bd, cs, tkf, special, fspecial, fp, or sty requests, font g is used.\nIf g is missing or equal to f the translation is undone.\n\nNote that it is not possible to chain font translations. Example:\n\n\n.ftr XXX TR\n.ftr XXX YYY\n.ft XXX\n    ⇒ warning: can't find font `XXX'",
@@ -2755,7 +2815,8 @@
         "Token": "\\n[.zoom]",
         "Args": ""
       }
-    ]
+    ],
+    "ID": "doc-0242"
   },
   {
     "Description": "Switch font family to family (one-character name f, two-character name\nfm). If no argument is given, switch back to the previous font family.\nUse \\F[] to do this with the escape. Note that \\FP doesn’t work; it\nselects font family ‘P’ instead.\n\nThe value at start-up is ‘T’. The current font family is available\nin the read-only number register ‘.fam’ (this is a string-valued\nregister); it is associated with the current environment.\n\n\nspam,\n.fam H    \\\" helvetica family\nspam,     \\\" used font is family H + style R = HR\n.ft B     \\\" family H + style B = font HB\nspam,\n.fam T    \\\" times family\nspam,     \\\" used font is family T + style B = TB\n.ft AR    \\\" font AR (not a style)\nbaked beans,\n.ft R     \\\" family T + style R = font TR\nand spam.\n\nNote that \\F doesn’t produce an input token in gtroff. As a\nconsequence, it can be used in requests like mc (which expects a single\ncharacter as an argument) to change the font family on the fly:\n\n\n.mc \\F[P]x\\F[]\n\nThe ‘.fn’ register contains the current real font name of the\ncurrent font. This is a string-valued register. If the current font is a\nstyle, the value of \\n[.fn] is the proper concatenation of family and\nstyle name.",
@@ -2765,7 +2826,8 @@
         "Token": "\\n[.fn]",
         "Args": ""
       }
-    ]
+    ],
+    "ID": "doc-0243"
   },
   {
     "Description": "Associate style with font position n. A font position can be associated\neither with a font or with a style. The current font is the index of a\nfont position and so is also either a font or a style. If it is a style,\nthe font that is actually used is the font which name is the\nconcatenation of the name of the current family and the name of the\ncurrent style. For example, if the current font is 1 and font position 1\nis associated with style ‘R’ and the current font family is ‘T’,\nthen font ‘TR’ is used. If the current font is not a style, then the\ncurrent family is ignored. If the requests cs, bd, tkf, uf, or fspecial\nare applied to a style, they are instead applied to the member of the\ncurrent family corresponding to that style.\n\nn must be a non-negative integer value.\n\n\n\nThe default family can be set with the -f option (see Groff Options).\nThe styles command in the DESC file controls which font positions (if\nany) are initially associated with styles rather than fonts. For\nexample, the default setting for POSTSCRIPT fonts\n\nstyles R I B BI\n\nis equivalent to\n\n\n.sty 1 R\n.sty 2 I\n.sty 3 B\n.sty 4 BI\n\nfam and \\F always check whether the current font position is valid; this\ncan give surprising results if the current font position is associated\nwith a style.\n\nIn the following example, we want to access the POSTSCRIPT font FooBar\nfrom the font family Foo:\n\n\n.sty \\n[.fp] Bar\n.fam Foo\n    ⇒ warning: can't find font `FooR'\n\nThe default font position at start-up is 1; for the POSTSCRIPT device,\nthis is associated with style ‘R’, so gtroff tries to open FooR.\n\nA solution to this problem is to use a dummy font like the following:\n\n\n.fp 0 dummy TR    \\\" set up dummy font at position 0\n.sty \\n[.fp] Bar  \\\" register style `Bar'\n.ft 0             \\\" switch to font at position 0\n.fam Foo          \\\" activate family `Foo'\n.ft Bar           \\\" switch to font `FooBar'\n\nSee Font Positions.",
@@ -2791,7 +2853,8 @@
         "Token": "\\n[.fp]",
         "Args": ""
       }
-    ]
+    ],
+    "ID": "doc-0245"
   },
   {
     "Description": "Map glyph name from to glyph name to if it is used in \\[...] with more\nthan one component. See above for examples.\n\nThis mapping is based on glyph names only; no check for the existence of\neither glyph is done.\n\nA set of default mappings for many accents can be found in the file\ncomposite.tmac, which is loaded at start-up.",
@@ -2838,7 +2901,8 @@
           "rest": "StringVal"
         }
       }
-    ]
+    ],
+    "ID": "doc-0248"
   },
   {
     "Description": "Remove the definitions of glyphs c1, c2, ... This undoes the effect of a\nchar, fchar, or schar request.\n\nIt is possible to omit the whitespace between arguments.\n\nThe request rfschar removes glyph definitions defined with fschar for\nglyph f.",
@@ -2861,7 +2925,8 @@
           "step": 1
         }
       }
-    ]
+    ],
+    "ID": "doc-0249"
   },
   {
     "Description": "In groff, a character class (or simply “class”) is a set of\ncharacters, grouped by some user aspect. The class request defines such\nclasses so that other requests can refer to all characters belonging to\nthis set with a single class name. Currently, only the cflags request\ncan handle character classes.\n\nA class request takes a class name followed by a list of entities. In\nits simplest form, the entities are characters or symbols:\n\n\n.class [prepunct] , : ; > }\n\nSince class and glyph names share the same namespace, it is recommended\nto start and end the class name with [ and ], respectively, to avoid\ncollisions with normal groff symbols (and symbols defined by the user).\nIn particular, the presence of ] in the symbol name intentionally\nprevents the usage of \\[...], thus you must use the \\C escape to access\na class with such a name.\n\n\n\nYou can also use a special character range notation, consisting of a\nstart character or symbol, followed by ‘-’, and an end character or\nsymbol. Internally, gtroff converts these two symbol names to Unicode\nvalues (according to the groff glyph gist), which then give the start\nand end value of the range. If that fails, the class definition is\nskipped.\n\nFinally, classes can be nested, too.\n\nHere is a more complex example:\n\n\n.class [prepunctx] \\C'[prepunct]' \\[u2013]-\\[u2016]\n\nThe class ‘prepunctx’ now contains the contents of the class\nprepunct as defined above (the set ‘, : ; > }’), and characters in\nthe range between U+2013 and U+2016.\n\nIf you want to add ‘-’ to a class, it must be the first character\nvalue in the argument list, otherwise it gets misinterpreted as a range.\n\nNote that it is not possible to use class names within range\ndefinitions.\n\nTypical use of the class request is to control line-breaking and\nhyphenation rules as defined by the cflags request. For example, to\ninhibit line breaks before the characters belonging to the prepunctx\nclass, you can write:\n\n\n.cflags 2 \\C'[prepunctx]'\n\nSee the cflags request in Using Symbols, for more details.",
@@ -2907,7 +2972,8 @@
           "step": 1
         }
       }
-    ]
+    ],
+    "ID": "doc-0251"
   },
   {
     "Description": "Change (increment, decrement) the height of the current font, but not\nthe width. If height is zero, restore the original height. Default\nscaling indicator is ‘z’.\n\nThe read-only number register .height contains the font height as set by\n\\H.\n\nCurrently, only the -Tps and -Tpdf devices support this feature.\n\nNote that \\H doesn’t produce an input token in gtroff. As a\nconsequence, it can be used in requests like mc (which expects a single\ncharacter as an argument) to change the font on the fly:\n\n\n.mc \\H'+5z'x\\H'0'\n\nIn compatibility mode, gtroff behaves differently: If an increment or\ndecrement is used, it is always taken relative to the current point size\nand not relative to the previously selected font height. Thus,\n\n\n.cp 1\n\\H'+5'test \\H'+5'test\n\nprints the word ‘test’ twice with the same font height (five points\nlarger than the current font size).",
@@ -2972,7 +3038,6 @@
     ]
   },
   {
-    "Description": "Register: \\n[.b]",
     "Contents": [
       {
         "Type": "Request",
@@ -2985,7 +3050,8 @@
           ]
         }
       }
-    ]
+    ],
+    "DescriptionRef": "doc-0258"
   },
   {
     "Description": "Artificially create a bold font by printing each glyph twice, slightly\noffset.\n\nTwo syntax forms are available.\n\n\n Imitate a bold font unconditionally.  The first argument specifies the\nfont to embolden, and the second is the number of basic units, minus\none, by which the two glyphs are offset.  If the second argument is\nmissing, emboldening is turned off.\n\nfont can be either a non-negative font position or the name of a font.\n\noffset is available in the .b read-only register if a special font is\nactive; in the bd request, its default unit is ‘u’.\n\n \n\n\n\nImitate a bold form conditionally. Embolden font1 by offset only if font\nfont2 is the current font. This command can be issued repeatedly to set\nup different emboldening values for different current fonts. If the\nsecond argument is missing, emboldening is turned off for this\nparticular current font.\n\nThis affects special fonts only (either set up with the special command\nin font files or with the fspecial request).",
@@ -2995,7 +3061,8 @@
         "Token": "\\n[.b]",
         "Args": ""
       }
-    ]
+    ],
+    "ID": "doc-0258"
   },
   {
     "Description": "Switch to and from constant glyph space mode. If activated, the width of\nevery glyph is width/36 ems. The em size is given absolutely by em-size;\nif this argument is missing, the em value is taken from the current font\nsize (as set with the ps request) when the font is effectively in use.\nWithout second and third argument, constant glyph space mode is\ndeactivated.\n\nDefault scaling indicator for em-size is ‘z’; width is an integer.",
@@ -3022,7 +3089,8 @@
         "Token": "\\n[.lg]",
         "Args": ""
       }
-    ]
+    ],
+    "ID": "doc-0260"
   },
   {
     "Description": "Switch kerning on or off. If the parameter is non-zero or missing,\nenable pairwise kerning, otherwise disable it. The read-only number\nregister .kern is set to 1 if pairwise kerning is enabled, 0 otherwise.\n\n\n\nIf the font description file contains pairwise kerning information,\nglyphs from that font are kerned. Kerning between two glyphs can be\ninhibited by placing \\& between them: ‘V\\&A’.\n\nSee Font File Format.",
@@ -3032,7 +3100,8 @@
         "Token": "\\n[.kern]",
         "Args": ""
       }
-    ]
+    ],
+    "ID": "doc-0261"
   },
   {
     "Description": "Enable track kerning for font f. If the current font is f the width of\nevery glyph is increased by an amount between n1 and n2 (n1, n2 can be\nnegative); if the current point size is less than or equal to s1 the\nwidth is increased by n1; if it is greater than or equal to s2 the width\nis increased by n2; if the point size is greater than or equal to s1 and\nless than or equal to s2 the increase in width is a linear function of\nthe point size.\n\nThe default scaling indicator is ‘z’ for s1 and s2, ‘p’ for n1\nand n2.\n\nNote that the track kerning amount is added even to the rightmost glyph\nin a line; for large values it is thus recommended to increase the line\nlength by the same amount to compensate it.",
@@ -3054,7 +3123,6 @@
     ]
   },
   {
-    "Description": "Request: .ps -size",
     "Contents": [
       {
         "Type": "Request",
@@ -3067,10 +3135,10 @@
           ]
         }
       }
-    ]
+    ],
+    "DescriptionRef": "doc-0265"
   },
   {
-    "Description": "Escape: \\ssize",
     "Contents": [
       {
         "Type": "Request",
@@ -3083,7 +3151,8 @@
           ]
         }
       }
-    ]
+    ],
+    "DescriptionRef": "doc-0265"
   },
   {
     "Description": "Use the ps request or the \\s escape to change (increase,\ndecrease) the type size (in points).  Specify size as either an\nabsolute point size, or as a relative change from the current size.  The\nsize 0 (for both .ps and \\s), or no argument (for\n.ps only), goes back to the previous size.\n\nDefault scaling indicator of size is ‘z’. If size is negative, it is\nset to 1u.\n\n\n\nThe read-only number register .s returns the point size in points as a\ndecimal fraction. This is a string. To get the point size in scaled\npoints, use the .ps register instead.\n\n.s is associated with the current environment\n(see Environments).\n\n\nsnap, snap,\n.ps +2\ngrin, grin,\n.ps +2\nwink, wink, \\s+2nudge, nudge,\\s+8 say no more!\n.ps 10\n\nThe \\s escape may be called in a variety of ways. Much like other\nescapes there must be a way to determine where the argument ends and the\ntext begins. Any of the following forms are valid:\n\n\\sn Set the point size to n points. n must be either 0 or in the range 4\nto 39.\n\n\\s+n \\s-n Increase or decrease the point size by n points. n must be\nexactly one digit.\n\n\\s(nn Set the point size to nn points. nn must be exactly two digits.\n\n\\s+(nn \\s-(nn \\s(+nn \\s(-nn Increase or decrease the point size by nn\npoints. nn must be exactly two digits.\n\n\n\nNote that \\s doesn’t produce an input token in gtroff. As a\nconsequence, it can be used in requests like mc (which expects a single\ncharacter as an argument) to change the font on the fly:\n\n\n.mc \\s[20]x\\s[0]\n\nSee Fractional Type Sizes, for yet another syntactical form of using the\n\\s escape.",
@@ -3093,7 +3162,8 @@
         "Token": "\\n[.s]",
         "Args": ""
       }
-    ]
+    ],
+    "ID": "doc-0265"
   },
   {
     "Description": "Some devices may only have certain permissible sizes, in which case\ngtroff rounds to the nearest permissible size. The DESC file specifies\nwhich sizes are permissible for the device.\n\nUse the sizes request to change the permissible sizes for the current\noutput device. Arguments are in scaled points; the sizescale line in the\nDESC file for the output device provides the scaling factor. For\nexample, if the scaling factor is 1000, then the value 12000 is 12\npoints.\n\nEach argument can be a single point size (such as ‘12000’), or a\nrange of sizes (such as ‘4000-72000’). You can optionally end the\nlist with a zero.",
@@ -3120,7 +3190,6 @@
     ]
   },
   {
-    "Description": "Request: .vs -space",
     "Contents": [
       {
         "Type": "Request",
@@ -3133,10 +3202,10 @@
           ]
         }
       }
-    ]
+    ],
+    "DescriptionRef": "doc-0269"
   },
   {
-    "Description": "Register: \\n[.v]",
     "Contents": [
       {
         "Type": "Request",
@@ -3149,7 +3218,8 @@
           ]
         }
       }
-    ]
+    ],
+    "DescriptionRef": "doc-0269"
   },
   {
     "Description": "Change (increase, decrease) the vertical spacing by space. The default\nscaling indicator is ‘p’.\n\nIf vs is called without an argument, the vertical spacing is reset to\nthe previous value before the last call to vs.\n\ngtroff creates a warning of type ‘range’ if space is negative; the\nvertical spacing is then set to smallest positive value, the vertical\nresolution (as given in the .V register).\n\nNote that ‘.vs 0’ isn’t saved in a diversion since it doesn’t\nresult in a vertical motion. You explicitly have to repeat this command\nbefore inserting the diversion.\n\nThe read-only number register .v contains the current vertical spacing;\nit is associated with the current environment (see Environments).",
@@ -3159,10 +3229,10 @@
         "Token": "\\n[.v]",
         "Args": ""
       }
-    ]
+    ],
+    "ID": "doc-0269"
   },
   {
-    "Description": "Request: .pvs -space",
     "Contents": [
       {
         "Type": "Request",
@@ -3175,10 +3245,10 @@
           ]
         }
       }
-    ]
+    ],
+    "DescriptionRef": "doc-0272"
   },
   {
-    "Description": "Register: \\n[.pvs]",
     "Contents": [
       {
         "Type": "Request",
@@ -3191,7 +3261,8 @@
           ]
         }
       }
-    ]
+    ],
+    "DescriptionRef": "doc-0272"
   },
   {
     "Description": "Change (increase, decrease) the post-vertical spacing by space. The\ndefault scaling indicator is ‘p’.\n\nIf pvs is called without an argument, the post-vertical spacing is reset\nto the previous value before the last call to pvs.\n\ngtroff creates a warning of type ‘range’ if space is zero or\nnegative; the vertical spacing is then set to zero.\n\nThe read-only number register .pvs contains the current post-vertical\nspacing; it is associated with the current environment (see\nEnvironments).",
@@ -3201,7 +3272,8 @@
         "Token": "\\n[.pvs]",
         "Args": ""
       }
-    ]
+    ],
+    "ID": "doc-0272"
   },
   {
     "Description": "A read-only number register returning the point size in scaled points.\n\n.ps is associated with the current environment\n(see Environments).",
@@ -3221,7 +3293,8 @@
         "Token": "\\n[.sr]",
         "Args": ""
       }
-    ]
+    ],
+    "ID": "doc-0274"
   },
   {
     "Description": "The as request is similar to ds but appends string to the string stored\nas name instead of redefining it. If name doesn’t exist yet, it is\ncreated.\n\n\n.as sign \" with shallots, onions and garlic,\n\nThe as1 request is similar to as, but compatibility mode is switched off\nwhile the appended string is interpreted. To be more precise, a\ncompatibility save input token is inserted at the beginning of the\nappended string, and a compatibility restore input token at the end.",
@@ -3235,7 +3308,8 @@
           "rest": "StringVal"
         }
       }
-    ]
+    ],
+    "ID": "doc-0275"
   },
   {
     "Description": "Replace the string named str with the substring defined by the indices\nn1 and n2. The first character in the string has index 0. If n2 is\nomitted, it is implicitly set to the largest valid value (the string\nlength minus one). If the index value n1 or n2 is negative, it is\ncounted from the end of the string, going backwards: The last character\nhas index -1, the character before the last character has index -2, etc.\n\n\n.ds xxx abcdefgh\n.substring xxx 1 -4\n\\*[xxx]\n    ⇒ bcde\n.substring xxx 2\n\\*[xxx]\n    ⇒ de",
@@ -3361,7 +3435,8 @@
           "rest": "Anything"
         }
       }
-    ]
+    ],
+    "ID": "doc-0284"
   },
   {
     "Description": "Evaluate the expression expr, and repeatedly execute anything (the\nremainder of the line) until expr evaluates to 0.\n\n\n.nr a 0 1\n.while (\\na < 9) \\{\\\n\\n+a,\n.\\}\n\\n+a\n    ⇒ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10\n\nSome remarks.\n\n\n\n The body of a while request is treated like the body of a\nde request: gtroff temporarily stores it in a macro that\nis deleted after the loop has been exited.  It can considerably slow\ndown a macro if the body of the while request (within the macro)\nis large.  Each time the macro is executed, the while body is\nparsed and stored again as a temporary macro.\n\n\n.de xxx\n.  nr num 10\n.  while (\\\\n[num] > 0) \\{\\\n.    \\\" many lines of code\n.    nr num -1\n.  \\}\n..\n\n\n\nThe traditional and often better solution (Unix troff doesn’t have the\nwhile request) is to use a recursive macro instead that is parsed only\nonce during its definition.\n\n\n.de yyy\n.  if (\\\\n[num] > 0) \\{\\\n.    \\\" many lines of code\n.    nr num -1\n.    yyy\n.  \\}\n..\n.\n.de xxx\n.  nr num 10\n.  yyy\n..\n\nNote that the number of available recursion levels is set to 1000 (this\nis a compile-time constant value of gtroff).\n\n The closing brace of a while body must end a line.\n\n\n.if 1 \\{\\\n.  nr a 0 1\n.  while (\\n[a] < 10) \\{\\\n.    nop \\n+[a]\n.\\}\\}\n    ⇒ unbalanced \\{ \\}",
@@ -3407,7 +3482,8 @@
           "kind": "definition_variant"
         }
       }
-    ]
+    ],
+    "ID": "doc-0288"
   },
   {
     "Description": "Works similarly to de except it appends onto the macro named name. So,\nto make the previously defined ‘P’ macro actually do indented\ninstead of block paragraphs, add the necessary code to the existing\nmacro like this:\n\n\n.am P\n.ti +5n\n..\n\nThe am1 request turns off compatibility mode while executing the\nappended macro piece. To be more precise, a compatibility save input\ntoken is inserted at the beginning of the appended code, and a\ncompatibility restore input token at the end.\n\nThe ami request appends indirectly, meaning that gtroff expands strings\nwhose names are name or end before performing the append.\n\nThe ami1 request is similar to ami but compatibility mode is switched\noff during execution of the defined macro.\n\nUsing trace.tmac, you can trace calls to am and am1.",
@@ -3420,7 +3496,8 @@
           "kind": "append_variant"
         }
       }
-    ]
+    ],
+    "ID": "doc-0289"
   },
   {
     "Description": "Exit a macro, immediately returning to the caller.\n\nIf called with an argument, exit twice, namely the current macro and the\nmacro one level higher. This is used to define a wrapper macro for\nreturn in trace.tmac.",
@@ -3476,7 +3553,8 @@
           ]
         }
       }
-    ]
+    ],
+    "ID": "doc-0293"
   },
   {
     "Description": "Return the width of the specified text in basic units. This allows\nhorizontal movement based on the width of some arbitrary text (e.g.\ngiven as an argument to a macro).\n\n\nThe length of the string `abc' is \\w'abc'u.\n    ⇒ The length of the string `abc' is 72u.\n\nFont changes may occur in text, which don’t affect current settings.\n\nAfter use, \\w sets several registers:\n\nst sb The highest and lowest point of the baseline, respectively, in\ntext.\n\nrst rsb Like the st and sb registers, but takes account of the heights\nand depths of glyphs. In other words, this gives the highest and lowest\npoint of text. Values below the baseline are negative.\n\nct Defines the kinds of glyphs occurring in text:\n\n0 only short glyphs, no descenders or tall glyphs.\n\n1 at least one descender.\n\n2 at least one tall glyph.\n\n3 at least one each of a descender and a tall glyph.\n\n\n\nssc The amount of horizontal space (possibly negative) that should be\nadded to the last glyph before a subscript.\n\nskw How far to right of the center of the last glyph in the \\w argument,\nthe center of an accent from a roman font should be placed over that\nglyph.",
@@ -3486,7 +3564,8 @@
         "Token": "\\n[skw]",
         "Args": ""
       }
-    ]
+    ],
+    "ID": "doc-0294"
   },
   {
     "Description": "The current horizontal position at the input line.",
@@ -3516,7 +3595,8 @@
         "Token": "\\n[.vpt]",
         "Args": ""
       }
-    ]
+    ],
+    "ID": "doc-0297"
   },
   {
     "Description": "Set a page location trap. Non-negative values for dist set the trap\nrelative to the top of the page; negative values set the trap relative\nto the bottom of the page. Default scaling indicator is ‘v’; values\nof dist are always rounded to be multiples of the vertical resolution\n(as given in register .V).\n\nmacro is the name of the macro to execute when the trap is sprung. If\nmacro is missing, remove the first trap (if any) at dist.\n\n\n\n\n\nThe following is a simple example of how many macro packages set headers\nand footers.\n\n\n.de hd                \\\" Page header\n'  sp .5i\n.  tl 'Title''date'\n'  sp .3i\n..\n.\n.de fo                \\\" Page footer\n'  sp 1v\n.  tl ''%''\n'  bp\n..\n.\n.wh 0   hd            \\\" trap at top of the page\n.wh -1i fo            \\\" trap one inch from bottom\n\nA trap at or below the bottom of the page is ignored; it can be made\nactive by either moving it up or increasing the page length so that the\ntrap is on the page.\n\nNegative trap values always use the current page length; they are not\nconverted to an absolute vertical position:\n\n\n.pl 5i\n.wh -1i xx\n.ptr\n    ⇒ xx      -240\n.pl 100i\n.ptr\n    ⇒ xx      -240\n\nIt is possible to have more than one trap at the same location; to do\nso, the traps must be defined at different locations, then moved\ntogether with the ch request; otherwise the second trap would replace\nthe first one. Earlier defined traps hide later defined traps if moved\nto the same position (the many empty lines caused by the bp request are\nomitted in the following example):\n\n\n.de a\n.  nop a\n..\n.de b\n.  nop b\n..\n.de c\n.  nop c\n..\n.\n.wh 1i a\n.wh 2i b\n.wh 3i c\n.bp\n    ⇒ a b c\n\n\n.ch b 1i\n.ch c 1i\n.bp\n    ⇒ a\n\n\n.ch a 0.5i\n.bp\n    ⇒ a b",
@@ -3614,7 +3694,8 @@
           ]
         }
       }
-    ]
+    ],
+    "ID": "doc-0305"
   },
   {
     "Description": "Set a blank line trap. gtroff executes macro when it encounters a blank\nline in the input file.",
@@ -3634,7 +3715,8 @@
         "Token": "\\n[lss]",
         "Args": ""
       }
-    ]
+    ],
+    "ID": "doc-0307"
   },
   {
     "Description": "Set a trap at the end of input. macro is executed after the last line of\nthe input file has been processed.\n\nFor example, if the document had to have a section at the bottom of the\nlast page for someone to approve it, the em request could be used.\n\n\n.de approval\n\\c\n.  ne 3v\n.  sp (\\\\n[.t]u - 3v)\n.  in +4i\n.  lc _\n.  br\nApproved:\\t\\a\n.  sp\nDate:\\t\\t\\a\n..\n.\n.em approval\n\nThe \\c in the above example needs explanation. For historical reasons\n(and for compatibility with AT&T troff), the end macro exits as soon as\nit causes a page break and no remaining data is in the partially\ncollected line.\n\nLet us assume that there is no \\c in the above approval macro, and that\nthe page is full and has been ended with, say, a br request. The ne\nrequest now causes the start of a new page, which in turn makes troff\nexit immediately for the reasons just described. In most situations this\nis not intended.\n\nTo always force processing the whole end macro independently of this\nbehaviour it is thus advisable to insert something that starts an empty\npartially filled line (\\c) whenever there is a chance that a page break\ncan happen. In the above example, the call of the ne request assures\nthat the remaining code stays on the same page, so we have to insert \\c\nonly once.\n\nThe next example shows how to append three lines, then starting a new\npage unconditionally. Since ‘.ne 1’ doesn’t give the desired\neffect – there is always one line available or we are already at the\nbeginning of the next page – we temporarily increase the page length\nby one line so that we can use ‘.ne 2’.\n\n\n.de EM\n.pl +1v\n\\c\n.ne 2\nline one\n.br\n\\c\n.ne 2\nline two\n.br\n\\c\n.ne 2\nline three\n.br\n.pl -1v\n\\c\n'bp\n..\n.em EM\n\nNote that this specific feature affects only the first potential page\nbreak caused by the end macro; further page breaks emitted by the end\nmacro are handled normally.\n\nAnother possible use of the em request is to make gtroff emit a single\nlarge page instead of multiple pages. For example, one may want to\nproduce a long plain-text file for reading on-screen. The idea is to set\nthe page length at the beginning of the document to a very large value\nto hold all the text, and automatically adjust it to the exact height of\nthe document after the text has been output.\n\n\n.de adjust-page-length\n.  br\n.  pl \\\\n[nl]u \\\" \\n[nl] holds the current vert. position\n..\n.\n.de single-page-mode\n.  pl 99999\n.  em adjust-page-length\n..\n.\n.\\\" activate the above code\n.single-page-mode\n\nSince only one end-of-input trap does exist and other macro packages may\nalready use it, care must be taken not to break the mechanism. A simple\nsolution would be to append the above macro to the macro package’s\nend-of-input macro using the .am request.",
@@ -3654,7 +3736,8 @@
         "Token": ".da",
         "Args": "macro"
       }
-    ]
+    ],
+    "ID": "doc-0309"
   },
   {
     "Description": "Begin (or append to) a diversion like the di and da requests. The\ndifference is that box and boxa do not include a partially filled line\nin the diversion.\n\nCompare this:\n\n\nBefore the box.\n.box xxx\nIn the box.\n.br\n.box\nAfter the box.\n.br\n    ⇒ Before the box.  After the box.\n.xxx\n    ⇒ In the box.\n\nwith this:\n\n\nBefore the diversion.\n.di yyy\nIn the diversion.\n.br\n.di\nAfter the diversion.\n.br\n    ⇒ After the diversion.\n.yyy\n    ⇒ Before the diversion.  In the diversion.\n\nbox or boxa without an argument ends the diversion.",
@@ -3664,7 +3747,8 @@
         "Token": ".boxa",
         "Args": "macro"
       }
-    ]
+    ],
+    "ID": "doc-0310"
   },
   {
     "Description": "Diversions may be nested. The read-only number register .z contains the\nname of the current diversion (this is a string-valued register). The\nread-only number register .d contains the current vertical place in the\ndiversion. If not in a diversion it is the same as register nl.",
@@ -3674,7 +3758,8 @@
         "Token": "\\n[.d]",
         "Args": ""
       }
-    ]
+    ],
+    "ID": "doc-0311"
   },
   {
     "Description": "The high-water mark on the current page or in the current diversion. It\ncorresponds to the text baseline of the lowest line on the page. This is\na read-only register.\n\n\n.tm .h==\\n[.h], nl==\\n[nl]\n    ⇒ .h==0, nl==-1\nThis is a test.\n.br\n.sp 2\n.tm .h==\\n[.h], nl==\\n[nl]\n    ⇒ .h==40, nl==120\n\n\n\nAs can be seen in the previous example, empty lines are not considered\nin the return value of the .h register.",
@@ -3694,7 +3779,8 @@
         "Token": "\\n[dl]",
         "Args": ""
       }
-    ]
+    ],
+    "ID": "doc-0313"
   },
   {
     "Description": "Emit string directly to the gtroff intermediate output (subject to copy\nmode interpretation); this is similar to \\! used at the top level. An\ninitial double quote in string is stripped off to allow initial blanks.\n\nThis request can’t be used before the first page has started – if\nyou get an error, simply insert .br before the output request.\n\nWithout argument, output is ignored.\n\nUse with caution! It is normally only needed for mark-up used by a\npostprocessor that does something with the output before sending it to\nthe output device, filtering out string again.",
@@ -3738,7 +3824,8 @@
         "Token": "\\n[.ev]",
         "Args": ""
       }
-    ]
+    ],
+    "ID": "doc-0317"
   },
   {
     "Description": "Copy the environment env into the current environment.\n\nThe following environment data is not copied:\n\n\n Partially filled lines.\n\n The status whether the previous line was interrupted.\n\n The number of lines still to center, or to right-justify, or to\nunderline (with or without underlined spaces); they are set to zero.\n\n The status whether a temporary indentation is active.\n\n Input traps and its associated data.\n\n Line numbering mode is disabled; it can be reactivated with ‘.nm +0’.\n\n The number of consecutive hyphenated lines (set to zero).",
@@ -3758,7 +3845,8 @@
         "Token": "\\n[.csk]",
         "Args": ""
       }
-    ]
+    ],
+    "ID": "doc-0319"
   },
   {
     "Description": "The \\n[.n] register contains the length of the previous output line in\nthe current environment.",
@@ -3778,7 +3866,8 @@
         "Token": "\\n[.color]",
         "Args": ""
       }
-    ]
+    ],
+    "ID": "doc-0321"
   },
   {
     "Description": "Define color with name ident. scheme can be one of the following values:\nrgb (three components), cmy (three components), cmyk (four components),\nand gray or grey (one component).\n\n\n\nColor components can be given either as a hexadecimal string or as\npositive decimal integers in the range 0–65535. A hexadecimal string\ncontains all color components concatenated. It must start with either #\nor ##; the former specifies hex values in the range 0–255 (which are\ninternally multiplied by 257), the latter in the range 0–65535.\nExamples: #FFC0CB (pink), ##ffff0000ffff (magenta). The default color\nname value is device-specific (usually black). It is possible that the\ndefault color for \\m and \\M is not identical.\n\n\n\nA new scaling indicator f has been introduced, which multiplies its\nvalue by 65536; this makes it convenient to specify color components as\nfractions in the range 0 to 1 (1f equals 65536u). Example:\n\n\n.defcolor darkgreen rgb 0.1f 0.5f 0.2f\n\nNote that f is the default scaling indicator for the defcolor request,\nthus the above statement is equivalent to\n\n\n.defcolor darkgreen rgb 0.1 0.5 0.2",
@@ -3802,7 +3891,8 @@
         "Token": "\\n[.m]",
         "Args": ""
       }
-    ]
+    ],
+    "ID": "doc-0323"
   },
   {
     "Description": "Set fill (background) color for filled objects drawn with the \\D'…'\ncommands.\n\nA red ellipse can be created with the following code:\n\n\\M[red]\\h'0.5i'\\D'E 2i 1i'\\M[]\n\nThe escape \\M[] returns to the previous fill color, as does a call to\nfcolor without an argument.\n\n\n\n\n\n\n\nThe name of the current fill (background) color is available in the\nread-only, string-valued number register ‘.M’.\n\nThe fill color is associated with the current environment (see\nEnvironments).\n\nNote that \\M doesn’t produce an input token in gtroff.",
@@ -3812,7 +3902,8 @@
         "Token": "\\n[.M]",
         "Args": ""
       }
-    ]
+    ],
+    "ID": "doc-0324"
   },
   {
     "Description": "Read in the specified file and includes it in place of the so request.\nThis is quite useful for large documents, e.g. keeping each chapter in a\nseparate file. See gsoelim, for more information.\n\nSince gtroff replaces the so request with the contents of file, it makes\na difference whether the data is terminated with a newline or not:\nAssuming that file xxx contains the word ‘foo’ without a final\nnewline, this\n\n\nThis is\n.so xxx\nbar\n\nyields ‘This is foobar’.\n\nThe search path for file can be controlled with the -I command-line\noption.",
@@ -3856,7 +3947,8 @@
         "Token": ".cf",
         "Args": "file"
       }
-    ]
+    ],
+    "ID": "doc-0328"
   },
   {
     "Description": "Force gtroff to continue processing of the file specified as an\nargument. If no argument is given, immediately jump to the end of file.",
@@ -3913,7 +4005,8 @@
         "Token": "\\n[systat]",
         "Args": ""
       }
-    ]
+    ],
+    "ID": "doc-0332"
   },
   {
     "Description": "Open the specified file for writing and associates the specified stream\nwith it.\n\nThe opena request is like open, but if the file exists, append to it\ninstead of truncating it.\n\n\n\n\n\nBoth open and opena cause an error if used in safer mode (which is the\ndefault). Use groff’s or troff’s -U option to activate unsafe mode.",
@@ -3923,7 +4016,8 @@
         "Token": ".opena",
         "Args": "stream file"
       }
-    ]
+    ],
+    "ID": "doc-0333"
   },
   {
     "Description": "Write to the file associated with the specified stream. The stream must\npreviously have been the subject of an open request. The remainder of\nthe line is interpreted as the ds request reads its second argument: A\nleading ‘\"’ is stripped, and it is read in copy-in mode.\n\nThe writec request is like write, but only write appends a newline to\nthe data.",
@@ -3937,7 +4031,8 @@
           "rest": "Data"
         }
       }
-    ]
+    ],
+    "ID": "doc-0334"
   },
   {
     "Description": "Write the contents of the macro or string xx to the file associated with\nthe specified stream.\n\n\n\nxx is read in copy mode, i.e., already formatted elements are ignored.\nConsequently, diversions must be unformatted with the asciify request\nbefore calling writem. Usually, this means a loss of information.",
@@ -4018,7 +4113,8 @@
         "Token": "\\n[ury]",
         "Args": ""
       }
-    ]
+    ],
+    "ID": "doc-0340"
   },
   {
     "Description": "Change the line number and optionally the file name gtroff shall use for\nerror and warning messages. line is the input line number of the next\nline.\n\nWithout argument, the request is ignored.\n\nThis is a debugging aid for documents that are split into many files,\nthen put together with soelim and other preprocessors. Usually, it\nisn’t invoked manually.\n\nNote that other troff implementations (including the original AT&T\nversion) handle lf differently. For them, line changes the line number\nof the current line.",
@@ -4042,7 +4138,8 @@
           "rest": "StringVal"
         }
       }
-    ]
+    ],
+    "ID": "doc-0342"
   },
   {
     "Description": "Similar to the tm request, except that it causes gtroff to stop\nprocessing. With no argument it prints ‘User Abort.’ to standard\nerror.",
@@ -4172,7 +4269,8 @@
         "Token": "\\n[.warn]",
         "Args": ""
       }
-    ]
+    ],
+    "ID": "doc-0354"
   },
   {
     "Description": "If n is missing or non-zero, turn on compatibility mode; otherwise, turn\nit off.\n\nThe read-only number register .C is 1 if compatibility mode is on, 0\notherwise.\n\nCompatibility mode can be also turned on with the -C command-line\noption.\n\nThe do request turns off compatibility mode while executing its\narguments as a gtroff command. However, it does not turn off\ncompatibility mode while processing the macro itself. To do that, use\nthe de1 request (or manipulate the .C register manually). See Writing\nMacros.\n\n\n.do fam T\n\nexecutes the fam request when compatibility mode is enabled.\n\ngtroff restores the previous compatibility setting before interpreting\nany files sourced by the cmd.",
@@ -4182,7 +4280,8 @@
         "Token": "\\n[.C]",
         "Args": ""
       }
-    ]
+    ],
+    "ID": "doc-0355"
   },
   {
     "Description": "The registers ps4html and www-image-template are defined by the\npre-grohtml preprocessor. pre-grohtml reads in the troff input, marks up\nthe inline equations and passes the result firstly to\n\ntroff -Tps -rps4html=1 -dwww-image-template=template\n\nand secondly to\n\ntroff -Thtml\n\nor\n\ntroff -Txhtml\n\n\n\nThe POSTSCRIPT device is used to create all the image files (for -Thtml;\nif -Txhtml is used, all equations are passed to geqn to produce MathML,\nand the register ps4html enables the macro sets to ignore floating\nkeeps, footers, and headings.\n\nThe register www-image-template is set to the user specified template\nname or the default name.",
@@ -4190,12 +4289,14 @@
       {
         "Type": "String",
         "Token": "\\*[www-image-template]",
-        "Args": ""
+        "Args": "",
+        "Package": "roff"
       },
       {
         "Type": "Register",
         "Token": "\\n[ps4html]",
-        "Args": ""
+        "Args": "",
+        "Package": "roff"
       },
       {
         "Type": "Request",
@@ -4204,7 +4305,8 @@
         "ArgumentGrammar": {
           "mode": "raw",
           "rest": "Cmd"
-        }
+        },
+        "DescriptionRef": "doc-0355"
       },
       {
         "Type": "Request",
@@ -4215,7 +4317,8 @@
           "numeric": [
             "N"
           ]
-        }
+        },
+        "DescriptionRef": "doc-0355"
       },
       {
         "Type": "Request",
@@ -4226,7 +4329,8 @@
           "numeric": [
             "Flags"
           ]
-        }
+        },
+        "DescriptionRef": "doc-0354"
       },
       {
         "Type": "Request",
@@ -4235,7 +4339,8 @@
         "ArgumentGrammar": {
           "mode": "raw",
           "rest": "StringVal"
-        }
+        },
+        "DescriptionRef": "doc-0342"
       },
       {
         "Type": "Request",
@@ -4244,32 +4349,41 @@
         "ArgumentGrammar": {
           "mode": "raw",
           "rest": "StringVal"
-        }
+        },
+        "DescriptionRef": "doc-0342"
       },
       {
         "Type": "Register",
         "Token": "\\n[urx]",
-        "Args": ""
+        "Args": "",
+        "DescriptionRef": "doc-0340",
+        "Package": "roff"
       },
       {
         "Type": "Register",
         "Token": "\\n[lly]",
-        "Args": ""
+        "Args": "",
+        "DescriptionRef": "doc-0340",
+        "Package": "roff"
       },
       {
         "Type": "Register",
         "Token": "\\n[llx]",
-        "Args": ""
+        "Args": "",
+        "DescriptionRef": "doc-0340",
+        "Package": "roff"
       },
       {
         "Type": "Request",
         "Token": ".psbb",
-        "Args": "filename"
+        "Args": "filename",
+        "DescriptionRef": "doc-0340"
       },
       {
         "Type": "Request",
         "Token": ".devicem",
-        "Args": "xx"
+        "Args": "xx",
+        "Description": "Copy a named string or macro into a device-control command without interpreting its contents."
       },
       {
         "Type": "Request",
@@ -4278,7 +4392,8 @@
         "ArgumentGrammar": {
           "mode": "raw",
           "rest": "Xxx"
-        }
+        },
+        "Description": "Place device-control parameters in intermediate output for the output driver to interpret."
       },
       {
         "Type": "Request",
@@ -4287,12 +4402,14 @@
         "ArgumentGrammar": {
           "mode": "raw",
           "rest": "Data"
-        }
+        },
+        "DescriptionRef": "doc-0334"
       },
       {
         "Type": "Request",
         "Token": ".open",
-        "Args": "stream file"
+        "Args": "stream file",
+        "DescriptionRef": "doc-0333"
       },
       {
         "Type": "Request",
@@ -4301,22 +4418,26 @@
         "ArgumentGrammar": {
           "mode": "raw",
           "rest": "Cmds"
-        }
+        },
+        "DescriptionRef": "doc-0332"
       },
       {
         "Type": "Request",
         "Token": ".trf",
-        "Args": "file"
+        "Args": "file",
+        "DescriptionRef": "doc-0328"
       },
       {
         "Type": "Request",
         "Token": ".fcolor",
-        "Args": "[color]"
+        "Args": "[color]",
+        "DescriptionRef": "doc-0324"
       },
       {
         "Type": "Request",
         "Token": ".gcolor",
-        "Args": "[color]"
+        "Args": "[color]",
+        "DescriptionRef": "doc-0323"
       },
       {
         "Type": "Request",
@@ -4327,57 +4448,74 @@
           "numeric": [
             "N"
           ]
-        }
+        },
+        "DescriptionRef": "doc-0321"
       },
       {
         "Type": "Register",
         "Token": "\\n[.cdp]",
-        "Args": ""
+        "Args": "",
+        "DescriptionRef": "doc-0319",
+        "Package": "roff"
       },
       {
         "Type": "Register",
         "Token": "\\n[.cht]",
-        "Args": ""
+        "Args": "",
+        "DescriptionRef": "doc-0319",
+        "Package": "roff"
       },
       {
         "Type": "Register",
         "Token": "\\n[.w]",
-        "Args": ""
+        "Args": "",
+        "DescriptionRef": "doc-0319",
+        "Package": "roff"
       },
       {
         "Type": "Request",
         "Token": ".ev",
-        "Args": "[env]"
+        "Args": "[env]",
+        "DescriptionRef": "doc-0317"
       },
       {
         "Type": "Register",
         "Token": "\\n[dn]",
-        "Args": ""
+        "Args": "",
+        "DescriptionRef": "doc-0313",
+        "Package": "roff"
       },
       {
         "Type": "Register",
         "Token": "\\n[.z]",
-        "Args": ""
+        "Args": "",
+        "DescriptionRef": "doc-0311",
+        "Package": "roff"
       },
       {
         "Type": "Request",
         "Token": ".box",
-        "Args": "macro"
+        "Args": "macro",
+        "DescriptionRef": "doc-0310"
       },
       {
         "Type": "Request",
         "Token": ".di",
-        "Args": "macro"
+        "Args": "macro",
+        "DescriptionRef": "doc-0309"
       },
       {
         "Type": "Register",
         "Token": "\\n[lsn]",
-        "Args": ""
+        "Args": "",
+        "DescriptionRef": "doc-0307",
+        "Package": "roff"
       },
       {
         "Type": "Request",
         "Token": ".lsm",
-        "Args": "macro"
+        "Args": "macro",
+        "DescriptionRef": "doc-0307"
       },
       {
         "Type": "Request",
@@ -4388,7 +4526,8 @@
           "numeric": [
             "N"
           ]
-        }
+        },
+        "DescriptionRef": "doc-0305"
       },
       {
         "Type": "Request",
@@ -4399,42 +4538,56 @@
           "numeric": [
             "Flag"
           ]
-        }
+        },
+        "DescriptionRef": "doc-0297"
       },
       {
         "Type": "Register",
         "Token": "\\n[ssc]",
-        "Args": ""
+        "Args": "",
+        "DescriptionRef": "doc-0294",
+        "Package": "roff"
       },
       {
         "Type": "Register",
         "Token": "\\n[ct]",
-        "Args": ""
+        "Args": "",
+        "DescriptionRef": "doc-0294",
+        "Package": "roff"
       },
       {
         "Type": "Register",
         "Token": "\\n[rsb]",
-        "Args": ""
+        "Args": "",
+        "DescriptionRef": "doc-0294",
+        "Package": "roff"
       },
       {
         "Type": "Register",
         "Token": "\\n[rst]",
-        "Args": ""
+        "Args": "",
+        "DescriptionRef": "doc-0294",
+        "Package": "roff"
       },
       {
         "Type": "Register",
         "Token": "\\n[sb]",
-        "Args": ""
+        "Args": "",
+        "DescriptionRef": "doc-0294",
+        "Package": "roff"
       },
       {
         "Type": "Register",
         "Token": "\\n[st]",
-        "Args": ""
+        "Args": "",
+        "DescriptionRef": "doc-0294",
+        "Package": "roff"
       },
       {
         "Type": "Request",
         "Token": ".mk",
-        "Args": "[reg]"
+        "Args": "[reg]",
+        "DescriptionRef": "doc-0293"
       },
       {
         "Type": "Request",
@@ -4442,7 +4595,8 @@
         "Args": "name [end]",
         "Block": {
           "kind": "append_variant"
-        }
+        },
+        "DescriptionRef": "doc-0289"
       },
       {
         "Type": "Request",
@@ -4450,7 +4604,8 @@
         "Args": "name [end]",
         "Block": {
           "kind": "append_variant"
-        }
+        },
+        "DescriptionRef": "doc-0289"
       },
       {
         "Type": "Request",
@@ -4458,7 +4613,8 @@
         "Args": "name [end]",
         "Block": {
           "kind": "append"
-        }
+        },
+        "DescriptionRef": "doc-0289"
       },
       {
         "Type": "Request",
@@ -4466,7 +4622,8 @@
         "Args": "name [end]",
         "Block": {
           "kind": "definition_variant"
-        }
+        },
+        "DescriptionRef": "doc-0288"
       },
       {
         "Type": "Request",
@@ -4474,7 +4631,8 @@
         "Args": "name [end]",
         "Block": {
           "kind": "definition_variant"
-        }
+        },
+        "DescriptionRef": "doc-0288"
       },
       {
         "Type": "Request",
@@ -4482,7 +4640,8 @@
         "Args": "name [end]",
         "Block": {
           "kind": "definition"
-        }
+        },
+        "DescriptionRef": "doc-0288"
       },
       {
         "Type": "Request",
@@ -4490,7 +4649,8 @@
         "Args": "expr anything",
         "ArgumentGrammar": {
           "mode": "conditional"
-        }
+        },
+        "DescriptionRef": "doc-0284"
       },
       {
         "Type": "Request",
@@ -4499,7 +4659,8 @@
         "ArgumentGrammar": {
           "mode": "string",
           "rest": "StringVal"
-        }
+        },
+        "DescriptionRef": "doc-0275"
       },
       {
         "Type": "Request",
@@ -4508,7 +4669,9 @@
         "ArgumentGrammar": {
           "mode": "string",
           "rest": "StringVal"
-        }
+        },
+        "Description": "Store text under a string name for later interpolation.",
+        "ID": "roff-string-definition"
       },
       {
         "Type": "Request",
@@ -4517,12 +4680,15 @@
         "ArgumentGrammar": {
           "mode": "string",
           "rest": "StringVal"
-        }
+        },
+        "DescriptionRef": "roff-string-definition"
       },
       {
         "Type": "Register",
         "Token": "\\n[.psr]",
-        "Args": ""
+        "Args": "",
+        "DescriptionRef": "doc-0274",
+        "Package": "roff"
       },
       {
         "Type": "Request",
@@ -4533,7 +4699,8 @@
           "numeric": [
             "Space"
           ]
-        }
+        },
+        "DescriptionRef": "doc-0272"
       },
       {
         "Type": "Request",
@@ -4544,7 +4711,8 @@
           "numeric": [
             "Space"
           ]
-        }
+        },
+        "DescriptionRef": "doc-0269"
       },
       {
         "Type": "Request",
@@ -4555,7 +4723,8 @@
           "numeric": [
             "Size"
           ]
-        }
+        },
+        "DescriptionRef": "doc-0265"
       },
       {
         "Type": "Request",
@@ -4566,7 +4735,8 @@
           "numeric": [
             "Flag"
           ]
-        }
+        },
+        "DescriptionRef": "doc-0261"
       },
       {
         "Type": "Request",
@@ -4577,7 +4747,8 @@
           "numeric": [
             "Flag"
           ]
-        }
+        },
+        "DescriptionRef": "doc-0260"
       },
       {
         "Type": "Request",
@@ -4588,7 +4759,8 @@
           "numeric": [
             "Offset"
           ]
-        }
+        },
+        "DescriptionRef": "doc-0258"
       },
       {
         "Type": "Request",
@@ -4605,7 +4777,8 @@
           "minimum": 0,
           "repeat_from": 0,
           "step": 1
-        }
+        },
+        "DescriptionRef": "doc-0251"
       },
       {
         "Type": "Request",
@@ -4622,7 +4795,8 @@
           "minimum": 1,
           "repeat_from": 0,
           "step": 1
-        }
+        },
+        "DescriptionRef": "doc-0249"
       },
       {
         "Type": "Request",
@@ -4631,7 +4805,8 @@
         "ArgumentGrammar": {
           "mode": "raw",
           "rest": "StringVal"
-        }
+        },
+        "DescriptionRef": "doc-0248"
       },
       {
         "Type": "Request",
@@ -4640,7 +4815,8 @@
         "ArgumentGrammar": {
           "mode": "raw",
           "rest": "StringVal"
-        }
+        },
+        "DescriptionRef": "doc-0248"
       },
       {
         "Type": "Request",
@@ -4649,17 +4825,21 @@
         "ArgumentGrammar": {
           "mode": "raw",
           "rest": "StringVal"
-        }
+        },
+        "DescriptionRef": "doc-0248"
       },
       {
         "Type": "Request",
         "Token": ".ft",
-        "Args": "nnn"
+        "Args": "nnn",
+        "Description": "Select a font by its numeric position, using the current font family when that position names a style."
       },
       {
         "Type": "Register",
         "Token": "\\n[.f]",
-        "Args": ""
+        "Args": "",
+        "DescriptionRef": "doc-0245",
+        "Package": "roff"
       },
       {
         "Type": "Request",
@@ -4670,17 +4850,21 @@
           "numeric": [
             "Pos"
           ]
-        }
+        },
+        "DescriptionRef": "doc-0245"
       },
       {
         "Type": "Register",
         "Token": "\\n[.fam]",
-        "Args": ""
+        "Args": "",
+        "DescriptionRef": "doc-0243",
+        "Package": "roff"
       },
       {
         "Type": "Request",
         "Token": ".fam",
-        "Args": "[family]"
+        "Args": "[family]",
+        "DescriptionRef": "doc-0243"
       },
       {
         "Type": "Request",
@@ -4691,12 +4875,14 @@
           "numeric": [
             "Zoom"
           ]
-        }
+        },
+        "DescriptionRef": "doc-0242"
       },
       {
         "Type": "Request",
         "Token": ".ft",
-        "Args": "[font]"
+        "Args": "[font]",
+        "DescriptionRef": "doc-0240"
       },
       {
         "Type": "Request",
@@ -4707,7 +4893,8 @@
           "numeric": [
             "Space"
           ]
-        }
+        },
+        "DescriptionRef": "doc-0238"
       },
       {
         "Type": "Request",
@@ -4718,7 +4905,8 @@
           "numeric": [
             "Page"
           ]
-        }
+        },
+        "DescriptionRef": "doc-0236"
       },
       {
         "Type": "Request",
@@ -4729,7 +4917,8 @@
           "numeric": [
             "Page"
           ]
-        }
+        },
+        "DescriptionRef": "doc-0232"
       },
       {
         "Type": "Request",
@@ -4740,7 +4929,8 @@
           "numeric": [
             "Length"
           ]
-        }
+        },
+        "DescriptionRef": "doc-0229"
       },
       {
         "Type": "Request",
@@ -4751,12 +4941,15 @@
           "numeric": [
             "Length"
           ]
-        }
+        },
+        "DescriptionRef": "doc-0225"
       },
       {
         "Type": "Register",
         "Token": "\\n[.l]",
-        "Args": ""
+        "Args": "",
+        "DescriptionRef": "doc-0221",
+        "Package": "roff"
       },
       {
         "Type": "Request",
@@ -4767,7 +4960,8 @@
           "numeric": [
             "Length"
           ]
-        }
+        },
+        "DescriptionRef": "doc-0221"
       },
       {
         "Type": "Request",
@@ -4778,7 +4972,8 @@
           "numeric": [
             "Offset"
           ]
-        }
+        },
+        "DescriptionRef": "doc-0218"
       },
       {
         "Type": "Request",
@@ -4789,7 +4984,8 @@
           "numeric": [
             "Indent"
           ]
-        }
+        },
+        "DescriptionRef": "doc-0215"
       },
       {
         "Type": "Request",
@@ -4800,7 +4996,8 @@
           "numeric": [
             "Offset"
           ]
-        }
+        },
+        "DescriptionRef": "doc-0212"
       },
       {
         "Type": "Request",
@@ -4809,12 +5006,14 @@
         "ArgumentGrammar": {
           "mode": "raw",
           "rest": "AbcdEllipse"
-        }
+        },
+        "DescriptionRef": "doc-0206"
       },
       {
         "Type": "Request",
         "Token": ".ecs",
-        "Args": ""
+        "Args": "",
+        "DescriptionRef": "doc-0205"
       },
       {
         "Type": "Request",
@@ -4825,7 +5024,8 @@
           "numeric": [
             "N"
           ]
-        }
+        },
+        "DescriptionRef": "doc-0198"
       },
       {
         "Type": "Request",
@@ -4848,17 +5048,20 @@
           "minimum": 0,
           "repeat_from": 0,
           "step": 1
-        }
+        },
+        "DescriptionRef": "doc-0196"
       },
       {
         "Type": "Request",
         "Token": ".rs",
-        "Args": ""
+        "Args": "",
+        "DescriptionRef": "doc-0195"
       },
       {
         "Type": "Request",
         "Token": ".ns",
-        "Args": ""
+        "Args": "",
+        "DescriptionRef": "doc-0195"
       },
       {
         "Type": "Request",
@@ -4869,12 +5072,14 @@
           "numeric": [
             "Nnn"
           ]
-        }
+        },
+        "DescriptionRef": "doc-0193"
       },
       {
         "Type": "Request",
         "Token": ".hla",
-        "Args": "language"
+        "Args": "language",
+        "DescriptionRef": "doc-0191"
       },
       {
         "Type": "Request",
@@ -4885,7 +5090,8 @@
           "numeric": [
             "Hyphenation_space"
           ]
-        }
+        },
+        "DescriptionRef": "doc-0189"
       },
       {
         "Type": "Request",
@@ -4896,22 +5102,27 @@
           "numeric": [
             "Length"
           ]
-        }
+        },
+        "DescriptionRef": "doc-0188"
       },
       {
         "Type": "Request",
         "Token": ".hpfa",
-        "Args": "pattern_file"
+        "Args": "pattern_file",
+        "DescriptionRef": "doc-0186"
       },
       {
         "Type": "Request",
         "Token": ".hpf",
-        "Args": "pattern_file"
+        "Args": "pattern_file",
+        "DescriptionRef": "doc-0186"
       },
       {
         "Type": "Register",
         "Token": "\\n[.hlm]",
-        "Args": ""
+        "Args": "",
+        "DescriptionRef": "doc-0183",
+        "Package": "roff"
       },
       {
         "Type": "Request",
@@ -4922,7 +5133,8 @@
           "numeric": [
             "Nnn"
           ]
-        }
+        },
+        "DescriptionRef": "doc-0183"
       },
       {
         "Type": "Request",
@@ -4933,7 +5145,8 @@
           "numeric": [
             "Mode"
           ]
-        }
+        },
+        "DescriptionRef": "doc-0181"
       },
       {
         "Type": "Request",
@@ -4944,7 +5157,8 @@
           "numeric": [
             "Nnn"
           ]
-        }
+        },
+        "DescriptionRef": "doc-0180"
       },
       {
         "Type": "Request",
@@ -4955,12 +5169,15 @@
           "numeric": [
             "Nnn"
           ]
-        }
+        },
+        "DescriptionRef": "doc-0179"
       },
       {
         "Type": "Register",
         "Token": "\\n[.ss]",
-        "Args": ""
+        "Args": "",
+        "DescriptionRef": "doc-0178",
+        "Package": "roff"
       },
       {
         "Type": "Request",
@@ -4972,22 +5189,26 @@
             "Word_space_size",
             "Sentence_space_size"
           ]
-        }
+        },
+        "DescriptionRef": "doc-0178"
       },
       {
         "Type": "Request",
         "Token": ".brp",
-        "Args": ""
+        "Args": "",
+        "Description": "Finish the current output line using the current adjustment mode."
       },
       {
         "Type": "Request",
         "Token": ".ad",
-        "Args": "[mode]"
+        "Args": "[mode]",
+        "DescriptionRef": "doc-0176"
       },
       {
         "Type": "Request",
         "Token": ".fi",
-        "Args": ""
+        "Args": "",
+        "DescriptionRef": "doc-0174"
       },
       {
         "Type": "Request",
@@ -4995,7 +5216,8 @@
         "Args": "ident +value",
         "ArgumentGrammar": {
           "mode": "register"
-        }
+        },
+        "DescriptionRef": "roff-relative-register-assignment"
       },
       {
         "Type": "Request",
@@ -5003,87 +5225,104 @@
         "Args": "ident value",
         "ArgumentGrammar": {
           "mode": "register"
-        }
+        },
+        "Description": "Set a register to a numeric value, creating the register if necessary."
       },
       {
         "Type": "String",
         "Token": "\\*[Q]",
-        "Args": ""
+        "Args": "",
+        "DescriptionRef": "doc-0136"
       },
       {
         "Type": "String",
         "Token": "\\*[MONTH11]",
-        "Args": ""
+        "Args": "",
+        "DescriptionRef": "doc-0134"
       },
       {
         "Type": "String",
         "Token": "\\*[MONTH10]",
-        "Args": ""
+        "Args": "",
+        "DescriptionRef": "doc-0134"
       },
       {
         "Type": "String",
         "Token": "\\*[MONTH9]",
-        "Args": ""
+        "Args": "",
+        "DescriptionRef": "doc-0134"
       },
       {
         "Type": "String",
         "Token": "\\*[MONTH8]",
-        "Args": ""
+        "Args": "",
+        "DescriptionRef": "doc-0134"
       },
       {
         "Type": "String",
         "Token": "\\*[MONTH7]",
-        "Args": ""
+        "Args": "",
+        "DescriptionRef": "doc-0134"
       },
       {
         "Type": "String",
         "Token": "\\*[MONTH6]",
-        "Args": ""
+        "Args": "",
+        "DescriptionRef": "doc-0134"
       },
       {
         "Type": "String",
         "Token": "\\*[MONTH5]",
-        "Args": ""
+        "Args": "",
+        "DescriptionRef": "doc-0134"
       },
       {
         "Type": "String",
         "Token": "\\*[MONTH4]",
-        "Args": ""
+        "Args": "",
+        "DescriptionRef": "doc-0134"
       },
       {
         "Type": "String",
         "Token": "\\*[MONTH3]",
-        "Args": ""
+        "Args": "",
+        "DescriptionRef": "doc-0134"
       },
       {
         "Type": "String",
         "Token": "\\*[MONTH2]",
-        "Args": ""
+        "Args": "",
+        "DescriptionRef": "doc-0134"
       },
       {
         "Type": "String",
         "Token": "\\*[MONTH1]",
-        "Args": ""
+        "Args": "",
+        "DescriptionRef": "doc-0134"
       },
       {
         "Type": "Macro",
         "Token": ".XA",
-        "Args": "[page]"
+        "Args": "[page]",
+        "DescriptionRef": "doc-0128"
       },
       {
         "Type": "Macro",
         "Token": ".XS",
-        "Args": "[page]"
+        "Args": "[page]",
+        "DescriptionRef": "doc-0128"
       },
       {
         "Type": "Macro",
         "Token": ".HD",
-        "Args": ""
+        "Args": "",
+        "DescriptionRef": "doc-0124"
       },
       {
         "Type": "Macro",
         "Token": ".PT",
-        "Args": ""
+        "Args": "",
+        "DescriptionRef": "doc-0124"
       },
       {
         "Type": "Macro",
@@ -5091,7 +5330,8 @@
         "Args": "'left'center'right'",
         "ArgumentGrammar": {
           "mode": "delimited"
-        }
+        },
+        "DescriptionRef": "doc-0123"
       },
       {
         "Type": "Macro",
@@ -5099,7 +5339,8 @@
         "Args": "'left'center'right'",
         "ArgumentGrammar": {
           "mode": "delimited"
-        }
+        },
+        "DescriptionRef": "doc-0123"
       },
       {
         "Type": "Macro",
@@ -5107,32 +5348,38 @@
         "Args": "'left'center'right'",
         "ArgumentGrammar": {
           "mode": "delimited"
-        }
+        },
+        "DescriptionRef": "doc-0123"
       },
       {
         "Type": "String",
         "Token": "\\*[CF]",
-        "Args": ""
+        "Args": "",
+        "DescriptionRef": "doc-0122"
       },
       {
         "Type": "String",
         "Token": "\\*[LF]",
-        "Args": ""
+        "Args": "",
+        "DescriptionRef": "doc-0122"
       },
       {
         "Type": "String",
         "Token": "\\*[CH]",
-        "Args": ""
+        "Args": "",
+        "DescriptionRef": "doc-0121"
       },
       {
         "Type": "String",
         "Token": "\\*[LH]",
-        "Args": ""
+        "Args": "",
+        "DescriptionRef": "doc-0121"
       },
       {
         "Type": "Macro",
         "Token": ".FS",
-        "Args": ""
+        "Args": "",
+        "DescriptionRef": "doc-0120"
       },
       {
         "Type": "Macro",
@@ -5143,7 +5390,8 @@
           "ends": [
             ".]"
           ]
-        }
+        },
+        "DescriptionRef": "doc-0118"
       },
       {
         "Type": "Macro",
@@ -5154,7 +5402,8 @@
           "ends": [
             ".EN"
           ]
-        }
+        },
+        "DescriptionRef": "doc-0117"
       },
       {
         "Type": "Macro",
@@ -5166,7 +5415,8 @@
             ".PE",
             ".PF"
           ]
-        }
+        },
+        "DescriptionRef": "doc-0116"
       },
       {
         "Type": "Macro",
@@ -5177,97 +5427,116 @@
           "ends": [
             ".TE"
           ]
-        }
+        },
+        "DescriptionRef": "doc-0115"
       },
       {
         "Type": "Macro",
         "Token": ".B1",
-        "Args": ""
+        "Args": "",
+        "DescriptionRef": "doc-0114"
       },
       {
         "Type": "Macro",
         "Token": ".KF",
-        "Args": ""
+        "Args": "",
+        "DescriptionRef": "doc-0113"
       },
       {
         "Type": "Macro",
         "Token": ".KS",
-        "Args": ""
+        "Args": "",
+        "DescriptionRef": "doc-0112"
       },
       {
         "Type": "Macro",
         "Token": ".Ds",
-        "Args": ""
+        "Args": "",
+        "DescriptionRef": "doc-0111"
       },
       {
         "Type": "Macro",
         "Token": ".RD",
-        "Args": ""
+        "Args": "",
+        "DescriptionRef": "doc-0110"
       },
       {
         "Type": "Macro",
         "Token": ".DS",
-        "Args": "R"
+        "Args": "R",
+        "DescriptionRef": "doc-0110"
       },
       {
         "Type": "Macro",
         "Token": ".CD",
-        "Args": ""
+        "Args": "",
+        "DescriptionRef": "doc-0109"
       },
       {
         "Type": "Macro",
         "Token": ".DS",
-        "Args": "C"
+        "Args": "C",
+        "DescriptionRef": "doc-0109"
       },
       {
         "Type": "Macro",
         "Token": ".BD",
-        "Args": ""
+        "Args": "",
+        "DescriptionRef": "doc-0108"
       },
       {
         "Type": "Macro",
         "Token": ".DS",
-        "Args": "B"
+        "Args": "B",
+        "DescriptionRef": "doc-0108"
       },
       {
         "Type": "Macro",
         "Token": ".ID",
-        "Args": ""
+        "Args": "",
+        "DescriptionRef": "doc-0107"
       },
       {
         "Type": "Macro",
         "Token": ".DS",
-        "Args": "I"
+        "Args": "I",
+        "DescriptionRef": "doc-0107"
       },
       {
         "Type": "Macro",
         "Token": ".LD",
-        "Args": ""
+        "Args": "",
+        "DescriptionRef": "doc-0106"
       },
       {
         "Type": "Macro",
         "Token": ".DS",
-        "Args": "L"
+        "Args": "L",
+        "DescriptionRef": "doc-0106"
       },
       {
         "Type": "Macro",
         "Token": ".RS",
-        "Args": ""
+        "Args": "",
+        "DescriptionRef": "doc-0104"
       },
       {
         "Type": "String",
         "Token": "\\*[{]",
-        "Args": ""
+        "Args": "",
+        "DescriptionRef": "doc-0102"
       },
       {
         "Type": "String",
         "Token": "\\*[SN-DOT]",
-        "Args": ""
+        "Args": "",
+        "DescriptionRef": "doc-0089"
       },
       {
         "Type": "String",
         "Token": "\\*[SN]",
-        "Args": ""
+        "Args": "",
+        "DescriptionRef": "doc-0089"
       },
       {
         "Type": "Macro",
@@ -5276,27 +5545,33 @@
         "ArgumentGrammar": {
           "mode": "joined",
           "rest": "Level"
-        }
+        },
+        "DescriptionRef": "doc-0088"
       },
       {
         "Type": "Macro",
         "Token": ".QS",
-        "Args": ""
+        "Args": "",
+        "DescriptionRef": "doc-0000"
       },
       {
         "Type": "String",
         "Token": "\\*[lq]",
-        "Args": ""
+        "Args": "",
+        "DescriptionRef": "doc-0028",
+        "Package": "man"
       },
       {
         "Type": "Macro",
         "Token": ".PP",
-        "Args": ""
+        "Args": "",
+        "DescriptionRef": "doc-0083"
       },
       {
         "Type": "Macro",
         "Token": ".LP",
-        "Args": ""
+        "Args": "",
+        "DescriptionRef": "doc-0084"
       }
     ]
   },

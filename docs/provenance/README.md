@@ -8,7 +8,9 @@ It changes no license grant and provides no publication clearance. The
 
 ## What the evidence establishes
 
-The catalogue has **366 description groups and 518 items**. The
+The reviewed #64 catalogue has **366 description groups and 518 items**.
+The [association correction](corrections.md) records subsequent input changes
+and a separate per-entry comparison; this historical checkpoint stays frozen. The
 [machine-readable comparison](catalogue.json) inventories every group, its
 decoded-description SHA-256, input line, items and observed matches. It does
 not contain additional copies of upstream description prose.
@@ -61,18 +63,18 @@ recorded review target; the tool does not independently verify a Git revision.
    `reduceRight`/`unshift` grouping is material to the metadata defect below.
 3. [`f44379d77df5b0c3a72ee1dd9a0f00c85b830dc6`](https://github.com/arran4/golang-gtroff/commit/f44379d77df5b0c3a72ee1dd9a0f00c85b830dc6),
    2025-11-19, Arran Ubels, “Description rework”: introduces the three
-   formatted reference files and changes descriptions. All 366 current
+   formatted reference files and changes descriptions. All 366 reviewed
    decoded descriptions are byte-identical to descriptions in this commit;
    316 also match `1938f96` after whitespace normalization, and 90 are
-   byte-identical to descriptions in the initial import. Thus 50 current
+   byte-identical to descriptions in the initial import. Thus 50 reviewed
    groups have descriptions added or changed beyond whitespace since
    `1938f96`. A commit author's name does not establish authorship of copied
    prose or permission to relicense it.
 4. Subsequent generator-input commits `0a279a4`, `9168208` and `3e9fb48`
    declare argument grammars and block policies. The description comparison
-   above verifies that their current prose remains identical to `f44379d`.
-   The generator trims descriptions in `cmd/gen/schema.go:103`, emits runtime
-   strings through `catalogue.go.template:38`, and emits documentation
+   above verifies that their reviewed prose remains identical to `f44379d`.
+   The generator trims descriptions during normalization in
+   `cmd/gen/schema.go`, emits runtime strings through `catalogue.go.template:38`, and emits documentation
    comments through `macros.go.template:13`. Removing only Go comments would
    leave the catalogue strings.
 
@@ -84,12 +86,13 @@ Those item keys intersect 104 groups in the initial JSON. This does not prove
 the initial extractor's associations were correct: its next element could
 itself be another `dt`, rather than a definition body. This is tracked as
 [#99](https://github.com/arran4/golang-gtroff/issues/99), separately from the
-rights assessment. This PR does not change generator input or parser behavior.
+rights assessment. The subsequent [#99 correction](corrections.md) changes
+these associations without changing concrete token constructors or line dispatch.
 
-`cmd/gen/schema.go:128–151` assigns `Provenance` strings using kind and
-container-index ranges. Values such as `groff_man(7)` are therefore package
-or reference hints, not verified source citations. For example, the first
-`.QS` entry gets the man label although its description concerns an ms
+The reviewed `cmd/gen/schema.go:128–151` assigned `Provenance` strings using
+kind and container-index ranges. Values such as `groff_man(7)` are therefore
+package or reference hints, not verified source citations. For example, the first
+`.QS` entry in that input got the man label although its description concerns an ms
 paragraph region. A successful prose match in this audit does not validate
 the package, token association or argument grammar.
 
@@ -151,10 +154,12 @@ From the reviewed repository checkout, with `PROVENANCE_DIR` set to that
 explicit evidence directory:
 
 ```sh
+git show a5359412d0363ade8b7dd611e365a79412397b98:cmd/gen/in.json > "$PROVENANCE_DIR/catalogue-a535.json"
 git show df43c9a51aa0ecb9aef25ce833cbe040ae742efb:cmd/gen/in.json > "$PROVENANCE_DIR/df43c9a.json"
 git show 1938f96e3e73c17f9a222024a4d528658644a877:cmd/gen/in.json > "$PROVENANCE_DIR/1938f96.json"
 git show f44379d77df5b0c3a72ee1dd9a0f00c85b830dc6:cmd/gen/in.json > "$PROVENANCE_DIR/f44379d.json"
 go run ./internal/provenanceaudit \
+  -catalogue "$PROVENANCE_DIR/catalogue-a535.json" \
   -revision a5359412d0363ade8b7dd611e365a79412397b98 \
   -manual "groff-1.22.4=$PROVENANCE_DIR/groff-1.22.4/doc/groff.html" \
   -manual "groff-1.23.0=$PROVENANCE_DIR/groff-1.23.0/doc/groff.html" \
@@ -192,8 +197,9 @@ the older comparison artifact, never for library/CLI operation.
   generated distribution notices and source/binary packages through the
   documented generation/release process. This checkpoint does not assert
   that the current notices satisfy every selected alternative.
-- Repair the independently tracked metadata associations in #99. Re-run the
-  inventory after any catalogue changes and on the final planned release HEAD.
+- Review the independently tracked [#99 metadata correction](corrections.md).
+  Its per-entry report follows effective descriptions through references.
+  Re-run the inventory on the final planned release HEAD.
 - Keep #67 open. Full reachable-history/artifact checks under
   [#75](https://github.com/arran4/golang-gtroff/issues/75) and release acceptance
   under [#29](https://github.com/arran4/golang-gtroff/issues/29) remain separate.

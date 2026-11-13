@@ -1,0 +1,5576 @@
+{
+  "schema": 1,
+  "baseline_revision": "0d4064b04f760a556cb34929249aa8e6ec85d5a1",
+  "baseline_catalogue_sha256": "b96954fec9c1e56aec90d34ea1b3bff58667830c8063d2b11e93511ebc563a73",
+  "catalogue_sha256": "3bcc82a0c0b289969c754894df9ed15814808d05b5378019b0052e939e9757db",
+  "changed_entries": 179,
+  "repair_counts": {
+    "source-package-correction": 26,
+    "project-authored-factual-summary": 7,
+    "existing-description-reference": 166,
+    "project-authored-summary-reference": 2
+  },
+  "sources": [
+    {
+      "label": "groff-1.22.4",
+      "sha256": "b915fd2fcab439992b219ccc39849c815fb7846fbf8e69b6be6e95f61fc9bcd9",
+      "kind": "manual-html"
+    },
+    {
+      "label": "groff-1.23.0",
+      "sha256": "32a1f4e9396ca5e2d5017d746b0f23accbeae66ddb882c777b642d304988e241",
+      "kind": "manual-html"
+    }
+  ],
+  "rows": [
+    {
+      "index": 0,
+      "group": 0,
+      "content": 0,
+      "kind": "Macro",
+      "token": ".QS",
+      "args": "",
+      "repairs": [
+        "source-package-correction"
+      ],
+      "previous_package": "man",
+      "package": "ms",
+      "previous_description_sha256": "fc32ad4eb5a67dc497b990bfb1b890ac8d2f3ed052d70c1aae53a16ebcecd1f5",
+      "description_sha256": "fc32ad4eb5a67dc497b990bfb1b890ac8d2f3ed052d70c1aae53a16ebcecd1f5",
+      "description_path": "/0/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_002eQS",
+          "heading_line": 3732,
+          "body_line": 3735,
+          "heading_args": "",
+          "basis": "feature_heading"
+        },
+        {
+          "source": "groff-1.23.0",
+          "anchor": "index-_002eQS",
+          "heading_line": 3645,
+          "body_line": 3648,
+          "heading_args": "",
+          "basis": "feature_heading"
+        }
+      ],
+      "parser_package": "man"
+    },
+    {
+      "index": 165,
+      "group": 165,
+      "content": 0,
+      "kind": "Register",
+      "token": "\\n[.br]",
+      "args": "",
+      "repairs": [
+        "source-package-correction"
+      ],
+      "previous_package": "ms",
+      "package": "roff",
+      "previous_description_sha256": "05203076ffd79ba96a4f48794b9bdbe68d9fb3640dac505baed86f2e657a7efe",
+      "description_sha256": "05203076ffd79ba96a4f48794b9bdbe68d9fb3640dac505baed86f2e657a7efe",
+      "description_path": "/165/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_005cn_005b_002ebr_005d",
+          "heading_line": 6329,
+          "body_line": 6330,
+          "heading_args": "",
+          "basis": "feature_heading"
+        },
+        {
+          "source": "groff-1.23.0",
+          "anchor": "index-_005cn_005b_002ebr_005d",
+          "heading_line": 7227,
+          "body_line": 7228,
+          "heading_args": "",
+          "basis": "feature_heading"
+        }
+      ]
+    },
+    {
+      "index": 167,
+      "group": 167,
+      "content": 0,
+      "kind": "Request",
+      "token": ".nr",
+      "args": "ident -value",
+      "repairs": [
+        "project-authored-factual-summary"
+      ],
+      "previous_package": "roff",
+      "package": "roff",
+      "previous_description_sha256": "9dcc6d0a17d5fbf61906f1cdd8047c6357ed05af4dc55005de2d25931a303d84",
+      "description_sha256": "de80d8c94340069ed02cfbc582f6abf65d579d0b5a18bd1d9883a0c39d133d3a",
+      "description_path": "/167/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_002enr-2",
+          "heading_line": 6906,
+          "body_line": 6910,
+          "heading_args": "ident -value",
+          "basis": "feature_heading"
+        },
+        {
+          "source": "groff-1.23.0",
+          "anchor": "index-_002enr-3",
+          "heading_line": 8001,
+          "body_line": 8005,
+          "heading_args": "ident -value",
+          "basis": "feature_heading"
+        }
+      ]
+    },
+    {
+      "index": 210,
+      "group": 210,
+      "content": 0,
+      "kind": "Request",
+      "token": ".po",
+      "args": "+offset",
+      "repairs": [
+        "existing-description-reference"
+      ],
+      "previous_package": "roff",
+      "package": "roff",
+      "previous_description_sha256": "109a66582de2779ff36782bd77c0c9dccb8f345d84462c63473baf87b5a81e55",
+      "description_sha256": "255c62eeb4384bf8f3e84466f1c7963c5018fd0b6bb15729024a95c7998c536e",
+      "description_path": "/212/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_002epo-1",
+          "heading_line": 9276,
+          "body_line": 9279,
+          "heading_args": "+offset",
+          "basis": "whitespace_identical_definition_body"
+        },
+        {
+          "source": "groff-1.23.0",
+          "anchor": "index-_002epo-1",
+          "heading_line": 10316,
+          "body_line": 10319,
+          "heading_args": "+offset",
+          "basis": "shared_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 211,
+      "group": 211,
+      "content": 0,
+      "kind": "Request",
+      "token": ".po",
+      "args": "-offset",
+      "repairs": [
+        "existing-description-reference"
+      ],
+      "previous_package": "roff",
+      "package": "roff",
+      "previous_description_sha256": "c18df52b133490e472e6c0f277f260eb5028adddf2742073634e2b58cb327541",
+      "description_sha256": "255c62eeb4384bf8f3e84466f1c7963c5018fd0b6bb15729024a95c7998c536e",
+      "description_path": "/212/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_002epo-2",
+          "heading_line": 9277,
+          "body_line": 9279,
+          "heading_args": "-offset",
+          "basis": "whitespace_identical_definition_body"
+        },
+        {
+          "source": "groff-1.23.0",
+          "anchor": "index-_002epo-2",
+          "heading_line": 10317,
+          "body_line": 10319,
+          "heading_args": "-offset",
+          "basis": "shared_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 213,
+      "group": 213,
+      "content": 0,
+      "kind": "Request",
+      "token": ".in",
+      "args": "+indent",
+      "repairs": [
+        "existing-description-reference"
+      ],
+      "previous_package": "roff",
+      "package": "roff",
+      "previous_description_sha256": "b8d77cfe6e67aebd102d48a56052bba3ecce66f567ddd9294b95957ad007b370",
+      "description_sha256": "fb6dfc4bb5f3d43a648ec4e67a06ecfa992bcc4ea182d115b5594b92f5d08d14",
+      "description_path": "/215/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_002ein-1",
+          "heading_line": 9311,
+          "body_line": 9314,
+          "heading_args": "+indent",
+          "basis": "whitespace_identical_definition_body"
+        },
+        {
+          "source": "groff-1.23.0",
+          "anchor": "index-_002ein-1",
+          "heading_line": 10350,
+          "body_line": 10353,
+          "heading_args": "+indent",
+          "basis": "shared_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 214,
+      "group": 214,
+      "content": 0,
+      "kind": "Request",
+      "token": ".in",
+      "args": "-indent",
+      "repairs": [
+        "existing-description-reference"
+      ],
+      "previous_package": "roff",
+      "package": "roff",
+      "previous_description_sha256": "2b0ea8b52744000aef7d6b2fbaf0a9f46a3c07b870640b7c29640f9a60b2b384",
+      "description_sha256": "fb6dfc4bb5f3d43a648ec4e67a06ecfa992bcc4ea182d115b5594b92f5d08d14",
+      "description_path": "/215/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_002ein-2",
+          "heading_line": 9312,
+          "body_line": 9314,
+          "heading_args": "-indent",
+          "basis": "whitespace_identical_definition_body"
+        },
+        {
+          "source": "groff-1.23.0",
+          "anchor": "index-_002ein-2",
+          "heading_line": 10351,
+          "body_line": 10353,
+          "heading_args": "-indent",
+          "basis": "shared_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 216,
+      "group": 216,
+      "content": 0,
+      "kind": "Request",
+      "token": ".ti",
+      "args": "+offset",
+      "repairs": [
+        "existing-description-reference"
+      ],
+      "previous_package": "roff",
+      "package": "roff",
+      "previous_description_sha256": "a7c3ded26874359fd4bae72488724dd786c6ff410c025b0585a9da5c8e775524",
+      "description_sha256": "98589c47d2265e301a53667963e380174f8619e0f79eec849e810a46e5daefbc",
+      "description_path": "/218/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_002eti-1",
+          "heading_line": 9341,
+          "body_line": 9344,
+          "heading_args": "+offset",
+          "basis": "whitespace_identical_definition_body"
+        },
+        {
+          "source": "groff-1.23.0",
+          "anchor": "index-_002eti-1",
+          "heading_line": 10378,
+          "body_line": 10381,
+          "heading_args": "+offset",
+          "basis": "shared_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 217,
+      "group": 217,
+      "content": 0,
+      "kind": "Request",
+      "token": ".ti",
+      "args": "-offset",
+      "repairs": [
+        "existing-description-reference"
+      ],
+      "previous_package": "roff",
+      "package": "roff",
+      "previous_description_sha256": "2ba3ce17c8b8a5b2b393ba2275e0450751e389a0d6adfe639b2a9bc2af1daa4b",
+      "description_sha256": "98589c47d2265e301a53667963e380174f8619e0f79eec849e810a46e5daefbc",
+      "description_path": "/218/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_002eti-2",
+          "heading_line": 9342,
+          "body_line": 9344,
+          "heading_args": "-offset",
+          "basis": "whitespace_identical_definition_body"
+        },
+        {
+          "source": "groff-1.23.0",
+          "anchor": "index-_002eti-2",
+          "heading_line": 10379,
+          "body_line": 10381,
+          "heading_args": "-offset",
+          "basis": "shared_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 219,
+      "group": 219,
+      "content": 0,
+      "kind": "Request",
+      "token": ".ll",
+      "args": "+length",
+      "repairs": [
+        "existing-description-reference"
+      ],
+      "previous_package": "roff",
+      "package": "roff",
+      "previous_description_sha256": "9c56aa8b8cbf0703f4f769277ed98161ce5f142ea8959caa3f0770e66a3259c0",
+      "description_sha256": "71395fc3e7646b0c061b1022147be48d31523f5bd7ff545518f3321d6d2a4c92",
+      "description_path": "/221/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_002ell-1",
+          "heading_line": 9373,
+          "body_line": 9378,
+          "heading_args": "+length",
+          "basis": "whitespace_identical_definition_body"
+        },
+        {
+          "source": "groff-1.23.0",
+          "anchor": "index-_002ell-1",
+          "heading_line": 10410,
+          "body_line": 10415,
+          "heading_args": "+length",
+          "basis": "shared_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 220,
+      "group": 220,
+      "content": 0,
+      "kind": "Request",
+      "token": ".ll",
+      "args": "-length",
+      "repairs": [
+        "existing-description-reference"
+      ],
+      "previous_package": "roff",
+      "package": "roff",
+      "previous_description_sha256": "737196ea8b873ee15e43d51b8567241de49c156758cbf979ddc209c02a250e36",
+      "description_sha256": "71395fc3e7646b0c061b1022147be48d31523f5bd7ff545518f3321d6d2a4c92",
+      "description_path": "/221/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_002ell-2",
+          "heading_line": 9374,
+          "body_line": 9378,
+          "heading_args": "-length",
+          "basis": "whitespace_identical_definition_body"
+        },
+        {
+          "source": "groff-1.23.0",
+          "anchor": "index-_002ell-2",
+          "heading_line": 10411,
+          "body_line": 10415,
+          "heading_args": "-length",
+          "basis": "shared_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 223,
+      "group": 223,
+      "content": 0,
+      "kind": "Request",
+      "token": ".pl",
+      "args": "+length",
+      "repairs": [
+        "existing-description-reference"
+      ],
+      "previous_package": "roff",
+      "package": "roff",
+      "previous_description_sha256": "9bc70b0f9816992209f78e7e61d0365b1bac0f430b5e96e518618b77f023165c",
+      "description_sha256": "249359725daddf481e02cf650c4ae005e88324732a5f59e83469dbe13cbece42",
+      "description_path": "/225/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_002epl-1",
+          "heading_line": 9548,
+          "body_line": 9551,
+          "heading_args": "+length",
+          "basis": "whitespace_identical_definition_body"
+        },
+        {
+          "source": "groff-1.23.0",
+          "anchor": "index-_002epl-1",
+          "heading_line": 10566,
+          "body_line": 10569,
+          "heading_args": "+length",
+          "basis": "shared_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 224,
+      "group": 224,
+      "content": 0,
+      "kind": "Request",
+      "token": ".pl",
+      "args": "-length",
+      "repairs": [
+        "existing-description-reference"
+      ],
+      "previous_package": "roff",
+      "package": "roff",
+      "previous_description_sha256": "fe7a3701f830684a8996f72c2f5564e95e7c680ac627d4ddef94d71c5ecd34d3",
+      "description_sha256": "249359725daddf481e02cf650c4ae005e88324732a5f59e83469dbe13cbece42",
+      "description_path": "/225/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_002epl-2",
+          "heading_line": 9549,
+          "body_line": 9551,
+          "heading_args": "-length",
+          "basis": "whitespace_identical_definition_body"
+        },
+        {
+          "source": "groff-1.23.0",
+          "anchor": "index-_002epl-2",
+          "heading_line": 10567,
+          "body_line": 10569,
+          "heading_args": "-length",
+          "basis": "shared_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 227,
+      "group": 227,
+      "content": 0,
+      "kind": "Request",
+      "token": ".lt",
+      "args": "+length",
+      "repairs": [
+        "existing-description-reference"
+      ],
+      "previous_package": "roff",
+      "package": "roff",
+      "previous_description_sha256": "92edeb3722d44cb91e37401c0f74cde43c58f11b786f99953cef1bb09dcc9747",
+      "description_sha256": "77979ce99aab2c1785befbbf2d64604c87872c188ac38c4000f574038771d9c8",
+      "description_path": "/229/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_002elt-1",
+          "heading_line": 9624,
+          "body_line": 9627,
+          "heading_args": "+length",
+          "basis": "whitespace_identical_definition_body"
+        },
+        {
+          "source": "groff-1.23.0",
+          "anchor": "index-_002elt-1",
+          "heading_line": 10638,
+          "body_line": 10641,
+          "heading_args": "+length",
+          "basis": "shared_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 228,
+      "group": 228,
+      "content": 0,
+      "kind": "Request",
+      "token": ".lt",
+      "args": "-length",
+      "repairs": [
+        "existing-description-reference"
+      ],
+      "previous_package": "roff",
+      "package": "roff",
+      "previous_description_sha256": "190687ae8843bf292c1a476299b80a9f5e076982e0d837807f5c8df72dbf3f62",
+      "description_sha256": "77979ce99aab2c1785befbbf2d64604c87872c188ac38c4000f574038771d9c8",
+      "description_path": "/229/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_002elt-2",
+          "heading_line": 9625,
+          "body_line": 9627,
+          "heading_args": "-length",
+          "basis": "whitespace_identical_definition_body"
+        },
+        {
+          "source": "groff-1.23.0",
+          "anchor": "index-_002elt-2",
+          "heading_line": 10639,
+          "body_line": 10641,
+          "heading_args": "-length",
+          "basis": "shared_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 230,
+      "group": 230,
+      "content": 0,
+      "kind": "Request",
+      "token": ".pn",
+      "args": "+page",
+      "repairs": [
+        "existing-description-reference"
+      ],
+      "previous_package": "roff",
+      "package": "roff",
+      "previous_description_sha256": "e6ee025d828375686d3f0928a5bd5b7220dccfc7fd4d251a0a9523764b853ad4",
+      "description_sha256": "cb9f0bdebe672df9ef837147242be2eee0e6ed23b2bba9fca171a9ff6707f776",
+      "description_path": "/232/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_002epn-1",
+          "heading_line": 9648,
+          "body_line": 9651,
+          "heading_args": "+page",
+          "basis": "whitespace_identical_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 231,
+      "group": 231,
+      "content": 0,
+      "kind": "Request",
+      "token": ".pn",
+      "args": "-page",
+      "repairs": [
+        "existing-description-reference"
+      ],
+      "previous_package": "roff",
+      "package": "roff",
+      "previous_description_sha256": "2a794646c4bdfa122bfde94ddd80e3434273674db6a31f77b05bcd6508637683",
+      "description_sha256": "cb9f0bdebe672df9ef837147242be2eee0e6ed23b2bba9fca171a9ff6707f776",
+      "description_path": "/232/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_002epn-2",
+          "heading_line": 9649,
+          "body_line": 9651,
+          "heading_args": "-page",
+          "basis": "whitespace_identical_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 234,
+      "group": 234,
+      "content": 0,
+      "kind": "Request",
+      "token": ".bp",
+      "args": "+page",
+      "repairs": [
+        "existing-description-reference"
+      ],
+      "previous_package": "roff",
+      "package": "roff",
+      "previous_description_sha256": "b216b734f6354dc6799afcaceee567e61dca02947074ed639fdc6a9c0e5411c7",
+      "description_sha256": "3cb4d77c9d06e1770c0e5daa8b11e5cd8575b8da9214f3dab80a5e2ae01b078f",
+      "description_path": "/236/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_002ebp-1",
+          "heading_line": 9692,
+          "body_line": 9695,
+          "heading_args": "+page",
+          "basis": "whitespace_identical_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 235,
+      "group": 235,
+      "content": 0,
+      "kind": "Request",
+      "token": ".bp",
+      "args": "-page",
+      "repairs": [
+        "existing-description-reference"
+      ],
+      "previous_package": "roff",
+      "package": "roff",
+      "previous_description_sha256": "e26908082fbb5e00dec216c41abfd23f78b0aadf4a78111b0e0221e0a449f4eb",
+      "description_sha256": "3cb4d77c9d06e1770c0e5daa8b11e5cd8575b8da9214f3dab80a5e2ae01b078f",
+      "description_path": "/236/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_002ebp-2",
+          "heading_line": 9693,
+          "body_line": 9695,
+          "heading_args": "-page",
+          "basis": "whitespace_identical_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 257,
+      "group": 257,
+      "content": 0,
+      "kind": "Request",
+      "token": ".bd",
+      "args": "font1 font2 [offset]",
+      "repairs": [
+        "existing-description-reference"
+      ],
+      "previous_package": "roff",
+      "package": "roff",
+      "previous_description_sha256": "cb655b5d6af9c56b4d9bf14903ab0017656df57a48f166dcd29f2bacd5bf4c90",
+      "description_sha256": "974692feac4ca3722bffbaaef9e4911a23b7cca4dd5f627c94080d9fe985cedf",
+      "description_path": "/258/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_002ebd-1",
+          "heading_line": 11089,
+          "body_line": 11091,
+          "heading_args": "font1 font2 [offset]",
+          "basis": "whitespace_identical_definition_body"
+        },
+        {
+          "source": "groff-1.23.0",
+          "anchor": "index-_002ebd-1",
+          "heading_line": 12181,
+          "body_line": 12183,
+          "heading_args": "font1 font2 [offset]",
+          "basis": "shared_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 263,
+      "group": 263,
+      "content": 0,
+      "kind": "Request",
+      "token": ".ps",
+      "args": "+size",
+      "repairs": [
+        "existing-description-reference"
+      ],
+      "previous_package": "roff",
+      "package": "roff",
+      "previous_description_sha256": "cd248eb2d36bc67b554b7023543d188c435d68fc47b6b3846e86717c40cbc95b",
+      "description_sha256": "658df508603810c660b1a0e2f5d33369d9a8b2ad9e4831f14592cbcc3a6384e9",
+      "description_path": "/265/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_002eps-1",
+          "heading_line": 11405,
+          "body_line": 11410,
+          "heading_args": "+size",
+          "basis": "whitespace_identical_definition_body"
+        },
+        {
+          "source": "groff-1.23.0",
+          "anchor": "index-_002eps-1",
+          "heading_line": 12548,
+          "body_line": 12553,
+          "heading_args": "+size",
+          "basis": "shared_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 264,
+      "group": 264,
+      "content": 0,
+      "kind": "Request",
+      "token": ".ps",
+      "args": "-size",
+      "repairs": [
+        "existing-description-reference"
+      ],
+      "previous_package": "roff",
+      "package": "roff",
+      "previous_description_sha256": "c4a544f90ca88b6a579bc3e47a347cc0b3fa11ea70a02f6b9e634d0aa2f17c95",
+      "description_sha256": "658df508603810c660b1a0e2f5d33369d9a8b2ad9e4831f14592cbcc3a6384e9",
+      "description_path": "/265/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_002eps-2",
+          "heading_line": 11406,
+          "body_line": 11410,
+          "heading_args": "-size",
+          "basis": "whitespace_identical_definition_body"
+        },
+        {
+          "source": "groff-1.23.0",
+          "anchor": "index-_002eps-2",
+          "heading_line": 12549,
+          "body_line": 12553,
+          "heading_args": "-size",
+          "basis": "shared_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 267,
+      "group": 267,
+      "content": 0,
+      "kind": "Request",
+      "token": ".vs",
+      "args": "+space",
+      "repairs": [
+        "existing-description-reference"
+      ],
+      "previous_package": "roff",
+      "package": "roff",
+      "previous_description_sha256": "09b56eef224ad70ade7cc232233cc45131932e4c83c1e30f308aa495fc4d9980",
+      "description_sha256": "237e8e2f93c3591b0c0659c7f3bf498aeecd4b21db966f5aeec5b2b882cf5194",
+      "description_path": "/269/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_002evs-1",
+          "heading_line": 11504,
+          "body_line": 11507,
+          "heading_args": "+space",
+          "basis": "whitespace_identical_definition_body"
+        },
+        {
+          "source": "groff-1.23.0",
+          "anchor": "index-_002evs-1",
+          "heading_line": 12653,
+          "body_line": 12656,
+          "heading_args": "+space",
+          "basis": "shared_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 268,
+      "group": 268,
+      "content": 0,
+      "kind": "Request",
+      "token": ".vs",
+      "args": "-space",
+      "repairs": [
+        "existing-description-reference"
+      ],
+      "previous_package": "roff",
+      "package": "roff",
+      "previous_description_sha256": "77a3486c78cd9d028d37e0371f5860574d1877e3804c3f099d508d55707f5508",
+      "description_sha256": "237e8e2f93c3591b0c0659c7f3bf498aeecd4b21db966f5aeec5b2b882cf5194",
+      "description_path": "/269/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_002evs-2",
+          "heading_line": 11505,
+          "body_line": 11507,
+          "heading_args": "-space",
+          "basis": "whitespace_identical_definition_body"
+        },
+        {
+          "source": "groff-1.23.0",
+          "anchor": "index-_002evs-2",
+          "heading_line": 12654,
+          "body_line": 12656,
+          "heading_args": "-space",
+          "basis": "shared_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 270,
+      "group": 270,
+      "content": 0,
+      "kind": "Request",
+      "token": ".pvs",
+      "args": "+space",
+      "repairs": [
+        "existing-description-reference"
+      ],
+      "previous_package": "roff",
+      "package": "roff",
+      "previous_description_sha256": "e42485914c02d389d068854aa76c8f22bad38582fccc48c80fb4c5a3faab0bb5",
+      "description_sha256": "cb92d220b2a3baba35badb7adb915638ef55a8d91f3bf6028efa843818c496d9",
+      "description_path": "/272/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_002epvs-1",
+          "heading_line": 11571,
+          "body_line": 11574,
+          "heading_args": "+space",
+          "basis": "whitespace_identical_definition_body"
+        },
+        {
+          "source": "groff-1.23.0",
+          "anchor": "index-_002epvs-1",
+          "heading_line": 12714,
+          "body_line": 12717,
+          "heading_args": "+space",
+          "basis": "shared_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 271,
+      "group": 271,
+      "content": 0,
+      "kind": "Request",
+      "token": ".pvs",
+      "args": "-space",
+      "repairs": [
+        "existing-description-reference"
+      ],
+      "previous_package": "roff",
+      "package": "roff",
+      "previous_description_sha256": "4c59bb36653a0e9c9651111e94d6b0d595518551285b2a6136f18c9706da176c",
+      "description_sha256": "cb92d220b2a3baba35badb7adb915638ef55a8d91f3bf6028efa843818c496d9",
+      "description_path": "/272/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_002epvs-2",
+          "heading_line": 11572,
+          "body_line": 11574,
+          "heading_args": "-space",
+          "basis": "whitespace_identical_definition_body"
+        },
+        {
+          "source": "groff-1.23.0",
+          "anchor": "index-_002epvs-2",
+          "heading_line": 12715,
+          "body_line": 12717,
+          "heading_args": "-space",
+          "basis": "shared_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 356,
+      "group": 356,
+      "content": 0,
+      "kind": "String",
+      "token": "\\*[www-image-template]",
+      "args": "",
+      "repairs": [
+        "source-package-correction"
+      ],
+      "previous_package": "ms",
+      "package": "roff",
+      "previous_description_sha256": "5fd0e171e63c67d137d62a7f889f6763bed0b4e9f5aa789211dc1e27886e61a9",
+      "description_sha256": "5fd0e171e63c67d137d62a7f889f6763bed0b4e9f5aa789211dc1e27886e61a9",
+      "description_path": "/356/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_005c_002a_005bwww_002dimage_002dtemplate_005d",
+          "heading_line": 17305,
+          "body_line": 17306,
+          "heading_args": "",
+          "basis": "feature_heading"
+        }
+      ]
+    },
+    {
+      "index": 357,
+      "group": 356,
+      "content": 1,
+      "kind": "Register",
+      "token": "\\n[ps4html]",
+      "args": "",
+      "repairs": [
+        "source-package-correction"
+      ],
+      "previous_package": "ms",
+      "package": "roff",
+      "previous_description_sha256": "5fd0e171e63c67d137d62a7f889f6763bed0b4e9f5aa789211dc1e27886e61a9",
+      "description_sha256": "5fd0e171e63c67d137d62a7f889f6763bed0b4e9f5aa789211dc1e27886e61a9",
+      "description_path": "/356/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_005cn_005bps4html_005d",
+          "heading_line": 17303,
+          "body_line": 17306,
+          "heading_args": "",
+          "basis": "feature_heading"
+        }
+      ]
+    },
+    {
+      "index": 358,
+      "group": 356,
+      "content": 2,
+      "kind": "Request",
+      "token": ".do",
+      "args": "cmd",
+      "repairs": [
+        "existing-description-reference"
+      ],
+      "previous_package": "roff",
+      "package": "roff",
+      "previous_description_sha256": "5fd0e171e63c67d137d62a7f889f6763bed0b4e9f5aa789211dc1e27886e61a9",
+      "description_sha256": "97db386df3f565a639bfc9925de718a444831ef30d31fddf2ded302050850320",
+      "description_path": "/355/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_002edo",
+          "heading_line": 16086,
+          "body_line": 16089,
+          "heading_args": "cmd",
+          "basis": "whitespace_identical_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 359,
+      "group": 356,
+      "content": 3,
+      "kind": "Request",
+      "token": ".cp",
+      "args": "[n]",
+      "repairs": [
+        "existing-description-reference"
+      ],
+      "previous_package": "roff",
+      "package": "roff",
+      "previous_description_sha256": "5fd0e171e63c67d137d62a7f889f6763bed0b4e9f5aa789211dc1e27886e61a9",
+      "description_sha256": "97db386df3f565a639bfc9925de718a444831ef30d31fddf2ded302050850320",
+      "description_path": "/355/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_002ecp",
+          "heading_line": 16084,
+          "body_line": 16089,
+          "heading_args": "[n]",
+          "basis": "whitespace_identical_definition_body"
+        },
+        {
+          "source": "groff-1.23.0",
+          "anchor": "index-_002ecp",
+          "heading_line": 18119,
+          "body_line": 18122,
+          "heading_args": "[n]",
+          "basis": "shared_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 360,
+      "group": 356,
+      "content": 4,
+      "kind": "Request",
+      "token": ".warn",
+      "args": "[flags]",
+      "repairs": [
+        "existing-description-reference"
+      ],
+      "previous_package": "roff",
+      "package": "roff",
+      "previous_description_sha256": "5fd0e171e63c67d137d62a7f889f6763bed0b4e9f5aa789211dc1e27886e61a9",
+      "description_sha256": "ee3b71fd793f9a6a82de30bb21e02f1aa21e707a0f773f52710af82b88e02c85",
+      "description_path": "/354/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_002ewarn",
+          "heading_line": 15861,
+          "body_line": 15864,
+          "heading_args": "[flags]",
+          "basis": "whitespace_identical_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 361,
+      "group": 356,
+      "content": 5,
+      "kind": "Request",
+      "token": ".tm1",
+      "args": "string",
+      "repairs": [
+        "existing-description-reference"
+      ],
+      "previous_package": "roff",
+      "package": "roff",
+      "previous_description_sha256": "5fd0e171e63c67d137d62a7f889f6763bed0b4e9f5aa789211dc1e27886e61a9",
+      "description_sha256": "5191c42172ec5972ac0e65f1fc3f678684d2e750b2744886184733a7d047bdd1",
+      "description_path": "/342/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_002etm1",
+          "heading_line": 15656,
+          "body_line": 15659,
+          "heading_args": "string",
+          "basis": "whitespace_identical_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 362,
+      "group": 356,
+      "content": 6,
+      "kind": "Request",
+      "token": ".tm",
+      "args": "string",
+      "repairs": [
+        "existing-description-reference"
+      ],
+      "previous_package": "roff",
+      "package": "roff",
+      "previous_description_sha256": "5fd0e171e63c67d137d62a7f889f6763bed0b4e9f5aa789211dc1e27886e61a9",
+      "description_sha256": "5191c42172ec5972ac0e65f1fc3f678684d2e750b2744886184733a7d047bdd1",
+      "description_path": "/342/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_002etm",
+          "heading_line": 15654,
+          "body_line": 15659,
+          "heading_args": "string",
+          "basis": "whitespace_identical_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 363,
+      "group": 356,
+      "content": 7,
+      "kind": "Register",
+      "token": "\\n[urx]",
+      "args": "",
+      "repairs": [
+        "existing-description-reference",
+        "source-package-correction"
+      ],
+      "previous_package": "ms",
+      "package": "roff",
+      "previous_description_sha256": "5fd0e171e63c67d137d62a7f889f6763bed0b4e9f5aa789211dc1e27886e61a9",
+      "description_sha256": "b67fe5fb26d6b61aceecb1d76ca71a2dad3cd5a68a37c744e9bc540100c80234",
+      "description_path": "/340/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_005cn_005burx_005d",
+          "heading_line": 15458,
+          "body_line": 15461,
+          "heading_args": "",
+          "basis": "shared_definition_body"
+        },
+        {
+          "source": "groff-1.23.0",
+          "anchor": "index-_005cn_005burx_005d",
+          "heading_line": 17432,
+          "body_line": 17435,
+          "heading_args": "",
+          "basis": "shared_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 364,
+      "group": 356,
+      "content": 8,
+      "kind": "Register",
+      "token": "\\n[lly]",
+      "args": "",
+      "repairs": [
+        "existing-description-reference",
+        "source-package-correction"
+      ],
+      "previous_package": "ms",
+      "package": "roff",
+      "previous_description_sha256": "5fd0e171e63c67d137d62a7f889f6763bed0b4e9f5aa789211dc1e27886e61a9",
+      "description_sha256": "b67fe5fb26d6b61aceecb1d76ca71a2dad3cd5a68a37c744e9bc540100c80234",
+      "description_path": "/340/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_005cn_005blly_005d",
+          "heading_line": 15456,
+          "body_line": 15461,
+          "heading_args": "",
+          "basis": "shared_definition_body"
+        },
+        {
+          "source": "groff-1.23.0",
+          "anchor": "index-_005cn_005blly_005d",
+          "heading_line": 17430,
+          "body_line": 17435,
+          "heading_args": "",
+          "basis": "shared_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 365,
+      "group": 356,
+      "content": 9,
+      "kind": "Register",
+      "token": "\\n[llx]",
+      "args": "",
+      "repairs": [
+        "existing-description-reference",
+        "source-package-correction"
+      ],
+      "previous_package": "ms",
+      "package": "roff",
+      "previous_description_sha256": "5fd0e171e63c67d137d62a7f889f6763bed0b4e9f5aa789211dc1e27886e61a9",
+      "description_sha256": "b67fe5fb26d6b61aceecb1d76ca71a2dad3cd5a68a37c744e9bc540100c80234",
+      "description_path": "/340/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_005cn_005bllx_005d",
+          "heading_line": 15454,
+          "body_line": 15461,
+          "heading_args": "",
+          "basis": "shared_definition_body"
+        },
+        {
+          "source": "groff-1.23.0",
+          "anchor": "index-_005cn_005bllx_005d",
+          "heading_line": 17428,
+          "body_line": 17435,
+          "heading_args": "",
+          "basis": "shared_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 366,
+      "group": 356,
+      "content": 10,
+      "kind": "Request",
+      "token": ".psbb",
+      "args": "filename",
+      "repairs": [
+        "existing-description-reference"
+      ],
+      "previous_package": "roff",
+      "package": "roff",
+      "previous_description_sha256": "5fd0e171e63c67d137d62a7f889f6763bed0b4e9f5aa789211dc1e27886e61a9",
+      "description_sha256": "b67fe5fb26d6b61aceecb1d76ca71a2dad3cd5a68a37c744e9bc540100c80234",
+      "description_path": "/340/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_002epsbb",
+          "heading_line": 15452,
+          "body_line": 15461,
+          "heading_args": "filename",
+          "basis": "shared_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 367,
+      "group": 356,
+      "content": 11,
+      "kind": "Request",
+      "token": ".devicem",
+      "args": "xx",
+      "repairs": [
+        "project-authored-factual-summary"
+      ],
+      "previous_package": "roff",
+      "package": "roff",
+      "previous_description_sha256": "5fd0e171e63c67d137d62a7f889f6763bed0b4e9f5aa789211dc1e27886e61a9",
+      "description_sha256": "033ffed998ee832e231cb0a73553b7695727a47ed9dab17fa230d32127ba3299",
+      "description_path": "/356/Contents/11/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_002edevicem",
+          "heading_line": 15268,
+          "body_line": 15274,
+          "heading_args": "xx",
+          "basis": "feature_heading"
+        }
+      ]
+    },
+    {
+      "index": 368,
+      "group": 356,
+      "content": 12,
+      "kind": "Request",
+      "token": ".device",
+      "args": "xxx",
+      "repairs": [
+        "project-authored-factual-summary"
+      ],
+      "previous_package": "roff",
+      "package": "roff",
+      "previous_description_sha256": "5fd0e171e63c67d137d62a7f889f6763bed0b4e9f5aa789211dc1e27886e61a9",
+      "description_sha256": "04a5fd6d3b6084431fab269936332e1dc1abc479bef119c756a9cc33ab600ca5",
+      "description_path": "/356/Contents/12/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_002edevice",
+          "heading_line": 15233,
+          "body_line": 15236,
+          "heading_args": "xxx",
+          "basis": "feature_heading"
+        }
+      ]
+    },
+    {
+      "index": 369,
+      "group": 356,
+      "content": 13,
+      "kind": "Request",
+      "token": ".write",
+      "args": "stream data",
+      "repairs": [
+        "existing-description-reference"
+      ],
+      "previous_package": "roff",
+      "package": "roff",
+      "previous_description_sha256": "5fd0e171e63c67d137d62a7f889f6763bed0b4e9f5aa789211dc1e27886e61a9",
+      "description_sha256": "8bb7e15cbcd976c7f05dbaf2300f080879bdb14dd4d230b627702eb0f33aae16",
+      "description_path": "/334/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_002ewrite",
+          "heading_line": 15140,
+          "body_line": 15143,
+          "heading_args": "stream data",
+          "basis": "whitespace_identical_definition_body"
+        },
+        {
+          "source": "groff-1.23.0",
+          "anchor": "index-_002ewrite",
+          "heading_line": 17065,
+          "body_line": 17068,
+          "heading_args": "stream data",
+          "basis": "shared_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 370,
+      "group": 356,
+      "content": 14,
+      "kind": "Request",
+      "token": ".open",
+      "args": "stream file",
+      "repairs": [
+        "existing-description-reference"
+      ],
+      "previous_package": "roff",
+      "package": "roff",
+      "previous_description_sha256": "5fd0e171e63c67d137d62a7f889f6763bed0b4e9f5aa789211dc1e27886e61a9",
+      "description_sha256": "801bfc02f0aec79b1e2268ff94a8a68b44737e7379bc49526bd63f773da3064a",
+      "description_path": "/333/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_002eopen",
+          "heading_line": 15116,
+          "body_line": 15119,
+          "heading_args": "stream file",
+          "basis": "whitespace_identical_definition_body"
+        },
+        {
+          "source": "groff-1.23.0",
+          "anchor": "index-_002eopen",
+          "heading_line": 17041,
+          "body_line": 17044,
+          "heading_args": "stream file",
+          "basis": "shared_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 371,
+      "group": 356,
+      "content": 15,
+      "kind": "Request",
+      "token": ".sy",
+      "args": "cmds",
+      "repairs": [
+        "existing-description-reference"
+      ],
+      "previous_package": "roff",
+      "package": "roff",
+      "previous_description_sha256": "5fd0e171e63c67d137d62a7f889f6763bed0b4e9f5aa789211dc1e27886e61a9",
+      "description_sha256": "00d825b23cf459e3cb3295145f0cbdbc1cecb0ae5f1d37591ecf75741761e0f3",
+      "description_path": "/332/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_002esy",
+          "heading_line": 15064,
+          "body_line": 15067,
+          "heading_args": "cmds",
+          "basis": "whitespace_identical_definition_body"
+        },
+        {
+          "source": "groff-1.23.0",
+          "anchor": "index-_002esy",
+          "heading_line": 16989,
+          "body_line": 16992,
+          "heading_args": "cmds",
+          "basis": "shared_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 372,
+      "group": 356,
+      "content": 16,
+      "kind": "Request",
+      "token": ".trf",
+      "args": "file",
+      "repairs": [
+        "existing-description-reference"
+      ],
+      "previous_package": "roff",
+      "package": "roff",
+      "previous_description_sha256": "5fd0e171e63c67d137d62a7f889f6763bed0b4e9f5aa789211dc1e27886e61a9",
+      "description_sha256": "43faf85010ed1834d2e5c83297fd00d01d97866c3166f89a69951d4efa713850",
+      "description_path": "/328/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_002etrf",
+          "heading_line": 14897,
+          "body_line": 14900,
+          "heading_args": "file",
+          "basis": "whitespace_identical_definition_body"
+        },
+        {
+          "source": "groff-1.23.0",
+          "anchor": "index-_002etrf",
+          "heading_line": 16824,
+          "body_line": 16827,
+          "heading_args": "file",
+          "basis": "shared_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 373,
+      "group": 356,
+      "content": 17,
+      "kind": "Request",
+      "token": ".fcolor",
+      "args": "[color]",
+      "repairs": [
+        "existing-description-reference"
+      ],
+      "previous_package": "roff",
+      "package": "roff",
+      "previous_description_sha256": "5fd0e171e63c67d137d62a7f889f6763bed0b4e9f5aa789211dc1e27886e61a9",
+      "description_sha256": "05e2567544282b55d6036c30c09c7e0c0b2fda8d33e8cf613baacd77ca783c3d",
+      "description_path": "/324/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_002efcolor",
+          "heading_line": 14786,
+          "body_line": 14793,
+          "heading_args": "[color]",
+          "basis": "whitespace_identical_definition_body"
+        },
+        {
+          "source": "groff-1.23.0",
+          "anchor": "index-_002efcolor",
+          "heading_line": 12976,
+          "body_line": 12983,
+          "heading_args": "[color]",
+          "basis": "shared_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 374,
+      "group": 356,
+      "content": 18,
+      "kind": "Request",
+      "token": ".gcolor",
+      "args": "[color]",
+      "repairs": [
+        "existing-description-reference"
+      ],
+      "previous_package": "roff",
+      "package": "roff",
+      "previous_description_sha256": "5fd0e171e63c67d137d62a7f889f6763bed0b4e9f5aa789211dc1e27886e61a9",
+      "description_sha256": "eaf03bdc5dd4341b3bcc6eea7cdf8c622a3bfede3f3ef2d7412715d526fd607f",
+      "description_path": "/323/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_002egcolor",
+          "heading_line": 14742,
+          "body_line": 14749,
+          "heading_args": "[color]",
+          "basis": "whitespace_identical_definition_body"
+        },
+        {
+          "source": "groff-1.23.0",
+          "anchor": "index-_002egcolor",
+          "heading_line": 12936,
+          "body_line": 12943,
+          "heading_args": "[color]",
+          "basis": "shared_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 375,
+      "group": 356,
+      "content": 19,
+      "kind": "Request",
+      "token": ".color",
+      "args": "[n]",
+      "repairs": [
+        "existing-description-reference"
+      ],
+      "previous_package": "roff",
+      "package": "roff",
+      "previous_description_sha256": "5fd0e171e63c67d137d62a7f889f6763bed0b4e9f5aa789211dc1e27886e61a9",
+      "description_sha256": "16eb9777e54d8a5143ed7155d3ddda03945c0921931abdbb3496a12f807a7dd6",
+      "description_path": "/321/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_002ecolor",
+          "heading_line": 14686,
+          "body_line": 14689,
+          "heading_args": "[n]",
+          "basis": "whitespace_identical_definition_body"
+        },
+        {
+          "source": "groff-1.23.0",
+          "anchor": "index-_002ecolor",
+          "heading_line": 12878,
+          "body_line": 12881,
+          "heading_args": "[n]",
+          "basis": "shared_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 376,
+      "group": 356,
+      "content": 20,
+      "kind": "Register",
+      "token": "\\n[.cdp]",
+      "args": "",
+      "repairs": [
+        "existing-description-reference",
+        "source-package-correction"
+      ],
+      "previous_package": "ms",
+      "package": "roff",
+      "previous_description_sha256": "5fd0e171e63c67d137d62a7f889f6763bed0b4e9f5aa789211dc1e27886e61a9",
+      "description_sha256": "eaf539f3c7e323ad8981a3f52b5d70b949d92dcb0243e01ec0af1d82bcb23b87",
+      "description_path": "/319/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_005cn_005b_002ecdp_005d",
+          "heading_line": 14553,
+          "body_line": 14556,
+          "heading_args": "",
+          "basis": "whitespace_identical_definition_body"
+        },
+        {
+          "source": "groff-1.23.0",
+          "anchor": "index-_005cn_005b_002ecdp_005d",
+          "heading_line": 16606,
+          "body_line": 16609,
+          "heading_args": "",
+          "basis": "shared_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 377,
+      "group": 356,
+      "content": 21,
+      "kind": "Register",
+      "token": "\\n[.cht]",
+      "args": "",
+      "repairs": [
+        "existing-description-reference",
+        "source-package-correction"
+      ],
+      "previous_package": "ms",
+      "package": "roff",
+      "previous_description_sha256": "5fd0e171e63c67d137d62a7f889f6763bed0b4e9f5aa789211dc1e27886e61a9",
+      "description_sha256": "eaf539f3c7e323ad8981a3f52b5d70b949d92dcb0243e01ec0af1d82bcb23b87",
+      "description_path": "/319/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_005cn_005b_002echt_005d",
+          "heading_line": 14551,
+          "body_line": 14556,
+          "heading_args": "",
+          "basis": "whitespace_identical_definition_body"
+        },
+        {
+          "source": "groff-1.23.0",
+          "anchor": "index-_005cn_005b_002echt_005d",
+          "heading_line": 16604,
+          "body_line": 16609,
+          "heading_args": "",
+          "basis": "shared_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 378,
+      "group": 356,
+      "content": 22,
+      "kind": "Register",
+      "token": "\\n[.w]",
+      "args": "",
+      "repairs": [
+        "existing-description-reference",
+        "source-package-correction"
+      ],
+      "previous_package": "ms",
+      "package": "roff",
+      "previous_description_sha256": "5fd0e171e63c67d137d62a7f889f6763bed0b4e9f5aa789211dc1e27886e61a9",
+      "description_sha256": "eaf539f3c7e323ad8981a3f52b5d70b949d92dcb0243e01ec0af1d82bcb23b87",
+      "description_path": "/319/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_005cn_005b_002ew_005d",
+          "heading_line": 14549,
+          "body_line": 14556,
+          "heading_args": "",
+          "basis": "whitespace_identical_definition_body"
+        },
+        {
+          "source": "groff-1.23.0",
+          "anchor": "index-_005cn_005b_002ew_005d",
+          "heading_line": 16602,
+          "body_line": 16609,
+          "heading_args": "",
+          "basis": "shared_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 379,
+      "group": 356,
+      "content": 23,
+      "kind": "Request",
+      "token": ".ev",
+      "args": "[env]",
+      "repairs": [
+        "existing-description-reference"
+      ],
+      "previous_package": "roff",
+      "package": "roff",
+      "previous_description_sha256": "5fd0e171e63c67d137d62a7f889f6763bed0b4e9f5aa789211dc1e27886e61a9",
+      "description_sha256": "953cf1cae01fd38c5cec0b2eb4c6f15b316cf59f5ba6c22ec6276d8677c83360",
+      "description_path": "/317/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_002eev",
+          "heading_line": 14482,
+          "body_line": 14485,
+          "heading_args": "[env]",
+          "basis": "whitespace_identical_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 380,
+      "group": 356,
+      "content": 24,
+      "kind": "Register",
+      "token": "\\n[dn]",
+      "args": "",
+      "repairs": [
+        "existing-description-reference",
+        "source-package-correction"
+      ],
+      "previous_package": "ms",
+      "package": "roff",
+      "previous_description_sha256": "5fd0e171e63c67d137d62a7f889f6763bed0b4e9f5aa789211dc1e27886e61a9",
+      "description_sha256": "340fca0647469c4434f1461b00a30d30817af7c81e8c4e1f3496c50bdfd55108",
+      "description_path": "/313/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_005cn_005bdn_005d",
+          "heading_line": 14249,
+          "body_line": 14252,
+          "heading_args": "",
+          "basis": "whitespace_identical_definition_body"
+        },
+        {
+          "source": "groff-1.23.0",
+          "anchor": "index-_005cn_005bdn_005d",
+          "heading_line": 16132,
+          "body_line": 16135,
+          "heading_args": "",
+          "basis": "shared_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 381,
+      "group": 356,
+      "content": 25,
+      "kind": "Register",
+      "token": "\\n[.z]",
+      "args": "",
+      "repairs": [
+        "existing-description-reference",
+        "source-package-correction"
+      ],
+      "previous_package": "ms",
+      "package": "roff",
+      "previous_description_sha256": "5fd0e171e63c67d137d62a7f889f6763bed0b4e9f5aa789211dc1e27886e61a9",
+      "description_sha256": "b12fccb886eb129158fc7983dc298e92dee4aaa85330df61d6602e7571bc1e05",
+      "description_path": "/311/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_005cn_005b_002ez_005d",
+          "heading_line": 14203,
+          "body_line": 14206,
+          "heading_args": "",
+          "basis": "whitespace_identical_definition_body"
+        },
+        {
+          "source": "groff-1.23.0",
+          "anchor": "index-_005cn_005b_002ez_005d",
+          "heading_line": 16085,
+          "body_line": 16088,
+          "heading_args": "",
+          "basis": "shared_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 382,
+      "group": 356,
+      "content": 26,
+      "kind": "Request",
+      "token": ".box",
+      "args": "macro",
+      "repairs": [
+        "existing-description-reference"
+      ],
+      "previous_package": "roff",
+      "package": "roff",
+      "previous_description_sha256": "5fd0e171e63c67d137d62a7f889f6763bed0b4e9f5aa789211dc1e27886e61a9",
+      "description_sha256": "f6c23b7a77d6e89c2b675e009f0da9390f7cdafa0eff65f2c856873d7f58dff5",
+      "description_path": "/310/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_002ebox",
+          "heading_line": 14161,
+          "body_line": 14164,
+          "heading_args": "macro",
+          "basis": "whitespace_identical_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 383,
+      "group": 356,
+      "content": 27,
+      "kind": "Request",
+      "token": ".di",
+      "args": "macro",
+      "repairs": [
+        "existing-description-reference"
+      ],
+      "previous_package": "roff",
+      "package": "roff",
+      "previous_description_sha256": "5fd0e171e63c67d137d62a7f889f6763bed0b4e9f5aa789211dc1e27886e61a9",
+      "description_sha256": "22911702a5405042b891216e7ab97b4aae75c38a583a56c93db08c6aede7e62b",
+      "description_path": "/309/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_002edi",
+          "heading_line": 14138,
+          "body_line": 14141,
+          "heading_args": "macro",
+          "basis": "whitespace_identical_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 384,
+      "group": 356,
+      "content": 28,
+      "kind": "Register",
+      "token": "\\n[lsn]",
+      "args": "",
+      "repairs": [
+        "existing-description-reference",
+        "source-package-correction"
+      ],
+      "previous_package": "ms",
+      "package": "roff",
+      "previous_description_sha256": "5fd0e171e63c67d137d62a7f889f6763bed0b4e9f5aa789211dc1e27886e61a9",
+      "description_sha256": "75db5626117719e26806b12140e16a8b16a873bcc71dc2750e1cd9c99ac7e361",
+      "description_path": "/307/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_005cn_005blsn_005d",
+          "heading_line": 13958,
+          "body_line": 13961,
+          "heading_args": "",
+          "basis": "shared_definition_body"
+        },
+        {
+          "source": "groff-1.23.0",
+          "anchor": "index-_005cn_005blsn_005d",
+          "heading_line": 15817,
+          "body_line": 15820,
+          "heading_args": "",
+          "basis": "shared_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 385,
+      "group": 356,
+      "content": 29,
+      "kind": "Request",
+      "token": ".lsm",
+      "args": "macro",
+      "repairs": [
+        "existing-description-reference"
+      ],
+      "previous_package": "roff",
+      "package": "roff",
+      "previous_description_sha256": "5fd0e171e63c67d137d62a7f889f6763bed0b4e9f5aa789211dc1e27886e61a9",
+      "description_sha256": "75db5626117719e26806b12140e16a8b16a873bcc71dc2750e1cd9c99ac7e361",
+      "description_path": "/307/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_002elsm",
+          "heading_line": 13956,
+          "body_line": 13961,
+          "heading_args": "macro",
+          "basis": "shared_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 386,
+      "group": 356,
+      "content": 30,
+      "kind": "Request",
+      "token": ".it",
+      "args": "n macro",
+      "repairs": [
+        "existing-description-reference"
+      ],
+      "previous_package": "roff",
+      "package": "roff",
+      "previous_description_sha256": "5fd0e171e63c67d137d62a7f889f6763bed0b4e9f5aa789211dc1e27886e61a9",
+      "description_sha256": "a674d5b3da1431676a161983c8c81535e4a557f7afac06947554d44d989772dd",
+      "description_path": "/305/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_002eit",
+          "heading_line": 13885,
+          "body_line": 13888,
+          "heading_args": "n macro",
+          "basis": "whitespace_identical_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 387,
+      "group": 356,
+      "content": 31,
+      "kind": "Request",
+      "token": ".vpt",
+      "args": "flag",
+      "repairs": [
+        "existing-description-reference"
+      ],
+      "previous_package": "roff",
+      "package": "roff",
+      "previous_description_sha256": "5fd0e171e63c67d137d62a7f889f6763bed0b4e9f5aa789211dc1e27886e61a9",
+      "description_sha256": "a575606893cbccd5240b7ea9d3f42be906c4e6fc0146840e4950ee6b086d181e",
+      "description_path": "/297/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_002evpt",
+          "heading_line": 13632,
+          "body_line": 13635,
+          "heading_args": "flag",
+          "basis": "whitespace_identical_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 388,
+      "group": 356,
+      "content": 32,
+      "kind": "Register",
+      "token": "\\n[ssc]",
+      "args": "",
+      "repairs": [
+        "existing-description-reference",
+        "source-package-correction"
+      ],
+      "previous_package": "ms",
+      "package": "roff",
+      "previous_description_sha256": "5fd0e171e63c67d137d62a7f889f6763bed0b4e9f5aa789211dc1e27886e61a9",
+      "description_sha256": "b13ad18e8902ac1bcc614f4fbe106517467d538b1b9de31c7624d5790a4c4f5c",
+      "description_path": "/294/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_005cn_005bssc_005d",
+          "heading_line": 13096,
+          "body_line": 13099,
+          "heading_args": "",
+          "basis": "whitespace_identical_definition_body"
+        },
+        {
+          "source": "groff-1.23.0",
+          "anchor": "index-_005cn_005bssc_005d",
+          "heading_line": 14706,
+          "body_line": 14709,
+          "heading_args": "",
+          "basis": "shared_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 389,
+      "group": 356,
+      "content": 33,
+      "kind": "Register",
+      "token": "\\n[ct]",
+      "args": "",
+      "repairs": [
+        "existing-description-reference",
+        "source-package-correction"
+      ],
+      "previous_package": "ms",
+      "package": "roff",
+      "previous_description_sha256": "5fd0e171e63c67d137d62a7f889f6763bed0b4e9f5aa789211dc1e27886e61a9",
+      "description_sha256": "b13ad18e8902ac1bcc614f4fbe106517467d538b1b9de31c7624d5790a4c4f5c",
+      "description_path": "/294/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_005cn_005bct_005d",
+          "heading_line": 13094,
+          "body_line": 13099,
+          "heading_args": "",
+          "basis": "whitespace_identical_definition_body"
+        },
+        {
+          "source": "groff-1.23.0",
+          "anchor": "index-_005cn_005bct_005d",
+          "heading_line": 14704,
+          "body_line": 14709,
+          "heading_args": "",
+          "basis": "shared_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 390,
+      "group": 356,
+      "content": 34,
+      "kind": "Register",
+      "token": "\\n[rsb]",
+      "args": "",
+      "repairs": [
+        "existing-description-reference",
+        "source-package-correction"
+      ],
+      "previous_package": "ms",
+      "package": "roff",
+      "previous_description_sha256": "5fd0e171e63c67d137d62a7f889f6763bed0b4e9f5aa789211dc1e27886e61a9",
+      "description_sha256": "b13ad18e8902ac1bcc614f4fbe106517467d538b1b9de31c7624d5790a4c4f5c",
+      "description_path": "/294/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_005cn_005brsb_005d",
+          "heading_line": 13092,
+          "body_line": 13099,
+          "heading_args": "",
+          "basis": "whitespace_identical_definition_body"
+        },
+        {
+          "source": "groff-1.23.0",
+          "anchor": "index-_005cn_005brsb_005d",
+          "heading_line": 14702,
+          "body_line": 14709,
+          "heading_args": "",
+          "basis": "shared_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 391,
+      "group": 356,
+      "content": 35,
+      "kind": "Register",
+      "token": "\\n[rst]",
+      "args": "",
+      "repairs": [
+        "existing-description-reference",
+        "source-package-correction"
+      ],
+      "previous_package": "ms",
+      "package": "roff",
+      "previous_description_sha256": "5fd0e171e63c67d137d62a7f889f6763bed0b4e9f5aa789211dc1e27886e61a9",
+      "description_sha256": "b13ad18e8902ac1bcc614f4fbe106517467d538b1b9de31c7624d5790a4c4f5c",
+      "description_path": "/294/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_005cn_005brst_005d",
+          "heading_line": 13090,
+          "body_line": 13099,
+          "heading_args": "",
+          "basis": "whitespace_identical_definition_body"
+        },
+        {
+          "source": "groff-1.23.0",
+          "anchor": "index-_005cn_005brst_005d",
+          "heading_line": 14700,
+          "body_line": 14709,
+          "heading_args": "",
+          "basis": "shared_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 392,
+      "group": 356,
+      "content": 36,
+      "kind": "Register",
+      "token": "\\n[sb]",
+      "args": "",
+      "repairs": [
+        "existing-description-reference",
+        "source-package-correction"
+      ],
+      "previous_package": "ms",
+      "package": "roff",
+      "previous_description_sha256": "5fd0e171e63c67d137d62a7f889f6763bed0b4e9f5aa789211dc1e27886e61a9",
+      "description_sha256": "b13ad18e8902ac1bcc614f4fbe106517467d538b1b9de31c7624d5790a4c4f5c",
+      "description_path": "/294/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_005cn_005bsb_005d",
+          "heading_line": 13088,
+          "body_line": 13099,
+          "heading_args": "",
+          "basis": "whitespace_identical_definition_body"
+        },
+        {
+          "source": "groff-1.23.0",
+          "anchor": "index-_005cn_005bsb_005d",
+          "heading_line": 14698,
+          "body_line": 14709,
+          "heading_args": "",
+          "basis": "shared_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 393,
+      "group": 356,
+      "content": 37,
+      "kind": "Register",
+      "token": "\\n[st]",
+      "args": "",
+      "repairs": [
+        "existing-description-reference",
+        "source-package-correction"
+      ],
+      "previous_package": "ms",
+      "package": "roff",
+      "previous_description_sha256": "5fd0e171e63c67d137d62a7f889f6763bed0b4e9f5aa789211dc1e27886e61a9",
+      "description_sha256": "b13ad18e8902ac1bcc614f4fbe106517467d538b1b9de31c7624d5790a4c4f5c",
+      "description_path": "/294/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_005cn_005bst_005d",
+          "heading_line": 13086,
+          "body_line": 13099,
+          "heading_args": "",
+          "basis": "whitespace_identical_definition_body"
+        },
+        {
+          "source": "groff-1.23.0",
+          "anchor": "index-_005cn_005bst_005d",
+          "heading_line": 14696,
+          "body_line": 14709,
+          "heading_args": "",
+          "basis": "shared_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 394,
+      "group": 356,
+      "content": 38,
+      "kind": "Request",
+      "token": ".mk",
+      "args": "[reg]",
+      "repairs": [
+        "existing-description-reference"
+      ],
+      "previous_package": "roff",
+      "package": "roff",
+      "previous_description_sha256": "5fd0e171e63c67d137d62a7f889f6763bed0b4e9f5aa789211dc1e27886e61a9",
+      "description_sha256": "ae3cbe5f6a33f050065353878a5f8c82b4785f9385c0b9723eb332bedf26ff15",
+      "description_path": "/293/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_002emk",
+          "heading_line": 12882,
+          "body_line": 12885,
+          "heading_args": "[reg]",
+          "basis": "whitespace_identical_definition_body"
+        },
+        {
+          "source": "groff-1.23.0",
+          "anchor": "index-_002emk",
+          "heading_line": 14483,
+          "body_line": 14486,
+          "heading_args": "[reg]",
+          "basis": "shared_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 395,
+      "group": 356,
+      "content": 39,
+      "kind": "Request",
+      "token": ".ami",
+      "args": "name [end]",
+      "repairs": [
+        "existing-description-reference"
+      ],
+      "previous_package": "roff",
+      "package": "roff",
+      "previous_description_sha256": "5fd0e171e63c67d137d62a7f889f6763bed0b4e9f5aa789211dc1e27886e61a9",
+      "description_sha256": "43be010c94d8733e54512d83c58e820c5cb8f17ba62832fad07bba733b0f8603",
+      "description_path": "/289/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_002eami",
+          "heading_line": 12619,
+          "body_line": 12622,
+          "heading_args": "name [end]",
+          "basis": "whitespace_identical_definition_body"
+        },
+        {
+          "source": "groff-1.23.0",
+          "anchor": "index-_002eami",
+          "heading_line": 14063,
+          "body_line": 14066,
+          "heading_args": "name [end]",
+          "basis": "shared_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 396,
+      "group": 356,
+      "content": 40,
+      "kind": "Request",
+      "token": ".am1",
+      "args": "name [end]",
+      "repairs": [
+        "existing-description-reference"
+      ],
+      "previous_package": "roff",
+      "package": "roff",
+      "previous_description_sha256": "5fd0e171e63c67d137d62a7f889f6763bed0b4e9f5aa789211dc1e27886e61a9",
+      "description_sha256": "43be010c94d8733e54512d83c58e820c5cb8f17ba62832fad07bba733b0f8603",
+      "description_path": "/289/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_002eam1",
+          "heading_line": 12617,
+          "body_line": 12622,
+          "heading_args": "name [end]",
+          "basis": "whitespace_identical_definition_body"
+        },
+        {
+          "source": "groff-1.23.0",
+          "anchor": "index-_002eam1",
+          "heading_line": 14061,
+          "body_line": 14066,
+          "heading_args": "name [end]",
+          "basis": "shared_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 397,
+      "group": 356,
+      "content": 41,
+      "kind": "Request",
+      "token": ".am",
+      "args": "name [end]",
+      "repairs": [
+        "existing-description-reference"
+      ],
+      "previous_package": "roff",
+      "package": "roff",
+      "previous_description_sha256": "5fd0e171e63c67d137d62a7f889f6763bed0b4e9f5aa789211dc1e27886e61a9",
+      "description_sha256": "43be010c94d8733e54512d83c58e820c5cb8f17ba62832fad07bba733b0f8603",
+      "description_path": "/289/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_002eam",
+          "heading_line": 12615,
+          "body_line": 12622,
+          "heading_args": "name [end]",
+          "basis": "whitespace_identical_definition_body"
+        },
+        {
+          "source": "groff-1.23.0",
+          "anchor": "index-_002eam",
+          "heading_line": 14059,
+          "body_line": 14066,
+          "heading_args": "name [end]",
+          "basis": "shared_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 398,
+      "group": 356,
+      "content": 42,
+      "kind": "Request",
+      "token": ".dei",
+      "args": "name [end]",
+      "repairs": [
+        "existing-description-reference"
+      ],
+      "previous_package": "roff",
+      "package": "roff",
+      "previous_description_sha256": "5fd0e171e63c67d137d62a7f889f6763bed0b4e9f5aa789211dc1e27886e61a9",
+      "description_sha256": "ba7f15c3b3fa3b7b57660ad836a7eee89bf7208b056867c65a8ada20f480f0dc",
+      "description_path": "/288/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_002edei",
+          "heading_line": 12504,
+          "body_line": 12507,
+          "heading_args": "name [end]",
+          "basis": "shared_definition_body"
+        },
+        {
+          "source": "groff-1.23.0",
+          "anchor": "index-_002edei",
+          "heading_line": 14033,
+          "body_line": 14036,
+          "heading_args": "name [end]",
+          "basis": "shared_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 399,
+      "group": 356,
+      "content": 43,
+      "kind": "Request",
+      "token": ".de1",
+      "args": "name [end]",
+      "repairs": [
+        "existing-description-reference"
+      ],
+      "previous_package": "roff",
+      "package": "roff",
+      "previous_description_sha256": "5fd0e171e63c67d137d62a7f889f6763bed0b4e9f5aa789211dc1e27886e61a9",
+      "description_sha256": "ba7f15c3b3fa3b7b57660ad836a7eee89bf7208b056867c65a8ada20f480f0dc",
+      "description_path": "/288/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_002ede1",
+          "heading_line": 12502,
+          "body_line": 12507,
+          "heading_args": "name [end]",
+          "basis": "shared_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 400,
+      "group": 356,
+      "content": 44,
+      "kind": "Request",
+      "token": ".de",
+      "args": "name [end]",
+      "repairs": [
+        "existing-description-reference"
+      ],
+      "previous_package": "roff",
+      "package": "roff",
+      "previous_description_sha256": "5fd0e171e63c67d137d62a7f889f6763bed0b4e9f5aa789211dc1e27886e61a9",
+      "description_sha256": "ba7f15c3b3fa3b7b57660ad836a7eee89bf7208b056867c65a8ada20f480f0dc",
+      "description_path": "/288/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_002ede",
+          "heading_line": 12500,
+          "body_line": 12507,
+          "heading_args": "name [end]",
+          "basis": "shared_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 401,
+      "group": 356,
+      "content": 45,
+      "kind": "Request",
+      "token": ".ie",
+      "args": "expr anything",
+      "repairs": [
+        "existing-description-reference"
+      ],
+      "previous_package": "roff",
+      "package": "roff",
+      "previous_description_sha256": "5fd0e171e63c67d137d62a7f889f6763bed0b4e9f5aa789211dc1e27886e61a9",
+      "description_sha256": "a02f4a0b5594a6c56d771598f174fb7276578b850aa57e55b0120c12faa8e8df",
+      "description_path": "/284/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_002eie",
+          "heading_line": 12327,
+          "body_line": 12330,
+          "heading_args": "expr anything",
+          "basis": "whitespace_identical_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 402,
+      "group": 356,
+      "content": 46,
+      "kind": "Request",
+      "token": ".as",
+      "args": "name [string]",
+      "repairs": [
+        "existing-description-reference"
+      ],
+      "previous_package": "roff",
+      "package": "roff",
+      "previous_description_sha256": "5fd0e171e63c67d137d62a7f889f6763bed0b4e9f5aa789211dc1e27886e61a9",
+      "description_sha256": "f4c6db1b4d6060c2723787a0595b719226b786f01170f0a9dcd4cd3d62496783",
+      "description_path": "/275/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_002eas",
+          "heading_line": 11943,
+          "body_line": 11946,
+          "heading_args": "name [string]",
+          "basis": "whitespace_identical_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 403,
+      "group": 356,
+      "content": 47,
+      "kind": "Request",
+      "token": ".ds1",
+      "args": "name [string]",
+      "repairs": [
+        "project-authored-factual-summary"
+      ],
+      "previous_package": "roff",
+      "package": "roff",
+      "previous_description_sha256": "5fd0e171e63c67d137d62a7f889f6763bed0b4e9f5aa789211dc1e27886e61a9",
+      "description_sha256": "6ca920af17355ea1d1b958f768952d2639025f98a10f81ecc7588d1c1d0d3155",
+      "description_path": "/356/Contents/47/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_002eds1",
+          "heading_line": 11729,
+          "body_line": 11735,
+          "heading_args": "name [string]",
+          "basis": "feature_heading"
+        }
+      ]
+    },
+    {
+      "index": 404,
+      "group": 356,
+      "content": 48,
+      "kind": "Request",
+      "token": ".ds",
+      "args": "name [string]",
+      "repairs": [
+        "project-authored-summary-reference"
+      ],
+      "previous_package": "roff",
+      "package": "roff",
+      "previous_description_sha256": "5fd0e171e63c67d137d62a7f889f6763bed0b4e9f5aa789211dc1e27886e61a9",
+      "description_sha256": "6ca920af17355ea1d1b958f768952d2639025f98a10f81ecc7588d1c1d0d3155",
+      "description_path": "/356/Contents/47/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_002eds",
+          "heading_line": 11727,
+          "body_line": 11735,
+          "heading_args": "name [string]",
+          "basis": "feature_heading"
+        }
+      ]
+    },
+    {
+      "index": 405,
+      "group": 356,
+      "content": 49,
+      "kind": "Register",
+      "token": "\\n[.psr]",
+      "args": "",
+      "repairs": [
+        "existing-description-reference",
+        "source-package-correction"
+      ],
+      "previous_package": "ms",
+      "package": "roff",
+      "previous_description_sha256": "5fd0e171e63c67d137d62a7f889f6763bed0b4e9f5aa789211dc1e27886e61a9",
+      "description_sha256": "fe3b5d2ab52cb81a7b1b1ce2efee528131e9727bd64bda97e0167df4b2c39898",
+      "description_path": "/274/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_005cn_005b_002epsr_005d",
+          "heading_line": 11656,
+          "body_line": 11659,
+          "heading_args": "",
+          "basis": "whitespace_identical_definition_body"
+        },
+        {
+          "source": "groff-1.23.0",
+          "anchor": "index-_005cn_005b_002epsr_005d",
+          "heading_line": 12802,
+          "body_line": 12805,
+          "heading_args": "",
+          "basis": "shared_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 406,
+      "group": 356,
+      "content": 50,
+      "kind": "Request",
+      "token": ".pvs",
+      "args": "[space]",
+      "repairs": [
+        "existing-description-reference"
+      ],
+      "previous_package": "roff",
+      "package": "roff",
+      "previous_description_sha256": "5fd0e171e63c67d137d62a7f889f6763bed0b4e9f5aa789211dc1e27886e61a9",
+      "description_sha256": "cb92d220b2a3baba35badb7adb915638ef55a8d91f3bf6028efa843818c496d9",
+      "description_path": "/272/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_002epvs",
+          "heading_line": 11569,
+          "body_line": 11574,
+          "heading_args": "[space]",
+          "basis": "whitespace_identical_definition_body"
+        },
+        {
+          "source": "groff-1.23.0",
+          "anchor": "index-_002epvs",
+          "heading_line": 12712,
+          "body_line": 12717,
+          "heading_args": "[space]",
+          "basis": "shared_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 407,
+      "group": 356,
+      "content": 51,
+      "kind": "Request",
+      "token": ".vs",
+      "args": "[space]",
+      "repairs": [
+        "existing-description-reference"
+      ],
+      "previous_package": "roff",
+      "package": "roff",
+      "previous_description_sha256": "5fd0e171e63c67d137d62a7f889f6763bed0b4e9f5aa789211dc1e27886e61a9",
+      "description_sha256": "237e8e2f93c3591b0c0659c7f3bf498aeecd4b21db966f5aeec5b2b882cf5194",
+      "description_path": "/269/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_002evs",
+          "heading_line": 11502,
+          "body_line": 11507,
+          "heading_args": "[space]",
+          "basis": "whitespace_identical_definition_body"
+        },
+        {
+          "source": "groff-1.23.0",
+          "anchor": "index-_002evs",
+          "heading_line": 12651,
+          "body_line": 12656,
+          "heading_args": "[space]",
+          "basis": "shared_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 408,
+      "group": 356,
+      "content": 52,
+      "kind": "Request",
+      "token": ".ps",
+      "args": "[size]",
+      "repairs": [
+        "existing-description-reference"
+      ],
+      "previous_package": "roff",
+      "package": "roff",
+      "previous_description_sha256": "5fd0e171e63c67d137d62a7f889f6763bed0b4e9f5aa789211dc1e27886e61a9",
+      "description_sha256": "658df508603810c660b1a0e2f5d33369d9a8b2ad9e4831f14592cbcc3a6384e9",
+      "description_path": "/265/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_002eps",
+          "heading_line": 11403,
+          "body_line": 11410,
+          "heading_args": "[size]",
+          "basis": "whitespace_identical_definition_body"
+        },
+        {
+          "source": "groff-1.23.0",
+          "anchor": "index-_002eps",
+          "heading_line": 12546,
+          "body_line": 12553,
+          "heading_args": "[size]",
+          "basis": "shared_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 409,
+      "group": 356,
+      "content": 53,
+      "kind": "Request",
+      "token": ".kern",
+      "args": "[flag]",
+      "repairs": [
+        "existing-description-reference"
+      ],
+      "previous_package": "roff",
+      "package": "roff",
+      "previous_description_sha256": "5fd0e171e63c67d137d62a7f889f6763bed0b4e9f5aa789211dc1e27886e61a9",
+      "description_sha256": "0a6d27eaf686876cc72a0bb2c7c5e76edeb5b5dda13ac3639f3f8171d742e356",
+      "description_path": "/261/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_002ekern",
+          "heading_line": 11199,
+          "body_line": 11202,
+          "heading_args": "[flag]",
+          "basis": "whitespace_identical_definition_body"
+        },
+        {
+          "source": "groff-1.23.0",
+          "anchor": "index-_002ekern",
+          "heading_line": 12290,
+          "body_line": 12293,
+          "heading_args": "[flag]",
+          "basis": "shared_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 410,
+      "group": 356,
+      "content": 54,
+      "kind": "Request",
+      "token": ".lg",
+      "args": "[flag]",
+      "repairs": [
+        "existing-description-reference"
+      ],
+      "previous_package": "roff",
+      "package": "roff",
+      "previous_description_sha256": "5fd0e171e63c67d137d62a7f889f6763bed0b4e9f5aa789211dc1e27886e61a9",
+      "description_sha256": "f10175aeecb50ad85a8e96da6bedba44b17994711e3a72b923f0506b15b4236a",
+      "description_path": "/260/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_002elg",
+          "heading_line": 11174,
+          "body_line": 11177,
+          "heading_args": "[flag]",
+          "basis": "whitespace_identical_definition_body"
+        },
+        {
+          "source": "groff-1.23.0",
+          "anchor": "index-_002elg",
+          "heading_line": 12266,
+          "body_line": 12269,
+          "heading_args": "[flag]",
+          "basis": "shared_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 411,
+      "group": 356,
+      "content": 55,
+      "kind": "Request",
+      "token": ".bd",
+      "args": "font [offset]",
+      "repairs": [
+        "existing-description-reference"
+      ],
+      "previous_package": "roff",
+      "package": "roff",
+      "previous_description_sha256": "5fd0e171e63c67d137d62a7f889f6763bed0b4e9f5aa789211dc1e27886e61a9",
+      "description_sha256": "974692feac4ca3722bffbaaef9e4911a23b7cca4dd5f627c94080d9fe985cedf",
+      "description_path": "/258/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_002ebd",
+          "heading_line": 11087,
+          "body_line": 11091,
+          "heading_args": "font [offset]",
+          "basis": "whitespace_identical_definition_body"
+        },
+        {
+          "source": "groff-1.23.0",
+          "anchor": "index-_002ebd",
+          "heading_line": 12179,
+          "body_line": 12183,
+          "heading_args": "font [offset]",
+          "basis": "shared_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 412,
+      "group": 356,
+      "content": 56,
+      "kind": "Request",
+      "token": ".special",
+      "args": "[s1 s2 …]",
+      "repairs": [
+        "existing-description-reference"
+      ],
+      "previous_package": "roff",
+      "package": "roff",
+      "previous_description_sha256": "5fd0e171e63c67d137d62a7f889f6763bed0b4e9f5aa789211dc1e27886e61a9",
+      "description_sha256": "2f470499227bdb295119ed01fd77e4806c428e160e3a8cdf28d5beb9c31f48b1",
+      "description_path": "/251/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_002especial",
+          "heading_line": 10928,
+          "body_line": 10931,
+          "heading_args": "[s1 s2 …]",
+          "basis": "whitespace_identical_definition_body"
+        },
+        {
+          "source": "groff-1.23.0",
+          "anchor": "index-_002especial",
+          "heading_line": 12018,
+          "body_line": 12021,
+          "heading_args": "[s1 s2 …]",
+          "basis": "whitespace_identical_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 413,
+      "group": 356,
+      "content": 57,
+      "kind": "Request",
+      "token": ".rchar",
+      "args": "c1 c2 …",
+      "repairs": [
+        "existing-description-reference"
+      ],
+      "previous_package": "roff",
+      "package": "roff",
+      "previous_description_sha256": "5fd0e171e63c67d137d62a7f889f6763bed0b4e9f5aa789211dc1e27886e61a9",
+      "description_sha256": "6d81853a7686023474cd9b6832e14ebeb2d85744978212c60f45d533dc9ef723",
+      "description_path": "/249/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_002erchar",
+          "heading_line": 10803,
+          "body_line": 10806,
+          "heading_args": "c1 c2 …",
+          "basis": "whitespace_identical_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 414,
+      "group": 356,
+      "content": 58,
+      "kind": "Request",
+      "token": ".fschar",
+      "args": "f g [string]",
+      "repairs": [
+        "existing-description-reference"
+      ],
+      "previous_package": "roff",
+      "package": "roff",
+      "previous_description_sha256": "5fd0e171e63c67d137d62a7f889f6763bed0b4e9f5aa789211dc1e27886e61a9",
+      "description_sha256": "9d2d9ef7eeff17f224600189f77e115ad3e1c3ce454072e45c5067fbaaf9feaa",
+      "description_path": "/248/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_002efschar",
+          "heading_line": 10720,
+          "body_line": 10723,
+          "heading_args": "f g [string]",
+          "basis": "whitespace_identical_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 415,
+      "group": 356,
+      "content": 59,
+      "kind": "Request",
+      "token": ".fchar",
+      "args": "g [string]",
+      "repairs": [
+        "existing-description-reference"
+      ],
+      "previous_package": "roff",
+      "package": "roff",
+      "previous_description_sha256": "5fd0e171e63c67d137d62a7f889f6763bed0b4e9f5aa789211dc1e27886e61a9",
+      "description_sha256": "9d2d9ef7eeff17f224600189f77e115ad3e1c3ce454072e45c5067fbaaf9feaa",
+      "description_path": "/248/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_002efchar",
+          "heading_line": 10718,
+          "body_line": 10723,
+          "heading_args": "g [string]",
+          "basis": "whitespace_identical_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 416,
+      "group": 356,
+      "content": 60,
+      "kind": "Request",
+      "token": ".char",
+      "args": "g [string]",
+      "repairs": [
+        "existing-description-reference"
+      ],
+      "previous_package": "roff",
+      "package": "roff",
+      "previous_description_sha256": "5fd0e171e63c67d137d62a7f889f6763bed0b4e9f5aa789211dc1e27886e61a9",
+      "description_sha256": "9d2d9ef7eeff17f224600189f77e115ad3e1c3ce454072e45c5067fbaaf9feaa",
+      "description_path": "/248/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_002echar",
+          "heading_line": 10716,
+          "body_line": 10723,
+          "heading_args": "g [string]",
+          "basis": "whitespace_identical_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 417,
+      "group": 356,
+      "content": 61,
+      "kind": "Request",
+      "token": ".ft",
+      "args": "nnn",
+      "repairs": [
+        "project-authored-factual-summary"
+      ],
+      "previous_package": "roff",
+      "package": "roff",
+      "previous_description_sha256": "5fd0e171e63c67d137d62a7f889f6763bed0b4e9f5aa789211dc1e27886e61a9",
+      "description_sha256": "6690e177537ddcf39719a8e664275fa7d85cc3625e4f6a0db581b29f3654898d",
+      "description_path": "/356/Contents/61/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_002eft-1",
+          "heading_line": 10241,
+          "body_line": 10247,
+          "heading_args": "nnn",
+          "basis": "feature_heading"
+        }
+      ]
+    },
+    {
+      "index": 418,
+      "group": 356,
+      "content": 62,
+      "kind": "Register",
+      "token": "\\n[.f]",
+      "args": "",
+      "repairs": [
+        "existing-description-reference",
+        "source-package-correction"
+      ],
+      "previous_package": "ms",
+      "package": "roff",
+      "previous_description_sha256": "5fd0e171e63c67d137d62a7f889f6763bed0b4e9f5aa789211dc1e27886e61a9",
+      "description_sha256": "2c3648496fed8193b3907fda6a4347b1e2ae2b43009b7538942cf1de02b4825e",
+      "description_path": "/245/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_005cn_005b_002ef_005d",
+          "heading_line": 10184,
+          "body_line": 10187,
+          "heading_args": "",
+          "basis": "whitespace_identical_definition_body"
+        },
+        {
+          "source": "groff-1.23.0",
+          "anchor": "index-_005cn_005b_002ef_005d",
+          "heading_line": 11273,
+          "body_line": 11276,
+          "heading_args": "",
+          "basis": "shared_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 419,
+      "group": 356,
+      "content": 63,
+      "kind": "Request",
+      "token": ".fp",
+      "args": "pos font [external-name]",
+      "repairs": [
+        "existing-description-reference"
+      ],
+      "previous_package": "roff",
+      "package": "roff",
+      "previous_description_sha256": "5fd0e171e63c67d137d62a7f889f6763bed0b4e9f5aa789211dc1e27886e61a9",
+      "description_sha256": "2c3648496fed8193b3907fda6a4347b1e2ae2b43009b7538942cf1de02b4825e",
+      "description_path": "/245/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_002efp",
+          "heading_line": 10182,
+          "body_line": 10187,
+          "heading_args": "pos font [external-name]",
+          "basis": "whitespace_identical_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 420,
+      "group": 356,
+      "content": 64,
+      "kind": "Register",
+      "token": "\\n[.fam]",
+      "args": "",
+      "repairs": [
+        "existing-description-reference",
+        "source-package-correction"
+      ],
+      "previous_package": "ms",
+      "package": "roff",
+      "previous_description_sha256": "5fd0e171e63c67d137d62a7f889f6763bed0b4e9f5aa789211dc1e27886e61a9",
+      "description_sha256": "cced64c0a4b37031d8f56b0a2bd32e28a433f9c6e70c4c7c3802bf6d856002fa",
+      "description_path": "/243/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_005cn_005b_002efam_005d",
+          "heading_line": 10042,
+          "body_line": 10049,
+          "heading_args": "",
+          "basis": "whitespace_identical_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 421,
+      "group": 356,
+      "content": 65,
+      "kind": "Request",
+      "token": ".fam",
+      "args": "[family]",
+      "repairs": [
+        "existing-description-reference"
+      ],
+      "previous_package": "roff",
+      "package": "roff",
+      "previous_description_sha256": "5fd0e171e63c67d137d62a7f889f6763bed0b4e9f5aa789211dc1e27886e61a9",
+      "description_sha256": "cced64c0a4b37031d8f56b0a2bd32e28a433f9c6e70c4c7c3802bf6d856002fa",
+      "description_path": "/243/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_002efam",
+          "heading_line": 10040,
+          "body_line": 10049,
+          "heading_args": "[family]",
+          "basis": "whitespace_identical_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 422,
+      "group": 356,
+      "content": 66,
+      "kind": "Request",
+      "token": ".fzoom",
+      "args": "f [zoom]",
+      "repairs": [
+        "existing-description-reference"
+      ],
+      "previous_package": "roff",
+      "package": "roff",
+      "previous_description_sha256": "5fd0e171e63c67d137d62a7f889f6763bed0b4e9f5aa789211dc1e27886e61a9",
+      "description_sha256": "fc66d7d02bea6c709b0f17d0a0b30a740b0c63801773c153dcc9608af78c8176",
+      "description_path": "/242/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_002efzoom",
+          "heading_line": 9970,
+          "body_line": 9973,
+          "heading_args": "f [zoom]",
+          "basis": "whitespace_identical_definition_body"
+        },
+        {
+          "source": "groff-1.23.0",
+          "anchor": "index-_002efzoom",
+          "heading_line": 11083,
+          "body_line": 11086,
+          "heading_args": "f [zoom]",
+          "basis": "shared_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 423,
+      "group": 356,
+      "content": 67,
+      "kind": "Request",
+      "token": ".ft",
+      "args": "[font]",
+      "repairs": [
+        "existing-description-reference"
+      ],
+      "previous_package": "roff",
+      "package": "roff",
+      "previous_description_sha256": "5fd0e171e63c67d137d62a7f889f6763bed0b4e9f5aa789211dc1e27886e61a9",
+      "description_sha256": "85ea61440e1f0e9c7f1a3e805f83d40f91ef0b6d6f956defc1202f0beaf5952a",
+      "description_path": "/240/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_002eft",
+          "heading_line": 9867,
+          "body_line": 9874,
+          "heading_args": "[font]",
+          "basis": "whitespace_identical_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 424,
+      "group": 356,
+      "content": 68,
+      "kind": "Request",
+      "token": ".sv",
+      "args": "[space]",
+      "repairs": [
+        "existing-description-reference"
+      ],
+      "previous_package": "roff",
+      "package": "roff",
+      "previous_description_sha256": "5fd0e171e63c67d137d62a7f889f6763bed0b4e9f5aa789211dc1e27886e61a9",
+      "description_sha256": "4095c14b514ed85cc0271754a1fcbde7e06e87f58d5cf789eab76ff8ca970340",
+      "description_path": "/238/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_002esv",
+          "heading_line": 9756,
+          "body_line": 9759,
+          "heading_args": "[space]",
+          "basis": "whitespace_identical_definition_body"
+        },
+        {
+          "source": "groff-1.23.0",
+          "anchor": "index-_002esv",
+          "heading_line": 10785,
+          "body_line": 10788,
+          "heading_args": "[space]",
+          "basis": "shared_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 425,
+      "group": 356,
+      "content": 69,
+      "kind": "Request",
+      "token": ".bp",
+      "args": "[page]",
+      "repairs": [
+        "existing-description-reference"
+      ],
+      "previous_package": "roff",
+      "package": "roff",
+      "previous_description_sha256": "5fd0e171e63c67d137d62a7f889f6763bed0b4e9f5aa789211dc1e27886e61a9",
+      "description_sha256": "3cb4d77c9d06e1770c0e5daa8b11e5cd8575b8da9214f3dab80a5e2ae01b078f",
+      "description_path": "/236/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_002ebp",
+          "heading_line": 9690,
+          "body_line": 9695,
+          "heading_args": "[page]",
+          "basis": "whitespace_identical_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 426,
+      "group": 356,
+      "content": 70,
+      "kind": "Request",
+      "token": ".pn",
+      "args": "page",
+      "repairs": [
+        "existing-description-reference"
+      ],
+      "previous_package": "roff",
+      "package": "roff",
+      "previous_description_sha256": "5fd0e171e63c67d137d62a7f889f6763bed0b4e9f5aa789211dc1e27886e61a9",
+      "description_sha256": "cb9f0bdebe672df9ef837147242be2eee0e6ed23b2bba9fca171a9ff6707f776",
+      "description_path": "/232/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_002epn",
+          "heading_line": 9646,
+          "body_line": 9651,
+          "heading_args": "page",
+          "basis": "whitespace_identical_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 427,
+      "group": 356,
+      "content": 71,
+      "kind": "Request",
+      "token": ".lt",
+      "args": "[length]",
+      "repairs": [
+        "existing-description-reference"
+      ],
+      "previous_package": "roff",
+      "package": "roff",
+      "previous_description_sha256": "5fd0e171e63c67d137d62a7f889f6763bed0b4e9f5aa789211dc1e27886e61a9",
+      "description_sha256": "77979ce99aab2c1785befbbf2d64604c87872c188ac38c4000f574038771d9c8",
+      "description_path": "/229/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_002elt",
+          "heading_line": 9622,
+          "body_line": 9627,
+          "heading_args": "[length]",
+          "basis": "whitespace_identical_definition_body"
+        },
+        {
+          "source": "groff-1.23.0",
+          "anchor": "index-_002elt",
+          "heading_line": 10636,
+          "body_line": 10641,
+          "heading_args": "[length]",
+          "basis": "shared_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 428,
+      "group": 356,
+      "content": 72,
+      "kind": "Request",
+      "token": ".pl",
+      "args": "[length]",
+      "repairs": [
+        "existing-description-reference"
+      ],
+      "previous_package": "roff",
+      "package": "roff",
+      "previous_description_sha256": "5fd0e171e63c67d137d62a7f889f6763bed0b4e9f5aa789211dc1e27886e61a9",
+      "description_sha256": "249359725daddf481e02cf650c4ae005e88324732a5f59e83469dbe13cbece42",
+      "description_path": "/225/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_002epl",
+          "heading_line": 9546,
+          "body_line": 9551,
+          "heading_args": "[length]",
+          "basis": "whitespace_identical_definition_body"
+        },
+        {
+          "source": "groff-1.23.0",
+          "anchor": "index-_002epl",
+          "heading_line": 10564,
+          "body_line": 10569,
+          "heading_args": "[length]",
+          "basis": "shared_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 429,
+      "group": 356,
+      "content": 73,
+      "kind": "Register",
+      "token": "\\n[.l]",
+      "args": "",
+      "repairs": [
+        "existing-description-reference",
+        "source-package-correction"
+      ],
+      "previous_package": "ms",
+      "package": "roff",
+      "previous_description_sha256": "5fd0e171e63c67d137d62a7f889f6763bed0b4e9f5aa789211dc1e27886e61a9",
+      "description_sha256": "71395fc3e7646b0c061b1022147be48d31523f5bd7ff545518f3321d6d2a4c92",
+      "description_path": "/221/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_005cn_005b_002el_005d",
+          "heading_line": 9375,
+          "body_line": 9378,
+          "heading_args": "",
+          "basis": "whitespace_identical_definition_body"
+        },
+        {
+          "source": "groff-1.23.0",
+          "anchor": "index-_005cn_005b_002el_005d",
+          "heading_line": 10412,
+          "body_line": 10415,
+          "heading_args": "",
+          "basis": "shared_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 430,
+      "group": 356,
+      "content": 74,
+      "kind": "Request",
+      "token": ".ll",
+      "args": "[length]",
+      "repairs": [
+        "existing-description-reference"
+      ],
+      "previous_package": "roff",
+      "package": "roff",
+      "previous_description_sha256": "5fd0e171e63c67d137d62a7f889f6763bed0b4e9f5aa789211dc1e27886e61a9",
+      "description_sha256": "71395fc3e7646b0c061b1022147be48d31523f5bd7ff545518f3321d6d2a4c92",
+      "description_path": "/221/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_002ell",
+          "heading_line": 9371,
+          "body_line": 9378,
+          "heading_args": "[length]",
+          "basis": "whitespace_identical_definition_body"
+        },
+        {
+          "source": "groff-1.23.0",
+          "anchor": "index-_002ell",
+          "heading_line": 10408,
+          "body_line": 10415,
+          "heading_args": "[length]",
+          "basis": "shared_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 431,
+      "group": 356,
+      "content": 75,
+      "kind": "Request",
+      "token": ".ti",
+      "args": "offset",
+      "repairs": [
+        "existing-description-reference"
+      ],
+      "previous_package": "roff",
+      "package": "roff",
+      "previous_description_sha256": "5fd0e171e63c67d137d62a7f889f6763bed0b4e9f5aa789211dc1e27886e61a9",
+      "description_sha256": "98589c47d2265e301a53667963e380174f8619e0f79eec849e810a46e5daefbc",
+      "description_path": "/218/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_002eti",
+          "heading_line": 9339,
+          "body_line": 9344,
+          "heading_args": "offset",
+          "basis": "whitespace_identical_definition_body"
+        },
+        {
+          "source": "groff-1.23.0",
+          "anchor": "index-_002eti",
+          "heading_line": 10376,
+          "body_line": 10381,
+          "heading_args": "offset",
+          "basis": "shared_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 432,
+      "group": 356,
+      "content": 76,
+      "kind": "Request",
+      "token": ".in",
+      "args": "[indent]",
+      "repairs": [
+        "existing-description-reference"
+      ],
+      "previous_package": "roff",
+      "package": "roff",
+      "previous_description_sha256": "5fd0e171e63c67d137d62a7f889f6763bed0b4e9f5aa789211dc1e27886e61a9",
+      "description_sha256": "fb6dfc4bb5f3d43a648ec4e67a06ecfa992bcc4ea182d115b5594b92f5d08d14",
+      "description_path": "/215/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_002ein",
+          "heading_line": 9309,
+          "body_line": 9314,
+          "heading_args": "[indent]",
+          "basis": "whitespace_identical_definition_body"
+        },
+        {
+          "source": "groff-1.23.0",
+          "anchor": "index-_002ein",
+          "heading_line": 10348,
+          "body_line": 10353,
+          "heading_args": "[indent]",
+          "basis": "shared_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 433,
+      "group": 356,
+      "content": 77,
+      "kind": "Request",
+      "token": ".po",
+      "args": "[offset]",
+      "repairs": [
+        "existing-description-reference"
+      ],
+      "previous_package": "roff",
+      "package": "roff",
+      "previous_description_sha256": "5fd0e171e63c67d137d62a7f889f6763bed0b4e9f5aa789211dc1e27886e61a9",
+      "description_sha256": "255c62eeb4384bf8f3e84466f1c7963c5018fd0b6bb15729024a95c7998c536e",
+      "description_path": "/212/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_002epo",
+          "heading_line": 9274,
+          "body_line": 9279,
+          "heading_args": "[offset]",
+          "basis": "whitespace_identical_definition_body"
+        },
+        {
+          "source": "groff-1.23.0",
+          "anchor": "index-_002epo",
+          "heading_line": 10314,
+          "body_line": 10319,
+          "heading_args": "[offset]",
+          "basis": "shared_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 434,
+      "group": 356,
+      "content": 78,
+      "kind": "Request",
+      "token": ".tr",
+      "args": "abcd…",
+      "repairs": [
+        "existing-description-reference"
+      ],
+      "previous_package": "roff",
+      "package": "roff",
+      "previous_description_sha256": "5fd0e171e63c67d137d62a7f889f6763bed0b4e9f5aa789211dc1e27886e61a9",
+      "description_sha256": "c055c131b95e18416da9f9b555087c9b4a6d2319f661fdcdd45102cc6a94c674",
+      "description_path": "/206/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_002etr",
+          "heading_line": 8976,
+          "body_line": 8979,
+          "heading_args": "abcd…",
+          "basis": "shared_definition_body"
+        },
+        {
+          "source": "groff-1.23.0",
+          "anchor": "index-_002etr",
+          "heading_line": 10038,
+          "body_line": 10041,
+          "heading_args": "abcd…",
+          "basis": "shared_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 435,
+      "group": 356,
+      "content": 79,
+      "kind": "Request",
+      "token": ".ecs",
+      "args": "",
+      "repairs": [
+        "existing-description-reference"
+      ],
+      "previous_package": "roff",
+      "package": "roff",
+      "previous_description_sha256": "5fd0e171e63c67d137d62a7f889f6763bed0b4e9f5aa789211dc1e27886e61a9",
+      "description_sha256": "8cecc9f134d784d7140a11d7cc885d72668656e63a916f4519b406312e2c74b5",
+      "description_path": "/205/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_002eecs",
+          "heading_line": 8865,
+          "body_line": 8868,
+          "heading_args": "",
+          "basis": "whitespace_identical_definition_body"
+        },
+        {
+          "source": "groff-1.23.0",
+          "anchor": "index-_002eecs",
+          "heading_line": 7593,
+          "body_line": 7596,
+          "heading_args": "",
+          "basis": "shared_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 436,
+      "group": 356,
+      "content": 80,
+      "kind": "Request",
+      "token": ".linetabs",
+      "args": "n",
+      "repairs": [
+        "existing-description-reference"
+      ],
+      "previous_package": "roff",
+      "package": "roff",
+      "previous_description_sha256": "5fd0e171e63c67d137d62a7f889f6763bed0b4e9f5aa789211dc1e27886e61a9",
+      "description_sha256": "9e4e9372813b11b9e0d682ba42796fd6a046d3b3df9c2632475309e9ea3b8016",
+      "description_path": "/198/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_002elinetabs",
+          "heading_line": 8606,
+          "body_line": 8609,
+          "heading_args": "n",
+          "basis": "whitespace_identical_definition_body"
+        },
+        {
+          "source": "groff-1.23.0",
+          "anchor": "index-_002elinetabs",
+          "heading_line": 9858,
+          "body_line": 9861,
+          "heading_args": "n",
+          "basis": "shared_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 437,
+      "group": 356,
+      "content": 81,
+      "kind": "Request",
+      "token": ".ta",
+      "args": "[n1 n2 … nn T r1 r2 … rn]",
+      "repairs": [
+        "existing-description-reference"
+      ],
+      "previous_package": "roff",
+      "package": "roff",
+      "previous_description_sha256": "5fd0e171e63c67d137d62a7f889f6763bed0b4e9f5aa789211dc1e27886e61a9",
+      "description_sha256": "77f75a4f806e20bdfe000f69f273e771660474ce8bfa28722e1cbdf1204b8c57",
+      "description_path": "/196/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_002eta",
+          "heading_line": 8453,
+          "body_line": 8456,
+          "heading_args": "[n1 n2 … nn T r1 r2 … rn]",
+          "basis": "whitespace_identical_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 438,
+      "group": 356,
+      "content": 82,
+      "kind": "Request",
+      "token": ".rs",
+      "args": "",
+      "repairs": [
+        "existing-description-reference"
+      ],
+      "previous_package": "roff",
+      "package": "roff",
+      "previous_description_sha256": "5fd0e171e63c67d137d62a7f889f6763bed0b4e9f5aa789211dc1e27886e61a9",
+      "description_sha256": "5d8811284d2a1b47a8092f9901583db604cc97227608f36d52d31c4796f7e2e4",
+      "description_path": "/195/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_002ers",
+          "heading_line": 8399,
+          "body_line": 8402,
+          "heading_args": "",
+          "basis": "whitespace_identical_definition_body"
+        },
+        {
+          "source": "groff-1.23.0",
+          "anchor": "index-_002ers",
+          "heading_line": 9653,
+          "body_line": 9656,
+          "heading_args": "",
+          "basis": "shared_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 439,
+      "group": 356,
+      "content": 83,
+      "kind": "Request",
+      "token": ".ns",
+      "args": "",
+      "repairs": [
+        "existing-description-reference"
+      ],
+      "previous_package": "roff",
+      "package": "roff",
+      "previous_description_sha256": "5fd0e171e63c67d137d62a7f889f6763bed0b4e9f5aa789211dc1e27886e61a9",
+      "description_sha256": "5d8811284d2a1b47a8092f9901583db604cc97227608f36d52d31c4796f7e2e4",
+      "description_path": "/195/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_002ens",
+          "heading_line": 8397,
+          "body_line": 8402,
+          "heading_args": "",
+          "basis": "whitespace_identical_definition_body"
+        },
+        {
+          "source": "groff-1.23.0",
+          "anchor": "index-_002ens",
+          "heading_line": 9651,
+          "body_line": 9656,
+          "heading_args": "",
+          "basis": "shared_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 440,
+      "group": 356,
+      "content": 84,
+      "kind": "Request",
+      "token": ".ls",
+      "args": "[nnn]",
+      "repairs": [
+        "existing-description-reference"
+      ],
+      "previous_package": "roff",
+      "package": "roff",
+      "previous_description_sha256": "5fd0e171e63c67d137d62a7f889f6763bed0b4e9f5aa789211dc1e27886e61a9",
+      "description_sha256": "9d75441c5a6641689fba269586d611aa4a118e910c738dff6c69fc8a54b514a5",
+      "description_path": "/193/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_002els",
+          "heading_line": 8322,
+          "body_line": 8325,
+          "heading_args": "[nnn]",
+          "basis": "shared_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 441,
+      "group": 356,
+      "content": 85,
+      "kind": "Request",
+      "token": ".hla",
+      "args": "language",
+      "repairs": [
+        "existing-description-reference"
+      ],
+      "previous_package": "roff",
+      "package": "roff",
+      "previous_description_sha256": "5fd0e171e63c67d137d62a7f889f6763bed0b4e9f5aa789211dc1e27886e61a9",
+      "description_sha256": "5b1a9f7b687895b454e8333e0d054745b4ea433c86dae91142c0d07aa48e8346",
+      "description_path": "/191/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_002ehla",
+          "heading_line": 8209,
+          "body_line": 8212,
+          "heading_args": "language",
+          "basis": "whitespace_identical_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 442,
+      "group": 356,
+      "content": 86,
+      "kind": "Request",
+      "token": ".hys",
+      "args": "[hyphenation_space]",
+      "repairs": [
+        "existing-description-reference"
+      ],
+      "previous_package": "roff",
+      "package": "roff",
+      "previous_description_sha256": "5fd0e171e63c67d137d62a7f889f6763bed0b4e9f5aa789211dc1e27886e61a9",
+      "description_sha256": "0029ca8e8de5dc5f8c82c9b31fda360868c5b9db58986633f20c58a4673cb3e0",
+      "description_path": "/189/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_002ehys",
+          "heading_line": 8165,
+          "body_line": 8168,
+          "heading_args": "[hyphenation_space]",
+          "basis": "whitespace_identical_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 443,
+      "group": 356,
+      "content": 87,
+      "kind": "Request",
+      "token": ".hym",
+      "args": "[length]",
+      "repairs": [
+        "existing-description-reference"
+      ],
+      "previous_package": "roff",
+      "package": "roff",
+      "previous_description_sha256": "5fd0e171e63c67d137d62a7f889f6763bed0b4e9f5aa789211dc1e27886e61a9",
+      "description_sha256": "18a8f05fb8d9f9550d105483d6c7a00c5300ade42be9b2d47c4730136f651a48",
+      "description_path": "/188/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_002ehym",
+          "heading_line": 8141,
+          "body_line": 8144,
+          "heading_args": "[length]",
+          "basis": "whitespace_identical_definition_body"
+        },
+        {
+          "source": "groff-1.23.0",
+          "anchor": "index-_002ehym",
+          "heading_line": 9463,
+          "body_line": 9466,
+          "heading_args": "[length]",
+          "basis": "shared_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 444,
+      "group": 356,
+      "content": 88,
+      "kind": "Request",
+      "token": ".hpfa",
+      "args": "pattern_file",
+      "repairs": [
+        "existing-description-reference"
+      ],
+      "previous_package": "roff",
+      "package": "roff",
+      "previous_description_sha256": "5fd0e171e63c67d137d62a7f889f6763bed0b4e9f5aa789211dc1e27886e61a9",
+      "description_sha256": "12d507c28d3d6dc7c2897db5cbb27555b2c3fbe9d3519448670d5ee786953885",
+      "description_path": "/186/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_002ehpfa",
+          "heading_line": 8027,
+          "body_line": 8030,
+          "heading_args": "pattern_file",
+          "basis": "whitespace_identical_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 445,
+      "group": 356,
+      "content": 89,
+      "kind": "Request",
+      "token": ".hpf",
+      "args": "pattern_file",
+      "repairs": [
+        "existing-description-reference"
+      ],
+      "previous_package": "roff",
+      "package": "roff",
+      "previous_description_sha256": "5fd0e171e63c67d137d62a7f889f6763bed0b4e9f5aa789211dc1e27886e61a9",
+      "description_sha256": "12d507c28d3d6dc7c2897db5cbb27555b2c3fbe9d3519448670d5ee786953885",
+      "description_path": "/186/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_002ehpf",
+          "heading_line": 8025,
+          "body_line": 8030,
+          "heading_args": "pattern_file",
+          "basis": "whitespace_identical_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 446,
+      "group": 356,
+      "content": 90,
+      "kind": "Register",
+      "token": "\\n[.hlm]",
+      "args": "",
+      "repairs": [
+        "existing-description-reference",
+        "source-package-correction"
+      ],
+      "previous_package": "ms",
+      "package": "roff",
+      "previous_description_sha256": "5fd0e171e63c67d137d62a7f889f6763bed0b4e9f5aa789211dc1e27886e61a9",
+      "description_sha256": "ec0377345f484e082605c854631ad88babee24b474f7a62b9f556b8e88bfed41",
+      "description_path": "/183/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_005cn_005b_002ehlm_005d",
+          "heading_line": 7923,
+          "body_line": 7926,
+          "heading_args": "",
+          "basis": "shared_definition_body"
+        },
+        {
+          "source": "groff-1.23.0",
+          "anchor": "index-_005cn_005b_002ehlm_005d",
+          "heading_line": 9439,
+          "body_line": 9442,
+          "heading_args": "",
+          "basis": "shared_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 447,
+      "group": 356,
+      "content": 91,
+      "kind": "Request",
+      "token": ".hlm",
+      "args": "[nnn]",
+      "repairs": [
+        "existing-description-reference"
+      ],
+      "previous_package": "roff",
+      "package": "roff",
+      "previous_description_sha256": "5fd0e171e63c67d137d62a7f889f6763bed0b4e9f5aa789211dc1e27886e61a9",
+      "description_sha256": "ec0377345f484e082605c854631ad88babee24b474f7a62b9f556b8e88bfed41",
+      "description_path": "/183/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_002ehlm",
+          "heading_line": 7921,
+          "body_line": 7926,
+          "heading_args": "[nnn]",
+          "basis": "shared_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 448,
+      "group": 356,
+      "content": 92,
+      "kind": "Request",
+      "token": ".hy",
+      "args": "[mode]",
+      "repairs": [
+        "existing-description-reference"
+      ],
+      "previous_package": "roff",
+      "package": "roff",
+      "previous_description_sha256": "5fd0e171e63c67d137d62a7f889f6763bed0b4e9f5aa789211dc1e27886e61a9",
+      "description_sha256": "f4821a2434b876c99546d4a3d77d90a20f142ccb1434ed07375d87393d6d2e99",
+      "description_path": "/181/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_002ehy",
+          "heading_line": 7808,
+          "body_line": 7811,
+          "heading_args": "[mode]",
+          "basis": "whitespace_identical_definition_body"
+        },
+        {
+          "source": "groff-1.23.0",
+          "anchor": "index-_002ehy",
+          "heading_line": 9157,
+          "body_line": 9160,
+          "heading_args": "[mode]",
+          "basis": "shared_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 449,
+      "group": 356,
+      "content": 93,
+      "kind": "Request",
+      "token": ".rj",
+      "args": "[nnn]",
+      "repairs": [
+        "existing-description-reference"
+      ],
+      "previous_package": "roff",
+      "package": "roff",
+      "previous_description_sha256": "5fd0e171e63c67d137d62a7f889f6763bed0b4e9f5aa789211dc1e27886e61a9",
+      "description_sha256": "04e12db832d0f22e2947e9eb36907abc22a08602a2fee4eeaa86301699efa678",
+      "description_path": "/180/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_002erj",
+          "heading_line": 7777,
+          "body_line": 7780,
+          "heading_args": "[nnn]",
+          "basis": "whitespace_identical_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 450,
+      "group": 356,
+      "content": 94,
+      "kind": "Request",
+      "token": ".ce",
+      "args": "[nnn]",
+      "repairs": [
+        "existing-description-reference"
+      ],
+      "previous_package": "roff",
+      "package": "roff",
+      "previous_description_sha256": "5fd0e171e63c67d137d62a7f889f6763bed0b4e9f5aa789211dc1e27886e61a9",
+      "description_sha256": "8b73ee3834e3c68af0a3200876e2c612c50862131e7500197a1bb6b69cff54f5",
+      "description_path": "/179/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_002ece",
+          "heading_line": 7722,
+          "body_line": 7725,
+          "heading_args": "[nnn]",
+          "basis": "whitespace_identical_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 451,
+      "group": 356,
+      "content": 95,
+      "kind": "Register",
+      "token": "\\n[.ss]",
+      "args": "",
+      "repairs": [
+        "existing-description-reference",
+        "source-package-correction"
+      ],
+      "previous_package": "ms",
+      "package": "roff",
+      "previous_description_sha256": "5fd0e171e63c67d137d62a7f889f6763bed0b4e9f5aa789211dc1e27886e61a9",
+      "description_sha256": "dd1f0278482ba60df84579ae0cdb0f116d07a47a8de98f3a3c1818aafad1e85b",
+      "description_path": "/178/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_005cn_005b_002ess_005d",
+          "heading_line": 7652,
+          "body_line": 7655,
+          "heading_args": "",
+          "basis": "whitespace_identical_definition_body"
+        },
+        {
+          "source": "groff-1.23.0",
+          "anchor": "index-_005cn_005b_002ess_005d",
+          "heading_line": 8913,
+          "body_line": 8916,
+          "heading_args": "",
+          "basis": "shared_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 452,
+      "group": 356,
+      "content": 96,
+      "kind": "Request",
+      "token": ".ss",
+      "args": "word_space_size [sentence_space_size]",
+      "repairs": [
+        "existing-description-reference"
+      ],
+      "previous_package": "roff",
+      "package": "roff",
+      "previous_description_sha256": "5fd0e171e63c67d137d62a7f889f6763bed0b4e9f5aa789211dc1e27886e61a9",
+      "description_sha256": "dd1f0278482ba60df84579ae0cdb0f116d07a47a8de98f3a3c1818aafad1e85b",
+      "description_path": "/178/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_002ess",
+          "heading_line": 7650,
+          "body_line": 7655,
+          "heading_args": "word_space_size [sentence_space_size]",
+          "basis": "whitespace_identical_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 453,
+      "group": 356,
+      "content": 97,
+      "kind": "Request",
+      "token": ".brp",
+      "args": "",
+      "repairs": [
+        "project-authored-factual-summary"
+      ],
+      "previous_package": "roff",
+      "package": "roff",
+      "previous_description_sha256": "5fd0e171e63c67d137d62a7f889f6763bed0b4e9f5aa789211dc1e27886e61a9",
+      "description_sha256": "1173e1064ea21a82bdbebd94f5bd086fd9098441c9d0033f7e30886c14ee3744",
+      "description_path": "/356/Contents/97/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_002ebrp",
+          "heading_line": 7618,
+          "body_line": 7621,
+          "heading_args": "",
+          "basis": "feature_heading"
+        },
+        {
+          "source": "groff-1.23.0",
+          "anchor": "index-_002ebrp",
+          "heading_line": 8768,
+          "body_line": 8771,
+          "heading_args": "",
+          "basis": "feature_heading"
+        }
+      ]
+    },
+    {
+      "index": 454,
+      "group": 356,
+      "content": 98,
+      "kind": "Request",
+      "token": ".ad",
+      "args": "[mode]",
+      "repairs": [
+        "existing-description-reference"
+      ],
+      "previous_package": "roff",
+      "package": "roff",
+      "previous_description_sha256": "5fd0e171e63c67d137d62a7f889f6763bed0b4e9f5aa789211dc1e27886e61a9",
+      "description_sha256": "f009eff3ca9ebe9965191defe9798335f42209396bc1bdfc51dad00d8c5b5d3b",
+      "description_path": "/176/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_002ead",
+          "heading_line": 7520,
+          "body_line": 7523,
+          "heading_args": "[mode]",
+          "basis": "shared_definition_body"
+        },
+        {
+          "source": "groff-1.23.0",
+          "anchor": "index-_002ead",
+          "heading_line": 8677,
+          "body_line": 8680,
+          "heading_args": "[mode]",
+          "basis": "shared_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 455,
+      "group": 356,
+      "content": 99,
+      "kind": "Request",
+      "token": ".fi",
+      "args": "",
+      "repairs": [
+        "existing-description-reference"
+      ],
+      "previous_package": "roff",
+      "package": "roff",
+      "previous_description_sha256": "5fd0e171e63c67d137d62a7f889f6763bed0b4e9f5aa789211dc1e27886e61a9",
+      "description_sha256": "7661c9023465bd94e6ae418a4fa879b4d5d9f18a013a7ca3253efbc857371778",
+      "description_path": "/174/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_002efi",
+          "heading_line": 7487,
+          "body_line": 7490,
+          "heading_args": "",
+          "basis": "whitespace_identical_definition_body"
+        },
+        {
+          "source": "groff-1.23.0",
+          "anchor": "index-_002efi",
+          "heading_line": 8644,
+          "body_line": 8647,
+          "heading_args": "",
+          "basis": "shared_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 456,
+      "group": 356,
+      "content": 100,
+      "kind": "Request",
+      "token": ".nr",
+      "args": "ident +value",
+      "repairs": [
+        "project-authored-summary-reference"
+      ],
+      "previous_package": "roff",
+      "package": "roff",
+      "previous_description_sha256": "5fd0e171e63c67d137d62a7f889f6763bed0b4e9f5aa789211dc1e27886e61a9",
+      "description_sha256": "de80d8c94340069ed02cfbc582f6abf65d579d0b5a18bd1d9883a0c39d133d3a",
+      "description_path": "/167/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_002enr-1",
+          "heading_line": 6904,
+          "body_line": 6910,
+          "heading_args": "ident +value",
+          "basis": "feature_heading"
+        },
+        {
+          "source": "groff-1.23.0",
+          "anchor": "index-_002enr-2",
+          "heading_line": 7999,
+          "body_line": 8005,
+          "heading_args": "ident +value",
+          "basis": "feature_heading"
+        }
+      ]
+    },
+    {
+      "index": 457,
+      "group": 356,
+      "content": 101,
+      "kind": "Request",
+      "token": ".nr",
+      "args": "ident value",
+      "repairs": [
+        "project-authored-factual-summary"
+      ],
+      "previous_package": "roff",
+      "package": "roff",
+      "previous_description_sha256": "5fd0e171e63c67d137d62a7f889f6763bed0b4e9f5aa789211dc1e27886e61a9",
+      "description_sha256": "0dcf4ccddd1fc1cc9ef0a38dbff37787ff92a143bd037e167f0a491bbc5ae2db",
+      "description_path": "/356/Contents/101/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_002enr",
+          "heading_line": 6841,
+          "body_line": 6844,
+          "heading_args": "ident value",
+          "basis": "feature_heading"
+        },
+        {
+          "source": "groff-1.23.0",
+          "anchor": "index-_002enr-1",
+          "heading_line": 7937,
+          "body_line": 7940,
+          "heading_args": "ident value",
+          "basis": "feature_heading"
+        }
+      ]
+    },
+    {
+      "index": 458,
+      "group": 356,
+      "content": 102,
+      "kind": "String",
+      "token": "\\*[Q]",
+      "args": "",
+      "repairs": [
+        "existing-description-reference"
+      ],
+      "previous_package": "ms",
+      "package": "ms",
+      "previous_description_sha256": "5fd0e171e63c67d137d62a7f889f6763bed0b4e9f5aa789211dc1e27886e61a9",
+      "description_sha256": "cc2cc13eda30cf21b25d91f2d411ad79f6a8bb99c03728eedfa32893f4ff0071",
+      "description_path": "/136/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_005c_002a_005bQ_005d",
+          "heading_line": 4870,
+          "body_line": 4873,
+          "heading_args": "",
+          "basis": "whitespace_identical_definition_body"
+        },
+        {
+          "source": "groff-1.23.0",
+          "anchor": "index-_005c_002a_005bQ_005d",
+          "heading_line": 3584,
+          "body_line": 3587,
+          "heading_args": "",
+          "basis": "shared_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 459,
+      "group": 356,
+      "content": 103,
+      "kind": "String",
+      "token": "\\*[MONTH11]",
+      "args": "",
+      "repairs": [
+        "existing-description-reference"
+      ],
+      "previous_package": "ms",
+      "package": "ms",
+      "previous_description_sha256": "5fd0e171e63c67d137d62a7f889f6763bed0b4e9f5aa789211dc1e27886e61a9",
+      "description_sha256": "df302a923cc76508b83eec0a84614314792ac7a97193f78f05df25cfa6c1951e",
+      "description_path": "/134/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_005c_002a_005bMONTH11_005d",
+          "heading_line": 4853,
+          "body_line": 4856,
+          "heading_args": "",
+          "basis": "whitespace_identical_definition_body"
+        },
+        {
+          "source": "groff-1.23.0",
+          "anchor": "index-_005c_002a_005bMONTH11_005d",
+          "heading_line": 4700,
+          "body_line": 4703,
+          "heading_args": "",
+          "basis": "shared_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 460,
+      "group": 356,
+      "content": 104,
+      "kind": "String",
+      "token": "\\*[MONTH10]",
+      "args": "",
+      "repairs": [
+        "existing-description-reference"
+      ],
+      "previous_package": "ms",
+      "package": "ms",
+      "previous_description_sha256": "5fd0e171e63c67d137d62a7f889f6763bed0b4e9f5aa789211dc1e27886e61a9",
+      "description_sha256": "df302a923cc76508b83eec0a84614314792ac7a97193f78f05df25cfa6c1951e",
+      "description_path": "/134/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_005c_002a_005bMONTH10_005d",
+          "heading_line": 4851,
+          "body_line": 4856,
+          "heading_args": "",
+          "basis": "whitespace_identical_definition_body"
+        },
+        {
+          "source": "groff-1.23.0",
+          "anchor": "index-_005c_002a_005bMONTH10_005d",
+          "heading_line": 4698,
+          "body_line": 4703,
+          "heading_args": "",
+          "basis": "shared_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 461,
+      "group": 356,
+      "content": 105,
+      "kind": "String",
+      "token": "\\*[MONTH9]",
+      "args": "",
+      "repairs": [
+        "existing-description-reference"
+      ],
+      "previous_package": "ms",
+      "package": "ms",
+      "previous_description_sha256": "5fd0e171e63c67d137d62a7f889f6763bed0b4e9f5aa789211dc1e27886e61a9",
+      "description_sha256": "df302a923cc76508b83eec0a84614314792ac7a97193f78f05df25cfa6c1951e",
+      "description_path": "/134/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_005c_002a_005bMONTH9_005d",
+          "heading_line": 4849,
+          "body_line": 4856,
+          "heading_args": "",
+          "basis": "whitespace_identical_definition_body"
+        },
+        {
+          "source": "groff-1.23.0",
+          "anchor": "index-_005c_002a_005bMONTH9_005d",
+          "heading_line": 4696,
+          "body_line": 4703,
+          "heading_args": "",
+          "basis": "shared_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 462,
+      "group": 356,
+      "content": 106,
+      "kind": "String",
+      "token": "\\*[MONTH8]",
+      "args": "",
+      "repairs": [
+        "existing-description-reference"
+      ],
+      "previous_package": "ms",
+      "package": "ms",
+      "previous_description_sha256": "5fd0e171e63c67d137d62a7f889f6763bed0b4e9f5aa789211dc1e27886e61a9",
+      "description_sha256": "df302a923cc76508b83eec0a84614314792ac7a97193f78f05df25cfa6c1951e",
+      "description_path": "/134/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_005c_002a_005bMONTH8_005d",
+          "heading_line": 4847,
+          "body_line": 4856,
+          "heading_args": "",
+          "basis": "whitespace_identical_definition_body"
+        },
+        {
+          "source": "groff-1.23.0",
+          "anchor": "index-_005c_002a_005bMONTH8_005d",
+          "heading_line": 4694,
+          "body_line": 4703,
+          "heading_args": "",
+          "basis": "shared_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 463,
+      "group": 356,
+      "content": 107,
+      "kind": "String",
+      "token": "\\*[MONTH7]",
+      "args": "",
+      "repairs": [
+        "existing-description-reference"
+      ],
+      "previous_package": "ms",
+      "package": "ms",
+      "previous_description_sha256": "5fd0e171e63c67d137d62a7f889f6763bed0b4e9f5aa789211dc1e27886e61a9",
+      "description_sha256": "df302a923cc76508b83eec0a84614314792ac7a97193f78f05df25cfa6c1951e",
+      "description_path": "/134/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_005c_002a_005bMONTH7_005d",
+          "heading_line": 4845,
+          "body_line": 4856,
+          "heading_args": "",
+          "basis": "whitespace_identical_definition_body"
+        },
+        {
+          "source": "groff-1.23.0",
+          "anchor": "index-_005c_002a_005bMONTH7_005d",
+          "heading_line": 4692,
+          "body_line": 4703,
+          "heading_args": "",
+          "basis": "shared_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 464,
+      "group": 356,
+      "content": 108,
+      "kind": "String",
+      "token": "\\*[MONTH6]",
+      "args": "",
+      "repairs": [
+        "existing-description-reference"
+      ],
+      "previous_package": "ms",
+      "package": "ms",
+      "previous_description_sha256": "5fd0e171e63c67d137d62a7f889f6763bed0b4e9f5aa789211dc1e27886e61a9",
+      "description_sha256": "df302a923cc76508b83eec0a84614314792ac7a97193f78f05df25cfa6c1951e",
+      "description_path": "/134/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_005c_002a_005bMONTH6_005d",
+          "heading_line": 4843,
+          "body_line": 4856,
+          "heading_args": "",
+          "basis": "whitespace_identical_definition_body"
+        },
+        {
+          "source": "groff-1.23.0",
+          "anchor": "index-_005c_002a_005bMONTH6_005d",
+          "heading_line": 4690,
+          "body_line": 4703,
+          "heading_args": "",
+          "basis": "shared_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 465,
+      "group": 356,
+      "content": 109,
+      "kind": "String",
+      "token": "\\*[MONTH5]",
+      "args": "",
+      "repairs": [
+        "existing-description-reference"
+      ],
+      "previous_package": "ms",
+      "package": "ms",
+      "previous_description_sha256": "5fd0e171e63c67d137d62a7f889f6763bed0b4e9f5aa789211dc1e27886e61a9",
+      "description_sha256": "df302a923cc76508b83eec0a84614314792ac7a97193f78f05df25cfa6c1951e",
+      "description_path": "/134/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_005c_002a_005bMONTH5_005d",
+          "heading_line": 4841,
+          "body_line": 4856,
+          "heading_args": "",
+          "basis": "whitespace_identical_definition_body"
+        },
+        {
+          "source": "groff-1.23.0",
+          "anchor": "index-_005c_002a_005bMONTH5_005d",
+          "heading_line": 4688,
+          "body_line": 4703,
+          "heading_args": "",
+          "basis": "shared_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 466,
+      "group": 356,
+      "content": 110,
+      "kind": "String",
+      "token": "\\*[MONTH4]",
+      "args": "",
+      "repairs": [
+        "existing-description-reference"
+      ],
+      "previous_package": "ms",
+      "package": "ms",
+      "previous_description_sha256": "5fd0e171e63c67d137d62a7f889f6763bed0b4e9f5aa789211dc1e27886e61a9",
+      "description_sha256": "df302a923cc76508b83eec0a84614314792ac7a97193f78f05df25cfa6c1951e",
+      "description_path": "/134/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_005c_002a_005bMONTH4_005d",
+          "heading_line": 4839,
+          "body_line": 4856,
+          "heading_args": "",
+          "basis": "whitespace_identical_definition_body"
+        },
+        {
+          "source": "groff-1.23.0",
+          "anchor": "index-_005c_002a_005bMONTH4_005d",
+          "heading_line": 4686,
+          "body_line": 4703,
+          "heading_args": "",
+          "basis": "shared_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 467,
+      "group": 356,
+      "content": 111,
+      "kind": "String",
+      "token": "\\*[MONTH3]",
+      "args": "",
+      "repairs": [
+        "existing-description-reference"
+      ],
+      "previous_package": "ms",
+      "package": "ms",
+      "previous_description_sha256": "5fd0e171e63c67d137d62a7f889f6763bed0b4e9f5aa789211dc1e27886e61a9",
+      "description_sha256": "df302a923cc76508b83eec0a84614314792ac7a97193f78f05df25cfa6c1951e",
+      "description_path": "/134/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_005c_002a_005bMONTH3_005d",
+          "heading_line": 4837,
+          "body_line": 4856,
+          "heading_args": "",
+          "basis": "whitespace_identical_definition_body"
+        },
+        {
+          "source": "groff-1.23.0",
+          "anchor": "index-_005c_002a_005bMONTH3_005d",
+          "heading_line": 4684,
+          "body_line": 4703,
+          "heading_args": "",
+          "basis": "shared_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 468,
+      "group": 356,
+      "content": 112,
+      "kind": "String",
+      "token": "\\*[MONTH2]",
+      "args": "",
+      "repairs": [
+        "existing-description-reference"
+      ],
+      "previous_package": "ms",
+      "package": "ms",
+      "previous_description_sha256": "5fd0e171e63c67d137d62a7f889f6763bed0b4e9f5aa789211dc1e27886e61a9",
+      "description_sha256": "df302a923cc76508b83eec0a84614314792ac7a97193f78f05df25cfa6c1951e",
+      "description_path": "/134/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_005c_002a_005bMONTH2_005d",
+          "heading_line": 4835,
+          "body_line": 4856,
+          "heading_args": "",
+          "basis": "whitespace_identical_definition_body"
+        },
+        {
+          "source": "groff-1.23.0",
+          "anchor": "index-_005c_002a_005bMONTH2_005d",
+          "heading_line": 4682,
+          "body_line": 4703,
+          "heading_args": "",
+          "basis": "shared_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 469,
+      "group": 356,
+      "content": 113,
+      "kind": "String",
+      "token": "\\*[MONTH1]",
+      "args": "",
+      "repairs": [
+        "existing-description-reference"
+      ],
+      "previous_package": "ms",
+      "package": "ms",
+      "previous_description_sha256": "5fd0e171e63c67d137d62a7f889f6763bed0b4e9f5aa789211dc1e27886e61a9",
+      "description_sha256": "df302a923cc76508b83eec0a84614314792ac7a97193f78f05df25cfa6c1951e",
+      "description_path": "/134/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_005c_002a_005bMONTH1_005d",
+          "heading_line": 4833,
+          "body_line": 4856,
+          "heading_args": "",
+          "basis": "whitespace_identical_definition_body"
+        },
+        {
+          "source": "groff-1.23.0",
+          "anchor": "index-_005c_002a_005bMONTH1_005d",
+          "heading_line": 4680,
+          "body_line": 4703,
+          "heading_args": "",
+          "basis": "shared_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 470,
+      "group": 356,
+      "content": 114,
+      "kind": "Macro",
+      "token": ".XA",
+      "args": "[page]",
+      "repairs": [
+        "existing-description-reference"
+      ],
+      "previous_package": "ms",
+      "package": "ms",
+      "previous_description_sha256": "5fd0e171e63c67d137d62a7f889f6763bed0b4e9f5aa789211dc1e27886e61a9",
+      "description_sha256": "7bf2567d762be150b510000a2126c68ced6066795f7d1ae3ea3e631a7a38117b",
+      "description_path": "/128/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_002eXA",
+          "heading_line": 4710,
+          "body_line": 4713,
+          "heading_args": "[page]",
+          "basis": "whitespace_identical_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 471,
+      "group": 356,
+      "content": 115,
+      "kind": "Macro",
+      "token": ".XS",
+      "args": "[page]",
+      "repairs": [
+        "existing-description-reference"
+      ],
+      "previous_package": "ms",
+      "package": "ms",
+      "previous_description_sha256": "5fd0e171e63c67d137d62a7f889f6763bed0b4e9f5aa789211dc1e27886e61a9",
+      "description_sha256": "7bf2567d762be150b510000a2126c68ced6066795f7d1ae3ea3e631a7a38117b",
+      "description_path": "/128/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_002eXS",
+          "heading_line": 4708,
+          "body_line": 4713,
+          "heading_args": "[page]",
+          "basis": "whitespace_identical_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 472,
+      "group": 356,
+      "content": 116,
+      "kind": "Macro",
+      "token": ".HD",
+      "args": "",
+      "repairs": [
+        "existing-description-reference"
+      ],
+      "previous_package": "ms",
+      "package": "ms",
+      "previous_description_sha256": "5fd0e171e63c67d137d62a7f889f6763bed0b4e9f5aa789211dc1e27886e61a9",
+      "description_sha256": "44e9b7df7f4b0fb9157eea5b8b5bb5fe9f841da4c3c5d165e911ca9c2fd7bfdd",
+      "description_path": "/124/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_002eHD",
+          "heading_line": 4626,
+          "body_line": 4629,
+          "heading_args": "",
+          "basis": "whitespace_identical_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 473,
+      "group": 356,
+      "content": 117,
+      "kind": "Macro",
+      "token": ".PT",
+      "args": "",
+      "repairs": [
+        "existing-description-reference"
+      ],
+      "previous_package": "ms",
+      "package": "ms",
+      "previous_description_sha256": "5fd0e171e63c67d137d62a7f889f6763bed0b4e9f5aa789211dc1e27886e61a9",
+      "description_sha256": "44e9b7df7f4b0fb9157eea5b8b5bb5fe9f841da4c3c5d165e911ca9c2fd7bfdd",
+      "description_path": "/124/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_002ePT-1",
+          "heading_line": 4624,
+          "body_line": 4629,
+          "heading_args": "",
+          "basis": "whitespace_identical_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 474,
+      "group": 356,
+      "content": 118,
+      "kind": "Macro",
+      "token": ".OF",
+      "args": "'left'center'right'",
+      "repairs": [
+        "existing-description-reference"
+      ],
+      "previous_package": "ms",
+      "package": "ms",
+      "previous_description_sha256": "5fd0e171e63c67d137d62a7f889f6763bed0b4e9f5aa789211dc1e27886e61a9",
+      "description_sha256": "b5c93753d6f34a988cb79b6cb27ab59ea7da2b0daf4be4098e3f122c44de0387",
+      "description_path": "/123/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_002eOF",
+          "heading_line": 4608,
+          "body_line": 4611,
+          "heading_args": "'left'center'right'",
+          "basis": "whitespace_identical_definition_body"
+        },
+        {
+          "source": "groff-1.23.0",
+          "anchor": "index-_002eOF",
+          "heading_line": 4765,
+          "body_line": 4768,
+          "heading_args": "'left'center'right'",
+          "basis": "shared_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 475,
+      "group": 356,
+      "content": 119,
+      "kind": "Macro",
+      "token": ".EH",
+      "args": "'left'center'right'",
+      "repairs": [
+        "existing-description-reference"
+      ],
+      "previous_package": "ms",
+      "package": "ms",
+      "previous_description_sha256": "5fd0e171e63c67d137d62a7f889f6763bed0b4e9f5aa789211dc1e27886e61a9",
+      "description_sha256": "b5c93753d6f34a988cb79b6cb27ab59ea7da2b0daf4be4098e3f122c44de0387",
+      "description_path": "/123/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_002eEH",
+          "heading_line": 4606,
+          "body_line": 4611,
+          "heading_args": "'left'center'right'",
+          "basis": "whitespace_identical_definition_body"
+        },
+        {
+          "source": "groff-1.23.0",
+          "anchor": "index-_002eEH",
+          "heading_line": 4763,
+          "body_line": 4768,
+          "heading_args": "'left'center'right'",
+          "basis": "shared_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 476,
+      "group": 356,
+      "content": 120,
+      "kind": "Macro",
+      "token": ".OH",
+      "args": "'left'center'right'",
+      "repairs": [
+        "existing-description-reference"
+      ],
+      "previous_package": "ms",
+      "package": "ms",
+      "previous_description_sha256": "5fd0e171e63c67d137d62a7f889f6763bed0b4e9f5aa789211dc1e27886e61a9",
+      "description_sha256": "b5c93753d6f34a988cb79b6cb27ab59ea7da2b0daf4be4098e3f122c44de0387",
+      "description_path": "/123/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_002eOH",
+          "heading_line": 4604,
+          "body_line": 4611,
+          "heading_args": "'left'center'right'",
+          "basis": "whitespace_identical_definition_body"
+        },
+        {
+          "source": "groff-1.23.0",
+          "anchor": "index-_002eOH",
+          "heading_line": 4761,
+          "body_line": 4768,
+          "heading_args": "'left'center'right'",
+          "basis": "shared_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 477,
+      "group": 356,
+      "content": 121,
+      "kind": "String",
+      "token": "\\*[CF]",
+      "args": "",
+      "repairs": [
+        "existing-description-reference"
+      ],
+      "previous_package": "ms",
+      "package": "ms",
+      "previous_description_sha256": "5fd0e171e63c67d137d62a7f889f6763bed0b4e9f5aa789211dc1e27886e61a9",
+      "description_sha256": "a2d06853d8f89aef5c26de0d75798640bf468c7cb0193349b88a796205e54ec2",
+      "description_path": "/122/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_005c_002a_005bCF_005d",
+          "heading_line": 4593,
+          "body_line": 4596,
+          "heading_args": "",
+          "basis": "whitespace_identical_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 478,
+      "group": 356,
+      "content": 122,
+      "kind": "String",
+      "token": "\\*[LF]",
+      "args": "",
+      "repairs": [
+        "existing-description-reference"
+      ],
+      "previous_package": "ms",
+      "package": "ms",
+      "previous_description_sha256": "5fd0e171e63c67d137d62a7f889f6763bed0b4e9f5aa789211dc1e27886e61a9",
+      "description_sha256": "a2d06853d8f89aef5c26de0d75798640bf468c7cb0193349b88a796205e54ec2",
+      "description_path": "/122/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_005c_002a_005bLF_005d",
+          "heading_line": 4591,
+          "body_line": 4596,
+          "heading_args": "",
+          "basis": "whitespace_identical_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 479,
+      "group": 356,
+      "content": 123,
+      "kind": "String",
+      "token": "\\*[CH]",
+      "args": "",
+      "repairs": [
+        "existing-description-reference"
+      ],
+      "previous_package": "ms",
+      "package": "ms",
+      "previous_description_sha256": "5fd0e171e63c67d137d62a7f889f6763bed0b4e9f5aa789211dc1e27886e61a9",
+      "description_sha256": "d761b31636c4be61fa662a457e37fb4e374698d54770de8ef517f7e3250031b6",
+      "description_path": "/121/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_005c_002a_005bCH_005d",
+          "heading_line": 4583,
+          "body_line": 4586,
+          "heading_args": "",
+          "basis": "whitespace_identical_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 480,
+      "group": 356,
+      "content": 124,
+      "kind": "String",
+      "token": "\\*[LH]",
+      "args": "",
+      "repairs": [
+        "existing-description-reference"
+      ],
+      "previous_package": "ms",
+      "package": "ms",
+      "previous_description_sha256": "5fd0e171e63c67d137d62a7f889f6763bed0b4e9f5aa789211dc1e27886e61a9",
+      "description_sha256": "d761b31636c4be61fa662a457e37fb4e374698d54770de8ef517f7e3250031b6",
+      "description_path": "/121/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_005c_002a_005bLH_005d",
+          "heading_line": 4581,
+          "body_line": 4586,
+          "heading_args": "",
+          "basis": "whitespace_identical_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 481,
+      "group": 356,
+      "content": 125,
+      "kind": "Macro",
+      "token": ".FS",
+      "args": "",
+      "repairs": [
+        "existing-description-reference"
+      ],
+      "previous_package": "ms",
+      "package": "ms",
+      "previous_description_sha256": "5fd0e171e63c67d137d62a7f889f6763bed0b4e9f5aa789211dc1e27886e61a9",
+      "description_sha256": "7cb8a0d2071529a84c89657728568037a61a952c99f44984cd1390fb3281ae98",
+      "description_path": "/120/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_002eFS",
+          "heading_line": 4511,
+          "body_line": 4514,
+          "heading_args": "",
+          "basis": "whitespace_identical_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 482,
+      "group": 356,
+      "content": 126,
+      "kind": "Macro",
+      "token": ".[",
+      "args": "",
+      "repairs": [
+        "existing-description-reference"
+      ],
+      "previous_package": "ms",
+      "package": "ms",
+      "previous_description_sha256": "5fd0e171e63c67d137d62a7f889f6763bed0b4e9f5aa789211dc1e27886e61a9",
+      "description_sha256": "76323390a8d4e5d63017976aa3b43c0dd7e688b3d4d70b923f15c606b7ea3749",
+      "description_path": "/118/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_002e_005b",
+          "heading_line": 4447,
+          "body_line": 4450,
+          "heading_args": "",
+          "basis": "whitespace_identical_definition_body"
+        },
+        {
+          "source": "groff-1.23.0",
+          "anchor": "index-_002e_005b",
+          "heading_line": 4466,
+          "body_line": 4469,
+          "heading_args": "",
+          "basis": "shared_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 483,
+      "group": 356,
+      "content": 127,
+      "kind": "Macro",
+      "token": ".EQ",
+      "args": "[align]",
+      "repairs": [
+        "existing-description-reference"
+      ],
+      "previous_package": "ms",
+      "package": "ms",
+      "previous_description_sha256": "5fd0e171e63c67d137d62a7f889f6763bed0b4e9f5aa789211dc1e27886e61a9",
+      "description_sha256": "c97378148209ba47d7bb48c5f6a5df265327685bf48e3f172cbb8e35b0be4695",
+      "description_path": "/117/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_002eEQ",
+          "heading_line": 4436,
+          "body_line": 4439,
+          "heading_args": "[align]",
+          "basis": "whitespace_identical_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 484,
+      "group": 356,
+      "content": 128,
+      "kind": "Macro",
+      "token": ".PS",
+      "args": "",
+      "repairs": [
+        "existing-description-reference"
+      ],
+      "previous_package": "ms",
+      "package": "ms",
+      "previous_description_sha256": "5fd0e171e63c67d137d62a7f889f6763bed0b4e9f5aa789211dc1e27886e61a9",
+      "description_sha256": "8c3e3174afe50dfd5a6afd6bea0d6716e4559ffd8515d46498f1f78d5ff7315a",
+      "description_path": "/116/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_002ePS",
+          "heading_line": 4425,
+          "body_line": 4428,
+          "heading_args": "",
+          "basis": "whitespace_identical_definition_body"
+        },
+        {
+          "source": "groff-1.23.0",
+          "anchor": "index-_002ePS",
+          "heading_line": 4441,
+          "body_line": 4446,
+          "heading_args": "",
+          "basis": "shared_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 485,
+      "group": 356,
+      "content": 129,
+      "kind": "Macro",
+      "token": ".TS",
+      "args": "[H]",
+      "repairs": [
+        "existing-description-reference"
+      ],
+      "previous_package": "ms",
+      "package": "ms",
+      "previous_description_sha256": "5fd0e171e63c67d137d62a7f889f6763bed0b4e9f5aa789211dc1e27886e61a9",
+      "description_sha256": "066bbd7a644709359cc63d00b4eea1199d291bf561dd817fc62ad2259cff26b5",
+      "description_path": "/115/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_002eTS",
+          "heading_line": 4412,
+          "body_line": 4415,
+          "heading_args": "[H]",
+          "basis": "whitespace_identical_definition_body"
+        },
+        {
+          "source": "groff-1.23.0",
+          "anchor": "index-_002eTS",
+          "heading_line": 4427,
+          "body_line": 4430,
+          "heading_args": "[H]",
+          "basis": "shared_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 486,
+      "group": 356,
+      "content": 130,
+      "kind": "Macro",
+      "token": ".B1",
+      "args": "",
+      "repairs": [
+        "existing-description-reference"
+      ],
+      "previous_package": "ms",
+      "package": "ms",
+      "previous_description_sha256": "5fd0e171e63c67d137d62a7f889f6763bed0b4e9f5aa789211dc1e27886e61a9",
+      "description_sha256": "07f18ffd6d9ad56c9d58acbea7467e578345dbf20d02ae265ede068585270b97",
+      "description_path": "/114/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_002eB1",
+          "heading_line": 4375,
+          "body_line": 4378,
+          "heading_args": "",
+          "basis": "whitespace_identical_definition_body"
+        },
+        {
+          "source": "groff-1.23.0",
+          "anchor": "index-_002eB1",
+          "heading_line": 4296,
+          "body_line": 4299,
+          "heading_args": "",
+          "basis": "shared_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 487,
+      "group": 356,
+      "content": 131,
+      "kind": "Macro",
+      "token": ".KF",
+      "args": "",
+      "repairs": [
+        "existing-description-reference"
+      ],
+      "previous_package": "ms",
+      "package": "ms",
+      "previous_description_sha256": "5fd0e171e63c67d137d62a7f889f6763bed0b4e9f5aa789211dc1e27886e61a9",
+      "description_sha256": "ee229cffe14851a55fb6de16436c51937c0cc8b73ee4853f758b93654e5478d6",
+      "description_path": "/113/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_002eKF",
+          "heading_line": 4354,
+          "body_line": 4357,
+          "heading_args": "",
+          "basis": "whitespace_identical_definition_body"
+        },
+        {
+          "source": "groff-1.23.0",
+          "anchor": "index-_002eKF",
+          "heading_line": 4278,
+          "body_line": 4281,
+          "heading_args": "",
+          "basis": "shared_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 488,
+      "group": 356,
+      "content": 132,
+      "kind": "Macro",
+      "token": ".KS",
+      "args": "",
+      "repairs": [
+        "existing-description-reference"
+      ],
+      "previous_package": "ms",
+      "package": "ms",
+      "previous_description_sha256": "5fd0e171e63c67d137d62a7f889f6763bed0b4e9f5aa789211dc1e27886e61a9",
+      "description_sha256": "c90fc5dd46d83f2e0670036129ab120f627183d34d7e09274b0d92c3dd973fca",
+      "description_path": "/112/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_002eKS",
+          "heading_line": 4345,
+          "body_line": 4348,
+          "heading_args": "",
+          "basis": "whitespace_identical_definition_body"
+        },
+        {
+          "source": "groff-1.23.0",
+          "anchor": "index-_002eKS",
+          "heading_line": 4276,
+          "body_line": 4281,
+          "heading_args": "",
+          "basis": "shared_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 489,
+      "group": 356,
+      "content": 133,
+      "kind": "Macro",
+      "token": ".Ds",
+      "args": "",
+      "repairs": [
+        "existing-description-reference"
+      ],
+      "previous_package": "ms",
+      "package": "ms",
+      "previous_description_sha256": "5fd0e171e63c67d137d62a7f889f6763bed0b4e9f5aa789211dc1e27886e61a9",
+      "description_sha256": "2e79cc6fedebd3a8035126b2102f3238a3d86373629c4c80abbee193fbe06713",
+      "description_path": "/111/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_002eDs-1",
+          "heading_line": 4325,
+          "body_line": 4328,
+          "heading_args": "",
+          "basis": "whitespace_identical_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 490,
+      "group": 356,
+      "content": 134,
+      "kind": "Macro",
+      "token": ".RD",
+      "args": "",
+      "repairs": [
+        "existing-description-reference"
+      ],
+      "previous_package": "ms",
+      "package": "ms",
+      "previous_description_sha256": "5fd0e171e63c67d137d62a7f889f6763bed0b4e9f5aa789211dc1e27886e61a9",
+      "description_sha256": "27440d0489c912cf9df77425dbf09a2ae8b91618a77e2b757378b5ee3a002f31",
+      "description_path": "/110/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_002eRD",
+          "heading_line": 4314,
+          "body_line": 4317,
+          "heading_args": "",
+          "basis": "whitespace_identical_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 491,
+      "group": 356,
+      "content": 135,
+      "kind": "Macro",
+      "token": ".DS",
+      "args": "R",
+      "repairs": [
+        "existing-description-reference"
+      ],
+      "previous_package": "ms",
+      "package": "ms",
+      "previous_description_sha256": "5fd0e171e63c67d137d62a7f889f6763bed0b4e9f5aa789211dc1e27886e61a9",
+      "description_sha256": "27440d0489c912cf9df77425dbf09a2ae8b91618a77e2b757378b5ee3a002f31",
+      "description_path": "/110/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_002eDS-4",
+          "heading_line": 4312,
+          "body_line": 4317,
+          "heading_args": "R",
+          "basis": "whitespace_identical_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 492,
+      "group": 356,
+      "content": 136,
+      "kind": "Macro",
+      "token": ".CD",
+      "args": "",
+      "repairs": [
+        "existing-description-reference"
+      ],
+      "previous_package": "ms",
+      "package": "ms",
+      "previous_description_sha256": "5fd0e171e63c67d137d62a7f889f6763bed0b4e9f5aa789211dc1e27886e61a9",
+      "description_sha256": "07f00790d100e3033e4172a85a4e7eef0239c211b6426ef5d3549bd67dba7057",
+      "description_path": "/109/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_002eCD",
+          "heading_line": 4301,
+          "body_line": 4304,
+          "heading_args": "",
+          "basis": "whitespace_identical_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 493,
+      "group": 356,
+      "content": 137,
+      "kind": "Macro",
+      "token": ".DS",
+      "args": "C",
+      "repairs": [
+        "existing-description-reference"
+      ],
+      "previous_package": "ms",
+      "package": "ms",
+      "previous_description_sha256": "5fd0e171e63c67d137d62a7f889f6763bed0b4e9f5aa789211dc1e27886e61a9",
+      "description_sha256": "07f00790d100e3033e4172a85a4e7eef0239c211b6426ef5d3549bd67dba7057",
+      "description_path": "/109/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_002eDS-3",
+          "heading_line": 4299,
+          "body_line": 4304,
+          "heading_args": "C",
+          "basis": "whitespace_identical_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 494,
+      "group": 356,
+      "content": 138,
+      "kind": "Macro",
+      "token": ".BD",
+      "args": "",
+      "repairs": [
+        "existing-description-reference"
+      ],
+      "previous_package": "ms",
+      "package": "ms",
+      "previous_description_sha256": "5fd0e171e63c67d137d62a7f889f6763bed0b4e9f5aa789211dc1e27886e61a9",
+      "description_sha256": "8b9b0b43fa702a4519c26025cca91bb8b52673e2e2a97edbe1387aea8551bf7a",
+      "description_path": "/108/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_002eBD",
+          "heading_line": 4287,
+          "body_line": 4290,
+          "heading_args": "",
+          "basis": "whitespace_identical_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 495,
+      "group": 356,
+      "content": 139,
+      "kind": "Macro",
+      "token": ".DS",
+      "args": "B",
+      "repairs": [
+        "existing-description-reference"
+      ],
+      "previous_package": "ms",
+      "package": "ms",
+      "previous_description_sha256": "5fd0e171e63c67d137d62a7f889f6763bed0b4e9f5aa789211dc1e27886e61a9",
+      "description_sha256": "8b9b0b43fa702a4519c26025cca91bb8b52673e2e2a97edbe1387aea8551bf7a",
+      "description_path": "/108/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_002eDS-2",
+          "heading_line": 4285,
+          "body_line": 4290,
+          "heading_args": "B",
+          "basis": "whitespace_identical_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 496,
+      "group": 356,
+      "content": 140,
+      "kind": "Macro",
+      "token": ".ID",
+      "args": "",
+      "repairs": [
+        "existing-description-reference"
+      ],
+      "previous_package": "ms",
+      "package": "ms",
+      "previous_description_sha256": "5fd0e171e63c67d137d62a7f889f6763bed0b4e9f5aa789211dc1e27886e61a9",
+      "description_sha256": "96f1634d5132fe700c719b2907310e3cc5123de3b66bb3a0ba2aa157dc227d7c",
+      "description_path": "/107/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_002eID",
+          "heading_line": 4274,
+          "body_line": 4277,
+          "heading_args": "",
+          "basis": "whitespace_identical_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 497,
+      "group": 356,
+      "content": 141,
+      "kind": "Macro",
+      "token": ".DS",
+      "args": "I",
+      "repairs": [
+        "existing-description-reference"
+      ],
+      "previous_package": "ms",
+      "package": "ms",
+      "previous_description_sha256": "5fd0e171e63c67d137d62a7f889f6763bed0b4e9f5aa789211dc1e27886e61a9",
+      "description_sha256": "96f1634d5132fe700c719b2907310e3cc5123de3b66bb3a0ba2aa157dc227d7c",
+      "description_path": "/107/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_002eDS-1",
+          "heading_line": 4272,
+          "body_line": 4277,
+          "heading_args": "I",
+          "basis": "whitespace_identical_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 498,
+      "group": 356,
+      "content": 142,
+      "kind": "Macro",
+      "token": ".LD",
+      "args": "",
+      "repairs": [
+        "existing-description-reference"
+      ],
+      "previous_package": "ms",
+      "package": "ms",
+      "previous_description_sha256": "5fd0e171e63c67d137d62a7f889f6763bed0b4e9f5aa789211dc1e27886e61a9",
+      "description_sha256": "a033ec6876bf5044332809633e123eb9c39fb0ada27d8f5e68eb3e8c26d73229",
+      "description_path": "/106/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_002eLD",
+          "heading_line": 4261,
+          "body_line": 4264,
+          "heading_args": "",
+          "basis": "whitespace_identical_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 499,
+      "group": 356,
+      "content": 143,
+      "kind": "Macro",
+      "token": ".DS",
+      "args": "L",
+      "repairs": [
+        "existing-description-reference"
+      ],
+      "previous_package": "ms",
+      "package": "ms",
+      "previous_description_sha256": "5fd0e171e63c67d137d62a7f889f6763bed0b4e9f5aa789211dc1e27886e61a9",
+      "description_sha256": "a033ec6876bf5044332809633e123eb9c39fb0ada27d8f5e68eb3e8c26d73229",
+      "description_path": "/106/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_002eDS",
+          "heading_line": 4259,
+          "body_line": 4264,
+          "heading_args": "L",
+          "basis": "whitespace_identical_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 500,
+      "group": 356,
+      "content": 144,
+      "kind": "Macro",
+      "token": ".RS",
+      "args": "",
+      "repairs": [
+        "existing-description-reference"
+      ],
+      "previous_package": "ms",
+      "package": "ms",
+      "previous_description_sha256": "5fd0e171e63c67d137d62a7f889f6763bed0b4e9f5aa789211dc1e27886e61a9",
+      "description_sha256": "269684e57fdceaecd7da23914062c8b62f9bafd74d2f3095bfa96cabfd1929f3",
+      "description_path": "/104/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_002eRS-1",
+          "heading_line": 4205,
+          "body_line": 4208,
+          "heading_args": "",
+          "basis": "whitespace_identical_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 501,
+      "group": 356,
+      "content": 145,
+      "kind": "String",
+      "token": "\\*[{]",
+      "args": "",
+      "repairs": [
+        "existing-description-reference"
+      ],
+      "previous_package": "ms",
+      "package": "ms",
+      "previous_description_sha256": "5fd0e171e63c67d137d62a7f889f6763bed0b4e9f5aa789211dc1e27886e61a9",
+      "description_sha256": "c2fe1e7a5f67cdfdbb52dc122831c91dc880e4ad4d80da2a3cac2ed2ae8735fd",
+      "description_path": "/102/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_005c_002a_005b_007b_005d",
+          "heading_line": 3989,
+          "body_line": 3992,
+          "heading_args": "",
+          "basis": "whitespace_identical_definition_body"
+        },
+        {
+          "source": "groff-1.23.0",
+          "anchor": "index-_005c_002a_005b_007b_005d",
+          "heading_line": 3992,
+          "body_line": 3995,
+          "heading_args": "",
+          "basis": "shared_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 502,
+      "group": 356,
+      "content": 146,
+      "kind": "String",
+      "token": "\\*[SN-DOT]",
+      "args": "",
+      "repairs": [
+        "existing-description-reference"
+      ],
+      "previous_package": "ms",
+      "package": "ms",
+      "previous_description_sha256": "5fd0e171e63c67d137d62a7f889f6763bed0b4e9f5aa789211dc1e27886e61a9",
+      "description_sha256": "a7b802acab6e8cdc92b1ea65fed4ce5aa6cf3551539b320f7d067943f5bf0eea",
+      "description_path": "/89/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_005c_002a_005bSN_002dDOT_005d",
+          "heading_line": 3825,
+          "body_line": 3828,
+          "heading_args": "",
+          "basis": "whitespace_identical_definition_body"
+        },
+        {
+          "source": "groff-1.23.0",
+          "anchor": "index-_005c_002a_005bSN_002dDOT_005d",
+          "heading_line": 3777,
+          "body_line": 3782,
+          "heading_args": "",
+          "basis": "shared_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 503,
+      "group": 356,
+      "content": 147,
+      "kind": "String",
+      "token": "\\*[SN]",
+      "args": "",
+      "repairs": [
+        "existing-description-reference"
+      ],
+      "previous_package": "ms",
+      "package": "ms",
+      "previous_description_sha256": "5fd0e171e63c67d137d62a7f889f6763bed0b4e9f5aa789211dc1e27886e61a9",
+      "description_sha256": "a7b802acab6e8cdc92b1ea65fed4ce5aa6cf3551539b320f7d067943f5bf0eea",
+      "description_path": "/89/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_005c_002a_005bSN_005d",
+          "heading_line": 3823,
+          "body_line": 3828,
+          "heading_args": "",
+          "basis": "whitespace_identical_definition_body"
+        },
+        {
+          "source": "groff-1.23.0",
+          "anchor": "index-_005c_002a_005bSN_005d",
+          "heading_line": 3781,
+          "body_line": 3782,
+          "heading_args": "",
+          "basis": "shared_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 504,
+      "group": 356,
+      "content": 148,
+      "kind": "Macro",
+      "token": ".NH",
+      "args": "curr-level",
+      "repairs": [
+        "existing-description-reference"
+      ],
+      "previous_package": "ms",
+      "package": "ms",
+      "previous_description_sha256": "5fd0e171e63c67d137d62a7f889f6763bed0b4e9f5aa789211dc1e27886e61a9",
+      "description_sha256": "0ae86e82c5bf78ed2ee7fc3a4bef93391ee782f53870905001caebd453414c4c",
+      "description_path": "/88/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_002eNH",
+          "heading_line": 3810,
+          "body_line": 3813,
+          "heading_args": "curr-level",
+          "basis": "shared_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 505,
+      "group": 356,
+      "content": 149,
+      "kind": "Macro",
+      "token": ".QS",
+      "args": "",
+      "repairs": [
+        "existing-description-reference"
+      ],
+      "previous_package": "ms",
+      "package": "ms",
+      "previous_description_sha256": "5fd0e171e63c67d137d62a7f889f6763bed0b4e9f5aa789211dc1e27886e61a9",
+      "description_sha256": "fc32ad4eb5a67dc497b990bfb1b890ac8d2f3ed052d70c1aae53a16ebcecd1f5",
+      "description_path": "/0/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_002eQS",
+          "heading_line": 3732,
+          "body_line": 3735,
+          "heading_args": "",
+          "basis": "shared_definition_body"
+        },
+        {
+          "source": "groff-1.23.0",
+          "anchor": "index-_002eQS",
+          "heading_line": 3645,
+          "body_line": 3648,
+          "heading_args": "",
+          "basis": "shared_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 506,
+      "group": 356,
+      "content": 150,
+      "kind": "String",
+      "token": "\\*[lq]",
+      "args": "",
+      "repairs": [
+        "existing-description-reference",
+        "source-package-correction"
+      ],
+      "previous_package": "ms",
+      "package": "man",
+      "previous_description_sha256": "5fd0e171e63c67d137d62a7f889f6763bed0b4e9f5aa789211dc1e27886e61a9",
+      "description_sha256": "1d11fb8a61d0219384d04312c4d74f8b4d5f9cc9dddbd81e21b29525d5a300cd",
+      "description_path": "/28/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_005c_002a_005blq_005d",
+          "heading_line": 2817,
+          "body_line": 2820,
+          "heading_args": "",
+          "basis": "whitespace_identical_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 507,
+      "group": 356,
+      "content": 151,
+      "kind": "Macro",
+      "token": ".PP",
+      "args": "",
+      "repairs": [
+        "existing-description-reference"
+      ],
+      "previous_package": "ms",
+      "package": "ms",
+      "previous_description_sha256": "5fd0e171e63c67d137d62a7f889f6763bed0b4e9f5aa789211dc1e27886e61a9",
+      "description_sha256": "5defcc389ebd7a5ec023d79718fae41c7c44154fe53ae81c271542a282923251",
+      "description_path": "/83/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_002ePP-1",
+          "heading_line": 3709,
+          "body_line": 3710,
+          "heading_args": "",
+          "basis": "shared_definition_body"
+        },
+        {
+          "source": "groff-1.23.0",
+          "anchor": "index-_002ePP",
+          "heading_line": 3620,
+          "body_line": 3621,
+          "heading_args": "",
+          "basis": "whitespace_identical_definition_body"
+        }
+      ]
+    },
+    {
+      "index": 508,
+      "group": 356,
+      "content": 152,
+      "kind": "Macro",
+      "token": ".LP",
+      "args": "",
+      "repairs": [
+        "existing-description-reference"
+      ],
+      "previous_package": "ms",
+      "package": "ms",
+      "previous_description_sha256": "5fd0e171e63c67d137d62a7f889f6763bed0b4e9f5aa789211dc1e27886e61a9",
+      "description_sha256": "3b33c7e5870212806db5d98fbe6ac720eef1643c137612201545ab1b2aeec0c7",
+      "description_path": "/84/Description",
+      "sources": [
+        {
+          "source": "groff-1.22.4",
+          "anchor": "index-_002eLP-1",
+          "heading_line": 3715,
+          "body_line": 3716,
+          "heading_args": "",
+          "basis": "whitespace_identical_definition_body"
+        },
+        {
+          "source": "groff-1.23.0",
+          "anchor": "index-_002eLP",
+          "heading_line": 3614,
+          "body_line": 3615,
+          "heading_args": "",
+          "basis": "shared_definition_body"
+        }
+      ]
+    }
+  ]
+}

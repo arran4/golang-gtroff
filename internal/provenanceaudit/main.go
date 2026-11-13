@@ -13,6 +13,8 @@ import (
 	"regexp"
 	"strings"
 
+	"github.com/arran4/golang-gtroff/internal/cataloguedoc"
+
 	"golang.org/x/net/html"
 	"golang.org/x/net/html/charset"
 )
@@ -75,6 +77,32 @@ type report struct {
 	Sources         []evidence     `json:"sources"`
 	Rows            []row          `json:"rows"`
 }
+
+type entryRow struct {
+	Index           int        `json:"index"`
+	Group           int        `json:"group"`
+	Content         int        `json:"content"`
+	DescriptionLine int        `json:"description_line"`
+	DescriptionPath string     `json:"description_path"`
+	SHA256          string     `json:"description_sha256"`
+	Item            item       `json:"item"`
+	Matches         []location `json:"matches"`
+	History         []string   `json:"byte_identical_history"`
+	ReflowedHistory []string   `json:"whitespace_identical_history"`
+}
+
+type entryReport struct {
+	Schema           int            `json:"schema"`
+	Revision         string         `json:"revision"`
+	CatalogueSHA256  string         `json:"catalogue_sha256"`
+	Groups           int            `json:"input_groups"`
+	Entries          int            `json:"entries"`
+	MatchedEntries   int            `json:"matched_entries"`
+	UnmatchedEntries int            `json:"unmatched_entries"`
+	SourceEntries    map[string]int `json:"source_matched_entries"`
+	Sources          []evidence     `json:"sources"`
+	Rows             []entryRow     `json:"rows"`
+}
 type definition struct {
 	text, anchor string
 	line         int
@@ -107,24 +135,37 @@ func read(path string) ([]byte, error) {
 }
 
 func decodeGroups(b []byte) ([]group, error) {
+	groups, _, err := readCatalogue(b)
+	return groups, err
+}
+
+func readCatalogue(b []byte) ([]group, *cataloguedoc.Catalogue, error) {
 	var groups []group
 	if err := json.Unmarshal(b, &groups); err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 	if len(groups) == 0 {
-		return nil, fmt.Errorf("empty catalogue")
+		return nil, nil, fmt.Errorf("empty catalogue")
+	}
+	documentation, err := cataloguedoc.ParseJSON(b)
+	if err != nil {
+		return nil, nil, err
 	}
 	for i, g := range groups {
-		if normalize(g.Description) == "" || len(g.Contents) == 0 {
-			return nil, fmt.Errorf("group %d lacks description or items", i)
+		if len(g.Contents) == 0 {
+			return nil, nil, fmt.Errorf("group %d lacks items", i)
 		}
-		for _, item := range g.Contents {
+		for j, item := range g.Contents {
 			if item.Type == "" || item.Token == "" {
-				return nil, fmt.Errorf("group %d has an incomplete item", i)
+				return nil, nil, fmt.Errorf("group %d has an incomplete item", i)
+			}
+			text, _, err := documentation.Resolve(i, j)
+			if err != nil || normalize(text) == "" {
+				return nil, nil, fmt.Errorf("group %d item %d lacks a resolved description", i, j)
 			}
 		}
 	}
-	return groups, nil
+	return groups, documentation, nil
 }
 
 func textContent(n *html.Node) string {
@@ -241,22 +282,32 @@ func load(spec, kind string) (source, error) {
 		}
 	case "historical-catalogue":
 		var gs []group
-		gs, err = decodeGroups(b)
+		var docs *cataloguedoc.Catalogue
+		gs, docs, err = readCatalogue(b)
+		if err != nil {
+			return s, err
+		}
 		s.history = make(map[string]bool)
 		s.reflowed = make(map[string]bool)
-		for _, g := range gs {
-			s.history[g.Description] = true
-			s.reflowed[normalize(g.Description)] = true
+		for gi, g := range gs {
+			for ii := range g.Contents {
+				text, _, _ := docs.Resolve(gi, ii)
+				s.history[text] = true
+				s.reflowed[normalize(text)] = true
+			}
 		}
 	}
 	return s, err
 }
 
 func compare(raw []byte, revision string, sources []source) (report, error) {
-	groups, err := decodeGroups(raw)
+	groups, docs, err := readCatalogue(raw)
 	r := report{Schema: 1, Revision: revision, CatalogueSHA256: digest(raw), Groups: len(groups), SourceGroups: make(map[string]int)}
 	if err != nil {
 		return r, err
+	}
+	if docs.Extended {
+		return r, fmt.Errorf("extended documentation requires per-entry comparison")
 	}
 	// JSON description-key positions; a quoted string containing this word is
 	// escaped in the source and cannot masquerade as an object property.
@@ -306,11 +357,67 @@ func compare(raw []byte, revision string, sources []source) (report, error) {
 	return r, nil
 }
 
+// Schema 2 records every effective entry separately. A group default can no
+// longer be attributed to all its items when individual items override it.
+func compareEntries(raw []byte, revision string, sources []source) (entryReport, error) {
+	groups, docs, err := readCatalogue(raw)
+	r := entryReport{Schema: 2, Revision: revision, CatalogueSHA256: digest(raw), Groups: len(groups), SourceEntries: make(map[string]int)}
+	if err != nil {
+		return r, err
+	}
+	for _, s := range sources {
+		r.Sources = append(r.Sources, s.evidence)
+		if s.Kind != "historical-catalogue" {
+			r.SourceEntries[s.Label] = 0
+		}
+	}
+	for gi, g := range groups {
+		for ii, item := range g.Contents {
+			text, owner, err := docs.Resolve(gi, ii)
+			if err != nil {
+				return r, err
+			}
+			row := entryRow{Index: r.Entries, Group: gi, Content: ii, DescriptionLine: owner.Line, DescriptionPath: owner.Pointer, SHA256: digest([]byte(text)), Item: item, Matches: []location{}, History: []string{}, ReflowedHistory: []string{}}
+			r.Entries++
+			normalized := normalize(text)
+			for _, s := range sources {
+				matched := false
+				for _, d := range s.definitions {
+					if normalized == d.text {
+						row.Matches = append(row.Matches, location{s.Label, "definition-whitespace-exact", d.anchor, d.line})
+						matched = true
+					}
+				}
+				if s.text != "" && strings.Contains(s.text, normalized) {
+					row.Matches = append(row.Matches, location{Source: s.Label, Kind: "reference-whitespace-substring"})
+					matched = true
+				}
+				if matched {
+					r.SourceEntries[s.Label]++
+				}
+				if s.history[text] {
+					row.History = append(row.History, s.Label)
+				}
+				if s.reflowed[normalized] {
+					row.ReflowedHistory = append(row.ReflowedHistory, s.Label)
+				}
+			}
+			if len(row.Matches) > 0 {
+				r.MatchedEntries++
+			} else {
+				r.UnmatchedEntries++
+			}
+			r.Rows = append(r.Rows, row)
+		}
+	}
+	return r, nil
+}
+
 func run(args []string, out io.Writer) error {
 	flags := flag.NewFlagSet("provenanceaudit", flag.ContinueOnError)
 	flags.SetOutput(io.Discard)
 	catalogue := flags.String("catalogue", "cmd/gen/in.json", "catalogue JSON")
-	revision := flags.String("revision", "", "reviewed commit (recorded without verification)")
+	revision := flags.String("revision", "", "reviewed input label (recorded without verification)")
 	var manuals, references, history options
 	flags.Var(&manuals, "manual", "repeatable LABEL=HTML manual")
 	flags.Var(&references, "reference", "repeatable LABEL=TEXT reference")
@@ -319,7 +426,7 @@ func run(args []string, out io.Writer) error {
 		return err
 	}
 	if flags.NArg() != 0 || len(manuals)+len(references) == 0 || *revision == "" {
-		return fmt.Errorf("usage: provenanceaudit -revision COMMIT [-catalogue JSON] -manual LABEL=HTML [-reference LABEL=TEXT] [-history COMMIT=JSON]")
+		return fmt.Errorf("usage: provenanceaudit -revision LABEL [-catalogue JSON] -manual LABEL=HTML [-reference LABEL=TEXT] [-history COMMIT=JSON]")
 	}
 	var sources []source
 	labels := make(map[string]bool)
@@ -340,13 +447,22 @@ func run(args []string, out io.Writer) error {
 	if err != nil {
 		return err
 	}
-	r, err := compare(b, *revision, sources)
+	_, docs, err := readCatalogue(b)
+	if err != nil {
+		return err
+	}
+	var result any
+	if docs.Extended {
+		result, err = compareEntries(b, *revision, sources)
+	} else {
+		result, err = compare(b, *revision, sources)
+	}
 	if err != nil {
 		return err
 	}
 	enc := json.NewEncoder(out)
 	enc.SetIndent("", "  ")
-	return enc.Encode(r)
+	return enc.Encode(result)
 }
 
 func main() {

@@ -6,6 +6,16 @@ from `cmd/gen/in.json` and the same definition/dispatch plan used by the Go
 templates. `go generate ./...` refreshes it; normal tests do not rewrite it.
 Review its diff when approving catalogue or classification changes.
 
+`package` identifies the documented feature's family. An optional
+`parser_package` identifies an existing executable binding when compatibility
+requires a different context. For example, both `.QS` catalogue descriptions
+belong to ms, while the historical `TokenManQS` and `TokenMsQS` constructors
+remain distinct. Row 0 therefore carries `package: "ms"` and
+`parser_package: "man"`. Route tests use the latter when present; the public
+catalogue metadata retains the former. See [association evidence and input
+schema](provenance/corrections.md). `Provenance` remains a reference-family hint,
+not a verified passage citation.
+
 | Parse status | Current records | Evidence |
 | --- | ---: | --- |
 | `supported_generated` | 330 | Generated line parser, concrete token type and metadata |
