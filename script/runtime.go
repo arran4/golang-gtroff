@@ -133,6 +133,9 @@ func Run(ctx context.Context, request Request, o Options) (result *Result, err e
 	if err != nil {
 		return result, err
 	}
+	if err = nativeShape(ctx, parsed, 4*o.MaxTokens); err != nil {
+		return result, err
+	}
 	symbols := tengo.NewSymbolTable()
 	compiler := tengo.NewCompiler(file, symbols, nil, tengo.NewModuleMap(), nil)
 	compiler.EnableFileImport(false)
@@ -149,6 +152,9 @@ func Run(ctx context.Context, request Request, o Options) (result *Result, err e
 		return result, err
 	}
 	bytecode := compiler.Bytecode()
+	if err = nativeConstantBounds(bytecode); err != nil {
+		return result, err
+	}
 	bytecode.RemoveDuplicates()
 	result.Stats.Constants = bytecode.CountObjects()
 	if result.Stats.Constants > o.MaxConstants {

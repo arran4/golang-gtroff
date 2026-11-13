@@ -21,7 +21,7 @@ const checkpointName = "__gtroff_checkpoint"
 func instrument(ctx context.Context, file *parser.File, maxNodes int) error {
 	stack := []parser.Node{file}
 	for len(stack) > 0 {
-		if err := ctx.Err(); err != nil {
+		if err := cooperativeContext(ctx, maxNodes); err != nil {
 			return err
 		}
 		maxNodes--
@@ -85,17 +85,26 @@ func (r *runtime) checkpoint(args ...tengo.Object) (tengo.Object, error) {
 	if r.steps > r.o.MaxSteps {
 		return nil, fmt.Errorf("%w: statement/block checkpoint budget", ErrLimit)
 	}
-	if err := r.ctx.Err(); err != nil {
+	if err := cooperativeContext(r.ctx, r.steps); err != nil {
 		return nil, err
-	}
-	if r.steps == 1 || r.steps%64 == 0 {
-		// Go/js cannot service a timer while an uninterrupted VM occupies the host
-		// event loop. Check the deadline clock directly as well as yielding Go tasks.
-		if deadline, ok := r.ctx.Deadline(); ok && !time.Now().Before(deadline) {
-			return nil, context.DeadlineExceeded
-		}
-		goruntime.Gosched()
 	}
 	return tengo.UndefinedValue, nil
 }
 func reservedIdentifier(name string) bool { return strings.HasPrefix(name, "__gtroff_") }
+
+// cooperativeContext also observes a deadline clock while Go/js timers cannot
+// run, and periodically yields runnable Go tasks during bounded host walks.
+func cooperativeContext(ctx context.Context, count int) error {
+	if err := ctx.Err(); err != nil {
+		return err
+	}
+	if count == 1 || count%64 == 0 {
+		// Go/js cannot service a timer while an uninterrupted VM occupies the host
+		// event loop. Check the deadline clock directly as well as yielding Go tasks.
+		if deadline, ok := ctx.Deadline(); ok && !time.Now().Before(deadline) {
+			return context.DeadlineExceeded
+		}
+		goruntime.Gosched()
+	}
+	return nil
+}
