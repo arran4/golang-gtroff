@@ -162,6 +162,11 @@ Counters are source-level checkpoints, not exact VM instructions. The deadline
 clock is also checked synchronously and Go tasks yield cooperatively: a bare VM's
 empty infinite loop otherwise starved timers on Go/js during actual verification.
 Original user source locations remain in runtime errors.
+The pinned engine uses one-byte call/local/capture operands. Before execution,
+the adapter rejects calls above 255 explicit arguments and conservatively limits
+distinct identifiers across each function and its descendants to 255. Compiled
+local/parameter and constant-index bounds are checked before VM execution. These
+checks also apply to standalone `Run`; they do not depend on a REPL session.
 
 This is not an OS sandbox or a hard heap/time quota. Stock Tengo object counting
 does not charge every allocated byte; a controlled test creates a 1 MiB byte value
