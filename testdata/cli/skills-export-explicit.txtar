@@ -1,0 +1,9 @@
+skills-export-explicit: portable skills discovery/export policy.
+-- args.json --
+["skills", "export", "gtroff-query-extract"]
+-- stdout.txt --
+-- stderr.txt --
+gtroff: skills export requires --dir, one name and format text or json
+Run 'gtroff help' for usage.
+-- exit.txt --
+2

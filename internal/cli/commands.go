@@ -254,6 +254,10 @@ func GetInventory() []CommandInventoryItem {
 			{Name: "max-work", Type: "int", Default: "67108864", Description: "Shared comparison work budget"},
 			{Name: "max-output-bytes", Type: "int", Default: "33554432", Description: "Serialized output byte budget"},
 		}, Capabilities: []string{"semantic-diff", "source-diff", "change-provenance", "ambiguous-matches", "bounded-includes", "json-output", "jsonl-output", "text-output"}},
+		{Name: "skills", Synopsis: "gtroff skills COMMAND [OPTIONS]", Description: "Discover static portable query/extraction instructions", Capabilities: []string{"bundled-agent-recipes", "portable-skill-v1"}},
+		{Name: "skills list", Synopsis: "gtroff skills list [--format text|json]", Description: "List skill versions and manifest identities", Flags: []CommandFlag{{Name: "format", Type: "string", Default: "text", Description: "text or json"}}, Capabilities: []string{"bundled-agent-recipes", "json-output"}},
+		{Name: "skills show", Synopsis: "gtroff skills show [--format text|json] NAME", Description: "Read SKILL.md or deterministic content manifest", Flags: []CommandFlag{{Name: "format", Type: "string", Default: "text", Description: "text or json"}}, Capabilities: []string{"portable-skill-v1", "source-provenance", "json-output"}},
+		{Name: "skills export", Synopsis: "gtroff skills export --dir DIRECTORY [--format text|json] NAME", Description: "Explicit new-directory local export without replacement", Flags: []CommandFlag{{Name: "dir", Type: "string", Default: "", Description: "Explicit destination parent"}, {Name: "format", Type: "string", Default: "text", Description: "text or json receipt"}}, Capabilities: []string{"explicit-local-export", "no-replacement", "portable-skill-v1", "json-output"}},
 		{
 			Name:        "render",
 			Synopsis:    "gtroff render --format html|png|jpg [OPTIONS] [FILE]",

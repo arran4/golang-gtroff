@@ -3,7 +3,7 @@ _gtroff() {
   local cur="${COMP_WORDS[COMP_CWORD]}" words value
   COMPREPLY=()
   if (( COMP_CWORD == 1 )); then
-    words='validate ast sources query extract edit script analyze lint diff render convert serve version man completion help'
+    words='validate ast sources query extract edit script analyze lint diff skills render convert serve version man completion help'
   else
     case "${COMP_WORDS[1]}" in
       validate) words='--format --help --package --strict' ;;
@@ -16,6 +16,7 @@ _gtroff() {
       analyze) words='--details --format --help --max-analysis-nodes --max-bytes --max-depth --max-files --max-findings --max-nodes --max-work --no-includes --package --root --rules --strict' ;;
       lint) words='--closed-world --disable --enable --fail-on --format --help --max-bytes --max-depth --max-documents --max-files --max-findings --max-lint-nodes --max-nodes --max-work --no-includes --package --required --root --rules --strict' ;;
       diff) words='--format --help --max-bytes --max-changes --max-data-bytes --max-depth --max-diff-nodes --max-files --max-nodes --max-objects --max-output-bytes --max-result-bytes --max-work --no-includes --package --root --strict --view' ;;
+      skills) words='--help' ;;
       render) words='--assets --dpi --font --font-bold --font-italic --font-mono --font-regular --font-size --format --fragment --help --line-height --margin --max-height --max-pixels --max-width --no-anchors --node --page-height --quality --section --single --strict --theme --title --width -o' ;;
       convert) words='--assets --fragment --from --help --strict --to -i -o' ;;
       serve) words='--allow-remote --assets --help --listen --max-file-bytes --max-pages --max-total-bytes --root --system-search --theme' ;;

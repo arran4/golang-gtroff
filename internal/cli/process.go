@@ -8,6 +8,7 @@ import (
 	"os/exec"
 	"time"
 
+	"github.com/arran4/golang-gtroff/agentskill"
 	"github.com/arran4/golang-gtroff/internal/atomicfile"
 	"github.com/arran4/golang-gtroff/manlib"
 )
@@ -31,6 +32,7 @@ func ProcessEnvironment(ctx context.Context, in io.Reader, out, stderr io.Writer
 			return manlib.DetectSystemSearch(exec.LookPath, manlib.RunCommand, time.Second, 64<<10)
 		},
 		WriteOutput: atomicfile.Write, WriteSourceOutput: atomicfile.WriteSources,
+		ExportSkill: agentskill.Export,
 		CommitEdits: atomicfile.WriteEdits, WriteEditedOutput: atomicfile.WriteEditedOutput,
 		WriteOutputs: func(source string, files []OutputFile) error {
 			outputs := make([]atomicfile.File, len(files))
