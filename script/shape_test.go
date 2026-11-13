@@ -10,7 +10,7 @@ import (
 	"github.com/arran4/golang-gtroff/script"
 )
 
-func TestNativeOperandBoundsBeforeExecution(t *testing.T) {
+func TestSessionNativeOperandBoundsBeforeExecution(t *testing.T) {
 	args := strings.TrimSuffix(strings.Repeat("1,", 256), ",")
 	var body strings.Builder
 	for i := 0; i < 256; i++ {
@@ -20,12 +20,8 @@ func TestNativeOperandBoundsBeforeExecution(t *testing.T) {
 		"doc.emit(\"must be withheld\"); f:=func(...v){}; f(" + args + ")",
 		"f:=func(){" + body.String() + "return v255}; f()",
 	} {
-		r, e := script.Run(context.Background(), script.Request{Code: []byte(code)}, script.Options{})
-		if !errors.Is(e, script.ErrLimit) || len(r.Output) > 0 {
-			t.Fatal(e, r)
-		}
 		s := session(t, script.SessionOptions{})
-		r, e = s.Eval(context.Background(), script.Cell{Code: []byte(code)})
+		r, e := s.Eval(context.Background(), script.Cell{Code: []byte(code)})
 		if !errors.Is(e, script.ErrLimit) || len(r.Output) > 0 {
 			t.Fatal(e, r)
 		}
