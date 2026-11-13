@@ -1,0 +1,9 @@
+Core script adapter: script-both-stdin. Expected output comes from the actual CLI.
+-- args.json --
+["script", "-", "-"]
+-- stdout.txt --
+-- stderr.txt --
+gtroff: script and document cannot both read stdin
+Run 'gtroff help' for usage.
+-- exit.txt --
+2

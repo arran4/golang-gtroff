@@ -1,0 +1,8 @@
+doc.create("new.1", "NEW", "1")
+doc.edit({selector: "source[source-id=1]", operation: "append-section",
+          heading: "NAME", text: "new - demonstration"})
+doc.edit({selector: "source[source-id=1]", operation: "append-section",
+          heading: "ENVIRONMENT"})
+doc.edit({selector: "section[name=ENVIRONMENT]", operation: "append-definition",
+          term: "TOOL_HOME", text: "Directory for tool data."})
+doc.write("new.1")

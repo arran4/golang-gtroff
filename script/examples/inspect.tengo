@@ -1,0 +1,2 @@
+// Reuse full extraction records: separate term/description, provenance and diagnostics.
+doc.emit(doc.extract("section[name=ENVIRONMENT] definition", "jsonl"))

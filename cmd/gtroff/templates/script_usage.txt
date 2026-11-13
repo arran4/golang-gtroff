@@ -1,0 +1,10 @@
+
+Usage: gtroff script [OPTIONS] SCRIPT [DOCUMENT]
+
+The default core build has no Tengo dependency. Build the optional self-contained
+variant with: go -C script build -o ../gtroff ./cli
+Inputs are explicit and at most one may read stdin. doc query/extract are read
+only; allow-edits grants memory mutation, not file access. File writes require
+an authorized staged doc.write or explicit in-place commit after success.
+Module/file imports, network and shell are not exposed. The VM is not an OS
+sandbox; allocation counts are not heap quotas or exact instruction budgets.

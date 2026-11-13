@@ -18,6 +18,7 @@ import (
 	"github.com/arran4/golang-gtroff/cmd"
 	"github.com/arran4/golang-gtroff/internal/atomicfile"
 	"github.com/arran4/golang-gtroff/manlib"
+	"github.com/arran4/golang-gtroff/scriptapi"
 )
 
 const (
@@ -44,6 +45,7 @@ type OutputFile struct {
 // return an owned reader; named input is closed before any output is written.
 // In is borrowed and is never closed. Out/Err are borrowed writers.
 type Environment struct {
+	Script       scriptapi.Backend
 	Context      context.Context
 	OpenRoot     func(string) (manlib.Root, io.Closer, error)
 	Listen       func(string) (net.Listener, error)
@@ -95,6 +97,7 @@ Commands:
   query     Select source-aware documentation
   extract   Export fragments and structured documentation
   edit      Plan in-memory transformations and explicit writes
+  script    Run optional Tengo with explicit document capabilities
   render    Export a semantic man page to HTML or paginated images
   convert   Convert supported HTML and man structure
   serve     Browse and search explicit man-page directories over HTTP
@@ -195,6 +198,8 @@ func Run(args []string, e Environment) int {
 		return extractCommand(args, e)
 	case "edit":
 		return editCommand(args, e)
+	case "script":
+		return scriptCommand(args, e)
 	case "validate", "ast":
 		return inspectCommand(command, args, e)
 	case "man":
@@ -219,6 +224,8 @@ func commandHelp(e Environment, command string) int {
 		return writeString(e, extractHelp)
 	case "edit":
 		return writeString(e, editHelp)
+	case "script":
+		return writeString(e, scriptHelp)
 	case "convert":
 		return writeString(e, convertHelp)
 	case "serve":
@@ -386,6 +393,7 @@ func runInspect(command string, o inspectOptions, files []string, e Environment)
 //	query     Select source-aware documentation
 //	extract   Export fragments and structured documentation
 //	edit      Plan in-memory transformations and explicit writes
+//	script    Run optional Tengo with explicit document capabilities
 //	render    Export a semantic man page to HTML or paginated images
 //	convert   Convert supported HTML and man structure
 //	serve     Browse and search explicit man-page directories over HTTP

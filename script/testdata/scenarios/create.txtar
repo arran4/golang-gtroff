@@ -1,0 +1,25 @@
+Native Tengo scenario: create. Expected outputs are captured by the actual adapter.
+-- program.tengo --
+doc.create("created.1","CREATED","1");doc.edit({selector:"source[source-id=1]",operation:"append-section",heading:"NAME",text:"created - demo"});doc.emit(doc.source())
+-- options.json --
+{"AllowEdits": true}
+-- after/created.1 --
+.TH "CREATED" "1" "" "" ""
+.SH "\f[B]NAME\f[R]"
+.PP
+\&\f[R]created - demo\f[R]\c
+-- error.txt --
+-- report.json --
+{
+  "Calls": 4,
+  "Steps": 3,
+  "Constants": 15,
+  "Diagnostics": null,
+  "SourceDiagnostics": null,
+  "Writes": null
+}
+-- stdout.txt --
+.TH "CREATED" "1" "" "" ""
+.SH "\f[B]NAME\f[R]"
+.PP
+\&\f[R]created - demo\f[R]\c
