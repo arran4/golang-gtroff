@@ -196,7 +196,11 @@ written proposed bytes are accepted on retry, without accepting unrelated disk
 changes. Successful retries do not delete old recovery artifacts automatically. Retry
 means resubmitting the same captured commit batch; rerunning append commands
 against already changed files creates a new transformation.
-Permissions are retained; explicit new copies use mode 0600. Per-file rename is
+Existing Go-reported file modes are retained; explicit new copies request mode
+0600. POSIX hosts enforce those permission bits. On Windows, Go's mode bits
+represent the readonly attribute, not ACL access rights; destination-directory
+ACL inheritance controls access. The writer does not configure Windows ACLs.
+Per-file rename is
 atomic when supported by the host filesystem. The group is not crash-atomic, and
 exclusive writer access is required; hashes/preflight are not an atomic filesystem
 compare-and-swap against hostile concurrent changes.
