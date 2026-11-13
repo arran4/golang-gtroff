@@ -197,6 +197,9 @@ jobs:
           - os: macos-latest
             target: darwin/arm64
     runs-on: ${{ matrix.os }}
+    defaults:
+      run:
+        shell: bash
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@v7
@@ -211,8 +214,11 @@ jobs:
           path: dist
       - name: Test native source and the archived executable
         run: |
+          # native-verification-begin
+          set -euo pipefail
           go test -count=1 ./...
           go run ./cmd/releasecheck --dist dist --native --target=${{ matrix.target }}
+          # native-verification-end
       - name: Optional native desktop build without a display
         if: runner.os != 'macOS'
         continue-on-error: true
