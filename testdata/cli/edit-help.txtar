@@ -1,0 +1,44 @@
+Source-backed edit: help. Expectations are captured from the actual CLI.
+-- args.json --
+["edit", "--help"]
+-- stdout.txt --
+Usage: gtroff edit [OPTIONS] [FILE]
+
+Build an in-memory, source-backed patch plan and preview it on stdout.
+Use --operation with --select, or --commands with a schema-v1 JSON command file.
+Commands execute sequentially; later selectors see earlier candidate changes.
+Default selection is source[source-id=1]. Non-strict broadcasts all matches with
+warnings; --nth N, --range A:B, --first N or --all restrict one-based query indices.
+Strict requires exactly one result after restrictions, including explicit --all.
+Included files require --include-edits. Repeated physical patches apply once.
+
+Operations: replace-source, find-replace-source (--find), delete, insert-before,
+insert-after, move-before/move-after (--destination unique selector),
+append-paragraph (--text), append-section (--heading, optional --text),
+append-definition (--term, --text), replace-description (--text).
+Source operations use exact bytes; named operations escape literal text and emit
+canonical fragments. Complex descriptions require explicit --rewrite. Unchanged
+bytes, unknown requests, comments and line endings remain exact.
+
+Default --format diff is a quoted byte-range review, not a patch(1) script.
+--format json includes base64 bytes, hashes, patches and diagnostics.
+--format raw emits a single current physical source, never include expansion.
+Use --source NAME to explicitly select a physical source for raw/copy output.
+--create constructs a new document (optional --title and --section) without reads.
+
+Writing is explicit: -o FILE writes one transformed source copy, rejecting aliases
+of any loaded source; --in-place replaces changed originals with captured-hash
+checks. -o and --in-place are exclusive. --dry-run prevents both from writing.
+All originals are checked; aliases/symlinks/stale source/overlaps are errors.
+Writes stage/sync first and roll back ordinary rename failures. Failed restores
+retain recovery backups and report paths. Per-file rename is atomic; group crash
+atomicity/concurrent-writer protection is not promised. Use exclusive write access.
+
+Local includes load by default for named files, confined to --root (default:
+input directory). --no-includes retains references; stdin needs explicit --root.
+No macros, shell commands, network access or uncaptured files are executed/opened.
+Exit: 0 success (possibly warnings), 1 selection/validation/ownership failure,
+2 usage/selector/configuration, 3 input/output/resource/cancellation failure.
+-- stderr.txt --
+-- exit.txt --
+0

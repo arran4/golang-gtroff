@@ -1,0 +1,14 @@
+Source-backed edit: dry-run. Expectations are captured from the actual CLI.
+-- args.json --
+["edit", "--dry-run", "-o", "ignored.1", "--operation", "append-paragraph", "--text", "Added"]
+-- stdin.1 --
+original
+-- stdout.txt --
+--- "<stdin>" sha256:25718360e05d3c2d0963d1381e9dd4dae5fca789244ee4b9f861adcc0cc96218
++++ "<stdin>" sha256:c781c058cfb954617b99ba947b5af732823be4b75b75f1af3b1b7ec4d3537108
+@@ bytes [9,9) -> [9,33) @@
+- ""
++ ".PP\n\\&\\f[R]Added\\f[R]\\c\n"
+-- stderr.txt --
+-- exit.txt --
+0

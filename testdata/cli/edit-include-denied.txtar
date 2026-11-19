@@ -1,0 +1,15 @@
+Source-backed edit: include-denied. Expectations are captured from the actual CLI.
+-- args.json --
+["edit", "--select", "definition", "--operation", "replace-description", "--text", "Updated", "docs/main.1"]
+-- input/docs/main.1 --
+.SH ENVIRONMENT
+.so child
+-- input/docs/child --
+.TP
+HOME
+Old directory.
+-- stdout.txt --
+-- stderr.txt --
+invalid edit target or source owner: match 1 belongs to included source "child"
+-- exit.txt --
+1

@@ -1,0 +1,17 @@
+Source-backed edit: strict-missing. Expectations are captured from the actual CLI.
+-- args.json --
+["edit", "--strict", "--select", "section[name=ABSENT]", "--operation", "delete"]
+-- stdin.1 --
+.TH TOOL 1
+.SH ENVIRONMENT
+.TP
+.B HOME
+Old directory.
+.TP
+.B PATH
+Old path.
+-- stdout.txt --
+-- stderr.txt --
+edit selection is missing or ambiguous
+-- exit.txt --
+1

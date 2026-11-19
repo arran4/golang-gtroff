@@ -1,0 +1,25 @@
+Source-backed edit: explicit-all. Expectations are captured from the actual CLI.
+-- args.json --
+["edit", "--format", "raw", "--all", "--select", "definition", "--operation", "find-replace-source", "--find", "Old", "--text", "New"]
+-- stdin.1 --
+.TH TOOL 1
+.SH ENVIRONMENT
+.TP
+.B HOME
+Old directory.
+.TP
+.B PATH
+Old path.
+-- stdout.txt --
+.TH TOOL 1
+.SH ENVIRONMENT
+.TP
+.B HOME
+New directory.
+.TP
+.B PATH
+New path.
+-- stderr.txt --
+edit broadcast: command 1 selects 2 logical matches
+-- exit.txt --
+0

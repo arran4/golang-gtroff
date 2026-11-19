@@ -1,0 +1,24 @@
+Source-backed edit: strict-nth. Expectations are captured from the actual CLI.
+-- args.json --
+["edit", "--strict", "--nth", "1", "--format", "raw", "--select", "definition", "--operation", "replace-description", "--text", "New directory."]
+-- stdin.1 --
+.TH TOOL 1
+.SH ENVIRONMENT
+.TP
+.B HOME
+Old directory.
+.TP
+.B PATH
+Old path.
+-- stdout.txt --
+.TH TOOL 1
+.SH ENVIRONMENT
+.TP
+.B HOME
+\&New directory.
+.TP
+.B PATH
+Old path.
+-- stderr.txt --
+-- exit.txt --
+0

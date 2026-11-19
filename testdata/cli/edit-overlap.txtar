@@ -1,0 +1,11 @@
+Source-backed edit: overlap. Expectations are captured from the actual CLI.
+-- args.json --
+["edit", "--select", "*", "--operation", "delete"]
+-- stdin.1 --
+.SH A
+body
+-- stdout.txt --
+-- stderr.txt --
+overlapping source patches
+-- exit.txt --
+1

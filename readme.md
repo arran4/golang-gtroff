@@ -144,6 +144,21 @@ limits and machine-readable extraction. Export to an explicit local parent with
 `./gtroff skills export --dir ./chosen-skills gtroff-query-extract`.
 Existing destinations are refused. [Portable assets, Go API and export policy](docs/agent-skills.md).
 
+## Edit captured source
+
+```sh
+# smoke
+./gtroff edit --create --operation append-section --heading NAME --text demo --format raw
+./gtroff edit --operation append-paragraph --text Added examples/man-tool.1
+```
+
+Edits build an in-memory source/hash patch plan and preview it by default.
+Non-strict selectors broadcast with warnings; strict requires one restricted
+match. Unchanged bytes remain exact, while named additions are escaped canonical
+fragments. Included-file changes require explicit ownership. Writing requires
+`-o FILE` or `--in-place`; `--dry-run` suppresses both.
+[Editing API, selection policies, guarded writes and recovery](docs/edit.md).
+
 ## Inspect local source sets
 
 ```sh

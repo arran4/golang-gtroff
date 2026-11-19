@@ -1,0 +1,11 @@
+Source-backed edit: create. Expectations are captured from the actual CLI.
+-- args.json --
+["edit", "--create", "--title", "NEW", "--section", "1", "--format", "raw", "--operation", "append-section", "--heading", "NAME", "--text", "new - demonstration"]
+-- stdout.txt --
+.TH "NEW" "1" "" "" ""
+.SH "\f[B]NAME\f[R]"
+.PP
+\&\f[R]new - demonstration\f[R]\c
+-- stderr.txt --
+-- exit.txt --
+0

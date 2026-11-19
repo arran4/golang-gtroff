@@ -162,8 +162,16 @@ func TestGeneratedDestinationChangeDuringStaging(t *testing.T) {
 	dir := t.TempDir()
 	path := filepath.Join(dir, "output")
 	mustGeneratedWrite(t, path, "initial")
-	err := replaceOutputs([]File{{path, []byte("new")}}, outputOperations{mkdirTemp: func(parent, pattern string) (string, error) {
+	info, err := os.Stat(path)
+	if err != nil {
+		t.Fatal(err)
+	}
+	err = replaceOutputs([]File{{path, []byte("new")}}, outputOperations{mkdirTemp: func(parent, pattern string) (string, error) {
 		if err := os.WriteFile(path, []byte("external change"), 0600); err != nil {
+			return "", err
+		}
+		// Force the content check even on filesystems with coarse timestamps.
+		if err := os.Chtimes(path, info.ModTime(), info.ModTime()); err != nil {
 			return "", err
 		}
 		return os.MkdirTemp(parent, pattern)

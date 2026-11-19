@@ -1,0 +1,16 @@
+Source-backed edit: move. Expectations are captured from the actual CLI.
+-- args.json --
+["edit", "--format", "raw", "--select", "section[name=A]", "--operation", "move-after", "--destination", "section[name=B]"]
+-- stdin.1 --
+.SH A
+a
+.SH B
+b
+-- stdout.txt --
+.SH B
+b
+.SH A
+a
+-- stderr.txt --
+-- exit.txt --
+0

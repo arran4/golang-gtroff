@@ -1,0 +1,10 @@
+Source-backed edit: invalid-new-source. Expectations are captured from the actual CLI.
+-- args.json --
+["edit", "--operation", "replace-source", "--text", ".TH \"unclosed\n"]
+-- stdin.1 --
+old
+-- stdout.txt --
+-- stderr.txt --
+command 1: edit introduces invalid source: <stdin>:1: parse TokenMacroTH arguments: "unclosed, quote wasn't closed: stack "
+-- exit.txt --
+1

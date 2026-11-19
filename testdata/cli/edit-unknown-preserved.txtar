@@ -1,0 +1,15 @@
+Source-backed edit: unknown-preserved. Expectations are captured from the actual CLI.
+-- args.json --
+["edit", "--format", "raw", "--operation", "find-replace-source", "--find", "old", "--text", "new"]
+-- stdin.1 --
+.UNKNOWN raw
+.\" keep
+old
+-- stdout.txt --
+.UNKNOWN raw
+.\" keep
+new
+-- stderr.txt --
+<stdin>:1:1: warning: no token match: ".UNKNOWN": raw
+-- exit.txt --
+0

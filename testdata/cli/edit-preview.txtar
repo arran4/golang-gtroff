@@ -1,0 +1,22 @@
+Source-backed edit: preview. Expectations are captured from the actual CLI.
+-- args.json --
+["edit", "--select", "definition", "--operation", "find-replace-source", "--find", "Old", "--text", "New"]
+-- stdin.1 --
+.TH TOOL 1
+.SH ENVIRONMENT
+.TP
+.B HOME
+Old directory.
+.TP
+.B PATH
+Old path.
+-- stdout.txt --
+--- "<stdin>" sha256:bfd7a36b375535656c2d96e577d9a0340efbf631dd3c3fa285740b33605a0a17
++++ "<stdin>" sha256:69f5b13d58aa40f44e53aeb0548a1b7d053b1ffda20544d412796f600ae8197f
+@@ bytes [39,69) -> [39,69) @@
+- "Old directory.\n.TP\n.B PATH\nOld"
++ "New directory.\n.TP\n.B PATH\nNew"
+-- stderr.txt --
+edit broadcast: command 1 selects 2 logical matches
+-- exit.txt --
+0

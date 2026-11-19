@@ -17,6 +17,7 @@ import (
 	groff "github.com/arran4/golang-gtroff"
 	"github.com/arran4/golang-gtroff/agentskill"
 	"github.com/arran4/golang-gtroff/cmd"
+	"github.com/arran4/golang-gtroff/internal/atomicfile"
 	"github.com/arran4/golang-gtroff/manlib"
 )
 
@@ -56,6 +57,8 @@ type Environment struct {
 	WriteOutput  func(destination, source string, data []byte) error
 	// WriteSourceOutput protects all loaded source paths during explicit export.
 	WriteSourceOutput func(destination string, sources []string, data []byte) error
+	CommitEdits       func(context.Context, []atomicfile.SourceEdit, []atomicfile.SourceGuard) error
+	WriteEditedOutput func(context.Context, string, []atomicfile.SourceGuard, []byte) error
 	WriteOutputs      func(source string, files []OutputFile) error
 	Build             BuildInfo
 }
@@ -95,6 +98,7 @@ Commands:
   query     Select source-aware documentation
   extract   Export fragments and structured documentation
   skills    Discover and export portable agent recipes
+  edit      Plan in-memory transformations and explicit writes
   render    Export a semantic man page to HTML or paginated images
   convert   Convert supported HTML and man structure
   serve     Browse and search explicit man-page directories over HTTP
@@ -198,6 +202,8 @@ func Run(args []string, e Environment) int {
 		return extractCommand(args, e)
 	case "skills":
 		return skillsCommand(args, e)
+	case "edit":
+		return editCommand(args, e)
 	case "validate", "ast":
 		return inspectCommand(command, args, e)
 	case "man":
@@ -228,6 +234,8 @@ func commandHelp(e Environment, command string) int {
 		return writeString(e, skillsShowHelp)
 	case "skills export":
 		return writeString(e, skillsExportHelp)
+	case "edit":
+		return writeString(e, editHelp)
 	case "convert":
 		return writeString(e, convertHelp)
 	case "serve":
@@ -395,6 +403,7 @@ func runInspect(command string, o inspectOptions, files []string, e Environment)
 //	query     Select source-aware documentation
 //	extract   Export fragments and structured documentation
 //	skills    Discover and export portable agent recipes
+//	edit      Plan in-memory transformations and explicit writes
 //	render    Export a semantic man page to HTML or paginated images
 //	convert   Convert supported HTML and man structure
 //	serve     Browse and search explicit man-page directories over HTTP

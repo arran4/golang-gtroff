@@ -145,3 +145,11 @@ a single-file syntax inspection command.
 equivalent typed Go builders over syntax or an optional man hierarchy. It shares
 the bounded source loader and `--no-includes` policy, and exposes JSON/JSONL, text,
 raw source, grep and CSV/TSV records. [Grammar, source attribution and limits](query.md).
+
+## Source editing
+
+`gtroff edit` previews source-backed in-memory transformations. It shares
+query selectors and bounded local source loading, supports one-based match
+restrictions and explicitly owned include edits, and requires `-o` or `--in-place`
+for filesystem writes. `--dry-run` prevents those writes. See the
+[operation, source fidelity and recovery contracts](edit.md).

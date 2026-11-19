@@ -1,0 +1,12 @@
+Source-backed edit: description-needs-rewrite. Expectations are captured from the actual CLI.
+-- args.json --
+["edit", "--select", "definition", "--operation", "replace-description", "--text", "New"]
+-- stdin.1 --
+.TP
+TERM
+.B Old
+-- stdout.txt --
+-- stderr.txt --
+description requires explicit canonical rewrite
+-- exit.txt --
+1
