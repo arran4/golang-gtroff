@@ -101,16 +101,47 @@ func TestGeneratedCommitFailureRollsBackExistingAndNew(t *testing.T) {
 }
 
 func TestGeneratedRollbackFailureRetainsOriginal(t *testing.T) {
-	dir := t.TempDir()
+	for _, aliased := range []bool{false, true} {
+		name := "direct-parent"
+		if aliased {
+			name = "symlink-parent"
+		}
+		t.Run(name, func(t *testing.T) {
+			dir := t.TempDir()
+			if aliased {
+				alias := filepath.Join(t.TempDir(), "output-parent")
+				if err := os.Symlink(dir, alias); err != nil {
+					if runtime.GOOS == "windows" {
+						t.Skipf("directory symlinks unavailable: %v", err)
+					}
+					t.Fatal(err)
+				}
+				dir = alias
+			}
+			testGeneratedRollbackFailure(t, dir)
+		})
+	}
+}
+
+func testGeneratedRollbackFailure(t *testing.T, dir string) {
+	t.Helper()
+	// The writer resolves parent aliases before passing paths to rename hooks.
+	// macOS temporary directories commonly use /var -> /private/var; retain
+	// the caller's spelling for inputs while targeting the actual output path.
+	canonicalDir, err := filepath.EvalSymlinks(dir)
+	if err != nil {
+		t.Fatal(err)
+	}
+	canonicalSecond := filepath.Join(canonicalDir, "b")
 	first, second := filepath.Join(dir, "a"), filepath.Join(dir, "b")
 	mustGeneratedWrite(t, first, "original a")
 	mustGeneratedWrite(t, second, "original b")
 	commitErr, restoreErr := errors.New("commit failure"), errors.New("restore failure")
-	err := replaceOutputs([]File{{first, []byte("new a")}, {second, []byte("new b")}}, outputOperations{rename: func(source, dest string) error {
+	err = replaceOutputs([]File{{first, []byte("new a")}, {second, []byte("new b")}}, outputOperations{rename: func(source, dest string) error {
 		if filepath.Base(source) == "original" {
 			return restoreErr
 		}
-		if dest == second {
+		if dest == canonicalSecond {
 			return commitErr
 		}
 		return os.Rename(source, dest)
@@ -118,7 +149,7 @@ func TestGeneratedRollbackFailureRetainsOriginal(t *testing.T) {
 	if !errors.Is(err, commitErr) || !errors.Is(err, restoreErr) {
 		t.Fatalf("failure identity lost: %v", err)
 	}
-	staging, errGlob := filepath.Glob(filepath.Join(dir, ".gtroff-gen-*"))
+	staging, errGlob := filepath.Glob(filepath.Join(canonicalDir, ".gtroff-gen-*"))
 	if errGlob != nil || len(staging) != 1 || !strings.Contains(err.Error(), staging[0]) {
 		t.Fatalf("recovery location not retained/reported: %v %v %v", staging, errGlob, err)
 	}
@@ -199,9 +230,28 @@ func TestGeneratedWindowsNames(t *testing.T) {
 		t.Skip("Windows filename interpretation")
 	}
 	for _, name := range []string{"data:stream", "data.", "data ", "NUL"} {
-		if err := WriteGenerated([]File{{filepath.Join(t.TempDir(), name), []byte("x")}}); err == nil {
-			t.Errorf("accepted ambiguous filename %q", name)
-		}
+		t.Run("invalid-"+name, func(t *testing.T) {
+			dir := t.TempDir()
+			// Both trailing spellings would otherwise target this existing file.
+			data := filepath.Join(dir, "data")
+			mustGeneratedWrite(t, data, "retained")
+			if err := WriteGenerated([]File{{filepath.Join(dir, name), []byte("x")}}); err == nil {
+				t.Errorf("accepted ambiguous filename %q", name)
+			}
+			assertGeneratedBytes(t, data, "retained")
+			assertNoGenerationStaging(t, dir)
+		})
+	}
+	for _, name := range []string{"data", "data.txt", "data inside.txt", "λ.txt"} {
+		t.Run("valid-"+name, func(t *testing.T) {
+			dir := t.TempDir()
+			path := filepath.Join(dir, name)
+			if err := WriteGenerated([]File{{path, []byte("written")}}); err != nil {
+				t.Fatal(err)
+			}
+			assertGeneratedBytes(t, path, "written")
+			assertNoGenerationStaging(t, dir)
+		})
 	}
 }
 

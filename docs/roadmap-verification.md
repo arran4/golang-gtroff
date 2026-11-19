@@ -7,11 +7,15 @@ has passed. The issue bodies and live PR state remain authoritative.
 
 ## Branch and review boundaries
 
-PR #19 is still open/unmerged at `75d60db446e4aeb9ea1d16488fd818438492158a`.
-All feature PRs remain draft, open and unmerged. Each names its parent and is
-based on that parent's head; no existing parent branch was overwritten.
+As checked on 2026-11-13, historical PR #19 and the feature/correction series
+#32–#41 and #43–#57 are merged into the intermediate history. Their original
+review boundaries are listed below; they are not currently open Draft PRs.
+The remaining main integration is [#77](https://github.com/arran4/golang-gtroff/pull/77),
+followed by generated CLI [#64](https://github.com/arran4/golang-gtroff/pull/64).
+Neither has been merged into main at this checkpoint. Later workbench PRs are
+reviewed against their own named parents; current PR metadata remains authoritative.
 
-| Issue | Draft PR | Parent | Implementation and primary executable evidence |
+| Issue | Historical PR | Original parent | Implementation and primary executable evidence |
 | --- | --- | --- | --- |
 | #20 AST | #32 | #19 | `ast*.go`, `testdata/ast`, `ast_test.go`, `ast_example_test.go` |
 | #21 CLI | #33 | #32 | `cmd/gtroff`, `internal/cli`, `testdata/cli`, executable process tests |
@@ -24,9 +28,8 @@ based on that parent's head; no existing parent branch was overwritten.
 | #28 integration | #40 | #39 | `integration_scenarios_test.go`, `testdata/scenarios`, `cmd/examples`, README smoke |
 | #29 release | #41 | #40 | two GoReleaser configs, `cmd/docgen`, `cmd/releasecheck`, owner workflow, policy scenarios |
 
-No PR was merged and no GitHub release was published. The only test tag was
-created in a disposable local clone; it was never pushed. Other repositories,
-including md2png, were consulted read-only.
+No PR was automatically merged and no release or remote tag was created by this
+verification work. A test tag used earlier existed only in a disposable local clone.
 
 ## Feature acceptance coverage
 
@@ -63,7 +66,7 @@ including md2png, were consulted read-only.
   pre/post probe changed both document/AST handler call counts from 0 (rejected)
   to 1 (accepted). Catalogue-wide implementation validation remains under #5.
 - The separate #15 support report computes coverage from the real generation
-  plan and executes each of 518 claimed syntax routes (336 generated, 11 custom,
+  plan and executes each of 518 claimed syntax routes (330 generated, 17 custom,
   171 inline-preserved). Negative plan mutations, invalid-data TXTAR and a
   normalization fuzz target exercise missing definitions/dispatch, ambiguity and
   bad classification. The report explicitly leaves evaluation unassessed.
@@ -209,29 +212,55 @@ including md2png, were consulted read-only.
   only builds; the sole publisher uploads those same inspected artifacts.
 - Before first publication, environment reviewer/tag protections require repository
   owner configuration. No protection policy or successful publication is inferred
-  from the YAML. Full hosted/native acceptance is still missing.
+  from the YAML. The dated native checkpoint below does not approve publication.
 
 ## Platform evidence and remaining acceptance
 
-| Surface | Linux amd64 | Linux arm64 | Windows amd64 | Windows arm64 | macOS amd64/arm64 |
-| --- | --- | --- | --- | --- | --- |
-| Headless archives | Built, inspected and executed | Built, inspected and QEMU-executed | Built, inspected and Wine-executed | Built/inspected | Built/inspected |
-| Root scenarios/tests | Native pass | QEMU pass | Wine pass | No runtime evidence | No runtime evidence |
-| Internal CLI tests | Native pass | Native gate pending | Wine pass | No runtime evidence | No runtime evidence |
-| HTTP/root filesystem | Native pass | Native gate pending | Wine suite fails the symlink case; other tests pass in isolation | Native gate pending | Native gate pending |
-| Viewer | Real X11 input/pixels/close | Cross-build only, not packaged | Cross-build only, not packaged | Not packaged | Not packaged |
+The temporary combined branch `verify/workbench-20261113` contains the existing
+workbench PR heads and narrow native corrections. It has no integration PR and
+has not been merged into main. Local root/optional-module tests, race/vet,
+Go/js optional-library execution, two clean generation passes and actual CLI
+query/analyze/lint/extract/edit/diff/skills/script/REPL smoke passed. A fresh
+`core.autocrlf=true` checkout preserved all 1,045 regular Git blobs byte-for-byte
+and passed the full CGO-free root suite.
 
-Wine and QEMU are compatibility/emulation evidence. They do not replace native
-OS/architecture results. Native Windows/macOS and the hosted release graph are
-not established, so the complete release acceptance remains unproven.
+Earlier hosted execution gaps were overcome; they are no longer an unexplained
+infrastructure blocker. Actual full runs then exposed these distinct failures:
 
-Hosted runs #4, #5 and #6 failed before any steps ran. Run #6 failed source
-verification and the aggregate with empty step lists/no log blobs; candidate,
-native, viewer and publisher jobs were skipped. Check output summaries are empty.
-The current connector rejects annotation URLs and the direct authenticated API
-returns HTTP 403. The cause is unknown: billing, capacity, policy or test failure
-is not inferred. A repository owner must inspect the job annotations and restore
-execution before the full native verification can supply missing evidence.
+- [43392900628](https://github.com/arran4/golang-gtroff/actions/runs/43392900628):
+  macOS rollback fixture compared aliased paths; corrected by #103.
+- [43401181946](https://github.com/arran4/golang-gtroff/actions/runs/43401181946):
+  Windows checkout drift and a PowerShell step masking failed Go tests (#104),
+  Windows output-name preflight (#105), edit recovery/mode fixtures (#91), and
+  an executable harness sharing its build deadline with later subprocesses (#106).
+- [43412386775](https://github.com/arran4/golang-gtroff/actions/runs/43412386775):
+  same-timestamp destination changes exposed a bounded-reread error-message
+  inconsistency (#91); cold Intel macOS compilation exceeded its 45-second test
+  build limit (#106). These failures were reproduced or isolated before correction.
 
-See [release gates and commands](releasing.md), [scenario vocabulary](scenarios.md)
-and the exact run/commit evidence recorded in each draft PR.
+[Full run 43413583044](https://github.com/arran4/golang-gtroff/actions/runs/43413583044)
+passed at `f9304ca5f01624e3745373a84dbd7a37181c5df9`: source/generation,
+packages and installed Debian smoke, all six native headless lanes, independent
+optional Tengo tests in every native lane, optional Linux X11 and the required
+aggregate. The publisher was skipped (`mode=full`); no tag/release was created.
+The later change to this record is documentation only.
+
+| Native headless target | Root suite and archived CLI smoke | Optional Tengo suite |
+| --- | --- | --- |
+| Linux amd64 / arm64 | Passed on both | Passed on both |
+| Windows amd64 / arm64 | Passed on both | Passed on both |
+| macOS amd64 / arm64 | Passed on both | Passed on both |
+
+Global text checkout uses LF, while `*.txtar -text` retains literal fixture bytes,
+including intentional CRLF. Native verification uses Bash with fail-fast/pipefail;
+a failed source suite cannot be hidden by a succeeding archive check. No parser
+or golden-output normalization substitutes for native verification.
+
+These results concern the named candidate, not a future merged main revision.
+Before release, review and merge the dependency forest, rerun full verification
+on that exact main candidate, resolve [#67](https://github.com/arran4/golang-gtroff/issues/67),
+review repository/release protections and approve publication explicitly.
+Windows/macOS GUI packaging and RPM/APK/Arch package-manager installation remain
+unclaimed; the optional Linux viewer has separate real X11 evidence.
+
+See [release gates and commands](releasing.md) and [scenario vocabulary](scenarios.md).

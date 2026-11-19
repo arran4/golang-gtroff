@@ -1,0 +1,45 @@
+skills-show-manifest: portable skills discovery/export policy.
+-- args.json --
+["skills", "show", "--format", "json", "gtroff-query-extract"]
+-- stdout.txt --
+{
+  "schemaVersion": 1,
+  "name": "gtroff-query-extract",
+  "version": "1.0.0",
+  "description": "Locate and cite roff/man documentation fragments with structural queries and source-linked extraction records.",
+  "format": "portable-skill-v1",
+  "entrypoint": "SKILL.md",
+  "repository": "https://github.com/arran4/golang-gtroff",
+  "contracts": {
+    "inventorySchema": 1,
+    "querySchema": 1,
+    "extractSchema": 1,
+    "capabilities": [
+      "stateless-query",
+      "structural-selectors",
+      "record-extraction",
+      "source-provenance",
+      "bounded-includes"
+    ]
+  },
+  "files": [
+    {
+      "path": "LICENSE",
+      "bytes": 35149,
+      "sha256": "3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986"
+    },
+    {
+      "path": "SKILL.md",
+      "bytes": 2434,
+      "sha256": "9557589825377a8e3972e8dd1ce464b94b0587fd7a4d1a81cd704fc89262ef27"
+    },
+    {
+      "path": "references/query-extract.md",
+      "bytes": 6366,
+      "sha256": "35bf3c6c34c67097a40a5da9d96aebfd499406161adb47b2f223277104861650"
+    }
+  ]
+}
+-- stderr.txt --
+-- exit.txt --
+0

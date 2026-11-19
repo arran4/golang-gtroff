@@ -17,6 +17,7 @@ import (
 	"syscall"
 	"time"
 
+	"github.com/arran4/golang-gtroff/agentskill"
 	"github.com/arran4/golang-gtroff/cmd"
 	"github.com/arran4/golang-gtroff/internal/atomicfile"
 	"github.com/arran4/golang-gtroff/internal/cli"
@@ -55,11 +56,13 @@ func run(args []string, stderr io.Writer) int {
 		SystemSearch: func() (manlib.SearchProvider, error) {
 			return manlib.DetectSystemSearch(exec.LookPath, manlib.RunCommand, time.Second, 64<<10)
 		},
-		In:          os.Stdin,
-		Out:         os.Stdout,
-		Err:         stderr,
-		Open:        func(path string) (io.ReadCloser, error) { return os.Open(path) },
-		WriteOutput: atomicfile.Write,
+		In:                os.Stdin,
+		Out:               os.Stdout,
+		Err:               stderr,
+		Open:              func(path string) (io.ReadCloser, error) { return os.Open(path) },
+		WriteOutput:       atomicfile.Write,
+		WriteSourceOutput: atomicfile.WriteSources,
+		ExportSkill:       agentskill.Export,
 		WriteOutputs: func(source string, files []cli.OutputFile) error {
 			outputs := make([]atomicfile.File, len(files))
 			for i, f := range files {

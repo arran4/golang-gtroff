@@ -15,6 +15,7 @@ import (
 	"strings"
 
 	groff "github.com/arran4/golang-gtroff"
+	"github.com/arran4/golang-gtroff/agentskill"
 	"github.com/arran4/golang-gtroff/cmd"
 	"github.com/arran4/golang-gtroff/manlib"
 )
@@ -43,6 +44,8 @@ type OutputFile struct {
 // return an owned reader; named input is closed before any output is written.
 // In is borrowed and is never closed. Out/Err are borrowed writers.
 type Environment struct {
+	// ExportSkill grants explicit local bundle export; nil disables host writes.
+	ExportSkill  func(context.Context, string, string) (*agentskill.Receipt, error)
 	Context      context.Context
 	OpenRoot     func(string) (manlib.Root, io.Closer, error)
 	Listen       func(string) (net.Listener, error)
@@ -51,8 +54,10 @@ type Environment struct {
 	Out, Err     io.Writer
 	Open         func(string) (io.ReadCloser, error)
 	WriteOutput  func(destination, source string, data []byte) error
-	WriteOutputs func(source string, files []OutputFile) error
-	Build        BuildInfo
+	// WriteSourceOutput protects all loaded source paths during explicit export.
+	WriteSourceOutput func(destination string, sources []string, data []byte) error
+	WriteOutputs      func(source string, files []OutputFile) error
+	Build             BuildInfo
 }
 
 var defaultEnv = DefaultEnvironment()
@@ -87,6 +92,9 @@ Commands:
   validate  Check roff syntax and report diagnostics
   ast       Inspect a source-aware syntax tree
   sources   Inspect bounded includes and source provenance
+  query     Select source-aware documentation
+  extract   Export fragments and structured documentation
+  skills    Discover and export portable agent recipes
   analyze   Classify syntax and processing requirements
   lint      Apply structural documentation policy
   render    Export a semantic man page to HTML or paginated images
@@ -157,6 +165,9 @@ func Run(args []string, e Environment) int {
 		if len(args) == 0 {
 			return writeString(e, rootHelp)
 		}
+		if len(args) == 2 && args[0] == "skills" {
+			return skillsLeafHelp(e, args[1])
+		}
 		if len(args) == 2 && args[0] == "image" && args[1] == "generate" {
 			return writeString(e, imageGenerateHelp)
 		}
@@ -183,6 +194,12 @@ func Run(args []string, e Environment) int {
 		return commandsCommand(args, e)
 	case "sources":
 		return sourcesCommand(args, e)
+	case "query":
+		return queryCommand(args, e)
+	case "extract":
+		return extractCommand(args, e)
+	case "skills":
+		return skillsCommand(args, e)
 	case "analyze":
 		return analyzeCommand(args, e)
 	case "lint":
@@ -205,6 +222,18 @@ func commandHelp(e Environment, command string) int {
 		return writeString(e, astHelp)
 	case "sources":
 		return writeString(e, sourcesHelp)
+	case "query":
+		return writeString(e, queryHelp)
+	case "extract":
+		return writeString(e, extractHelp)
+	case "skills":
+		return writeString(e, skillsHelp)
+	case "skills list":
+		return writeString(e, skillsListHelp)
+	case "skills show":
+		return writeString(e, skillsShowHelp)
+	case "skills export":
+		return writeString(e, skillsExportHelp)
 	case "analyze":
 		return writeString(e, analyzeHelp)
 	case "lint":
@@ -373,6 +402,9 @@ func runInspect(command string, o inspectOptions, files []string, e Environment)
 //	validate  Check roff syntax and report diagnostics
 //	ast       Inspect a source-aware syntax tree
 //	sources   Inspect bounded includes and source provenance
+//	query     Select source-aware documentation
+//	extract   Export fragments and structured documentation
+//	skills    Discover and export portable agent recipes
 //	analyze   Classify syntax and processing requirements
 //	lint      Apply structural documentation policy
 //	render    Export a semantic man page to HTML or paginated images
