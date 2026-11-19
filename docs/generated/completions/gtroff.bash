@@ -3,13 +3,14 @@ _gtroff() {
   local cur="${COMP_WORDS[COMP_CWORD]}" words value
   COMPREPLY=()
   if (( COMP_CWORD == 1 )); then
-    words='validate ast sources query render convert serve version man completion help'
+    words='validate ast sources query extract render convert serve version man completion help'
   else
     case "${COMP_WORDS[1]}" in
       validate) words='--format --help --package --strict' ;;
       ast) words='--format --help --package --select --strict' ;;
       sources) words='--format --help --max-bytes --max-depth --max-files --max-nodes --no-includes --package --root --strict' ;;
       query) words='--fields --format --help --max-bytes --max-depth --max-files --max-nodes --max-result-bytes --max-results --max-work --no-includes --package --root --strict --view' ;;
+      extract) words='--fields --format --help --max-bytes --max-depth --max-extract-nodes --max-files --max-nodes --max-output-bytes --max-record-bytes --max-records --max-work --no-includes --normalize --package --root --strict --view' ;;
       render) words='--assets --dpi --font --font-bold --font-italic --font-mono --font-regular --font-size --format --fragment --help --line-height --margin --max-height --max-pixels --max-width --no-anchors --node --page-height --quality --section --single --strict --theme --title --width -o' ;;
       convert) words='--assets --fragment --from --help --strict --to -i -o' ;;
       serve) words='--allow-remote --assets --help --listen --max-file-bytes --max-pages --max-total-bytes --root --system-search --theme' ;;

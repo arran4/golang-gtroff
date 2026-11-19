@@ -125,6 +125,40 @@ func assertCLIJSON(t *testing.T, args []string, files map[string][]byte, virtual
 	if len(out) == 0 || out[0] != '{' {
 		return
 	}
+	format := ""
+	if len(args) > 0 && args[0] == "extract" {
+		format = "jsonl"
+	}
+	for i, arg := range args {
+		if arg == "--format" && i+1 < len(args) {
+			format = args[i+1]
+		}
+		if strings.HasPrefix(arg, "--format=") {
+			format = strings.TrimPrefix(arg, "--format=")
+		}
+	}
+	if format == "jsonl" {
+		decoder := json.NewDecoder(bytes.NewReader(out))
+		records := 0
+		for {
+			var record map[string]json.RawMessage
+			err := decoder.Decode(&record)
+			if err == io.EOF {
+				break
+			}
+			if err != nil {
+				t.Fatal("invalid JSONL record:", err)
+			}
+			if string(record["schemaVersion"]) != "1" {
+				t.Fatal("missing JSONL schema version")
+			}
+			records++
+		}
+		if records == 0 {
+			t.Fatal("empty JSONL output")
+		}
+		return
+	}
 	var doc struct {
 		SchemaVersion int    `json:"schemaVersion"`
 		Command       string `json:"command"`

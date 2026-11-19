@@ -51,8 +51,10 @@ type Environment struct {
 	Out, Err     io.Writer
 	Open         func(string) (io.ReadCloser, error)
 	WriteOutput  func(destination, source string, data []byte) error
-	WriteOutputs func(source string, files []OutputFile) error
-	Build        BuildInfo
+	// WriteSourceOutput protects all loaded source paths during explicit export.
+	WriteSourceOutput func(destination string, sources []string, data []byte) error
+	WriteOutputs      func(source string, files []OutputFile) error
+	Build             BuildInfo
 }
 
 var defaultEnv = DefaultEnvironment()
@@ -88,6 +90,7 @@ Commands:
   ast       Inspect a source-aware syntax tree
   sources   Inspect bounded includes and source provenance
   query     Select source-aware documentation
+  extract   Export fragments and structured documentation
   render    Export a semantic man page to HTML or paginated images
   convert   Convert supported HTML and man structure
   serve     Browse and search explicit man-page directories over HTTP
@@ -184,6 +187,8 @@ func Run(args []string, e Environment) int {
 		return sourcesCommand(args, e)
 	case "query":
 		return queryCommand(args, e)
+	case "extract":
+		return extractCommand(args, e)
 	case "validate", "ast":
 		return inspectCommand(command, args, e)
 	case "man":
@@ -204,6 +209,8 @@ func commandHelp(e Environment, command string) int {
 		return writeString(e, sourcesHelp)
 	case "query":
 		return writeString(e, queryHelp)
+	case "extract":
+		return writeString(e, extractHelp)
 	case "convert":
 		return writeString(e, convertHelp)
 	case "serve":
@@ -369,6 +376,7 @@ func runInspect(command string, o inspectOptions, files []string, e Environment)
 //	ast       Inspect a source-aware syntax tree
 //	sources   Inspect bounded includes and source provenance
 //	query     Select source-aware documentation
+//	extract   Export fragments and structured documentation
 //	render    Export a semantic man page to HTML or paginated images
 //	convert   Convert supported HTML and man structure
 //	serve     Browse and search explicit man-page directories over HTTP

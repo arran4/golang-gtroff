@@ -1,0 +1,230 @@
+Extraction scenario: parser-error.
+-- args.json --
+["extract", "--strict", "--format", "json", "document"]
+-- stdin.1 --
+.TH
+-- stdout.txt --
+{
+  "schemaVersion": 1,
+  "command": "extract",
+  "view": "semantic",
+  "complete": true,
+  "queryComplete": true,
+  "error": "strict extraction rejected diagnostics",
+  "inputError": "source set rejected diagnostics: fitting TokenMacroTH arguments: , missing required arguments: got 0, minimum 2",
+  "records": [
+    {
+      "semantic": true,
+      "schemaVersion": 1,
+      "index": 1,
+      "queryIndex": 1,
+      "id": "source:1/semantic:1",
+      "view": "semantic",
+      "kind": "document",
+      "source": {
+        "id": 1,
+        "name": "\u003cstdin\u003e",
+        "depth": 0,
+        "digest": "ea49d8081a03ba9c67fa5b7cd1081d811d787143776f3b1f00de0dc62fe9ec71",
+        "complete": true
+      },
+      "span": {
+        "Start": {
+          "Filename": "\u003cstdin\u003e",
+          "Offset": 0,
+          "Line": 1,
+          "Column": 1
+        },
+        "End": {
+          "Filename": "\u003cstdin\u003e",
+          "Offset": 4,
+          "Line": 2,
+          "Column": 1
+        }
+      },
+      "astIds": [
+        1
+      ],
+      "semanticId": 1,
+      "metadata": {},
+      "context": {
+        "style": {},
+        "previous": {},
+        "fill": true
+      },
+      "text": ".TH\n",
+      "normalizedText": ".TH",
+      "raw": ".TH\n",
+      "blocks": [
+        {
+          "id": 1,
+          "children": [
+            2
+          ],
+          "kind": "document",
+          "state": {
+            "style": {},
+            "previous": {},
+            "fill": true
+          },
+          "origin": {
+            "astIds": [
+              1
+            ],
+            "span": {
+              "Start": {
+                "Filename": "\u003cstdin\u003e",
+                "Offset": 0,
+                "Line": 1,
+                "Column": 1
+              },
+              "End": {
+                "Filename": "\u003cstdin\u003e",
+                "Offset": 4,
+                "Line": 2,
+                "Column": 1
+              }
+            }
+          }
+        },
+        {
+          "id": 2,
+          "parent": 1,
+          "kind": "unsupported",
+          "value": ".TH",
+          "runs": [
+            {
+              "text": ".TH\n",
+              "style": {},
+              "unsupported": true,
+              "origin": {
+                "astIds": [
+                  2
+                ],
+                "span": {
+                  "Start": {
+                    "Filename": "\u003cstdin\u003e",
+                    "Offset": 0,
+                    "Line": 1,
+                    "Column": 1
+                  },
+                  "End": {
+                    "Filename": "\u003cstdin\u003e",
+                    "Offset": 4,
+                    "Line": 2,
+                    "Column": 1
+                  }
+                }
+              }
+            }
+          ],
+          "state": {
+            "style": {},
+            "previous": {},
+            "fill": true
+          },
+          "origin": {
+            "astIds": [
+              2
+            ],
+            "span": {
+              "Start": {
+                "Filename": "\u003cstdin\u003e",
+                "Offset": 0,
+                "Line": 1,
+                "Column": 1
+              },
+              "End": {
+                "Filename": "\u003cstdin\u003e",
+                "Offset": 4,
+                "Line": 2,
+                "Column": 1
+              }
+            }
+          }
+        }
+      ],
+      "unsupported": true,
+      "diagnostics": [
+        {
+          "source": 1,
+          "code": "syntax",
+          "Message": "fitting TokenMacroTH arguments: , missing required arguments: got 0, minimum 2",
+          "Position": {
+            "Filename": "\u003cstdin\u003e",
+            "Offset": 0,
+            "Line": 1,
+            "Column": 1
+          },
+          "Severity": "error"
+        },
+        {
+          "source": 1,
+          "code": "unsupported-content",
+          "Message": "selected content includes unsupported optional-man semantics; literal source and blocks are retained",
+          "Position": {
+            "Filename": "\u003cstdin\u003e",
+            "Offset": 0,
+            "Line": 1,
+            "Column": 1
+          },
+          "Severity": "warning"
+        },
+        {
+          "source": 1,
+          "code": "semantic",
+          "Message": "title requires name and manual section",
+          "Position": {
+            "Filename": "\u003cstdin\u003e",
+            "Offset": 0,
+            "Line": 1,
+            "Column": 1
+          },
+          "Severity": "warning"
+        }
+      ]
+    }
+  ],
+  "diagnostics": [
+    {
+      "source": 1,
+      "code": "syntax",
+      "Message": "fitting TokenMacroTH arguments: , missing required arguments: got 0, minimum 2",
+      "Position": {
+        "Filename": "\u003cstdin\u003e",
+        "Offset": 0,
+        "Line": 1,
+        "Column": 1
+      },
+      "Severity": "error"
+    },
+    {
+      "source": 1,
+      "code": "unsupported-content",
+      "Message": "selected content includes unsupported optional-man semantics; literal source and blocks are retained",
+      "Position": {
+        "Filename": "\u003cstdin\u003e",
+        "Offset": 0,
+        "Line": 1,
+        "Column": 1
+      },
+      "Severity": "warning"
+    },
+    {
+      "source": 1,
+      "code": "semantic",
+      "Message": "title requires name and manual section",
+      "Position": {
+        "Filename": "\u003cstdin\u003e",
+        "Offset": 0,
+        "Line": 1,
+        "Column": 1
+      },
+      "Severity": "warning"
+    }
+  ],
+  "htmlPrepared": false
+}
+-- stderr.txt --
+-- exit.txt --
+1

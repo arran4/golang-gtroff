@@ -42,6 +42,8 @@ type Match struct {
 // Error describes execution failure. InputError is optional host loading context;
 // Execute never performs input I/O and leaves that field empty.
 type Result struct {
+	// WorkUnits counts charged query work for composed consumers; not serialized.
+	WorkUnits     int                 `json:"-"`
 	Command       string              `json:"command"`
 	Error         string              `json:"error,omitempty"`
 	InputError    string              `json:"inputError,omitempty"`
@@ -59,7 +61,11 @@ type Result struct {
 // The syntax view preserves original AST links within each source. No file opens
 // or callbacks into a script engine occur during execution.
 func Execute(ctx context.Context, set *source.Set, selector Selector, o Options) (result *Result, err error) {
+	var accounting *meter
 	defer func() {
+		if result != nil && accounting != nil {
+			result.WorkUnits = o.MaxWork - accounting.remaining
+		}
 		if result != nil && err != nil {
 			result.Error = err.Error()
 		}
@@ -90,6 +96,7 @@ func Execute(ctx context.Context, set *source.Set, selector Selector, o Options)
 		o.MaxResultBytes = 16 << 20
 	}
 	m := &meter{ctx: ctx, remaining: o.MaxWork}
+	accounting = m
 	g, err := buildGraph(set, o, m)
 	result.Diagnostics = g.diagnostics
 	if err != nil {

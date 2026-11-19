@@ -115,6 +115,22 @@ syntax or the optional man hierarchy; results retain original-file spans, source
 identities and deterministic match ordinals. Named files use bounded local include
 resolution, with `--no-includes` available. [Query grammar, Go API and output contracts](docs/query.md).
 
+## Extract documentation records
+
+```sh
+# smoke
+./gtroff extract --format csv --fields term,description,file,line definition examples/man-tool.1
+./gtroff extract --format jsonl paragraph examples/man-tool.1 > paragraphs.jsonl
+./gtroff extract --format html -o extracted.html definition examples/man-tool.1
+```
+
+Extraction separates query selection from records and output. Definitions keep
+term/description, heading context, exact original spans, diagnostics and source
+digests. For Great-Library-of-Environ-style input, select
+`section[name="ENVIRONMENT"] definition` and export term/description/location
+columns. Business classification and collection schemas belong to that project.
+[Extraction API, exporters, includes and explicit atomic output](docs/extract.md).
+
 ## Inspect local source sets
 
 ```sh

@@ -1,0 +1,26 @@
+Extraction scenario: unsupported.
+-- args.json --
+["extract", "--format", "text", "section"]
+-- stdin.1 --
+.TH TOOL 1
+.SH ENVIRONMENT
+.TP
+.B TOOL_HOME
+Home directory.
+.TP
+.B TOOL_PATH
+Search path.
+.UNKNOWN literal
+-- stdout.txt --
+ENVIRONMENT
+TOOL_HOME
+Home directory.
+TOOL_PATH
+Search path.
+.UNKNOWN literal
+-- stderr.txt --
+<stdin>:2:1: warning unsupported-content: selected content includes unsupported optional-man semantics; literal source and blocks are retained
+<stdin>:9:1: warning syntax: no token match: ".UNKNOWN": literal
+<stdin>:9:1: warning semantic: unsupported semantics preserved: .UNKNOWN
+-- exit.txt --
+0

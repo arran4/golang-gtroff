@@ -221,3 +221,9 @@ go test ./query -run '^$' -bench . -benchmem
 They construct deterministic 10/1,000-definition documents, check result counts,
 and measure parsing plus complete stateless execution (including projection).
 Compare on the same Go/toolchain/CPU; no absolute timing CI threshold is imposed.
+
+For term/description records, copied semantic blocks, heading context and explicit
+atomic output, use [extraction](extract.md). `extract.FromQuery` consumes an ordered
+query result/subset with the original source snapshot. Extraction JSON/JSONL are
+record/report formats; query JSONL remains self-contained matches without the
+extraction summary envelope.
