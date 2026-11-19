@@ -1,0 +1,12 @@
+Optional man hierarchy retains its original physical syntax.
+-- input.1 --
+.SH "broken
+.MYSTERY value
+text
+-- expected-outline.txt --
+document
+  unsupported
+  unsupported
+  paragraph
+-- options.json --
+{"strictError":true}

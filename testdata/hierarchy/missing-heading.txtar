@@ -1,0 +1,15 @@
+Optional man hierarchy retains its original physical syntax.
+-- input.1 --
+.SH
+.B ENVIRONMENT
+.TP
+.B TOOL_HOME
+description
+-- expected-outline.txt --
+document
+  section ENVIRONMENT
+    definition-list
+      item TOOL_HOME
+        paragraph
+-- options.json --
+{}
