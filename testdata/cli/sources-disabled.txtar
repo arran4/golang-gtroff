@@ -1,0 +1,15 @@
+test: bounded source graph and original-file context
+-- args.json --
+["sources", "--no-includes", "--format", "text", "main.1"]
+-- input/main.1 --
+.so common
+-- input/common --
+child
+-- stdout.txt --
+sources: partial
+1 main.1 depth=0 bytes=11 complete=true
+main.1:1:1: .so common [disabled] -> 0
+main.1:1:1: disabled: include disabled: include loading explicitly disabled
+-- stderr.txt --
+-- exit.txt --
+0

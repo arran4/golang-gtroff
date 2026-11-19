@@ -1,0 +1,15 @@
+test: bounded source graph and original-file context
+-- args.json --
+["sources", "--root", "docs", "--format", "text"]
+-- stdin.1 --
+.so common
+-- input/docs/common --
+child
+-- stdout.txt --
+sources: complete
+1 <stdin> depth=0 bytes=11 complete=true
+2 common depth=1 bytes=6 complete=true
+<stdin>:1:1: .so common [resolved] -> 2
+-- stderr.txt --
+-- exit.txt --
+0

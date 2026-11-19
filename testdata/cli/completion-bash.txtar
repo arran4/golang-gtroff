@@ -7,11 +7,12 @@ _gtroff() {
   local cur="${COMP_WORDS[COMP_CWORD]}" words value
   COMPREPLY=()
   if (( COMP_CWORD == 1 )); then
-    words='validate ast render convert serve version man completion help'
+    words='validate ast sources render convert serve version man completion help'
   else
     case "${COMP_WORDS[1]}" in
       validate) words='--format --help --package --strict' ;;
       ast) words='--format --help --package --select --strict' ;;
+      sources) words='--format --help --max-bytes --max-depth --max-files --max-nodes --no-includes --package --root --strict' ;;
       render) words='--assets --dpi --font --font-bold --font-italic --font-mono --font-regular --font-size --format --fragment --help --line-height --margin --max-height --max-pixels --max-width --no-anchors --node --page-height --quality --section --single --strict --theme --title --width -o' ;;
       convert) words='--assets --fragment --from --help --strict --to -i -o' ;;
       serve) words='--allow-remote --assets --help --listen --max-file-bytes --max-pages --max-total-bytes --root --system-search --theme' ;;

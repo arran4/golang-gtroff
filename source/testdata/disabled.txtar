@@ -1,0 +1,11 @@
+Bounded source graph with original-file line references.
+-- options.json --
+{"Root": "main.1", "Options": {"NoIncludes": true}}
+-- input/main.1 --
+.so child
+-- input/child --
+secret
+-- expected.txt --
+file 1 main.1 depth=0 parent=0
+edge 1 1:1 .so child disabled -> 0
+line 1:1

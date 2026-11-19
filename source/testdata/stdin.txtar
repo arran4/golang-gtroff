@@ -1,0 +1,9 @@
+Bounded source graph with original-file line references.
+-- options.json --
+{}
+-- stdin.1 --
+.so child
+-- expected.txt --
+file 1 <stdin> depth=0 parent=0
+edge 1 1:1 .so child unresolved -> 0
+line 1:1

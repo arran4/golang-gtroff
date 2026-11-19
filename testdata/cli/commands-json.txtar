@@ -75,6 +75,73 @@ test: commands produces schemaVersion 1 json inventory
       ]
     },
     {
+      "name": "sources",
+      "synopsis": "gtroff sources [OPTIONS] [FILE]",
+      "description": "Inspect bounded local includes and source provenance",
+      "flags": [
+        {
+          "name": "no-includes",
+          "type": "bool",
+          "default": "false",
+          "description": "Disable include loading, retaining references"
+        },
+        {
+          "name": "root",
+          "type": "string",
+          "description": "Explicit allowed source root"
+        },
+        {
+          "name": "strict",
+          "type": "bool",
+          "default": "false",
+          "description": "Reject syntax/include diagnostics"
+        },
+        {
+          "name": "package",
+          "type": "string",
+          "default": "man",
+          "description": "Package: man, ms or roff"
+        },
+        {
+          "name": "format",
+          "type": "string",
+          "default": "json",
+          "description": "Output format: json or text"
+        },
+        {
+          "name": "max-bytes",
+          "type": "int",
+          "default": "8388608",
+          "description": "Cumulative captured source bytes"
+        },
+        {
+          "name": "max-nodes",
+          "type": "int",
+          "default": "100000",
+          "description": "Cumulative AST node budget"
+        },
+        {
+          "name": "max-files",
+          "type": "int",
+          "default": "256",
+          "description": "Source occurrence cap"
+        },
+        {
+          "name": "max-depth",
+          "type": "int",
+          "default": "16",
+          "description": "Include depth, ceiling 128"
+        }
+      ],
+      "capabilities": [
+        "source-graph",
+        "bounded-includes",
+        "original-source-provenance",
+        "json-output",
+        "text-output"
+      ]
+    },
+    {
       "name": "render",
       "synopsis": "gtroff render --format html|png|jpg [OPTIONS] [FILE]",
       "description": "Export a semantic man page to HTML or paginated images",

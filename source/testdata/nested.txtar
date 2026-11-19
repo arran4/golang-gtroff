@@ -1,0 +1,20 @@
+Bounded source graph with original-file line references.
+-- options.json --
+{"Root": "main.1"}
+-- input/main.1 --
+.so sub/common
+end
+-- input/sub/common --
+.mso ../tail
+-- input/tail --
+tail
+-- expected.txt --
+file 1 main.1 depth=0 parent=0
+file 2 sub/common depth=1 parent=1
+file 3 tail depth=2 parent=2
+edge 1 1:1 .so sub/common resolved -> 2
+edge 2 2:1 .mso ../tail resolved -> 3
+line 1:1
+line 2:1
+line 3:1
+line 1:2

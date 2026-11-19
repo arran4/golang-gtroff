@@ -102,6 +102,18 @@ Other faces retain bundled defaults. No font discovery runs automatically.
 Missing raster glyphs are displayed as code-point labels and diagnosed.
 [HTML options](docs/html.md) · [image layout and limits](docs/images.md).
 
+## Inspect local source sets
+
+```sh
+./gtroff sources --format text document.1
+./gtroff sources --no-includes document.1
+```
+
+The new workbench source loader resolves literal local includes beneath the input
+file's directory or an explicit `--root`. It retains each file's original AST,
+include relationships and source locations without evaluating roff. Stdin needs
+an explicit root for include loading. [Source-set policy and Go API](docs/sources.md).
+
 ## Convert supported structure
 
 ```sh
@@ -173,7 +185,8 @@ results are not established. [Tracked release/CI work](https://github.com/arran4
 This is a bounded Linux-man subset, not full groff typesetting. Tables, equations,
 macro evaluation, arbitrary CSS, complex shaping and all Unicode glyph coverage
 are not promised. Unsupported content remains visible with diagnostics. Source
-includes, commands and remote resources are never loaded by these workflows.
+includes, commands and remote resources are never loaded by these rendering
+workflows; the explicit `sources` workbench command resolves bounded local files.
 The [opt-in evaluator](docs/evaluation.md) is separate from render/convert/serve;
 it provides cancellation, resource limits, partial results and diagnostics for
 preserved requests. It supports checked integer expressions, strings, register

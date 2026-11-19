@@ -16,6 +16,7 @@ import (
 
 	groff "github.com/arran4/golang-gtroff"
 	"github.com/arran4/golang-gtroff/internal/cli"
+	"github.com/arran4/golang-gtroff/manlib"
 	"golang.org/x/tools/txtar"
 )
 
@@ -65,6 +66,12 @@ func TestCLIScenarios(t *testing.T) {
 						return nil, fs.ErrNotExist
 					}
 					return f, nil
+				}, OpenRoot: func(path string) (manlib.Root, io.Closer, error) {
+					sub, err := fs.Sub(virtual, path)
+					if err != nil {
+						return manlib.Root{}, nil, err
+					}
+					return manlib.Root{Label: "test", FS: sub}, nil, nil
 				}})
 				return code, out.Bytes(), errOut.Bytes()
 			}

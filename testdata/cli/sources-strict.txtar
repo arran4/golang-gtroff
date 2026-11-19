@@ -1,0 +1,163 @@
+test: bounded source graph and original-file context
+-- args.json --
+["sources", "--strict", "--format", "json", "main.1"]
+-- input/main.1 --
+.so missing
+-- stdout.txt --
+{
+  "schemaVersion": 1,
+  "command": "sources",
+  "status": "invalid",
+  "sourceSet": {
+    "schemaVersion": 1,
+    "files": [
+      {
+        "id": 1,
+        "name": "main.1",
+        "depth": 0,
+        "complete": true,
+        "source": ".so missing\n",
+        "syntax": {
+          "nodes": [
+            {
+              "id": 1,
+              "children": [
+                2
+              ],
+              "kind": "document",
+              "span": {
+                "Start": {
+                  "Filename": "main.1",
+                  "Offset": 0,
+                  "Line": 1,
+                  "Column": 1
+                },
+                "End": {
+                  "Filename": "main.1",
+                  "Offset": 12,
+                  "Line": 2,
+                  "Column": 1
+                }
+              },
+              "attributes": {}
+            },
+            {
+              "id": 2,
+              "parent": 1,
+              "children": [
+                3
+              ],
+              "kind": "line",
+              "span": {
+                "Start": {
+                  "Filename": "main.1",
+                  "Offset": 0,
+                  "Line": 1,
+                  "Column": 1
+                },
+                "End": {
+                  "Filename": "main.1",
+                  "Offset": 12,
+                  "Line": 2,
+                  "Column": 1
+                }
+              },
+              "attributes": {
+                "name": ".so",
+                "package": "roff",
+                "tokenKind": "Request",
+                "arguments": [
+                  {
+                    "Raw": "missing",
+                    "Value": "missing",
+                    "Start": 0,
+                    "End": 7,
+                    "Quoted": false
+                  }
+                ]
+              },
+              "token": {
+                "File": "missing"
+              }
+            },
+            {
+              "id": 3,
+              "parent": 2,
+              "kind": "inline",
+              "span": {
+                "Start": {
+                  "Filename": "main.1",
+                  "Offset": 0,
+                  "Line": 1,
+                  "Column": 1
+                },
+                "End": {
+                  "Filename": "main.1",
+                  "Offset": 11,
+                  "Line": 1,
+                  "Column": 12
+                }
+              },
+              "attributes": {},
+              "inline": {
+                "Kind": "Text",
+                "Raw": ".so missing",
+                "Name": "",
+                "Value": ".so missing"
+              }
+            }
+          ]
+        }
+      }
+    ],
+    "edges": [
+      {
+        "id": 1,
+        "from": 1,
+        "node": 2,
+        "span": {
+          "Start": {
+            "Filename": "main.1",
+            "Offset": 0,
+            "Line": 1,
+            "Column": 1
+          },
+          "End": {
+            "Filename": "main.1",
+            "Offset": 12,
+            "Line": 2,
+            "Column": 1
+          }
+        },
+        "request": ".so",
+        "target": "missing",
+        "state": "missing"
+      }
+    ],
+    "lines": [
+      {
+        "source": 1,
+        "node": 2,
+        "depth": 0
+      }
+    ],
+    "diagnostics": [
+      {
+        "source": 1,
+        "code": "missing",
+        "Message": "include missing: open missing: file does not exist",
+        "Position": {
+          "Filename": "main.1",
+          "Offset": 0,
+          "Line": 1,
+          "Column": 1
+        },
+        "Severity": "warning"
+      }
+    ]
+  },
+  "error": "source set rejected diagnostics: include missing: open missing: file does not exist\nmain.1:1:1: include \"missing\": open missing: file does not exist"
+}
+-- stderr.txt --
+-- exit.txt --
+1
