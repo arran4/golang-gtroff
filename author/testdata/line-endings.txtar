@@ -1,0 +1,35 @@
+Authoring scenario: line-endings.
+-- input.json --
+{
+  "Sections": [
+    {
+      "Heading": "LAYOUT",
+      "Blocks": [
+        {
+          "Type": "paragraph",
+          "Text": "one\r\ntwo\twords."
+        },
+        {
+          "Type": "preformatted",
+          "Text": "  indented\r\n.line\r\n\r\nlast"
+        }
+      ]
+    }
+  ],
+  "Title": "tool",
+  "Section": "1"
+}
+-- output.roff --
+.TH "tool" "1" "" "" ""
+.SH "\f[B]LAYOUT\f[R]"
+.PP
+\&\f[R]one two words.\f[R]\c
+.nf
+\&\f[CR]  indented\f[R]\c
+
+\&\f[CR].line\f[R]\c
+
+
+\&\f[CR]last\f[R]\c
+.fi
+-- error.txt --

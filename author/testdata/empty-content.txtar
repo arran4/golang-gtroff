@@ -1,0 +1,40 @@
+Authoring scenario: empty-content.
+-- input.json --
+{
+  "Sections": [
+    {
+      "Heading": "EMPTY",
+      "Blocks": [
+        {
+          "Type": "paragraph",
+          "Text": ""
+        },
+        {
+          "Type": "definition",
+          "Term": "LABEL",
+          "Text": ""
+        },
+        {
+          "Type": "preformatted",
+          "Text": ""
+        }
+      ]
+    }
+  ],
+  "Title": "tool",
+  "Section": "1"
+}
+-- output.roff --
+.TH "tool" "1" "" "" ""
+.SH "\f[B]EMPTY\f[R]"
+.PP
+\&\c
+.PP
+.TP ""
+\&\f[B]LABEL\f[R]
+
+\&\c
+.PP
+.nf
+.fi
+-- error.txt --
