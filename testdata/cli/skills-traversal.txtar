@@ -1,0 +1,9 @@
+skills-traversal: portable skills discovery/export policy.
+-- args.json --
+["skills", "export", "--dir", "chosen-parent", "../escape"]
+-- stdout.txt --
+-- stderr.txt --
+gtroff: unknown bundled agent skill: "../escape"
+Run 'gtroff help' for usage.
+-- exit.txt --
+2

@@ -131,6 +131,19 @@ digests. For Great-Library-of-Environ-style input, select
 columns. Business classification and collection schemas belong to that project.
 [Extraction API, exporters, includes and explicit atomic output](docs/extract.md).
 
+## Agent query and extraction recipes
+
+```sh
+# smoke
+./gtroff skills list --format json
+./gtroff skills show --format json gtroff-query-extract
+```
+
+Bundled, versioned instructions explain selectors, source citations, diagnostic
+limits and machine-readable extraction. Export to an explicit local parent with
+`./gtroff skills export --dir ./chosen-skills gtroff-query-extract`.
+Existing destinations are refused. [Portable assets, Go API and export policy](docs/agent-skills.md).
+
 ## Edit captured source
 
 ```sh
@@ -242,6 +255,14 @@ Parser/evaluator/include/generator findings under
 Named outputs stage before per-file replacement; multipage replacement is not
 atomic as a collection. Resource and strict failures preserve existing outputs.
 
+## Create man pages from Go
+
+The small [authoring façade](docs/author.md) constructs new canonical man pages
+with typed paragraphs, definitions, subsections and literal examples. Constructors,
+Add/Append methods and functional options reuse the existing escaping/writer
+contracts. Output goes to an explicit writer; source-preserving editing is a
+separate capability. See the executable examples in `author/example_test.go`.
+
 ## Libraries and development
 
 [Library guide](docs/library.md) · [AST](docs/ast.md) · [semantic model](docs/man.md) ·
@@ -287,7 +308,8 @@ go generate ./...
 Generation rebuilds macro/request definitions, dispatchers and catalogue from
 `cmd/gen/in.json`, `schema.go` and templates, regenerates
 [the syntax support matrix](docs/generated/catalogue-support.json),
-[man pages and completions](docs/generated), and **checks** committed CLI examples.
+[man pages and completions](docs/generated), copies the existing repository license
+into the portable skill bundle, and **checks** committed CLI examples.
 It does not refresh example expectations.
 
 The parser generator renders/formats every output before writing. Generated

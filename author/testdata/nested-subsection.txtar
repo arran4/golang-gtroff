@@ -1,0 +1,26 @@
+Authoring scenario: nested-subsection.
+-- input.json --
+{
+  "Sections": [
+    {
+      "Heading": "MAIN",
+      "Blocks": [
+        {
+          "Type": "subsection",
+          "Heading": "A",
+          "Children": [
+            {
+              "Type": "subsection",
+              "Heading": "B"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "Title": "tool",
+  "Section": "1"
+}
+-- output.roff --
+-- error.txt --
+invalid authoring value

@@ -1,3 +1,8 @@
+# Source and embedded text assets must have the same bytes on every native runner.
+* text=auto eol=lf
+# TXTAR members may contain literal CRLF or arbitrary source bytes. Never normalize them.
+*.txtar -text
+
 # Scenario source and expected text must retain exact line-ending bytes.
 testdata/ast/*.txtar -text
 # CR bytes in this fixture are source data, not trailing whitespace errors.
