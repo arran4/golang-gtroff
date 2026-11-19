@@ -54,14 +54,19 @@ func TestManScenarios(t *testing.T) {
 				Strict    bool   `json:"strict"`
 				Section   string `json:"section"`
 				Normalize bool   `json:"normalize"`
+				ASTBlock  string `json:"astBlock"`
+				ASTLine   string `json:"astLine"`
+				Raw       bool   `json:"raw"`
 			}
 			if data, ok := files["options.json"]; ok {
 				if err := json.Unmarshal(data, &options); err != nil {
 					t.Fatal(err)
 				}
 			}
+			var tree *groff.AST
 			parse := func() (*man.Document, error) {
-				tree, err := groff.ParseAST(bytes.NewReader(input), groff.WithPackage("man"), groff.WithSourceName("input.1"))
+				var err error
+				tree, err = groff.ParseAST(bytes.NewReader(input), groff.WithPackage("man"), groff.WithSourceName("input.1"))
 				if err != nil {
 					t.Fatal(err)
 				}
@@ -87,14 +92,37 @@ func TestManScenarios(t *testing.T) {
 				t.Fatal("semantic JSON nondeterministic")
 			}
 			var text string
-			if options.Section != "" {
+			selectors := 0
+			for _, selector := range []string{options.Section, options.ASTBlock, options.ASTLine} {
+				if selector != "" {
+					selectors++
+				}
+			}
+			if selectors > 1 {
+				t.Fatal("scenario extraction selectors are mutually exclusive")
+			}
+			textOptions := man.TextOptions{Raw: options.Raw, Normalize: options.Normalize}
+			if options.ASTBlock != "" || options.ASTLine != "" {
+				hits := tree.Root().Find(func(n *groff.ASTNode) bool {
+					return options.ASTBlock != "" && n.Kind() == groff.ASTBlock && n.Attributes().Name == options.ASTBlock ||
+						options.ASTLine != "" && n.Kind() == groff.ASTLine && strings.TrimSuffix(strings.TrimSuffix(n.Raw(), "\n"), "\r") == options.ASTLine
+				})
+				if len(hits) != 1 {
+					t.Fatalf("AST extraction selector matched %d nodes", len(hits))
+				}
+				selection, err := doc.SelectAST(hits[0].ID())
+				if err != nil {
+					t.Fatal(err)
+				}
+				text = selection.Text(textOptions)
+			} else if options.Section != "" {
 				selection, err := doc.SelectSection(options.Section, false)
 				if err != nil {
 					t.Fatal(err)
 				}
-				text = selection.Text(man.TextOptions{Normalize: options.Normalize})
+				text = selection.Text(textOptions)
 			} else {
-				text = doc.Text(1, man.TextOptions{Normalize: options.Normalize})
+				text = doc.Text(1, textOptions)
 			}
 			if text != "" && !strings.HasSuffix(text, "\n") {
 				text += "\n"

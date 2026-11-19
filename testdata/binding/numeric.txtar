@@ -1,0 +1,5 @@
+Numeric expression whitespace and references stay in their own fields.
+-- input.roff --
+.nr X (3 + \n[odd(name)])*4 (1 + 1)
+-- fields.json --
+{"Ident": "X", "Value": "(3 + \\n[odd(name)])*4", "Incr": "(1 + 1)"}

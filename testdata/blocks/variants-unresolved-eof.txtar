@@ -1,0 +1,14 @@
+An incomplete indirect region is opaque even when the final line has no LF.
+-- input.roff --
+.ami1 NAME REF
+raw
+-- options.json --
+{"NoFinalLF": true}
+-- expected.txt --
+document error=<nil>
+token *groff.TokenUnknownControl [0,18) raw=".ami1 NAME REF\nraw"
+  closed=false header=".ami1 NAME REF\n" body="raw" end=""
+document error 1:1 "unresolved indirect block delimiter \"REF\"; remaining source preserved as opaque block"
+ast error=<nil>
+ast block .ami1 closed=false raw=".ami1 NAME REF\nraw"
+ast error 1:1 "unresolved indirect block delimiter \"REF\"; remaining source preserved as opaque block"

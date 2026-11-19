@@ -1,0 +1,9 @@
+Same command with disjoint package predicates selects the correct handler.
+-- options.json --
+{"package":"ms","handlers":["local","ms"]}
+-- input.1 --
+.LOCAL "ms text"
+-- expected.txt --
+.CUSTOM ms "ms text" | .LOCAL "ms text"
+-- extract.txt --
+ms text

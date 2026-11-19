@@ -1,0 +1,9 @@
+Decompressed bytes count even when a gzip checksum is invalid.
+-- tree/a.1.gz --
+stored payload
+-- tree/b.1.gz --
+stored payload
+-- tree/c.1.gz --
+stored payload
+-- scenario.json --
+{"gzip":["a.1.gz","b.1.gz","c.1.gz"],"corruptGzip":["a.1.gz","b.1.gz","c.1.gz"],"limits":{"MaxTotalBytes":100},"error":"man library resource limit exceeded","requests":[]}

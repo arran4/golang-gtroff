@@ -1,0 +1,14 @@
+Unterminated capture retains every byte without inventing an end marker.
+-- input.roff --
+.EQ C
+x + y
+-- options.json --
+{"NoFinalLF": true}
+-- expected.txt --
+document error=<nil>
+token *groff.TokenUnknownControl [0,11) raw=".EQ C\nx + y"
+  closed=false header=".EQ C\n" body="x + y" end=""
+document error 1:1 "unterminated block .EQ (expected .EN)"
+ast error=<nil>
+ast block .EQ closed=false raw=".EQ C\nx + y"
+ast error 1:1 "unterminated block .EQ (expected .EN)"

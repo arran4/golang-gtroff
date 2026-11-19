@@ -1,0 +1,12 @@
+Legacy adjacent-quote rules remain explicit; this is not shell argument syntax.
+-- input.args --
+a" "b c" "de"fg" "a"b
+-- expected.txt --
+source="a\" \"b c\" \"de\"fg\" \"a\"b" stop=21/21
+arg 0 bytes=[0,2) runes=[0,2) quoted=false raw="a\"" value="a\""
+arg 1 bytes=[3,8) runes=[3,8) quoted=true raw="\"b c\"" value="b c"
+arg 2 bytes=[9,13) runes=[9,13) quoted=true raw="\"de\"" value="de"
+arg 3 bytes=[13,16) runes=[13,16) quoted=false raw="fg\"" value="fg\""
+arg 4 bytes=[17,20) runes=[17,20) quoted=true raw="\"a\"" value="a"
+arg 5 bytes=[20,21) runes=[20,21) quoted=false raw="b" value="b"
+canonical="\"a\"\"\" \"b c\" de \"fg\"\"\" a b"

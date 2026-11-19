@@ -47,6 +47,20 @@ func TestCheckAndExplicitRefresh(t *testing.T) {
 	if string(data) != "stale" {
 		t.Fatal("check overwrote stale output")
 	}
+	blocked := filepath.Join(dir, "man-tool.validation.json")
+	if err := os.Remove(blocked); err != nil {
+		t.Fatal(err)
+	}
+	if err := os.Mkdir(blocked, 0700); err != nil {
+		t.Fatal(err)
+	}
+	if err := run([]string{"--root", root, "--write"}, &log); err == nil {
+		t.Fatal("directory at late example output was accepted")
+	}
+	data, _ = os.ReadFile(stale)
+	if string(data) != "stale" {
+		t.Fatal("late output failure partially refreshed earlier examples")
+	}
 	if err := os.WriteFile(filepath.Join(dir, "man-tool.1"), []byte(".B \"unclosed\n"), 0600); err != nil {
 		t.Fatal(err)
 	}

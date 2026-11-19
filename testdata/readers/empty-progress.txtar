@@ -1,0 +1,12 @@
+One hundred consecutive empty reads terminate without claiming EOF.
+-- input.roff --
+-- options.json --
+{"Mode": "zero"}
+-- expected.txt --
+ast source="" complete=false calls=100
+error="input.1:1:1: multiple Read calls return no data or error" readerCause=false noProgress=true invalidCount=false
+input position=0/1:1
+ast error 1:1 "multiple Read calls return no data or error"
+document source="" complete=false calls=100
+error="input.1:1:1: multiple Read calls return no data or error" readerCause=false noProgress=true invalidCount=false
+document error 1:1 "multiple Read calls return no data or error"

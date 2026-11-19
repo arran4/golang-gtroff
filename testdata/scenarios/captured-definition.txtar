@@ -1,0 +1,354 @@
+A stored definition body remains visible through HTML, images, canonical conversion and HTTP without changing page identity.
+-- options.json --
+{"status":"valid","validateCode":0,"strictCode":0,"server":true,"retain":[".de1 SAVED",".TH HIDDEN 9",".SH HIDDEN",".ft B","after"],"skipLoopReason":"Unsupported block identity becomes escaped literal preformatted text in canonical roff; exact literal content is asserted across stages.","serverQuery":"stored text","serverHeading":"REAL","serverText":"after"}
+-- input.1 --
+.TH OUTER 1
+.SH REAL
+before
+.de1 SAVED
+.TH HIDDEN 9
+.SH HIDDEN
+.ft B
+stored text
+..
+after
+-- expected-ast.json --
+[
+  {
+    "ID": 1,
+    "Kind": "document",
+    "Path": "/",
+    "Text": "OUTER 1\nREAL\nbefore\nSAVED\n.TH HIDDEN 9\n.SH HIDDEN\n.ft B\nstored text\nafter\n"
+  },
+  {
+    "ID": 2,
+    "Kind": "line",
+    "Path": "/0",
+    "Text": "OUTER 1\n"
+  },
+  {
+    "ID": 3,
+    "Kind": "inline",
+    "Path": "/0/0",
+    "Text": ".TH OUTER 1"
+  },
+  {
+    "ID": 4,
+    "Kind": "section",
+    "Path": "/1",
+    "Text": "REAL\nbefore\nSAVED\n.TH HIDDEN 9\n.SH HIDDEN\n.ft B\nstored text\nafter\n"
+  },
+  {
+    "ID": 5,
+    "Kind": "line",
+    "Path": "/1/0",
+    "Text": "REAL\n"
+  },
+  {
+    "ID": 6,
+    "Kind": "inline",
+    "Path": "/1/0/0",
+    "Text": ".SH REAL"
+  },
+  {
+    "ID": 7,
+    "Kind": "line",
+    "Path": "/1/1",
+    "Text": "before\n"
+  },
+  {
+    "ID": 8,
+    "Kind": "inline",
+    "Path": "/1/1/0",
+    "Text": "before"
+  },
+  {
+    "ID": 9,
+    "Kind": "block",
+    "Path": "/1/2",
+    "Text": "SAVED\n.TH HIDDEN 9\n.SH HIDDEN\n.ft B\nstored text\n"
+  },
+  {
+    "ID": 10,
+    "Kind": "line",
+    "Path": "/1/2/0",
+    "Text": "SAVED\n"
+  },
+  {
+    "ID": 11,
+    "Kind": "inline",
+    "Path": "/1/2/0/0",
+    "Text": ".de1 SAVED"
+  },
+  {
+    "ID": 12,
+    "Kind": "line",
+    "Path": "/1/2/1",
+    "Text": ".TH HIDDEN 9\n"
+  },
+  {
+    "ID": 13,
+    "Kind": "line",
+    "Path": "/1/2/2",
+    "Text": ".SH HIDDEN\n"
+  },
+  {
+    "ID": 14,
+    "Kind": "line",
+    "Path": "/1/2/3",
+    "Text": ".ft B\n"
+  },
+  {
+    "ID": 15,
+    "Kind": "line",
+    "Path": "/1/2/4",
+    "Text": "stored text\n"
+  },
+  {
+    "ID": 16,
+    "Kind": "line",
+    "Path": "/1/2/5",
+    "Text": ""
+  },
+  {
+    "ID": 17,
+    "Kind": "line",
+    "Path": "/1/3",
+    "Text": "after\n"
+  },
+  {
+    "ID": 18,
+    "Kind": "inline",
+    "Path": "/1/3/0",
+    "Text": "after"
+  }
+]
+-- expected-diagnostics.json --
+{
+  "canonical": [
+    {
+      "Message": "unsupported semantics preserved without evaluation: .de1",
+      "Position": {
+        "Filename": "input.1",
+        "Offset": 28,
+        "Line": 4,
+        "Column": 1
+      },
+      "Severity": "warning"
+    },
+    {
+      "Message": "unsupported block emitted as escaped literal preformatted text",
+      "Position": {
+        "Filename": "",
+        "Offset": -1,
+        "Line": 0,
+        "Column": 0
+      },
+      "Severity": "warning"
+    },
+    {
+      "Message": "unsupported inline annotation emitted as escaped literal text",
+      "Position": {
+        "Filename": "",
+        "Offset": -1,
+        "Line": 0,
+        "Column": 0
+      },
+      "Severity": "warning"
+    }
+  ],
+  "html": [
+    {
+      "Message": "unsupported semantics preserved without evaluation: .de1",
+      "Position": {
+        "Filename": "input.1",
+        "Offset": 28,
+        "Line": 4,
+        "Column": 1
+      },
+      "Severity": "warning"
+    }
+  ],
+  "image": [
+    {
+      "Message": "unsupported semantics preserved without evaluation: .de1",
+      "Position": {
+        "Filename": "input.1",
+        "Offset": 28,
+        "Line": 4,
+        "Column": 1
+      },
+      "Severity": "warning"
+    },
+    {
+      "Message": "unsupported source rendered as literal mono text",
+      "Position": {
+        "Filename": "input.1",
+        "Offset": 28,
+        "Line": 4,
+        "Column": 1
+      },
+      "Severity": "warning"
+    },
+    {
+      "Message": "unsupported inline source rendered literally",
+      "Position": {
+        "Filename": "input.1",
+        "Offset": 28,
+        "Line": 4,
+        "Column": 1
+      },
+      "Severity": "warning"
+    }
+  ],
+  "semantic": [
+    {
+      "Message": "unsupported semantics preserved without evaluation: .de1",
+      "Position": {
+        "Filename": "input.1",
+        "Offset": 28,
+        "Line": 4,
+        "Column": 1
+      },
+      "Severity": "warning"
+    }
+  ]
+}
+-- expected-layout.json --
+[
+  {
+    "Number": 1,
+    "Width": 320,
+    "Height": 320,
+    "Text": [
+      "OUTER(1)",
+      "REAL",
+      "before",
+      ".de1 SAVED",
+      ".TH HIDDEN 9",
+      ".SH HIDDEN",
+      ".ft B",
+      "stored text",
+      "..",
+      "after"
+    ]
+  }
+]
+-- expected-semantics.json --
+{
+  "metadata": {
+    "title": "OUTER",
+    "section": "1"
+  },
+  "children": [
+    {
+      "kind": "section",
+      "runs": [
+        {
+          "text": "REAL",
+          "style": {
+            "bold": true
+          }
+        }
+      ],
+      "children": [
+        {
+          "kind": "paragraph",
+          "runs": [
+            {
+              "text": "before",
+              "style": {}
+            }
+          ]
+        },
+        {
+          "kind": "unsupported",
+          "value": ".de1",
+          "runs": [
+            {
+              "text": ".de1 SAVED\n.TH HIDDEN 9\n.SH HIDDEN\n.ft B\nstored text\n..\n",
+              "style": {
+                "mono": true
+              },
+              "unsupported": true
+            }
+          ]
+        },
+        {
+          "kind": "paragraph",
+          "runs": [
+            {
+              "text": "after",
+              "style": {}
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+-- expected-validation.json --
+[
+  {
+    "Strict": false,
+    "Exit": 0,
+    "Status": "valid",
+    "Diagnostics": []
+  },
+  {
+    "Strict": true,
+    "Exit": 0,
+    "Status": "valid",
+    "Diagnostics": []
+  }
+]
+-- expected.1 --
+.TH "OUTER" "1" "" "" ""
+.SH "\f[B]REAL\f[R]"
+.PP
+\&\f[R]before\f[R]\c
+.nf
+\&\f[CR].de1 SAVED\f[R]\c
+
+\&\f[CR].TH HIDDEN 9\f[R]\c
+
+\&\f[CR].SH HIDDEN\f[R]\c
+
+\&\f[CR].ft B\f[R]\c
+
+\&\f[CR]stored text\f[R]\c
+
+\&\f[CR]..\f[R]\c
+
+.fi
+.PP
+\&\f[R]after\f[R]\c
+-- expected.html --
+<style>
+.gtroff-document{margin:0;background:#ffffff;color:#202124}
+.man-page{box-sizing:border-box;max-width:960px;margin:0 auto;padding:2rem;font-family:GTroffText,serif;font-size:18px;line-height:1.5;background:#ffffff;color:#202124;overflow-wrap:anywhere}
+.man-page a{color:#174ea6}.man-page h1{font-size:1.7em}.man-page h2{font-size:1.3em;margin-top:1.7em}.man-page h3{font-size:1.1em;margin-top:1.3em}
+.man-page p{margin:.75em 0}.man-page pre{white-space:pre-wrap;overflow:auto;padding:1em;background:#f3f4f6;border-radius:.25em}
+.man-page code{font-family:GTroffMono,monospace}.man-page small{font-size:.9em}.man-page dt{font-weight:normal;margin-top:.75em}.man-page dd{margin-inline-start:2em}.man-page dd>:first-child{margin-top:0}
+.man-page .manual-meta{opacity:.8;font-size:.9em}.man-page .permalink{font-size:.8em;text-decoration:none;margin-inline-start:.5em}.man-page .unsupported{border-inline-start:.25em solid currentColor}.man-page .conversion-notes{border:1px solid currentColor;padding:1em;margin-top:2em}
+@media(max-width:600px){.man-page{padding:1rem}.man-page dd{margin-inline-start:1em}}
+@media print{.man-page{max-width:none;color:#000000;background:#ffffff;padding:0}.man-page .permalink{display:none}.man-page pre{break-inside:avoid}}
+</style>
+<article class="man-page theme-light" data-man-version="1" data-man-title="OUTER" data-man-section="1" data-man-date="" data-man-source="" data-man-manual="">
+<header class="document-header"><h1>OUTER(1)</h1></header>
+<section data-kind="section" data-node-id="2" data-source-start="12" aria-labelledby="man-node-2">
+<h2 id="man-node-2"><strong>REAL</strong><a class="permalink" href="#man-node-2" aria-label="Link to REAL">#</a></h2>
+<p data-kind="paragraph" data-node-id="3" data-source-start="21">before</p>
+<pre class="unsupported" data-kind="unsupported" data-node-id="4" data-source-start="28" data-value=".de1"><code><span class="unsupported-inline">.de1 SAVED
+.TH HIDDEN 9
+.SH HIDDEN
+.ft B
+stored text
+..
+</span></code></pre>
+<p data-kind="paragraph" data-node-id="5" data-source-start="84">after</p>
+</section>
+<aside class="conversion-notes" aria-label="Conversion notes"><h2>Conversion notes</h2><ul>
+<li>input.1:4:1: warning: unsupported semantics preserved without evaluation: .de1</li>
+</ul></aside>
+</article>

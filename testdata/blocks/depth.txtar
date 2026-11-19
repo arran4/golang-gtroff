@@ -1,0 +1,17 @@
+Nested capture has a parser-owned depth cap in both APIs.
+-- input.roff --
+.BOX
+.BOX
+raw
+.END
+.END
+-- options.json --
+{"Custom": true, "Depth": 1}
+-- expected.txt --
+document error=input.1:2:1: block depth budget exceeded (1)
+token *groff.TokenUnknownControl [0,24) raw=".BOX\n.BOX\nraw\n.END\n.END\n"
+  closed=false header=".BOX\n" body=".BOX\n" end=""
+document error 2:1 "block depth budget exceeded (1)"
+ast error=input.1:2:1: block depth budget exceeded (1)
+ast block .BOX closed=false raw=".BOX\n.BOX\nraw\n.END\n.END\n"
+ast error 2:1 "block depth budget exceeded (1)"

@@ -1,0 +1,28 @@
+Roff integer expressions are left-to-right; parentheses override grouping.
+Relative signs apply to the entire following expression. Comparisons/logical
+operators also have equal precedence. Zero increment explicitly disables it.
+-- input.roff --
+.nr X 3+5*4
+.nr Y 3+(5*4)
+.nr Z 10 2
+.nr Z -3+5
+\n[X] \n[Y] \n[Z] \n+[Z]
+.if (\n[X]==32)&(\n[Y]>=23) yes
+.if 0&(1/0) never
+-- error.txt --
+division or modulus by zero
+-- expected.txt --
+groff.TokenText "32 23 2 4"
+groff.TokenText "yes"
+register X=32
+register Y=23
+register Z=4
+error evaluate token 6 (numeric parentheses): numeric operator /: division or modulus by zero
+-- parsed.txt --
+*groff.TokenRequestNr ".nr X 3+5*4"
+*groff.TokenRequestNr ".nr Y 3+(5*4)"
+*groff.TokenRequestNr ".nr Z 10 2"
+*groff.TokenRequestNr ".nr Z -3+5"
+groff.TokenText "\\n[X] \\n[Y] \\n[Z] \\n+[Z]"
+*groff.TokenRequestIf ".if (\\n[X]==32)&(\\n[Y]>=23) yes"
+*groff.TokenRequestIf ".if 0&(1/0) never"

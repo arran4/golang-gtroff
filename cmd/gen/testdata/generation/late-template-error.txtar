@@ -1,0 +1,8 @@
+A late template execution failure cannot commit earlier successful renders.
+-- catalogue.json --
+[{"Contents":[{"Type":"Macro","Token":".DEMO","Args":""}]}]
+-- catalogue.go.template --
+package groff
+{{.MissingField}}
+-- error.txt --
+render catalogue.go.template

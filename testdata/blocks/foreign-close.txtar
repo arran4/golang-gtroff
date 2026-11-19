@@ -1,0 +1,14 @@
+A mismatched foreign closer remains raw until the expected terminator.
+-- input.roff --
+.TS
+cell
+.EN
+.TE
+-- expected.txt --
+document error=<nil>
+token *groff.TokenUnknownControl [0,17) raw=".TS\ncell\n.EN\n.TE\n"
+  closed=true header=".TS\n" body="cell\n.EN\n" end=".TE\n"
+document error 3:1 "mismatched block delimiter .EN (expected .TE)"
+ast error=<nil>
+ast block .TS closed=true raw=".TS\ncell\n.EN\n.TE\n"
+ast error 3:1 "mismatched block delimiter .EN (expected .TE)"

@@ -1,0 +1,8 @@
+A formatting failure in the third Go output leaves all four destinations intact.
+-- catalogue.json --
+[{"Contents":[{"Type":"Macro","Token":".DEMO","Args":""}]}]
+-- catalogue.go.template --
+package groff
+func broken(
+-- error.txt --
+format catalogue.go.template

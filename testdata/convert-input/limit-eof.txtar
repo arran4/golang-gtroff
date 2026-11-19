@@ -1,0 +1,14 @@
+Conversion input boundary: limit-eof.
+-- input.txt --
+abcd
+-- options.json --
+{"Mode":"data-eof","MaxInputBytes":3,"NoFinalLF":true}
+-- expected.txt --
+html source="abcd" document=false calls=1
+error="input.txt:1:5: conversion resource limit exceeded" readerCause=false limit=true noProgress=false invalidCount=false
+position=4/1:5
+adapterError=true wrote=false
+roff source="abcd" document=false calls=1
+error="input.txt:1:5: conversion resource limit exceeded" readerCause=false limit=true noProgress=false invalidCount=false
+position=4/1:5
+adapterError=true wrote=false

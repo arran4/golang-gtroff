@@ -1,0 +1,18 @@
+Permissive parsing preserves the refused directive and its nested diagnostic.
+Strict parsing rejects the cycle and closes every opened reader.
+-- input.1 --
+.so a.1
+after
+-- tree/a.1 --
+A
+.so a.1
+end
+-- error.txt --
+include cycle detected
+-- diagnostic.txt --
+a.1:2 warning
+-- expected.txt --
+a.1:1 A
+a.1:2 .so a.1
+a.1:3 end
+input.1:2 after

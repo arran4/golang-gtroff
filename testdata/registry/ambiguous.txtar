@@ -1,0 +1,11 @@
+Overlapping predicates fail before any Parse callback can run.
+-- options.json --
+{"package":"man","handlers":["local","local"]}
+-- input.1 --
+.LOCAL preserve  raw
+-- expected.txt --
+.LOCAL preserve  raw | .LOCAL preserve  raw
+-- error.txt --
+multiple custom handlers match
+-- extract.txt --
+.LOCAL preserve  raw

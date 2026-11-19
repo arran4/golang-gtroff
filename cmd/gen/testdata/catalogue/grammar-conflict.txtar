@@ -1,0 +1,5 @@
+Repeated routes cannot silently select one incompatible binding policy.
+-- catalogue.json --
+[{"Contents": [{"Type": "Request", "Token": ".new", "Args": "[value]", "ArgumentGrammar": {"mode": "joined", "rest": "Value"}}, {"Type": "Request", "Token": ".new", "Args": "[value]"}]}]
+-- error.txt --
+conflicting argument grammars for .new

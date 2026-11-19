@@ -1,0 +1,11 @@
+Data and EOF in the same read are retained and marked complete.
+-- input.roff --
+雪
+last
+-- options.json --
+{"Mode": "data-eof", "NoFinalLF": true}
+-- expected.txt --
+ast source="雪\nlast" complete=true calls=1
+error="" readerCause=false noProgress=false invalidCount=false
+document source="雪\nlast" complete=true calls=1
+error="" readerCause=false noProgress=false invalidCount=false

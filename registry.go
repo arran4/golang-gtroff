@@ -1,5 +1,12 @@
 package groff
 
+import (
+	"errors"
+	"fmt"
+	"reflect"
+	"sync"
+)
+
 // TokenKind identifies the semantic category of a token or node.
 type TokenKind string
 
@@ -109,38 +116,158 @@ func (t TokenComment) PackageName() string {
 
 var _ Node = TokenComment("")
 
-// CustomHandler allows registering handwritten handlers for irregular or complex roff constructs.
+// CustomHandler parses individual control lines before generated dispatch.
+// cmd retains its original . or ' prefix; args excludes leading whitespace.
+// CanHandle should be a pure predicate. Handlers used concurrently must protect
+// their own state. Multiline document structure remains the parser's concern.
 type CustomHandler interface {
 	CanHandle(cmd string, pkg string) bool
 	Parse(cmd string, args string, pkg string) (Token, error)
 }
 
-// Registry manages registered custom handlers.
+var (
+	// ErrAmbiguousHandler reports overlapping predicates for an encountered line.
+	ErrAmbiguousHandler = errors.New("multiple custom handlers match")
+	// ErrInvalidHandler reports a nil registration or successful nil token result.
+	ErrInvalidHandler = errors.New("invalid custom handler")
+)
+
+// Registry manages custom line handlers. Its zero value is usable. Registration
+// and dispatch may run concurrently; do not copy a Registry after first use.
+// A document/AST parse snapshots registrations once at entry, including includes.
 type Registry struct {
+	mu       sync.RWMutex
 	handlers []CustomHandler
+	blocks   []BlockHandler
 }
 
 func NewRegistry() *Registry {
 	return &Registry{}
 }
 
+// RegisterCustom adds a handler. Invalid/overlapping registrations are reported
+// by DispatchCustom when a control line is encountered, preserving this legacy
+// method's signature. Prefer WithRegistry for caller-local configuration.
 func (r *Registry) RegisterCustom(h CustomHandler) {
+	r.mu.Lock()
+	defer r.mu.Unlock()
 	r.handlers = append(r.handlers, h)
 }
 
-func (r *Registry) DispatchCustom(cmd, args, pkg string) (Token, bool, error) {
-	for _, h := range r.handlers {
+// RegisterBlock adds a document/AST handler. ParseLine remains a line-only API.
+// Custom line and block matches are checked together before document capture.
+func (r *Registry) RegisterBlock(h BlockHandler) {
+	r.mu.Lock()
+	defer r.mu.Unlock()
+	r.blocks = append(r.blocks, h)
+}
+
+func (r *Registry) documentHandler(cmd, pkg string) (CustomHandler, BlockHandler, error) {
+	snapshot := r.snapshot()
+	var line CustomHandler
+	var block BlockHandler
+	count := 0
+	for _, h := range snapshot.handlers {
+		if nilInterface(h) {
+			return nil, nil, fmt.Errorf("%w: nil registration", ErrInvalidHandler)
+		}
 		if h.CanHandle(cmd, pkg) {
-			tok, err := h.Parse(cmd, args, pkg)
-			return tok, true, err
+			count++
+			line = h
 		}
 	}
-	return nil, false, nil
+	for _, h := range snapshot.blocks {
+		if nilInterface(h) {
+			return nil, nil, fmt.Errorf("%w: nil block registration", ErrInvalidHandler)
+		}
+		if h.CanHandle(cmd, pkg) {
+			count++
+			block = h
+		}
+	}
+	if count > 1 {
+		return nil, nil, fmt.Errorf("%w for %s in package %q", ErrAmbiguousHandler, cmd, pkg)
+	}
+	if count == 0 {
+		block = generatedBlockHandler(normalizedBlockCommand(cmd))
+	}
+	return line, block, nil
+}
+
+// DispatchCustom selects exactly one matching custom handler. Overlapping
+// predicates (including duplicate registrations) return ErrAmbiguousHandler
+// before Parse is called. Nil handlers/tokens return ErrInvalidHandler.
+func (r *Registry) DispatchCustom(cmd, args, pkg string) (Token, bool, error) {
+	var selected CustomHandler
+	for _, h := range r.snapshot().handlers {
+		if nilInterface(h) {
+			return nil, true, fmt.Errorf("%w: nil registration", ErrInvalidHandler)
+		}
+		if h.CanHandle(cmd, pkg) {
+			if selected != nil {
+				return nil, true, fmt.Errorf("%w for %s in package %q", ErrAmbiguousHandler, cmd, pkg)
+			}
+			selected = h
+		}
+	}
+	if selected == nil {
+		return nil, false, nil
+	}
+	tok, err := selected.Parse(cmd, args, pkg)
+	if err == nil && nilInterface(tok) {
+		err = fmt.Errorf("%w: %s returned a nil token", ErrInvalidHandler, cmd)
+	}
+	return tok, true, err
+}
+
+// ParseLine parses one line with this registry and explicit package context.
+// Generated tokens remain the fallback when no custom handler matches.
+func (r *Registry) ParseLine(line, pkg string) (Token, error) {
+	return parseLineWithRegistry(line, pkg, false, r)
+}
+
+// ParseLinePermissive preserves unknown controls while still reporting invalid
+// or ambiguous custom handler results.
+func (r *Registry) ParseLinePermissive(line, pkg string) (Token, error) {
+	return parseLineWithRegistry(line, pkg, true, r)
+}
+
+func (r *Registry) snapshot() *Registry {
+	if r == nil {
+		return NewRegistry()
+	}
+	r.mu.RLock()
+	defer r.mu.RUnlock()
+	return &Registry{handlers: append([]CustomHandler(nil), r.handlers...), blocks: append([]BlockHandler(nil), r.blocks...)}
+}
+
+func registryForOptions(o ParserOptions) *Registry {
+	r := o.Registry
+	if r == nil {
+		r = defaultRegistry
+	}
+	snapshot := r.snapshot()
+	snapshot.handlers = append(snapshot.handlers, o.CustomHandlers...)
+	snapshot.blocks = append(snapshot.blocks, o.BlockHandlers...)
+	return snapshot
+}
+
+func nilInterface(v any) bool {
+	if v == nil {
+		return true
+	}
+	r := reflect.ValueOf(v)
+	switch r.Kind() {
+	case reflect.Chan, reflect.Func, reflect.Interface, reflect.Map, reflect.Pointer, reflect.Slice:
+		return r.IsNil()
+	}
+	return false
 }
 
 var defaultRegistry = NewRegistry()
 
 // RegisterCustomHandler registers a custom handler with the default global registry.
+// Prefer WithRegistry or WithCustomHandler for parse-local configuration.
 func RegisterCustomHandler(h CustomHandler) {
 	defaultRegistry.RegisterCustom(h)
 }

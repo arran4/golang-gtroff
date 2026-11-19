@@ -1,0 +1,14 @@
+Invalid UTF-8 remains byte-exact in a failed input prefix; CRLF advances the next position.
+-- input.hex --
+ff0d0ae99baa
+-- options.json --
+{"Mode":"data-error"}
+-- expected.txt --
+html source="\xff\r\n雪" document=false calls=1
+error="input.txt:2:2: input fixture failed" readerCause=true limit=false noProgress=false invalidCount=false
+position=6/2:2
+adapterError=true wrote=false
+roff source="\xff\r\n雪" document=false calls=1
+error="input.txt:2:2: input fixture failed" readerCause=true limit=false noProgress=false invalidCount=false
+position=6/2:2
+adapterError=true wrote=false

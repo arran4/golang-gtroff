@@ -1,0 +1,15 @@
+Distinct direct variant delimiters have nested AST syntax without body callbacks.
+-- input.roff --
+.de1 OUT OUTEND
+.de1 INNER INEND
+.B raw
+.INEND
+.OUTEND
+-- expected.txt --
+document error=<nil>
+token *groff.TokenMacroDefinitionVariant [0,55) raw=".de1 OUT OUTEND\n.de1 INNER INEND\n.B raw\n.INEND\n.OUTEND\n"
+  variant {"Request":".de1","Name":"OUT","End":"OUTEND","Delimiter":".OUTEND","Body":[".de1 INNER INEND",".B raw",".INEND"]}
+  closed=true header=".de1 OUT OUTEND\n" body=".de1 INNER INEND\n.B raw\n.INEND\n" end=".OUTEND\n"
+ast error=<nil>
+ast block .de1 closed=true raw=".de1 OUT OUTEND\n.de1 INNER INEND\n.B raw\n.INEND\n.OUTEND\n"
+ast block .de1 closed=true raw=".de1 INNER INEND\n.B raw\n.INEND\n"

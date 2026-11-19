@@ -1,0 +1,14 @@
+Conversion input boundary: prefix-progress.
+-- input.txt --
+雪
+-- options.json --
+{"Mode":"prefix-zero"}
+-- expected.txt --
+html source="雪\n" document=false calls=101
+error="input.txt:2:1: multiple Read calls return no data or error" readerCause=false limit=false noProgress=true invalidCount=false
+position=4/2:1
+adapterError=true wrote=false
+roff source="雪\n" document=false calls=101
+error="input.txt:2:1: multiple Read calls return no data or error" readerCause=false limit=false noProgress=true invalidCount=false
+position=4/2:1
+adapterError=true wrote=false

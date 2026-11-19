@@ -1,0 +1,5 @@
+Unknown data kinds fail validation instead of panicking in a nil kind map.
+-- catalogue.json --
+[{"Contents":[{"Type":"Unsupported","Token":".NEW","Args":""}]}]
+-- error.txt --
+unknown kind

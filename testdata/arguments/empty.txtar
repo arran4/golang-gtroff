@@ -1,0 +1,5 @@
+Empty input is a valid complete source with no argument metadata.
+-- input.args --
+-- expected.txt --
+source="" stop=0/0
+canonical=""

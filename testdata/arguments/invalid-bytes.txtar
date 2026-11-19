@@ -1,0 +1,9 @@
+Invalid UTF-8 and NUL bytes remain exact in Raw, Value and source; no replacement.
+-- input.hex --
+ff002022fe22205c22fd00
+-- expected.txt --
+source="\xff\x00 \"\xfe\" \\\"\xfd\x00" stop=7/7
+arg 0 bytes=[0,2) runes=[0,2) quoted=false raw="\xff\x00" value="\xff\x00"
+arg 1 bytes=[3,6) runes=[3,6) quoted=true raw="\"\xfe\"" value="\xfe"
+comment [7,11) "\\\"\xfd\x00"
+canonical="\xff\x00 \xfe"

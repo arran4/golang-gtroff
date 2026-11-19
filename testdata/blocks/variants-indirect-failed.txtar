@@ -1,0 +1,16 @@
+A missing supplied reference is visible and never falls back to a literal delimiter.
+-- input.roff --
+.dei1 NAME MISSING
+raw
+.MISSING
+..
+-- options.json --
+{"Names": {}}
+-- expected.txt --
+document error=<nil>
+token *groff.TokenUnknownControl [0,35) raw=".dei1 NAME MISSING\nraw\n.MISSING\n..\n"
+  closed=false header=".dei1 NAME MISSING\n" body="raw\n.MISSING\n..\n" end=""
+document error 1:1 "unresolved indirect block delimiter \"MISSING\"; remaining source preserved as opaque block: missing delimiter reference MISSING"
+ast error=<nil>
+ast block .dei1 closed=false raw=".dei1 NAME MISSING\nraw\n.MISSING\n..\n"
+ast error 1:1 "unresolved indirect block delimiter \"MISSING\"; remaining source preserved as opaque block: missing delimiter reference MISSING"

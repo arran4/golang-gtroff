@@ -9,6 +9,7 @@ import (
 	"strconv"
 
 	conversion "github.com/arran4/golang-gtroff/convert"
+	"github.com/arran4/golang-gtroff/internal/sourceio"
 	"github.com/arran4/golang-gtroff/renderhtml"
 )
 
@@ -90,9 +91,9 @@ func convertCommand(args []string, e Environment) int {
 	} else {
 		res, err = conversion.ManToHTML(reader, &out, o)
 	}
-	if owned != nil {
+	if !sourceio.IsNil(owned) {
 		if closeErr := owned.Close(); closeErr != nil {
-			return failure(e, "close input: "+closeErr.Error())
+			return failure(e, errors.Join(err, fmt.Errorf("close input: %w", closeErr)).Error())
 		}
 	}
 	if diagErr := writeDiagnostics(e.Err, res.Diagnostics); diagErr != nil {

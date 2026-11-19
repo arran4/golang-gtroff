@@ -1,0 +1,14 @@
+Conversion input boundary: strict-error.
+-- input.txt --
+<p>kept</p>
+-- options.json --
+{"Mode":"data-error","Strict":true}
+-- expected.txt --
+html source="<p>kept</p>\n" document=false calls=1
+error="input.txt:2:1: input fixture failed" readerCause=true limit=false noProgress=false invalidCount=false
+position=12/2:1
+adapterError=true wrote=false
+roff source="<p>kept</p>\n" document=false calls=1
+error="input.txt:2:1: input fixture failed" readerCause=true limit=false noProgress=false invalidCount=false
+position=12/2:1
+adapterError=true wrote=false

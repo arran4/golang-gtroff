@@ -30,13 +30,14 @@ From a checkout containing the merged features, use Go 1.26 or newer (tested: 1.
 go build -o gtroff ./cmd/gtroff
 ```
 
-Or install this feature revision directly, with Go's bin directory on PATH:
+Or install from the same reviewed checkout, with Go's bin directory on PATH:
 
 ```sh
-go install github.com/arran4/golang-gtroff/cmd/gtroff@main
+go install ./cmd/gtroff
 ```
 
-A tagged release can replace the branch suffix once published. For library use,
+After a tagged release is published, remote installation can use
+`go install github.com/arran4/golang-gtroff/cmd/gtroff@VERSION`. For library use,
 use `go get github.com/arran4/golang-gtroff` with an appropriate reviewed revision.
 The optional desktop command has a separate module and build below.
 
@@ -165,7 +166,10 @@ This is a bounded Linux-man subset, not full groff typesetting. Tables, equation
 macro evaluation, arbitrary CSS, complex shaping and all Unicode glyph coverage
 are not promised. Unsupported content remains visible with diagnostics. Source
 includes, commands and remote resources are never loaded by these workflows.
-The opt-in legacy evaluator is separate from render/convert/serve.
+The [opt-in evaluator](docs/evaluation.md) is separate from render/convert/serve;
+it provides cancellation, resource limits, partial results and diagnostics for
+preserved requests. It supports checked integer expressions, strings, register
+updates, aliases and positional macro calls within a documented subset of roff.
 
 Parser/evaluator/include/generator findings under
 [#3–#17](https://github.com/arran4/golang-gtroff/issues/3) remain separate contracts.
@@ -176,19 +180,53 @@ atomic as a collection. Resource and strict failures preserve existing outputs.
 ## Libraries and development
 
 [Library guide](docs/library.md) · [AST](docs/ast.md) · [semantic model](docs/man.md) ·
-[executable AST example](ast_example_test.go). `cmd/lex` remains the legacy token
-inspection utility. Generated catalogue coverage is not semantic support.
+[executable AST example](ast_example_test.go). Rendering accepts structural AST
+block IDs and physical lines inside captured regions, selecting their complete
+semantic owner with its surrounding style and indentation context. `cmd/lex`
+remains the legacy token inspection utility. Generated catalogue coverage is
+not semantic support.
+The [document reader](docs/document.md) also exposes exact captured source,
+per-token raw bytes, partial results and configurable byte/line limits. AST
+reader failures return a partial tree with positioned causes; `SourceComplete()`
+distinguishes observed EOF from a captured prefix.
+[Conversion imports](docs/convert.md#input-failures) retain captured source on
+input failure and return positioned causes while leaving output untouched.
+The [HTTP library](docs/serve.md) shares its raw/decode byte budget across roots
+and failed page attempts, and aborts startup before listening when exhausted.
+[Block handlers](docs/blocks.md) inspect bounded raw regions with exact headers,
+bodies, terminators and spans; their registration never enables preprocessing
+or external execution automatically. The semantic model follows captured block
+boundaries, so stored headings and state changes cannot affect the surrounding
+page. Definition variants keep their bodies
+opaque; indirect end names require explicit delimiter state. Unresolved regions
+remain visible with diagnostics.
+The [syntax support report](docs/catalogue-support.md) lists every canonical
+entry and the parser route exercised by tests, separately from evaluation.
+The [argument API](docs/arguments.md) retains raw quoting/comments and byte spans;
+checked formatting reports values it cannot encode faithfully. Generated line
+parsers use declared fixed, repeating and raw-tail binding policies, so surplus
+`.TH`/`.IP` fields produce diagnostics. Use `CanonicalToken` for checked typed
+field formatting; exact source remains a separate snapshot.
 
 ```sh
 go test ./...
 go vet ./...
+go run ./cmd/gen -check
 go generate ./...
 ```
 
 Generation rebuilds macro/request definitions, dispatchers and catalogue from
 `cmd/gen/in.json`, `schema.go` and templates, regenerates
+[the syntax support matrix](docs/generated/catalogue-support.json),
 [man pages and completions](docs/generated), and **checks** committed CLI examples.
-It does not refresh example expectations. To approve a refresh:
+It does not refresh example expectations.
+
+The parser generator renders/formats every output before writing. Generated
+output batches stage first and restore earlier files if a later replacement
+fails. [Generation and recovery limits](docs/generation.md) describe check mode,
+owned staging and the single-writer contract.
+
+To approve an example refresh:
 
 ```sh
 go run ./cmd/examples --write

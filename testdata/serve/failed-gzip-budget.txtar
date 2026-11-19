@@ -1,0 +1,9 @@
+Invalid gzip attempts consume the total budget and stop startup.
+-- tree/a.1.gz --
+not gzip
+-- tree/b.1.gz --
+not gzip
+-- tree/c.1.gz --
+not gzip
+-- scenario.json --
+{"limits":{"MaxTotalBytes":12},"requests":[],"error":"man library resource limit exceeded"}

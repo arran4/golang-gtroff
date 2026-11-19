@@ -1,0 +1,21 @@
+An argument's register interpolation occurs once at invocation. Repeated use
+inserts that value without reinterpreting it. Disabled branches do no body work.
+-- input.roff --
+.nr X 0 1
+.de REPEAT
+\\$1 \\$1
+.if 0 \\n+[X]
+.if 1 \\$2
+..
+.REPEAT \n+[X] literal
+\n[X]
+-- expected.txt --
+groff.TokenText "1 1"
+groff.TokenText "literal"
+groff.TokenText "1"
+register X=1
+-- parsed.txt --
+*groff.TokenRequestNr ".nr X 0 1"
+*groff.TokenMacroDefinition ".de REPEAT\n\\\\$1 \\\\$1\n.if 0 \\\\n+[X]\n.if 1 \\\\$2\n.."
+*groff.TokenUnknownControl ".REPEAT \\n+[X] literal"
+groff.TokenText "\\n[X]"

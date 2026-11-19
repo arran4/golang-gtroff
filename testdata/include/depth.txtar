@@ -1,0 +1,17 @@
+The shared parser depth limit also applies to custom in-memory resolvers.
+-- input.1 --
+.so a.1
+-- tree/a.1 --
+.mso b.1
+-- tree/b.1 --
+.so c.1
+B
+-- tree/c.1 --
+C
+-- error.txt --
+maximum include depth exceeded (2)
+-- diagnostic.txt --
+b.1:1 warning
+-- expected.txt --
+b.1:1 .so c.1
+b.1:2 B

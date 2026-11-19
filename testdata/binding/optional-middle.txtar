@@ -1,0 +1,5 @@
+The historical right binding reserves the required path.
+-- input.roff --
+.Pn "/some path"
+-- fields.json --
+{"Path": "/some path"}

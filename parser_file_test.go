@@ -2,9 +2,10 @@ package groff
 
 import (
 	"bufio"
+	"errors"
+	"fmt"
 	"os"
 	"path/filepath"
-	"strings"
 	"testing"
 )
 
@@ -256,8 +257,9 @@ func TestParseFile(t *testing.T) {
 	}
 }
 
-// TestParseRealManPages tests parsing actual man page files if available
-func TestParseRealManPages(t *testing.T) {
+// These checked-in files are formatted reference prose, not roff macro fixtures.
+// Parsing them verifies text retention, not man/ms macro conformance.
+func TestParseReferenceText(t *testing.T) {
 	realFiles := []struct {
 		name     string
 		filename string
@@ -273,21 +275,10 @@ func TestParseRealManPages(t *testing.T) {
 			filename: "groff_ms.txt",
 			minLines: 100,
 		},
-		{
-			name:     "environ.txt",
-			filename: "environ.txt",
-			minLines: 50,
-		},
 	}
 
 	for _, tt := range realFiles {
 		t.Run(tt.name, func(t *testing.T) {
-			// Check if file exists
-			if _, err := os.Stat(tt.filename); os.IsNotExist(err) {
-				t.Skipf("File %s not found, skipping", tt.filename)
-				return
-			}
-
 			tokens, err := parseManPageFile(tt.filename)
 			if err != nil {
 				t.Errorf("Error parsing %s: %v", tt.filename, err)
@@ -341,23 +332,16 @@ func TestParseLineByLine(t *testing.T) {
 
 			scanner := bufio.NewScanner(file)
 			lineNum := 0
-			errorCount := 0
 
 			for scanner.Scan() {
 				lineNum++
 				line := scanner.Text()
 
-				// Skip empty lines
-				if strings.TrimSpace(line) == "" {
-					continue
-				}
-
-				_, err := ParseLine(line)
+				tok, err := ParseLineWithPackage(line, "man")
 				if err != nil {
-					// Some lines may not parse (e.g., unknown macros)
-					// We log them but don't fail the test
-					t.Logf("Line %d: %v - %q", lineNum, err, line)
-					errorCount++
+					t.Errorf("line %d: %v - %q", lineNum, err, line)
+				} else if tok == nil {
+					t.Errorf("line %d was silently dropped: %q", lineNum, line)
 				}
 			}
 
@@ -365,10 +349,6 @@ func TestParseLineByLine(t *testing.T) {
 				t.Fatalf("Error reading file: %v", err)
 			}
 
-			t.Logf("Parsed %d lines with %d errors", lineNum, errorCount)
-			if errorCount > 0 {
-				t.Errorf("Expected 0 parse errors in %s, got %d", tt.filename, errorCount)
-			}
 		})
 	}
 }
@@ -381,21 +361,37 @@ func parseManPageFile(filename string) ([]Token, error) {
 	}
 	defer file.Close()
 
-	doc, err := ParseDocument(file, WithStrict(false), WithSourceName(filename))
+	doc, err := ParseDocument(file, WithRegistry(NewRegistry()), WithPackage("man"), WithStrict(true), WithSourceName(filename))
 	if err != nil {
 		return nil, err
+	}
+	if len(doc.Diagnostics) != 0 {
+		return nil, fmt.Errorf("unexpected fixture diagnostics: %v", doc.Diagnostics)
 	}
 
 	var tokens []Token
 	for _, dt := range doc.Tokens {
-		// Filter out empty text lines
-		if text, ok := dt.Token.(TokenText); ok && strings.TrimSpace(string(text)) == "" {
-			continue
-		}
 		tokens = append(tokens, dt.Token)
 	}
 
 	return tokens, nil
+}
+
+func TestFileFixtureRejectsUnknownAndRetainsBlankLines(t *testing.T) {
+	path := filepath.Join(t.TempDir(), "fixture.1")
+	if err := os.WriteFile(path, []byte(".UNCLASSIFIED request\n"), 0600); err != nil {
+		t.Fatal(err)
+	}
+	if _, err := parseManPageFile(path); !errors.Is(err, ErrNoTokenMatch) {
+		t.Fatalf("fixture helper swallowed an unknown request: %v", err)
+	}
+	if err := os.WriteFile(path, []byte("first\n\nlast"), 0600); err != nil {
+		t.Fatal(err)
+	}
+	tokens, err := parseManPageFile(path)
+	if err != nil || len(tokens) != 3 || tokens[1] != TokenText("") || tokens[2] != TokenText("last") {
+		t.Fatalf("fixture helper lost blank/final input: %v %v", tokens, err)
+	}
 }
 
 // Helper function to get token type name for statistics
@@ -503,7 +499,9 @@ func BenchmarkParseLine(b *testing.B) {
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
 		line := testLines[i%len(testLines)]
-		_, _ = ParseLine(line)
+		if _, err := ParseLine(line); err != nil {
+			b.Fatal(err)
+		}
 	}
 }
 
@@ -511,37 +509,37 @@ func BenchmarkParseLine(b *testing.B) {
 func BenchmarkParseFile(b *testing.B) {
 	b.Run("simple", func(b *testing.B) {
 		for i := 0; i < b.N; i++ {
-			_, _ = parseManPageFile("testdata/simple.1")
+			if _, err := parseManPageFile("testdata/simple.1"); err != nil {
+				b.Fatal(err)
+			}
 		}
 	})
 
 	b.Run("complex", func(b *testing.B) {
 		for i := 0; i < b.N; i++ {
-			_, _ = parseManPageFile("testdata/complex.7")
+			if _, err := parseManPageFile("testdata/complex.7"); err != nil {
+				b.Fatal(err)
+			}
 		}
 	})
 
 	b.Run("environ_snippet", func(b *testing.B) {
 		for i := 0; i < b.N; i++ {
-			_, _ = parseManPageFile("testdata/environ_snippet.7")
+			if _, err := parseManPageFile("testdata/environ_snippet.7"); err != nil {
+				b.Fatal(err)
+			}
 		}
 	})
 }
 
-// BenchmarkParseRealFile benchmarks parsing real man page files
-func BenchmarkParseRealFile(b *testing.B) {
-	if _, err := os.Stat("environ.txt"); err == nil {
-		b.Run("environ.txt", func(b *testing.B) {
+// BenchmarkParseReferenceText benchmarks checked-in formatted prose.
+func BenchmarkParseReferenceText(b *testing.B) {
+	for _, path := range []string{"groff_man.txt", "groff_ms.txt"} {
+		b.Run(path, func(b *testing.B) {
 			for i := 0; i < b.N; i++ {
-				_, _ = parseManPageFile("environ.txt")
-			}
-		})
-	}
-
-	if _, err := os.Stat("groff_man.txt"); err == nil {
-		b.Run("groff_man.txt", func(b *testing.B) {
-			for i := 0; i < b.N; i++ {
-				_, _ = parseManPageFile("groff_man.txt")
+				if _, err := parseManPageFile(path); err != nil {
+					b.Fatal(err)
+				}
 			}
 		})
 	}

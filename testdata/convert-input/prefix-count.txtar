@@ -1,0 +1,14 @@
+Conversion input boundary: prefix-count.
+-- input.txt --
+kept
+-- options.json --
+{"Mode":"prefix-negative"}
+-- expected.txt --
+html source="kept\n" document=false calls=2
+error="input.txt:2:1: invalid source reader count: got -1 for buffer of 507 bytes" readerCause=true limit=false noProgress=false invalidCount=true
+position=5/2:1
+adapterError=true wrote=false
+roff source="kept\n" document=false calls=2
+error="input.txt:2:1: invalid source reader count: got -1 for buffer of 507 bytes" readerCause=true limit=false noProgress=false invalidCount=true
+position=5/2:1
+adapterError=true wrote=false

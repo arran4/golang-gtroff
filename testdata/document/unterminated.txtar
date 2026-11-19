@@ -1,0 +1,8 @@
+An unterminated append body stays visible with a syntax diagnostic.
+-- input.1 --
+.am X
+body
+-- expected.txt --
+sourceComplete=true bytes=11
+*groff.TokenUnknownControl [0,11) 1:1-3:1 raw=".am X\nbody\n" canonical=".am X\nbody\n"
+error 1:1 unterminated macro definition .am

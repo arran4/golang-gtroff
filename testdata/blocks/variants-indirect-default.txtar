@@ -1,0 +1,33 @@
+An omitted end reference has a known default boundary without evaluation.
+-- input.roff --
+.dei NAME
+.so literal
+..
+.ami NAME
+raw
+..
+.dei1 NAME
+raw
+..
+.ami1 NAME
+raw
+..
+-- expected.txt --
+document error=<nil>
+token *groff.TokenMacroDefinitionVariant [0,25) raw=".dei NAME\n.so literal\n..\n"
+  variant {"Request":".dei","Name":"NAME","End":"","Delimiter":"..","Body":[".so literal"]}
+  closed=true header=".dei NAME\n" body=".so literal\n" end="..\n"
+token *groff.TokenMacroDefinitionVariant [25,42) raw=".ami NAME\nraw\n..\n"
+  variant {"Request":".ami","Name":"NAME","End":"","Delimiter":"..","Body":["raw"]}
+  closed=true header=".ami NAME\n" body="raw\n" end="..\n"
+token *groff.TokenMacroDefinitionVariant [42,60) raw=".dei1 NAME\nraw\n..\n"
+  variant {"Request":".dei1","Name":"NAME","End":"","Delimiter":"..","Body":["raw"]}
+  closed=true header=".dei1 NAME\n" body="raw\n" end="..\n"
+token *groff.TokenMacroDefinitionVariant [60,78) raw=".ami1 NAME\nraw\n..\n"
+  variant {"Request":".ami1","Name":"NAME","End":"","Delimiter":"..","Body":["raw"]}
+  closed=true header=".ami1 NAME\n" body="raw\n" end="..\n"
+ast error=<nil>
+ast block .dei closed=true raw=".dei NAME\n.so literal\n..\n"
+ast block .ami closed=true raw=".ami NAME\nraw\n..\n"
+ast block .dei1 closed=true raw=".dei1 NAME\nraw\n..\n"
+ast block .ami1 closed=true raw=".ami1 NAME\nraw\n..\n"

@@ -30,7 +30,9 @@ type Result struct {
 	Bytes       int
 }
 
-// Input retains the original input separately from its derived semantic tree.
+// Input retains captured input separately from its derived semantic tree.
+// On a reader/byte-limit error Source retains the validated prefix and Document
+// is nil; no semantic interpretation or conversion output is attempted.
 // HTML origins identify the input snapshot, not token-accurate HTML positions.
 type Input struct {
 	Source   string
@@ -55,19 +57,6 @@ func defaults(o Options) Options {
 	}
 	return o
 }
-func read(r io.Reader, o Options) (string, error) {
-	if r == nil {
-		return "", fmt.Errorf("nil input reader")
-	}
-	b, err := io.ReadAll(io.LimitReader(r, int64(o.MaxInputBytes)+1))
-	if err != nil {
-		return "", err
-	}
-	if len(b) > o.MaxInputBytes {
-		return "", ErrLimit
-	}
-	return string(b), nil
-}
 
 // ImportMan keeps the roff source; parsing and semantic diagnostics remain on
 // Document. Strict mode returns that inspectable result together with ErrStrict.
@@ -75,7 +64,7 @@ func ImportMan(r io.Reader, o Options) (Input, error) {
 	o = defaults(o)
 	s, err := read(r, o)
 	if err != nil {
-		return Input{}, err
+		return Input{Source: s}, err
 	}
 	tree, err := groff.ParseAST(bytes.NewBufferString(s), groff.WithPackage("man"), groff.WithSourceName(o.SourceName), groff.WithMaxLineLength(o.MaxInputBytes), groff.WithASTBytes(o.MaxInputBytes), groff.WithASTNodes(o.MaxNodes), groff.WithASTDepth(o.MaxDepth))
 	if err != nil {

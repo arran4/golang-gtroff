@@ -1,0 +1,13 @@
+A malformed later read retains only the validated prefix.
+-- input.roff --
+kept
+-- options.json --
+{"Mode": "prefix-oversized"}
+-- expected.txt --
+ast source="kept\n" complete=false calls=2
+error="input.1:2:1: invalid source reader count: got 508 for buffer of 507 bytes" readerCause=true noProgress=false invalidCount=true
+input position=5/2:1
+ast error 2:1 "invalid source reader count: got 508 for buffer of 507 bytes"
+document source="kept\n" complete=false calls=2
+error="input.1:2:1: invalid source reader count: got 4097 for buffer of 4096 bytes" readerCause=true noProgress=false invalidCount=true
+document error 2:1 "invalid source reader count: got 4097 for buffer of 4096 bytes"

@@ -1,0 +1,26 @@
+Definition variants remain one preserved token each; their body requests must
+never execute as top-level input. Compatibility/indirection are not evaluated.
+-- input.roff --
+.de1 X
+.nr SIDE 9
+..
+.am1 X
+.ds BODY changed
+..
+.dei TARGET
+.nr OTHER 3
+..
+after
+-- expected.txt --
+*groff.TokenMacroDefinitionVariant ".de1 X\n.nr SIDE 9\n.."
+*groff.TokenMacroDefinitionVariant ".am1 X\n.ds BODY changed\n.."
+*groff.TokenMacroDefinitionVariant ".dei TARGET\n.nr OTHER 3\n.."
+groff.TokenText "after"
+diagnostic token=0 path=[] definition variant retained; compatibility and indirect definition execution are not implemented
+diagnostic token=1 path=[] definition variant retained; compatibility and indirect definition execution are not implemented
+diagnostic token=2 path=[] definition variant retained; compatibility and indirect definition execution are not implemented
+-- parsed.txt --
+*groff.TokenMacroDefinitionVariant ".de1 X\n.nr SIDE 9\n.."
+*groff.TokenMacroDefinitionVariant ".am1 X\n.ds BODY changed\n.."
+*groff.TokenMacroDefinitionVariant ".dei TARGET\n.nr OTHER 3\n.."
+groff.TokenText "after"

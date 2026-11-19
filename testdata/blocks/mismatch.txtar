@@ -1,0 +1,16 @@
+A closer for an outer block diagnoses the unclosed inner pair and recovers.
+-- input.roff --
+.TS
+.EQ
+x
+.TE
+after
+-- expected.txt --
+document error=<nil>
+token *groff.TokenUnknownControl [0,14) raw=".TS\n.EQ\nx\n.TE\n"
+  closed=true header=".TS\n" body=".EQ\nx\n" end=".TE\n"
+token groff.TokenText [14,20) raw="after\n"
+document error 4:1 "mismatched block delimiter .TE (expected .EN)"
+ast error=<nil>
+ast block .TS closed=true raw=".TS\n.EQ\nx\n.TE\n"
+ast error 4:1 "mismatched block delimiter .TE (expected .EN)"

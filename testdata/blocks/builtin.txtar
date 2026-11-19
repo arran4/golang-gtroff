@@ -1,0 +1,29 @@
+All preprocessor families retain opaque bodies and alternate picture endings.
+-- input.roff --
+.TS H
+.B not dispatched
+.TE
+.EQ C (1)
+x + y
+.EN
+.PS
+circle
+.PF
+.[
+%T Book
+.]
+-- expected.txt --
+document error=<nil>
+token *groff.TokenTableBlock [0,28) raw=".TS H\n.B not dispatched\n.TE\n"
+  closed=true header=".TS H\n" body=".B not dispatched\n" end=".TE\n"
+token *groff.TokenEquationBlock [28,48) raw=".EQ C (1)\nx + y\n.EN\n"
+  closed=true header=".EQ C (1)\n" body="x + y\n" end=".EN\n"
+token *groff.TokenPictureBlock [48,63) raw=".PS\ncircle\n.PF\n"
+  closed=true header=".PS\n" body="circle\n" end=".PF\n"
+token *groff.TokenReferenceBlock [63,77) raw=".[\n%T Book\n.]\n"
+  closed=true header=".[\n" body="%T Book\n" end=".]\n"
+ast error=<nil>
+ast block .TS closed=true raw=".TS H\n.B not dispatched\n.TE\n"
+ast block .EQ closed=true raw=".EQ C (1)\nx + y\n.EN\n"
+ast block .PS closed=true raw=".PS\ncircle\n.PF\n"
+ast block .[ closed=true raw=".[\n%T Book\n.]\n"

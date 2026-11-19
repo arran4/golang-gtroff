@@ -1,0 +1,5 @@
+Definition variants require distinct handwritten capture metadata.
+-- catalogue.json --
+[{"Contents": [{"Type": "Request", "Token": ".dei", "Args": "name [end]", "Block": {"kind": "definition_variant", "ends": [".REF"]}}]}]
+-- error.txt --
+invalid block closing declaration

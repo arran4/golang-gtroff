@@ -1,0 +1,6 @@
+A neutral opening quote needs no closing quote; trailing spaces are data.
+Input hex encodes .ds S, a neutral quote, two leading/trailing spaces and LF.
+-- input.hex --
+2e6473205320222020756e66696e697368656420737472696e6720200a
+-- fields.json --
+{"Name": "S", "StringVal": "  unfinished string  "}

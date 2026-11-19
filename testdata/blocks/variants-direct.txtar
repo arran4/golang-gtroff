@@ -1,0 +1,23 @@
+Direct variants keep the mode-specific request and an opaque body.
+-- input.roff --
+.de1 "命令" "終"
+.nr BODY 9
+.終
+.am1 命令
+.B appended body
+..
+suffix
+-- options.json --
+{"CRLF": true, "NoFinalLF": true}
+-- expected.txt --
+document error=<nil>
+token *groff.TokenMacroDefinitionVariant [0,39) raw=".de1 \"命令\" \"終\"\r\n.nr BODY 9\r\n.終\r\n"
+  variant {"Request":".de1","Name":"命令","End":"終","Delimiter":".終","Body":[".nr BODY 9"]}
+  closed=true header=".de1 \"命令\" \"終\"\r\n" body=".nr BODY 9\r\n" end=".終\r\n"
+token *groff.TokenMacroDefinitionVariant [39,74) raw=".am1 命令\r\n.B appended body\r\n..\r\n"
+  variant {"Request":".am1","Name":"命令","End":"","Delimiter":"..","Body":[".B appended body"]}
+  closed=true header=".am1 命令\r\n" body=".B appended body\r\n" end="..\r\n"
+token groff.TokenText [74,80) raw="suffix"
+ast error=<nil>
+ast block .de1 closed=true raw=".de1 \"命令\" \"終\"\r\n.nr BODY 9\r\n.終\r\n"
+ast block .am1 closed=true raw=".am1 命令\r\n.B appended body\r\n..\r\n"

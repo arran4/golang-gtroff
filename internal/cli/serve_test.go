@@ -97,3 +97,22 @@ func TestServeBudgetClosesRootsBeforeFailure(t *testing.T) {
 		t.Fatal(code, closed, listened, diags.String())
 	}
 }
+
+func TestServeTotalBudgetStopsBeforeListen(t *testing.T) {
+	closed := 0
+	var diags bytes.Buffer
+	e := Environment{Err: &diags, OpenRoot: func(name string) (manlib.Root, io.Closer, error) {
+		sys := fstest.MapFS{"good.1": {Data: []byte("accepted\n")}}
+		if name == "bad" {
+			sys = fstest.MapFS{"bad.1.gz": {Data: []byte("not gzip\n")}}
+		}
+		return manlib.Root{FS: sys}, closeCallback(func() error { closed++; return nil }), nil
+	}, Listen: func(string) (net.Listener, error) {
+		t.Fatal("listened after failed build exceeded total budget")
+		return nil, nil
+	}}
+	code := Run([]string{"serve", "--root", "good", "--root", "bad", "--max-total-bytes", "12"}, e)
+	if code != ExitIO || closed != 2 || !strings.Contains(diags.String(), manlib.ErrLimit.Error()) {
+		t.Fatalf("code=%d closed=%d diagnostics=%s", code, closed, diags.String())
+	}
+}

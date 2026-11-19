@@ -1,0 +1,5 @@
+Definition variants require distinct handwritten capture metadata.
+-- catalogue.json --
+[{"Contents": [{"Type": "Request", "Token": ".de1", "Args": "name [end]"}]}]
+-- error.txt --
+missing block declaration

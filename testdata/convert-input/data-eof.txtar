@@ -1,0 +1,12 @@
+Conversion input boundary: data-eof.
+-- input.txt --
+<p>kept</p>
+-- options.json --
+{"Mode":"data-eof"}
+-- expected.txt --
+html source="<p>kept</p>\n" document=true calls=1
+error="" readerCause=false limit=false noProgress=false invalidCount=false
+adapterError=false wrote=true
+roff source="<p>kept</p>\n" document=true calls=1
+error="" readerCause=false limit=false noProgress=false invalidCount=false
+adapterError=false wrote=true

@@ -1,0 +1,21 @@
+A selected malformed macro-body request reports its expansion path and keeps
+already emitted text. The .nr side effect before the error is retained.
+-- input.roff --
+prefix
+.de BROKEN
+.nr X 9
+.TH
+..
+.BROKEN
+suffix
+-- error.txt --
+parse expansion
+-- expected.txt --
+groff.TokenText "prefix"
+register X=9
+error evaluate token 2 (macro BROKEN / body line 2): parse expansion: fitting TokenMacroTH arguments: , missing required arguments: got 0, minimum 2
+-- parsed.txt --
+groff.TokenText "prefix"
+*groff.TokenMacroDefinition ".de BROKEN\n.nr X 9\n.TH\n.."
+*groff.TokenUnknownControl ".BROKEN"
+groff.TokenText "suffix"

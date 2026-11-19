@@ -1,0 +1,7 @@
+A small new catalogue produces planned parsers through the existing templates.
+-- catalogue.json --
+[{"Description":"Test declarations","Contents":[{"Type":"Macro","Token":".NEW","Args":"name [tail]"},{"Type":"Request","Token":".request","Args":"[value]"},{"Type":"String","Token":"\\*[label]"}]}]
+-- expected.txt --
+0 Macro man .NEW supported_generated ParseTokenMacroNEW .NEW value
+1 Request roff .request supported_generated ParseTokenRequestRequest .request
+2 String man \*[label] syntactically_preserved  \*[label]

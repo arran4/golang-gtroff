@@ -1,0 +1,5 @@
+Different token spellings cannot silently collapse to the same generated name.
+-- catalogue.json --
+[{"Contents":[{"Type":"Macro","Token":".A-B","Args":""},{"Type":"Macro","Token":".AB","Args":""}]}]
+-- error.txt --
+collide as

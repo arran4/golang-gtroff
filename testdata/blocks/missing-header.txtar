@@ -1,0 +1,22 @@
+A malformed macro header preserves only its own line; following input is available.
+-- input.roff --
+.de
+body
+..
+.de X END extra
+following
+-- expected.txt --
+document error=<nil>
+token *groff.TokenUnknownControl [0,4) raw=".de\n"
+token groff.TokenText [4,9) raw="body\n"
+token *groff.TokenUnknownControl [9,12) raw="..\n"
+token *groff.TokenUnknownControl [12,28) raw=".de X END extra\n"
+token groff.TokenText [28,38) raw="following\n"
+document error 1:1 "missing required arguments: got 0, minimum 1"
+document error 3:1 "unmatched block delimiter .."
+document error 4:1 "unexpected arguments: got 3, maximum 2"
+ast error=<nil>
+ast error 1:1 "missing required arguments: got 0, minimum 1"
+ast error 3:1 "unmatched block delimiter .."
+ast warning 3:1 "no token match: \"..\": "
+ast error 4:1 "unexpected arguments: got 3, maximum 2"

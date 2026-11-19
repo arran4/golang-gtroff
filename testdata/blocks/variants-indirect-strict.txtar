@@ -1,0 +1,16 @@
+Strict unresolved capture preserves the full remainder without classifying body lines.
+-- input.roff --
+.ami NAME REF
+.B body
+..
+suffix
+-- options.json --
+{"Strict": true}
+-- expected.txt --
+document error=input.1:1:1: unresolved indirect block delimiter "REF"; remaining source preserved as opaque block
+token *groff.TokenUnknownControl [0,32) raw=".ami NAME REF\n.B body\n..\nsuffix\n"
+  closed=false header=".ami NAME REF\n" body=".B body\n..\nsuffix\n" end=""
+document error 1:1 "unresolved indirect block delimiter \"REF\"; remaining source preserved as opaque block"
+ast error=input.1:1:1: unresolved indirect block delimiter "REF"; remaining source preserved as opaque block
+ast block .ami closed=false raw=".ami NAME REF\n.B body\n..\nsuffix\n"
+ast error 1:1 "unresolved indirect block delimiter \"REF\"; remaining source preserved as opaque block"

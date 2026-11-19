@@ -1,0 +1,14 @@
+Conversion input boundary: limit-error.
+-- input.txt --
+abcd
+-- options.json --
+{"Mode":"data-error","MaxInputBytes":3,"NoFinalLF":true}
+-- expected.txt --
+html source="abcd" document=false calls=1
+error="input.txt:1:5: conversion resource limit exceeded\ninput fixture failed" readerCause=true limit=true noProgress=false invalidCount=false
+position=4/1:5
+adapterError=true wrote=false
+roff source="abcd" document=false calls=1
+error="input.txt:1:5: conversion resource limit exceeded\ninput fixture failed" readerCause=true limit=true noProgress=false invalidCount=false
+position=4/1:5
+adapterError=true wrote=false

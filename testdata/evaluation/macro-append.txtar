@@ -1,0 +1,27 @@
+Appending to an undefined macro creates it; redefinition replaces earlier lines.
+-- input.roff --
+.am NEW
+first
+..
+.am NEW
+second
+..
+.NEW
+.de NEW
+replacement
+..
+.NEW
+.ig
+ignored
+..
+-- expected.txt --
+groff.TokenText "first"
+groff.TokenText "second"
+groff.TokenText "replacement"
+-- parsed.txt --
+*groff.TokenMacroAppend ".am NEW\nfirst\n.."
+*groff.TokenMacroAppend ".am NEW\nsecond\n.."
+*groff.TokenUnknownControl ".NEW"
+*groff.TokenMacroDefinition ".de NEW\nreplacement\n.."
+*groff.TokenUnknownControl ".NEW"
+*groff.TokenIgnoredBlock ".ig\nignored\n.."

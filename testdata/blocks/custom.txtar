@@ -1,0 +1,19 @@
+A custom handler receives bounded source, while its String output is unrelated.
+-- input.roff --
+.BOX "raw header
+雪
+.BOX nested
+.so never
+.END
+.END
+suffix
+-- options.json --
+{"Custom": true, "CRLF": true, "NoFinalLF": true}
+-- expected.txt --
+document error=<nil>
+token *groff.blockTestToken [0,59) raw=".BOX \"raw header\r\n雪\r\n.BOX nested\r\n.so never\r\n.END\r\n.END\r\n"
+  closed=true header=".BOX \"raw header\r\n" body="雪\r\n.BOX nested\r\n.so never\r\n.END\r\n" end=".END\r\n"
+token groff.TokenText [59,65) raw="suffix"
+ast error=<nil>
+ast block .BOX closed=true raw=".BOX \"raw header\r\n雪\r\n.BOX nested\r\n.so never\r\n.END\r\n.END\r\n"
+  token *groff.blockTestToken {"Command":".BOX","Header":".BOX \"raw header\r\n","Body":"雪\r\n.BOX nested\r\n.so never\r\n.END\r\n","End":".END\r\n"}

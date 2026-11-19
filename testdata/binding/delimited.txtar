@@ -1,0 +1,5 @@
+Title fields use delimiter syntax rather than ordinary arguments.
+-- input.roff --
+.tl 'left with spaces'center'right'
+-- fields.json --
+{"Leftcenterright": "'left with spaces'center'right'"}

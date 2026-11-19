@@ -1,0 +1,5 @@
+Malformed argument declarations fail before generation.
+-- catalogue.json --
+[{"Contents": [{"Type": "Request", "Token": ".new", "Args": "value", "ArgumentGrammar": {"mode": "joined", "rest": "Missing"}}]}]
+-- error.txt --
+unknown aggregate field

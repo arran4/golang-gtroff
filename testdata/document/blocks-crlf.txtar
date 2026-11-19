@@ -1,0 +1,18 @@
+Typed blocks keep exact CRLF/tab source independently of canonical formatting.
+-- options.json --
+{"CRLF":true,"NoFinalLF":true}
+-- input.1 --
+.de	X END
+雪
+.END
+.ig STOP
+.UNKNOWN body
+.STOP
+.TS H
+cell
+.TE
+-- expected.txt --
+sourceComplete=true bytes=70
+*groff.TokenMacroDefinition [0,22) 1:1-4:1 raw=".de\tX END\r\n雪\r\n.END\r\n" canonical=".de X END\n雪\n.END"
+*groff.TokenIgnoredBlock [22,54) 4:1-7:1 raw=".ig STOP\r\n.UNKNOWN body\r\n.STOP\r\n" canonical=".ig STOP\n.UNKNOWN body\n.STOP"
+*groff.TokenTableBlock [54,70) 7:1-9:4 raw=".TS H\r\ncell\r\n.TE" canonical=".TS H\ncell\n.TE"

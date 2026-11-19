@@ -1,0 +1,13 @@
+Already-read bytes beyond a line budget are preserved as an opaque tail.
+-- options.json --
+{"MaxLines":1}
+-- input.1 --
+one
+two
+-- error.txt --
+line budget exceeded
+-- expected.txt --
+sourceComplete=false bytes=8
+groff.TokenText [0,4) 1:1-2:1 raw="one\n" canonical="one"
+*groff.TokenUnknownControl [4,8) 2:1-3:1 raw="two\n" canonical="two"
+error 2:1 line budget exceeded (1)

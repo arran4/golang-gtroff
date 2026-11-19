@@ -1,0 +1,5 @@
+Special request syntax is bound without evaluation.
+-- input.roff --
+.NT C "Title with C"
+-- fields.json --
+{"C": "C", "Title": "Title with C"}

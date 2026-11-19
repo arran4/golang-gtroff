@@ -1,0 +1,5 @@
+Special request syntax is bound without evaluation.
+-- input.roff --
+.ds S words "inside" more\"comment
+-- fields.json --
+{"Name": "S", "StringVal": "words \"inside\" more"}

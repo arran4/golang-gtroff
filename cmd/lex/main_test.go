@@ -2,6 +2,9 @@ package main
 
 import (
 	"bytes"
+	"errors"
+	groff "github.com/arran4/golang-gtroff"
+	"io"
 	"os"
 	"path/filepath"
 	"strings"
@@ -10,30 +13,15 @@ import (
 
 func TestCLI_ProcessReader(t *testing.T) {
 	input := ".TH HELLO 1\n.SH NAME\nhello - greeting\n"
-	*pkgFlag = "man"
-	*strictFlag = true
-
-	var buf bytes.Buffer
-	// Redirect stdout for testing
-	oldStdout := os.Stdout
-	r, w, _ := os.Pipe()
-	os.Stdout = w
-
-	err := processReader("test.1", strings.NewReader(input))
-	w.Close()
-	os.Stdout = oldStdout
-
-	if err != nil {
-		t.Fatalf("processReader error: %v", err)
+	var out, diagnostics bytes.Buffer
+	err := processReaderTo("test.1", strings.NewReader(input), &out, &diagnostics, groff.WithPackage("man"), groff.WithStrict(true))
+	if err != nil || diagnostics.Len() != 0 {
+		t.Fatalf("processReader: %v %s", err, diagnostics.String())
 	}
-
-	buf.ReadFrom(r)
-	out := buf.String()
-	if !strings.Contains(out, "test.1:1:1: .TH HELLO 1") {
-		t.Errorf("expected output to contain span and .TH, got: %s", out)
-	}
-	if !strings.Contains(out, "test.1:2:1: .SH NAME") {
-		t.Errorf("expected output to contain span and .SH, got: %s", out)
+	for _, want := range []string{"test.1:1:1: .TH HELLO 1", "test.1:2:1: .SH NAME"} {
+		if !strings.Contains(out.String(), want) {
+			t.Fatalf("missing %q in %s", want, out.String())
+		}
 	}
 }
 
@@ -48,25 +36,55 @@ func TestCLI_ParseFileHelper(t *testing.T) {
 }
 
 func TestCLI_UnterminatedFinalLine(t *testing.T) {
-	input := ".TH TEST 1\nunterminated final line"
-	*strictFlag = false
-
-	oldStdout := os.Stdout
-	r, w, _ := os.Pipe()
-	os.Stdout = w
-
-	err := processReader("test.1", strings.NewReader(input))
-	w.Close()
-	os.Stdout = oldStdout
-
-	if err != nil {
-		t.Fatalf("processReader error: %v", err)
-	}
-
-	var buf bytes.Buffer
-	buf.ReadFrom(r)
-	out := buf.String()
-	if !strings.Contains(out, "unterminated final line") {
-		t.Errorf("expected final unterminated line in output, got: %s", out)
+	var out, diagnostics bytes.Buffer
+	err := processReaderTo("test.1", strings.NewReader(".TH TEST 1\nunterminated final line"), &out, &diagnostics)
+	if err != nil || !strings.Contains(out.String(), "unterminated final line") {
+		t.Fatalf("final line: %s %v", out.String(), err)
 	}
 }
+
+func TestCLI_PartialInputAndOutputErrors(t *testing.T) {
+	failure := errors.New("source read failed")
+	var out, diagnostics bytes.Buffer
+	err := processReaderTo("partial.1", &lexTerminalReader{data: "snow 雪", err: failure}, &out, &diagnostics)
+	if !errors.Is(err, failure) || !strings.Contains(out.String(), "snow 雪") || !strings.Contains(diagnostics.String(), "partial.1:1:7: error:") {
+		t.Fatalf("partial input hidden: out=%q diagnostics=%q err=%v", out.String(), diagnostics.String(), err)
+	}
+	out.Reset()
+	diagnostics.Reset()
+	err = processReaderTo("strict.1", strings.NewReader(".UNKNOWN arg\nretained tail\n"), &out, &diagnostics, groff.WithStrict(true))
+	if !errors.Is(err, groff.ErrNoTokenMatch) || !strings.Contains(out.String(), "retained tail") || !strings.Contains(diagnostics.String(), "strict.1:1:1: error:") {
+		t.Fatalf("strict partial source: %q %q %v", out.String(), diagnostics.String(), err)
+	}
+	writerErr := errors.New("output failed")
+	if err := processReaderTo("test.1", strings.NewReader("text\n"), lexErrorWriter{writerErr}, io.Discard); !errors.Is(err, writerErr) {
+		t.Fatalf("output error lost: %v", err)
+	}
+	path := filepath.Join(t.TempDir(), "partial.1")
+	if err := os.WriteFile(path, []byte(strings.Repeat("x", 64*1024+1)), 0600); err != nil {
+		t.Fatal(err)
+	}
+	tokens, err := ParseFile(path)
+	var limit *groff.DocumentLimitError
+	if !errors.As(err, &limit) || len(tokens) == 0 {
+		t.Fatalf("legacy file helper discarded resource-failure partials: tokens=%d err=%v", len(tokens), err)
+	}
+}
+
+type lexTerminalReader struct {
+	data string
+	err  error
+	done bool
+}
+
+func (r *lexTerminalReader) Read(p []byte) (int, error) {
+	if r.done {
+		panic("retried terminal input")
+	}
+	r.done = true
+	return copy(p, r.data), r.err
+}
+
+type lexErrorWriter struct{ err error }
+
+func (w lexErrorWriter) Write([]byte) (int, error) { return 0, w.err }

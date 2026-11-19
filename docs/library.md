@@ -104,6 +104,84 @@ Process input files.
 }
 ```
 
+`Document.Source()` and each token's `RawSource` retain read bytes independently
+of typed/canonical formatting. `SourceComplete` records observed EOF; partial
+results are returned with strict syntax or input errors. See
+[document source, span and budget contracts](document.md), including the
+executable `ExampleDocument_Source`. The independent AST is the structural API.
+
+### Custom line handlers
+
+Implement `CustomHandler` and register it with `NewRegistry().RegisterCustom`.
+Pass `WithRegistry(registry)` to `ParseDocument` or `ParseAST`, or call
+`registry.ParseLine(line, packageName)` / `registry.ParseLinePermissive` directly.
+`WithCustomHandler(handler)` adds a handler for just that parse without changing
+the supplied registry. See the executable `ExampleWithRegistry` in
+[`registry_example_test.go`](../registry_example_test.go).
+
+An explicit empty registry isolates a parse from process-global registrations.
+With no explicit registry (or `WithRegistry(nil)`), legacy global registration
+via `RegisterCustomHandler` remains available. Document/AST parsing snapshots
+registrations before reading input; includes use the same snapshot. Later
+registration affects subsequent parses. Handler objects themselves are shared:
+protect their mutable state when parsing concurrently.
+
+Custom handlers precede generated dispatch for ordinary control lines. `cmd`
+retains the original `.`/`'` prefix and `args` retains quoting/escaping with leading
+argument whitespace removed. `CanHandle` must be a pure predicate. Exactly one
+matching custom handler may parse: overlapping predicates/duplicate matches return
+`ErrAmbiguousHandler` before any `Parse` callback. Nil registrations and successful
+nil token results return `ErrInvalidHandler`. Predicate overlap is checked for
+encountered requests, not exhaustively across all possible command names.
+
+No match uses the generated token parser or the usual unknown-control behavior.
+Handler syntax errors stay errors; permissive document/AST parsing preserves the
+line and records a diagnostic. AST source bytes and copied typed token snapshots
+remain independent of a custom token's formatted `String()` value. Custom tokens
+must support JSON round trips for typed AST inspection; only serialized state is
+copied, and JSON encoding failures produce diagnostics. For document/AST
+structure, [BlockHandler](blocks.md) supplies declarative bounded capture with
+shared registry precedence. Line handlers do not execute macro definitions.
+
+This #5 repair connects per-parse handlers and makes dispatch safe. Catalogue-wide
+validation of missing handwritten implementations remains separate; this is not
+a claim that all #5/#12 acceptance criteria are complete.
+
+### Explicit legacy includes
+
+`ParseDocument` reads no included files unless given `WithIncludeResolver`.
+For a caller-selected directory, use
+`WithIncludeResolver(NewSafeDirectoryIncludeResolver(directory, 10))` and
+`WithMaxIncludeDepth(10)`. The directory resolver uses Go's `os.Root` to keep
+relative symlink targets within that tree; absolute paths and escaping symlinks
+are rejected. Treat the chosen root and its filesystem contents as trusted;
+`os.Root` does not prohibit mount points or special files beneath a root.
+
+`IncludeResolver.Resolve` keeps its `io.Reader` signature. A successful call
+transfers ownership to the parser: readers implementing `io.Closer` are closed
+on success or failure, and close errors are reported. Wrap a borrowed reader
+as `struct{ io.Reader }{reader}` to retain ownership. The original reader passed
+to `ParseDocument` remains caller-owned.
+
+The parser bounds nested includes for every resolver (default 10, maximum 128),
+detects repeated active include names, and forwards line/line-length limits to
+each included source. Line limits apply per source; `WithDocumentBytes` bounds
+total reader bytes across the root and includes (default 8 MiB). The directory
+resolver also detects active file aliases
+and bounds open include readers with its `MaxDepth`; closing a reader releases
+that reservation, so sequential/repeated sibling includes and resolver reuse
+work. Configure resolver fields before concurrent use. Included diagnostics and
+source locations are retained. `Document.Includes` retains child sources and
+directive spans, even when a child returns partial results. Strict mode rejects
+failed includes; permissive mode preserves the refused directive and reports a
+warning for resolver/syntax failures. Terminal child reader/resource errors
+always propagate as errors.
+
+`ParseAST`, the new CLI, exporters and man-library server never execute includes.
+This repair addresses containment, reader ownership and recursion under #12;
+the [block capture follow-up](blocks.md) separately supplies handler registration
+and exact block-source inspection.
+
 ### Line-by-Line Parsing
 
 ```go
@@ -143,7 +221,24 @@ for _, tok := range tokens {
 }
 ```
 
+### Argument source and formatting
+
+`ParseArguments` retains raw bytes, comments, byte spans and partial arguments
+alongside decoded values. `ArgumentParser` and `LexArguments` share its scanner
+and retain legacy rune indices. `CanonicalArguments` reports unrepresentable
+values instead of claiming a universal quoting round trip. See the
+[argument contracts](arguments.md) and [executable example](../arguments_example_test.go).
+Generated zero-argument parsers now report extras; broader catalogue grammar is
+still tracked separately under #7.
+
 ### Optional Bounded Evaluation
+
+Evaluation is a separate opt-in pass. It returns partial output on errors and
+keeps earlier state changes. Inspect `env.Diagnostics` for preserved requests;
+use `EvaluateContext` for cancellation. The [evaluation guide](evaluation.md)
+documents checked expressions, alias/append/remove semantics, positional macro
+arguments, byte/work limits and remaining unsupported syntax. `Environment.State`
+accepts a four-method storage interface for composing state access.
 
 ```go
 input := `.nr PO 72

@@ -1,0 +1,10 @@
+The EOF probe must not turn an exact physical-line boundary into a budget error.
+-- options.json --
+{"MaxLines":2}
+-- input.1 --
+one
+two
+-- expected.txt --
+sourceComplete=true bytes=8
+groff.TokenText [0,4) 1:1-2:1 raw="one\n" canonical="one"
+groff.TokenText [4,8) 2:1-3:1 raw="two\n" canonical="two"

@@ -1,0 +1,29 @@
+An AST indent block selects its whole semantic group and exact source.
+-- options.json --
+{"astBlock":".RS","raw":true}
+-- input.1 --
+.SH REAL
+before
+.RS 4
+chosen
+.RE
+outside
+-- expected-man.json --
+{
+  "version": 1,
+  "metadata": {},
+  "nodes": [
+    {"id":1,"children":[2],"kind":"document","state":{"style":{},"previous":{},"fill":true},"origin":{"astIds":[1],"span":{"Start":{"Filename":"input.1","Offset":0,"Line":1,"Column":1},"End":{"Filename":"input.1","Offset":41,"Line":7,"Column":1}}}},
+    {"id":2,"parent":1,"children":[3,4,6],"kind":"section","heading":"REAL","runs":[{"text":"REAL","style":{"bold":true},"origin":{"astIds":[3],"span":{"Start":{"Filename":"input.1","Offset":0,"Line":1,"Column":1},"End":{"Filename":"input.1","Offset":9,"Line":2,"Column":1}}}}],"state":{"style":{},"previous":{},"fill":true},"origin":{"astIds":[3,2],"span":{"Start":{"Filename":"input.1","Offset":0,"Line":1,"Column":1},"End":{"Filename":"input.1","Offset":41,"Line":7,"Column":1}}}},
+    {"id":3,"parent":2,"kind":"paragraph","runs":[{"text":"before","style":{},"origin":{"astIds":[5],"span":{"Start":{"Filename":"input.1","Offset":9,"Line":2,"Column":1},"End":{"Filename":"input.1","Offset":16,"Line":3,"Column":1}}}}],"state":{"style":{},"previous":{},"fill":true},"origin":{"astIds":[5],"span":{"Start":{"Filename":"input.1","Offset":9,"Line":2,"Column":1},"End":{"Filename":"input.1","Offset":16,"Line":3,"Column":1}}}},
+    {"id":4,"parent":2,"children":[5],"kind":"indent","value":"4","state":{"style":{},"previous":{},"fill":true},"origin":{"astIds":[8,7,12],"span":{"Start":{"Filename":"input.1","Offset":16,"Line":3,"Column":1},"End":{"Filename":"input.1","Offset":33,"Line":6,"Column":1}}}},
+    {"id":5,"parent":4,"kind":"paragraph","runs":[{"text":"chosen","style":{},"origin":{"astIds":[10],"span":{"Start":{"Filename":"input.1","Offset":22,"Line":4,"Column":1},"End":{"Filename":"input.1","Offset":29,"Line":5,"Column":1}}}}],"state":{"style":{},"previous":{},"fill":true,"indents":["4"]},"origin":{"astIds":[10],"span":{"Start":{"Filename":"input.1","Offset":22,"Line":4,"Column":1},"End":{"Filename":"input.1","Offset":29,"Line":5,"Column":1}}}},
+    {"id":6,"parent":2,"kind":"paragraph","runs":[{"text":"outside","style":{},"origin":{"astIds":[13],"span":{"Start":{"Filename":"input.1","Offset":33,"Line":6,"Column":1},"End":{"Filename":"input.1","Offset":41,"Line":7,"Column":1}}}}],"state":{"style":{},"previous":{},"fill":true},"origin":{"astIds":[13],"span":{"Start":{"Filename":"input.1","Offset":33,"Line":6,"Column":1},"End":{"Filename":"input.1","Offset":41,"Line":7,"Column":1}}}}
+  ]
+}
+-- expected-text.txt --
+.RS 4
+chosen
+.RE
+-- expected-canonical.json --
+{"metadata":{},"nodes":[{"kind":"document","state":{"style":{},"previous":{},"fill":true}},{"kind":"section","parent":1,"heading":"REAL","runs":[{"text":"REAL","style":{"bold":true}}],"state":{"style":{},"previous":{},"fill":true}},{"kind":"paragraph","parent":2,"runs":[{"text":"before","style":{}}],"state":{"style":{},"previous":{},"fill":true}},{"kind":"indent","parent":2,"value":"4","state":{"style":{},"previous":{},"fill":true}},{"kind":"paragraph","parent":4,"runs":[{"text":"chosen","style":{}}],"state":{"style":{},"previous":{},"fill":true,"indents":["4"]}},{"kind":"paragraph","parent":2,"runs":[{"text":"outside","style":{}}],"state":{"style":{},"previous":{},"fill":true}}]}

@@ -1,0 +1,14 @@
+An incomplete custom block never reaches ParseBlock.
+-- input.roff --
+.BOX
+raw
+-- options.json --
+{"Custom": true, "Strict": true}
+-- expected.txt --
+document error=input.1:1:1: unterminated block .BOX (expected .END)
+token *groff.TokenUnknownControl [0,9) raw=".BOX\nraw\n"
+  closed=false header=".BOX\n" body="raw\n" end=""
+document error 1:1 "unterminated block .BOX (expected .END)"
+ast error=input.1:1:1: unterminated block .BOX (expected .END)
+ast block .BOX closed=false raw=".BOX\nraw\n"
+ast error 1:1 "unterminated block .BOX (expected .END)"

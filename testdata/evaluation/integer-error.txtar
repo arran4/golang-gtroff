@@ -1,0 +1,14 @@
+Malformed arithmetic is rejected without replacing the previous register value.
+-- input.roff --
+.nr X 4
+.nr X 2+
+suffix
+-- error.txt --
+invalid numeric expression
+-- expected.txt --
+register X=4
+error evaluate token 1 (): invalid numeric expression at byte 2: missing operand
+-- parsed.txt --
+*groff.TokenRequestNr ".nr X 4"
+*groff.TokenRequestNr ".nr X 2+"
+groff.TokenText "suffix"

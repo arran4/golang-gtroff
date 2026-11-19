@@ -1,0 +1,5 @@
+A quoted tag and parenthesized indentation occupy two fields.
+-- input.roff --
+.IP "two words" (3 + 5)
+-- fields.json --
+{"Designator": "two words", "Nnn": "(3 + 5)"}

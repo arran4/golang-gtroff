@@ -1,0 +1,5 @@
+Optional gaps and explicit empty required values are distinct fields.
+-- input.roff --
+.TH "" 1 "" "" "Manual title"
+-- fields.json --
+{"Title": "", "Section": "1", "Extra3": "Manual title"}
