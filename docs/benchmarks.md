@@ -80,8 +80,10 @@ Record the exact commit/worktree diff, fixture hashes, command, `go version`,
 GOOS/GOARCH, CGO_ENABLED, GOMAXPROCS/CPU model and relevant build flags. Keep the
 machine idle and use the same toolchain, fixtures, names, flags and environment
 for both sides. Do not compare a one-operation smoke with calibrated runs.
-The [example report](benchmarks/example-report.md) commits ten samples per name
-and separates observations from guarantees.
+The [example report](benchmarks/example-report.md) illustrates the summary
+of ten measured samples per name. Raw host-specific samples are intentionally
+not checked into the repository; capture them with the commands above as
+local files or ephemeral CI artifacts when comparing exact revisions.
 
 ## Compare a candidate
 
