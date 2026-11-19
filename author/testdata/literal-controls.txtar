@@ -1,0 +1,31 @@
+Authoring scenario: literal-controls.
+-- input.json --
+{
+  "Sections": [
+    {
+      "Heading": "SOURCE",
+      "Blocks": [
+        {
+          "Type": "literal",
+          "Text": ".SH NOT A HEADING\n.so never-read\n'apostrophe\n\\fB literal\\fP\n"
+        }
+      ]
+    }
+  ],
+  "Title": "tool",
+  "Section": "1"
+}
+-- output.roff --
+.TH "tool" "1" "" "" ""
+.SH "\f[B]SOURCE\f[R]"
+.nf
+\&\f[CR].SH NOT A HEADING\f[R]\c
+
+\&\f[CR].so never-read\f[R]\c
+
+\&\f[CR]'apostrophe\f[R]\c
+
+\&\f[CR]\efB literal\efP\f[R]\c
+
+.fi
+-- error.txt --
