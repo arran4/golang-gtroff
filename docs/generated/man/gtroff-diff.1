@@ -1,0 +1,46 @@
+.\" Generated from gtroff command help; do not edit.
+.TH "GTROFF-DIFF" 1 "" "golang-gtroff" "User Commands"
+.SH NAME
+\&gtroff-diff
+.SH SYNOPSIS
+.nf
+\&Usage: gtroff diff [OPTIONS] BEFORE AFTER
+\&
+\&Compare man content projections or original source bytes with both source locations.
+\&Sections/subsections, definitions, metadata, references and preamble content use
+\&existing query/extraction models. Default semantic view ignores font, indentation
+\&and flowing whitespace; preformatted text and opaque bytes remain significant.
+\&Unique identities can move across scopes; sibling reorder uses relative ordering.
+\&Duplicates are reported as ambiguity, without pairing by ordinal. Unsupported
+\&regions remain explicit source evidence, not assertions about runtime meaning.
+\&
+\&  --view semantic|source  Default: semantic
+\&  --format text|json|jsonl Default: text; JSONL summary/change/ambiguity records
+\&  --strict                Reject source/model/opaque/ambiguity diagnostics
+\&  --root DIR              Shared allowed root; default: each input's directory
+\&  --no-includes           Compare only the explicit root sources and references
+\&  --package man|ms|roff   Default parser context: man; projection is the man subset
+\&  --max-bytes COUNT       Input bytes across BOTH loads; default: 8388608
+\&  --max-nodes COUNT       Input AST nodes across BOTH loads; default: 100000
+\&  --max-files COUNT       Source occurrences across BOTH loads; default: 256
+\&  --max-depth COUNT       Include depth; default: 16, ceiling 128
+\&  --max-diff-nodes COUNT  Per-revision projection bound; default: 200000
+\&  --max-objects COUNT     Per-revision object cap; default: 10000
+\&  --max-changes COUNT     Changes plus ambiguities; default: 10000
+\&  --max-data-bytes COUNT  Comparison data budget; default: 33554432
+\&  --max-result-bytes COUNT Comparison result data; default: 16777216
+\&  --max-work COUNT        Shared input/projection/matching work; default: 67108864
+\&  --max-output-bytes COUNT Serialized output; default: 33554432
+\&
+\&Stdin '-' is accepted for one side. Named roots resolve bounded local includes;
+\&stdin needs --root for includes. No roff execution, network fetching or writes.
+\&Missing/truncated/broken includes refuse comparison rather than invent removals;
+\&use --no-includes explicitly for a root-only source view. Semantic source errors
+\&also refuse comparison; source view can compare fully captured malformed bytes.
+\&Root filenames are labels, so old.1/new.1 does not create a semantic rename.
+\&Included occurrences use directive ancestry/target/occurrence context.
+\&Exit codes: 0 equal in the selected assessment, 1 differences/ambiguity/strict,
+\&2 usage, 3 input/output/resource/cancellation failure with a partial report.
+.fi
+.SH SEE ALSO
+.MR man 7

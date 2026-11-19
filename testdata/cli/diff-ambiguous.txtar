@@ -1,0 +1,27 @@
+Documentation diff scenario: ambiguous.
+-- args.json --
+["diff", "--format", "jsonl", "before.1", "after.1"]
+-- input/before.1 --
+.TH TOOL 1
+.SH ENVIRONMENT
+.TP
+.B SAME
+One.
+.TP
+.B SAME
+Two.
+-- input/after.1 --
+.TH TOOL 1
+.SH ENVIRONMENT
+.TP
+.B SAME
+Changed one.
+.TP
+.B SAME
+Changed two.
+-- stdout.txt --
+{"schemaVersion":1,"type":"summary","changeCount":0,"ambiguityCount":1,"report":{"schemaVersion":1,"command":"diff","view":"semantic","assessment":"man-content-projection","status":"ambiguous","complete":true,"different":false,"before":{"name":"before.1","files":[{"id":1,"name":"before.1","depth":0,"digest":"bd3755f3bf35f28f62fafc0f6f3d7cebcfe812398db3789863ed28ab76d2a41e","complete":true}],"objects":4,"complete":true},"after":{"name":"after.1","files":[{"id":1,"name":"after.1","depth":0,"digest":"4f3b50cb94e07ad569185de1750c70aee329c8b0a5e296a22354738a36e468e2","complete":true}],"objects":4,"complete":true},"changes":null,"ambiguities":null}}
+{"schemaVersion":1,"type":"ambiguity","ambiguity":{"schemaVersion":1,"kind":"definition","identity":"SAME","before":[{"index":3,"kind":"definition","identity":"SAME","scope":"5:$root7:section11:ENVIRONMENT","location":{"source":{"id":1,"name":"before.1","depth":0,"digest":"bd3755f3bf35f28f62fafc0f6f3d7cebcfe812398db3789863ed28ab76d2a41e","complete":true},"sourceKey":"$root","span":{"Start":{"Filename":"before.1","Offset":27,"Line":3,"Column":1},"End":{"Filename":"before.1","Offset":44,"Line":6,"Column":1}},"astIds":[7,9],"semanticId":4},"value":"[{\"kind\":\"flow\",\"text\":\"One.\"}]","digest":"0cb79f30a38a33012b48bcde36d792e816f1b29f1bdac1d5b9de9d2b3cbdba55","uninterpreted":false},{"index":4,"kind":"definition","identity":"SAME","scope":"5:$root7:section11:ENVIRONMENT","location":{"source":{"id":1,"name":"before.1","depth":0,"digest":"bd3755f3bf35f28f62fafc0f6f3d7cebcfe812398db3789863ed28ab76d2a41e","complete":true},"sourceKey":"$root","span":{"Start":{"Filename":"before.1","Offset":44,"Line":6,"Column":1},"End":{"Filename":"before.1","Offset":61,"Line":9,"Column":1}},"astIds":[13,15],"semanticId":6},"value":"[{\"kind\":\"flow\",\"text\":\"Two.\"}]","digest":"4d2f18f688418f5097616a7479e7103a627cd34f633791eb16a948645135e7a7","uninterpreted":false}],"after":[{"index":3,"kind":"definition","identity":"SAME","scope":"5:$root7:section11:ENVIRONMENT","location":{"source":{"id":1,"name":"after.1","depth":0,"digest":"4f3b50cb94e07ad569185de1750c70aee329c8b0a5e296a22354738a36e468e2","complete":true},"sourceKey":"$root","span":{"Start":{"Filename":"after.1","Offset":27,"Line":3,"Column":1},"End":{"Filename":"after.1","Offset":52,"Line":6,"Column":1}},"astIds":[7,9],"semanticId":4},"value":"[{\"kind\":\"flow\",\"text\":\"Changed one.\"}]","digest":"cc4af497f9f57f8a5c5c65f1c98c02ec7b511506e7180f48186b9d7bbad226a2","uninterpreted":false},{"index":4,"kind":"definition","identity":"SAME","scope":"5:$root7:section11:ENVIRONMENT","location":{"source":{"id":1,"name":"after.1","depth":0,"digest":"4f3b50cb94e07ad569185de1750c70aee329c8b0a5e296a22354738a36e468e2","complete":true},"sourceKey":"$root","span":{"Start":{"Filename":"after.1","Offset":52,"Line":6,"Column":1},"End":{"Filename":"after.1","Offset":77,"Line":9,"Column":1}},"astIds":[13,15],"semanticId":6},"value":"[{\"kind\":\"flow\",\"text\":\"Changed two.\"}]","digest":"74ff08d94a576ace96bc63f785fbbdd54148ba785bceafab0c6c779ecbbab2f7","uninterpreted":false}],"reason":"multiple candidates share an identity; no ordinal-based pairing is asserted"}}
+-- stderr.txt --
+-- exit.txt --
+1

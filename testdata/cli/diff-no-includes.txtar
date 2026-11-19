@@ -1,0 +1,34 @@
+Documentation diff scenario: no-includes.
+-- args.json --
+["diff", "--no-includes", "before/main.1", "after/main.1"]
+-- input/before/main.1 --
+.TH TOOL 1
+.SH ENVIRONMENT
+.so body.roff
+-- input/after/main.1 --
+.TH TOOL 1
+.SH ENVIRONMENT
+.so body.roff
+-- input/before/body.roff --
+.TP
+.B HOME
+Old.
+-- input/after/body.roff --
+.TP
+.B HOME
+New.
+-- stdout.txt --
+diff: equal (assessment=man-content-projection complete=true changes=0 ambiguities=0)
+before: "before/main.1" sources=1 objects=2
+after: "after/main.1" sources=1 objects=2
+before "main.1":3:1: input warning disabled: include disabled: include loading explicitly disabled
+after "main.1":3:1: input warning disabled: include disabled: include loading explicitly disabled
+before "main.1":1:1: unsupported-content: selected content includes unsupported optional-man semantics; literal source and blocks are retained
+before "main.1":3:1: disabled: include disabled: include loading explicitly disabled
+before "main.1":3:1: semantic: unsupported semantics preserved: .so
+after "main.1":1:1: unsupported-content: selected content includes unsupported optional-man semantics; literal source and blocks are retained
+after "main.1":3:1: disabled: include disabled: include loading explicitly disabled
+after "main.1":3:1: semantic: unsupported semantics preserved: .so
+-- stderr.txt --
+-- exit.txt --
+0

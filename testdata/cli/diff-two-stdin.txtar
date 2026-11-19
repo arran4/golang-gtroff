@@ -1,0 +1,9 @@
+Documentation diff scenario: two-stdin.
+-- args.json --
+["diff", "-", "-"]
+-- stdout.txt --
+-- stderr.txt --
+gtroff: stdin may be used for only one side
+Run 'gtroff help' for usage.
+-- exit.txt --
+2

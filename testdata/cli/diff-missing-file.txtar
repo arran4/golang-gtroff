@@ -1,0 +1,25 @@
+Documentation diff scenario: missing-file.
+-- args.json --
+["diff", "absent.1", "after.1"]
+-- input/after.1 --
+.TH TOOL 1
+.SH ENVIRONMENT
+-- stdout.txt --
+diff: incomplete (assessment=man-content-projection complete=false changes=0 ambiguities=0)
+before: "absent.1" sources=0 objects=0
+after: "after.1" sources=0 objects=0
+before input error: open root "absent.1": open absent.1: file does not exist
+after input error: after input was not loaded following before-input failure
+diff error: documentation diff input is incomplete or invalid: before has no captured files
+documentation diff input is incomplete or invalid
+open root "absent.1": open absent.1: file does not exist
+documentation diff input is incomplete or invalid: after has no source snapshot
+after input was not loaded following before-input failure
+-- stderr.txt --
+gtroff: documentation diff input is incomplete or invalid: before has no captured files
+documentation diff input is incomplete or invalid
+open root "absent.1": open absent.1: file does not exist
+documentation diff input is incomplete or invalid: after has no source snapshot
+after input was not loaded following before-input failure
+-- exit.txt --
+3
