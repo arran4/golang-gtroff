@@ -14,7 +14,7 @@ not pin an OS core. No CPU affinity or power-governor control was applied. File
 benchmarks use the local filesystem/cache. Native generator compilation and its
 initial check run before timing. Each reported name has ten samples. Values below
 are medians and observed ranges, not confidence intervals or an A/B significance
-claim. [Raw Go benchmark output](baseline-linux-amd64.txt) retains every sample.
+claim. Raw per-run output is intentionally **not committed**. Reproduce it with the documented command and retain it locally or as a short-lived verification artifact when comparing specific revisions.
 
 | Benchmark | Median ns/op | Observed ns/op range | Median B/op | Median allocs/op |
 | --- | ---: | ---: | ---: | ---: |
