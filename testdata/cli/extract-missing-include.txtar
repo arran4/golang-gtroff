@@ -1,0 +1,16 @@
+Extraction scenario: missing-include.
+-- args.json --
+["extract", "--format", "text", "section", "main.1"]
+-- input/main.1 --
+.TH TOOL 1
+.SH ENVIRONMENT
+.so missing.roff
+-- stdout.txt --
+ENVIRONMENT
+.so missing.roff
+-- stderr.txt --
+main.1:2:1: warning unsupported-content: selected content includes unsupported optional-man semantics; literal source and blocks are retained
+main.1:3:1: warning missing: include missing: open missing.roff: file does not exist
+main.1:3:1: warning semantic: unsupported semantics preserved: .so
+-- exit.txt --
+0

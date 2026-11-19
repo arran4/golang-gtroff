@@ -1,0 +1,11 @@
+test: stateless query with source-attributed results
+-- args.json --
+["query", "section >"]
+-- stdin.1 --
+not read
+-- stdout.txt --
+-- stderr.txt --
+gtroff: selector byte 9: expected node kind
+Run 'gtroff help' for usage.
+-- exit.txt --
+2

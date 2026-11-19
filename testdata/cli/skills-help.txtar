@@ -1,0 +1,20 @@
+skills-help: portable skills discovery/export policy.
+-- args.json --
+["help", "skills"]
+-- stdout.txt --
+Usage: gtroff skills COMMAND [OPTIONS]
+
+Discover portable, versioned instructions for query/extraction workflows.
+  list    List bundled skills and content manifest identities
+  show    Read a bundled SKILL.md or manifest
+  export  Export to an explicit local directory, refusing existing destinations
+
+These are static instruction files, not runtime plugins or executable scripts.
+No network downloads, agent-home/config discovery, registration or shell execution.
+Export is also the explicit local installation mechanism: choose the parent
+directory yourself. Existing files/skills, including identical exports, are never
+replaced. There is no implicit installation or replacement flag.
+Run 'gtroff help skills list', 'gtroff help skills show' or 'gtroff help skills export'.
+-- stderr.txt --
+-- exit.txt --
+0

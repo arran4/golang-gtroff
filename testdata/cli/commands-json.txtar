@@ -142,6 +142,308 @@ test: commands produces schemaVersion 1 json inventory
       ]
     },
     {
+      "name": "query",
+      "synopsis": "gtroff query [OPTIONS] SELECTOR [FILE]",
+      "description": "Select source-aware documentation with stateless structural queries",
+      "flags": [
+        {
+          "name": "view",
+          "type": "string",
+          "default": "semantic",
+          "description": "Semantic man structure or physical syntax"
+        },
+        {
+          "name": "format",
+          "type": "string",
+          "default": "json",
+          "description": "json, jsonl, text, raw, grep, csv or tsv"
+        },
+        {
+          "name": "fields",
+          "type": "string",
+          "description": "Comma-separated CSV/TSV fields"
+        },
+        {
+          "name": "no-includes",
+          "type": "bool",
+          "default": "false",
+          "description": "Disable include loading, retaining references"
+        },
+        {
+          "name": "root",
+          "type": "string",
+          "description": "Explicit allowed source root"
+        },
+        {
+          "name": "strict",
+          "type": "bool",
+          "default": "false",
+          "description": "Reject syntax/include diagnostics"
+        },
+        {
+          "name": "package",
+          "type": "string",
+          "default": "man",
+          "description": "Package: man, ms or roff"
+        },
+        {
+          "name": "max-bytes",
+          "type": "int",
+          "default": "8388608",
+          "description": "Cumulative input bytes"
+        },
+        {
+          "name": "max-nodes",
+          "type": "int",
+          "default": "100000",
+          "description": "Cumulative input AST nodes"
+        },
+        {
+          "name": "max-files",
+          "type": "int",
+          "default": "256",
+          "description": "Source occurrence cap"
+        },
+        {
+          "name": "max-depth",
+          "type": "int",
+          "default": "16",
+          "description": "Include depth, ceiling 128"
+        },
+        {
+          "name": "max-results",
+          "type": "int",
+          "default": "10000",
+          "description": "Maximum query matches"
+        },
+        {
+          "name": "max-work",
+          "type": "int",
+          "default": "67108864",
+          "description": "Query work budget"
+        },
+        {
+          "name": "max-result-bytes",
+          "type": "int",
+          "default": "16777216",
+          "description": "Materialized match-data budget"
+        }
+      ],
+      "capabilities": [
+        "stateless-query",
+        "structural-selectors",
+        "syntax-view",
+        "semantic-projection",
+        "source-provenance",
+        "bounded-includes",
+        "json-output",
+        "jsonl-output",
+        "text-output",
+        "raw-output",
+        "grep-output",
+        "csv-output",
+        "tsv-output"
+      ]
+    },
+    {
+      "name": "extract",
+      "synopsis": "gtroff extract [OPTIONS] SELECTOR [FILE]",
+      "description": "Export selected source fragments and structured documentation records",
+      "flags": [
+        {
+          "name": "view",
+          "type": "string",
+          "default": "semantic",
+          "description": "Select semantic man structure or syntax"
+        },
+        {
+          "name": "format",
+          "type": "string",
+          "default": "jsonl",
+          "description": "json, jsonl, text, raw, grep, csv, tsv or html"
+        },
+        {
+          "name": "fields",
+          "type": "string",
+          "description": "Comma-separated CSV/TSV fields"
+        },
+        {
+          "name": "normalize",
+          "type": "bool",
+          "default": "false",
+          "description": "Fold whitespace in text output, preserving case"
+        },
+        {
+          "name": "o",
+          "type": "string",
+          "default": "-",
+          "description": "Explicit atomic output file or '-' for stdout"
+        },
+        {
+          "name": "strict",
+          "type": "bool",
+          "default": "false",
+          "description": "Reject source and extraction diagnostics"
+        },
+        {
+          "name": "root",
+          "type": "string",
+          "description": "Explicit allowed source root"
+        },
+        {
+          "name": "no-includes",
+          "type": "bool",
+          "default": "false",
+          "description": "Disable include loading, retaining references"
+        },
+        {
+          "name": "package",
+          "type": "string",
+          "default": "man",
+          "description": "Parser context: man, ms or roff"
+        },
+        {
+          "name": "max-bytes",
+          "type": "int",
+          "default": "8388608",
+          "description": "Cumulative input bytes"
+        },
+        {
+          "name": "max-nodes",
+          "type": "int",
+          "default": "100000",
+          "description": "Cumulative input AST nodes"
+        },
+        {
+          "name": "max-files",
+          "type": "int",
+          "default": "256",
+          "description": "Source occurrence cap"
+        },
+        {
+          "name": "max-depth",
+          "type": "int",
+          "default": "16",
+          "description": "Include depth, ceiling 128"
+        },
+        {
+          "name": "max-extract-nodes",
+          "type": "int",
+          "default": "200000",
+          "description": "Projection/construction node budget"
+        },
+        {
+          "name": "max-records",
+          "type": "int",
+          "default": "10000",
+          "description": "Maximum records before a resource error"
+        },
+        {
+          "name": "max-record-bytes",
+          "type": "int",
+          "default": "16777216",
+          "description": "Materialized record-data budget"
+        },
+        {
+          "name": "max-work",
+          "type": "int",
+          "default": "67108864",
+          "description": "Shared query/construction work budget"
+        },
+        {
+          "name": "max-output-bytes",
+          "type": "int",
+          "default": "33554432",
+          "description": "Serialized output byte budget"
+        }
+      ],
+      "capabilities": [
+        "record-extraction",
+        "stateless-query",
+        "definition-records",
+        "source-provenance",
+        "bounded-includes",
+        "explicit-atomic-output",
+        "contributed-exporters",
+        "json-output",
+        "jsonl-output",
+        "text-output",
+        "raw-output",
+        "grep-output",
+        "csv-output",
+        "tsv-output",
+        "html-output"
+      ]
+    },
+    {
+      "name": "skills",
+      "synopsis": "gtroff skills COMMAND [OPTIONS]",
+      "description": "Discover static portable query/extraction instructions",
+      "capabilities": [
+        "bundled-agent-recipes",
+        "portable-skill-v1"
+      ]
+    },
+    {
+      "name": "skills list",
+      "synopsis": "gtroff skills list [--format text|json]",
+      "description": "List skill versions and manifest identities",
+      "flags": [
+        {
+          "name": "format",
+          "type": "string",
+          "default": "text",
+          "description": "text or json"
+        }
+      ],
+      "capabilities": [
+        "bundled-agent-recipes",
+        "json-output"
+      ]
+    },
+    {
+      "name": "skills show",
+      "synopsis": "gtroff skills show [--format text|json] NAME",
+      "description": "Read SKILL.md or deterministic content manifest",
+      "flags": [
+        {
+          "name": "format",
+          "type": "string",
+          "default": "text",
+          "description": "text or json"
+        }
+      ],
+      "capabilities": [
+        "portable-skill-v1",
+        "source-provenance",
+        "json-output"
+      ]
+    },
+    {
+      "name": "skills export",
+      "synopsis": "gtroff skills export --dir DIRECTORY [--format text|json] NAME",
+      "description": "Explicit new-directory local export without replacement",
+      "flags": [
+        {
+          "name": "dir",
+          "type": "string",
+          "description": "Explicit destination parent"
+        },
+        {
+          "name": "format",
+          "type": "string",
+          "default": "text",
+          "description": "text or json receipt"
+        }
+      ],
+      "capabilities": [
+        "explicit-local-export",
+        "no-replacement",
+        "portable-skill-v1",
+        "json-output"
+      ]
+    },
+    {
       "name": "analyze",
       "synopsis": "gtroff analyze [OPTIONS] [FILE]",
       "description": "Classify syntax, profiles and processing requirements without execution",

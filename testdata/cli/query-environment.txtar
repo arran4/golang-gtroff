@@ -1,0 +1,22 @@
+test: stateless query with source-attributed results
+-- args.json --
+["query", "--format", "csv", "--fields", "index,file,line,term", "section[name=\"ENVIRONMENT\"] definition", "main.1"]
+-- input/main.1 --
+.SH ENVIRONMENT
+.TP
+.B TOOL_HOME
+Home directory.
+.TP
+.B TOOL_MODE
+Mode.
+.SH OTHER
+.TP
+.B OUTSIDE
+Other.
+-- stdout.txt --
+index,file,line,term
+1,main.1,2,TOOL_HOME
+2,main.1,5,TOOL_MODE
+-- stderr.txt --
+-- exit.txt --
+0

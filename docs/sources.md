@@ -14,8 +14,10 @@ parse one source without any implicit filesystem access.
 ```
 
 These are real generated commands. `sources` exposes the shared input layer for
-the implemented [analysis command](analyze.md) and subsequent query, lint and
-extract commands. Source inspection itself does not perform those operations. Existing `ast`, `validate`, rendering and conversion behavior stays
+the implemented [query command](query.md), [analysis command](analyze.md),
+and [extraction command](extract.md). The separate lint command may follow.
+Source inspection itself does not perform those operations. Existing `ast`,
+`validate`, rendering and conversion behavior stays
 syntax-only with respect to include loading. The legacy opt-in
 `ParseDocument` resolver remains supported separately.
 
@@ -137,3 +139,8 @@ limits. Unit tests separately check symlink aliases/escape, shared failed-read
 budgets, cancellation, reader and close errors, exact bytes, immutable slices
 and explicit registries. A subprocess test builds and executes the generated CLI
 for named/default, disabled and stdin/root policies and strict exit behavior.
+
+`gtroff extract` uses this shared source policy. Records retain original-file
+provenance and include relationships; exact parent source is not expanded into
+child bytes. Explicit file output protects every loaded original source. See
+[extraction](extract.md).

@@ -1,0 +1,6 @@
+
+Usage: gtroff skills COMMAND [OPTIONS]
+
+Static, versioned instruction files focused on query/extraction and provenance.
+Commands: list, show, export. Export requires an explicit local parent directory;
+no guessed agent paths, remote downloads, registration, execution or replacement.

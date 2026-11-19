@@ -1,0 +1,21 @@
+Extraction scenario: csv.
+-- args.json --
+["extract", "--format", "csv", "--fields", "term,description,file,line", "section[name=\"ENVIRONMENT\"] definition"]
+-- stdin.1 --
+.TH TOOL 1
+.SH ENVIRONMENT
+.TP
+.B TOOL_HOME
+Home directory.
+.TP
+.B TOOL_PATH
+Search path.
+-- stdout.txt --
+term,description,file,line
+TOOL_HOME,"Home directory.
+",<stdin>,3
+TOOL_PATH,"Search path.
+",<stdin>,6
+-- stderr.txt --
+-- exit.txt --
+0
