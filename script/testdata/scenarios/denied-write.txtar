@@ -1,0 +1,27 @@
+Native Tengo scenario: denied-write. Expected outputs are captured by the actual adapter.
+-- program.tengo --
+doc.write("out.1")
+-- options.json --
+{}
+-- input/page.1 --
+.TH TOOL 1
+.SH ENVIRONMENT
+.TP
+.B TOOL_HOME
+Old directory.
+.TP
+PATH
+Search path.
+-- error.txt --
+Runtime Error: script capability denied
+	at program.tengo:1:1
+-- report.json --
+{
+  "Calls": 1,
+  "Steps": 1,
+  "Constants": 2,
+  "Diagnostics": null,
+  "SourceDiagnostics": null,
+  "Writes": null
+}
+-- stdout.txt --

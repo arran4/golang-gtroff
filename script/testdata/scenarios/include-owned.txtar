@@ -1,0 +1,33 @@
+Native Tengo scenario: include-owned. Expected outputs are captured by the actual adapter.
+-- program.tengo --
+doc.edit({selector:"definition",operation:"replace-description",text:"Updated."});doc.emit(doc.extract("definition","raw"))
+-- options.json --
+{"AllowEdits": true, "IncludeEdits": true}
+-- input/page.1 --
+.SH ENVIRONMENT
+.so child
+-- input/child --
+.TP
+VALUE
+Old.
+-- after/child --
+.TP
+VALUE
+\&Updated.
+-- after/page.1 --
+.SH ENVIRONMENT
+.so child
+-- error.txt --
+-- report.json --
+{
+  "Calls": 3,
+  "Steps": 2,
+  "Constants": 10,
+  "Diagnostics": null,
+  "SourceDiagnostics": null,
+  "Writes": null
+}
+-- stdout.txt --
+.TP
+VALUE
+\&Updated.

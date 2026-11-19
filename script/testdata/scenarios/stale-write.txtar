@@ -1,0 +1,26 @@
+Native Tengo scenario: stale-write. Expected outputs are captured by the actual adapter.
+-- program.tengo --
+doc.write("out.1");doc.edit({selector:"source[source-id=1]",operation:"delete"})
+-- options.json --
+{"AllowEdits": true, "AllowWrites": true}
+-- input/page.1 --
+.TH TOOL 1
+.SH ENVIRONMENT
+.TP
+.B TOOL_HOME
+Old directory.
+.TP
+PATH
+Search path.
+-- error.txt --
+stale or foreign edit plan
+-- report.json --
+{
+  "Calls": 2,
+  "Steps": 2,
+  "Constants": 7,
+  "Diagnostics": null,
+  "SourceDiagnostics": null,
+  "Writes": null
+}
+-- stdout.txt --

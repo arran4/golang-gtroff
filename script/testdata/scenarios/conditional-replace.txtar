@@ -1,0 +1,37 @@
+Native Tengo scenario: conditional-replace. Expected outputs are captured by the actual adapter.
+-- program.tengo --
+for m in doc.query("definition"){if m.term=="TOOL_HOME"{doc.edit({selector:"definition[term=TOOL_HOME]",operation:"replace-description",text:"New directory."})}};doc.emit(doc.extract("definition[term=TOOL_HOME]","raw"))
+-- options.json --
+{"AllowEdits": true}
+-- input/page.1 --
+.TH TOOL 1
+.SH ENVIRONMENT
+.TP
+.B TOOL_HOME
+Old directory.
+.TP
+PATH
+Search path.
+-- after/page.1 --
+.TH TOOL 1
+.SH ENVIRONMENT
+.TP
+.B TOOL_HOME
+\&New directory.
+.TP
+PATH
+Search path.
+-- error.txt --
+-- report.json --
+{
+  "Calls": 4,
+  "Steps": 5,
+  "Constants": 14,
+  "Diagnostics": null,
+  "SourceDiagnostics": null,
+  "Writes": null
+}
+-- stdout.txt --
+.TP
+.B TOOL_HOME
+\&New directory.

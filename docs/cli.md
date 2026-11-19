@@ -153,3 +153,11 @@ query selectors and bounded local source loading, supports one-based match
 restrictions and explicitly owned include edits, and requires `-o` or `--in-place`
 for filesystem writes. `--dry-run` prevents those writes. See the
 [operation, source fidelity and recovery contracts](edit.md).
+
+## Optional Tengo execution
+
+The generated `script` command accepts explicit SCRIPT and optional DOCUMENT
+inputs. The core binary is engine-free; build the self-contained optional variant
+from `script/cli` to execute programs. Read-only queries default on, while memory
+edits and guarded filesystem writes require separate grants.
+[Script syntax, build, source policy and output contracts](script.md).

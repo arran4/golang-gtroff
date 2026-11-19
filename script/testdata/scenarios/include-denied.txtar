@@ -1,0 +1,24 @@
+Native Tengo scenario: include-denied. Expected outputs are captured by the actual adapter.
+-- program.tengo --
+doc.edit({selector:"definition",operation:"delete"})
+-- options.json --
+{"AllowEdits": true}
+-- input/page.1 --
+.so child
+-- input/child --
+.TP
+VALUE
+Old.
+-- error.txt --
+Runtime Error: invalid edit target or source owner: match 1 belongs to included source "child"
+	at program.tengo:1:1
+-- report.json --
+{
+  "Calls": 1,
+  "Steps": 1,
+  "Constants": 5,
+  "Diagnostics": null,
+  "SourceDiagnostics": null,
+  "Writes": null
+}
+-- stdout.txt --

@@ -1,0 +1,18 @@
+Native Tengo scenario: output-exhaustion. Expected outputs are captured by the actual adapter.
+-- program.tengo --
+doc.emit("too long")
+-- options.json --
+{"MaxOutputBytes": 4}
+-- error.txt --
+Runtime Error: script resource limit exceeded
+	at program.tengo:1:1
+-- report.json --
+{
+  "Calls": 1,
+  "Steps": 1,
+  "Constants": 2,
+  "Diagnostics": null,
+  "SourceDiagnostics": null,
+  "Writes": null
+}
+-- stdout.txt --

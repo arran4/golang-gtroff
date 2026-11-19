@@ -1,0 +1,27 @@
+Native Tengo scenario: invalid-selector. Expected outputs are captured by the actual adapter.
+-- program.tengo --
+doc.query("section[")
+-- options.json --
+{}
+-- input/page.1 --
+.TH TOOL 1
+.SH ENVIRONMENT
+.TP
+.B TOOL_HOME
+Old directory.
+.TP
+PATH
+Search path.
+-- error.txt --
+Runtime Error: selector byte 8: expected attribute field
+	at program.tengo:1:1
+-- report.json --
+{
+  "Calls": 1,
+  "Steps": 1,
+  "Constants": 2,
+  "Diagnostics": null,
+  "SourceDiagnostics": null,
+  "Writes": null
+}
+-- stdout.txt --

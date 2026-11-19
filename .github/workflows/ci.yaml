@@ -83,11 +83,13 @@ jobs:
           cache-dependency-path: |
             go.sum
             desktop/go.sum
-      - name: Tidy both modules before any release build
+            script/go.sum
+      - name: Tidy core and optional modules before any release build
         run: |
           go mod tidy
           go -C desktop mod tidy
-          git diff --exit-code -- go.mod go.sum desktop/go.mod desktop/go.sum
+          go -C script mod tidy
+          git diff --exit-code -- go.mod go.sum desktop/go.mod desktop/go.sum script/go.mod script/go.sum
       - name: Generate and require clean committed output
         run: |
           go run ./cmd/gen -check
@@ -101,18 +103,27 @@ jobs:
           go -C desktop vet ./...
           go -C desktop test -count=1 ./...
           go -C desktop build ./cmd/gtroff-view
+          go -C script vet ./...
+          go -C script test -count=1 ./...
+          go -C script build -o "$RUNNER_TEMP/gtroff-tengo" ./cli
       - name: Race-test the headless source
         # Go's race instrumentation needs a C toolchain; shipped binaries do not.
         env:
           CGO_ENABLED: '1'
-        run: go test -race -count=1 ./...
+        run: |
+          go test -race -count=1 ./...
+          go -C script test -race -count=1 ./...
+      - name: Verify cooperative scripting in WebAssembly
+        run: |
+          GOOS=js GOARCH=wasm go -C script test -c -o "$RUNNER_TEMP/script.test.wasm" .
+          timeout 60s "$(go env GOROOT)/lib/wasm/go_js_wasm_exec" "$RUNNER_TEMP/script.test.wasm"
       - name: Validate workflow syntax
         run: go run github.com/rhysd/actionlint/cmd/actionlint@v1.7.12
       - name: Audit headless dependency isolation
         run: |
           dependencies="$(go list -deps ./cmd/gtroff)"
-          if printf '%s\n' "$dependencies" | grep -E 'shiny|glfw|jezek/xgb|golang.org/x/mobile'; then
-            echo 'Headless command imported an optional GUI dependency' >&2
+          if printf '%s\n' "$dependencies" | grep -E 'shiny|glfw|jezek/xgb|golang.org/x/mobile|github.com/d5/tengo'; then
+            echo 'Core command imported an optional GUI/script-engine dependency' >&2
             exit 1
           fi
 

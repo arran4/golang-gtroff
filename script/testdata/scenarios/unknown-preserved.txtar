@@ -1,0 +1,40 @@
+Native Tengo scenario: unknown-preserved. Expected outputs are captured by the actual adapter.
+-- program.tengo --
+doc.edit({selector:"source[source-id=1]",operation:"find-replace-source",find:"old",text:"new"});doc.emit(doc.source())
+-- options.json --
+{"AllowEdits": true}
+-- input/page.1 --
+.UNKNOWN keep
+.\" retain
+old
+-- after/page.1 --
+.UNKNOWN keep
+.\" retain
+new
+-- error.txt --
+-- report.json --
+{
+  "Calls": 3,
+  "Steps": 2,
+  "Constants": 11,
+  "Diagnostics": null,
+  "SourceDiagnostics": [
+    {
+      "source": 1,
+      "code": "syntax",
+      "Message": "no token match: \".UNKNOWN\": keep",
+      "Position": {
+        "Filename": "page.1",
+        "Offset": 0,
+        "Line": 1,
+        "Column": 1
+      },
+      "Severity": "warning"
+    }
+  ],
+  "Writes": null
+}
+-- stdout.txt --
+.UNKNOWN keep
+.\" retain
+new

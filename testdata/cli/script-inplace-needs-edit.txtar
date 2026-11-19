@@ -1,0 +1,9 @@
+Core script adapter: script-inplace-needs-edit. Expected output comes from the actual CLI.
+-- args.json --
+["script", "--in-place", "program.tengo"]
+-- stdout.txt --
+-- stderr.txt --
+gtroff: in-place/include-edits require allow-edits
+Run 'gtroff help' for usage.
+-- exit.txt --
+2

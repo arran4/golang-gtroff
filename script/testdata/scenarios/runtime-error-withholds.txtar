@@ -1,0 +1,27 @@
+Native Tengo scenario: runtime-error-withholds. Expected outputs are captured by the actual adapter.
+-- program.tengo --
+doc.emit("hidden");doc.edit({selector:"definition",restrict:{nth:1},operation:"delete"});doc.write("out.1");x:=1;x()
+-- options.json --
+{"AllowEdits": true, "AllowWrites": true}
+-- input/page.1 --
+.TH TOOL 1
+.SH ENVIRONMENT
+.TP
+.B TOOL_HOME
+Old directory.
+.TP
+PATH
+Search path.
+-- error.txt --
+Runtime Error: not callable: int
+	at program.tengo:1:114
+-- report.json --
+{
+  "Calls": 3,
+  "Steps": 5,
+  "Constants": 12,
+  "Diagnostics": null,
+  "SourceDiagnostics": null,
+  "Writes": null
+}
+-- stdout.txt --

@@ -1,0 +1,39 @@
+.\" Generated from gtroff command help; do not edit.
+.TH "GTROFF-SCRIPT" 1 "" "golang-gtroff" "User Commands"
+.SH NAME
+\&gtroff-script
+.SH SYNOPSIS
+.nf
+\&Usage: gtroff script [OPTIONS] SCRIPT [DOCUMENT]
+\&
+\&Run native Tengo with captured roff query/extraction objects. Tengo is isolated in
+\&an optional module/build; the default core binary explains how to enable it.
+\&Build the self-contained variant: go -C script build -o ../gtroff ./cli
+\&No external script runtime, shell, network access, modules or ambient file imports.
+\&
+\&SCRIPT and DOCUMENT are explicit user inputs; at most one may be '-' for stdin.
+\&An omitted DOCUMENT gives no current document. Read-only queries are the default.
+\&The doc object provides query, extract, source, sources, quote, preview, emit and
+\&emit_json. Use --allow-edits for doc.edit/create; --include-edits additionally
+\&allows explicitly selected included sources. Selectors remain stateless.
+\&
+\&Writes require separate authorization. --write-target FILE permits a staged
+\&explicit doc.write(FILE) request; --in-place explicitly commits pending changes
+\&to original named files. Both run only after successful execution and stdout
+\&serialization. --dry-run suppresses filesystem callbacks. These two destinations
+\&are exclusive. All loaded source hashes and aliases remain protected. New
+\&virtual documents need a copy destination. Each failed run withholds partial
+\&edits, output and requests. Filesystem commit failures report recovery details.
+\&
+\&Named documents resolve bounded local includes; --root sets the allowed root
+\&(default: document directory), --no-includes keeps a single-source snapshot.
+\&Script bytes, tokens, nesting, constants, object allocations, host calls, output
+\&and a deadline are bounded. Allocation counts are not heap-byte quotas; native
+\&Tengo has no exact instruction counter or OS sandbox. Native map iteration has
+\&unspecified order; host query arrays and ordinary JSON records are deterministic.
+\&
+\&Exit: 0 success, 1 script/selection/capability failure, 2 usage,
+\&3 input/output/resource/cancellation failure. Filesystem writing is explicit.
+.fi
+.SH SEE ALSO
+.MR man 7

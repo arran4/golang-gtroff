@@ -1,0 +1,18 @@
+Native Tengo scenario: denied-local-import. Expected outputs are captured by the actual adapter.
+-- program.tengo --
+x:=import("../source")
+-- options.json --
+{}
+-- error.txt --
+Compile Error: module '../source' not found
+	at program.tengo:1:4
+-- report.json --
+{
+  "Calls": 0,
+  "Steps": 0,
+  "Constants": 0,
+  "Diagnostics": null,
+  "SourceDiagnostics": null,
+  "Writes": null
+}
+-- stdout.txt --

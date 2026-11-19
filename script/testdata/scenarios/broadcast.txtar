@@ -1,0 +1,44 @@
+Native Tengo scenario: broadcast. Expected outputs are captured by the actual adapter.
+-- program.tengo --
+doc.edit({selector:"definition",operation:"find-replace-source",find:".",text:"!"});doc.emit(doc.preview("diff"))
+-- options.json --
+{"AllowEdits": true}
+-- input/page.1 --
+.TH TOOL 1
+.SH ENVIRONMENT
+.TP
+.B TOOL_HOME
+Old directory.
+.TP
+PATH
+Search path.
+-- after/page.1 --
+.TH TOOL 1
+.SH ENVIRONMENT
+!TP
+!B TOOL_HOME
+Old directory!
+!TP
+PATH
+Search path!
+-- error.txt --
+-- report.json --
+{
+  "Calls": 3,
+  "Steps": 2,
+  "Constants": 12,
+  "Diagnostics": [
+    {
+      "code": "broadcast",
+      "message": "command 1 selects 2 logical matches"
+    }
+  ],
+  "SourceDiagnostics": null,
+  "Writes": null
+}
+-- stdout.txt --
+--- "page.1" sha256:7bba67ddd150bc959188c65250bdb7b52d8d0a6915b28a54a43ba1c9b5749cc5
++++ "page.1" sha256:98ffcfe1e46629d599b3819e7f388db775320d4b125cd36b6dcb85587592616c
+@@ bytes [27,80) -> [27,80) @@
+- ".TP\n.B TOOL_HOME\nOld directory.\n.TP\nPATH\nSearch path."
++ "!TP\n!B TOOL_HOME\nOld directory!\n!TP\nPATH\nSearch path!"

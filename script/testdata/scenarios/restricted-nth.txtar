@@ -1,0 +1,42 @@
+Native Tengo scenario: restricted-nth. Expected outputs are captured by the actual adapter.
+-- program.tengo --
+doc.edit({selector:"definition",restrict:{nth:2},operation:"replace-description",text:"New path."});doc.emit(doc.source())
+-- options.json --
+{"AllowEdits": true, "Strict": true}
+-- input/page.1 --
+.TH TOOL 1
+.SH ENVIRONMENT
+.TP
+.B TOOL_HOME
+Old directory.
+.TP
+PATH
+Search path.
+-- after/page.1 --
+.TH TOOL 1
+.SH ENVIRONMENT
+.TP
+.B TOOL_HOME
+Old directory.
+.TP
+PATH
+\&New path.
+-- error.txt --
+-- report.json --
+{
+  "Calls": 3,
+  "Steps": 2,
+  "Constants": 12,
+  "Diagnostics": null,
+  "SourceDiagnostics": null,
+  "Writes": null
+}
+-- stdout.txt --
+.TH TOOL 1
+.SH ENVIRONMENT
+.TP
+.B TOOL_HOME
+Old directory.
+.TP
+PATH
+\&New path.

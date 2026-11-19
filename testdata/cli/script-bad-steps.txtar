@@ -1,0 +1,9 @@
+Core script adapter: script-bad-steps. Expected output comes from the actual CLI.
+-- args.json --
+["script", "--max-steps", "0", "program.tengo"]
+-- stdout.txt --
+-- stderr.txt --
+gtroff: script/source/resource limits outside supported ranges
+Run 'gtroff help' for usage.
+-- exit.txt --
+2

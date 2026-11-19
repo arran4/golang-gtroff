@@ -1,0 +1,35 @@
+Native Tengo scenario: functional-map-filter. Expected outputs are captured by the actual adapter.
+-- program.tengo --
+each:=func(values,fn){for value in values{fn(value)}};each(doc.query("definition"),func(m){if m.term=="TOOL_HOME"{doc.emit_json({term:m.term,text:m.text})}})
+-- options.json --
+{}
+-- input/page.1 --
+.TH TOOL 1
+.SH ENVIRONMENT
+.TP
+.B TOOL_HOME
+Old directory.
+.TP
+PATH
+Search path.
+-- after/page.1 --
+.TH TOOL 1
+.SH ENVIRONMENT
+.TP
+.B TOOL_HOME
+Old directory.
+.TP
+PATH
+Search path.
+-- error.txt --
+-- report.json --
+{
+  "Calls": 2,
+  "Steps": 8,
+  "Constants": 8,
+  "Diagnostics": null,
+  "SourceDiagnostics": null,
+  "Writes": null
+}
+-- stdout.txt --
+{"term":"TOOL_HOME","text":"TOOL_HOME\nOld directory.\n"}
