@@ -52,7 +52,6 @@ complete -c gtroff -n '__fish_seen_subcommand_from extract' -l package
 complete -c gtroff -n '__fish_seen_subcommand_from extract' -l root
 complete -c gtroff -n '__fish_seen_subcommand_from extract' -l strict
 complete -c gtroff -n '__fish_seen_subcommand_from extract' -l view
-complete -c gtroff -n '__fish_seen_subcommand_from skills' -l help
 complete -c gtroff -n '__fish_seen_subcommand_from diff' -l format
 complete -c gtroff -n '__fish_seen_subcommand_from diff' -l help
 complete -c gtroff -n '__fish_seen_subcommand_from diff' -l max-bytes
@@ -71,6 +70,7 @@ complete -c gtroff -n '__fish_seen_subcommand_from diff' -l package
 complete -c gtroff -n '__fish_seen_subcommand_from diff' -l root
 complete -c gtroff -n '__fish_seen_subcommand_from diff' -l strict
 complete -c gtroff -n '__fish_seen_subcommand_from diff' -l view
+complete -c gtroff -n '__fish_seen_subcommand_from skills' -l help
 complete -c gtroff -n '__fish_seen_subcommand_from render' -l assets
 complete -c gtroff -n '__fish_seen_subcommand_from render' -l dpi
 complete -c gtroff -n '__fish_seen_subcommand_from render' -l font
