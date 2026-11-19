@@ -142,6 +142,110 @@ test: commands produces schemaVersion 1 json inventory
       ]
     },
     {
+      "name": "query",
+      "synopsis": "gtroff query [OPTIONS] SELECTOR [FILE]",
+      "description": "Select source-aware documentation with stateless structural queries",
+      "flags": [
+        {
+          "name": "view",
+          "type": "string",
+          "default": "semantic",
+          "description": "Semantic man structure or physical syntax"
+        },
+        {
+          "name": "format",
+          "type": "string",
+          "default": "json",
+          "description": "json, jsonl, text, raw, grep, csv or tsv"
+        },
+        {
+          "name": "fields",
+          "type": "string",
+          "description": "Comma-separated CSV/TSV fields"
+        },
+        {
+          "name": "no-includes",
+          "type": "bool",
+          "default": "false",
+          "description": "Disable include loading, retaining references"
+        },
+        {
+          "name": "root",
+          "type": "string",
+          "description": "Explicit allowed source root"
+        },
+        {
+          "name": "strict",
+          "type": "bool",
+          "default": "false",
+          "description": "Reject syntax/include diagnostics"
+        },
+        {
+          "name": "package",
+          "type": "string",
+          "default": "man",
+          "description": "Package: man, ms or roff"
+        },
+        {
+          "name": "max-bytes",
+          "type": "int",
+          "default": "8388608",
+          "description": "Cumulative input bytes"
+        },
+        {
+          "name": "max-nodes",
+          "type": "int",
+          "default": "100000",
+          "description": "Cumulative input AST nodes"
+        },
+        {
+          "name": "max-files",
+          "type": "int",
+          "default": "256",
+          "description": "Source occurrence cap"
+        },
+        {
+          "name": "max-depth",
+          "type": "int",
+          "default": "16",
+          "description": "Include depth, ceiling 128"
+        },
+        {
+          "name": "max-results",
+          "type": "int",
+          "default": "10000",
+          "description": "Maximum query matches"
+        },
+        {
+          "name": "max-work",
+          "type": "int",
+          "default": "67108864",
+          "description": "Query work budget"
+        },
+        {
+          "name": "max-result-bytes",
+          "type": "int",
+          "default": "16777216",
+          "description": "Materialized match-data budget"
+        }
+      ],
+      "capabilities": [
+        "stateless-query",
+        "structural-selectors",
+        "syntax-view",
+        "semantic-projection",
+        "source-provenance",
+        "bounded-includes",
+        "json-output",
+        "jsonl-output",
+        "text-output",
+        "raw-output",
+        "grep-output",
+        "csv-output",
+        "tsv-output"
+      ]
+    },
+    {
       "name": "render",
       "synopsis": "gtroff render --format html|png|jpg [OPTIONS] [FILE]",
       "description": "Export a semantic man page to HTML or paginated images",

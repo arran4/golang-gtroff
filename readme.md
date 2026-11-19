@@ -102,6 +102,19 @@ Other faces retain bundled defaults. No font discovery runs automatically.
 Missing raster glyphs are displayed as code-point labels and diagnosed.
 [HTML options](docs/html.md) · [image layout and limits](docs/images.md).
 
+## Query documentation
+
+```sh
+./gtroff query 'section[name="ENVIRONMENT"] definition' document.1
+./gtroff query --format csv --fields term,file,line 'definition' document.1
+./gtroff query --view syntax --format raw 'macro[macro=".B"]' document.1
+```
+
+Selectors and typed Go builders share a stateless query representation. Choose
+syntax or the optional man hierarchy; results retain original-file spans, source
+identities and deterministic match ordinals. Named files use bounded local include
+resolution, with `--no-includes` available. [Query grammar, Go API and output contracts](docs/query.md).
+
 ## Inspect local source sets
 
 ```sh

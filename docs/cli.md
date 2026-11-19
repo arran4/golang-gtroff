@@ -138,3 +138,10 @@ includes and original-file provenance, with JSON or text output. Stdin needs an
 explicit root. See the [source-set guide](sources.md) for path policy, resource
 limits, strict diagnostics, source exactness and exit codes. `gtroff ast` remains
 a single-file syntax inspection command.
+
+## Structural queries
+
+`gtroff query [OPTIONS] SELECTOR [FILE]` uses CSS-like structural selectors or
+equivalent typed Go builders over syntax or an optional man hierarchy. It shares
+the bounded source loader and `--no-includes` policy, and exposes JSON/JSONL, text,
+raw source, grep and CSV/TSV records. [Grammar, source attribution and limits](query.md).

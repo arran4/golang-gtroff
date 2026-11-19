@@ -14,8 +14,8 @@ parse one source without any implicit filesystem access.
 ```
 
 These are real generated commands. `sources` exposes the shared input layer for
-subsequent query, analyze, lint and extract commands; it does not implement those
-features. Existing `ast`, `validate`, rendering and conversion behavior stays
+the implemented [query command](query.md) and subsequent analyze, lint and extract
+commands. The source-inspection command itself does not perform those operations. Existing `ast`, `validate`, rendering and conversion behavior stays
 syntax-only with respect to include loading. The legacy opt-in
 `ParseDocument` resolver remains supported separately.
 

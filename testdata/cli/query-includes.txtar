@@ -1,0 +1,16 @@
+test: stateless query with source-attributed results
+-- args.json --
+["query", "--format", "grep", "section[name=\"ENVIRONMENT\"] definition", "main.1"]
+-- input/main.1 --
+.SH ENVIRONMENT
+.so terms
+-- input/terms --
+.TP
+.B TOOL_HOME
+Home directory.
+-- stdout.txt --
+terms:1:1:tool_home home directory.
+-- stderr.txt --
+main.1:2:1: semantic: unsupported semantics preserved: .so
+-- exit.txt --
+0

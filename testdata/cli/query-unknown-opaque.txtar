@@ -1,0 +1,14 @@
+test: stateless query with source-attributed results
+-- args.json --
+["query", "--view", "syntax", "--format", "raw", "line[opaque]"]
+-- stdin.1 --
+.de SAVED
+.SH STORED
+..
+.UNKNOWN literal
+-- stdout.txt --
+.SH STORED
+-- stderr.txt --
+<stdin>:4:1: syntax: no token match: ".UNKNOWN": literal
+-- exit.txt --
+0
