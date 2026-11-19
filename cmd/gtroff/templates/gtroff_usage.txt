@@ -10,6 +10,7 @@ ast       Inspect a source-aware syntax tree
 sources   Inspect bounded includes and source provenance
 query     Select source-aware documentation
 extract   Export fragments and structured documentation
+skills    Discover and export portable agent recipes
 edit      Plan in-memory transformations and explicit writes
 script    Run optional Tengo with explicit document capabilities
 render    Export a semantic man page to HTML or paginated images

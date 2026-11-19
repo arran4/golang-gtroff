@@ -1,0 +1,9 @@
+skills-invalid-format: portable skills discovery/export policy.
+-- args.json --
+["skills", "list", "--format", "zip"]
+-- stdout.txt --
+-- stderr.txt --
+gtroff: skills format must be text or json
+Run 'gtroff help' for usage.
+-- exit.txt --
+2

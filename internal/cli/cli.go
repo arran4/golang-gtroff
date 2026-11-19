@@ -15,6 +15,7 @@ import (
 	"strings"
 
 	groff "github.com/arran4/golang-gtroff"
+	"github.com/arran4/golang-gtroff/agentskill"
 	"github.com/arran4/golang-gtroff/cmd"
 	"github.com/arran4/golang-gtroff/internal/atomicfile"
 	"github.com/arran4/golang-gtroff/manlib"
@@ -45,6 +46,8 @@ type OutputFile struct {
 // return an owned reader; named input is closed before any output is written.
 // In is borrowed and is never closed. Out/Err are borrowed writers.
 type Environment struct {
+	// ExportSkill grants explicit local bundle export; nil disables host writes.
+	ExportSkill  func(context.Context, string, string) (*agentskill.Receipt, error)
 	Script       scriptapi.Backend
 	Context      context.Context
 	OpenRoot     func(string) (manlib.Root, io.Closer, error)
@@ -96,6 +99,7 @@ Commands:
   sources   Inspect bounded includes and source provenance
   query     Select source-aware documentation
   extract   Export fragments and structured documentation
+  skills    Discover and export portable agent recipes
   edit      Plan in-memory transformations and explicit writes
   script    Run optional Tengo with explicit document capabilities
   render    Export a semantic man page to HTML or paginated images
@@ -166,6 +170,9 @@ func Run(args []string, e Environment) int {
 		if len(args) == 0 {
 			return writeString(e, rootHelp)
 		}
+		if len(args) == 2 && args[0] == "skills" {
+			return skillsLeafHelp(e, args[1])
+		}
 		if len(args) == 2 && args[0] == "image" && args[1] == "generate" {
 			return writeString(e, imageGenerateHelp)
 		}
@@ -196,6 +203,8 @@ func Run(args []string, e Environment) int {
 		return queryCommand(args, e)
 	case "extract":
 		return extractCommand(args, e)
+	case "skills":
+		return skillsCommand(args, e)
 	case "edit":
 		return editCommand(args, e)
 	case "script":
@@ -222,6 +231,14 @@ func commandHelp(e Environment, command string) int {
 		return writeString(e, queryHelp)
 	case "extract":
 		return writeString(e, extractHelp)
+	case "skills":
+		return writeString(e, skillsHelp)
+	case "skills list":
+		return writeString(e, skillsListHelp)
+	case "skills show":
+		return writeString(e, skillsShowHelp)
+	case "skills export":
+		return writeString(e, skillsExportHelp)
 	case "edit":
 		return writeString(e, editHelp)
 	case "script":
@@ -392,6 +409,7 @@ func runInspect(command string, o inspectOptions, files []string, e Environment)
 //	sources   Inspect bounded includes and source provenance
 //	query     Select source-aware documentation
 //	extract   Export fragments and structured documentation
+//	skills    Discover and export portable agent recipes
 //	edit      Plan in-memory transformations and explicit writes
 //	script    Run optional Tengo with explicit document capabilities
 //	render    Export a semantic man page to HTML or paginated images

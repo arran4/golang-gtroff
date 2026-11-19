@@ -1,0 +1,59 @@
+Authoring scenario: subsections.
+-- input.json --
+{
+  "Sections": [
+    {
+      "Heading": "MAIN",
+      "Blocks": [
+        {
+          "Type": "paragraph",
+          "Text": "Before."
+        },
+        {
+          "Type": "subsection",
+          "Heading": "DETAIL",
+          "Children": [
+            {
+              "Type": "paragraph",
+              "Text": "Inside."
+            }
+          ]
+        },
+        {
+          "Type": "paragraph",
+          "Text": "Following flow."
+        },
+        {
+          "Type": "subsection",
+          "Heading": "OTHER",
+          "Children": [
+            {
+              "Type": "definition",
+              "Term": "ITEM",
+              "Text": "Body."
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "Title": "tool",
+  "Section": "1"
+}
+-- output.roff --
+.TH "tool" "1" "" "" ""
+.SH "\f[B]MAIN\f[R]"
+.PP
+\&\f[R]Before.\f[R]\c
+.SS "\f[B]DETAIL\f[R]"
+.PP
+\&\f[R]Inside.\f[R]\c
+.PP
+\&\f[R]Following flow.\f[R]\c
+.SS "\f[B]OTHER\f[R]"
+.PP
+.TP ""
+\&\f[B]ITEM\f[R]
+
+\&\f[R]Body.\f[R]\c
+-- error.txt --
