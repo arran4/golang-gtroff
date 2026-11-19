@@ -1,0 +1,5 @@
+
+Usage: gtroff completion bash|zsh|fish|powershell
+
+Write shell completion source to stdout. Install it in your shell's completion
+directory. Command and flag names come from the command help text.

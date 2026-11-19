@@ -7,13 +7,15 @@ import (
 	"errors"
 	"flag"
 	"fmt"
-	"github.com/arran4/golang-gtroff/manlib"
 	"io"
 	"net"
+	"os"
 	"strconv"
 	"strings"
 
 	groff "github.com/arran4/golang-gtroff"
+	"github.com/arran4/golang-gtroff/cmd"
+	"github.com/arran4/golang-gtroff/manlib"
 )
 
 const (
@@ -50,6 +52,32 @@ type Environment struct {
 	WriteOutput  func(destination, source string, data []byte) error
 	WriteOutputs func(source string, files []OutputFile) error
 	Build        BuildInfo
+}
+
+var defaultEnv = DefaultEnvironment()
+
+// SetDefaultEnvironment configures the fallback process environment for generated command entrypoints.
+func SetDefaultEnvironment(env Environment) {
+	defaultEnv = env
+}
+
+// DefaultEnvironment constructs a baseline environment using standard process streams and files.
+func DefaultEnvironment() Environment {
+	return Environment{
+		In:   os.Stdin,
+		Out:  os.Stdout,
+		Err:  os.Stderr,
+		Open: func(path string) (io.ReadCloser, error) { return os.Open(path) },
+	}
+}
+
+func getEnv(ops ...any) Environment {
+	for _, op := range ops {
+		if e, ok := op.(Environment); ok {
+			return e
+		}
+	}
+	return defaultEnv
 }
 
 const rootHelp = `Usage: gtroff COMMAND [OPTIONS] [FILE]
@@ -125,6 +153,9 @@ func Run(args []string, e Environment) int {
 		if len(args) == 0 {
 			return writeString(e, rootHelp)
 		}
+		if len(args) == 2 && args[0] == "image" && args[1] == "generate" {
+			return writeString(e, imageGenerateHelp)
+		}
 		if len(args) != 1 {
 			return usage(e, "help expects at most one command")
 		}
@@ -140,8 +171,14 @@ func Run(args []string, e Environment) int {
 		return serveCommand(args, e)
 	case "render":
 		return renderCommand(args, e)
+	case "image":
+		return imageCommand(args, e)
+	case "view":
+		return viewCommand(args, e)
+	case "commands":
+		return commandsCommand(args, e)
 	case "validate", "ast":
-		return inspect(command, args, e)
+		return inspectCommand(command, args, e)
 	case "man":
 		return manCommand(args, e)
 	case "completion":
@@ -162,6 +199,12 @@ func commandHelp(e Environment, command string) int {
 		return writeString(e, serveHelp)
 	case "render":
 		return writeString(e, renderHelp)
+	case "image":
+		return writeString(e, imageHelp)
+	case "view":
+		return writeString(e, viewHelp)
+	case "commands":
+		return writeString(e, commandsHelp)
 	case "version":
 		return writeString(e, "Usage: gtroff version\nShow build version, commit and date.\n")
 	case "man":
@@ -194,7 +237,7 @@ type inspectOptions struct {
 	pkg, format, selector string
 }
 
-func inspect(command string, args []string, e Environment) int {
+func inspectCommand(command string, args []string, e Environment) int {
 	o := inspectOptions{pkg: "man", format: "text"}
 	if command == "ast" {
 		o.format = "json"
@@ -213,11 +256,25 @@ func inspect(command string, args []string, e Environment) int {
 		}
 		return usage(e, err.Error())
 	}
-	if flags.NArg() > 1 {
+	return runInspect(command, o, flags.Args(), e)
+}
+
+func runInspect(command string, o inspectOptions, files []string, e Environment) int {
+	if len(files) > 1 {
 		return usage(e, "expected at most one input file")
+	}
+	if o.pkg == "" {
+		o.pkg = "man"
 	}
 	if o.pkg != "man" && o.pkg != "ms" && o.pkg != "roff" {
 		return usage(e, "package must be man, ms or roff")
+	}
+	if o.format == "" {
+		if command == "ast" {
+			o.format = "json"
+		} else {
+			o.format = "text"
+		}
 	}
 	if o.format != "json" && o.format != "text" {
 		return usage(e, "format must be json or text")
@@ -230,8 +287,8 @@ func inspect(command string, args []string, e Environment) int {
 	source := "<stdin>"
 	var reader io.Reader = e.In
 	var owned io.ReadCloser
-	if flags.NArg() == 1 && flags.Arg(0) != "-" {
-		source = flags.Arg(0)
+	if len(files) == 1 && files[0] != "-" {
+		source = files[0]
 		if e.Open == nil {
 			return failure(e, "open "+strconv.Quote(source)+": file access is unavailable")
 		}
@@ -287,6 +344,94 @@ func inspect(command string, args []string, e Environment) int {
 		return usage(e, err.Error())
 	}
 	return outputAST(e, source, o, tree, roots, diagnostics, status, code, parseErr)
+}
+
+// Root is a subcommand `gtroff` Linux groff and man page processing tool
+//
+// Extended Help:
+//
+// Usage: gtroff COMMAND [OPTIONS] [FILE]
+//
+// Commands:
+//   validate  Check roff syntax and report diagnostics
+//   ast       Inspect a source-aware syntax tree
+//   render    Export a semantic man page to HTML or paginated images
+//   convert   Convert supported HTML and man structure
+//   serve     Browse and search explicit man-page directories over HTTP
+//   man       Generate a man page from command help
+//   completion  Generate shell completions
+//   version   Show build information
+//   help      Show help for a command
+//
+// Use FILE '-' or omit FILE to read stdin. Output is written to stdout.
+// Run 'gtroff help validate' or 'gtroff help ast' for options.
+// Validation checks syntax only; it does not establish typesetting success.
+// No macros are evaluated and no local or remote includes are loaded.
+func Root() error {
+	return nil
+}
+
+// Validate is a subcommand `gtroff validate` Check roff syntax and report diagnostics
+//
+// Usage: gtroff validate [--strict] [--package man|ms|roff] [--format text|json] [FILE]
+//
+// Check syntax, preserving unknown and malformed input in diagnostics.
+// FILE defaults to '-' (stdin). The default package is man and format is text.
+// Strict mode rejects warnings, including unknown controls and unloaded includes.
+// Permissive unknown syntax reports partial support.
+// This does not validate man-page semantics or guarantee successful typesetting.
+// Includes, macros and external commands are never executed.
+//
+// Exit codes: 0 accepted syntax (possibly warnings), 1 invalid syntax,
+// 2 usage/selection error, 3 input/output/resource failure.
+// JSON schemaVersion 1 includes diagnostics; text diagnostics go to stderr.
+// Output goes to stdout only; use shell redirection to save it.
+//
+// Flags:
+//
+//	strict: --strict (default: false) Reject warnings, including unknown controls and unloaded includes
+//	pkg: --package (default: "man") Package must be man, ms or roff
+//	format: --format (default: "text") Format must be text or json
+//	files: ... Input file, defaults to stdin ('-')
+func Validate(strict bool, pkg, format string, files ...string) error {
+	code := runInspect("validate", inspectOptions{strict: strict, pkg: pkg, format: format}, files, getEnv())
+	if code != ExitOK {
+		return &cmd.ErrExitCode{Code: code}
+	}
+	return nil
+}
+
+// Ast is a subcommand `gtroff ast` Inspect a source-aware syntax tree
+//
+// Usage: gtroff ast [--strict] [--package man|ms|roff] [--format json|text] [--select SELECTOR] [FILE]
+//
+// Inspect syntax with original source, stable document-local IDs and byte spans.
+// FILE defaults to '-' (stdin). The default package is man and format is json.
+// Selectors: node:ID, path:/0/1, section:HEADING. Repeated headings select all matches.
+// Selection is exact and case-sensitive; quote a selector containing spaces.
+// Selected subtrees retain original IDs and parent links; external parents are listed
+// in externalParentIds. The source field always contains the complete input snapshot.
+// JSON schemaVersion 1 includes diagnostics and an ordered node table.
+// Text output lists nodes in preorder; diagnostics go to stderr.
+// Includes, macros and external commands are never executed.
+//
+// Exit codes: 0 accepted syntax (possibly warnings), 1 invalid syntax,
+// 2 usage/selection error, 3 input/output/resource failure.
+// Even invalid syntax produces a preserved AST. Output is stdout only.
+//
+// Flags:
+//
+//	strict: --strict (default: false) Reject warnings, including unknown controls and unloaded includes
+//	pkg: --package (default: "man") Package must be man, ms or roff
+//	format: --format (default: "json") Format must be json or text
+//	selector: --select (default: "") Select syntax nodes: node:ID, path:/0/1, section:HEADING
+//	files: ... Input file, defaults to stdin ('-')
+func Ast(strict bool, pkg, format, selector string, files ...string) error {
+	code := runInspect("ast", inspectOptions{strict: strict, pkg: pkg, format: format, selector: selector}, files, getEnv())
+	if code != ExitOK {
+		return &cmd.ErrExitCode{Code: code}
+	}
+	return nil
 }
 
 func assessment(diagnostics []groff.Diagnostic) (string, int) {

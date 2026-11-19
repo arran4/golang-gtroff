@@ -1,0 +1,10 @@
+test: image generate reports invalid format
+-- args.json --
+["image", "generate", "--format", "gif"]
+-- stdin.1 --
+-- stdout.txt --
+-- stderr.txt --
+gtroff: image format must be png or jpg
+Run 'gtroff help' for usage.
+-- exit.txt --
+2

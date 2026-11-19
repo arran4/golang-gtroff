@@ -8,12 +8,173 @@ import (
 	"io"
 	"strconv"
 
+	"github.com/arran4/golang-gtroff/cmd"
 	groff "github.com/arran4/golang-gtroff"
 	"github.com/arran4/golang-gtroff/fontset"
 	"github.com/arran4/golang-gtroff/man"
 	"github.com/arran4/golang-gtroff/renderhtml"
 	"github.com/arran4/golang-gtroff/renderimage"
 )
+
+// Render is a subcommand `gtroff render` Export a semantic man page to HTML or paginated images
+//
+// Usage: gtroff render --format html|png|jpg [OPTIONS] [FILE]
+//
+// Export common Linux man syntax to HTML or paginated PNG/JPEG with bundled Go fonts.
+// FILE defaults to '-' (stdin). No includes or external resources are loaded.
+//
+//   --section HEADING       Select all matching sections/subsections
+//   --node ID               Select an AST source ID shown by gtroff ast
+//   --theme light|dark      Default: light
+//   --title TEXT            Override the document title
+//   --fragment              Write a styled article without an HTML document shell
+//   --no-anchors            Omit heading permalink anchors
+//   --assets embed|omit-fonts  Default: embed (four bundled Go fonts)
+//   --font-size PIXELS      8..72, default 18
+//   --line-height RATIO     1..3, default 1.5
+//   --max-width PIXELS      320..2400, default 960
+//   --font FILE             Alias for --font-regular
+//   --font-regular FILE     Explicit custom TTF/OTF; other faces keep bundled defaults
+//   --font-bold FILE        Explicit custom bold font
+//   --font-italic FILE      Explicit custom italic font
+//   --font-mono FILE        Explicit custom mono font
+//   --strict               Reject any semantic/render diagnostic before writing
+//   -o FILE                Atomic regular-file replacement; '-' means stdout
+//
+// Image options (device pixels except --font-size in points and --dpi):
+//   --width PIXELS          128..8192, default 1000
+//   --margin PIXELS         Nonnegative, default 48 (0 supported)
+//   --font-size POINTS      6..72, default 15 for images
+//   --dpi NUMBER            36..300, default 96 pixels/inch
+//   --line-height RATIO     1..3, default 1.35 for images
+//   --page-height PIXELS    128..8192, default 1400
+//   --single                Derive one image's height within guarded limits
+//   --max-height PIXELS     128..32768, default 32768
+//   --max-pixels COUNT      Total across all pages; default/hard ceiling 67108864
+//   --quality NUMBER        JPEG 1..100, default 90
+//
+// Images on stdout require one page. Multi-page foo.png output uses foo-001.png,
+// foo-002.png, etc. Files are all staged before per-file atomic replacements;
+// a rename failure can leave earlier pages replaced. No collection-wide atomicity.
+// Missing Unicode glyphs use visible code-point labels and diagnostics.
+//
+// Diagnostics go to stderr. Malformed input may produce fallback HTML with exit 1;
+// strict, resource and input/output failures leave existing output files intact.
+// Exit codes: 0 success/warnings, 1 syntax/strict failure, 2 usage/selection,
+// 3 input/output/resource failure. No full groff typesetting promise is made.
+//
+// Flags:
+//
+//	format: --format Output format: html, png or jpg (default: "html")
+//	section: --section Select all matching sections/subsections (default: "")
+//	node: --node Select an AST source ID shown by gtroff ast (default: "")
+//	output: -o (default: "-") Atomic regular-file replacement; '-' means stdout
+//	theme: --theme Default: light (default: "light")
+//	title: --title Override the document title (default: "")
+//	fragment: --fragment Write a styled article without an HTML document shell (default: false)
+//	noAnchors: --no-anchors Omit heading permalink anchors (default: false)
+//	strict: --strict Reject any semantic/render diagnostic before writing (default: false)
+//	assets: --assets Default: embed (four bundled Go fonts) (default: "embed")
+//	fontSize: --font-size 8..72, default 18 (default: 18)
+//	lineHeight: --line-height 1..3, default 1.5 (default: 1.5)
+//	maxWidth: --max-width 320..2400, default 960 (default: 960)
+//	fontRegular: --font-regular, --font Explicit custom TTF/OTF font
+//	fontBold: --font-bold Explicit custom bold font
+//	fontItalic: --font-italic Explicit custom italic font
+//	fontMono: --font-mono Explicit custom mono font
+//	width: --width 128..8192, default 1000 (default: 1000)
+//	margin: --margin Nonnegative, default 48 (default: 48)
+//	dpi: --dpi 36..300, default 96 pixels/inch (default: 96)
+//	pageHeight: --page-height 128..8192, default 1400 (default: 1400)
+//	single: --single Derive one image's height within guarded limits (default: false)
+//	maxHeight: --max-height 128..32768, default 32768 (default: 32768)
+//	maxPixels: --max-pixels Total across all pages; default/hard ceiling 67108864 (default: 67108864)
+//	quality: --quality JPEG 1..100, default 90 (default: 90)
+//	files: ... Input file, '-' or omitted for stdin
+func Render(format, section, node, output, theme, title string, fragment, noAnchors, strict bool, assets string, fontSize, lineHeight float64, maxWidth int, fontRegular, fontBold, fontItalic, fontMono string, width, margin int, dpi float64, pageHeight int, single bool, maxHeight int, maxPixels int64, quality int, files ...string) error {
+	var args []string
+	if format != "" {
+		args = append(args, "--format", format)
+	}
+	if section != "" {
+		args = append(args, "--section", section)
+	}
+	if node != "" {
+		args = append(args, "--node", node)
+	}
+	if output != "" {
+		args = append(args, "-o", output)
+	}
+	if theme != "" {
+		args = append(args, "--theme", theme)
+	}
+	if title != "" {
+		args = append(args, "--title", title)
+	}
+	if fragment {
+		args = append(args, "--fragment")
+	}
+	if noAnchors {
+		args = append(args, "--no-anchors")
+	}
+	if strict {
+		args = append(args, "--strict")
+	}
+	if assets != "" && assets != "embed" {
+		args = append(args, "--assets", assets)
+	}
+	if fontSize != 0 && fontSize != 18 {
+		args = append(args, "--font-size", strconv.FormatFloat(fontSize, 'f', -1, 64))
+	}
+	if lineHeight != 0 && lineHeight != 1.5 {
+		args = append(args, "--line-height", strconv.FormatFloat(lineHeight, 'f', -1, 64))
+	}
+	if maxWidth != 0 && maxWidth != 960 {
+		args = append(args, "--max-width", strconv.Itoa(maxWidth))
+	}
+	if fontRegular != "" {
+		args = append(args, "--font-regular", fontRegular)
+	}
+	if fontBold != "" {
+		args = append(args, "--font-bold", fontBold)
+	}
+	if fontItalic != "" {
+		args = append(args, "--font-italic", fontItalic)
+	}
+	if fontMono != "" {
+		args = append(args, "--font-mono", fontMono)
+	}
+	if width != 0 && width != 1000 {
+		args = append(args, "--width", strconv.Itoa(width))
+	}
+	if margin != 0 && margin != 48 {
+		args = append(args, "--margin", strconv.Itoa(margin))
+	}
+	if dpi != 0 && dpi != 96 {
+		args = append(args, "--dpi", strconv.FormatFloat(dpi, 'f', -1, 64))
+	}
+	if pageHeight != 0 && pageHeight != 1400 {
+		args = append(args, "--page-height", strconv.Itoa(pageHeight))
+	}
+	if single {
+		args = append(args, "--single")
+	}
+	if maxHeight != 0 && maxHeight != 32768 {
+		args = append(args, "--max-height", strconv.Itoa(maxHeight))
+	}
+	if maxPixels != 0 && maxPixels != renderimage.HardMaxPixels {
+		args = append(args, "--max-pixels", strconv.FormatInt(maxPixels, 10))
+	}
+	if quality != 0 && quality != 90 {
+		args = append(args, "--quality", strconv.Itoa(quality))
+	}
+	args = append(args, files...)
+	code := renderCommand(args, getEnv())
+	if code != ExitOK {
+		return &cmd.ErrExitCode{Code: code}
+	}
+	return nil
+}
 
 const renderHelp = `Usage: gtroff render --format html|png|jpg [OPTIONS] [FILE]
 

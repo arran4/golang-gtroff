@@ -1,0 +1,10 @@
+test: view requires a file argument
+-- args.json --
+["view"]
+-- stdin.1 --
+-- stdout.txt --
+-- stderr.txt --
+gtroff: view requires a file argument
+Run 'gtroff help' for usage.
+-- exit.txt --
+2

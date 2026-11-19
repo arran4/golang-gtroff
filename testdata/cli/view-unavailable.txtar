@@ -1,0 +1,9 @@
+test: view reports clear diagnostic when viewer is unavailable
+-- args.json --
+["view", "missing.1"]
+-- stdin.1 --
+-- stdout.txt --
+-- stderr.txt --
+gtroff: gtroff-view is unavailable; install or build the optional desktop viewer (cd desktop && go build ./cmd/gtroff-view)
+-- exit.txt --
+3

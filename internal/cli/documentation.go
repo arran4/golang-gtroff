@@ -7,6 +7,7 @@ import (
 	"sort"
 	"strings"
 
+	"github.com/arran4/golang-gtroff/cmd"
 	conversion "github.com/arran4/golang-gtroff/convert"
 )
 
@@ -22,6 +23,42 @@ directory. Command and flag names come from the command help text.
 // DocumentationCommands returns a fresh ordered list of documented commands.
 func DocumentationCommands() []string {
 	return []string{"validate", "ast", "render", "convert", "serve", "version", "man", "completion"}
+}
+
+// Man is a subcommand `gtroff man` Write a deterministic man(7) page for gtroff or one command to stdout
+//
+// Usage: gtroff man [COMMAND]
+//
+// Write a deterministic man(7) page for gtroff or one command to stdout.
+// Uses the same help text as 'gtroff help COMMAND'; requires no groff executable.
+//
+// Flags:
+//
+//	commands: ... Document command name
+func Man(commands ...string) error {
+	code := manCommand(commands, getEnv())
+	if code != ExitOK {
+		return &cmd.ErrExitCode{Code: code}
+	}
+	return nil
+}
+
+// Completion is a subcommand `gtroff completion` Generate shell completions
+//
+// Usage: gtroff completion bash|zsh|fish|powershell
+//
+// Write shell completion source to stdout. Install it in your shell's completion
+// directory. Command and flag names come from the command help text.
+//
+// Flags:
+//
+//	shell: ... Target shell: bash, zsh, fish, or powershell
+func Completion(shell ...string) error {
+	code := completionCommand(shell, getEnv())
+	if code != ExitOK {
+		return &cmd.ErrExitCode{Code: code}
+	}
+	return nil
 }
 
 func manCommand(args []string, e Environment) int {

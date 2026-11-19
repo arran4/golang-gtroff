@@ -1,0 +1,597 @@
+test: commands produces schemaVersion 1 json inventory
+-- args.json --
+["commands", "--format", "json"]
+-- stdin.1 --
+-- stdout.txt --
+{
+  "schemaVersion": 1,
+  "command": "commands",
+  "commands": [
+    {
+      "name": "validate",
+      "synopsis": "gtroff validate [--strict] [--package man|ms|roff] [--format text|json] [FILE]",
+      "description": "Check roff syntax and report diagnostics",
+      "flags": [
+        {
+          "name": "strict",
+          "type": "bool",
+          "default": "false",
+          "description": "Reject warnings, including unknown controls and unloaded includes"
+        },
+        {
+          "name": "package",
+          "type": "string",
+          "default": "man",
+          "description": "Package to use: man, ms or roff"
+        },
+        {
+          "name": "format",
+          "type": "string",
+          "default": "text",
+          "description": "Output format: text or json"
+        }
+      ],
+      "capabilities": [
+        "syntax-inspection",
+        "diagnostics",
+        "json-output",
+        "text-output"
+      ]
+    },
+    {
+      "name": "ast",
+      "synopsis": "gtroff ast [--strict] [--package man|ms|roff] [--format json|text] [--select SELECTOR] [FILE]",
+      "description": "Inspect a source-aware syntax tree",
+      "flags": [
+        {
+          "name": "strict",
+          "type": "bool",
+          "default": "false",
+          "description": "Reject warnings, including unknown controls and unloaded includes"
+        },
+        {
+          "name": "package",
+          "type": "string",
+          "default": "man",
+          "description": "Package to use: man, ms or roff"
+        },
+        {
+          "name": "format",
+          "type": "string",
+          "default": "json",
+          "description": "Output format: json or text"
+        },
+        {
+          "name": "select",
+          "type": "string",
+          "description": "Select syntax nodes: node:ID, path:/0/1, section:HEADING"
+        }
+      ],
+      "capabilities": [
+        "ast-export",
+        "node-selection",
+        "json-output",
+        "text-output"
+      ]
+    },
+    {
+      "name": "render",
+      "synopsis": "gtroff render --format html|png|jpg [OPTIONS] [FILE]",
+      "description": "Export a semantic man page to HTML or paginated images",
+      "flags": [
+        {
+          "name": "format",
+          "type": "string",
+          "default": "html",
+          "description": "Output format: html, png or jpg"
+        },
+        {
+          "name": "o",
+          "type": "string",
+          "default": "-",
+          "description": "Output destination; '-' means stdout"
+        },
+        {
+          "name": "section",
+          "type": "string",
+          "description": "Select all matching sections/subsections"
+        },
+        {
+          "name": "node",
+          "type": "string",
+          "description": "Select an AST source ID shown by gtroff ast"
+        },
+        {
+          "name": "theme",
+          "type": "string",
+          "default": "light",
+          "description": "Color theme: light or dark"
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "description": "Override the document title"
+        },
+        {
+          "name": "fragment",
+          "type": "bool",
+          "default": "false",
+          "description": "Write styled article without document shell"
+        },
+        {
+          "name": "no-anchors",
+          "type": "bool",
+          "default": "false",
+          "description": "Omit heading permalink anchors"
+        },
+        {
+          "name": "strict",
+          "type": "bool",
+          "default": "false",
+          "description": "Reject any semantic/render diagnostic"
+        },
+        {
+          "name": "assets",
+          "type": "string",
+          "default": "embed",
+          "description": "Font asset policy: embed or omit-fonts"
+        },
+        {
+          "name": "font-size",
+          "type": "float64",
+          "default": "18",
+          "description": "Font size in pixels (HTML) or points (images)"
+        },
+        {
+          "name": "line-height",
+          "type": "float64",
+          "default": "1.5",
+          "description": "Line height ratio: 1..3"
+        },
+        {
+          "name": "max-width",
+          "type": "int",
+          "default": "960",
+          "description": "Max article width in pixels"
+        },
+        {
+          "name": "font-regular",
+          "type": "string",
+          "description": "Explicit custom TTF/OTF font file (alias: --font)"
+        },
+        {
+          "name": "font-bold",
+          "type": "string",
+          "description": "Explicit custom bold font file"
+        },
+        {
+          "name": "font-italic",
+          "type": "string",
+          "description": "Explicit custom italic font file"
+        },
+        {
+          "name": "font-mono",
+          "type": "string",
+          "description": "Explicit custom mono font file"
+        },
+        {
+          "name": "width",
+          "type": "int",
+          "default": "1000",
+          "description": "Image page width in pixels"
+        },
+        {
+          "name": "margin",
+          "type": "int",
+          "default": "48",
+          "description": "Image page margin in pixels"
+        },
+        {
+          "name": "dpi",
+          "type": "float64",
+          "default": "96",
+          "description": "Image resolution in pixels/inch"
+        },
+        {
+          "name": "page-height",
+          "type": "int",
+          "default": "1400",
+          "description": "Image page height in pixels"
+        },
+        {
+          "name": "single",
+          "type": "bool",
+          "default": "false",
+          "description": "Derive one image's height within guarded limits"
+        },
+        {
+          "name": "max-height",
+          "type": "int",
+          "default": "32768",
+          "description": "Image max height in pixels"
+        },
+        {
+          "name": "max-pixels",
+          "type": "int64",
+          "default": "67108864",
+          "description": "Total pixel ceiling across pages"
+        },
+        {
+          "name": "quality",
+          "type": "int",
+          "default": "90",
+          "description": "JPEG encoding quality: 1..100"
+        }
+      ],
+      "capabilities": [
+        "html-export",
+        "png-export",
+        "jpeg-export",
+        "pagination",
+        "custom-fonts"
+      ]
+    },
+    {
+      "name": "image generate",
+      "synopsis": "gtroff image generate [--format png|jpg] [OPTIONS] [FILE]",
+      "description": "Render a man page to paginated PNG or JPEG images",
+      "flags": [
+        {
+          "name": "format",
+          "type": "string",
+          "default": "png",
+          "description": "Output format: png or jpg"
+        },
+        {
+          "name": "o",
+          "type": "string",
+          "default": "-",
+          "description": "Output image file; '-' means stdout"
+        },
+        {
+          "name": "theme",
+          "type": "string",
+          "default": "light",
+          "description": "Color theme: light or dark"
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "description": "Override the document title"
+        },
+        {
+          "name": "section",
+          "type": "string",
+          "description": "Select all matching sections/subsections"
+        },
+        {
+          "name": "node",
+          "type": "string",
+          "description": "Select an AST source ID shown by gtroff ast"
+        },
+        {
+          "name": "strict",
+          "type": "bool",
+          "default": "false",
+          "description": "Reject any semantic/render diagnostic"
+        },
+        {
+          "name": "width",
+          "type": "int",
+          "default": "1000",
+          "description": "Image page width in pixels"
+        },
+        {
+          "name": "margin",
+          "type": "int",
+          "default": "48",
+          "description": "Image page margin in pixels"
+        },
+        {
+          "name": "font-size",
+          "type": "float64",
+          "default": "15",
+          "description": "Font size in points: 6..72"
+        },
+        {
+          "name": "dpi",
+          "type": "float64",
+          "default": "96",
+          "description": "Image resolution in pixels/inch"
+        },
+        {
+          "name": "line-height",
+          "type": "float64",
+          "default": "1.35",
+          "description": "Line height ratio: 1..3"
+        },
+        {
+          "name": "page-height",
+          "type": "int",
+          "default": "1400",
+          "description": "Image page height in pixels"
+        },
+        {
+          "name": "single",
+          "type": "bool",
+          "default": "false",
+          "description": "Derive one image height within guarded limits"
+        },
+        {
+          "name": "max-height",
+          "type": "int",
+          "default": "32768",
+          "description": "Image max height in pixels"
+        },
+        {
+          "name": "max-pixels",
+          "type": "int64",
+          "default": "67108864",
+          "description": "Total pixel ceiling across pages"
+        },
+        {
+          "name": "quality",
+          "type": "int",
+          "default": "90",
+          "description": "JPEG encoding quality: 1..100"
+        }
+      ],
+      "capabilities": [
+        "png-export",
+        "jpeg-export",
+        "pagination",
+        "custom-fonts"
+      ]
+    },
+    {
+      "name": "convert",
+      "synopsis": "gtroff convert --from html|roff --to roff|html [-i FILE] [-o FILE] [--strict]",
+      "description": "Convert supported HTML and man structure",
+      "flags": [
+        {
+          "name": "from",
+          "type": "string",
+          "description": "Choose html or roff"
+        },
+        {
+          "name": "to",
+          "type": "string",
+          "description": "Choose roff or html"
+        },
+        {
+          "name": "i",
+          "type": "string",
+          "default": "-",
+          "description": "Input file; '-' means stdin"
+        },
+        {
+          "name": "o",
+          "type": "string",
+          "default": "-",
+          "description": "Output destination; '-' means stdout"
+        },
+        {
+          "name": "strict",
+          "type": "bool",
+          "default": "false",
+          "description": "Reject any conversion diagnostic"
+        },
+        {
+          "name": "fragment",
+          "type": "bool",
+          "default": "false",
+          "description": "Emit styled article for HTML"
+        },
+        {
+          "name": "assets",
+          "type": "string",
+          "default": "embed",
+          "description": "Font asset policy for HTML: embed or omit-fonts"
+        }
+      ],
+      "capabilities": [
+        "html-to-roff",
+        "roff-to-html",
+        "semantic-normalization"
+      ]
+    },
+    {
+      "name": "serve",
+      "synopsis": "gtroff serve --root DIR [--root DIR ...] [OPTIONS]",
+      "description": "Browse and search explicit man-page directories over HTTP",
+      "flags": [
+        {
+          "name": "root",
+          "type": "[]string",
+          "description": "Required, repeatable explicit man directory"
+        },
+        {
+          "name": "listen",
+          "type": "string",
+          "default": "127.0.0.1:8080",
+          "description": "TCP address to listen on"
+        },
+        {
+          "name": "system-search",
+          "type": "bool",
+          "default": "false",
+          "description": "Probe apropos/whatis fallback"
+        },
+        {
+          "name": "allow-remote",
+          "type": "bool",
+          "default": "false",
+          "description": "Permit non-loopback binding"
+        },
+        {
+          "name": "max-pages",
+          "type": "int",
+          "default": "10000",
+          "description": "Index cap: 1..50000"
+        },
+        {
+          "name": "max-total-bytes",
+          "type": "int64",
+          "default": "67108864",
+          "description": "Source/decode byte ceiling"
+        },
+        {
+          "name": "max-file-bytes",
+          "type": "int64",
+          "default": "2097152",
+          "description": "Raw/decoded per-page cap"
+        },
+        {
+          "name": "theme",
+          "type": "string",
+          "default": "light",
+          "description": "Page theme: light or dark"
+        },
+        {
+          "name": "assets",
+          "type": "string",
+          "default": "embed",
+          "description": "Font asset policy"
+        }
+      ],
+      "capabilities": [
+        "http-server",
+        "manlib-index",
+        "read-only-sandbox"
+      ]
+    },
+    {
+      "name": "view",
+      "synopsis": "gtroff view [OPTIONS] FILE",
+      "description": "Open a man source file in the optional Shiny viewer",
+      "flags": [
+        {
+          "name": "title",
+          "type": "string",
+          "description": "Optional window/document title override"
+        },
+        {
+          "name": "section",
+          "type": "string",
+          "description": "Display matching semantic sections"
+        },
+        {
+          "name": "width",
+          "type": "int",
+          "default": "1000",
+          "description": "Render page width in pixels"
+        },
+        {
+          "name": "page-height",
+          "type": "int",
+          "default": "1400",
+          "description": "Render page height in pixels"
+        },
+        {
+          "name": "margin",
+          "type": "int",
+          "default": "48",
+          "description": "Page margin in pixels"
+        },
+        {
+          "name": "font-size",
+          "type": "float64",
+          "default": "15",
+          "description": "Default 15 at --dpi 96"
+        },
+        {
+          "name": "dpi",
+          "type": "float64",
+          "default": "96",
+          "description": "Document pixels/inch"
+        },
+        {
+          "name": "theme",
+          "type": "string",
+          "default": "light",
+          "description": "Color theme: light or dark"
+        },
+        {
+          "name": "strict",
+          "type": "bool",
+          "default": "false",
+          "description": "Reject conversion diagnostics"
+        },
+        {
+          "name": "window-width",
+          "type": "int",
+          "default": "1000",
+          "description": "Initial viewport width"
+        },
+        {
+          "name": "window-height",
+          "type": "int",
+          "default": "800",
+          "description": "Initial viewport height"
+        }
+      ],
+      "capabilities": [
+        "desktop-viewer-launcher",
+        "process-forwarding"
+      ]
+    },
+    {
+      "name": "commands",
+      "synopsis": "gtroff commands [--format json|text]",
+      "description": "Write a machine-readable command inventory to stdout",
+      "flags": [
+        {
+          "name": "format",
+          "type": "string",
+          "default": "json",
+          "description": "Output format: json or text"
+        }
+      ],
+      "capabilities": [
+        "command-inventory",
+        "agent-discovery",
+        "json-schema"
+      ]
+    },
+    {
+      "name": "man",
+      "synopsis": "gtroff man [COMMAND]",
+      "description": "Write a deterministic man(7) page for gtroff or one command to stdout",
+      "capabilities": [
+        "man-page-generation",
+        "deterministic-output"
+      ]
+    },
+    {
+      "name": "completion",
+      "synopsis": "gtroff completion bash|zsh|fish|powershell",
+      "description": "Write shell completion source to stdout",
+      "capabilities": [
+        "shell-completions",
+        "bash",
+        "zsh",
+        "fish",
+        "powershell"
+      ]
+    },
+    {
+      "name": "version",
+      "synopsis": "gtroff version",
+      "description": "Show build information",
+      "capabilities": [
+        "version-metadata"
+      ]
+    },
+    {
+      "name": "help",
+      "synopsis": "gtroff help [COMMAND]",
+      "description": "Show help for a command",
+      "capabilities": [
+        "interactive-help"
+      ]
+    }
+  ]
+}
+-- stderr.txt --
+-- exit.txt --
+0

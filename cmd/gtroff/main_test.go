@@ -6,6 +6,7 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
+	"fmt"
 	"image"
 	_ "image/jpeg"
 	"image/png"
@@ -19,7 +20,9 @@ import (
 	"testing"
 	"time"
 
+	"github.com/arran4/golang-gtroff/cmd"
 	"github.com/arran4/golang-gtroff/fontset"
+	"github.com/arran4/golang-gtroff/internal/cli"
 )
 
 // This deliberately exercises the built executable: real argument parsing,
@@ -63,7 +66,20 @@ func TestExecutableFlows(t *testing.T) {
 		json                           bool
 	}{
 		{name: "version", args: []string{"version"}, stdoutContains: "gtroff integration-test (commit abc123, built 2026-10-21)"},
+		{name: "version alias", args: []string{"--version"}, stdoutContains: "gtroff integration-test (commit abc123, built 2026-10-21)"},
+		{name: "version extra positional", args: []string{"--version", "extra"}, code: 2, stderrContains: "version takes no arguments"},
+		{name: "version unexpected flag value", args: []string{"--version=unexpected"}, code: 2, stderrContains: "unknown flag: --version"},
 		{name: "help", args: []string{"help", "ast"}, stdoutContains: "node:ID"},
+		{name: "ast help", args: []string{"ast", "--help"}, stdoutContains: "node:ID"},
+		{name: "help validate", args: []string{"help", "validate"}, stdoutContains: "Check syntax, preserving unknown and malformed input in diagnostics."},
+		{name: "validate help", args: []string{"validate", "--help"}, stdoutContains: "Check syntax, preserving unknown and malformed input in diagnostics."},
+		{name: "help render", args: []string{"help", "render"}, stdoutContains: "Export common Linux man syntax to HTML or paginated PNG/JPEG with bundled Go fonts."},
+		{name: "render help", args: []string{"render", "--help"}, stdoutContains: "Export common Linux man syntax to HTML or paginated PNG/JPEG with bundled Go fonts."},
+		{name: "help image", args: []string{"help", "image"}, stdoutContains: "Export a man page to paginated PNG or JPEG images with bundled Go fonts."},
+		{name: "image help", args: []string{"image", "--help"}, stdoutContains: "Export a man page to paginated PNG or JPEG images with bundled Go fonts."},
+		{name: "help image generate", args: []string{"help", "image", "generate"}, stdoutContains: "Export common Linux man syntax to paginated PNG or JPEG with bundled Go fonts."},
+		{name: "help image nonexistent", args: []string{"help", "image", "nonexistent"}, code: 2, stdoutContains: "Usage: gtroff image COMMAND", stderrContains: "unknown command: nonexistent"},
+		{name: "help nonexistent", args: []string{"help", "nonexistent"}, code: 2, stdoutContains: "Usage: gtroff COMMAND", stderrContains: "unknown command: nonexistent"},
 		{name: "file with spaces", args: []string{"validate", "--strict", "my page.1"}, stdoutContains: "valid syntax (semantic validation not performed)"},
 		{name: "stdin AST", args: []string{"ast", "--select", "section:OPTIONS", "-"}, stdin: string(source), json: true, stdoutContains: "\"rootIds\""},
 		{name: "empty stdin", args: []string{"ast"}, json: true, stdoutContains: "\"kind\":\"document\""},
@@ -81,6 +97,11 @@ func TestExecutableFlows(t *testing.T) {
 		{name: "convert roff stdin", args: []string{"convert", "--from", "roff", "--to", "html", "--fragment", "--assets", "omit-fonts"}, stdin: ".TH TOOL 1\n.SH NAME\ntext\n", stdoutContains: "<article"},
 		{name: "convert strict hostile", args: []string{"convert", "--from", "html", "--to", "roff", "--strict"}, stdin: "<script>literal</script>", code: 1, stderrContains: "unsupported <script>"},
 		{name: "render reject format", args: []string{"render", "--format", "gif"}, code: 2, stderrContains: "render format must be html"},
+		{name: "image generate help", args: []string{"image", "generate", "--help"}, stdoutContains: "Export common Linux man syntax to paginated PNG or JPEG"},
+		{name: "image reject format", args: []string{"image", "generate", "--format", "gif"}, code: 2, stderrContains: "image format must be png or jpg"},
+		{name: "view missing file", args: []string{"view"}, code: 2, stderrContains: "view requires a file argument"},
+		{name: "view unavailable", args: []string{"view", "missing.1"}, code: 3, stderrContains: "gtroff-view is unavailable"},
+		{name: "commands json", args: []string{"commands", "--format", "json"}, json: true, stdoutContains: "\"commands\""},
 	}
 	for _, tc := range cases {
 		t.Run(tc.name, func(t *testing.T) {
@@ -136,6 +157,126 @@ func TestExecutableFlows(t *testing.T) {
 			}
 		})
 	}
+	t.Run("version and help exact byte equivalence and isolation", func(t *testing.T) {
+		runCmd := func(args ...string) (int, []byte, []byte) {
+			runCtx, stop := context.WithTimeout(context.Background(), 10*time.Second)
+			defer stop()
+			c := exec.CommandContext(runCtx, binary, args...)
+			c.Dir = work
+			var out, stderr bytes.Buffer
+			c.Stdout = &out
+			c.Stderr = &stderr
+			err := c.Run()
+			code := 0
+			if err != nil {
+				var e *exec.ExitError
+				if !errors.As(err, &e) {
+					t.Fatal(err)
+				}
+				code = e.ExitCode()
+			}
+			return code, out.Bytes(), stderr.Bytes()
+		}
+
+		// 1. gtroff version vs gtroff --version
+		vCode, vOut, vErr := runCmd("version")
+		vaCode, vaOut, vaErr := runCmd("--version")
+		if vCode != 0 || vaCode != 0 {
+			t.Fatalf("version exits non-zero: version=%d, --version=%d", vCode, vaCode)
+		}
+		if len(vErr) != 0 || len(vaErr) != 0 {
+			t.Fatalf("version produced stderr: version=%q, --version=%q", vErr, vaErr)
+		}
+		expectedVersion := "gtroff integration-test (commit abc123, built 2026-10-21)\n"
+		if string(vOut) != expectedVersion {
+			t.Fatalf("version stdout mismatch: got %q, want %q", string(vOut), expectedVersion)
+		}
+		if !bytes.Equal(vOut, vaOut) {
+			t.Fatalf("version and --version output differ:\nversion:\n%s\n--version:\n%s", vOut, vaOut)
+		}
+
+		// 2. Exact byte equivalence for equivalent help forms
+		helpPairs := []struct {
+			name  string
+			args1 []string
+			args2 []string
+		}{
+			{"image generate", []string{"help", "image", "generate"}, []string{"image", "generate", "--help"}},
+			{"image", []string{"help", "image"}, []string{"image", "--help"}},
+			{"render", []string{"help", "render"}, []string{"render", "--help"}},
+			{"validate", []string{"help", "validate"}, []string{"validate", "--help"}},
+			{"ast", []string{"help", "ast"}, []string{"ast", "--help"}},
+		}
+		for _, pair := range helpPairs {
+			t.Run(pair.name, func(t *testing.T) {
+				code1, out1, err1 := runCmd(pair.args1...)
+				code2, out2, err2 := runCmd(pair.args2...)
+				if code1 != 0 || code2 != 0 {
+					t.Fatalf("help exited non-zero: %v=%d, %v=%d", pair.args1, code1, pair.args2, code2)
+				}
+				if len(err1) != 0 || len(err2) != 0 {
+					t.Fatalf("help produced unexpected stderr: %v=%q, %v=%q", pair.args1, err1, pair.args2, err2)
+				}
+				if len(out1) == 0 {
+					t.Fatalf("help %v produced empty stdout", pair.args1)
+				}
+				if !bytes.Equal(out1, out2) {
+					t.Fatalf("help outputs for %v and %v are not byte-for-byte identical:\n--- %v ---\n%s\n--- %v ---\n%s",
+						pair.args1, pair.args2, pair.args1, out1, pair.args2, out2)
+				}
+			})
+		}
+
+		// 3. Confirm help requests do not execute underlying command actions or have side effects
+		// Help with a non-existent file operand should display help and exit 0 without file I/O errors.
+		safeHelpCases := [][]string{
+			{"render", "--help", "nonexistent-missing-file.1"},
+			{"image", "generate", "--help", "nonexistent-missing-file.1"},
+			{"validate", "--help", "nonexistent-missing-file.1"},
+			{"ast", "--help", "nonexistent-missing-file.1"},
+		}
+		for _, args := range safeHelpCases {
+			code, out, stderr := runCmd(args...)
+			if code != 0 {
+				t.Fatalf("help with trailing non-existent file exited %d (stderr=%s)", code, stderr)
+			}
+			if len(stderr) != 0 {
+				t.Fatalf("help with trailing non-existent file produced stderr: %s", stderr)
+			}
+			if len(out) == 0 {
+				t.Fatalf("help %v produced empty stdout", args)
+			}
+		}
+	})
+	t.Run("internal cli.Run compatibility parity", func(t *testing.T) {
+		var out1, err1 bytes.Buffer
+		code1 := cli.Run([]string{"version"}, cli.Environment{
+			Out: &out1, Err: &err1,
+			Build: cli.BuildInfo{Version: "integration-test", Commit: "abc123", Date: "2026-10-21"},
+		})
+		var out2, err2 bytes.Buffer
+		code2 := cli.Run([]string{"--version"}, cli.Environment{
+			Out: &out2, Err: &err2,
+			Build: cli.BuildInfo{Version: "integration-test", Commit: "abc123", Date: "2026-10-21"},
+		})
+		if code1 != 0 || code2 != 0 {
+			t.Fatalf("cli.Run version non-zero: %d, %d", code1, code2)
+		}
+		if out1.String() != out2.String() {
+			t.Fatalf("cli.Run version mismatch:\n%s\nvs\n%s", out1.String(), out2.String())
+		}
+
+		var hOut1, hErr1 bytes.Buffer
+		hCode1 := cli.Run([]string{"help", "image", "generate"}, cli.Environment{Out: &hOut1, Err: &hErr1})
+		var hOut2, hErr2 bytes.Buffer
+		hCode2 := cli.Run([]string{"image", "generate", "--help"}, cli.Environment{Out: &hOut2, Err: &hErr2})
+		if hCode1 != 0 || hCode2 != 0 {
+			t.Fatalf("cli.Run help image generate non-zero: %d, %d", hCode1, hCode2)
+		}
+		if hOut1.String() != hOut2.String() {
+			t.Fatalf("cli.Run help image generate mismatch:\n%s\nvs\n%s", hOut1.String(), hOut2.String())
+		}
+	})
 	t.Run("HTML atomic output preserves failed destinations and source", func(t *testing.T) {
 		execute := func(args []string, input string) (int, string, string) {
 			runCtx, stop := context.WithTimeout(context.Background(), 10*time.Second)
@@ -487,5 +628,28 @@ func smokeReadme(t *testing.T, binary string) {
 	pages, err := filepath.Glob(filepath.Join(work, "pages-*.png"))
 	if err != nil || len(pages) < 2 {
 		t.Fatal("README pagination did not produce numbered pages", err)
+	}
+}
+
+func TestRun_WrappedErrExitCode(t *testing.T) {
+	// Verify that errors.As properly unwraps ErrExitCode through arbitrary error wrapping.
+	inner := errors.New("underlying failure")
+	wrapped := fmt.Errorf("outer context: %w", &cmd.ErrExitCode{Err: inner, Code: cli.ExitIO})
+
+	var exitCode *cmd.ErrExitCode
+	if !errors.As(wrapped, &exitCode) {
+		t.Fatal("errors.As failed to locate ErrExitCode in wrapped error")
+	}
+	if exitCode.Code != cli.ExitIO {
+		t.Fatalf("expected code %d, got %d", cli.ExitIO, exitCode.Code)
+	}
+	if exitCode.Err != inner {
+		t.Fatalf("expected inner error %v, got %v", inner, exitCode.Err)
+	}
+
+	// Verify standard exit status mapping constants
+	if cli.ExitOK != 0 || cli.ExitInvalid != 1 || cli.ExitUsage != 2 || cli.ExitIO != 3 {
+		t.Fatalf("exit status constants diverged from contract: OK=%d, Invalid=%d, Usage=%d, IO=%d",
+			cli.ExitOK, cli.ExitInvalid, cli.ExitUsage, cli.ExitIO)
 	}
 }

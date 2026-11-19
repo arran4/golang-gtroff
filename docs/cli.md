@@ -83,7 +83,12 @@ syntax diagnostics stay in the JSON envelope; usage/open/export errors that
 prevent an envelope go to stderr. Stdout contains no progress messages.
 
 The `validate` and `ast` commands are stdout-only. The separate HTML `render`
-command supports atomic `-o FILE`; see [HTML contracts](html.md). Shell
+command supports atomic `-o FILE`; see [HTML contracts](html.md). The `image generate`
+subcommand provides a discoverable interface for exporting paginated raster images,
+reusing the existing PNG/JPEG raster engine. The `view FILE` command launches the
+optional `gtroff-view` Shiny viewer when available. The `commands --format json`
+command emits a versioned, machine-readable inventory of commands, flags,
+descriptions, and capabilities for agents and integrations. Shell
 redirection is owned by the caller and has no atomicity promise. JSON/text export is buffered with a 32 MiB limit; an encoding
 or export-budget failure leaves stdout empty. An underlying stdout write error
 can leave a partial stream and exits 3. Input uses the AST's documented source,
@@ -92,11 +97,15 @@ an export as validated input.
 
 ## Implementation and verification
 
-`cmd/gtroff/main.go` only wires process arguments, build values, streams and an
-explicit file opener into `internal/cli.Run`. Tests inject readers/writers and
-an in-memory filesystem rather than replacing process globals. A separate
-built-executable test verifies real files, stdin, output, exit codes, build
-metadata, selections and no includes. There are no GUI dependencies.
+Command dispatch is generated at build time using `go-subcommand` (`gosubc` v0.0.32),
+pinned in `internal/tools/tools.go` and executed via `go generate ./...`.
+`cmd/gtroff/main.go` wires process arguments, build values, streams and an
+explicit file opener into the generated command root, while preserving the
+injected `cli.Run` compatibility API for embedded test scenarios. Tests inject
+readers/writers and an in-memory filesystem rather than replacing process
+globals. A separate built-executable test verifies real files, stdin, output,
+exit codes, build metadata, selections, raster rendering and no includes.
+There are no GUI dependencies in the headless `gtroff` binary.
 
 The `md2png` generated `go-subcommand` main was inspected for command/version and
 exit plumbing. This repository has no existing command generator. A small
