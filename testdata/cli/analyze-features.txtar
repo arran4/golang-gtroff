@@ -1,0 +1,28 @@
+test: explanatory non-executing feature analysis
+-- args.json --
+["analyze"]
+-- stdin.1 --
+.TH TOOL 1
+.nr X 1
+.if 1 .B text
+.sy never-run
+.TS
+l.
+.TE
+.MR printf 3
+text \*[X]
+-- stdout.txt --
+profile: man (confidence=high)
+reason: package-specific source spellings, without evaluating redefinitions
+sources: 1; bytes: 82; nodes: 19; physical lines: 9; enumeration complete: true
+capabilities: syntax and optional man interpretation assessed separately; rendering not assessed
+flags: conditional=true include=false evaluation=true preprocessor=true side-effect-syntax=true unknown=false opaque=true partial-source=false
+requirements: advanced-interpretation, evaluation, explicit-side-effect-policy, preprocess:tbl
+features: conditional=1 control=7 escape=1 opaque=1 preprocessor=1 reference=1 register-definition=1 side-effect-syntax=1 text=2
+controls: .MR=1 .TE=1 .TH=1 .TS=1 .if=1 .nr=1 .sy=1
+escapes: StringRef=1
+source 1: <stdin> (profile=man depth=0 bytes=82 eof=true)
+diagnostics: 5
+-- stderr.txt --
+-- exit.txt --
+0

@@ -145,3 +145,10 @@ a single-file syntax inspection command.
 equivalent typed Go builders over syntax or an optional man hierarchy. It shares
 the bounded source loader and `--no-includes` policy, and exposes JSON/JSONL, text,
 raw source, grep and CSV/TSV records. [Grammar, source attribution and limits](query.md).
+
+## Feature analysis
+
+`gtroff analyze [OPTIONS] [FILE]` classifies source features and processing
+requirements with positioned evidence. It shares bounded include resolution and
+`--no-includes`, supports explicit declarative `--rules` files and text/JSON/JSONL
+reports, and does not execute roff or render. [Capability and rule contracts](analyze.md).

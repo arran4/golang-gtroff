@@ -1,0 +1,23 @@
+test: explanatory non-executing feature analysis
+-- args.json --
+["analyze"]
+-- stdin.1 --
+.ig
+.TH STORED 1
+.sy never-run
+..
+-- stdout.txt --
+profile: roff (confidence=medium)
+reason: core roff syntax without a distinctive package title
+sources: 1; bytes: 34; nodes: 7; physical lines: 4; enumeration complete: true
+capabilities: syntax and optional man interpretation assessed separately; rendering not assessed
+flags: conditional=false include=false evaluation=false preprocessor=false side-effect-syntax=true unknown=false opaque=true partial-source=false
+requirements: advanced-interpretation
+features: control=4 opaque=1 side-effect-syntax=1
+controls: ..=1 .TH=1 .ig=1 .sy=1
+escapes:
+source 1: <stdin> (profile=roff depth=0 bytes=34 eof=true)
+diagnostics: 1
+-- stderr.txt --
+-- exit.txt --
+0

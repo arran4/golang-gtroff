@@ -95,6 +95,7 @@ Commands:
   query     Select source-aware documentation
   extract   Export fragments and structured documentation
   skills    Discover and export portable agent recipes
+  analyze   Classify syntax and processing requirements
   render    Export a semantic man page to HTML or paginated images
   convert   Convert supported HTML and man structure
   serve     Browse and search explicit man-page directories over HTTP
@@ -198,6 +199,8 @@ func Run(args []string, e Environment) int {
 		return extractCommand(args, e)
 	case "skills":
 		return skillsCommand(args, e)
+	case "analyze":
+		return analyzeCommand(args, e)
 	case "validate", "ast":
 		return inspectCommand(command, args, e)
 	case "man":
@@ -228,6 +231,8 @@ func commandHelp(e Environment, command string) int {
 		return writeString(e, skillsShowHelp)
 	case "skills export":
 		return writeString(e, skillsExportHelp)
+	case "analyze":
+		return writeString(e, analyzeHelp)
 	case "convert":
 		return writeString(e, convertHelp)
 	case "serve":
@@ -395,6 +400,7 @@ func runInspect(command string, o inspectOptions, files []string, e Environment)
 //	query     Select source-aware documentation
 //	extract   Export fragments and structured documentation
 //	skills    Discover and export portable agent recipes
+//	analyze   Classify syntax and processing requirements
 //	render    Export a semantic man page to HTML or paginated images
 //	convert   Convert supported HTML and man structure
 //	serve     Browse and search explicit man-page directories over HTTP

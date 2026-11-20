@@ -144,6 +144,19 @@ limits and machine-readable extraction. Export to an explicit local parent with
 `./gtroff skills export --dir ./chosen-skills gtroff-query-extract`.
 Existing destinations are refused. [Portable assets, Go API and export policy](docs/agent-skills.md).
 
+## Explain document features
+
+```sh
+./gtroff analyze examples/man-tool.1
+./gtroff analyze --format json --no-includes document.1
+```
+
+Analysis reports profile evidence, controls, escapes, definitions, references,
+programmatic syntax, preprocessors and include states without executing roff.
+Syntax recognition, man interpretation and rendering remain separate facts.
+Custom declarative questions supplement the built-in inventory.
+[Analysis API, rules and capability contracts](docs/analyze.md).
+
 ## Inspect local source sets
 
 ```sh
