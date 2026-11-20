@@ -1,0 +1,140 @@
+goos: linux
+goarch: amd64
+pkg: github.com/arran4/golang-gtroff
+cpu: 12th Gen Intel(R) Core(TM) i5-12600KF
+BenchmarkParseLine     	  588223	       385.3 ns/op	     187 B/op	       6 allocs/op
+BenchmarkParseDocument/man-small         	   12016	     19164 ns/op	  24.52 MB/s	   21096 B/op	     264 allocs/op
+BenchmarkParseDocument/man-medium        	    1669	    151031 ns/op	  57.86 MB/s	  241048 B/op	    2377 allocs/op
+BenchmarkParseDocument/ms-small          	   23064	     10375 ns/op	  36.05 MB/s	   17984 B/op	     134 allocs/op
+BenchmarkParseDocument/roff-small        	   51922	      4674 ns/op	  41.50 MB/s	    8776 B/op	      65 allocs/op
+BenchmarkParseAST/man-small              	    5016	     47582 ns/op	   9.88 MB/s	   52823 B/op	     667 allocs/op
+BenchmarkParseAST/man-medium             	     502	    464927 ns/op	  18.79 MB/s	  487142 B/op	    5622 allocs/op
+BenchmarkParseAST/ms-small               	   10000	     24732 ns/op	  15.12 MB/s	   30315 B/op	     320 allocs/op
+BenchmarkParseAST/roff-small             	   19044	     12640 ns/op	  15.35 MB/s	   17841 B/op	     182 allocs/op
+PASS
+goos: linux
+goarch: amd64
+pkg: github.com/arran4/golang-gtroff
+cpu: 12th Gen Intel(R) Core(TM) i5-12600KF
+BenchmarkParseLine     	  895508	       257.5 ns/op	     187 B/op	       6 allocs/op
+BenchmarkParseDocument/man-small         	   15600	     15319 ns/op	  30.68 MB/s	   21096 B/op	     264 allocs/op
+BenchmarkParseDocument/man-medium        	    1642	    144967 ns/op	  60.28 MB/s	  241048 B/op	    2377 allocs/op
+BenchmarkParseDocument/ms-small          	   25200	      9497 ns/op	  39.38 MB/s	   17984 B/op	     134 allocs/op
+BenchmarkParseDocument/roff-small        	   55219	      4381 ns/op	  44.28 MB/s	    8776 B/op	      65 allocs/op
+BenchmarkParseAST/man-small              	    5116	     47222 ns/op	   9.95 MB/s	   52824 B/op	     667 allocs/op
+BenchmarkParseAST/man-medium             	     508	    462243 ns/op	  18.90 MB/s	  487141 B/op	    5622 allocs/op
+BenchmarkParseAST/ms-small               	   10000	     24519 ns/op	  15.25 MB/s	   30314 B/op	     320 allocs/op
+BenchmarkParseAST/roff-small             	   19198	     12523 ns/op	  15.49 MB/s	   17841 B/op	     182 allocs/op
+PASS
+goos: linux
+goarch: amd64
+pkg: github.com/arran4/golang-gtroff
+cpu: 12th Gen Intel(R) Core(TM) i5-12600KF
+BenchmarkParseLine     	  945255	       260.1 ns/op	     187 B/op	       6 allocs/op
+BenchmarkParseDocument/man-small         	   15292	     15467 ns/op	  30.39 MB/s	   21096 B/op	     264 allocs/op
+BenchmarkParseDocument/man-medium        	    1621	    142422 ns/op	  61.35 MB/s	  241048 B/op	    2377 allocs/op
+BenchmarkParseDocument/ms-small          	   26084	      9291 ns/op	  40.25 MB/s	   17984 B/op	     134 allocs/op
+BenchmarkParseDocument/roff-small        	   54226	      4382 ns/op	  44.27 MB/s	    8776 B/op	      65 allocs/op
+BenchmarkParseAST/man-small              	    4929	     46228 ns/op	  10.17 MB/s	   52824 B/op	     667 allocs/op
+BenchmarkParseAST/man-medium             	     530	    457937 ns/op	  19.08 MB/s	  487142 B/op	    5622 allocs/op
+BenchmarkParseAST/ms-small               	   10000	     25504 ns/op	  14.66 MB/s	   30315 B/op	     320 allocs/op
+BenchmarkParseAST/roff-small             	   18715	     12797 ns/op	  15.16 MB/s	   17841 B/op	     182 allocs/op
+PASS
+goos: linux
+goarch: amd64
+pkg: github.com/arran4/golang-gtroff
+cpu: 12th Gen Intel(R) Core(TM) i5-12600KF
+BenchmarkParseLine     	  904461	       261.6 ns/op	     187 B/op	       6 allocs/op
+BenchmarkParseDocument/man-small         	   15427	     15569 ns/op	  30.19 MB/s	   21096 B/op	     264 allocs/op
+BenchmarkParseDocument/man-medium        	    1653	    147949 ns/op	  59.06 MB/s	  241048 B/op	    2377 allocs/op
+BenchmarkParseDocument/ms-small          	   24824	      9635 ns/op	  38.82 MB/s	   17984 B/op	     134 allocs/op
+BenchmarkParseDocument/roff-small        	   54668	      4443 ns/op	  43.67 MB/s	    8776 B/op	      65 allocs/op
+BenchmarkParseAST/man-small              	    4521	     49424 ns/op	   9.51 MB/s	   52824 B/op	     667 allocs/op
+BenchmarkParseAST/man-medium             	     496	    476500 ns/op	  18.34 MB/s	  487143 B/op	    5622 allocs/op
+BenchmarkParseAST/ms-small               	    8724	     26965 ns/op	  13.87 MB/s	   30315 B/op	     320 allocs/op
+BenchmarkParseAST/roff-small             	   18105	     13155 ns/op	  14.75 MB/s	   17841 B/op	     182 allocs/op
+PASS
+goos: linux
+goarch: amd64
+pkg: github.com/arran4/golang-gtroff
+cpu: 12th Gen Intel(R) Core(TM) i5-12600KF
+BenchmarkParseLine     	  931609	       301.7 ns/op	     187 B/op	       6 allocs/op
+BenchmarkParseDocument/man-small         	   14206	     16972 ns/op	  27.69 MB/s	   21096 B/op	     264 allocs/op
+BenchmarkParseDocument/man-medium        	    1418	    158939 ns/op	  54.98 MB/s	  241048 B/op	    2377 allocs/op
+BenchmarkParseDocument/ms-small          	   23296	     10270 ns/op	  36.42 MB/s	   17984 B/op	     134 allocs/op
+BenchmarkParseDocument/roff-small        	   52104	      4580 ns/op	  42.36 MB/s	    8776 B/op	      65 allocs/op
+BenchmarkParseAST/man-small              	    4582	     61509 ns/op	   7.64 MB/s	   52824 B/op	     667 allocs/op
+BenchmarkParseAST/man-medium             	     290	    809624 ns/op	  10.79 MB/s	  487141 B/op	    5622 allocs/op
+BenchmarkParseAST/ms-small               	    6320	     43632 ns/op	   8.57 MB/s	   30315 B/op	     320 allocs/op
+BenchmarkParseAST/roff-small             	   10000	     24066 ns/op	   8.06 MB/s	   17841 B/op	     182 allocs/op
+PASS
+goos: linux
+goarch: amd64
+pkg: github.com/arran4/golang-gtroff
+cpu: 12th Gen Intel(R) Core(TM) i5-12600KF
+BenchmarkParseLine     	  513326	       503.8 ns/op	     187 B/op	       6 allocs/op
+BenchmarkParseDocument/man-small         	    9303	     28592 ns/op	  16.44 MB/s	   21096 B/op	     264 allocs/op
+BenchmarkParseDocument/man-medium        	     879	    279008 ns/op	  31.32 MB/s	  241048 B/op	    2377 allocs/op
+BenchmarkParseDocument/ms-small          	   13021	     18289 ns/op	  20.45 MB/s	   17984 B/op	     134 allocs/op
+BenchmarkParseDocument/roff-small        	   29532	      8211 ns/op	  23.63 MB/s	    8776 B/op	      65 allocs/op
+BenchmarkParseAST/man-small              	    2722	     86270 ns/op	   5.45 MB/s	   52828 B/op	     667 allocs/op
+BenchmarkParseAST/man-medium             	     282	    854948 ns/op	  10.22 MB/s	  487143 B/op	    5622 allocs/op
+BenchmarkParseAST/ms-small               	    5889	     45352 ns/op	   8.25 MB/s	   30315 B/op	     320 allocs/op
+BenchmarkParseAST/roff-small             	   10000	     23247 ns/op	   8.35 MB/s	   17841 B/op	     182 allocs/op
+PASS
+goos: linux
+goarch: amd64
+pkg: github.com/arran4/golang-gtroff
+cpu: 12th Gen Intel(R) Core(TM) i5-12600KF
+BenchmarkParseLine     	  516103	       495.1 ns/op	     187 B/op	       6 allocs/op
+BenchmarkParseDocument/man-small         	    9602	     29434 ns/op	  15.97 MB/s	   21096 B/op	     264 allocs/op
+BenchmarkParseDocument/man-medium        	     853	    281130 ns/op	  31.08 MB/s	  241048 B/op	    2377 allocs/op
+BenchmarkParseDocument/ms-small          	   13435	     17857 ns/op	  20.94 MB/s	   17984 B/op	     134 allocs/op
+BenchmarkParseDocument/roff-small        	   29596	      8277 ns/op	  23.44 MB/s	    8776 B/op	      65 allocs/op
+BenchmarkParseAST/man-small              	    2425	     82927 ns/op	   5.67 MB/s	   52829 B/op	     667 allocs/op
+BenchmarkParseAST/man-medium             	     286	    842893 ns/op	  10.37 MB/s	  487141 B/op	    5622 allocs/op
+BenchmarkParseAST/ms-small               	    5768	     44916 ns/op	   8.33 MB/s	   30316 B/op	     320 allocs/op
+BenchmarkParseAST/roff-small             	   10000	     22904 ns/op	   8.47 MB/s	   17841 B/op	     182 allocs/op
+PASS
+goos: linux
+goarch: amd64
+pkg: github.com/arran4/golang-gtroff
+cpu: 12th Gen Intel(R) Core(TM) i5-12600KF
+BenchmarkParseLine     	  573069	       489.7 ns/op	     187 B/op	       6 allocs/op
+BenchmarkParseDocument/man-small         	   10000	     28506 ns/op	  16.49 MB/s	   21096 B/op	     264 allocs/op
+BenchmarkParseDocument/man-medium        	     848	    276368 ns/op	  31.62 MB/s	  241048 B/op	    2377 allocs/op
+BenchmarkParseDocument/ms-small          	   13424	     17798 ns/op	  21.01 MB/s	   17984 B/op	     134 allocs/op
+BenchmarkParseDocument/roff-small        	   25939	      8671 ns/op	  22.37 MB/s	    8776 B/op	      65 allocs/op
+BenchmarkParseAST/man-small              	    2623	     85303 ns/op	   5.51 MB/s	   52828 B/op	     667 allocs/op
+BenchmarkParseAST/man-medium             	     284	    850728 ns/op	  10.27 MB/s	  487143 B/op	    5622 allocs/op
+BenchmarkParseAST/ms-small               	    5698	     39331 ns/op	   9.51 MB/s	   30316 B/op	     320 allocs/op
+BenchmarkParseAST/roff-small             	   10000	     22921 ns/op	   8.46 MB/s	   17841 B/op	     182 allocs/op
+PASS
+goos: linux
+goarch: amd64
+pkg: github.com/arran4/golang-gtroff
+cpu: 12th Gen Intel(R) Core(TM) i5-12600KF
+BenchmarkParseLine     	  479793	       516.8 ns/op	     187 B/op	       6 allocs/op
+BenchmarkParseDocument/man-small         	    9672	     29409 ns/op	  15.98 MB/s	   21096 B/op	     264 allocs/op
+BenchmarkParseDocument/man-medium        	     896	    265387 ns/op	  32.93 MB/s	  241048 B/op	    2377 allocs/op
+BenchmarkParseDocument/ms-small          	   13147	     18989 ns/op	  19.70 MB/s	   17984 B/op	     134 allocs/op
+BenchmarkParseDocument/roff-small        	   28764	      8471 ns/op	  22.90 MB/s	    8776 B/op	      65 allocs/op
+BenchmarkParseAST/man-small              	    2629	     85687 ns/op	   5.49 MB/s	   52828 B/op	     667 allocs/op
+BenchmarkParseAST/man-medium             	     274	    876789 ns/op	   9.97 MB/s	  487142 B/op	    5622 allocs/op
+BenchmarkParseAST/ms-small               	    5679	     45936 ns/op	   8.14 MB/s	   30315 B/op	     320 allocs/op
+BenchmarkParseAST/roff-small             	   10000	     22674 ns/op	   8.56 MB/s	   17841 B/op	     182 allocs/op
+PASS
+goos: linux
+goarch: amd64
+pkg: github.com/arran4/golang-gtroff
+cpu: 12th Gen Intel(R) Core(TM) i5-12600KF
+BenchmarkParseLine     	  534250	       471.2 ns/op	     187 B/op	       6 allocs/op
+BenchmarkParseDocument/man-small         	   10000	     27202 ns/op	  17.28 MB/s	   21096 B/op	     264 allocs/op
+BenchmarkParseDocument/man-medium        	     888	    268188 ns/op	  32.58 MB/s	  241048 B/op	    2377 allocs/op
+BenchmarkParseDocument/ms-small          	   13670	     17553 ns/op	  21.31 MB/s	   17984 B/op	     134 allocs/op
+BenchmarkParseDocument/roff-small        	   29955	      8049 ns/op	  24.10 MB/s	    8776 B/op	      65 allocs/op
+BenchmarkParseAST/man-small              	    2722	     81200 ns/op	   5.79 MB/s	   52828 B/op	     667 allocs/op
+BenchmarkParseAST/man-medium             	     290	    825109 ns/op	  10.59 MB/s	  487141 B/op	    5622 allocs/op
+BenchmarkParseAST/ms-small               	    6154	     44191 ns/op	   8.46 MB/s	   30315 B/op	     320 allocs/op
+BenchmarkParseAST/roff-small             	   10000	     22606 ns/op	   8.58 MB/s	   17841 B/op	     182 allocs/op
+PASS
