@@ -8,6 +8,7 @@ import (
 	"os/exec"
 	"time"
 
+	"github.com/arran4/golang-gtroff/agentskill"
 	"github.com/arran4/golang-gtroff/internal/atomicfile"
 	"github.com/arran4/golang-gtroff/manlib"
 )
@@ -32,6 +33,7 @@ func ProcessEnvironment(ctx context.Context, in io.Reader, out, stderr io.Writer
 		},
 		WriteOutput: atomicfile.Write, WriteSourceOutput: atomicfile.WriteSources,
 		CommitEdits: atomicfile.WriteEdits, WriteEditedOutput: atomicfile.WriteEditedOutput,
+		ExportSkill: agentskill.Export,
 		WriteOutputs: func(source string, files []OutputFile) error {
 			outputs := make([]atomicfile.File, len(files))
 			for i, f := range files {
