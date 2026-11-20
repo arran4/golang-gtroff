@@ -2,6 +2,7 @@ package main
 
 import (
 	_ "embed"
+	"strings"
 	"testing"
 )
 
@@ -53,4 +54,65 @@ func TestNormalizeCatalog(t *testing.T) {
 	}
 
 	t.Logf("Coverage summary: %+v", summary)
+}
+
+func TestDocumentationReferencesAndLegacyParserNamespace(t *testing.T) {
+	input := []byte(`[
+ {"ID":"ms-quotation","Description":"An existing quotation description.","Contents":[{"Type":"Macro","Token":".QS","Args":"","Package":"ms","ParserPackage":"man"}]},
+ {"Description":"Unrelated fallback.","Contents":[{"Type":"Macro","Token":".QS","Args":"","Package":"ms","DescriptionRef":"ms-quotation"}]}
+]`)
+	cat, err := NormalizeCatalog(input)
+	if err != nil {
+		t.Fatal(err)
+	}
+	for i, entry := range cat.Entries {
+		if entry.Index != i || entry.Package != PackageMs || entry.HasCollision || entry.Description != "An existing quotation description." {
+			t.Fatalf("incorrect source metadata: %+v", entry)
+		}
+	}
+	if cat.Entries[0].GoName != "TokenManQS" || cat.Entries[1].GoName != "TokenMsQS" {
+		t.Fatal("metadata correction renamed existing Go bindings")
+	}
+	macros, err := prepareMacrosData(cat)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if len(macros.Definitions) != 2 {
+		t.Fatal("distinct existing concrete token types were collapsed")
+	}
+	lines := prepareParselineData(cat, macros)
+	if len(lines.Dispatches) != 1 || !lines.Dispatches[0].HasVariants || lines.Dispatches[0].DefaultParser != "TokenManQS" || lines.Dispatches[0].MsParser != "TokenMsQS" {
+		t.Fatalf("existing package dispatch changed: %+v", lines.Dispatches)
+	}
+	report := buildSupportReport(cat, macros, lines)
+	if report.Summary.UnexplainedGaps != 0 || report.Entries[0].ParserPackage != PackageMan || report.Entries[0].Package != PackageMs || report.Entries[1].ParserPackage != "" {
+		t.Fatalf("source family and executable context not distinguished: %+v", report)
+	}
+}
+
+func TestInvalidDocumentationAndParserNamespace(t *testing.T) {
+	for _, input := range []string{
+		`[{"DescriptionRef":"missing","Contents":[{"Type":"Macro","Token":".NEW"}]}]`,
+		`[{"ID":"same","Description":"A","Contents":[{"ID":"same","Description":"B","Type":"Macro","Token":".NEW"}]}]`,
+		`[{"Description":"A","DescriptionRef":"missing","Contents":[{"Type":"Macro","Token":".NEW"}]}]`,
+		`[{"Contents":[{"Type":"Macro","Token":".NEW","ParserPackage":"invalid"}]}]`,
+	} {
+		if _, err := NormalizeCatalog([]byte(input)); err == nil {
+			t.Errorf("invalid documentation/binding accepted: %s", input)
+		}
+	}
+}
+
+func TestSharedMultilineDescriptionIsEmittedOnce(t *testing.T) {
+	cat, err := NormalizeCatalog([]byte(`[
+ {"ID":"shared","Description":"First line.\nSecond line.","Contents":[{"Type":"Request","Token":".NEW","Args":""}]},
+ {"DescriptionRef":"shared","Contents":[{"Type":"Request","Token":".NEW","Args":""}]}
+]`))
+	if err != nil {
+		t.Fatal(err)
+	}
+	macros, err := prepareMacrosData(cat)
+	if err != nil || len(macros.Definitions) != 1 || strings.Count(macros.Definitions[0].DescriptionCommented, "First line.") != 1 {
+		t.Fatalf("shared prose duplicated in generated comments: %+v %v", macros, err)
+	}
 }

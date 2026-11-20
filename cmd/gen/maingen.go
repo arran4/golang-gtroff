@@ -29,6 +29,7 @@ type MacroDef struct {
 	Package              string
 	ArgWords             []*gen.Word
 	KeepArgumentSlots    bool
+	descriptions         map[string]bool
 }
 
 type MacrosTemplateData struct {
@@ -111,10 +112,11 @@ func prepareMacrosData(cat *Catalog) (MacrosTemplateData, error) {
 		var structName string
 		var aliases []string
 		cleanName := sanitizeIdentifier(e.Name)
+		parserPackage, parserCollision := e.parserNamespace()
 
 		if e.Kind == KindMacro {
-			if e.HasCollision {
-				if e.Package == PackageMan {
+			if parserCollision {
+				if parserPackage == PackageMan {
 					structName = "TokenMan" + cleanName
 					aliases = append(aliases, "TokenMacro"+cleanName)
 				} else {
@@ -122,9 +124,9 @@ func prepareMacrosData(cat *Catalog) (MacrosTemplateData, error) {
 				}
 			} else {
 				structName = "TokenMacro" + cleanName
-				if e.Package == PackageMan {
+				if parserPackage == PackageMan {
 					aliases = append(aliases, "TokenMan"+cleanName)
-				} else if e.Package == PackageMs {
+				} else if parserPackage == PackageMs {
 					aliases = append(aliases, "TokenMs"+cleanName)
 				}
 			}
@@ -161,19 +163,21 @@ func prepareMacrosData(cat *Catalog) (MacrosTemplateData, error) {
 			if existing.ArgumentPlan.Literal != plan.Literal {
 				return MacrosTemplateData{}, fmt.Errorf("conflicting argument grammars for %s", e.Token)
 			}
-			if !strings.Contains(existing.DescriptionCommented, e.Description) && e.Description != "" {
+			if !existing.descriptions[e.Description] && e.Description != "" {
 				existing.DescriptionCommented += "\n//\n// " + strings.Join(strings.Split(e.Description, "\n"), "\n// ")
+				existing.descriptions[e.Description] = true
 			}
 			continue
 		}
 		def := &MacroDef{
+			descriptions:         map[string]bool{e.Description: true},
 			ArgumentPlan:         plan,
 			StructName:           structName,
 			Aliases:              aliases,
 			DescriptionCommented: descCommented,
 			Token:                e.Token,
 			Kind:                 string(e.Kind),
-			Package:              string(e.Package),
+			Package:              string(parserPackage),
 			ArgWords:             words,
 		}
 		optionalSeen := false
@@ -226,7 +230,11 @@ func prepareParselineData(cat *Catalog, macrosData MacrosTemplateData) Parseline
 
 	// For colliding tokens, ensure both DefaultParser and MsParser are set
 	for _, e := range cat.Entries {
-		if e != nil && e.HasCollision && strings.HasPrefix(e.Token, ".") {
+		if e == nil {
+			continue
+		}
+		_, parserCollision := e.parserNamespace()
+		if parserCollision && strings.HasPrefix(e.Token, ".") {
 			d := dispatches[e.Token]
 			d.HasVariants = true
 			cleanName := sanitizeIdentifier(e.Name)
