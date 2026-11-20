@@ -1,0 +1,19 @@
+Native Tengo REPL transcript: compile-rollback. Expected output is captured by the real CLI.
+-- args.json --
+["script", "--repl", "--prompt=false", "page.1"]
+-- session.txt --
+newvar := 1; nonexistent()
+doc.emit_json(newvar)
+doc.emit("recovered")
+:quit
+-- input/page.1 --
+.SH ENVIRONMENT
+.TP
+VALUE
+Old.
+-- stdout.quoted --
+"recovered"
+-- stderr.quoted --
+"Compile Error: unresolved reference 'nonexistent'\n\tat <repl-1>:1:14\nCompile Error: unresolved reference 'newvar'\n\tat <repl-2>:1:15\n"
+-- exit.txt --
+1

@@ -1,0 +1,18 @@
+Native Tengo REPL transcript: no-imports. Expected output is captured by the real CLI.
+-- args.json --
+["script", "--repl", "--prompt=false", "page.1"]
+-- session.txt --
+module := import("os")
+doc.emit("recovered")
+:quit
+-- input/page.1 --
+.SH ENVIRONMENT
+.TP
+VALUE
+Old.
+-- stdout.quoted --
+"recovered"
+-- stderr.quoted --
+"Compile Error: module 'os' not found\n\tat <repl-1>:1:11\n"
+-- exit.txt --
+1

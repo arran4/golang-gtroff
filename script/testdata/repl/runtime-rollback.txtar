@@ -1,0 +1,19 @@
+Native Tengo REPL transcript: runtime-rollback. Expected output is captured by the real CLI.
+-- args.json --
+["script", "--repl", "--prompt=false", "page.1"]
+-- session.txt --
+state := {n: 1}; state.self = state
+state.n = 9; doc.emit("withheld"); fail := 1/0
+doc.emit_json(state.self.n)
+:quit
+-- input/page.1 --
+.SH ENVIRONMENT
+.TP
+VALUE
+Old.
+-- stdout.quoted --
+"1\n"
+-- stderr.quoted --
+"Tengo execution panic: runtime error: integer divide by zero\n"
+-- exit.txt --
+1

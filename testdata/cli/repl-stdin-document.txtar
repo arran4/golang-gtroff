@@ -1,0 +1,9 @@
+Core REPL discovery/capability boundary: repl-stdin-document.
+-- args.json --
+["script", "--repl", "-"]
+-- stdout.txt --
+-- stderr.txt --
+gtroff: REPL expects at most one named DOCUMENT; stdin belongs to cells
+Run 'gtroff help' for usage.
+-- exit.txt --
+2

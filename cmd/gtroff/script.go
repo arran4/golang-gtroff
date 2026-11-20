@@ -20,29 +20,33 @@ var _ Cmd = (*Script)(nil)
 
 type Script struct {
 	*RootCmd
-	Flags          *flag.FlagSet
-	allowEdits     bool
-	includeEdits   bool
-	writeTarget    string
-	inPlace        bool
-	dryRun         bool
-	strict         bool
-	noIncludes     bool
-	sourceRoot     string
-	pkg            string
-	maxBytes       int
-	maxNodes       int
-	maxFiles       int
-	maxDepth       int
-	maxScriptBytes int
-	maxHostCalls   int
-	maxAllocs      int
-	maxSteps       int
-	durationMS     int
-	maxOutputBytes int
-	files          []string
-	SubCommands    map[string]func() Cmd
-	CommandAction  func(c *Script) error
+	Flags           *flag.FlagSet
+	repl            bool
+	prompt          bool
+	maxCells        int
+	maxSessionBytes int
+	allowEdits      bool
+	includeEdits    bool
+	writeTarget     string
+	inPlace         bool
+	dryRun          bool
+	strict          bool
+	noIncludes      bool
+	sourceRoot      string
+	pkg             string
+	maxBytes        int
+	maxNodes        int
+	maxFiles        int
+	maxDepth        int
+	maxScriptBytes  int
+	maxHostCalls    int
+	maxAllocs       int
+	maxSteps        int
+	durationMS      int
+	maxOutputBytes  int
+	files           []string
+	SubCommands     map[string]func() Cmd
+	CommandAction   func(c *Script) error
 }
 
 type UsageDataScript struct {
@@ -97,6 +101,58 @@ func (c *Script) Execute(args []string) (err error) {
 			_ = value
 			_ = hasValue
 			switch name {
+
+			case "repl":
+				if hasValue {
+					b, err := strconv.ParseBool(value)
+					if err != nil {
+						return c.usageError(cmd.UsageInvalidValue, name, err, "invalid boolean value for flag %s: %s", name, value)
+					}
+					c.repl = b
+				} else {
+					c.repl = true
+				}
+
+			case "prompt":
+				if hasValue {
+					b, err := strconv.ParseBool(value)
+					if err != nil {
+						return c.usageError(cmd.UsageInvalidValue, name, err, "invalid boolean value for flag %s: %s", name, value)
+					}
+					c.prompt = b
+				} else {
+					c.prompt = true
+				}
+
+			case "maxCells", "max-cells":
+				if !hasValue {
+					if i+1 < len(args) {
+						value = args[i+1]
+						i++
+					} else {
+						return c.usageError(cmd.UsageMissingFlagValue, name, nil, "flag %s requires a value", name)
+					}
+				}
+				v, err := strconv.Atoi(value)
+				if err != nil {
+					return c.usageError(cmd.UsageInvalidValue, name, err, "invalid integer value for flag %s: %s", name, value)
+				}
+				c.maxCells = v
+
+			case "maxSessionBytes", "max-session-bytes":
+				if !hasValue {
+					if i+1 < len(args) {
+						value = args[i+1]
+						i++
+					} else {
+						return c.usageError(cmd.UsageMissingFlagValue, name, nil, "flag %s requires a value", name)
+					}
+				}
+				v, err := strconv.Atoi(value)
+				if err != nil {
+					return c.usageError(cmd.UsageInvalidValue, name, err, "invalid integer value for flag %s: %s", name, value)
+				}
+				c.maxSessionBytes = v
 
 			case "allowEdits", "allow-edits":
 				if hasValue {
@@ -404,6 +460,14 @@ func (c *RootCmd) NewScript() *Script {
 		SubCommands: make(map[string]func() Cmd),
 	}
 
+	set.BoolVar(&v.repl, "repl", false, "Persistent Tengo cells on stdin; optional named document")
+
+	set.BoolVar(&v.prompt, "prompt", true, "Show REPL prompts on stderr; disable for transcripts")
+
+	set.IntVar(&v.maxCells, "max-cells", 1000, "Cumulative attempted REPL cells")
+
+	set.IntVar(&v.maxSessionBytes, "max-session-bytes", 4194304, "Total REPL input bytes")
+
 	set.BoolVar(&v.allowEdits, "allow-edits", false, "Grant in-memory editing; never grants filesystem writes")
 
 	set.BoolVar(&v.includeEdits, "include-edits", false, "Allow selected included-file edits with allow-edits")
@@ -445,7 +509,7 @@ func (c *RootCmd) NewScript() *Script {
 
 	v.CommandAction = func(c *Script) error {
 
-		err := cli.Script(c.allowEdits, c.includeEdits, c.writeTarget, c.inPlace, c.dryRun, c.strict, c.noIncludes, c.sourceRoot, c.pkg, c.maxBytes, c.maxNodes, c.maxFiles, c.maxDepth, c.maxScriptBytes, c.maxHostCalls, c.maxAllocs, c.maxSteps, c.durationMS, c.maxOutputBytes, c.files...)
+		err := cli.Script(c.repl, c.prompt, c.maxCells, c.maxSessionBytes, c.allowEdits, c.includeEdits, c.writeTarget, c.inPlace, c.dryRun, c.strict, c.noIncludes, c.sourceRoot, c.pkg, c.maxBytes, c.maxNodes, c.maxFiles, c.maxDepth, c.maxScriptBytes, c.maxHostCalls, c.maxAllocs, c.maxSteps, c.durationMS, c.maxOutputBytes, c.files...)
 		if err != nil {
 			var exitCode *cmd.ErrExitCode
 			if errors.As(err, &exitCode) {

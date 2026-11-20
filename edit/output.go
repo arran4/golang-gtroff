@@ -68,11 +68,7 @@ func (w *Working) Commit(ctx context.Context, commit Committer) error {
 	if commit == nil {
 		return fmt.Errorf("%w: no explicit commit capability", ErrTarget)
 	}
-	batch := CommitBatch{Changes: w.Changes()}
-	for _, n := range w.Names() {
-		s := w.original[n]
-		batch.Guards = append(batch.Guards, Guard{n, digest(s), len(s)})
-	}
+	batch := CommitBatch{Changes: w.Changes(), Guards: w.Guards()}
 	if err := commit(ctx, batch); err != nil {
 		return err
 	}

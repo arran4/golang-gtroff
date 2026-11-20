@@ -11,6 +11,7 @@ import (
 
 	"github.com/arran4/golang-gtroff/internal/cli"
 	"github.com/arran4/golang-gtroff/script"
+	"github.com/arran4/golang-gtroff/scriptapi"
 )
 
 var version = "dev"
@@ -23,5 +24,8 @@ func run() int {
 	defer cancel()
 	environment := cli.ProcessEnvironment(ctx, os.Stdin, os.Stdout, os.Stderr, cli.BuildInfo{Version: version, Commit: commit, Date: date})
 	environment.Script = script.Run
+	environment.ScriptSession = func(ctx context.Context, r scriptapi.Request, o scriptapi.SessionOptions) (scriptapi.Session, error) {
+		return script.NewSession(ctx, r, o)
+	}
 	return cli.Run(os.Args[1:], environment)
 }

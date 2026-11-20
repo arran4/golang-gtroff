@@ -1,0 +1,25 @@
+Native Tengo REPL transcript: multiline-cancel. Expected output is captured by the real CLI.
+-- args.json --
+["script", "--repl", "--prompt=false", "page.1"]
+-- session.txt --
+broken := [
+:cancel
+choose := func(value) {
+ if value {
+  return "yes"
+ }
+ return "no"
+}
+doc.emit(choose(true))
+:quit
+-- input/page.1 --
+.SH ENVIRONMENT
+.TP
+VALUE
+Old.
+-- stdout.quoted --
+"yes"
+-- stderr.quoted --
+""
+-- exit.txt --
+0

@@ -3,7 +3,10 @@
 package main
 
 import (
+	"bufio"
 	"bytes"
+	"context"
+	"io"
 	"os"
 	"os/exec"
 	"path/filepath"
@@ -11,6 +14,7 @@ import (
 	"strconv"
 	"strings"
 	"testing"
+	"time"
 )
 
 func TestSelfContainedScriptExecutable(t *testing.T) {
@@ -167,4 +171,93 @@ func TestSelfContainedScriptExecutable(t *testing.T) {
 	if e != nil || !bytes.Contains(b, []byte("NEW")) {
 		t.Fatal(e, string(b))
 	}
+	// Real persistent process, original guards across explicit commits, exact
+	// untouched bytes and absence of automatic writes after ordinary cells.
+	reset()
+	replArgs := []string{"script", "--repl", "--prompt=false", "--allow-edits", "--include-edits", "--in-place", main}
+	transformCell := `doc.edit({selector:"definition",operation:"find-replace-source",find:"Old",text:"New"})` + "\n"
+	run(replArgs, transformCell+":quit\n", 0)
+	check(child, originalChild)
+	run(replArgs, transformCell+":commit\n"+`doc.edit({selector:"definition",operation:"find-replace-source",find:"New",text:"Final"})`+"\n:commit\n:quit\n", 0)
+	check(child, strings.ReplaceAll(originalChild, "Old", "Final"))
+	reset()
+	run(append([]string{"script", "--repl", "--prompt=false", "--dry-run"}, replArgs[3:]...), transformCell+":commit\n:quit\n", 0)
+	check(child, originalChild)
+	out, _ = run([]string{"script", "--repl", "--prompt=false", main}, "n:=1;fn:=func(){n++;return n}\ndoc.emit_json(fn())\nn=9;bad:=1/0\ndoc.emit_json(n)\n:quit\n", 1)
+	if out != "2\n2\n" {
+		t.Fatal("REPL globals/rollback", out)
+	}
+	out, _ = run([]string{"script", "--repl", "--prompt=false", real}, `doc.emit(doc.extract("section[name=DESCRIPTION] paragraph[text*=\"array of pointers\"]","text"))`+"\n:quit\n", 0)
+	if !strings.Contains(out, "array of pointers") {
+		t.Fatal("real REPL fixture", out)
+	}
+	check(real, string(fixture))
+	run([]string{"script", "--repl", "-"}, "", 2)
+
+	sessionExample, e := os.ReadFile(filepath.Join("..", "examples", "session.tengo"))
+	if e != nil {
+		t.Fatal(e)
+	}
+	out, _ = run([]string{"script", "--repl", "--prompt=false", main}, string(sessionExample), 0)
+	if !strings.Contains(out, "TOOL_HOME") {
+		t.Fatal("documented session example", out)
+	}
+
+	// Exercise actual disk drift between cells, inspect the retained candidate,
+	// restore the authorized original, then retry the same failed commit batch.
+	reset()
+	processCtx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancel()
+	live := exec.CommandContext(processCtx, binary, replArgs...)
+	stdinPipe, e := live.StdinPipe()
+	if e != nil {
+		t.Fatal(e)
+	}
+	stdoutPipe, e := live.StdoutPipe()
+	if e != nil {
+		t.Fatal(e)
+	}
+	var liveErrors bytes.Buffer
+	live.Stderr = &liveErrors
+	if e = live.Start(); e != nil {
+		t.Fatal(e)
+	}
+	if _, e = io.WriteString(stdinPipe, transformCell+`doc.emit("ready\n")`+"\n"); e != nil {
+		t.Fatal(e)
+	}
+	liveOut := bufio.NewReader(stdoutPipe)
+	if line, e := liveOut.ReadString('\n'); e != nil || line != "ready\n" {
+		t.Fatal(line, e)
+	}
+	external := strings.ReplaceAll(originalChild, "Old", "EXT")
+	write(child, external)
+	if _, e = io.WriteString(stdinPipe, ":commit\n:pending\n"); e != nil {
+		t.Fatal(e)
+	}
+	for i := 0; i < 5; i++ {
+		if _, e = liveOut.ReadString('\n'); e != nil {
+			t.Fatal(e, liveErrors.String())
+		}
+	}
+	check(child, external)
+	write(child, originalChild)
+	if _, e = io.WriteString(stdinPipe, ":retry\n:quit\n"); e != nil {
+		t.Fatal(e)
+	}
+	if e = stdinPipe.Close(); e != nil {
+		t.Fatal(e)
+	}
+	if _, e = io.ReadAll(liveOut); e != nil {
+		t.Fatal(e)
+	}
+	exitErr := live.Wait()
+	if exit, ok := exitErr.(*exec.ExitError); !ok || exit.ExitCode() != 3 {
+		t.Fatal(exitErr, liveErrors.String())
+	}
+	if !strings.Contains(liveErrors.String(), "changed") && !strings.Contains(liveErrors.String(), "stale") {
+		t.Fatal(liveErrors.String())
+	}
+	check(child, strings.ReplaceAll(originalChild, "Old", "New"))
+	check(main, originalRoot)
+
 }

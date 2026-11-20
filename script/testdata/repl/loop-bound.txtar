@@ -1,0 +1,18 @@
+Native Tengo REPL transcript: loop-bound. Expected output is captured by the real CLI.
+-- args.json --
+["script", "--repl", "--prompt=false", "--max-steps", "10", "page.1"]
+-- session.txt --
+for {}
+doc.emit("recovered")
+:quit
+-- input/page.1 --
+.SH ENVIRONMENT
+.TP
+VALUE
+Old.
+-- stdout.quoted --
+"recovered"
+-- stderr.quoted --
+"gtroff: Runtime Error: script resource limit exceeded: statement/block checkpoint budget\n\tat <repl-1>:1:5\n"
+-- exit.txt --
+3

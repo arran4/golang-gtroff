@@ -1,0 +1,12 @@
+Native Tengo REPL transcript: prompt-help. Expected output is captured by the real CLI.
+-- args.json --
+["script", "--repl"]
+-- session.txt --
+:help
+:quit
+-- stdout.quoted --
+""
+-- stderr.quoted --
+"gtroff> Tengo REPL: native cells retain variables/functions and the working document.\nMultiline expressions finish when native syntax is complete. Use doc.emit or\nemit_json for stdout; expressions are not implicitly printed. Prompts use stderr.\n:help       Show this help\n:cancel     Discard incomplete multiline input\n:pending    Inspect the pending document byte diff after a publication failure\n:retry      Retry the same pending output/write batch (stream prefixes may repeat)\n:discard    Accept pending memory state, discarding its output/write requests\n:commit     Explicitly commit current original-file changes; requires --in-place\n:quit       End the session without additional writes\nFailed cells roll back globals/document/output; successful cells publish separately.\nA publication failure retains its pending state and blocks further cells until\nretry/discard. Original guards persist; only successful commits advance baselines.\ngtroff> "
+-- exit.txt --
+0

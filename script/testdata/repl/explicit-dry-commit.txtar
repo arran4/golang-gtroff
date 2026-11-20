@@ -1,0 +1,21 @@
+Native Tengo REPL transcript: explicit-dry-commit. Expected output is captured by the real CLI.
+-- args.json --
+["script", "--repl", "--prompt=false", "--allow-edits", "--include-edits", "--in-place", "--dry-run", "page.1"]
+-- session.txt --
+doc.edit({selector:"definition",operation:"find-replace-source",find:"Old",text:"New"})
+:commit
+doc.emit(doc.source("child"))
+:quit
+-- input/page.1 --
+.SH ENVIRONMENT
+.so child
+-- input/child --
+.TP
+VALUE
+Old.
+-- stdout.quoted --
+".TP\nVALUE\nNew.\n"
+-- stderr.quoted --
+""
+-- exit.txt --
+0

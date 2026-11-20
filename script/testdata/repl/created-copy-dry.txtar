@@ -1,0 +1,15 @@
+Native Tengo REPL transcript: created-copy-dry. Expected output is captured by the real CLI.
+-- args.json --
+["script", "--repl", "--prompt=false", "--allow-edits", "--write-target", "copy.1", "--dry-run"]
+-- session.txt --
+doc.create("new.1", "NEW", "1")
+doc.edit({selector:"source[source-id=1]",operation:"append-section",heading:"NAME",text:"new - example"})
+doc.write("copy.1")
+doc.emit(doc.source())
+:quit
+-- stdout.quoted --
+".TH \"NEW\" \"1\" \"\" \"\" \"\"\n.SH \"\\f[B]NAME\\f[R]\"\n.PP\n\\&\\f[R]new - example\\f[R]\\c\n"
+-- stderr.quoted --
+""
+-- exit.txt --
+0

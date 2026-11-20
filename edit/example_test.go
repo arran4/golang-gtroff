@@ -121,3 +121,29 @@ func ExampleWorking_Commit() {
 	// "new\n"
 	// pending: 0
 }
+
+func ExampleWorking_Fork() {
+	ctx := context.Background()
+	set, err := source.Read(ctx, strings.NewReader(".SH NAME\nold\n"), "page.1", source.Options{})
+	if err != nil {
+		panic(err)
+	}
+	working, err := edit.New(set, edit.Options{})
+	if err != nil {
+		panic(err)
+	}
+	branch := working.Fork()
+	plan, err := branch.Plan(ctx, edit.Command{Select: query.Select(query.Paragraph), Operation: edit.FindReplaceSource, Find: "old", Text: "new"})
+	if err != nil {
+		panic(err)
+	}
+	if err = branch.Apply(plan); err != nil {
+		panic(err)
+	}
+	original, _ := working.Data("page.1")
+	fmt.Println(strings.Contains(string(original), "old"), len(branch.Changes()))
+	fmt.Println(branch.Guards()[0].Name, branch.Guards()[0].Bytes)
+	// Output:
+	// true 1
+	// page.1 13
+}

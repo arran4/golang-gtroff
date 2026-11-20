@@ -90,11 +90,7 @@ func defaults(o Options) (Options, error) {
 // imports are installed. All output and write intents stay staged until success.
 func Run(ctx context.Context, request Request, o Options) (result *Result, err error) {
 	result = &Result{}
-	defer func() {
-		if err != nil && !errors.Is(err, ErrLimit) && (errors.Is(err, tengo.ErrObjectAllocLimit) || errors.Is(err, tengo.ErrStackOverflow) || errors.Is(err, tengo.ErrStringLimit) || errors.Is(err, tengo.ErrBytesLimit) || errors.Is(err, edit.ErrLimit) || errors.Is(err, extract.ErrLimit) || errors.Is(err, query.ErrLimit) || errors.Is(err, source.ErrLimit)) {
-			err = errors.Join(ErrLimit, err)
-		}
-	}()
+	defer func() { err = normalizeLimit(err) }()
 	if ctx == nil {
 		ctx = context.Background()
 	}
@@ -221,7 +217,7 @@ func preflightScript(ctx context.Context, file *parser.SourceFile, code []byte, 
 	scanner := parser.NewScanner(file, code, nil, 0)
 	nesting := 0
 	for count := 0; ; count++ {
-		if err := ctx.Err(); err != nil {
+		if err := cooperativeContext(ctx, count+1); err != nil {
 			return err
 		}
 		if count >= o.MaxTokens {
@@ -265,4 +261,11 @@ func (r *runtime) function(name string, call tengo.CallableFunc) *tengo.UserFunc
 		}
 		return value, err
 	}}
+}
+
+func normalizeLimit(err error) error {
+	if err != nil && !errors.Is(err, ErrLimit) && (errors.Is(err, tengo.ErrObjectAllocLimit) || errors.Is(err, tengo.ErrStackOverflow) || errors.Is(err, tengo.ErrStringLimit) || errors.Is(err, tengo.ErrBytesLimit) || errors.Is(err, edit.ErrLimit) || errors.Is(err, extract.ErrLimit) || errors.Is(err, query.ErrLimit) || errors.Is(err, source.ErrLimit)) {
+		return errors.Join(ErrLimit, err)
+	}
+	return err
 }

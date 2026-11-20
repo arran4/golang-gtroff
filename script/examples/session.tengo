@@ -1,0 +1,7 @@
+selected := doc.query("section[name=ENVIRONMENT] definition")
+count := 0
+show := func(match) {
+    count++
+    doc.emit_json({index: count, term: match.term, file: match.source})
+}
+for match in selected { show(match) }

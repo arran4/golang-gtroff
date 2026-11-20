@@ -1,0 +1,20 @@
+Native Tengo REPL transcript: persistent-closure. Expected output is captured by the real CLI.
+-- args.json --
+["script", "--repl", "--prompt=false", "page.1"]
+-- session.txt --
+n := 0
+next := func() { n++; return n }
+doc.emit_json(next())
+doc.emit_json(next())
+:quit
+-- input/page.1 --
+.SH ENVIRONMENT
+.TP
+VALUE
+Old.
+-- stdout.quoted --
+"1\n2\n"
+-- stderr.quoted --
+""
+-- exit.txt --
+0

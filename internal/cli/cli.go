@@ -48,6 +48,8 @@ type OutputFile struct {
 type Environment struct {
 	// ExportSkill grants explicit local bundle export; nil disables host writes.
 	ExportSkill  func(context.Context, string, string) (*agentskill.Receipt, error)
+	// ScriptSession supplies the optional persistent engine; nil disables REPL.
+	ScriptSession scriptapi.SessionFactory
 	Script       scriptapi.Backend
 	Context      context.Context
 	OpenRoot     func(string) (manlib.Root, io.Closer, error)

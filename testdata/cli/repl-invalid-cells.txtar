@@ -1,0 +1,9 @@
+Core REPL discovery/capability boundary: repl-invalid-cells.
+-- args.json --
+["script", "--repl", "--max-cells", "0"]
+-- stdout.txt --
+-- stderr.txt --
+gtroff: REPL session limits outside supported ranges
+Run 'gtroff help' for usage.
+-- exit.txt --
+2

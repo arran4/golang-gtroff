@@ -56,3 +56,27 @@ func ExampleRun_create() {
 	// new: true requests: 1
 	// out.1
 }
+
+func ExampleNewSession() {
+	ctx := context.Background()
+	session, err := script.NewSession(ctx, script.Request{}, script.SessionOptions{})
+	if err != nil {
+		panic(err)
+	}
+	publish := func(_ context.Context, result *script.Result) error {
+		_, err := fmt.Print(string(result.Output))
+		return err
+	}
+	for _, code := range []string{`count := 0; next := func() { count++; return count }`, `doc.emit_json(next())`, `doc.emit_json(next())`} {
+		if _, err := session.Eval(ctx, script.Cell{Code: []byte(code)}); err != nil {
+			panic(err)
+		}
+		// A publication error leaves Pending available; retry Publish, not Eval.
+		if err := session.Publish(ctx, publish); err != nil {
+			panic(err)
+		}
+	}
+	// Output:
+	// 1
+	// 2
+}
