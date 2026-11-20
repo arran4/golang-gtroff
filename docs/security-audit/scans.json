@@ -1,0 +1,334 @@
+{
+  "schema": 1,
+  "snapshot": "2026-11-13 initial accessible snapshot; final PR head recheck recorded separately",
+  "scope_note": "scan_complete means tool execution completed, not publication clearance or exhaustive detector coverage",
+  "receipts": [
+    {
+      "schema": 1,
+      "label": "repository.git",
+      "scanner": "gitleaks",
+      "version": "8.30.1",
+      "kind": "git",
+      "scanner_exit_code": 10,
+      "scan_complete": true,
+      "diagnostic_line_counts": {},
+      "candidates": [
+        {
+          "rule": "generic-api-key",
+          "file": "docs/roadmap-verification.md",
+          "line": 35,
+          "commit": "59b4156e4a98e74634a26e456d77a13a1bb41e07",
+          "classification": "false_positive_technical_prose"
+        },
+        {
+          "rule": "generic-api-key",
+          "file": "docs/roadmap-verification.md",
+          "line": 35,
+          "commit": "83166a5d4796678cef276137259168b2e5d0830f",
+          "classification": "false_positive_technical_prose"
+        },
+        {
+          "rule": "generic-api-key",
+          "file": "docs/roadmap-verification.md",
+          "line": 35,
+          "commit": "38a78ceb4573570f2c43135c49358898f4c6aad4",
+          "classification": "false_positive_technical_prose"
+        },
+        {
+          "rule": "generic-api-key",
+          "file": "docs/roadmap-verification.md",
+          "line": 35,
+          "commit": "f514db5c69e0654ea06aab3f74fe8dc0368fa021",
+          "classification": "false_positive_technical_prose"
+        },
+        {
+          "rule": "generic-api-key",
+          "file": "docs/roadmap-verification.md",
+          "line": 35,
+          "commit": "e0b11f8b972269bdef33d3fcda436e057bf44c3a",
+          "classification": "false_positive_technical_prose"
+        },
+        {
+          "rule": "generic-api-key",
+          "file": "docs/roadmap-verification.md",
+          "line": 35,
+          "commit": "bde47502c54005a9dc5f0d0b3fa2fb04a617607f",
+          "classification": "false_positive_technical_prose"
+        }
+      ]
+    },
+    {
+      "schema": 1,
+      "label": "repository.git",
+      "scanner": "trufflehog",
+      "version": "3.99.9",
+      "kind": "git",
+      "scanner_exit_code": 0,
+      "scan_complete": true,
+      "diagnostic_line_counts": {
+        "info-0": 2
+      },
+      "candidates": []
+    },
+    {
+      "schema": 1,
+      "label": "reachable-blobs",
+      "scanner": "gitleaks",
+      "version": "8.30.1",
+      "kind": "filesystem",
+      "scanner_exit_code": 10,
+      "scan_complete": true,
+      "diagnostic_line_counts": {},
+      "candidates": [
+        {
+          "rule": "generic-api-key",
+          "file": "184aa0752c504583fc4f45ae2b407cabdc1a78c4",
+          "line": 35,
+          "classification": "false_positive_technical_prose"
+        },
+        {
+          "rule": "generic-api-key",
+          "file": "2aea9407f51fb126efd8f6d25a9356938de7856f",
+          "line": 35,
+          "classification": "false_positive_technical_prose"
+        },
+        {
+          "rule": "generic-api-key",
+          "file": "3cd88e98af83a8073459179a6173bf2ebfbc84d6",
+          "line": 35,
+          "classification": "false_positive_technical_prose"
+        },
+        {
+          "rule": "generic-api-key",
+          "file": "4d289abe8911b72dfe4174ef52228ac9dda74119",
+          "line": 35,
+          "classification": "false_positive_technical_prose"
+        },
+        {
+          "rule": "generic-api-key",
+          "file": "9cbcce6409da48e112d4b30d6b9b69672e6ae269",
+          "line": 35,
+          "classification": "false_positive_technical_prose"
+        },
+        {
+          "rule": "generic-api-key",
+          "file": "ecf69628d64df19cd92ed5fc589636f4107a2b09",
+          "line": 35,
+          "classification": "false_positive_technical_prose"
+        }
+      ]
+    },
+    {
+      "schema": 1,
+      "label": "reachable-blobs",
+      "scanner": "trufflehog",
+      "version": "3.99.9",
+      "kind": "filesystem",
+      "scanner_exit_code": 0,
+      "scan_complete": true,
+      "diagnostic_line_counts": {
+        "info-0": 2
+      },
+      "candidates": []
+    },
+    {
+      "schema": 1,
+      "label": "discussions",
+      "scanner": "gitleaks",
+      "version": "8.30.1",
+      "kind": "filesystem",
+      "scanner_exit_code": 0,
+      "scan_complete": true,
+      "diagnostic_line_counts": {},
+      "candidates": []
+    },
+    {
+      "schema": 1,
+      "label": "discussions",
+      "scanner": "trufflehog",
+      "version": "3.99.9",
+      "kind": "filesystem",
+      "scanner_exit_code": 0,
+      "scan_complete": true,
+      "diagnostic_line_counts": {
+        "info-0": 2
+      },
+      "candidates": []
+    },
+    {
+      "schema": 1,
+      "label": "log-contents",
+      "scanner": "gitleaks",
+      "version": "8.30.1",
+      "kind": "filesystem",
+      "scanner_exit_code": 0,
+      "scan_complete": true,
+      "diagnostic_line_counts": {},
+      "candidates": []
+    },
+    {
+      "schema": 1,
+      "label": "log-contents",
+      "scanner": "trufflehog",
+      "version": "3.99.9",
+      "kind": "filesystem",
+      "scanner_exit_code": 0,
+      "scan_complete": true,
+      "diagnostic_line_counts": {
+        "info-0": 2
+      },
+      "candidates": []
+    },
+    {
+      "schema": 1,
+      "label": "artifact-contents",
+      "scanner": "gitleaks",
+      "version": "8.30.1",
+      "kind": "filesystem",
+      "scanner_exit_code": 10,
+      "scan_complete": true,
+      "diagnostic_line_counts": {},
+      "candidates": [
+        {
+          "rule": "generic-api-key",
+          "file": "14011196215/gtroff_0.0.0-SNAPSHOT-6126edf_darwin_arm64.tar.gz.members/docs/roadmap-verification.md",
+          "line": 35,
+          "classification": "false_positive_technical_prose"
+        },
+        {
+          "rule": "generic-api-key",
+          "file": "14011196215/gtroff_0.0.0-SNAPSHOT-6126edf_linux_amd64.tar.gz.members/docs/roadmap-verification.md",
+          "line": 35,
+          "classification": "false_positive_technical_prose"
+        },
+        {
+          "rule": "generic-api-key",
+          "file": "14011196215/gtroff-0.0.0-SNAPSHOT-6126edf.tar.gz.members/docs/roadmap-verification.md",
+          "line": 35,
+          "classification": "false_positive_technical_prose"
+        },
+        {
+          "rule": "generic-api-key",
+          "file": "14011196215/gtroff_0.0.0-SNAPSHOT-6126edf_windows_amd64.zip.members/docs/roadmap-verification.md",
+          "line": 35,
+          "classification": "false_positive_technical_prose"
+        },
+        {
+          "rule": "generic-api-key",
+          "file": "14011196215/gtroff_0.0.0-SNAPSHOT-6126edf_linux_arm64.tar.gz.members/docs/roadmap-verification.md",
+          "line": 35,
+          "classification": "false_positive_technical_prose"
+        },
+        {
+          "rule": "generic-api-key",
+          "file": "14011196215/gtroff_0.0.0-SNAPSHOT-6126edf_darwin_amd64.tar.gz.members/docs/roadmap-verification.md",
+          "line": 35,
+          "classification": "false_positive_technical_prose"
+        },
+        {
+          "rule": "generic-api-key",
+          "file": "14011196215/gtroff_0.0.0-SNAPSHOT-6126edf_windows_arm64.zip.members/docs/roadmap-verification.md",
+          "line": 35,
+          "classification": "false_positive_technical_prose"
+        },
+        {
+          "rule": "generic-api-key",
+          "file": "14011458912/gtroff-0.0.0-SNAPSHOT-5a41c3c.tar.gz.members/docs/roadmap-verification.md",
+          "line": 35,
+          "classification": "false_positive_technical_prose"
+        },
+        {
+          "rule": "generic-api-key",
+          "file": "14011458912/gtroff_0.0.0-SNAPSHOT-5a41c3c_darwin_amd64.tar.gz.members/docs/roadmap-verification.md",
+          "line": 35,
+          "classification": "false_positive_technical_prose"
+        },
+        {
+          "rule": "generic-api-key",
+          "file": "14011458912/gtroff_0.0.0-SNAPSHOT-5a41c3c_darwin_arm64.tar.gz.members/docs/roadmap-verification.md",
+          "line": 35,
+          "classification": "false_positive_technical_prose"
+        },
+        {
+          "rule": "generic-api-key",
+          "file": "14011458912/gtroff_0.0.0-SNAPSHOT-5a41c3c_linux_amd64.tar.gz.members/docs/roadmap-verification.md",
+          "line": 35,
+          "classification": "false_positive_technical_prose"
+        },
+        {
+          "rule": "generic-api-key",
+          "file": "14011458912/gtroff_0.0.0-SNAPSHOT-5a41c3c_linux_arm64.tar.gz.members/docs/roadmap-verification.md",
+          "line": 35,
+          "classification": "false_positive_technical_prose"
+        },
+        {
+          "rule": "generic-api-key",
+          "file": "14011458912/gtroff_0.0.0-SNAPSHOT-5a41c3c_windows_arm64.zip.members/docs/roadmap-verification.md",
+          "line": 35,
+          "classification": "false_positive_technical_prose"
+        },
+        {
+          "rule": "generic-api-key",
+          "file": "14013535198/gtroff-0.0.0-SNAPSHOT-fe21e3b.tar.gz.members/docs/roadmap-verification.md",
+          "line": 35,
+          "classification": "false_positive_technical_prose"
+        },
+        {
+          "rule": "generic-api-key",
+          "file": "14011458912/gtroff_0.0.0-SNAPSHOT-5a41c3c_windows_amd64.zip.members/docs/roadmap-verification.md",
+          "line": 35,
+          "classification": "false_positive_technical_prose"
+        },
+        {
+          "rule": "generic-api-key",
+          "file": "14013535198/gtroff_0.0.0-SNAPSHOT-fe21e3b_darwin_arm64.tar.gz.members/docs/roadmap-verification.md",
+          "line": 35,
+          "classification": "false_positive_technical_prose"
+        },
+        {
+          "rule": "generic-api-key",
+          "file": "14013535198/gtroff_0.0.0-SNAPSHOT-fe21e3b_darwin_amd64.tar.gz.members/docs/roadmap-verification.md",
+          "line": 35,
+          "classification": "false_positive_technical_prose"
+        },
+        {
+          "rule": "generic-api-key",
+          "file": "14013535198/gtroff_0.0.0-SNAPSHOT-fe21e3b_linux_arm64.tar.gz.members/docs/roadmap-verification.md",
+          "line": 35,
+          "classification": "false_positive_technical_prose"
+        },
+        {
+          "rule": "generic-api-key",
+          "file": "14013535198/gtroff_0.0.0-SNAPSHOT-fe21e3b_windows_amd64.zip.members/docs/roadmap-verification.md",
+          "line": 35,
+          "classification": "false_positive_technical_prose"
+        },
+        {
+          "rule": "generic-api-key",
+          "file": "14013535198/gtroff_0.0.0-SNAPSHOT-fe21e3b_windows_arm64.zip.members/docs/roadmap-verification.md",
+          "line": 35,
+          "classification": "false_positive_technical_prose"
+        },
+        {
+          "rule": "generic-api-key",
+          "file": "14013535198/gtroff_0.0.0-SNAPSHOT-fe21e3b_linux_amd64.tar.gz.members/docs/roadmap-verification.md",
+          "line": 35,
+          "classification": "false_positive_technical_prose"
+        }
+      ]
+    },
+    {
+      "schema": 1,
+      "label": "artifact-contents",
+      "scanner": "trufflehog",
+      "version": "3.99.9",
+      "kind": "filesystem",
+      "scanner_exit_code": 0,
+      "scan_complete": true,
+      "diagnostic_line_counts": {
+        "info-0": 2
+      },
+      "candidates": []
+    }
+  ]
+}

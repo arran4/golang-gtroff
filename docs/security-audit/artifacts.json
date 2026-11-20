@@ -1,0 +1,35 @@
+[
+  {
+    "artifact_id": 14013535198,
+    "name": "headless-candidates",
+    "run": 43371865182,
+    "head": "0d4064b04f760a556cb34929249aa8e6ec85d5a1",
+    "sha256": "4c52681fee731987c225e3ff21487e20d51e24cd00aa6edba7b11d80e09ea52a",
+    "bytes": 108423854,
+    "zip_members": 25,
+    "uncompressed_bytes": 158572503,
+    "built_commit": "fe21e3b9e1dc40ee132e6aa5be052d90804c23b9"
+  },
+  {
+    "artifact_id": 14011458912,
+    "name": "headless-candidates",
+    "run": 43368765913,
+    "head": "b4c1d23e93870958cb3178ebb333365bb88986cc",
+    "sha256": "e8f72d9275d2e27cb09d920f8d8c0b702e0af61270cad97284fcff318e84e1d0",
+    "bytes": 108259495,
+    "zip_members": 25,
+    "uncompressed_bytes": 158405002,
+    "built_commit": "5a41c3c95be9048dd6c467a7279c7711cec6cd9c"
+  },
+  {
+    "artifact_id": 14011196215,
+    "name": "headless-candidates",
+    "run": 43366634988,
+    "head": "be4e2f8ed1baba939062659c51971d762164646d",
+    "sha256": "90ab625aa87589df756b2174a1a54dd8887d9b1997e88d0ebef14fedc1fa6aa6",
+    "bytes": 108225843,
+    "zip_members": 25,
+    "uncompressed_bytes": 158372377,
+    "built_commit": "6126edfcae84d6acac47cf4a429424f2929bce53"
+  }
+]
