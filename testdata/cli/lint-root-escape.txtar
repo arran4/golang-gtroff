@@ -1,0 +1,19 @@
+Lint scenario: root-escape.
+-- args.json --
+["lint", "--root", "allowed", "outside.1"]
+-- input/outside.1 --
+.TH TOOL 1
+.SH NAME
+tool \- example tool
+.SH SYNOPSIS
+.B tool
+.SH DESCRIPTION
+Description.
+-- stdout.txt --
+lint: documents=1 findings=0 suppressed=0 complete=true fail-on=error failed=true
+document 1: outside.1 (profile= input-invalid=true)
+  input error: input file is outside the allowed source root
+-- stderr.txt --
+gtroff: input file is outside the allowed source root
+-- exit.txt --
+3

@@ -1,0 +1,20 @@
+Lint scenario: include.
+-- args.json --
+["lint", "main.1"]
+-- input/main.1 --
+.TH TOOL 1
+.so body.roff
+-- input/body.roff --
+.SH NAME
+tool \- example tool
+.SH SYNOPSIS
+.B tool
+.SH DESCRIPTION
+Description.
+-- stdout.txt --
+lint: documents=1 findings=0 suppressed=0 complete=true fail-on=error failed=false
+document 1: main.1 (profile=man input-invalid=false)
+  source 1 main.1:2:1: input warning semantic: unsupported semantics preserved: .so
+-- stderr.txt --
+-- exit.txt --
+0

@@ -1,0 +1,11 @@
+Lint scenario: bad-config.
+-- args.json --
+["lint", "--rules", "policy.json"]
+-- input/policy.json --
+{"schemaVersion":1,"policy":{"disable":["typo.rule"]}}
+-- stdout.txt --
+-- stderr.txt --
+gtroff: invalid lint configuration: unknown rule "typo.rule"
+Run 'gtroff help' for usage.
+-- exit.txt --
+2

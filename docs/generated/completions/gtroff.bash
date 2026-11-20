@@ -3,13 +3,14 @@ _gtroff() {
   local cur="${COMP_WORDS[COMP_CWORD]}" words value
   COMPREPLY=()
   if (( COMP_CWORD == 1 )); then
-    words='validate ast sources analyze query extract skills render convert serve version man completion help'
+    words='validate ast sources analyze lint query extract skills render convert serve version man completion help'
   else
     case "${COMP_WORDS[1]}" in
       validate) words='--format --help --package --strict' ;;
       ast) words='--format --help --package --select --strict' ;;
       sources) words='--format --help --max-bytes --max-depth --max-files --max-nodes --no-includes --package --root --strict' ;;
       analyze) words='--details --format --help --max-analysis-nodes --max-bytes --max-depth --max-files --max-findings --max-nodes --max-work --no-includes --package --root --rules --strict' ;;
+      lint) words='--closed-world --disable --enable --fail-on --format --help --max-bytes --max-depth --max-documents --max-files --max-findings --max-lint-nodes --max-nodes --max-work --no-includes --package --required --root --rules --strict' ;;
       query) words='--fields --format --help --max-bytes --max-depth --max-files --max-nodes --max-result-bytes --max-results --max-work --no-includes --package --root --strict --view' ;;
       extract) words='--fields --format --help --max-bytes --max-depth --max-extract-nodes --max-files --max-nodes --max-output-bytes --max-record-bytes --max-records --max-work --no-includes --normalize --package --root --strict --view' ;;
       skills) words='--help' ;;

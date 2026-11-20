@@ -121,6 +121,10 @@ type Report struct {
 	Sources           []SourceInfo        `json:"sources"`
 	Findings          []Finding           `json:"findings"`
 	Diagnostics       []source.Diagnostic `json:"diagnostics,omitempty"`
+
+	// WorkUnits counts charged analyzer work, allowing callers to share budgets.
+	// It is execution accounting and is omitted from serialized analysis reports.
+	WorkUnits int `json:"-"`
 }
 
 func (r *Report) HasRule(id string) bool { return r != nil && r.Counts.Rules[id] > 0 }

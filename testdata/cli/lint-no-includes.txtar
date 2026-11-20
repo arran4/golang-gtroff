@@ -1,0 +1,27 @@
+Lint scenario: no-includes.
+-- args.json --
+["lint", "--no-includes", "main.1"]
+-- input/main.1 --
+.TH TOOL 1
+.so body.roff
+-- input/body.roff --
+.SH NAME
+tool \- example tool
+.SH SYNOPSIS
+.B tool
+.SH DESCRIPTION
+Description.
+-- stdout.txt --
+lint: documents=1 findings=3 suppressed=0 complete=true fail-on=error failed=false
+document 1: main.1 (profile=man input-invalid=false)
+  source 1 main.1:2:1: input warning disabled: include disabled: include loading explicitly disabled
+  source 1 main.1:2:1: input warning semantic: unsupported semantics preserved: .so
+document 1 source 1 main.1:1:1: warning man.required-section [heuristic]: required section "DESCRIPTION" was not found; incomplete sources or unevaluated syntax may supply it
+  suggestion: Add the section or configure requiredSections for this document policy.
+document 1 source 1 main.1:1:1: warning man.required-section [heuristic]: required section "NAME" was not found; incomplete sources or unevaluated syntax may supply it
+  suggestion: Add the section or configure requiredSections for this document policy.
+document 1 source 1 main.1:1:1: warning man.required-section [heuristic]: required section "SYNOPSIS" was not found; incomplete sources or unevaluated syntax may supply it
+  suggestion: Add the section or configure requiredSections for this document policy.
+-- stderr.txt --
+-- exit.txt --
+0

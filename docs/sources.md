@@ -144,3 +144,8 @@ for named/default, disabled and stdin/root policies and strict exit behavior.
 provenance and include relationships; exact parent source is not expanded into
 child bytes. Explicit file output protects every loaded original source. See
 [extraction](extract.md).
+
+`gtroff lint` reuses this loader for every explicit root input. Its byte/node/file
+budgets span the whole collection; policy findings retain document and source
+occurrence identities. See [lint policy](lint.md) for strict input handling and
+conservative behavior around missing or deliberately disabled includes.
