@@ -107,12 +107,3 @@ conversion output limits. `ErrInvalid` identifies invalid literal/zero/nil value
 or failure to validate the generated subset. Check returned errors independently
 of any inspectable AST. There is no promise of unlimited CPU/memory or callback
 sandboxing; these are finite construction and serialization bounds.
-
-Tests include eight readable TXTAR scenarios, external Go examples, writer/limit
-errors, invalid literal data, quoted/Unicode/control-line text, CRLF, immutable
-block/snapshot behavior, stored-roff display and deterministic generation.
-Parse → canonical write → parse semantic equivalence is verified for this supported
-subset with the existing conversion normalization API. It does not assert source
-spelling equality or complete GNU groff semantics. Rendering/layout engines,
-raw active fragments, editing existing documents, rich style builders and dozens
-of macro-specific helpers remain separate capabilities.

@@ -58,12 +58,3 @@ checked, but there is no lock against concurrent editors/generators. Readers may
 observe individual renames. The files are not one atomic filesystem object, and
 process termination/power loss has no automatic journal recovery guarantee.
 Separate commands within `go generate ./...` do not form one global transaction.
-
-TXTAR cases cover late template execution/format errors, malformed inputs and
-deterministic output. OS tests exercise aliases, staging/commit failures, mixed
-existing/new rollback, changed destinations, retained recovery bytes and cleanup.
-Special-identifier tests inspect Unicode, quote/backslash/backtick spelling in
-generated Go. Real command tests check generator `-check`, documentation output
-failure and example refresh failure. CI runs the read-only parser check, actual
-regeneration/clean-tree check, tests and vet; hosted execution status remains
-separate from these configured gates.

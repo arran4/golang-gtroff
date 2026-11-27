@@ -172,12 +172,3 @@ stderr; embedding applications can supply their own configured `http.Server`.
 CLI exit codes are 0 normal shutdown, 2 usage and 3 filesystem/listener/resource
 failure. Signal handling is installed only for `serve`; existing batch commands
 keep their ordinary process behavior.
-
-`testdata/serve/*.txtar` contains readable virtual trees, explicit gzip synthesis,
-requests, status/header/body snapshots and positive/negative substring assertions.
-Budget cases include invalid gzip headers and generated streams with explicitly
-corrupted checksum trailers; binary gzip data is synthesized from readable text.
-Normal tests never update them. Explicit refresh:
-`go test . -run '^TestServeScenarios$' -update-serve`. Unit/httptest, real-directory
-symlink, cancellation, bounded-process, HTTP fuzz and built-executable tests verify
-the public contracts without external network or system man dependencies.

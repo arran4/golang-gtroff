@@ -1,37 +1,18 @@
-# Scope, limitations and release status
+# Scope and compatibility
 
-**Work in progress:** gtroff implements a subset of roff and Linux man-page behaviour. It is **not** a full GNU groff clone, nor a stable substitute for the GNU formatter.
+gtroff is a pure-Go toolkit for a subset of roff and Linux man pages. It is not a complete GNU groff implementation. APIs and CLI formats may change before a stable release.
 
-## Current merged functionality
-
-| Area | Scope |
+| Area | Supported use |
 | --- | --- |
-| Source parser | Typed requests and man/ms macros, source positions and diagnostics |
-| AST | Original source and line endings, traversal, search and selection |
-| CLI | `validate`, `ast`, `render`, `convert`, `help` and `version` |
-| Semantic man | Supported headings, paragraphs, tags and preformatted text |
-| HTML export | Standalone HTML for the documented semantic subset |
-| Conversion | Semantic HTML/man profile, not arbitrary HTML or lossless conversion |
-| Build | Pure-Go headless CLI, no system groff or CGO |
+| Parsing | Typed requests and man/ms macros, original source, AST and diagnostics |
+| Inspection | Bounded source sets, structural queries, extraction, feature analysis and lint |
+| Semantic model | Common man headings, paragraphs, lists, definitions and preformatted text |
+| Output | HTML, paginated PNG/JPEG, canonical man source and a supported HTML/man conversion subset |
+| Reading | Read-only local man-page HTTP library; optional desktop viewer |
+| Authoring | Construct new canonical man pages using Go |
 
-The capabilities available on your installation depend on the specific revision. Check the [default branch](https://github.com/arran4/golang-gtroff) and its open PRs.
+Headless builds need Go 1.26 or newer and no C toolchain, system groff or installed fonts. The [optional viewer](viewer.md) has separate platform requirements.
 
-## What it does not guarantee
+Syntax recognition does not imply evaluation, rendering or complete grammar support. The AST preserves original source; canonical conversion does not promise byte-identical round trips. Tables, equations, full macro execution and GNU layout equivalence are outside the supported profile. The [opt-in evaluator](evaluation.md) has its own limited language and resource budgets.
 
-- Complete GNU groff syntax, layout, macro packages, preprocessor or drawing equivalence.
-- Executing arbitrary input or automatically opening source include paths during AST inspection.
-- Exact source fidelity after an HTML semantic round trip.
-- Stable Go APIs, CLI output formats or binary release support during active development.
-- Native GUI support on platforms not tested with a real application session.
-
-## In-progress integrations
-
-PNG/JPEG rendering, man-library HTTP browsing, the optional Shiny viewer, generated man pages/completions and release packaging were developed in stacked feature branches. **These are not all automatically part of `main` merely because their individual PRs show merged.** See [integration PR #62](https://github.com/arran4/golang-gtroff/pull/62) for their proposed combined entry into main, and [issue #31](https://github.com/arran4/golang-gtroff/issues/31) for release criteria.
-
-Linux/X11 native interaction is the initial GUI acceptance baseline; Windows/macOS remain preview/unverified.
-
-## Public source versus a released product
-
-Public Git history, a GitHub Pages documentation site and downloadable stable binaries are distinct milestones. Full-history leak scanning, attribution/licensing review, native validation and release gates are tracked separately.
-
-See [getting started](getting-started.md), [workflows](workflows.md) and [documentation deployment](documentation-site.md).
+See [getting started](getting-started.md), [Go API examples](go-api.md) and [CLI](cli.md).

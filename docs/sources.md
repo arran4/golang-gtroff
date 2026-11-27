@@ -132,14 +132,6 @@ CLI exit codes are 0 for permissive reports, 1 for strict diagnostics, 2 for usa
 and 3 for I/O/resource/cancellation failure; partial JSON includes an error.
 Diagnostics sort by source occurrence, byte offset and stable insertion order.
 
-Readable `source/testdata/*.txtar` scenarios assert graph/line order and physical
-source reconstruction. `testdata/cli/sources-*.txtar` covers named-file defaults,
-`--no-includes`, stdin/root, broken/cyclic/escaping includes, strict output and
-limits. Unit tests separately check symlink aliases/escape, shared failed-read
-budgets, cancellation, reader and close errors, exact bytes, immutable slices
-and explicit registries. A subprocess test builds and executes the generated CLI
-for named/default, disabled and stdin/root policies and strict exit behavior.
-
 `gtroff extract` uses this shared source policy. Records retain original-file
 provenance and include relationships; exact parent source is not expanded into
 child bytes. Explicit file output protects every loaded original source. See

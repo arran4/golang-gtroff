@@ -208,12 +208,3 @@ partial reports, never successful silent truncation. CLI exposes
 `--max-analysis-nodes`, `--max-findings` (ceilings 1,000,000) and `--max-work`
 (ceiling 1,073,741,824), alongside shared source budgets. The budget is not a
 promise of exact wall-clock time or encoded JSON size.
-
-Tests cover profiles/uncertainty, positive and negative capability evidence,
-unknown/malformed controls, definitions, conditionals, stored/comment material,
-unresolved/resolved/disabled sources, partial input, CRLF/invalid UTF-8, recovery
-metrics, rules/reader ownership, custom-fact isolation, deterministic counts,
-resource/cancellation, JSON/JSONL/text and short writes. CLI TXTAR and a built
-executable exercise shared include policy, explicit rules, strict errors and
-limits. Opt-in `BenchmarkFeatureInventory` uses deterministic 10/1,000-definition
-inputs with checked control counts; no absolute timing threshold is imposed.

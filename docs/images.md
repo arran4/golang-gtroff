@@ -129,34 +129,4 @@ automatic directory creation occurs. Stale numbered pages from an older, longer
 export are not deleted automatically. Exit codes follow `render`: 0 accepted with
 possible warnings, 1 syntax/strict failure, 2 usage/selection, 3 I/O/resource error.
 
-## Fixtures and explicit golden refresh
-
-`testdata/image/*.txtar` stores readable source, options, measured layout, output
-names and diagnostics. Binary PNG/JPEG goldens live separately under
-`testdata/golden/image`. Tests compare encoded bytes with those goldens, decode
-both formats, compare lossless PNG pixels, verify content-bearing pages have ink,
-check bounds and compare every selected node's visible source contribution.
-Normal tests never update artifacts.
-
-Approve a refresh by running `go test . -run '^TestImageScenarios$' -update-images`.
-Review the textual layout/diagnostic diff and visually inspect changed binary
-images before committing. Pinning Go/font dependencies makes the baseline
-reproducible; a deliberate rasterizer/font change can require an approved refresh.
-The example files are changed only by the explicit CLI commands above and must
-still match the byte-checking example tests. Platform smoke CI runs native CGO-free
-unit/image/executable tests on Linux, Windows and macOS; local foreign-target
-cross-builds alone do not prove native execution.
-
-## Architecture-stable curve coverage
-
-Release smoke on Linux arm64 exposed one-level coverage differences at 34 pixels
-of the representative PNG (and consequently different JPEG bytes). The upstream
-vector curve interpolator permits fused multiply/add on arm64. The renderer now
-keeps the OpenType metrics and vector line rasterizer but flattens curves with
-explicit float32 rounding, as specified by Go's floating-point conversion rules.
-No global CPU override, unsafe dependency hook or compiler flag is used. The
-adapted code retains its Go Image BSD notice in `LICENSE-Go-Image.txt`.
-
-The existing amd64 image goldens remain unchanged. Linux arm64 execution under
-QEMU produces byte-identical representative PNG/JPEG and runs the root scenario
-suite. This is emulated runtime evidence; native platform gates remain separate.
+The renderer uses bundled Go fonts by default and adapted Go Image rasterizer code. See the [Go Image licence notice](../renderimage/LICENSE-Go-Image.txt).

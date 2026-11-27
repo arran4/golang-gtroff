@@ -1,7 +1,7 @@
 # Library guide
 
 Install the root module with `go get github.com/arran4/golang-gtroff`.
-Use a reviewed feature revision while the roadmap remains unreleased.
+Pin a reviewed revision while the API is under active development.
 The following snippets illustrate the APIs; complete executable examples live
 in `ast_example_test.go` and the individual packages.
 

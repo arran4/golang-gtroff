@@ -206,5 +206,4 @@ CLI exits: 0 passes; 1 policy threshold or invalid input; 2 usage/configuration;
 3 I/O/resource/cancellation failure. A report is written before a known operational
 error when a snapshot/report exists; usage errors can occur before any report.
 Writer errors and short writes are propagated. JSONL summary counts can describe
-only an inspected prefix when complete is false. Tests cover these distinctions,
-collection budgets, false positives and original source preservation.
+only an inspected prefix when complete is false.

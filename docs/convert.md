@@ -144,22 +144,4 @@ source name. They do not pretend to identify exact HTML bytes. Roff origins keep
 the parser's physical spans. Invalid UTF-8 is diagnosed and DOM repair is lossy;
 the HTML snapshot remains available separately.
 
-## Tests and examples
-
-`testdata/convert/*.txtar` contains separate supported, nested, Unicode,
-escaping, malformed, hostile and unsupported scenarios. Each has canonical roff,
-HTML, normalized semantics and diagnostics. Supported cases compare the actual
-`roff → model → HTML → model → roff → model` and `HTML → roff → HTML` loops.
-Every case checks a stable second canonicalization; negative cases also require
-explicit retained-content assertions. Normal tests do not modify expectations.
-
-```sh
-go test . -run '^TestConvertScenarios$' -update-convert
-go test ./convert ./internal/cli ./cmd/gtroff
-```
-
-The complete checked-in `examples/man-tool.html`, including all embedded font
-bytes, passes through the importer and canonical writer in tests. The small
-[HTML input](../examples/convert.html) and [canonical man output](../examples/convert.1)
-are also checked against the real CLI. These loops promise the documented
-semantic subset, not original source spelling or pixel-identical typography.
+See [example HTML](../examples/convert.html) and [canonical man output](../examples/convert.1). Conversion preserves the documented semantic subset, not original spelling or pixel-identical layout.
