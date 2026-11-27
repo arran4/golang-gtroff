@@ -529,27 +529,9 @@ func ParseTokenMsAU(lineArgs string) (Token, error) {
 }
 
 // TokenMacroB1
-// The registers ps4html and www-image-template are defined by the
-// pre-grohtml preprocessor. pre-grohtml reads in the troff input, marks up
-// the inline equations and passes the result firstly to
-//
-// troff -Tps -rps4html=1 -dwww-image-template=template
-//
-// and secondly to
-//
-// troff -Thtml
-//
-// or
-//
-// troff -Txhtml
-//
-// The POSTSCRIPT device is used to create all the image files (for -Thtml;
-// if -Txhtml is used, all equations are passed to geqn to produce MathML,
-// and the register ps4html enables the macro sets to ignore floating
-// keeps, footers, and headings.
-//
-// The register www-image-template is set to the user specified template
-// name or the default name.
+// Marks the beginning and ending of text that is to have a box drawn
+// around it. The B1 macro begins the box; the B2 macro ends it. Text in
+// the box is automatically placed in a diversion (keep).
 type TokenMacroB1 struct {
 }
 
@@ -667,27 +649,11 @@ func ParseTokenMsB2(lineArgs string) (Token, error) {
 }
 
 // TokenMacroBD
-// The registers ps4html and www-image-template are defined by the
-// pre-grohtml preprocessor. pre-grohtml reads in the troff input, marks up
-// the inline equations and passes the result firstly to
-//
-// troff -Tps -rps4html=1 -dwww-image-template=template
-//
-// and secondly to
-//
-// troff -Thtml
-//
-// or
-//
-// troff -Txhtml
-//
-// The POSTSCRIPT device is used to create all the image files (for -Thtml;
-// if -Txhtml is used, all equations are passed to geqn to produce MathML,
-// and the register ps4html enables the macro sets to ignore floating
-// keeps, footers, and headings.
-//
-// The register www-image-template is set to the user specified template
-// name or the default name.
+// Sets a block-centered display: the entire display is left-justified, but
+// indented so that the longest line in the display is centered on the
+// page. The ‘.DS B’ call generates a page break, if necessary, to keep
+// the entire display on one page. The BD macro allows the display to break
+// across pages. The DE macro ends the display.
 type TokenMacroBD struct {
 }
 
@@ -890,27 +856,10 @@ func ParseTokenMsBX(lineArgs string) (Token, error) {
 }
 
 // TokenMacroCD
-// The registers ps4html and www-image-template are defined by the
-// pre-grohtml preprocessor. pre-grohtml reads in the troff input, marks up
-// the inline equations and passes the result firstly to
-//
-// troff -Tps -rps4html=1 -dwww-image-template=template
-//
-// and secondly to
-//
-// troff -Thtml
-//
-// or
-//
-// troff -Txhtml
-//
-// The POSTSCRIPT device is used to create all the image files (for -Thtml;
-// if -Txhtml is used, all equations are passed to geqn to produce MathML,
-// and the register ps4html enables the macro sets to ignore floating
-// keeps, footers, and headings.
-//
-// The register www-image-template is set to the user specified template
-// name or the default name.
+// Sets a centered display: each line in the display is centered. The
+// ‘.DS C’ call generates a page break, if necessary, to keep the
+// entire display on one page. The CD macro allows the display to break
+// across pages. The DE macro ends the display.
 type TokenMacroCD struct {
 }
 
@@ -1198,115 +1147,30 @@ func ParseTokenMsDE(lineArgs string) (Token, error) {
 // Indented display. The default behavior of AT&T troff -ms was to indent;
 // the groff default prints displays flush left with the body text.
 //
-// The registers ps4html and www-image-template are defined by the
-// pre-grohtml preprocessor. pre-grohtml reads in the troff input, marks up
-// the inline equations and passes the result firstly to
+// Right-justifies each line in the display. The ‘.DS R’ call generates
+// a page break, if necessary, to keep the entire display on one page. The
+// RD macro allows the display to break across pages. The DE macro ends the
+// display.
 //
-// troff -Tps -rps4html=1 -dwww-image-template=template
+// Sets a centered display: each line in the display is centered. The
+// ‘.DS C’ call generates a page break, if necessary, to keep the
+// entire display on one page. The CD macro allows the display to break
+// across pages. The DE macro ends the display.
 //
-// and secondly to
+// Sets a block-centered display: the entire display is left-justified, but
+// indented so that the longest line in the display is centered on the
+// page. The ‘.DS B’ call generates a page break, if necessary, to keep
+// the entire display on one page. The BD macro allows the display to break
+// across pages. The DE macro ends the display.
 //
-// troff -Thtml
+// Indents the display as defined by the DI register. The ‘.DS I’ call
+// generates a page break, if necessary, to keep the entire display on one
+// page. The ID macro allows the display to break across pages. The DE
+// macro ends the display.
 //
-// or
-//
-// troff -Txhtml
-//
-// The POSTSCRIPT device is used to create all the image files (for -Thtml;
-// if -Txhtml is used, all equations are passed to geqn to produce MathML,
-// and the register ps4html enables the macro sets to ignore floating
-// keeps, footers, and headings.
-//
-// The register www-image-template is set to the user specified template
-// name or the default name.
-//
-// The registers ps4html and www-image-template are defined by the
-// pre-grohtml preprocessor. pre-grohtml reads in the troff input, marks up
-// the inline equations and passes the result firstly to
-//
-// troff -Tps -rps4html=1 -dwww-image-template=template
-//
-// and secondly to
-//
-// troff -Thtml
-//
-// or
-//
-// troff -Txhtml
-//
-// The POSTSCRIPT device is used to create all the image files (for -Thtml;
-// if -Txhtml is used, all equations are passed to geqn to produce MathML,
-// and the register ps4html enables the macro sets to ignore floating
-// keeps, footers, and headings.
-//
-// The register www-image-template is set to the user specified template
-// name or the default name.
-//
-// The registers ps4html and www-image-template are defined by the
-// pre-grohtml preprocessor. pre-grohtml reads in the troff input, marks up
-// the inline equations and passes the result firstly to
-//
-// troff -Tps -rps4html=1 -dwww-image-template=template
-//
-// and secondly to
-//
-// troff -Thtml
-//
-// or
-//
-// troff -Txhtml
-//
-// The POSTSCRIPT device is used to create all the image files (for -Thtml;
-// if -Txhtml is used, all equations are passed to geqn to produce MathML,
-// and the register ps4html enables the macro sets to ignore floating
-// keeps, footers, and headings.
-//
-// The register www-image-template is set to the user specified template
-// name or the default name.
-//
-// The registers ps4html and www-image-template are defined by the
-// pre-grohtml preprocessor. pre-grohtml reads in the troff input, marks up
-// the inline equations and passes the result firstly to
-//
-// troff -Tps -rps4html=1 -dwww-image-template=template
-//
-// and secondly to
-//
-// troff -Thtml
-//
-// or
-//
-// troff -Txhtml
-//
-// The POSTSCRIPT device is used to create all the image files (for -Thtml;
-// if -Txhtml is used, all equations are passed to geqn to produce MathML,
-// and the register ps4html enables the macro sets to ignore floating
-// keeps, footers, and headings.
-//
-// The register www-image-template is set to the user specified template
-// name or the default name.
-//
-// The registers ps4html and www-image-template are defined by the
-// pre-grohtml preprocessor. pre-grohtml reads in the troff input, marks up
-// the inline equations and passes the result firstly to
-//
-// troff -Tps -rps4html=1 -dwww-image-template=template
-//
-// and secondly to
-//
-// troff -Thtml
-//
-// or
-//
-// troff -Txhtml
-//
-// The POSTSCRIPT device is used to create all the image files (for -Thtml;
-// if -Txhtml is used, all equations are passed to geqn to produce MathML,
-// and the register ps4html enables the macro sets to ignore floating
-// keeps, footers, and headings.
-//
-// The register www-image-template is set to the user specified template
-// name or the default name.
+// Left-justified display. The ‘.DS L’ call generates a page break, if
+// necessary, to keep the entire display on one page. The LD macro allows
+// the display to break across pages. The DE macro ends the display.
 type TokenMacroDS struct {
 	Placement string
 }
@@ -1577,27 +1441,12 @@ func ParseTokenMsEF(lineArgs string) (Token, error) {
 }
 
 // TokenMacroEH
-// The registers ps4html and www-image-template are defined by the
-// pre-grohtml preprocessor. pre-grohtml reads in the troff input, marks up
-// the inline equations and passes the result firstly to
+// The OH and EH macros define headers for the odd and even pages; the OF
+// and EF macros define footers for the odd and even pages. This is more
+// flexible than defining the individual strings.
 //
-// troff -Tps -rps4html=1 -dwww-image-template=template
-//
-// and secondly to
-//
-// troff -Thtml
-//
-// or
-//
-// troff -Txhtml
-//
-// The POSTSCRIPT device is used to create all the image files (for -Thtml;
-// if -Txhtml is used, all equations are passed to geqn to produce MathML,
-// and the register ps4html enables the macro sets to ignore floating
-// keeps, footers, and headings.
-//
-// The register www-image-template is set to the user specified template
-// name or the default name.
+// You can replace the quote (') marks with any character not appearing in
+// the header or footer text.
 type TokenMacroEH struct {
 	Leftcenterright string
 }
@@ -1729,27 +1578,9 @@ func ParseTokenMsEN(lineArgs string) (Token, error) {
 }
 
 // TokenMacroEQ
-// The registers ps4html and www-image-template are defined by the
-// pre-grohtml preprocessor. pre-grohtml reads in the troff input, marks up
-// the inline equations and passes the result firstly to
-//
-// troff -Tps -rps4html=1 -dwww-image-template=template
-//
-// and secondly to
-//
-// troff -Thtml
-//
-// or
-//
-// troff -Txhtml
-//
-// The POSTSCRIPT device is used to create all the image files (for -Thtml;
-// if -Txhtml is used, all equations are passed to geqn to produce MathML,
-// and the register ps4html enables the macro sets to ignore floating
-// keeps, footers, and headings.
-//
-// The register www-image-template is set to the user specified template
-// name or the default name.
+// Denotes an equation, to be processed by the eqn preprocessor. The
+// optional align argument can be C, L, or I to center (the default),
+// left-justify, or indent the equation.
 type TokenMacroEQ struct {
 	Align string
 }
@@ -1958,27 +1789,11 @@ func ParseTokenMsFE(lineArgs string) (Token, error) {
 }
 
 // TokenMacroFS
-// The registers ps4html and www-image-template are defined by the
-// pre-grohtml preprocessor. pre-grohtml reads in the troff input, marks up
-// the inline equations and passes the result firstly to
-//
-// troff -Tps -rps4html=1 -dwww-image-template=template
-//
-// and secondly to
-//
-// troff -Thtml
-//
-// or
-//
-// troff -Txhtml
-//
-// The POSTSCRIPT device is used to create all the image files (for -Thtml;
-// if -Txhtml is used, all equations are passed to geqn to produce MathML,
-// and the register ps4html enables the macro sets to ignore floating
-// keeps, footers, and headings.
-//
-// The register www-image-template is set to the user specified template
-// name or the default name.
+// Specifies the text of the footnote. The default action is to create a
+// numbered footnote; you can create a symbolic footnote by specifying a
+// mark glyph (such as \[dg] for the dagger glyph) in the body text and as
+// an argument to the FS macro, followed by the text of the footnote and
+// the FE macro.
 type TokenMacroFS struct {
 }
 
@@ -2257,27 +2072,12 @@ func ParseTokenManHB(lineArgs string) (Token, error) {
 }
 
 // TokenMacroHD
-// The registers ps4html and www-image-template are defined by the
-// pre-grohtml preprocessor. pre-grohtml reads in the troff input, marks up
-// the inline equations and passes the result firstly to
+// The PT macro defines a custom header; the BT macro defines a custom
+// footer. These macros must handle odd/even/first page differences if
+// necessary.
 //
-// troff -Tps -rps4html=1 -dwww-image-template=template
-//
-// and secondly to
-//
-// troff -Thtml
-//
-// or
-//
-// troff -Txhtml
-//
-// The POSTSCRIPT device is used to create all the image files (for -Thtml;
-// if -Txhtml is used, all equations are passed to geqn to produce MathML,
-// and the register ps4html enables the macro sets to ignore floating
-// keeps, footers, and headings.
-//
-// The register www-image-template is set to the user specified template
-// name or the default name.
+// The HD macro defines additional header processing to take place after
+// executing the PT macro.
 type TokenMacroHD struct {
 }
 
@@ -2486,27 +2286,10 @@ func ParseTokenManIB(lineArgs string) (Token, error) {
 }
 
 // TokenMacroID
-// The registers ps4html and www-image-template are defined by the
-// pre-grohtml preprocessor. pre-grohtml reads in the troff input, marks up
-// the inline equations and passes the result firstly to
-//
-// troff -Tps -rps4html=1 -dwww-image-template=template
-//
-// and secondly to
-//
-// troff -Thtml
-//
-// or
-//
-// troff -Txhtml
-//
-// The POSTSCRIPT device is used to create all the image files (for -Thtml;
-// if -Txhtml is used, all equations are passed to geqn to produce MathML,
-// and the register ps4html enables the macro sets to ignore floating
-// keeps, footers, and headings.
-//
-// The register www-image-template is set to the user specified template
-// name or the default name.
+// Indents the display as defined by the DI register. The ‘.DS I’ call
+// generates a page break, if necessary, to keep the entire display on one
+// page. The ID macro allows the display to break across pages. The DE
+// macro ends the display.
 type TokenMacroID struct {
 }
 
@@ -2762,27 +2545,13 @@ func ParseTokenMsKE(lineArgs string) (Token, error) {
 }
 
 // TokenMacroKF
-// The registers ps4html and www-image-template are defined by the
-// pre-grohtml preprocessor. pre-grohtml reads in the troff input, marks up
-// the inline equations and passes the result firstly to
-//
-// troff -Tps -rps4html=1 -dwww-image-template=template
-//
-// and secondly to
-//
-// troff -Thtml
-//
-// or
-//
-// troff -Txhtml
-//
-// The POSTSCRIPT device is used to create all the image files (for -Thtml;
-// if -Txhtml is used, all equations are passed to geqn to produce MathML,
-// and the register ps4html enables the macro sets to ignore floating
-// keeps, footers, and headings.
-//
-// The register www-image-template is set to the user specified template
-// name or the default name.
+// Specifies a floating keep; if the keep cannot fit on the current page,
+// groff holds the contents of the keep and allows text following the keep
+// (in the source file) to fill in the remainder of the current page. When
+// the page breaks, whether by an explicit bp request or by reaching the
+// end of the page, groff prints the floating keep at the top of the new
+// page. This is useful for printing large graphics or tables that do not
+// need to appear exactly where specified.
 type TokenMacroKF struct {
 }
 
@@ -2840,27 +2609,8 @@ func ParseTokenMsKF(lineArgs string) (Token, error) {
 }
 
 // TokenMacroKS
-// The registers ps4html and www-image-template are defined by the
-// pre-grohtml preprocessor. pre-grohtml reads in the troff input, marks up
-// the inline equations and passes the result firstly to
-//
-// troff -Tps -rps4html=1 -dwww-image-template=template
-//
-// and secondly to
-//
-// troff -Thtml
-//
-// or
-//
-// troff -Txhtml
-//
-// The POSTSCRIPT device is used to create all the image files (for -Thtml;
-// if -Txhtml is used, all equations are passed to geqn to produce MathML,
-// and the register ps4html enables the macro sets to ignore floating
-// keeps, footers, and headings.
-//
-// The register www-image-template is set to the user specified template
-// name or the default name.
+// The KS macro begins a block of text to be kept on a single page, and the
+// KE macro ends the block.
 type TokenMacroKS struct {
 }
 
@@ -2918,27 +2668,9 @@ func ParseTokenMsKS(lineArgs string) (Token, error) {
 }
 
 // TokenMacroLD
-// The registers ps4html and www-image-template are defined by the
-// pre-grohtml preprocessor. pre-grohtml reads in the troff input, marks up
-// the inline equations and passes the result firstly to
-//
-// troff -Tps -rps4html=1 -dwww-image-template=template
-//
-// and secondly to
-//
-// troff -Thtml
-//
-// or
-//
-// troff -Txhtml
-//
-// The POSTSCRIPT device is used to create all the image files (for -Thtml;
-// if -Txhtml is used, all equations are passed to geqn to produce MathML,
-// and the register ps4html enables the macro sets to ignore floating
-// keeps, footers, and headings.
-//
-// The register www-image-template is set to the user specified template
-// name or the default name.
+// Left-justified display. The ‘.DS L’ call generates a page break, if
+// necessary, to keep the entire display on one page. The LD macro allows
+// the display to break across pages. The DE macro ends the display.
 type TokenMacroLD struct {
 }
 
@@ -3058,28 +2790,6 @@ func ParseTokenMsLG(lineArgs string) (Token, error) {
 
 // TokenMacroLP
 // Sets a paragraph without an initial indentation.
-//
-// The registers ps4html and www-image-template are defined by the
-// pre-grohtml preprocessor. pre-grohtml reads in the troff input, marks up
-// the inline equations and passes the result firstly to
-//
-// troff -Tps -rps4html=1 -dwww-image-template=template
-//
-// and secondly to
-//
-// troff -Thtml
-//
-// or
-//
-// troff -Txhtml
-//
-// The POSTSCRIPT device is used to create all the image files (for -Thtml;
-// if -Txhtml is used, all equations are passed to geqn to produce MathML,
-// and the register ps4html enables the macro sets to ignore floating
-// keeps, footers, and headings.
-//
-// The register www-image-template is set to the user specified template
-// name or the default name.
 type TokenMacroLP struct {
 }
 
@@ -3669,28 +3379,6 @@ func ParseTokenManNE(lineArgs string) (Token, error) {
 // Set an automatically numbered heading. ms produces a numbered heading in the form a.b.c..., to any level desired, with the numbering of each depth increasing automatically and being reset to zero when a more significant depth is increased. “1” is the most significant or coarsest division of the document. Only non-zero values are output. If depth is omitted, it is taken to be 1. If you specify depth such that an ascending gap occurs relative to the previous NH call—that is, you “skip a depth”, as by “.NH 1” and then “.NH 3”, groff ms emits a warning on the standard error stream.
 //
 // Alternatively, you can give NH a first argument of “S”, followed by integers to number the heading depths explicitly. Further automatic numbering, if used, resumes using the specified indices as their predecessors. This feature is a Berkeley extension.
-//
-// The registers ps4html and www-image-template are defined by the
-// pre-grohtml preprocessor. pre-grohtml reads in the troff input, marks up
-// the inline equations and passes the result firstly to
-//
-// troff -Tps -rps4html=1 -dwww-image-template=template
-//
-// and secondly to
-//
-// troff -Thtml
-//
-// or
-//
-// troff -Txhtml
-//
-// The POSTSCRIPT device is used to create all the image files (for -Thtml;
-// if -Txhtml is used, all equations are passed to geqn to produce MathML,
-// and the register ps4html enables the macro sets to ignore floating
-// keeps, footers, and headings.
-//
-// The register www-image-template is set to the user specified template
-// name or the default name.
 type TokenMacroNH struct {
 	Level string
 }
@@ -3901,27 +3589,12 @@ func ParseTokenManNT(lineArgs string) (Token, error) {
 }
 
 // TokenMacroOF
-// The registers ps4html and www-image-template are defined by the
-// pre-grohtml preprocessor. pre-grohtml reads in the troff input, marks up
-// the inline equations and passes the result firstly to
+// The OH and EH macros define headers for the odd and even pages; the OF
+// and EF macros define footers for the odd and even pages. This is more
+// flexible than defining the individual strings.
 //
-// troff -Tps -rps4html=1 -dwww-image-template=template
-//
-// and secondly to
-//
-// troff -Thtml
-//
-// or
-//
-// troff -Txhtml
-//
-// The POSTSCRIPT device is used to create all the image files (for -Thtml;
-// if -Txhtml is used, all equations are passed to geqn to produce MathML,
-// and the register ps4html enables the macro sets to ignore floating
-// keeps, footers, and headings.
-//
-// The register www-image-template is set to the user specified template
-// name or the default name.
+// You can replace the quote (') marks with any character not appearing in
+// the header or footer text.
 type TokenMacroOF struct {
 	Leftcenterright string
 }
@@ -3993,27 +3666,12 @@ func ParseTokenMsOF(lineArgs string) (Token, error) {
 }
 
 // TokenMacroOH
-// The registers ps4html and www-image-template are defined by the
-// pre-grohtml preprocessor. pre-grohtml reads in the troff input, marks up
-// the inline equations and passes the result firstly to
+// The OH and EH macros define headers for the odd and even pages; the OF
+// and EF macros define footers for the odd and even pages. This is more
+// flexible than defining the individual strings.
 //
-// troff -Tps -rps4html=1 -dwww-image-template=template
-//
-// and secondly to
-//
-// troff -Thtml
-//
-// or
-//
-// troff -Txhtml
-//
-// The POSTSCRIPT device is used to create all the image files (for -Thtml;
-// if -Txhtml is used, all equations are passed to geqn to produce MathML,
-// and the register ps4html enables the macro sets to ignore floating
-// keeps, footers, and headings.
-//
-// The register www-image-template is set to the user specified template
-// name or the default name.
+// You can replace the quote (') marks with any character not appearing in
+// the header or footer text.
 type TokenMacroOH struct {
 	Leftcenterright string
 }
@@ -4504,28 +4162,6 @@ func ParseTokenManPN(lineArgs string) (Token, error) {
 // TokenMacroPP
 // Set a paragraph with a first-line left indentation in the amount stored
 // in the PI register.
-//
-// The registers ps4html and www-image-template are defined by the
-// pre-grohtml preprocessor. pre-grohtml reads in the troff input, marks up
-// the inline equations and passes the result firstly to
-//
-// troff -Tps -rps4html=1 -dwww-image-template=template
-//
-// and secondly to
-//
-// troff -Thtml
-//
-// or
-//
-// troff -Txhtml
-//
-// The POSTSCRIPT device is used to create all the image files (for -Thtml;
-// if -Txhtml is used, all equations are passed to geqn to produce MathML,
-// and the register ps4html enables the macro sets to ignore floating
-// keeps, footers, and headings.
-//
-// The register www-image-template is set to the user specified template
-// name or the default name.
 type TokenMacroPP struct {
 }
 
@@ -4583,27 +4219,9 @@ func ParseTokenMsPP(lineArgs string) (Token, error) {
 }
 
 // TokenMacroPS
-// The registers ps4html and www-image-template are defined by the
-// pre-grohtml preprocessor. pre-grohtml reads in the troff input, marks up
-// the inline equations and passes the result firstly to
-//
-// troff -Tps -rps4html=1 -dwww-image-template=template
-//
-// and secondly to
-//
-// troff -Thtml
-//
-// or
-//
-// troff -Txhtml
-//
-// The POSTSCRIPT device is used to create all the image files (for -Thtml;
-// if -Txhtml is used, all equations are passed to geqn to produce MathML,
-// and the register ps4html enables the macro sets to ignore floating
-// keeps, footers, and headings.
-//
-// The register www-image-template is set to the user specified template
-// name or the default name.
+// Denotes a graphic, to be processed by the pic preprocessor. You can
+// create a pic file by hand, using the AT&T pic manual available on the
+// Web as a reference, or by using a graphics program such as xfig.
 type TokenMacroPS struct {
 }
 
@@ -5005,27 +4623,10 @@ func ParseTokenManRB(lineArgs string) (Token, error) {
 }
 
 // TokenMacroRD
-// The registers ps4html and www-image-template are defined by the
-// pre-grohtml preprocessor. pre-grohtml reads in the troff input, marks up
-// the inline equations and passes the result firstly to
-//
-// troff -Tps -rps4html=1 -dwww-image-template=template
-//
-// and secondly to
-//
-// troff -Thtml
-//
-// or
-//
-// troff -Txhtml
-//
-// The POSTSCRIPT device is used to create all the image files (for -Thtml;
-// if -Txhtml is used, all equations are passed to geqn to produce MathML,
-// and the register ps4html enables the macro sets to ignore floating
-// keeps, footers, and headings.
-//
-// The register www-image-template is set to the user specified template
-// name or the default name.
+// Right-justifies each line in the display. The ‘.DS R’ call generates
+// a page break, if necessary, to keep the entire display on one page. The
+// RD macro allows the display to break across pages. The DE macro ends the
+// display.
 type TokenMacroRD struct {
 }
 
@@ -5588,27 +5189,9 @@ func ParseTokenMsSquareBracketClose(lineArgs string) (Token, error) {
 }
 
 // TokenMacroSquareBracketOpen
-// The registers ps4html and www-image-template are defined by the
-// pre-grohtml preprocessor. pre-grohtml reads in the troff input, marks up
-// the inline equations and passes the result firstly to
-//
-// troff -Tps -rps4html=1 -dwww-image-template=template
-//
-// and secondly to
-//
-// troff -Thtml
-//
-// or
-//
-// troff -Txhtml
-//
-// The POSTSCRIPT device is used to create all the image files (for -Thtml;
-// if -Txhtml is used, all equations are passed to geqn to produce MathML,
-// and the register ps4html enables the macro sets to ignore floating
-// keeps, footers, and headings.
-//
-// The register www-image-template is set to the user specified template
-// name or the default name.
+// Denotes a reference, to be processed by the refer preprocessor. The GNU
+// refer(1) man page provides a comprehensive reference to the preprocessor
+// and the format of the bibliographic database.
 type TokenMacroSquareBracketOpen struct {
 }
 
@@ -6252,27 +5835,11 @@ func ParseTokenManTQ(lineArgs string) (Token, error) {
 }
 
 // TokenMacroTS
-// The registers ps4html and www-image-template are defined by the
-// pre-grohtml preprocessor. pre-grohtml reads in the troff input, marks up
-// the inline equations and passes the result firstly to
-//
-// troff -Tps -rps4html=1 -dwww-image-template=template
-//
-// and secondly to
-//
-// troff -Thtml
-//
-// or
-//
-// troff -Txhtml
-//
-// The POSTSCRIPT device is used to create all the image files (for -Thtml;
-// if -Txhtml is used, all equations are passed to geqn to produce MathML,
-// and the register ps4html enables the macro sets to ignore floating
-// keeps, footers, and headings.
-//
-// The register www-image-template is set to the user specified template
-// name or the default name.
+// Denotes a table, to be processed by the tbl preprocessor. The optional
+// argument H to TS instructs groff to create a running header with the
+// information up to the TH macro. groff prints the header at the beginning
+// of the table; if the table runs onto another page, groff prints the
+// header on the next page as well.
 type TokenMacroTS struct {
 	H string
 }
@@ -6780,27 +6347,42 @@ func ParseTokenManVS(lineArgs string) (Token, error) {
 }
 
 // TokenMacroXA
-// The registers ps4html and www-image-template are defined by the
-// pre-grohtml preprocessor. pre-grohtml reads in the troff input, marks up
-// the inline equations and passes the result firstly to
+// These macros define a table of contents or an individual entry in the
+// table of contents, depending on their use. The macros are very simple;
+// they cannot indent a heading based on its level. The easiest way to work
+// around this is to add tabs to the table of contents string. The
+// following is an example:
 //
-// troff -Tps -rps4html=1 -dwww-image-template=template
+// .NH 1
+// Introduction
+// .XS
+// Introduction
+// .XE
+// .LP
+// ...
+// .CW
+// .NH 2
+// Methodology
+// .XS
+// Methodology
+// .XE
+// .LP
+// ...
 //
-// and secondly to
+// You can manually create a table of contents by beginning with the XS
+// macro for the first entry, specifying the page number for that entry as
+// the argument to XS. Add subsequent entries using the XA macro,
+// specifying the page number for that entry as the argument to XA. The
+// following is an example:
 //
-// troff -Thtml
-//
-// or
-//
-// troff -Txhtml
-//
-// The POSTSCRIPT device is used to create all the image files (for -Thtml;
-// if -Txhtml is used, all equations are passed to geqn to produce MathML,
-// and the register ps4html enables the macro sets to ignore floating
-// keeps, footers, and headings.
-//
-// The register www-image-template is set to the user specified template
-// name or the default name.
+// .XS 1
+// Introduction
+// .XA 2
+// A Brief History of the Universe
+// .XA 729
+// Details of Galactic Formation
+// ...
+// .XE
 type TokenMacroXA struct {
 	Page string
 }
@@ -7023,27 +6605,42 @@ func ParseTokenMsXP(lineArgs string) (Token, error) {
 }
 
 // TokenMacroXS
-// The registers ps4html and www-image-template are defined by the
-// pre-grohtml preprocessor. pre-grohtml reads in the troff input, marks up
-// the inline equations and passes the result firstly to
+// These macros define a table of contents or an individual entry in the
+// table of contents, depending on their use. The macros are very simple;
+// they cannot indent a heading based on its level. The easiest way to work
+// around this is to add tabs to the table of contents string. The
+// following is an example:
 //
-// troff -Tps -rps4html=1 -dwww-image-template=template
+// .NH 1
+// Introduction
+// .XS
+// Introduction
+// .XE
+// .LP
+// ...
+// .CW
+// .NH 2
+// Methodology
+// .XS
+// Methodology
+// .XE
+// .LP
+// ...
 //
-// and secondly to
+// You can manually create a table of contents by beginning with the XS
+// macro for the first entry, specifying the page number for that entry as
+// the argument to XS. Add subsequent entries using the XA macro,
+// specifying the page number for that entry as the argument to XA. The
+// following is an example:
 //
-// troff -Thtml
-//
-// or
-//
-// troff -Txhtml
-//
-// The POSTSCRIPT device is used to create all the image files (for -Thtml;
-// if -Txhtml is used, all equations are passed to geqn to produce MathML,
-// and the register ps4html enables the macro sets to ignore floating
-// keeps, footers, and headings.
-//
-// The register www-image-template is set to the user specified template
-// name or the default name.
+// .XS 1
+// Introduction
+// .XA 2
+// A Brief History of the Universe
+// .XA 729
+// Details of Galactic Formation
+// ...
+// .XE
 type TokenMacroXS struct {
 	Page string
 }
@@ -8556,27 +8153,12 @@ var _ Token = (*TokenMsDe)(nil)
 var _ Node = (*TokenMsDe)(nil)
 
 // TokenMsDs
-// The registers ps4html and www-image-template are defined by the
-// pre-grohtml preprocessor. pre-grohtml reads in the troff input, marks up
-// the inline equations and passes the result firstly to
-//
-// troff -Tps -rps4html=1 -dwww-image-template=template
-//
-// and secondly to
-//
-// troff -Thtml
-//
-// or
-//
-// troff -Txhtml
-//
-// The POSTSCRIPT device is used to create all the image files (for -Thtml;
-// if -Txhtml is used, all equations are passed to geqn to produce MathML,
-// and the register ps4html enables the macro sets to ignore floating
-// keeps, footers, and headings.
-//
-// The register www-image-template is set to the user specified template
-// name or the default name.
+// These two macros were formerly provided as aliases for DS and DE,
+// respectively. They have been removed, and should no longer be used. The
+// original implementations of DS and DE are retained, and should be used
+// instead. X11 documents that actually use Ds and De always load a
+// specific macro file from the X11 distribution (macros.t) that provides
+// proper definitions for the two macros.
 type TokenMsDs struct {
 }
 
@@ -8783,27 +8365,12 @@ var _ Token = (*TokenMsIP)(nil)
 var _ Node = (*TokenMsIP)(nil)
 
 // TokenMsPT
-// The registers ps4html and www-image-template are defined by the
-// pre-grohtml preprocessor. pre-grohtml reads in the troff input, marks up
-// the inline equations and passes the result firstly to
+// The PT macro defines a custom header; the BT macro defines a custom
+// footer. These macros must handle odd/even/first page differences if
+// necessary.
 //
-// troff -Tps -rps4html=1 -dwww-image-template=template
-//
-// and secondly to
-//
-// troff -Thtml
-//
-// or
-//
-// troff -Txhtml
-//
-// The POSTSCRIPT device is used to create all the image files (for -Thtml;
-// if -Txhtml is used, all equations are passed to geqn to produce MathML,
-// and the register ps4html enables the macro sets to ignore floating
-// keeps, footers, and headings.
-//
-// The register www-image-template is set to the user specified template
-// name or the default name.
+// The HD macro defines additional header processing to take place after
+// executing the PT macro.
 type TokenMsPT struct {
 }
 
@@ -8855,27 +8422,7 @@ var _ Token = (*TokenMsPT)(nil)
 var _ Node = (*TokenMsPT)(nil)
 
 // TokenMsQS
-// The registers ps4html and www-image-template are defined by the
-// pre-grohtml preprocessor. pre-grohtml reads in the troff input, marks up
-// the inline equations and passes the result firstly to
-//
-// troff -Tps -rps4html=1 -dwww-image-template=template
-//
-// and secondly to
-//
-// troff -Thtml
-//
-// or
-//
-// troff -Txhtml
-//
-// The POSTSCRIPT device is used to create all the image files (for -Thtml;
-// if -Txhtml is used, all equations are passed to geqn to produce MathML,
-// and the register ps4html enables the macro sets to ignore floating
-// keeps, footers, and headings.
-//
-// The register www-image-template is set to the user specified template
-// name or the default name.
+// Begin a region where each paragraph is indented from both margins by \n[QI]. The text between .QS and .QE can be structured further by use of other paragraphing macros.
 type TokenMsQS struct {
 }
 
@@ -9056,27 +8603,9 @@ var _ Token = (*TokenMsRE)(nil)
 var _ Node = (*TokenMsRE)(nil)
 
 // TokenMsRS
-// The registers ps4html and www-image-template are defined by the
-// pre-grohtml preprocessor. pre-grohtml reads in the troff input, marks up
-// the inline equations and passes the result firstly to
-//
-// troff -Tps -rps4html=1 -dwww-image-template=template
-//
-// and secondly to
-//
-// troff -Thtml
-//
-// or
-//
-// troff -Txhtml
-//
-// The POSTSCRIPT device is used to create all the image files (for -Thtml;
-// if -Txhtml is used, all equations are passed to geqn to produce MathML,
-// and the register ps4html enables the macro sets to ignore floating
-// keeps, footers, and headings.
-//
-// The register www-image-template is set to the user specified template
-// name or the default name.
+// These macros begin and end an indented section. The PI register controls
+// the amount of indentation, allowing the indented text to line up under
+// hanging and indented paragraphs.
 type TokenMsRS struct {
 }
 
@@ -9324,27 +8853,78 @@ var _ Token = (*TokenRequestAb)(nil)
 var _ Node = (*TokenRequestAb)(nil)
 
 // TokenRequestAd
-// The registers ps4html and www-image-template are defined by the
-// pre-grohtml preprocessor. pre-grohtml reads in the troff input, marks up
-// the inline equations and passes the result firstly to
+// Set adjusting mode.
 //
-// troff -Tps -rps4html=1 -dwww-image-template=template
+// Activation and deactivation of adjusting is done implicitly with calls
+// to the fi or nf requests.
 //
-// and secondly to
+// mode can have one of the following values:
 //
-// troff -Thtml
+// l
 //
-// or
+// Adjust text to the left margin. This produces what is traditionally
+// called ragged-right text.
 //
-// troff -Txhtml
+// r
 //
-// The POSTSCRIPT device is used to create all the image files (for -Thtml;
-// if -Txhtml is used, all equations are passed to geqn to produce MathML,
-// and the register ps4html enables the macro sets to ignore floating
-// keeps, footers, and headings.
+// Adjust text to the right margin, producing ragged-left text.
 //
-// The register www-image-template is set to the user specified template
-// name or the default name.
+// c
+//
+// Center filled text. This is different to the ce request, which only
+// centers text without filling.
+//
+// b n Justify to both margins. This is the default used by gtroff.
+//
+// Finally, mode can be the numeric argument returned by the
+// .j register.
+//
+// Using ad without argument is the same as saying
+// .ad \[.j].  In particular, gtroff adjusts lines
+// in the same way it did before adjusting was deactivated (with a call
+// to na, say).  For example, this input code
+//
+// .de AD
+// .  br
+// .  ad \\$1
+// ..
+// .
+// .de NA
+// .  br
+// .  na
+// ..
+// .
+// textA
+// .AD r
+// .nr ad \n[.j]
+// textB
+// .AD c
+// textC
+// .NA
+// textD
+// .AD         \" back to centering
+// textE
+// .AD \n[ad]  \" back to right justifying
+// textF
+//
+// produces the following output:
+//
+// textA
+//
+//	                          textB
+//	textC
+//
+// textD
+//
+//	textE
+//	                          textF
+//
+// As just demonstrated, the current adjustment mode is available in the
+// read-only number register .j; it can be stored and subsequently used to
+// set adjustment.
+//
+// The adjustment mode status is associated with the current environment
+// (see Environments).
 type TokenRequestAd struct {
 	Mode string
 }
@@ -9708,27 +9288,27 @@ var _ Token = (*TokenRequestAls)(nil)
 var _ Node = (*TokenRequestAls)(nil)
 
 // TokenRequestAm
-// The registers ps4html and www-image-template are defined by the
-// pre-grohtml preprocessor. pre-grohtml reads in the troff input, marks up
-// the inline equations and passes the result firstly to
+// Works similarly to de except it appends onto the macro named name. So,
+// to make the previously defined ‘P’ macro actually do indented
+// instead of block paragraphs, add the necessary code to the existing
+// macro like this:
 //
-// troff -Tps -rps4html=1 -dwww-image-template=template
+// .am P
+// .ti +5n
+// ..
 //
-// and secondly to
+// The am1 request turns off compatibility mode while executing the
+// appended macro piece. To be more precise, a compatibility save input
+// token is inserted at the beginning of the appended code, and a
+// compatibility restore input token at the end.
 //
-// troff -Thtml
+// The ami request appends indirectly, meaning that gtroff expands strings
+// whose names are name or end before performing the append.
 //
-// or
+// The ami1 request is similar to ami but compatibility mode is switched
+// off during execution of the defined macro.
 //
-// troff -Txhtml
-//
-// The POSTSCRIPT device is used to create all the image files (for -Thtml;
-// if -Txhtml is used, all equations are passed to geqn to produce MathML,
-// and the register ps4html enables the macro sets to ignore floating
-// keeps, footers, and headings.
-//
-// The register www-image-template is set to the user specified template
-// name or the default name.
+// Using trace.tmac, you can trace calls to am and am1.
 type TokenRequestAm struct {
 	Name string
 	End  string
@@ -9798,27 +9378,27 @@ var _ Token = (*TokenRequestAm)(nil)
 var _ Node = (*TokenRequestAm)(nil)
 
 // TokenRequestAm1
-// The registers ps4html and www-image-template are defined by the
-// pre-grohtml preprocessor. pre-grohtml reads in the troff input, marks up
-// the inline equations and passes the result firstly to
+// Works similarly to de except it appends onto the macro named name. So,
+// to make the previously defined ‘P’ macro actually do indented
+// instead of block paragraphs, add the necessary code to the existing
+// macro like this:
 //
-// troff -Tps -rps4html=1 -dwww-image-template=template
+// .am P
+// .ti +5n
+// ..
 //
-// and secondly to
+// The am1 request turns off compatibility mode while executing the
+// appended macro piece. To be more precise, a compatibility save input
+// token is inserted at the beginning of the appended code, and a
+// compatibility restore input token at the end.
 //
-// troff -Thtml
+// The ami request appends indirectly, meaning that gtroff expands strings
+// whose names are name or end before performing the append.
 //
-// or
+// The ami1 request is similar to ami but compatibility mode is switched
+// off during execution of the defined macro.
 //
-// troff -Txhtml
-//
-// The POSTSCRIPT device is used to create all the image files (for -Thtml;
-// if -Txhtml is used, all equations are passed to geqn to produce MathML,
-// and the register ps4html enables the macro sets to ignore floating
-// keeps, footers, and headings.
-//
-// The register www-image-template is set to the user specified template
-// name or the default name.
+// Using trace.tmac, you can trace calls to am and am1.
 type TokenRequestAm1 struct {
 	Name string
 	End  string
@@ -9888,27 +9468,27 @@ var _ Token = (*TokenRequestAm1)(nil)
 var _ Node = (*TokenRequestAm1)(nil)
 
 // TokenRequestAmi
-// The registers ps4html and www-image-template are defined by the
-// pre-grohtml preprocessor. pre-grohtml reads in the troff input, marks up
-// the inline equations and passes the result firstly to
+// Works similarly to de except it appends onto the macro named name. So,
+// to make the previously defined ‘P’ macro actually do indented
+// instead of block paragraphs, add the necessary code to the existing
+// macro like this:
 //
-// troff -Tps -rps4html=1 -dwww-image-template=template
+// .am P
+// .ti +5n
+// ..
 //
-// and secondly to
+// The am1 request turns off compatibility mode while executing the
+// appended macro piece. To be more precise, a compatibility save input
+// token is inserted at the beginning of the appended code, and a
+// compatibility restore input token at the end.
 //
-// troff -Thtml
+// The ami request appends indirectly, meaning that gtroff expands strings
+// whose names are name or end before performing the append.
 //
-// or
+// The ami1 request is similar to ami but compatibility mode is switched
+// off during execution of the defined macro.
 //
-// troff -Txhtml
-//
-// The POSTSCRIPT device is used to create all the image files (for -Thtml;
-// if -Txhtml is used, all equations are passed to geqn to produce MathML,
-// and the register ps4html enables the macro sets to ignore floating
-// keeps, footers, and headings.
-//
-// The register www-image-template is set to the user specified template
-// name or the default name.
+// Using trace.tmac, you can trace calls to am and am1.
 type TokenRequestAmi struct {
 	Name string
 	End  string
@@ -10068,27 +9648,16 @@ var _ Token = (*TokenRequestAmi1)(nil)
 var _ Node = (*TokenRequestAmi1)(nil)
 
 // TokenRequestAs
-// The registers ps4html and www-image-template are defined by the
-// pre-grohtml preprocessor. pre-grohtml reads in the troff input, marks up
-// the inline equations and passes the result firstly to
+// The as request is similar to ds but appends string to the string stored
+// as name instead of redefining it. If name doesn’t exist yet, it is
+// created.
 //
-// troff -Tps -rps4html=1 -dwww-image-template=template
+// .as sign " with shallots, onions and garlic,
 //
-// and secondly to
-//
-// troff -Thtml
-//
-// or
-//
-// troff -Txhtml
-//
-// The POSTSCRIPT device is used to create all the image files (for -Thtml;
-// if -Txhtml is used, all equations are passed to geqn to produce MathML,
-// and the register ps4html enables the macro sets to ignore floating
-// keeps, footers, and headings.
-//
-// The register www-image-template is set to the user specified template
-// name or the default name.
+// The as1 request is similar to as, but compatibility mode is switched off
+// while the appended string is interpreted. To be more precise, a
+// compatibility save input token is inserted at the beginning of the
+// appended string, and a compatibility restore input token at the end.
 type TokenRequestAs struct {
 	Name      string
 	StringVal string
@@ -10394,29 +9963,30 @@ var _ Token = (*TokenRequestBacktrace)(nil)
 var _ Node = (*TokenRequestBacktrace)(nil)
 
 // TokenRequestBd
-// Register: \n[.b]
+// Artificially create a bold font by printing each glyph twice, slightly
+// offset.
 //
-// The registers ps4html and www-image-template are defined by the
-// pre-grohtml preprocessor. pre-grohtml reads in the troff input, marks up
-// the inline equations and passes the result firstly to
+// Two syntax forms are available.
 //
-// troff -Tps -rps4html=1 -dwww-image-template=template
+//	Imitate a bold font unconditionally.  The first argument specifies the
 //
-// and secondly to
+// font to embolden, and the second is the number of basic units, minus
+// one, by which the two glyphs are offset.  If the second argument is
+// missing, emboldening is turned off.
 //
-// troff -Thtml
+// font can be either a non-negative font position or the name of a font.
 //
-// or
+// offset is available in the .b read-only register if a special font is
+// active; in the bd request, its default unit is ‘u’.
 //
-// troff -Txhtml
+// Imitate a bold form conditionally. Embolden font1 by offset only if font
+// font2 is the current font. This command can be issued repeatedly to set
+// up different emboldening values for different current fonts. If the
+// second argument is missing, emboldening is turned off for this
+// particular current font.
 //
-// The POSTSCRIPT device is used to create all the image files (for -Thtml;
-// if -Txhtml is used, all equations are passed to geqn to produce MathML,
-// and the register ps4html enables the macro sets to ignore floating
-// keeps, footers, and headings.
-//
-// The register www-image-template is set to the user specified template
-// name or the default name.
+// This affects special fonts only (either set up with the special command
+// in font files or with the fspecial request).
 type TokenRequestBd struct {
 	Font   string
 	Font2  string
@@ -10557,27 +10127,43 @@ var _ Token = (*TokenRequestBlm)(nil)
 var _ Node = (*TokenRequestBlm)(nil)
 
 // TokenRequestBox
-// The registers ps4html and www-image-template are defined by the
-// pre-grohtml preprocessor. pre-grohtml reads in the troff input, marks up
-// the inline equations and passes the result firstly to
+// Begin (or append to) a diversion like the di and da requests. The
+// difference is that box and boxa do not include a partially filled line
+// in the diversion.
 //
-// troff -Tps -rps4html=1 -dwww-image-template=template
+// Compare this:
 //
-// and secondly to
+// Before the box.
+// .box xxx
+// In the box.
+// .br
+// .box
+// After the box.
+// .br
 //
-// troff -Thtml
+//	⇒ Before the box.  After the box.
 //
-// or
+// .xxx
 //
-// troff -Txhtml
+//	⇒ In the box.
 //
-// The POSTSCRIPT device is used to create all the image files (for -Thtml;
-// if -Txhtml is used, all equations are passed to geqn to produce MathML,
-// and the register ps4html enables the macro sets to ignore floating
-// keeps, footers, and headings.
+// with this:
 //
-// The register www-image-template is set to the user specified template
-// name or the default name.
+// Before the diversion.
+// .di yyy
+// In the diversion.
+// .br
+// .di
+// After the diversion.
+// .br
+//
+//	⇒ After the diversion.
+//
+// .yyy
+//
+//	⇒ Before the diversion.  In the diversion.
+//
+// box or boxa without an argument ends the diversion.
 type TokenRequestBox struct {
 	Macro string
 }
@@ -10745,31 +10331,26 @@ var _ Token = (*TokenRequestBoxa)(nil)
 var _ Node = (*TokenRequestBoxa)(nil)
 
 // TokenRequestBp
-// Request: .bp -page
+// Stop processing the current page and move to the next page. This request
+// causes a break. It can also take an argument to set (increase, decrease)
+// the page number of the next page (which actually becomes the current
+// page after bp has finished). The difference between bp and pn is that pn
+// does not cause a break or actually eject a page. See Page Layout.
 //
-// Register: \n[%]
+// .de newpage                         \" define macro
+// 'bp                                 \" begin page
+// 'sp .5i                             \" vertical space
+// .tl 'left top'center top'right top' \" title
+// 'sp .3i                             \" vertical space
+// ..                                  \" end macro
 //
-// The registers ps4html and www-image-template are defined by the
-// pre-grohtml preprocessor. pre-grohtml reads in the troff input, marks up
-// the inline equations and passes the result firstly to
+// bp has no effect if not called within the top-level diversion (see
+// Diversions).
 //
-// troff -Tps -rps4html=1 -dwww-image-template=template
+// The read-write register % holds the current page number.
 //
-// and secondly to
-//
-// troff -Thtml
-//
-// or
-//
-// troff -Txhtml
-//
-// The POSTSCRIPT device is used to create all the image files (for -Thtml;
-// if -Txhtml is used, all equations are passed to geqn to produce MathML,
-// and the register ps4html enables the macro sets to ignore floating
-// keeps, footers, and headings.
-//
-// The register www-image-template is set to the user specified template
-// name or the default name.
+// The number register .pe is set to 1 while bp is active. See Page
+// Location Traps.
 type TokenRequestBp struct {
 	Page string
 }
@@ -10949,27 +10530,7 @@ var _ Token = (*TokenRequestBreak)(nil)
 var _ Node = (*TokenRequestBreak)(nil)
 
 // TokenRequestBrp
-// The registers ps4html and www-image-template are defined by the
-// pre-grohtml preprocessor. pre-grohtml reads in the troff input, marks up
-// the inline equations and passes the result firstly to
-//
-// troff -Tps -rps4html=1 -dwww-image-template=template
-//
-// and secondly to
-//
-// troff -Thtml
-//
-// or
-//
-// troff -Txhtml
-//
-// The POSTSCRIPT device is used to create all the image files (for -Thtml;
-// if -Txhtml is used, all equations are passed to geqn to produce MathML,
-// and the register ps4html enables the macro sets to ignore floating
-// keeps, footers, and headings.
-//
-// The register www-image-template is set to the user specified template
-// name or the default name.
+// Finish the current output line using the current adjustment mode.
 type TokenRequestBrp struct {
 }
 
@@ -11157,27 +10718,51 @@ var _ Token = (*TokenRequestCc)(nil)
 var _ Node = (*TokenRequestCc)(nil)
 
 // TokenRequestCe
-// The registers ps4html and www-image-template are defined by the
-// pre-grohtml preprocessor. pre-grohtml reads in the troff input, marks up
-// the inline equations and passes the result firstly to
+// Center text. While the ‘.ad c’ request also centers text, it fills
+// the text as well. ce does not fill the text it affects. This request
+// causes a break. The number of lines still to be centered is associated
+// with the current environment (see Environments).
 //
-// troff -Tps -rps4html=1 -dwww-image-template=template
+// The following example demonstrates the differences. Here is the input:
 //
-// and secondly to
+// .ll 4i
+// .ce 1000
+// This is a small text fragment that shows the differences
+// between the `.ce' and the `.ad c' request.
+// .ce 0
 //
-// troff -Thtml
+// .ad c
+// This is a small text fragment that shows the differences
+// between the `.ce' and the `.ad c' request.
 //
-// or
+// And here the result:
 //
-// troff -Txhtml
+//	This is a small text fragment that
+//	       shows the differences
 //
-// The POSTSCRIPT device is used to create all the image files (for -Thtml;
-// if -Txhtml is used, all equations are passed to geqn to produce MathML,
-// and the register ps4html enables the macro sets to ignore floating
-// keeps, footers, and headings.
+// between the `.ce' and the `.ad c' request.
 //
-// The register www-image-template is set to the user specified template
-// name or the default name.
+//	This is a small text fragment that
+//
+// shows the differences between the `.ce'
+//
+//	and the `.ad c' request.
+//
+// With no arguments, ce centers the next line of text. nnn specifies the
+// number of lines to be centered. If the argument is zero or negative,
+// centering is disabled.
+//
+// The basic length for centering text is the line length (as set with the
+// ll request) minus the indentation (as set with the in request).
+// Temporary indentation is ignored.
+//
+// As can be seen in the previous example, it is a common idiom to turn on
+// centering for a large number of lines, and to turn off centering after
+// text to be centered. This is useful for any request that takes a number
+// of lines as an argument.
+//
+// The .ce read-only number register contains the number of lines remaining
+// to be centered, as set by the ce request.
 type TokenRequestCe struct {
 	Nnn string
 }
@@ -11572,27 +11157,60 @@ var _ Token = (*TokenRequestCh)(nil)
 var _ Node = (*TokenRequestCh)(nil)
 
 // TokenRequestChar
-// The registers ps4html and www-image-template are defined by the
-// pre-grohtml preprocessor. pre-grohtml reads in the troff input, marks up
-// the inline equations and passes the result firstly to
+// Define a new glyph g to be string (which can be empty).20 Every time
+// glyph g needs to be printed, string is processed in a temporary
+// environment and the result is wrapped up into a single object.
+// Compatibility mode is turned off and the escape character is set to
+// ‘\’ while string is being processed. Any emboldening, constant
+// spacing or track kerning is applied to this object rather than to
+// individual characters in string.
 //
-// troff -Tps -rps4html=1 -dwww-image-template=template
+// A glyph defined by these requests can be used just like a normal glyph
+// provided by the output device. In particular, other characters can be
+// translated to it with the tr or trin requests; it can be made the leader
+// character by the lc request; repeated patterns can be drawn with the
+// glyph using the \l and \L escape sequences; words containing the glyph
+// can be hyphenated correctly if the hcode request is used to give the
+// glyph’s symbol a hyphenation code.
 //
-// and secondly to
+// There is a special anti-recursion feature: Use of g within the glyph’s
+// definition is handled like normal characters and symbols not defined
+// with char.
 //
-// troff -Thtml
+// Note that the tr and trin requests take precedence if char accesses the
+// same symbol.
 //
-// or
+// .tr XY
+// X
 //
-// troff -Txhtml
+//	⇒ Y
 //
-// The POSTSCRIPT device is used to create all the image files (for -Thtml;
-// if -Txhtml is used, all equations are passed to geqn to produce MathML,
-// and the register ps4html enables the macro sets to ignore floating
-// keeps, footers, and headings.
+// .char X Z
+// X
 //
-// The register www-image-template is set to the user specified template
-// name or the default name.
+//	⇒ Y
+//
+// .tr XX
+// X
+//
+//	⇒ Z
+//
+// The fchar request defines a fallback glyph: gtroff only checks for
+// glyphs defined with fchar if it cannot find the glyph in the current
+// font. gtroff carries out this test before checking special fonts.
+//
+// fschar defines a fallback glyph for font f: gtroff checks for glyphs
+// defined with fschar after the list of fonts declared as font-specific
+// special fonts with the fspecial request, but before the list of fonts
+// declared as global special fonts with the special request.
+//
+// Finally, the schar request defines a global fallback glyph: gtroff
+// checks for glyphs defined with schar after the list of fonts declared as
+// global special fonts with the special request, but before the already
+// mounted special fonts.
+//
+// See Using Symbols, for a detailed description of the glyph searching
+// mechanism in gtroff.
 type TokenRequestChar struct {
 	G         string
 	StringVal string
@@ -11937,27 +11555,17 @@ var _ Token = (*TokenRequestClose)(nil)
 var _ Node = (*TokenRequestClose)(nil)
 
 // TokenRequestColor
-// The registers ps4html and www-image-template are defined by the
-// pre-grohtml preprocessor. pre-grohtml reads in the troff input, marks up
-// the inline equations and passes the result firstly to
+// If n is missing or non-zero, activate colors (this is the default);
+// otherwise, turn it off.
 //
-// troff -Tps -rps4html=1 -dwww-image-template=template
+// The read-only number register .color is 1 if colors are active, 0
+// otherwise.
 //
-// and secondly to
+// Internally, color sets a global flag; it does not produce a token.
+// Similar to the cp request, you should use it at the beginning of your
+// document to control color output.
 //
-// troff -Thtml
-//
-// or
-//
-// troff -Txhtml
-//
-// The POSTSCRIPT device is used to create all the image files (for -Thtml;
-// if -Txhtml is used, all equations are passed to geqn to produce MathML,
-// and the register ps4html enables the macro sets to ignore floating
-// keeps, footers, and headings.
-//
-// The register www-image-template is set to the user specified template
-// name or the default name.
+// Colors can be also turned off with the -c command-line option.
 type TokenRequestColor struct {
 	N string
 }
@@ -12153,27 +11761,27 @@ var _ Token = (*TokenRequestContinue)(nil)
 var _ Node = (*TokenRequestContinue)(nil)
 
 // TokenRequestCp
-// The registers ps4html and www-image-template are defined by the
-// pre-grohtml preprocessor. pre-grohtml reads in the troff input, marks up
-// the inline equations and passes the result firstly to
+// If n is missing or non-zero, turn on compatibility mode; otherwise, turn
+// it off.
 //
-// troff -Tps -rps4html=1 -dwww-image-template=template
+// The read-only number register .C is 1 if compatibility mode is on, 0
+// otherwise.
 //
-// and secondly to
+// Compatibility mode can be also turned on with the -C command-line
+// option.
 //
-// troff -Thtml
+// The do request turns off compatibility mode while executing its
+// arguments as a gtroff command. However, it does not turn off
+// compatibility mode while processing the macro itself. To do that, use
+// the de1 request (or manipulate the .C register manually). See Writing
+// Macros.
 //
-// or
+// .do fam T
 //
-// troff -Txhtml
+// executes the fam request when compatibility mode is enabled.
 //
-// The POSTSCRIPT device is used to create all the image files (for -Thtml;
-// if -Txhtml is used, all equations are passed to geqn to produce MathML,
-// and the register ps4html enables the macro sets to ignore floating
-// keeps, footers, and headings.
-//
-// The register www-image-template is set to the user specified template
-// name or the default name.
+// gtroff restores the previous compatibility setting before interpreting
+// any files sourced by the cmd.
 type TokenRequestCp struct {
 	N string
 }
@@ -12462,27 +12070,100 @@ var _ Token = (*TokenRequestDa)(nil)
 var _ Node = (*TokenRequestDa)(nil)
 
 // TokenRequestDe
-// The registers ps4html and www-image-template are defined by the
-// pre-grohtml preprocessor. pre-grohtml reads in the troff input, marks up
-// the inline equations and passes the result firstly to
+// Define a new macro named name. gtroff copies subsequent lines (starting
+// with the next one) into an internal buffer until it encounters the line
+// ‘..’ (two dots). If the optional second argument to de is present it
+// is used as the macro closure request instead of ‘..’.
 //
-// troff -Tps -rps4html=1 -dwww-image-template=template
+// There can be whitespace after the first dot in the line containing the
+// ending token (either ‘.’ or macro ‘end’). Don’t insert a tab
+// character immediately after the ‘..’, otherwise it isn’t
+// recognized as the end-of-macro symbol.24
 //
-// and secondly to
+// Here a small example macro called ‘P’ that causes a break and
+// inserts some vertical space. It could be used to separate paragraphs.
 //
-// troff -Thtml
+// .de P
+// .  br
+// .  sp .8v
+// ..
 //
-// or
+// The following example defines a macro within another. Remember that
+// expansion must be protected twice; once for reading the macro and once
+// for executing.
 //
-// troff -Txhtml
+// \# a dummy macro to avoid a warning
+// .de end
+// ..
+// .
+// .de foo
+// .  de bar end
+// .    nop \f[B]Hello \\\\$1!\f[]
+// .  end
+// ..
+// .
+// .foo
+// .bar Joe
 //
-// The POSTSCRIPT device is used to create all the image files (for -Thtml;
-// if -Txhtml is used, all equations are passed to geqn to produce MathML,
-// and the register ps4html enables the macro sets to ignore floating
-// keeps, footers, and headings.
+//	⇒ Hello Joe!
 //
-// The register www-image-template is set to the user specified template
-// name or the default name.
+// Since \f has no expansion, it isn’t necessary to protect its
+// backslash. Had we defined another macro within bar that takes a
+// parameter, eight backslashes would be necessary before ‘$1’.
+//
+// The de1 request turns off compatibility mode while executing the macro.
+// On entry, the current compatibility mode is saved and restored at exit.
+//
+// .nr xxx 12345
+// .
+// .de aa
+// The value of xxx is \\n[xxx].
+// ..
+// .de1 bb
+// The value of xxx is \\n[xxx].
+// ..
+// .
+// .cp 1
+// .
+// .aa
+//
+//	⇒ warning: number register `[' not defined
+//	⇒ The value of xxx is 0xxx].
+//
+// .bb
+//
+//	⇒ The value of xxx is 12345.
+//
+// The dei request defines a macro indirectly. That is, it expands strings
+// whose names are name or end before performing the append.
+//
+// This:
+//
+// .ds xx aa
+// .ds yy bb
+// .dei xx yy
+//
+// is equivalent to:
+//
+// .de aa bb
+//
+// The dei1 request is similar to dei but with compatibility mode switched
+// off during execution of the defined macro.
+//
+// If compatibility mode is on, de (and dei) behave similar to de1 (and
+// dei1): A ‘compatibility save’ token is inserted at the beginning,
+// and a ‘compatibility restore’ token at the end, with compatibility
+// mode switched on during execution. See Gtroff Internals, for more
+// information on switching compatibility mode on and off in a single
+// document.
+//
+// Using trace.tmac, you can trace calls to de and de1.
+//
+// Note that macro identifiers are shared with identifiers for strings and
+// diversions.
+//
+// See the description of the als request, for possible pitfalls if
+// redefining a macro that has been aliased.
 type TokenRequestDe struct {
 	Name string
 	End  string
@@ -12552,27 +12233,100 @@ var _ Token = (*TokenRequestDe)(nil)
 var _ Node = (*TokenRequestDe)(nil)
 
 // TokenRequestDe1
-// The registers ps4html and www-image-template are defined by the
-// pre-grohtml preprocessor. pre-grohtml reads in the troff input, marks up
-// the inline equations and passes the result firstly to
+// Define a new macro named name. gtroff copies subsequent lines (starting
+// with the next one) into an internal buffer until it encounters the line
+// ‘..’ (two dots). If the optional second argument to de is present it
+// is used as the macro closure request instead of ‘..’.
 //
-// troff -Tps -rps4html=1 -dwww-image-template=template
+// There can be whitespace after the first dot in the line containing the
+// ending token (either ‘.’ or macro ‘end’). Don’t insert a tab
+// character immediately after the ‘..’, otherwise it isn’t
+// recognized as the end-of-macro symbol.24
 //
-// and secondly to
+// Here a small example macro called ‘P’ that causes a break and
+// inserts some vertical space. It could be used to separate paragraphs.
 //
-// troff -Thtml
+// .de P
+// .  br
+// .  sp .8v
+// ..
 //
-// or
+// The following example defines a macro within another. Remember that
+// expansion must be protected twice; once for reading the macro and once
+// for executing.
 //
-// troff -Txhtml
+// \# a dummy macro to avoid a warning
+// .de end
+// ..
+// .
+// .de foo
+// .  de bar end
+// .    nop \f[B]Hello \\\\$1!\f[]
+// .  end
+// ..
+// .
+// .foo
+// .bar Joe
 //
-// The POSTSCRIPT device is used to create all the image files (for -Thtml;
-// if -Txhtml is used, all equations are passed to geqn to produce MathML,
-// and the register ps4html enables the macro sets to ignore floating
-// keeps, footers, and headings.
+//	⇒ Hello Joe!
 //
-// The register www-image-template is set to the user specified template
-// name or the default name.
+// Since \f has no expansion, it isn’t necessary to protect its
+// backslash. Had we defined another macro within bar that takes a
+// parameter, eight backslashes would be necessary before ‘$1’.
+//
+// The de1 request turns off compatibility mode while executing the macro.
+// On entry, the current compatibility mode is saved and restored at exit.
+//
+// .nr xxx 12345
+// .
+// .de aa
+// The value of xxx is \\n[xxx].
+// ..
+// .de1 bb
+// The value of xxx is \\n[xxx].
+// ..
+// .
+// .cp 1
+// .
+// .aa
+//
+//	⇒ warning: number register `[' not defined
+//	⇒ The value of xxx is 0xxx].
+//
+// .bb
+//
+//	⇒ The value of xxx is 12345.
+//
+// The dei request defines a macro indirectly. That is, it expands strings
+// whose names are name or end before performing the append.
+//
+// This:
+//
+// .ds xx aa
+// .ds yy bb
+// .dei xx yy
+//
+// is equivalent to:
+//
+// .de aa bb
+//
+// The dei1 request is similar to dei but with compatibility mode switched
+// off during execution of the defined macro.
+//
+// If compatibility mode is on, de (and dei) behave similar to de1 (and
+// dei1): A ‘compatibility save’ token is inserted at the beginning,
+// and a ‘compatibility restore’ token at the end, with compatibility
+// mode switched on during execution. See Gtroff Internals, for more
+// information on switching compatibility mode on and off in a single
+// document.
+//
+// Using trace.tmac, you can trace calls to de and de1.
+//
+// Note that macro identifiers are shared with identifiers for strings and
+// diversions.
+//
+// See the description of the als request, for possible pitfalls if
+// redefining a macro that has been aliased.
 type TokenRequestDe1 struct {
 	Name string
 	End  string
@@ -12738,27 +12492,100 @@ var _ Token = (*TokenRequestDefcolor)(nil)
 var _ Node = (*TokenRequestDefcolor)(nil)
 
 // TokenRequestDei
-// The registers ps4html and www-image-template are defined by the
-// pre-grohtml preprocessor. pre-grohtml reads in the troff input, marks up
-// the inline equations and passes the result firstly to
+// Define a new macro named name. gtroff copies subsequent lines (starting
+// with the next one) into an internal buffer until it encounters the line
+// ‘..’ (two dots). If the optional second argument to de is present it
+// is used as the macro closure request instead of ‘..’.
 //
-// troff -Tps -rps4html=1 -dwww-image-template=template
+// There can be whitespace after the first dot in the line containing the
+// ending token (either ‘.’ or macro ‘end’). Don’t insert a tab
+// character immediately after the ‘..’, otherwise it isn’t
+// recognized as the end-of-macro symbol.24
 //
-// and secondly to
+// Here a small example macro called ‘P’ that causes a break and
+// inserts some vertical space. It could be used to separate paragraphs.
 //
-// troff -Thtml
+// .de P
+// .  br
+// .  sp .8v
+// ..
 //
-// or
+// The following example defines a macro within another. Remember that
+// expansion must be protected twice; once for reading the macro and once
+// for executing.
 //
-// troff -Txhtml
+// \# a dummy macro to avoid a warning
+// .de end
+// ..
+// .
+// .de foo
+// .  de bar end
+// .    nop \f[B]Hello \\\\$1!\f[]
+// .  end
+// ..
+// .
+// .foo
+// .bar Joe
 //
-// The POSTSCRIPT device is used to create all the image files (for -Thtml;
-// if -Txhtml is used, all equations are passed to geqn to produce MathML,
-// and the register ps4html enables the macro sets to ignore floating
-// keeps, footers, and headings.
+//	⇒ Hello Joe!
 //
-// The register www-image-template is set to the user specified template
-// name or the default name.
+// Since \f has no expansion, it isn’t necessary to protect its
+// backslash. Had we defined another macro within bar that takes a
+// parameter, eight backslashes would be necessary before ‘$1’.
+//
+// The de1 request turns off compatibility mode while executing the macro.
+// On entry, the current compatibility mode is saved and restored at exit.
+//
+// .nr xxx 12345
+// .
+// .de aa
+// The value of xxx is \\n[xxx].
+// ..
+// .de1 bb
+// The value of xxx is \\n[xxx].
+// ..
+// .
+// .cp 1
+// .
+// .aa
+//
+//	⇒ warning: number register `[' not defined
+//	⇒ The value of xxx is 0xxx].
+//
+// .bb
+//
+//	⇒ The value of xxx is 12345.
+//
+// The dei request defines a macro indirectly. That is, it expands strings
+// whose names are name or end before performing the append.
+//
+// This:
+//
+// .ds xx aa
+// .ds yy bb
+// .dei xx yy
+//
+// is equivalent to:
+//
+// .de aa bb
+//
+// The dei1 request is similar to dei but with compatibility mode switched
+// off during execution of the defined macro.
+//
+// If compatibility mode is on, de (and dei) behave similar to de1 (and
+// dei1): A ‘compatibility save’ token is inserted at the beginning,
+// and a ‘compatibility restore’ token at the end, with compatibility
+// mode switched on during execution. See Gtroff Internals, for more
+// information on switching compatibility mode on and off in a single
+// document.
+//
+// Using trace.tmac, you can trace calls to de and de1.
+//
+// Note that macro identifiers are shared with identifiers for strings and
+// diversions.
+//
+// See the description of the als request, for possible pitfalls if
+// redefining a macro that has been aliased.
 type TokenRequestDei struct {
 	Name string
 	End  string
@@ -12991,27 +12818,7 @@ var _ Token = (*TokenRequestDei1)(nil)
 var _ Node = (*TokenRequestDei1)(nil)
 
 // TokenRequestDevice
-// The registers ps4html and www-image-template are defined by the
-// pre-grohtml preprocessor. pre-grohtml reads in the troff input, marks up
-// the inline equations and passes the result firstly to
-//
-// troff -Tps -rps4html=1 -dwww-image-template=template
-//
-// and secondly to
-//
-// troff -Thtml
-//
-// or
-//
-// troff -Txhtml
-//
-// The POSTSCRIPT device is used to create all the image files (for -Thtml;
-// if -Txhtml is used, all equations are passed to geqn to produce MathML,
-// and the register ps4html enables the macro sets to ignore floating
-// keeps, footers, and headings.
-//
-// The register www-image-template is set to the user specified template
-// name or the default name.
+// Place device-control parameters in intermediate output for the output driver to interpret.
 type TokenRequestDevice struct {
 	Xxx string
 }
@@ -13077,27 +12884,7 @@ var _ Token = (*TokenRequestDevice)(nil)
 var _ Node = (*TokenRequestDevice)(nil)
 
 // TokenRequestDevicem
-// The registers ps4html and www-image-template are defined by the
-// pre-grohtml preprocessor. pre-grohtml reads in the troff input, marks up
-// the inline equations and passes the result firstly to
-//
-// troff -Tps -rps4html=1 -dwww-image-template=template
-//
-// and secondly to
-//
-// troff -Thtml
-//
-// or
-//
-// troff -Txhtml
-//
-// The POSTSCRIPT device is used to create all the image files (for -Thtml;
-// if -Txhtml is used, all equations are passed to geqn to produce MathML,
-// and the register ps4html enables the macro sets to ignore floating
-// keeps, footers, and headings.
-//
-// The register www-image-template is set to the user specified template
-// name or the default name.
+// Copy a named string or macro into a device-control command without interpreting its contents.
 type TokenRequestDevicem struct {
 	Xx string
 }
@@ -13163,27 +12950,16 @@ var _ Token = (*TokenRequestDevicem)(nil)
 var _ Node = (*TokenRequestDevicem)(nil)
 
 // TokenRequestDi
-// The registers ps4html and www-image-template are defined by the
-// pre-grohtml preprocessor. pre-grohtml reads in the troff input, marks up
-// the inline equations and passes the result firstly to
+// Begin a diversion. Like the de request, it takes an argument of a macro
+// name to divert subsequent text into. The da macro appends to an existing
+// diversion.
 //
-// troff -Tps -rps4html=1 -dwww-image-template=template
+// di or da without an argument ends the diversion.
 //
-// and secondly to
-//
-// troff -Thtml
-//
-// or
-//
-// troff -Txhtml
-//
-// The POSTSCRIPT device is used to create all the image files (for -Thtml;
-// if -Txhtml is used, all equations are passed to geqn to produce MathML,
-// and the register ps4html enables the macro sets to ignore floating
-// keeps, footers, and headings.
-//
-// The register www-image-template is set to the user specified template
-// name or the default name.
+// The current partially filled line is included into the diversion. See
+// the box request below for an example. Note that switching to another
+// (empty) environment (with the ev request) avoids the inclusion of the
+// current partially filled line.
 type TokenRequestDi struct {
 	Macro string
 }
@@ -13249,27 +13025,27 @@ var _ Token = (*TokenRequestDi)(nil)
 var _ Node = (*TokenRequestDi)(nil)
 
 // TokenRequestDo
-// The registers ps4html and www-image-template are defined by the
-// pre-grohtml preprocessor. pre-grohtml reads in the troff input, marks up
-// the inline equations and passes the result firstly to
+// If n is missing or non-zero, turn on compatibility mode; otherwise, turn
+// it off.
 //
-// troff -Tps -rps4html=1 -dwww-image-template=template
+// The read-only number register .C is 1 if compatibility mode is on, 0
+// otherwise.
 //
-// and secondly to
+// Compatibility mode can be also turned on with the -C command-line
+// option.
 //
-// troff -Thtml
+// The do request turns off compatibility mode while executing its
+// arguments as a gtroff command. However, it does not turn off
+// compatibility mode while processing the macro itself. To do that, use
+// the de1 request (or manipulate the .C register manually). See Writing
+// Macros.
 //
-// or
+// .do fam T
 //
-// troff -Txhtml
+// executes the fam request when compatibility mode is enabled.
 //
-// The POSTSCRIPT device is used to create all the image files (for -Thtml;
-// if -Txhtml is used, all equations are passed to geqn to produce MathML,
-// and the register ps4html enables the macro sets to ignore floating
-// keeps, footers, and headings.
-//
-// The register www-image-template is set to the user specified template
-// name or the default name.
+// gtroff restores the previous compatibility setting before interpreting
+// any files sourced by the cmd.
 type TokenRequestDo struct {
 	Cmd string
 }
@@ -13335,27 +13111,7 @@ var _ Token = (*TokenRequestDo)(nil)
 var _ Node = (*TokenRequestDo)(nil)
 
 // TokenRequestDs
-// The registers ps4html and www-image-template are defined by the
-// pre-grohtml preprocessor. pre-grohtml reads in the troff input, marks up
-// the inline equations and passes the result firstly to
-//
-// troff -Tps -rps4html=1 -dwww-image-template=template
-//
-// and secondly to
-//
-// troff -Thtml
-//
-// or
-//
-// troff -Txhtml
-//
-// The POSTSCRIPT device is used to create all the image files (for -Thtml;
-// if -Txhtml is used, all equations are passed to geqn to produce MathML,
-// and the register ps4html enables the macro sets to ignore floating
-// keeps, footers, and headings.
-//
-// The register www-image-template is set to the user specified template
-// name or the default name.
+// Store text under a string name for later interpolation.
 type TokenRequestDs struct {
 	Name      string
 	StringVal string
@@ -13425,27 +13181,7 @@ var _ Token = (*TokenRequestDs)(nil)
 var _ Node = (*TokenRequestDs)(nil)
 
 // TokenRequestDs1
-// The registers ps4html and www-image-template are defined by the
-// pre-grohtml preprocessor. pre-grohtml reads in the troff input, marks up
-// the inline equations and passes the result firstly to
-//
-// troff -Tps -rps4html=1 -dwww-image-template=template
-//
-// and secondly to
-//
-// troff -Thtml
-//
-// or
-//
-// troff -Txhtml
-//
-// The POSTSCRIPT device is used to create all the image files (for -Thtml;
-// if -Txhtml is used, all equations are passed to geqn to produce MathML,
-// and the register ps4html enables the macro sets to ignore floating
-// keeps, footers, and headings.
-//
-// The register www-image-template is set to the user specified template
-// name or the default name.
+// Store text under a string name for later interpolation.
 type TokenRequestDs1 struct {
 	Name      string
 	StringVal string
@@ -13724,27 +13460,12 @@ var _ Token = (*TokenRequestEcr)(nil)
 var _ Node = (*TokenRequestEcr)(nil)
 
 // TokenRequestEcs
-// The registers ps4html and www-image-template are defined by the
-// pre-grohtml preprocessor. pre-grohtml reads in the troff input, marks up
-// the inline equations and passes the result firstly to
+// The ecs request saves the current escape character in an internal
+// register. Use this request in combination with the ec request to
+// temporarily change the escape character.
 //
-// troff -Tps -rps4html=1 -dwww-image-template=template
-//
-// and secondly to
-//
-// troff -Thtml
-//
-// or
-//
-// troff -Txhtml
-//
-// The POSTSCRIPT device is used to create all the image files (for -Thtml;
-// if -Txhtml is used, all equations are passed to geqn to produce MathML,
-// and the register ps4html enables the macro sets to ignore floating
-// keeps, footers, and headings.
-//
-// The register www-image-template is set to the user specified template
-// name or the default name.
+// The ecr request restores the escape character saved with ecs. Without a
+// previous call to ecs, this request sets the escape character to \.
 type TokenRequestEcs struct {
 }
 
@@ -14094,27 +13815,33 @@ var _ Token = (*TokenRequestEo)(nil)
 var _ Node = (*TokenRequestEo)(nil)
 
 // TokenRequestEv
-// The registers ps4html and www-image-template are defined by the
-// pre-grohtml preprocessor. pre-grohtml reads in the troff input, marks up
-// the inline equations and passes the result firstly to
+// Switch to another environment. The argument env is the name of the
+// environment to switch to. With no argument, gtroff switches back to the
+// previous environment. There is no limit on the number of named
+// environments; they are created the first time that they are referenced.
+// The .ev read-only register contains the name or number of the current
+// environment. This is a string-valued register.
 //
-// troff -Tps -rps4html=1 -dwww-image-template=template
+// Note that a call to ev (with argument) pushes the previously active
+// environment onto a stack. If, say, environments ‘foo’, ‘bar’,
+// and ‘zap’ are called (in that order), the first ev request without
+// parameter switches back to environment ‘bar’ (which is popped off
+// the stack), and a second call switches back to environment ‘foo’.
 //
-// and secondly to
+// Here is an example:
 //
-// troff -Thtml
+// .ev footnote-env
+// .fam N
+// .ps 6
+// .vs 8
+// .ll -.5i
+// .ev
 //
-// or
+// ...
 //
-// troff -Txhtml
-//
-// The POSTSCRIPT device is used to create all the image files (for -Thtml;
-// if -Txhtml is used, all equations are passed to geqn to produce MathML,
-// and the register ps4html enables the macro sets to ignore floating
-// keeps, footers, and headings.
-//
-// The register www-image-template is set to the user specified template
-// name or the default name.
+// .ev footnote-env
+// \(dg Note the large, friendly letters.
+// .ev
 type TokenRequestEv struct {
 	Env string
 }
@@ -14316,27 +14043,37 @@ var _ Token = (*TokenRequestEx)(nil)
 var _ Node = (*TokenRequestEx)(nil)
 
 // TokenRequestFam
-// The registers ps4html and www-image-template are defined by the
-// pre-grohtml preprocessor. pre-grohtml reads in the troff input, marks up
-// the inline equations and passes the result firstly to
+// Switch font family to family (one-character name f, two-character name
+// fm). If no argument is given, switch back to the previous font family.
+// Use \F[] to do this with the escape. Note that \FP doesn’t work; it
+// selects font family ‘P’ instead.
 //
-// troff -Tps -rps4html=1 -dwww-image-template=template
+// The value at start-up is ‘T’. The current font family is available
+// in the read-only number register ‘.fam’ (this is a string-valued
+// register); it is associated with the current environment.
 //
-// and secondly to
+// spam,
+// .fam H    \" helvetica family
+// spam,     \" used font is family H + style R = HR
+// .ft B     \" family H + style B = font HB
+// spam,
+// .fam T    \" times family
+// spam,     \" used font is family T + style B = TB
+// .ft AR    \" font AR (not a style)
+// baked beans,
+// .ft R     \" family T + style R = font TR
+// and spam.
 //
-// troff -Thtml
+// Note that \F doesn’t produce an input token in gtroff. As a
+// consequence, it can be used in requests like mc (which expects a single
+// character as an argument) to change the font family on the fly:
 //
-// or
+// .mc \F[P]x\F[]
 //
-// troff -Txhtml
-//
-// The POSTSCRIPT device is used to create all the image files (for -Thtml;
-// if -Txhtml is used, all equations are passed to geqn to produce MathML,
-// and the register ps4html enables the macro sets to ignore floating
-// keeps, footers, and headings.
-//
-// The register www-image-template is set to the user specified template
-// name or the default name.
+// The ‘.fn’ register contains the current real font name of the
+// current font. This is a string-valued register. If the current font is a
+// style, the value of \n[.fn] is the proper concatenation of family and
+// style name.
 type TokenRequestFam struct {
 	Family string
 }
@@ -14489,27 +14226,60 @@ var _ Token = (*TokenRequestFc)(nil)
 var _ Node = (*TokenRequestFc)(nil)
 
 // TokenRequestFchar
-// The registers ps4html and www-image-template are defined by the
-// pre-grohtml preprocessor. pre-grohtml reads in the troff input, marks up
-// the inline equations and passes the result firstly to
+// Define a new glyph g to be string (which can be empty).20 Every time
+// glyph g needs to be printed, string is processed in a temporary
+// environment and the result is wrapped up into a single object.
+// Compatibility mode is turned off and the escape character is set to
+// ‘\’ while string is being processed. Any emboldening, constant
+// spacing or track kerning is applied to this object rather than to
+// individual characters in string.
 //
-// troff -Tps -rps4html=1 -dwww-image-template=template
+// A glyph defined by these requests can be used just like a normal glyph
+// provided by the output device. In particular, other characters can be
+// translated to it with the tr or trin requests; it can be made the leader
+// character by the lc request; repeated patterns can be drawn with the
+// glyph using the \l and \L escape sequences; words containing the glyph
+// can be hyphenated correctly if the hcode request is used to give the
+// glyph’s symbol a hyphenation code.
 //
-// and secondly to
+// There is a special anti-recursion feature: Use of g within the glyph’s
+// definition is handled like normal characters and symbols not defined
+// with char.
 //
-// troff -Thtml
+// Note that the tr and trin requests take precedence if char accesses the
+// same symbol.
 //
-// or
+// .tr XY
+// X
 //
-// troff -Txhtml
+//	⇒ Y
 //
-// The POSTSCRIPT device is used to create all the image files (for -Thtml;
-// if -Txhtml is used, all equations are passed to geqn to produce MathML,
-// and the register ps4html enables the macro sets to ignore floating
-// keeps, footers, and headings.
+// .char X Z
+// X
 //
-// The register www-image-template is set to the user specified template
-// name or the default name.
+//	⇒ Y
+//
+// .tr XX
+// X
+//
+//	⇒ Z
+//
+// The fchar request defines a fallback glyph: gtroff only checks for
+// glyphs defined with fchar if it cannot find the glyph in the current
+// font. gtroff carries out this test before checking special fonts.
+//
+// fschar defines a fallback glyph for font f: gtroff checks for glyphs
+// defined with fschar after the list of fonts declared as font-specific
+// special fonts with the fspecial request, but before the list of fonts
+// declared as global special fonts with the special request.
+//
+// Finally, the schar request defines a global fallback glyph: gtroff
+// checks for glyphs defined with schar after the list of fonts declared as
+// global special fonts with the special request, but before the already
+// mounted special fonts.
+//
+// See Using Symbols, for a detailed description of the glyph searching
+// mechanism in gtroff.
 type TokenRequestFchar struct {
 	G         string
 	StringVal string
@@ -14579,27 +14349,23 @@ var _ Token = (*TokenRequestFchar)(nil)
 var _ Node = (*TokenRequestFchar)(nil)
 
 // TokenRequestFcolor
-// The registers ps4html and www-image-template are defined by the
-// pre-grohtml preprocessor. pre-grohtml reads in the troff input, marks up
-// the inline equations and passes the result firstly to
+// Set fill (background) color for filled objects drawn with the \D'…'
+// commands.
 //
-// troff -Tps -rps4html=1 -dwww-image-template=template
+// A red ellipse can be created with the following code:
 //
-// and secondly to
+// \M[red]\h'0.5i'\D'E 2i 1i'\M[]
 //
-// troff -Thtml
+// The escape \M[] returns to the previous fill color, as does a call to
+// fcolor without an argument.
 //
-// or
+// The name of the current fill (background) color is available in the
+// read-only, string-valued number register ‘.M’.
 //
-// troff -Txhtml
+// The fill color is associated with the current environment (see
+// Environments).
 //
-// The POSTSCRIPT device is used to create all the image files (for -Thtml;
-// if -Txhtml is used, all equations are passed to geqn to produce MathML,
-// and the register ps4html enables the macro sets to ignore floating
-// keeps, footers, and headings.
-//
-// The register www-image-template is set to the user specified template
-// name or the default name.
+// Note that \M doesn’t produce an input token in gtroff.
 type TokenRequestFcolor struct {
 	Color string
 }
@@ -14665,27 +14431,14 @@ var _ Token = (*TokenRequestFcolor)(nil)
 var _ Node = (*TokenRequestFcolor)(nil)
 
 // TokenRequestFi
-// The registers ps4html and www-image-template are defined by the
-// pre-grohtml preprocessor. pre-grohtml reads in the troff input, marks up
-// the inline equations and passes the result firstly to
+// Activate fill mode (which is the default). This request implicitly
+// enables adjusting; it also inserts a break in the text currently being
+// filled. The read-only number register .u is set to 1.
 //
-// troff -Tps -rps4html=1 -dwww-image-template=template
+// The fill mode status is associated with the current environment (see
+// Environments).
 //
-// and secondly to
-//
-// troff -Thtml
-//
-// or
-//
-// troff -Txhtml
-//
-// The POSTSCRIPT device is used to create all the image files (for -Thtml;
-// if -Txhtml is used, all equations are passed to geqn to produce MathML,
-// and the register ps4html enables the macro sets to ignore floating
-// keeps, footers, and headings.
-//
-// The register www-image-template is set to the user specified template
-// name or the default name.
+// See Line Control, for interaction with the \c escape.
 type TokenRequestFi struct {
 }
 
@@ -14794,27 +14547,43 @@ var _ Token = (*TokenRequestFl)(nil)
 var _ Node = (*TokenRequestFl)(nil)
 
 // TokenRequestFp
-// The registers ps4html and www-image-template are defined by the
-// pre-grohtml preprocessor. pre-grohtml reads in the troff input, marks up
-// the inline equations and passes the result firstly to
+// Mount font font at position pos (which must be a non-negative integer).
+// This numeric position can then be referred to with font changing
+// commands. When gtroff starts it is using font position 1 (which must
+// exist; position 0 is unused usually at start-up).
 //
-// troff -Tps -rps4html=1 -dwww-image-template=template
+// The current font in use, as a font position, is available in the
+// read-only number register ‘.f’. This can be useful to remember the
+// current font for later recall. It is associated with the current
+// environment (see Environments).
 //
-// and secondly to
+// .nr save-font \n[.f]
+// .ft B
+// ... text text text ...
+// .ft \n[save-font]
 //
-// troff -Thtml
+// The number of the next free font position is available in the read-only
+// number register ‘.fp’. This is useful when mounting a new font, like
+// so:
 //
-// or
+// .fp \n[.fp] NEATOFONT
 //
-// troff -Txhtml
+// Fonts not listed in the DESC file are automatically mounted on the next
+// available font position when they are referenced. If a font is to be
+// mounted explicitly with the fp request on an unused font position, it
+// should be mounted on the first unused font position, which can be found
+// in the .fp register. Although gtroff does not enforce this strictly, it
+// is not allowed to mount a font at a position whose number is much
+// greater (approx. 1000 positions) than that of any currently used
+// position.
 //
-// The POSTSCRIPT device is used to create all the image files (for -Thtml;
-// if -Txhtml is used, all equations are passed to geqn to produce MathML,
-// and the register ps4html enables the macro sets to ignore floating
-// keeps, footers, and headings.
-//
-// The register www-image-template is set to the user specified template
-// name or the default name.
+// The fp request has an optional third argument. This argument gives the
+// external name of the font, which is used for finding the font
+// description file. The second argument gives the internal name of the
+// font, which is used to refer to the font in gtroff after it has been
+// mounted. If there is no third argument then the internal name is used as
+// the external name. This feature makes it possible to use fonts with long
+// names in compatibility mode.
 type TokenRequestFp struct {
 	Pos          string
 	Font         string
@@ -14888,27 +14657,60 @@ var _ Token = (*TokenRequestFp)(nil)
 var _ Node = (*TokenRequestFp)(nil)
 
 // TokenRequestFschar
-// The registers ps4html and www-image-template are defined by the
-// pre-grohtml preprocessor. pre-grohtml reads in the troff input, marks up
-// the inline equations and passes the result firstly to
+// Define a new glyph g to be string (which can be empty).20 Every time
+// glyph g needs to be printed, string is processed in a temporary
+// environment and the result is wrapped up into a single object.
+// Compatibility mode is turned off and the escape character is set to
+// ‘\’ while string is being processed. Any emboldening, constant
+// spacing or track kerning is applied to this object rather than to
+// individual characters in string.
 //
-// troff -Tps -rps4html=1 -dwww-image-template=template
+// A glyph defined by these requests can be used just like a normal glyph
+// provided by the output device. In particular, other characters can be
+// translated to it with the tr or trin requests; it can be made the leader
+// character by the lc request; repeated patterns can be drawn with the
+// glyph using the \l and \L escape sequences; words containing the glyph
+// can be hyphenated correctly if the hcode request is used to give the
+// glyph’s symbol a hyphenation code.
 //
-// and secondly to
+// There is a special anti-recursion feature: Use of g within the glyph’s
+// definition is handled like normal characters and symbols not defined
+// with char.
 //
-// troff -Thtml
+// Note that the tr and trin requests take precedence if char accesses the
+// same symbol.
 //
-// or
+// .tr XY
+// X
 //
-// troff -Txhtml
+//	⇒ Y
 //
-// The POSTSCRIPT device is used to create all the image files (for -Thtml;
-// if -Txhtml is used, all equations are passed to geqn to produce MathML,
-// and the register ps4html enables the macro sets to ignore floating
-// keeps, footers, and headings.
+// .char X Z
+// X
 //
-// The register www-image-template is set to the user specified template
-// name or the default name.
+//	⇒ Y
+//
+// .tr XX
+// X
+//
+//	⇒ Z
+//
+// The fchar request defines a fallback glyph: gtroff only checks for
+// glyphs defined with fchar if it cannot find the glyph in the current
+// font. gtroff carries out this test before checking special fonts.
+//
+// fschar defines a fallback glyph for font f: gtroff checks for glyphs
+// defined with fschar after the list of fonts declared as font-specific
+// special fonts with the fspecial request, but before the list of fonts
+// declared as global special fonts with the special request.
+//
+// Finally, the schar request defines a global fallback glyph: gtroff
+// checks for glyphs defined with schar after the list of fonts declared as
+// global special fonts with the special request, but before the already
+// mounted special fonts.
+//
+// See Using Symbols, for a detailed description of the glyph searching
+// mechanism in gtroff.
 type TokenRequestFschar struct {
 	F         string
 	G         string
@@ -15072,49 +14874,50 @@ var _ Token = (*TokenRequestFspecial)(nil)
 var _ Node = (*TokenRequestFspecial)(nil)
 
 // TokenRequestFt
-// The registers ps4html and www-image-template are defined by the
-// pre-grohtml preprocessor. pre-grohtml reads in the troff input, marks up
-// the inline equations and passes the result firstly to
+// Select a font by its numeric position, using the current font family when that position names a style.
 //
-// troff -Tps -rps4html=1 -dwww-image-template=template
+// The ft request and the \f escape change the current font to font
+// (one-character name f, two-character name fn).
 //
-// and secondly to
+// If font is a style name (as set with the sty request or with the styles
+// command in the DESC file), use it within the current font family (as set
+// with the fam request, the \F escape, or the family command in the DESC
+// file).
 //
-// troff -Thtml
+// It is not possible to switch to a font with the name ‘DESC’ (whereas
+// this name could be used as a style name; however, this is not
+// recommended).
 //
-// or
+// With no argument or using ‘P’ as an argument, .ft switches to the
+// previous font. Use \f[] to do this with the escape. The old syntax forms
+// \fP or \f[P] are also supported.
 //
-// troff -Txhtml
+// Fonts are generally specified as upper-case strings, which are usually 1
+// to 4 characters representing an abbreviation or acronym of the font
+// name. This is no limitation, just a convention.
 //
-// The POSTSCRIPT device is used to create all the image files (for -Thtml;
-// if -Txhtml is used, all equations are passed to geqn to produce MathML,
-// and the register ps4html enables the macro sets to ignore floating
-// keeps, footers, and headings.
+// The example below produces two identical lines.
 //
-// The register www-image-template is set to the user specified template
-// name or the default name.
+// eggs, bacon,
+// .ft B
+// spam
+// .ft
+// and sausage.
 //
-// The registers ps4html and www-image-template are defined by the
-// pre-grohtml preprocessor. pre-grohtml reads in the troff input, marks up
-// the inline equations and passes the result firstly to
+// eggs, bacon, \fBspam\fP and sausage.
 //
-// troff -Tps -rps4html=1 -dwww-image-template=template
+// Note that \f doesn’t produce an input token in gtroff. As a
+// consequence, it can be used in requests like mc (which expects a single
+// character as an argument) to change the font on the fly:
 //
-// and secondly to
+// .mc \f[I]x\f[]
 //
-// troff -Thtml
+// The current style name is available in the read-only number register
+// ‘.sty’ (this is a string-valued register); if the current font
+// isn’t a style, the empty string is returned. It is associated with the
+// current environment.
 //
-// or
-//
-// troff -Txhtml
-//
-// The POSTSCRIPT device is used to create all the image files (for -Thtml;
-// if -Txhtml is used, all equations are passed to geqn to produce MathML,
-// and the register ps4html enables the macro sets to ignore floating
-// keeps, footers, and headings.
-//
-// The register www-image-template is set to the user specified template
-// name or the default name.
+// See Font Positions, for an alternative syntax.
 type TokenRequestFt struct {
 	Font string
 }
@@ -15261,27 +15064,27 @@ var _ Token = (*TokenRequestFtr)(nil)
 var _ Node = (*TokenRequestFtr)(nil)
 
 // TokenRequestFzoom
-// The registers ps4html and www-image-template are defined by the
-// pre-grohtml preprocessor. pre-grohtml reads in the troff input, marks up
-// the inline equations and passes the result firstly to
+// Set magnification of font f to factor zoom, which must be a non-negative
+// integer multiple of 1/1000th. This request is useful to adjust the
+// optical size of a font in relation to the others. In the example below,
+// font CR is magnified by 10% (the zoom factor is thus 1.1).
 //
-// troff -Tps -rps4html=1 -dwww-image-template=template
+// .fam P
+// .fzoom CR 1100
+// .ps 12
+// Palatino and \f[CR]Courier\f[]
 //
-// and secondly to
+// A missing or zero value of zoom is the same as a value of 1000, which
+// means no magnification. f must be a real font name, not a style.
 //
-// troff -Thtml
+// Note that the magnification of a font is completely transparent to
+// troff; a change of the zoom factor doesn’t cause any effect except
+// that the dimensions of glyphs, (word) spaces, kerns, etc., of the
+// affected font are adjusted accordingly.
 //
-// or
-//
-// troff -Txhtml
-//
-// The POSTSCRIPT device is used to create all the image files (for -Thtml;
-// if -Txhtml is used, all equations are passed to geqn to produce MathML,
-// and the register ps4html enables the macro sets to ignore floating
-// keeps, footers, and headings.
-//
-// The register www-image-template is set to the user specified template
-// name or the default name.
+// The zoom factor of the current font is available in the read-only number
+// register ‘.zoom’, in multiples of 1/1000th. It returns zero if there
+// is no magnification.
 type TokenRequestFzoom struct {
 	F    string
 	Zoom string
@@ -15351,27 +15154,30 @@ var _ Token = (*TokenRequestFzoom)(nil)
 var _ Node = (*TokenRequestFzoom)(nil)
 
 // TokenRequestGcolor
-// The registers ps4html and www-image-template are defined by the
-// pre-grohtml preprocessor. pre-grohtml reads in the troff input, marks up
-// the inline equations and passes the result firstly to
+// Set (glyph) drawing color. The following examples show how to turn the
+// next four words red.
 //
-// troff -Tps -rps4html=1 -dwww-image-template=template
+// .gcolor red
+// these are in red
+// .gcolor
+// and these words are in black.
 //
-// and secondly to
+// \m[red]these are in red\m[] and these words are in black.
 //
-// troff -Thtml
+// The escape \m[] returns to the previous color, as does a call to gcolor
+// without an argument.
 //
-// or
+// The name of the current drawing color is available in the read-only,
+// string-valued number register ‘.m’.
 //
-// troff -Txhtml
+// The drawing color is associated with the current environment (see
+// Environments).
 //
-// The POSTSCRIPT device is used to create all the image files (for -Thtml;
-// if -Txhtml is used, all equations are passed to geqn to produce MathML,
-// and the register ps4html enables the macro sets to ignore floating
-// keeps, footers, and headings.
+// Note that \m doesn’t produce an input token in gtroff. As a
+// consequence, it can be used in requests like mc (which expects a single
+// character as an argument) to change the color on the fly:
 //
-// The register www-image-template is set to the user specified template
-// name or the default name.
+// .mc \m[red]x\m[]
 type TokenRequestGcolor struct {
 	Color string
 }
@@ -15621,27 +15427,20 @@ var _ Token = (*TokenRequestHcode)(nil)
 var _ Node = (*TokenRequestHcode)(nil)
 
 // TokenRequestHla
-// The registers ps4html and www-image-template are defined by the
-// pre-grohtml preprocessor. pre-grohtml reads in the troff input, marks up
-// the inline equations and passes the result firstly to
+// Set the current hyphenation language to the string language. Hyphenation
+// exceptions specified with the hw request and hyphenation patterns
+// specified with the hpf and hpfa requests are both associated with the
+// current hyphenation language. The hla request is usually invoked by the
+// troffrc or the troffrc-end files; troffrc sets the default language to
+// ‘us’.
 //
-// troff -Tps -rps4html=1 -dwww-image-template=template
+// The current hyphenation language is available as a string in the
+// read-only number register ‘.hla’.
 //
-// and secondly to
+// .ds curr_language \n[.hla]
+// \*[curr_language]
 //
-// troff -Thtml
-//
-// or
-//
-// troff -Txhtml
-//
-// The POSTSCRIPT device is used to create all the image files (for -Thtml;
-// if -Txhtml is used, all equations are passed to geqn to produce MathML,
-// and the register ps4html enables the macro sets to ignore floating
-// keeps, footers, and headings.
-//
-// The register www-image-template is set to the user specified template
-// name or the default name.
+//	⇒ us
 type TokenRequestHla struct {
 	Language string
 }
@@ -15707,27 +15506,17 @@ var _ Token = (*TokenRequestHla)(nil)
 var _ Node = (*TokenRequestHla)(nil)
 
 // TokenRequestHlm
-// The registers ps4html and www-image-template are defined by the
-// pre-grohtml preprocessor. pre-grohtml reads in the troff input, marks up
-// the inline equations and passes the result firstly to
+// Set the maximum number of consecutive hyphenated lines to nnn. If this
+// number is negative, there is no maximum. The default value is -1 if nnn
+// is omitted. This value is associated with the current environment (see
+// Environments). Only lines output from a given environment count towards
+// the maximum associated with that environment. Hyphens resulting from \%
+// are counted; explicit hyphens are not.
 //
-// troff -Tps -rps4html=1 -dwww-image-template=template
-//
-// and secondly to
-//
-// troff -Thtml
-//
-// or
-//
-// troff -Txhtml
-//
-// The POSTSCRIPT device is used to create all the image files (for -Thtml;
-// if -Txhtml is used, all equations are passed to geqn to produce MathML,
-// and the register ps4html enables the macro sets to ignore floating
-// keeps, footers, and headings.
-//
-// The register www-image-template is set to the user specified template
-// name or the default name.
+// The current setting of hlm is available in the .hlm read-only number
+// register. Also the number of immediately preceding consecutive
+// hyphenated lines are available in the read-only number register
+// ‘.hlc’.
 type TokenRequestHlm struct {
 	Nnn string
 }
@@ -15793,27 +15582,68 @@ var _ Token = (*TokenRequestHlm)(nil)
 var _ Node = (*TokenRequestHlm)(nil)
 
 // TokenRequestHpf
-// The registers ps4html and www-image-template are defined by the
-// pre-grohtml preprocessor. pre-grohtml reads in the troff input, marks up
-// the inline equations and passes the result firstly to
+// Read in a file of hyphenation patterns. This file is searched for in the
+// same way as name.tmac (or tmac.name) is searched for if the -mname
+// option is specified.
 //
-// troff -Tps -rps4html=1 -dwww-image-template=template
+// It should have the same format as (simple) TeX patterns files. More
+// specifically, the following scanning rules are implemented.
 //
-// and secondly to
+//	A percent sign starts a comment (up to the end of the line) even if
 //
-// troff -Thtml
+// preceded by a backslash.
 //
-// or
+//	No support for ‘digraphs’ like \$.
 //
-// troff -Txhtml
+//	^^xx (x is 0–9 or a–f) and ^^x
 //
-// The POSTSCRIPT device is used to create all the image files (for -Thtml;
-// if -Txhtml is used, all equations are passed to geqn to produce MathML,
-// and the register ps4html enables the macro sets to ignore floating
-// keeps, footers, and headings.
+// (character code of x in the range 0–127) are recognized; other use
+// of ^ causes an error.
 //
-// The register www-image-template is set to the user specified template
-// name or the default name.
+//	No macro expansion.
+//
+//	hpf checks for the expression \patterns{…}
+//
+// (possibly with whitespace before and after the braces).  Everything
+// between the braces is taken as hyphenation patterns.  Consequently,
+// { and } are not allowed in patterns.
+//
+//	Similarly, \hyphenation{…} gives a list of hyphenation
+//
+// exceptions.
+//
+//	\endinput is recognized also.
+//
+//	For backwards compatibility, if \patterns is missing, the whole
+//
+// file is treated as a list of hyphenation patterns (only recognizing the
+// % character as the start of a comment).
+//
+// If no hpf request is specified (either in the document or in a macro
+// package), gtroff won’t hyphenate at all.
+//
+// The hpfa request appends a file of patterns to the current list.
+//
+// The hpfcode request defines mapping values for character codes in
+// hyphenation patterns. hpf or hpfa then apply the mapping (after reading
+// the patterns) before replacing or appending them to the current list of
+// patterns. Its arguments are pairs of character codes – integers from 0
+// to 255. The request maps character code a to code b, code c to code d,
+// and so on. You can use character codes that would be invalid otherwise.
+// By default, everything maps to itself except letters ‘A’ to ‘Z’,
+// which map to ‘a’ to ‘z’.
+//
+// The set of hyphenation patterns is associated with the current language
+// set by the hla request. The hpf request is usually invoked by the
+// troffrc or troffrc-end file; by default, troffrc loads hyphenation
+// patterns and exceptions for American English (in files hyphen.us and
+// hyphenex.us).
+//
+// A second call to hpf (for the same language) replaces the hyphenation
+// patterns with the new ones.
+//
+// Invoking hpf causes an error if there is no current hyphenation
+// language.
 type TokenRequestHpf struct {
 	Pattern_file string
 }
@@ -15879,27 +15709,68 @@ var _ Token = (*TokenRequestHpf)(nil)
 var _ Node = (*TokenRequestHpf)(nil)
 
 // TokenRequestHpfa
-// The registers ps4html and www-image-template are defined by the
-// pre-grohtml preprocessor. pre-grohtml reads in the troff input, marks up
-// the inline equations and passes the result firstly to
+// Read in a file of hyphenation patterns. This file is searched for in the
+// same way as name.tmac (or tmac.name) is searched for if the -mname
+// option is specified.
 //
-// troff -Tps -rps4html=1 -dwww-image-template=template
+// It should have the same format as (simple) TeX patterns files. More
+// specifically, the following scanning rules are implemented.
 //
-// and secondly to
+//	A percent sign starts a comment (up to the end of the line) even if
 //
-// troff -Thtml
+// preceded by a backslash.
 //
-// or
+//	No support for ‘digraphs’ like \$.
 //
-// troff -Txhtml
+//	^^xx (x is 0–9 or a–f) and ^^x
 //
-// The POSTSCRIPT device is used to create all the image files (for -Thtml;
-// if -Txhtml is used, all equations are passed to geqn to produce MathML,
-// and the register ps4html enables the macro sets to ignore floating
-// keeps, footers, and headings.
+// (character code of x in the range 0–127) are recognized; other use
+// of ^ causes an error.
 //
-// The register www-image-template is set to the user specified template
-// name or the default name.
+//	No macro expansion.
+//
+//	hpf checks for the expression \patterns{…}
+//
+// (possibly with whitespace before and after the braces).  Everything
+// between the braces is taken as hyphenation patterns.  Consequently,
+// { and } are not allowed in patterns.
+//
+//	Similarly, \hyphenation{…} gives a list of hyphenation
+//
+// exceptions.
+//
+//	\endinput is recognized also.
+//
+//	For backwards compatibility, if \patterns is missing, the whole
+//
+// file is treated as a list of hyphenation patterns (only recognizing the
+// % character as the start of a comment).
+//
+// If no hpf request is specified (either in the document or in a macro
+// package), gtroff won’t hyphenate at all.
+//
+// The hpfa request appends a file of patterns to the current list.
+//
+// The hpfcode request defines mapping values for character codes in
+// hyphenation patterns. hpf or hpfa then apply the mapping (after reading
+// the patterns) before replacing or appending them to the current list of
+// patterns. Its arguments are pairs of character codes – integers from 0
+// to 255. The request maps character code a to code b, code c to code d,
+// and so on. You can use character codes that would be invalid otherwise.
+// By default, everything maps to itself except letters ‘A’ to ‘Z’,
+// which map to ‘a’ to ‘z’.
+//
+// The set of hyphenation patterns is associated with the current language
+// set by the hla request. The hpf request is usually invoked by the
+// troffrc or troffrc-end file; by default, troffrc loads hyphenation
+// patterns and exceptions for American English (in files hyphen.us and
+// hyphenex.us).
+//
+// A second call to hpf (for the same language) replaces the hyphenation
+// patterns with the new ones.
+//
+// Invoking hpf causes an error if there is no current hyphenation
+// language.
 type TokenRequestHpfa struct {
 	Pattern_file string
 }
@@ -16203,27 +16074,70 @@ var _ Token = (*TokenRequestHw)(nil)
 var _ Node = (*TokenRequestHw)(nil)
 
 // TokenRequestHy
-// The registers ps4html and www-image-template are defined by the
-// pre-grohtml preprocessor. pre-grohtml reads in the troff input, marks up
-// the inline equations and passes the result firstly to
+// Enable hyphenation. The request has an optional numeric argument, mode,
+// to restrict hyphenation if necessary:
 //
-// troff -Tps -rps4html=1 -dwww-image-template=template
+// 1 The default argument if mode is omitted: hyphenation is enabled, and
+// the first and the last characters of a word are not hyphenated. This is
+// also the start-up value of gtroff.
 //
-// and secondly to
+// 2 Do not hyphenate the last word on a page or column.
 //
-// troff -Thtml
+// 4 Do not hyphenate the last two characters of a word.
 //
-// or
+// 8 Do not hyphenate the first two characters of a word.
 //
-// troff -Txhtml
+// 16 Allow hyphenation before the last character of a word.
 //
-// The POSTSCRIPT device is used to create all the image files (for -Thtml;
-// if -Txhtml is used, all equations are passed to geqn to produce MathML,
-// and the register ps4html enables the macro sets to ignore floating
-// keeps, footers, and headings.
+// 32 Allow hyphenation after the first character of a word.
 //
-// The register www-image-template is set to the user specified template
-// name or the default name.
+// The values in the previous table are additive. For example, value 12
+// causes gtroff to neither hyphenate the last two nor the first two
+// characters of a word. Note that value 13 would do exactly the same; in
+// other words, value 1 need not be added if the value is larger than 1.
+//
+// Some values cannot be used together because they contradict; for
+// instance, values 4 and 16, and values 8 and 32.
+//
+// The number of characters at the beginning of a word after which the
+// first hyphenation point should be inserted is determined by the patterns
+// themselves; it can’t be reduced further without introducing
+// additional, invalid hyphenation points (unfortunately, this information
+// is not part of a pattern file, you have to know it in advance). The same
+// is true for the number of characters at the end of word before the last
+// hyphenation point should be inserted. For example, the code
+//
+// .ll 1
+// .hy 48
+// splitting
+//
+// returns
+//
+// s- plit- t- in- g
+//
+// instead of the correct ‘split-ting’. US-English patterns as
+// distributed with groff need two characters at the beginning and three
+// characters at the end; this means that value 4 of hy is mandatory. Value
+// 8 is possible as an additional restriction, but values 1 (the default!),
+// 16, and 32 should be avoided.
+//
+// Here is a table of left and right minimum values for hyphenation as
+// needed by the patterns distributed with groff; see the groff_tmac(5) man
+// page (type man groff_tmac at the command line) for more information on
+// groff’s language macro files.
+//
+// languagepattern nameleft minright min Czechcs22 US Englishus23
+// Frenchfr23 German traditionaldet22 German reformedden22 Swedishsv12
+//
+// Hyphenation exceptions within pattern files (i.e., the words within a
+// \hyphenation group) also obey the hyphenation restrictions given by hy.
+// However, exceptions specified with the hw do not.
+//
+// The current hyphenation restrictions can be found in the read-only
+// number register ‘.hy’.
+//
+// The hyphenation mode is associated with the current environment (see
+// Environments).
 type TokenRequestHy struct {
 	Mode string
 }
@@ -16289,27 +16203,18 @@ var _ Token = (*TokenRequestHy)(nil)
 var _ Node = (*TokenRequestHy)(nil)
 
 // TokenRequestHym
-// The registers ps4html and www-image-template are defined by the
-// pre-grohtml preprocessor. pre-grohtml reads in the troff input, marks up
-// the inline equations and passes the result firstly to
+// Set the (right) hyphenation margin to length. If the current adjustment
+// mode is not ‘b’ or ‘n’, the line is not hyphenated if it is
+// shorter than length. Without an argument, the hyphenation margin is
+// reset to its default value, which is 0. The default scaling indicator
+// for this request is ‘m’. The hyphenation margin is associated with
+// the current environment (see Environments).
 //
-// troff -Tps -rps4html=1 -dwww-image-template=template
+// A negative argument resets the hyphenation margin to zero, emitting a
+// warning of type ‘range’.
 //
-// and secondly to
-//
-// troff -Thtml
-//
-// or
-//
-// troff -Txhtml
-//
-// The POSTSCRIPT device is used to create all the image files (for -Thtml;
-// if -Txhtml is used, all equations are passed to geqn to produce MathML,
-// and the register ps4html enables the macro sets to ignore floating
-// keeps, footers, and headings.
-//
-// The register www-image-template is set to the user specified template
-// name or the default name.
+// The current hyphenation margin is available in the .hym read-only number
+// register.
 type TokenRequestHym struct {
 	Length string
 }
@@ -16375,27 +16280,19 @@ var _ Token = (*TokenRequestHym)(nil)
 var _ Node = (*TokenRequestHym)(nil)
 
 // TokenRequestHys
-// The registers ps4html and www-image-template are defined by the
-// pre-grohtml preprocessor. pre-grohtml reads in the troff input, marks up
-// the inline equations and passes the result firstly to
+// Set the hyphenation space to hyphenation_space. If the current
+// adjustment mode is ‘b’ or ‘n’, don’t hyphenate the line if it
+// can be justified by adding no more than hyphenation_space extra space to
+// each word space. Without argument, the hyphenation space is set to its
+// default value, which is 0. The default scaling indicator for this
+// request is ‘m’. The hyphenation space is associated with the current
+// environment (see Environments).
 //
-// troff -Tps -rps4html=1 -dwww-image-template=template
+// A negative argument resets the hyphenation space to zero, emitting a
+// warning of type ‘range’.
 //
-// and secondly to
-//
-// troff -Thtml
-//
-// or
-//
-// troff -Txhtml
-//
-// The POSTSCRIPT device is used to create all the image files (for -Thtml;
-// if -Txhtml is used, all equations are passed to geqn to produce MathML,
-// and the register ps4html enables the macro sets to ignore floating
-// keeps, footers, and headings.
-//
-// The register www-image-template is set to the user specified template
-// name or the default name.
+// The current hyphenation space is available in the .hys read-only number
+// register.
 type TokenRequestHys struct {
 	Hyphenation_space string
 }
@@ -16461,27 +16358,11 @@ var _ Token = (*TokenRequestHys)(nil)
 var _ Node = (*TokenRequestHys)(nil)
 
 // TokenRequestIe
-// The registers ps4html and www-image-template are defined by the
-// pre-grohtml preprocessor. pre-grohtml reads in the troff input, marks up
-// the inline equations and passes the result firstly to
+// Use the ie and el requests to write an if-then-else. The first request
+// is the ‘if’ part and the latter is the ‘else’ part.
 //
-// troff -Tps -rps4html=1 -dwww-image-template=template
-//
-// and secondly to
-//
-// troff -Thtml
-//
-// or
-//
-// troff -Txhtml
-//
-// The POSTSCRIPT device is used to create all the image files (for -Thtml;
-// if -Txhtml is used, all equations are passed to geqn to produce MathML,
-// and the register ps4html enables the macro sets to ignore floating
-// keeps, footers, and headings.
-//
-// The register www-image-template is set to the user specified template
-// name or the default name.
+// .ie n .ls 2 \" double-spacing in nroff
+// .el   .ls 1 \" single-spacing in troff
 type TokenRequestIe struct {
 	Cond     string
 	Anything string
@@ -16720,31 +16601,26 @@ var _ Token = (*TokenRequestIg)(nil)
 var _ Node = (*TokenRequestIg)(nil)
 
 // TokenRequestIn
-// Request: .in -indent
+// Set indentation to indent (or increment or decrement the current value
+// by indent). This request causes a break. Initially, there is no
+// indentation.
 //
-// Register: \n[.i]
+// If in is called without an argument, the indentation is reset to the
+// previous value before the last call to in. The default scaling indicator
+// is ‘m’.
 //
-// The registers ps4html and www-image-template are defined by the
-// pre-grohtml preprocessor. pre-grohtml reads in the troff input, marks up
-// the inline equations and passes the result firstly to
+// The indentation is associated with the current environment (see
+// Environments).
 //
-// troff -Tps -rps4html=1 -dwww-image-template=template
+// If a negative indentation value is specified (which is not allowed),
+// gtroff emits a warning of type ‘range’ and sets the indentation to
+// zero.
 //
-// and secondly to
+// The effect of in is delayed until a partially collected line (if it
+// exists) is output. A temporary indentation value is reset to zero also.
 //
-// troff -Thtml
-//
-// or
-//
-// troff -Txhtml
-//
-// The POSTSCRIPT device is used to create all the image files (for -Thtml;
-// if -Txhtml is used, all equations are passed to geqn to produce MathML,
-// and the register ps4html enables the macro sets to ignore floating
-// keeps, footers, and headings.
-//
-// The register www-image-template is set to the user specified template
-// name or the default name.
+// The current indentation (as set by in) can be found in the read-only
+// number register ‘.i’.
 type TokenRequestIn struct {
 	Indent string
 }
@@ -16810,27 +16686,29 @@ var _ Token = (*TokenRequestIn)(nil)
 var _ Node = (*TokenRequestIn)(nil)
 
 // TokenRequestIt
-// The registers ps4html and www-image-template are defined by the
-// pre-grohtml preprocessor. pre-grohtml reads in the troff input, marks up
-// the inline equations and passes the result firstly to
+// Set an input line trap. n is the number of lines of input that may be
+// read before springing the trap, macro is the macro to be invoked.
+// Request lines are not counted as input lines.
 //
-// troff -Tps -rps4html=1 -dwww-image-template=template
+// For example, one possible use is to have a macro that prints the next n
+// lines in a bold font.
 //
-// and secondly to
+// .de B
+// .  it \\$1 B-end
+// .  ft B
+// ..
+// .
+// .de B-end
+// .  ft R
+// ..
 //
-// troff -Thtml
+// The itc request is identical except that an interrupted text line
+// (ending with \c) is not counted as a separate line.
 //
-// or
-//
-// troff -Txhtml
-//
-// The POSTSCRIPT device is used to create all the image files (for -Thtml;
-// if -Txhtml is used, all equations are passed to geqn to produce MathML,
-// and the register ps4html enables the macro sets to ignore floating
-// keeps, footers, and headings.
-//
-// The register www-image-template is set to the user specified template
-// name or the default name.
+// Both requests are associated with the current environment (see
+// Environments); switching to another environment disables the current
+// input trap, and going back reactivates it, restoring the number of
+// already processed lines.
 type TokenRequestIt struct {
 	N     string
 	Macro string
@@ -16992,27 +16870,15 @@ var _ Token = (*TokenRequestItc)(nil)
 var _ Node = (*TokenRequestItc)(nil)
 
 // TokenRequestKern
-// The registers ps4html and www-image-template are defined by the
-// pre-grohtml preprocessor. pre-grohtml reads in the troff input, marks up
-// the inline equations and passes the result firstly to
+// Switch kerning on or off. If the parameter is non-zero or missing,
+// enable pairwise kerning, otherwise disable it. The read-only number
+// register .kern is set to 1 if pairwise kerning is enabled, 0 otherwise.
 //
-// troff -Tps -rps4html=1 -dwww-image-template=template
+// If the font description file contains pairwise kerning information,
+// glyphs from that font are kerned. Kerning between two glyphs can be
+// inhibited by placing \& between them: ‘V\&A’.
 //
-// and secondly to
-//
-// troff -Thtml
-//
-// or
-//
-// troff -Txhtml
-//
-// The POSTSCRIPT device is used to create all the image files (for -Thtml;
-// if -Txhtml is used, all equations are passed to geqn to produce MathML,
-// and the register ps4html enables the macro sets to ignore floating
-// keeps, footers, and headings.
-//
-// The register www-image-template is set to the user specified template
-// name or the default name.
+// See Font File Format.
 type TokenRequestKern struct {
 	Flag string
 }
@@ -17307,27 +17173,14 @@ var _ Token = (*TokenRequestLf)(nil)
 var _ Node = (*TokenRequestLf)(nil)
 
 // TokenRequestLg
-// The registers ps4html and www-image-template are defined by the
-// pre-grohtml preprocessor. pre-grohtml reads in the troff input, marks up
-// the inline equations and passes the result firstly to
+// Switch the ligature mechanism on or off; if the parameter is non-zero or
+// missing, ligatures are enabled, otherwise disabled.  Default is on.  The
+// current ligature mode can be found in the read-only number register
+// .lg (set to 1 or 2 if ligatures are enabled,
+// 0 otherwise).
 //
-// troff -Tps -rps4html=1 -dwww-image-template=template
-//
-// and secondly to
-//
-// troff -Thtml
-//
-// or
-//
-// troff -Txhtml
-//
-// The POSTSCRIPT device is used to create all the image files (for -Thtml;
-// if -Txhtml is used, all equations are passed to geqn to produce MathML,
-// and the register ps4html enables the macro sets to ignore floating
-// keeps, footers, and headings.
-//
-// The register www-image-template is set to the user specified template
-// name or the default name.
+// Setting the ligature mode to 2 enables the two-character ligatures (fi,
+// fl, and ff) and disables the three-character ligatures (ffi and ffl).
 type TokenRequestLg struct {
 	Flag string
 }
@@ -17393,27 +17246,32 @@ var _ Token = (*TokenRequestLg)(nil)
 var _ Node = (*TokenRequestLg)(nil)
 
 // TokenRequestLinetabs
-// The registers ps4html and www-image-template are defined by the
-// pre-grohtml preprocessor. pre-grohtml reads in the troff input, marks up
-// the inline equations and passes the result firstly to
+// If n is missing or not zero, enable line-tabs mode, or disable it
+// otherwise (the default). In line-tabs mode, gtroff computes tab
+// distances relative to the (current) output line instead of the input
+// line.
 //
-// troff -Tps -rps4html=1 -dwww-image-template=template
+// For example, the following code:
 //
-// and secondly to
+// .ds x a\t\c
+// .ds y b\t\c
+// .ds z c
+// .ta 1i 3i
+// \*x
+// \*y
+// \*z
 //
-// troff -Thtml
+// in normal mode, results in the output
 //
-// or
+// a b c
 //
-// troff -Txhtml
+// in line-tabs mode, the same code outputs
 //
-// The POSTSCRIPT device is used to create all the image files (for -Thtml;
-// if -Txhtml is used, all equations are passed to geqn to produce MathML,
-// and the register ps4html enables the macro sets to ignore floating
-// keeps, footers, and headings.
+// a b c
 //
-// The register www-image-template is set to the user specified template
-// name or the default name.
+// Line-tabs mode is associated with the current environment. The read-only
+// register .linetabs is set to 1 if in line-tabs mode, and 0 in normal
+// mode.
 type TokenRequestLinetabs struct {
 	N string
 }
@@ -17479,31 +17337,26 @@ var _ Token = (*TokenRequestLinetabs)(nil)
 var _ Node = (*TokenRequestLinetabs)(nil)
 
 // TokenRequestLl
-// Request: .ll -length
+// Set the line length to length (or increment or decrement the current
+// value by length). Initially, the line length is set to 6.5i. The effect
+// of ll is delayed until a partially collected line (if it exists) is
+// output. The default scaling indicator is ‘m’.
 //
-// Register: \n[.l]
+// If ll is called without an argument, the line length is reset to the
+// previous value before the last call to ll. If a negative line length is
+// specified (which is not allowed), gtroff emits a warning of type
+// ‘range’ and sets the line length to zero.
 //
-// The registers ps4html and www-image-template are defined by the
-// pre-grohtml preprocessor. pre-grohtml reads in the troff input, marks up
-// the inline equations and passes the result firstly to
+// The line length is associated with the current environment (see
+// Environments).
 //
-// troff -Tps -rps4html=1 -dwww-image-template=template
+// The current line length (as set by ll) can be found in the
+// read-only number register ‘.l’.  The read-only number register
+// .ll is the line length that applies to the current output line.
 //
-// and secondly to
-//
-// troff -Thtml
-//
-// or
-//
-// troff -Txhtml
-//
-// The POSTSCRIPT device is used to create all the image files (for -Thtml;
-// if -Txhtml is used, all equations are passed to geqn to produce MathML,
-// and the register ps4html enables the macro sets to ignore floating
-// keeps, footers, and headings.
-//
-// The register www-image-template is set to the user specified template
-// name or the default name.
+// Similar to .i and .in, the difference between .l and .ll is that the
+// latter takes into account whether a partially collected line still uses
+// the old line length value.
 type TokenRequestLl struct {
 	Length string
 }
@@ -17569,27 +17422,18 @@ var _ Token = (*TokenRequestLl)(nil)
 var _ Node = (*TokenRequestLl)(nil)
 
 // TokenRequestLs
-// The registers ps4html and www-image-template are defined by the
-// pre-grohtml preprocessor. pre-grohtml reads in the troff input, marks up
-// the inline equations and passes the result firstly to
+// Output nnn-1 blank lines after each line of text. With no argument,
+// gtroff uses the previous value before the last ls call.
 //
-// troff -Tps -rps4html=1 -dwww-image-template=template
+// .ls 2    \" This causes double-spaced output
+// .ls 3    \" This causes triple-spaced output
+// .ls      \" Again double-spaced
 //
-// and secondly to
+// The line spacing is associated with the current environment (see
+// Environments).
 //
-// troff -Thtml
-//
-// or
-//
-// troff -Txhtml
-//
-// The POSTSCRIPT device is used to create all the image files (for -Thtml;
-// if -Txhtml is used, all equations are passed to geqn to produce MathML,
-// and the register ps4html enables the macro sets to ignore floating
-// keeps, footers, and headings.
-//
-// The register www-image-template is set to the user specified template
-// name or the default name.
+// The read-only number register .L contains the current line spacing
+// setting.
 type TokenRequestLs struct {
 	Nnn string
 }
@@ -17655,27 +17499,27 @@ var _ Token = (*TokenRequestLs)(nil)
 var _ Node = (*TokenRequestLs)(nil)
 
 // TokenRequestLsm
-// The registers ps4html and www-image-template are defined by the
-// pre-grohtml preprocessor. pre-grohtml reads in the troff input, marks up
-// the inline equations and passes the result firstly to
+// Set a leading spaces trap. gtroff executes macro when it encounters
+// leading spaces in an input line; the implicit line break that normally
+// happens in this case is suppressed. A line consisting of spaces only,
+// however, is treated as an empty line, possibly subject to an empty line
+// macro set with the blm request.
 //
-// troff -Tps -rps4html=1 -dwww-image-template=template
+// Leading spaces are removed from the input line before calling the
+// leading spaces macro. The number of removed spaces is stored in register
+// lsn; the horizontal space that would be emitted if there was no leading
+// space macro is stored in register lss. Note that lsn and lss are
+// available even if no leading space macro has been set.
 //
-// and secondly to
-//
-// troff -Thtml
-//
-// or
-//
-// troff -Txhtml
-//
-// The POSTSCRIPT device is used to create all the image files (for -Thtml;
-// if -Txhtml is used, all equations are passed to geqn to produce MathML,
-// and the register ps4html enables the macro sets to ignore floating
-// keeps, footers, and headings.
-//
-// The register www-image-template is set to the user specified template
-// name or the default name.
+// The first thing a leading space macro sees is a token. However, some
+// escapes like \f or \m are handled on the fly (see Gtroff Internals, for
+// a complete list) without creating a token at all. Consider that a line
+// starts with two spaces followed by \fIfoo. While skipping the spaces \fI
+// is handled too so that groff’s current font is properly set to
+// ‘I’, but the leading space macro only sees foo, without the
+// preceding \fI. If the macro should see the font escape you have to
+// ‘protect’ it with something that creates a token, for example with
+// \&\fIfoo.
 type TokenRequestLsm struct {
 	Macro string
 }
@@ -17741,31 +17585,17 @@ var _ Token = (*TokenRequestLsm)(nil)
 var _ Node = (*TokenRequestLsm)(nil)
 
 // TokenRequestLt
-// Request: .lt -length
+// The title line is printed using its own line length, which is specified
+// (or incremented or decremented) with the lt request. Initially, the
+// title line length is set to 6.5i. If a negative line length is specified
+// (which is not allowed), gtroff emits a warning of type ‘range’ and
+// sets the title line length to zero. The default scaling indicator is
+// ‘m’. If lt is called without an argument, the title length is reset
+// to the previous value before the last call to lt.
 //
-// Register: \n[.lt]
-//
-// The registers ps4html and www-image-template are defined by the
-// pre-grohtml preprocessor. pre-grohtml reads in the troff input, marks up
-// the inline equations and passes the result firstly to
-//
-// troff -Tps -rps4html=1 -dwww-image-template=template
-//
-// and secondly to
-//
-// troff -Thtml
-//
-// or
-//
-// troff -Txhtml
-//
-// The POSTSCRIPT device is used to create all the image files (for -Thtml;
-// if -Txhtml is used, all equations are passed to geqn to produce MathML,
-// and the register ps4html enables the macro sets to ignore floating
-// keeps, footers, and headings.
-//
-// The register www-image-template is set to the user specified template
-// name or the default name.
+// The current setting of this is available in the .lt read-only number
+// register; it is associated with the current environment (see
+// Environments).
 type TokenRequestLt struct {
 	Length string
 }
@@ -17956,27 +17786,70 @@ var _ Token = (*TokenRequestMc)(nil)
 var _ Node = (*TokenRequestMc)(nil)
 
 // TokenRequestMk
-// The registers ps4html and www-image-template are defined by the
-// pre-grohtml preprocessor. pre-grohtml reads in the troff input, marks up
-// the inline equations and passes the result firstly to
+// The request mk can be used to mark a location on a page, for movement to
+// later. This request takes a register name as an argument in which to
+// store the current page location. With no argument it stores the location
+// in an internal register. The results of this can be used later by the rt
+// or the sp request (or the \v escape).
 //
-// troff -Tps -rps4html=1 -dwww-image-template=template
+// The rt request returns upwards to the location marked with the last mk
+// request. If used with an argument, return to a position which distance
+// from the top of the page is dist (no previous call to mk is necessary in
+// this case). Default scaling indicator is ‘v’.
 //
-// and secondly to
+// If a page break occurs between a mk request and its matching rt request,
+// the rt is silently ignored.
 //
-// troff -Thtml
+// Here a primitive solution for a two-column macro.
 //
-// or
+// .nr column-length 1.5i
+// .nr column-gap 4m
+// .nr bottom-margin 1m
+// .
 //
-// troff -Txhtml
+// .de 2c
+// .  br
+// .  mk
+// .  ll \\n[column-length]u
+// .  wh -\\n[bottom-margin]u 2c-trap
+// .  nr right-side 0
+// ..
+// .
 //
-// The POSTSCRIPT device is used to create all the image files (for -Thtml;
-// if -Txhtml is used, all equations are passed to geqn to produce MathML,
-// and the register ps4html enables the macro sets to ignore floating
-// keeps, footers, and headings.
+// .de 2c-trap
+// .  ie \\n[right-side] \{\
+// .    nr right-side 0
+// .    po -(\\n[column-length]u + \\n[column-gap]u)
+// .    \" remove trap
+// .    wh -\\n[bottom-margin]u
+// .  \}
+// .  el \{\
+// .    \" switch to right side
+// .    nr right-side 1
+// .    po +(\\n[column-length]u + \\n[column-gap]u)
+// .    rt
+// .  \}
+// ..
+// .
 //
-// The register www-image-template is set to the user specified template
-// name or the default name.
+// .pl 1.5i
+// .ll 4i
+// This is a small test that shows how the
+// rt request works in combination with mk.
+//
+// .2c
+// Starting here, text is typeset in two columns.
+// Note that this implementation isn't robust
+// and thus not suited for a real two-column
+// macro.
+//
+// Result:
+//
+// This is a small test that shows how the rt request works in combination
+// with mk.
+//
+// Starting here, isn't robust text is typeset and thus not in two columns.
+// suited for a Note that this real two-column implementation macro.
 type TokenRequestMk struct {
 	Reg string
 }
@@ -18636,54 +18509,12 @@ var _ Token = (*TokenRequestNop)(nil)
 var _ Node = (*TokenRequestNop)(nil)
 
 // TokenRequestNr
-// Escape: \R'ident +value'
+// Add or subtract a numeric amount from a register's current value, according to the leading sign.
 //
 // Set number register ident to value; the increment for auto-incrementing
 // is set to incr. Note that the \R escape doesn’t support this notation.
 //
-// The registers ps4html and www-image-template are defined by the
-// pre-grohtml preprocessor. pre-grohtml reads in the troff input, marks up
-// the inline equations and passes the result firstly to
-//
-// troff -Tps -rps4html=1 -dwww-image-template=template
-//
-// and secondly to
-//
-// troff -Thtml
-//
-// or
-//
-// troff -Txhtml
-//
-// The POSTSCRIPT device is used to create all the image files (for -Thtml;
-// if -Txhtml is used, all equations are passed to geqn to produce MathML,
-// and the register ps4html enables the macro sets to ignore floating
-// keeps, footers, and headings.
-//
-// The register www-image-template is set to the user specified template
-// name or the default name.
-//
-// The registers ps4html and www-image-template are defined by the
-// pre-grohtml preprocessor. pre-grohtml reads in the troff input, marks up
-// the inline equations and passes the result firstly to
-//
-// troff -Tps -rps4html=1 -dwww-image-template=template
-//
-// and secondly to
-//
-// troff -Thtml
-//
-// or
-//
-// troff -Txhtml
-//
-// The POSTSCRIPT device is used to create all the image files (for -Thtml;
-// if -Txhtml is used, all equations are passed to geqn to produce MathML,
-// and the register ps4html enables the macro sets to ignore floating
-// keeps, footers, and headings.
-//
-// The register www-image-template is set to the user specified template
-// name or the default name.
+// Set a register to a numeric value, creating the register if necessary.
 type TokenRequestNr struct {
 	Ident string
 	Value string
@@ -18813,27 +18644,18 @@ var _ Token = (*TokenRequestNroff)(nil)
 var _ Node = (*TokenRequestNroff)(nil)
 
 // TokenRequestNs
-// The registers ps4html and www-image-template are defined by the
-// pre-grohtml preprocessor. pre-grohtml reads in the troff input, marks up
-// the inline equations and passes the result firstly to
+// Enable no-space mode. In this mode, spacing (either via sp or via blank
+// lines) is disabled. The bp request to advance to the next page is also
+// disabled, except if it is accompanied by a page number (see Page
+// Control, for more information). This mode ends when actual text is
+// output or the rs request is encountered, which ends no-space mode. The
+// read-only number register .ns is set to 1 as long as no-space mode is
+// active.
 //
-// troff -Tps -rps4html=1 -dwww-image-template=template
-//
-// and secondly to
-//
-// troff -Thtml
-//
-// or
-//
-// troff -Txhtml
-//
-// The POSTSCRIPT device is used to create all the image files (for -Thtml;
-// if -Txhtml is used, all equations are passed to geqn to produce MathML,
-// and the register ps4html enables the macro sets to ignore floating
-// keeps, footers, and headings.
-//
-// The register www-image-template is set to the user specified template
-// name or the default name.
+// This request is useful for macros that conditionally insert vertical
+// space before the text starts (for example, a paragraph macro could
+// insert some space except when it is the first paragraph after a section
+// header).
 type TokenRequestNs struct {
 }
 
@@ -18952,27 +18774,14 @@ var _ Token = (*TokenRequestNx)(nil)
 var _ Node = (*TokenRequestNx)(nil)
 
 // TokenRequestOpen
-// The registers ps4html and www-image-template are defined by the
-// pre-grohtml preprocessor. pre-grohtml reads in the troff input, marks up
-// the inline equations and passes the result firstly to
+// Open the specified file for writing and associates the specified stream
+// with it.
 //
-// troff -Tps -rps4html=1 -dwww-image-template=template
+// The opena request is like open, but if the file exists, append to it
+// instead of truncating it.
 //
-// and secondly to
-//
-// troff -Thtml
-//
-// or
-//
-// troff -Txhtml
-//
-// The POSTSCRIPT device is used to create all the image files (for -Thtml;
-// if -Txhtml is used, all equations are passed to geqn to produce MathML,
-// and the register ps4html enables the macro sets to ignore floating
-// keeps, footers, and headings.
-//
-// The register www-image-template is set to the user specified template
-// name or the default name.
+// Both open and opena cause an error if used in safer mode (which is the
+// default). Use groff’s or troff’s -U option to activate unsafe mode.
 type TokenRequestOpen struct {
 	Stream string
 	File   string
@@ -19460,31 +19269,23 @@ var _ Token = (*TokenRequestPi)(nil)
 var _ Node = (*TokenRequestPi)(nil)
 
 // TokenRequestPl
-// Request: .pl -length
+// Set the page length to length (or increment or decrement the current
+// value by length). This is the length of the physical output page. The
+// default scaling indicator is ‘v’.
 //
-// Register: \n[.p]
+// The current setting can be found in the read-only number register
+// ‘.p’.
 //
-// The registers ps4html and www-image-template are defined by the
-// pre-grohtml preprocessor. pre-grohtml reads in the troff input, marks up
-// the inline equations and passes the result firstly to
+// Note that this only specifies the size of the page, not the top and
+// bottom margins. Those are not set by gtroff directly. See Traps, for
+// further information on how to do this.
 //
-// troff -Tps -rps4html=1 -dwww-image-template=template
+// Negative pl values are possible also, but not very useful: No trap is
+// sprung, and each line is output on a single page (thus suppressing all
+// vertical spacing).
 //
-// and secondly to
-//
-// troff -Thtml
-//
-// or
-//
-// troff -Txhtml
-//
-// The POSTSCRIPT device is used to create all the image files (for -Thtml;
-// if -Txhtml is used, all equations are passed to geqn to produce MathML,
-// and the register ps4html enables the macro sets to ignore floating
-// keeps, footers, and headings.
-//
-// The register www-image-template is set to the user specified template
-// name or the default name.
+// If no argument or an invalid argument is given, pl sets the page length
+// to 11i.
 type TokenRequestPl struct {
 	Length string
 }
@@ -19609,31 +19410,12 @@ var _ Token = (*TokenRequestPm)(nil)
 var _ Node = (*TokenRequestPm)(nil)
 
 // TokenRequestPn
-// Request: .pn -page
+// Change (increase or decrease) the page number of the next page. The only
+// argument is the page number; the request is ignored without a parameter.
 //
-// Register: \n[.pn]
-//
-// The registers ps4html and www-image-template are defined by the
-// pre-grohtml preprocessor. pre-grohtml reads in the troff input, marks up
-// the inline equations and passes the result firstly to
-//
-// troff -Tps -rps4html=1 -dwww-image-template=template
-//
-// and secondly to
-//
-// troff -Thtml
-//
-// or
-//
-// troff -Txhtml
-//
-// The POSTSCRIPT device is used to create all the image files (for -Thtml;
-// if -Txhtml is used, all equations are passed to geqn to produce MathML,
-// and the register ps4html enables the macro sets to ignore floating
-// keeps, footers, and headings.
-//
-// The register www-image-template is set to the user specified template
-// name or the default name.
+// The read-only number register .pn contains the number of the next page:
+// either the value set by a pn request, or the number of the current page
+// plus 1.
 type TokenRequestPn struct {
 	Page string
 }
@@ -19752,31 +19534,34 @@ var _ Token = (*TokenRequestPnr)(nil)
 var _ Node = (*TokenRequestPnr)(nil)
 
 // TokenRequestPo
-// Request: .po -offset
+// Set horizontal page offset to offset (or increment or decrement the
+// current value by offset). Note that this request does not cause a break,
+// so changing the page offset in the middle of text being filled may not
+// yield the expected result. The initial value is 1i. For TTY output
+// devices, it is set to 0 in the startup file troffrc; the default scaling
+// indicator is ‘m’ (and not ‘v’ as incorrectly documented in the
+// original Unix troff manual).
 //
-// Register: \n[.o]
+// The current page offset can be found in the read-only number register
+// ‘.o’.
 //
-// The registers ps4html and www-image-template are defined by the
-// pre-grohtml preprocessor. pre-grohtml reads in the troff input, marks up
-// the inline equations and passes the result firstly to
+// If po is called without an argument, the page offset is reset to the
+// previous value before the last call to po.
 //
-// troff -Tps -rps4html=1 -dwww-image-template=template
+// .po 3i
+// \n[.o]
 //
-// and secondly to
+//	⇒ 720
 //
-// troff -Thtml
+// .po -1i
+// \n[.o]
 //
-// or
+//	⇒ 480
 //
-// troff -Txhtml
+// .po
+// \n[.o]
 //
-// The POSTSCRIPT device is used to create all the image files (for -Thtml;
-// if -Txhtml is used, all equations are passed to geqn to produce MathML,
-// and the register ps4html enables the macro sets to ignore floating
-// keeps, footers, and headings.
-//
-// The register www-image-template is set to the user specified template
-// name or the default name.
+//	⇒ 720
 type TokenRequestPo struct {
 	Offset string
 }
@@ -19842,31 +19627,52 @@ var _ Token = (*TokenRequestPo)(nil)
 var _ Node = (*TokenRequestPo)(nil)
 
 // TokenRequestPs
-// Request: .ps -size
+// Use the ps request or the \s escape to change (increase,
+// decrease) the type size (in points).  Specify size as either an
+// absolute point size, or as a relative change from the current size.  The
+// size 0 (for both .ps and \s), or no argument (for
+// .ps only), goes back to the previous size.
 //
-// Escape: \ssize
+// Default scaling indicator of size is ‘z’. If size is negative, it is
+// set to 1u.
 //
-// The registers ps4html and www-image-template are defined by the
-// pre-grohtml preprocessor. pre-grohtml reads in the troff input, marks up
-// the inline equations and passes the result firstly to
+// The read-only number register .s returns the point size in points as a
+// decimal fraction. This is a string. To get the point size in scaled
+// points, use the .ps register instead.
 //
-// troff -Tps -rps4html=1 -dwww-image-template=template
+// .s is associated with the current environment
+// (see Environments).
 //
-// and secondly to
+// snap, snap,
+// .ps +2
+// grin, grin,
+// .ps +2
+// wink, wink, \s+2nudge, nudge,\s+8 say no more!
+// .ps 10
 //
-// troff -Thtml
+// The \s escape may be called in a variety of ways. Much like other
+// escapes there must be a way to determine where the argument ends and the
+// text begins. Any of the following forms are valid:
 //
-// or
+// \sn Set the point size to n points. n must be either 0 or in the range 4
+// to 39.
 //
-// troff -Txhtml
+// \s+n \s-n Increase or decrease the point size by n points. n must be
+// exactly one digit.
 //
-// The POSTSCRIPT device is used to create all the image files (for -Thtml;
-// if -Txhtml is used, all equations are passed to geqn to produce MathML,
-// and the register ps4html enables the macro sets to ignore floating
-// keeps, footers, and headings.
+// \s(nn Set the point size to nn points. nn must be exactly two digits.
 //
-// The register www-image-template is set to the user specified template
-// name or the default name.
+// \s+(nn \s-(nn \s(+nn \s(-nn Increase or decrease the point size by nn
+// points. nn must be exactly two digits.
+//
+// Note that \s doesn’t produce an input token in gtroff. As a
+// consequence, it can be used in requests like mc (which expects a single
+// character as an argument) to change the font on the fly:
+//
+// .mc \s[20]x\s[0]
+//
+// See Fractional Type Sizes, for yet another syntactical form of using the
+// \s escape.
 type TokenRequestPs struct {
 	Size string
 }
@@ -19932,27 +19738,15 @@ var _ Token = (*TokenRequestPs)(nil)
 var _ Node = (*TokenRequestPs)(nil)
 
 // TokenRequestPsbb
-// The registers ps4html and www-image-template are defined by the
-// pre-grohtml preprocessor. pre-grohtml reads in the troff input, marks up
-// the inline equations and passes the result firstly to
+// Retrieve the bounding box of the POSTSCRIPT image found in filename. The
+// file must conform to Adobe’s Document Structuring Conventions (DSC);
+// the command searches for a %BoundingBox comment and extracts the
+// bounding box values into the number registers llx, lly, urx, and ury. If
+// an error occurs (for example, psbb cannot find the %BoundingBox
+// comment), it sets the four number registers to zero.
 //
-// troff -Tps -rps4html=1 -dwww-image-template=template
-//
-// and secondly to
-//
-// troff -Thtml
-//
-// or
-//
-// troff -Txhtml
-//
-// The POSTSCRIPT device is used to create all the image files (for -Thtml;
-// if -Txhtml is used, all equations are passed to geqn to produce MathML,
-// and the register ps4html enables the macro sets to ignore floating
-// keeps, footers, and headings.
-//
-// The register www-image-template is set to the user specified template
-// name or the default name.
+// The search path for filename can be controlled with the -I command-line
+// option.
 type TokenRequestPsbb struct {
 	Filename string
 }
@@ -20146,31 +19940,18 @@ var _ Token = (*TokenRequestPtr)(nil)
 var _ Node = (*TokenRequestPtr)(nil)
 
 // TokenRequestPvs
-// Request: .pvs -space
+// Change (increase, decrease) the post-vertical spacing by space. The
+// default scaling indicator is ‘p’.
 //
-// Register: \n[.pvs]
+// If pvs is called without an argument, the post-vertical spacing is reset
+// to the previous value before the last call to pvs.
 //
-// The registers ps4html and www-image-template are defined by the
-// pre-grohtml preprocessor. pre-grohtml reads in the troff input, marks up
-// the inline equations and passes the result firstly to
+// gtroff creates a warning of type ‘range’ if space is zero or
+// negative; the vertical spacing is then set to zero.
 //
-// troff -Tps -rps4html=1 -dwww-image-template=template
-//
-// and secondly to
-//
-// troff -Thtml
-//
-// or
-//
-// troff -Txhtml
-//
-// The POSTSCRIPT device is used to create all the image files (for -Thtml;
-// if -Txhtml is used, all equations are passed to geqn to produce MathML,
-// and the register ps4html enables the macro sets to ignore floating
-// keeps, footers, and headings.
-//
-// The register www-image-template is set to the user specified template
-// name or the default name.
+// The read-only number register .pvs contains the current post-vertical
+// spacing; it is associated with the current environment (see
+// Environments).
 type TokenRequestPvs struct {
 	Space string
 }
@@ -20236,27 +20017,13 @@ var _ Token = (*TokenRequestPvs)(nil)
 var _ Node = (*TokenRequestPvs)(nil)
 
 // TokenRequestRchar
-// The registers ps4html and www-image-template are defined by the
-// pre-grohtml preprocessor. pre-grohtml reads in the troff input, marks up
-// the inline equations and passes the result firstly to
+// Remove the definitions of glyphs c1, c2, ... This undoes the effect of a
+// char, fchar, or schar request.
 //
-// troff -Tps -rps4html=1 -dwww-image-template=template
+// It is possible to omit the whitespace between arguments.
 //
-// and secondly to
-//
-// troff -Thtml
-//
-// or
-//
-// troff -Txhtml
-//
-// The POSTSCRIPT device is used to create all the image files (for -Thtml;
-// if -Txhtml is used, all equations are passed to geqn to produce MathML,
-// and the register ps4html enables the macro sets to ignore floating
-// keeps, footers, and headings.
-//
-// The register www-image-template is set to the user specified template
-// name or the default name.
+// The request rfschar removes glyph definitions defined with fschar for
+// glyph f.
 type TokenRequestRchar struct {
 	C1      string
 	C2      string
@@ -20576,27 +20343,11 @@ var _ Token = (*TokenRequestRfschar)(nil)
 var _ Node = (*TokenRequestRfschar)(nil)
 
 // TokenRequestRj
-// The registers ps4html and www-image-template are defined by the
-// pre-grohtml preprocessor. pre-grohtml reads in the troff input, marks up
-// the inline equations and passes the result firstly to
-//
-// troff -Tps -rps4html=1 -dwww-image-template=template
-//
-// and secondly to
-//
-// troff -Thtml
-//
-// or
-//
-// troff -Txhtml
-//
-// The POSTSCRIPT device is used to create all the image files (for -Thtml;
-// if -Txhtml is used, all equations are passed to geqn to produce MathML,
-// and the register ps4html enables the macro sets to ignore floating
-// keeps, footers, and headings.
-//
-// The register www-image-template is set to the user specified template
-// name or the default name.
+// Justify unfilled text to the right margin. Arguments are identical to
+// the ce request. The .rj read-only number register is the number of lines
+// to be right-justified as set by the rj request. This request causes a
+// break. The number of lines still to be right-justified is associated
+// with the current environment (see Environments).
 type TokenRequestRj struct {
 	Nnn string
 }
@@ -20937,27 +20688,18 @@ var _ Token = (*TokenRequestRr)(nil)
 var _ Node = (*TokenRequestRr)(nil)
 
 // TokenRequestRs
-// The registers ps4html and www-image-template are defined by the
-// pre-grohtml preprocessor. pre-grohtml reads in the troff input, marks up
-// the inline equations and passes the result firstly to
+// Enable no-space mode. In this mode, spacing (either via sp or via blank
+// lines) is disabled. The bp request to advance to the next page is also
+// disabled, except if it is accompanied by a page number (see Page
+// Control, for more information). This mode ends when actual text is
+// output or the rs request is encountered, which ends no-space mode. The
+// read-only number register .ns is set to 1 as long as no-space mode is
+// active.
 //
-// troff -Tps -rps4html=1 -dwww-image-template=template
-//
-// and secondly to
-//
-// troff -Thtml
-//
-// or
-//
-// troff -Txhtml
-//
-// The POSTSCRIPT device is used to create all the image files (for -Thtml;
-// if -Txhtml is used, all equations are passed to geqn to produce MathML,
-// and the register ps4html enables the macro sets to ignore floating
-// keeps, footers, and headings.
-//
-// The register www-image-template is set to the user specified template
-// name or the default name.
+// This request is useful for macros that conditionally insert vertical
+// space before the text starts (for example, a paragraph macro could
+// insert some space except when it is the first paragraph after a section
+// header).
 type TokenRequestRs struct {
 }
 
@@ -21700,27 +21442,19 @@ var _ Token = (*TokenRequestSp)(nil)
 var _ Node = (*TokenRequestSp)(nil)
 
 // TokenRequestSpecial
-// The registers ps4html and www-image-template are defined by the
-// pre-grohtml preprocessor. pre-grohtml reads in the troff input, marks up
-// the inline equations and passes the result firstly to
+// Use the special request to define special fonts. Initially, this list is
+// empty.
 //
-// troff -Tps -rps4html=1 -dwww-image-template=template
+// Use the fspecial request to designate special fonts only when font f is
+// active. Initially, this list is empty.
 //
-// and secondly to
+// Previous calls to special or fspecial are overwritten; without
+// arguments, the particular list of special fonts is set to empty. Special
+// fonts are searched in the order they appear as arguments.
 //
-// troff -Thtml
+// All fonts that appear in a call to special or fspecial are loaded.
 //
-// or
-//
-// troff -Txhtml
-//
-// The POSTSCRIPT device is used to create all the image files (for -Thtml;
-// if -Txhtml is used, all equations are passed to geqn to produce MathML,
-// and the register ps4html enables the macro sets to ignore floating
-// keeps, footers, and headings.
-//
-// The register www-image-template is set to the user specified template
-// name or the default name.
+// See Using Symbols, for the exact search order of glyphs.
 type TokenRequestSpecial struct {
 	S1      string
 	S2      string
@@ -21874,27 +21608,50 @@ var _ Token = (*TokenRequestSpreadwarn)(nil)
 var _ Node = (*TokenRequestSpreadwarn)(nil)
 
 // TokenRequestSs
-// The registers ps4html and www-image-template are defined by the
-// pre-grohtml preprocessor. pre-grohtml reads in the troff input, marks up
-// the inline equations and passes the result firstly to
+// Change the size of a space between words. It takes its units as one
+// twelfth of the space width parameter for the current font. Initially
+// both the word_space_size and sentence_space_size are 12. In fill mode,
+// the values specify the minimum distance.
 //
-// troff -Tps -rps4html=1 -dwww-image-template=template
+// If two arguments are given to the ss request, the second argument sets
+// the sentence space size. If the second argument is not given, sentence
+// space size is set to word_space_size. The sentence space size is used in
+// two circumstances: If the end of a sentence occurs at the end of a line
+// in fill mode, then both an inter-word space and a sentence space are
+// added; if two spaces follow the end of a sentence in the middle of a
+// line, then the second space is a sentence space. If a second argument is
+// never given to the ss request, the behaviour of Unix troff is the same
+// as that exhibited by GNU troff. In GNU troff, as in Unix troff, a
+// sentence should always be followed by either a newline or two spaces.
 //
-// and secondly to
+// The read-only number registers .ss and .sss hold the values of the
+// parameters set by the first and second arguments of the ss request.
 //
-// troff -Thtml
+// The word space and sentence space values are associated with the current
+// environment (see Environments).
 //
-// or
+// Contrary to AT&T troff, this request is not ignored if a TTY output
+// device is used; the given values are then rounded down to a multiple of
+// 12 (see Implementation Differences).
 //
-// troff -Txhtml
+// The request is ignored if there is no parameter.
 //
-// The POSTSCRIPT device is used to create all the image files (for -Thtml;
-// if -Txhtml is used, all equations are passed to geqn to produce MathML,
-// and the register ps4html enables the macro sets to ignore floating
-// keeps, footers, and headings.
+// Another useful application of the ss request is to insert discardable
+// horizontal space, i.e., space that is discarded at a line break. For
+// example, paragraph-style footnotes could be separated this way:
 //
-// The register www-image-template is set to the user specified template
-// name or the default name.
+// .ll 4.5i
+// 1.\ This is the first footnote.\c
+// .ss 48
+// .nop
+// .ss 12
+// 2.\ This is the second footnote.
+//
+// The result:
+//
+// 1. This is the first footnote. 2. This is the second footnote.
+//
+// Note that the \h escape produces unbreakable space.
 type TokenRequestSs struct {
 	Word_space_size     string
 	Sentence_space_size string
@@ -22175,27 +21932,16 @@ var _ Token = (*TokenRequestSubstring)(nil)
 var _ Node = (*TokenRequestSubstring)(nil)
 
 // TokenRequestSv
-// The registers ps4html and www-image-template are defined by the
-// pre-grohtml preprocessor. pre-grohtml reads in the troff input, marks up
-// the inline equations and passes the result firstly to
+// sv is similar to the ne request; it reserves the specified amount of
+// vertical space. If the desired amount of space exists before the next
+// trap (or the bottom page boundary if no trap is set), the space is
+// output immediately (ignoring a partially filled line, which stays
+// untouched). If there is not enough space, it is stored for later output
+// via the os request. The default value is 1v if no argument is given; the
+// default scaling indicator is ‘v’.
 //
-// troff -Tps -rps4html=1 -dwww-image-template=template
-//
-// and secondly to
-//
-// troff -Thtml
-//
-// or
-//
-// troff -Txhtml
-//
-// The POSTSCRIPT device is used to create all the image files (for -Thtml;
-// if -Txhtml is used, all equations are passed to geqn to produce MathML,
-// and the register ps4html enables the macro sets to ignore floating
-// keeps, footers, and headings.
-//
-// The register www-image-template is set to the user specified template
-// name or the default name.
+// Both sv and os ignore no-space mode. While the sv request allows
+// negative values for space, os ignores them.
 type TokenRequestSv struct {
 	Space string
 }
@@ -22261,27 +22007,37 @@ var _ Token = (*TokenRequestSv)(nil)
 var _ Node = (*TokenRequestSv)(nil)
 
 // TokenRequestSy
-// The registers ps4html and www-image-template are defined by the
-// pre-grohtml preprocessor. pre-grohtml reads in the troff input, marks up
-// the inline equations and passes the result firstly to
+// Execute the shell command(s) specified by cmds. The output is not saved
+// anyplace, so it is up to the user to do so.
 //
-// troff -Tps -rps4html=1 -dwww-image-template=template
+// This request causes an error if used in safer mode (which is the
+// default). Use groff’s or troff’s -U option to activate unsafe mode.
 //
-// and secondly to
+// For example, the following code fragment introduces the current time
+// into a document:
 //
-// troff -Thtml
+//	.sy perl -e 'printf ".nr H %d\\n.nr M %d\\n.nr S %d\\n",\
+//	             (localtime(time))[2,1,0]' > /tmp/x\n[$$]
 //
-// or
+// .so /tmp/x\n[$$]
+// .sy rm /tmp/x\n[$$]
+// \nH:\nM:\nS
 //
-// troff -Txhtml
+// Note that this works by having the perl script (run by sy) print out the
+// nr requests that set the number registers H, M, and S, and then reads
+// those commands in with the so request.
 //
-// The POSTSCRIPT device is used to create all the image files (for -Thtml;
-// if -Txhtml is used, all equations are passed to geqn to produce MathML,
-// and the register ps4html enables the macro sets to ignore floating
-// keeps, footers, and headings.
+// For most practical purposes, the number registers seconds, minutes, and
+// hours, which are initialized at start-up of gtroff, should be
+// sufficient. Use the af request to get a formatted output:
 //
-// The register www-image-template is set to the user specified template
-// name or the default name.
+// .af hours 00
+// .af minutes 00
+// .af seconds 00
+// \n[hours]:\n[minutes]:\n[seconds]
+//
+// The systat read-write number register contains the return value of the
+// system() function executed by the last sy request.
 type TokenRequestSy struct {
 	Cmds string
 }
@@ -22347,27 +22103,115 @@ var _ Token = (*TokenRequestSy)(nil)
 var _ Node = (*TokenRequestSy)(nil)
 
 // TokenRequestTa
-// The registers ps4html and www-image-template are defined by the
-// pre-grohtml preprocessor. pre-grohtml reads in the troff input, marks up
-// the inline equations and passes the result firstly to
+// Change tab stop positions. This request takes a series of tab specifiers
+// as arguments (optionally divided into two groups with the letter
+// ‘T’) that indicate where each tab stop is to be (overriding any
+// previous settings).
 //
-// troff -Tps -rps4html=1 -dwww-image-template=template
+// Tab stops can be specified absolutely, i.e., as the distance from the
+// left margin. For example, the following sets 6 tab stops every one inch.
 //
-// and secondly to
+// .ta 1i 2i 3i 4i 5i 6i
 //
-// troff -Thtml
+// Tab stops can also be specified using a leading ‘+’, which means
+// that the specified tab stop is set relative to the previous tab stop.
+// For example, the following is equivalent to the previous example.
 //
-// or
+// .ta 1i +1i +1i +1i +1i +1i
 //
-// troff -Txhtml
+// gtroff supports an extended syntax to specify repeat values after the
+// ‘T’ mark (these values are always taken as relative) – this is the
+// usual way to specify tabs set at equal intervals. The following is, yet
+// again, the same as the previous examples. It does even more since it
+// defines an infinite number of tab stops separated by one inch.
 //
-// The POSTSCRIPT device is used to create all the image files (for -Thtml;
-// if -Txhtml is used, all equations are passed to geqn to produce MathML,
-// and the register ps4html enables the macro sets to ignore floating
-// keeps, footers, and headings.
+// .ta T 1i
 //
-// The register www-image-template is set to the user specified template
-// name or the default name.
+// Now we are ready to interpret the full syntax given at the beginning:
+// Set tabs at positions n1, n2, …, nn and then set tabs at nn+r1, nn+r2,
+// …, nn+rn and then at nn+rn+r1, nn+rn+r2, …, nn+rn+rn, and so on.
+//
+// Example: ‘4c +6c T 3c 5c 2c’ is equivalent to ‘4c 10c 13c 18c 20c
+// 23c 28c 30c …’.
+//
+// The material in each tab column (i.e., the column between two tab stops)
+// may be justified to the right or left or centered in the column. This is
+// specified by appending ‘R’, ‘L’, or ‘C’ to the tab
+// specifier. The default justification is ‘L’. Example:
+//
+// .ta 1i 2iC 3iR
+//
+// Some notes:
+//
+//	The default unit of the ta request is ‘m’.
+//
+//	A tab stop is converted into a non-breakable horizontal movement that
+//
+// can be neither stretched nor squeezed.  For example,
+//
+// .ds foo a\tb\tc
+// .ta T 5i
+// \*[foo]
+//
+// creates a single line, which is a bit longer than 10 inches (a string is
+// used to show exactly where the tab characters are). Now consider the
+// following:
+//
+// .ds bar a\tb b\tc
+// .ta T 5i
+// \*[bar]
+//
+// gtroff first converts the tab stops of the line into unbreakable
+// horizontal movements, then splits the line after the second ‘b’
+// (assuming a sufficiently short line length). Usually, this isn’t what
+// the user wants.
+//
+//	Superfluous tabs (i.e., tab characters that do not correspond to a tab
+//
+// stop) are ignored except the first one, which delimits the characters
+// belonging to the last tab stop for right-justifying or centering.
+// Consider the following example
+//
+// .ds Z   foo\tbar\tfoo
+// .ds ZZ  foo\tbar\tfoobar
+// .ds ZZZ foo\tbar\tfoo\tbar
+// .ta 2i 4iR
+// \*[Z]
+// .br
+// \*[ZZ]
+// .br
+// \*[ZZZ]
+// .br
+//
+// which produces the following output:
+//
+// foo bar foo foo bar foobar foo bar foobar
+//
+// The first line right-justifies the second ‘foo’ relative to the tab
+// stop. The second line right-justifies ‘foobar’. The third line
+// finally right-justifies only ‘foo’ because of the additional tab
+// character, which marks the end of the string belonging to the last
+// defined tab stop.
+//
+//	Tab stops are associated with the current environment
+//
+// (see Environments).
+//
+//	Calling ta without an argument removes all tab stops.
+//
+// The start-up value of gtroff is ‘T 0.5i’.
+//
+// The read-only number register .tabs contains a string representation of
+// the current tab settings suitable for use as an argument to the ta
+// request.
+//
+// .ds tab-string \n[.tabs]
+// \*[tab-string]
+//
+//	⇒ T120u
+//
+// The troff version of the Plan 9 operating system uses register .S for
+// the same purpose.
 type TokenRequestTa struct {
 	N1       string
 	N2       string
@@ -22535,31 +22379,29 @@ var _ Token = (*TokenRequestTc)(nil)
 var _ Node = (*TokenRequestTc)(nil)
 
 // TokenRequestTi
-// Request: .ti -offset
+// Temporarily indent the next output line by offset. If an increment or
+// decrement value is specified, adjust the temporary indentation relative
+// to the value set by the in request.
 //
-// Register: \n[.in]
+// This request causes a break; its value is associated with the current
+// environment (see Environments). The default scaling indicator is
+// ‘m’. A call of ti without an argument is ignored.
 //
-// The registers ps4html and www-image-template are defined by the
-// pre-grohtml preprocessor. pre-grohtml reads in the troff input, marks up
-// the inline equations and passes the result firstly to
+// If the total indentation value is negative (which is not allowed),
+// gtroff emits a warning of type ‘range’ and sets the temporary
+// indentation to zero. ‘Total indentation’ is either offset if
+// specified as an absolute value, or the temporary plus normal
+// indentation, if offset is given as a relative value.
 //
-// troff -Tps -rps4html=1 -dwww-image-template=template
+// The effect of ti is delayed until a partially collected line (if it
+// exists) is output.
 //
-// and secondly to
+// The read-only number register .in is the indentation that applies to the
+// current output line.
 //
-// troff -Thtml
-//
-// or
-//
-// troff -Txhtml
-//
-// The POSTSCRIPT device is used to create all the image files (for -Thtml;
-// if -Txhtml is used, all equations are passed to geqn to produce MathML,
-// and the register ps4html enables the macro sets to ignore floating
-// keeps, footers, and headings.
-//
-// The register www-image-template is set to the user specified template
-// name or the default name.
+// The difference between .i and .in is that the latter takes into account
+// whether a partially collected line still uses the old indentation value
+// or a temporary indentation value is active.
 type TokenRequestTi struct {
 	Offset string
 }
@@ -22815,27 +22657,17 @@ var _ Token = (*TokenRequestTl)(nil)
 var _ Node = (*TokenRequestTl)(nil)
 
 // TokenRequestTm
-// The registers ps4html and www-image-template are defined by the
-// pre-grohtml preprocessor. pre-grohtml reads in the troff input, marks up
-// the inline equations and passes the result firstly to
+// Send string to the standard error output; this is very useful for
+// printing debugging messages among other things.
 //
-// troff -Tps -rps4html=1 -dwww-image-template=template
+// string is read in copy mode.
 //
-// and secondly to
+// The tm request ignores leading spaces of string; tm1 handles its
+// argument similar to the ds request: a leading double quote in string is
+// stripped to allow initial blanks.
 //
-// troff -Thtml
-//
-// or
-//
-// troff -Txhtml
-//
-// The POSTSCRIPT device is used to create all the image files (for -Thtml;
-// if -Txhtml is used, all equations are passed to geqn to produce MathML,
-// and the register ps4html enables the macro sets to ignore floating
-// keeps, footers, and headings.
-//
-// The register www-image-template is set to the user specified template
-// name or the default name.
+// The tmc request is similar to tm1 but does not append a newline (as is
+// done in tm and tm1).
 type TokenRequestTm struct {
 	StringVal string
 }
@@ -22901,27 +22733,17 @@ var _ Token = (*TokenRequestTm)(nil)
 var _ Node = (*TokenRequestTm)(nil)
 
 // TokenRequestTm1
-// The registers ps4html and www-image-template are defined by the
-// pre-grohtml preprocessor. pre-grohtml reads in the troff input, marks up
-// the inline equations and passes the result firstly to
+// Send string to the standard error output; this is very useful for
+// printing debugging messages among other things.
 //
-// troff -Tps -rps4html=1 -dwww-image-template=template
+// string is read in copy mode.
 //
-// and secondly to
+// The tm request ignores leading spaces of string; tm1 handles its
+// argument similar to the ds request: a leading double quote in string is
+// stripped to allow initial blanks.
 //
-// troff -Thtml
-//
-// or
-//
-// troff -Txhtml
-//
-// The POSTSCRIPT device is used to create all the image files (for -Thtml;
-// if -Txhtml is used, all equations are passed to geqn to produce MathML,
-// and the register ps4html enables the macro sets to ignore floating
-// keeps, footers, and headings.
-//
-// The register www-image-template is set to the user specified template
-// name or the default name.
+// The tmc request is similar to tm1 but does not append a newline (as is
+// done in tm and tm1).
 type TokenRequestTm1 struct {
 	StringVal string
 }
@@ -23063,27 +22885,95 @@ var _ Token = (*TokenRequestTmc)(nil)
 var _ Node = (*TokenRequestTmc)(nil)
 
 // TokenRequestTr
-// The registers ps4html and www-image-template are defined by the
-// pre-grohtml preprocessor. pre-grohtml reads in the troff input, marks up
-// the inline equations and passes the result firstly to
+// Translate character a to glyph b, character c to glyph d, etc. If there
+// is an odd number of arguments, the last one is translated to an
+// unstretchable space (‘\ ’).
 //
-// troff -Tps -rps4html=1 -dwww-image-template=template
+// The trin request is identical to tr, but when you unformat a diversion
+// with asciify it ignores the translation. See Diversions, for details
+// about the asciify request.
 //
-// and secondly to
+// Some notes:
 //
-// troff -Thtml
+// Special characters (\(xx, \[xxx], \C'xxx', \', \`, \-, \_), glyphs
+// defined with the char request, and numbered glyphs (\N'xxx') can be
+// translated also.
 //
-// or
+// The \e escape can be translated also.
 //
-// troff -Txhtml
+// Characters can be mapped onto the \% and \~ escapes (but \% and \~
+// can’t be mapped onto another glyph).
 //
-// The POSTSCRIPT device is used to create all the image files (for -Thtml;
-// if -Txhtml is used, all equations are passed to geqn to produce MathML,
-// and the register ps4html enables the macro sets to ignore floating
-// keeps, footers, and headings.
+// The following characters can’t be translated: space (with one
+// exception, see below), backspace, newline, leader (and \a), tab (and
+// \t).
 //
-// The register www-image-template is set to the user specified template
-// name or the default name.
+// Translations are not considered for finding the soft hyphen character
+// set with the shc request.
+//
+// The pair ‘c\&’ (this is an arbitrary character c
+// followed by the zero width space character) maps this character to
+// nothing.
+//
+// .tr a\&
+// foo bar
+//
+//	⇒ foo br
+//
+// It is even possible to map the space character to nothing:
+//
+// .tr aa \&
+// foo bar
+//
+//	⇒ foobar
+//
+// As shown in the example, the space character can’t be the first
+// character/glyph pair as an argument of tr. Additionally, it is not
+// possible to map the space character to any other glyph; requests like
+// ‘.tr aa x’ undo ‘.tr aa \&’ instead.
+//
+// If justification is active, lines are justified in spite of the
+// ‘empty’ space character (but there is no minimal distance, i.e. the
+// space character, between words).
+//
+//	After an output glyph has been constructed (this happens at the moment
+//
+// immediately before the glyph is appended to an output glyph list, either
+// by direct output, in a macro, diversion, or string), it is no longer
+// affected by tr.
+//
+//	Translating character to glyphs where one of them or both are undefined
+//
+// is possible also; tr does not check whether the entities in its
+// argument do exist.
+//
+// See Gtroff Internals.
+//
+//	troff no longer has a hard-coded dependency on Latin-1; all
+//
+// charXXX entities have been removed from the font
+// description files.  This has a notable consequence that shows up in
+// warnings like can't find character with input code XXX if
+// the tr request isn’t handled properly.
+//
+// Consider the following translation:
+//
+// .tr éÉ
+//
+// This maps input character é onto glyph É, which is identical to glyph
+// char201. But this glyph intentionally doesn’t exist! Instead,
+// \[char201] is treated as an input character entity and is by default
+// mapped onto \['E], and gtroff doesn’t handle translations of
+// translations.
+//
+// # The right way to write the above translation is
+//
+// .tr é\['E]
+//
+// In other words, the first argument of tr should be an input character or
+// entity, and the second one a glyph entity.
+//
+//	Without an argument, the tr request is ignored.
 type TokenRequestTr struct {
 	AbcdEllipse string
 }
@@ -23149,27 +23039,37 @@ var _ Token = (*TokenRequestTr)(nil)
 var _ Node = (*TokenRequestTr)(nil)
 
 // TokenRequestTrf
-// The registers ps4html and www-image-template are defined by the
-// pre-grohtml preprocessor. pre-grohtml reads in the troff input, marks up
-// the inline equations and passes the result firstly to
+// Transparently output the contents of file. Each line is output as if it
+// were preceded by \!; however, the lines are not subject to copy mode
+// interpretation. If the file does not end with a newline, then a newline
+// is added (trf only). For example, to define a macro x containing the
+// contents of file f, use
 //
-// troff -Tps -rps4html=1 -dwww-image-template=template
+// .ev 1
+// .di x
+// .trf f
+// .di
+// .ev
 //
-// and secondly to
+// The calls to ev prevent that the current partial input line becomes part
+// of the diversion.
 //
-// troff -Thtml
+// Both trf and cf, when used in a diversion, embeds an object in the
+// diversion which, when reread, causes the contents of file to be
+// transparently copied through to the output. In Unix troff, the contents
+// of file is immediately copied through to the output regardless of
+// whether there is a current diversion; this behaviour is so anomalous
+// that it must be considered a bug.
 //
-// or
+// While cf copies the contents of file completely unprocessed, trf
+// disallows characters such as NUL that are not valid gtroff input
+// characters (see Identifiers).
 //
-// troff -Txhtml
+// For cf, within a diversion, ‘completely unprocessed’ means that each
+// line of a file to be inserted is handled as if it were preceded by
+// \!\\!.
 //
-// The POSTSCRIPT device is used to create all the image files (for -Thtml;
-// if -Txhtml is used, all equations are passed to geqn to produce MathML,
-// and the register ps4html enables the macro sets to ignore floating
-// keeps, footers, and headings.
-//
-// The register www-image-template is set to the user specified template
-// name or the default name.
+// Both requests cause a line break.
 type TokenRequestTrf struct {
 	File string
 }
@@ -23748,27 +23648,15 @@ var _ Token = (*TokenRequestUnformat)(nil)
 var _ Node = (*TokenRequestUnformat)(nil)
 
 // TokenRequestVpt
-// The registers ps4html and www-image-template are defined by the
-// pre-grohtml preprocessor. pre-grohtml reads in the troff input, marks up
-// the inline equations and passes the result firstly to
+// Enable vertical position traps if flag is non-zero, or disables
+// them otherwise.  Vertical position traps are traps set by the wh
+// or dt requests.  Traps set by the it request are not
+// vertical position traps.  The parameter that controls whether vertical
+// position traps are enabled is global.  Initially vertical position traps
+// are enabled.  The current setting of this is available in the
+// .vpt read-only number register.
 //
-// troff -Tps -rps4html=1 -dwww-image-template=template
-//
-// and secondly to
-//
-// troff -Thtml
-//
-// or
-//
-// troff -Txhtml
-//
-// The POSTSCRIPT device is used to create all the image files (for -Thtml;
-// if -Txhtml is used, all equations are passed to geqn to produce MathML,
-// and the register ps4html enables the macro sets to ignore floating
-// keeps, footers, and headings.
-//
-// The register www-image-template is set to the user specified template
-// name or the default name.
+// Note that a page can’t be ejected if vpt is set to zero.
 type TokenRequestVpt struct {
 	Flag string
 }
@@ -23834,31 +23722,22 @@ var _ Token = (*TokenRequestVpt)(nil)
 var _ Node = (*TokenRequestVpt)(nil)
 
 // TokenRequestVs
-// Request: .vs -space
+// Change (increase, decrease) the vertical spacing by space. The default
+// scaling indicator is ‘p’.
 //
-// Register: \n[.v]
+// If vs is called without an argument, the vertical spacing is reset to
+// the previous value before the last call to vs.
 //
-// The registers ps4html and www-image-template are defined by the
-// pre-grohtml preprocessor. pre-grohtml reads in the troff input, marks up
-// the inline equations and passes the result firstly to
+// gtroff creates a warning of type ‘range’ if space is negative; the
+// vertical spacing is then set to smallest positive value, the vertical
+// resolution (as given in the .V register).
 //
-// troff -Tps -rps4html=1 -dwww-image-template=template
+// Note that ‘.vs 0’ isn’t saved in a diversion since it doesn’t
+// result in a vertical motion. You explicitly have to repeat this command
+// before inserting the diversion.
 //
-// and secondly to
-//
-// troff -Thtml
-//
-// or
-//
-// troff -Txhtml
-//
-// The POSTSCRIPT device is used to create all the image files (for -Thtml;
-// if -Txhtml is used, all equations are passed to geqn to produce MathML,
-// and the register ps4html enables the macro sets to ignore floating
-// keeps, footers, and headings.
-//
-// The register www-image-template is set to the user specified template
-// name or the default name.
+// The read-only number register .v contains the current vertical spacing;
+// it is associated with the current environment (see Environments).
 type TokenRequestVs struct {
 	Space string
 }
@@ -23924,27 +23803,14 @@ var _ Token = (*TokenRequestVs)(nil)
 var _ Node = (*TokenRequestVs)(nil)
 
 // TokenRequestWarn
-// The registers ps4html and www-image-template are defined by the
-// pre-grohtml preprocessor. pre-grohtml reads in the troff input, marks up
-// the inline equations and passes the result firstly to
+// Control the level of warnings checked for. The flags are the sum of the
+// numbers associated with each warning that is to be enabled; all other
+// warnings are disabled. The number associated with each warning is listed
+// below. For example, .warn 0 disables all warnings, and .warn 1 disables
+// all warnings except that about missing glyphs. If no argument is given,
+// all warnings are enabled.
 //
-// troff -Tps -rps4html=1 -dwww-image-template=template
-//
-// and secondly to
-//
-// troff -Thtml
-//
-// or
-//
-// troff -Txhtml
-//
-// The POSTSCRIPT device is used to create all the image files (for -Thtml;
-// if -Txhtml is used, all equations are passed to geqn to produce MathML,
-// and the register ps4html enables the macro sets to ignore floating
-// keeps, footers, and headings.
-//
-// The register www-image-template is set to the user specified template
-// name or the default name.
+// The read-only number register .warn contains the current warning level.
 type TokenRequestWarn struct {
 	Flags string
 }
@@ -24353,27 +24219,13 @@ var _ Token = (*TokenRequestWhile)(nil)
 var _ Node = (*TokenRequestWhile)(nil)
 
 // TokenRequestWrite
-// The registers ps4html and www-image-template are defined by the
-// pre-grohtml preprocessor. pre-grohtml reads in the troff input, marks up
-// the inline equations and passes the result firstly to
+// Write to the file associated with the specified stream. The stream must
+// previously have been the subject of an open request. The remainder of
+// the line is interpreted as the ds request reads its second argument: A
+// leading ‘"’ is stripped, and it is read in copy-in mode.
 //
-// troff -Tps -rps4html=1 -dwww-image-template=template
-//
-// and secondly to
-//
-// troff -Thtml
-//
-// or
-//
-// troff -Txhtml
-//
-// The POSTSCRIPT device is used to create all the image files (for -Thtml;
-// if -Txhtml is used, all equations are passed to geqn to produce MathML,
-// and the register ps4html enables the macro sets to ignore floating
-// keeps, footers, and headings.
-//
-// The register www-image-template is set to the user specified template
-// name or the default name.
+// The writec request is like write, but only write appends a newline to
+// the data.
 type TokenRequestWrite struct {
 	Stream string
 	Data   string

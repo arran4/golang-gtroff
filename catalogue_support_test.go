@@ -16,6 +16,7 @@ type catalogueSupportEntry struct {
 	Index            int              `json:"index"`
 	Kind             TokenKind        `json:"kind"`
 	Package          string           `json:"package"`
+	ParserPackage    string           `json:"parser_package"`
 	Token            string           `json:"token"`
 	DeclaredStatus   DefinitionStatus `json:"declared_status"`
 	ParseStatus      string           `json:"parse_status"`
@@ -72,7 +73,11 @@ func TestCatalogueSupportRoutes(t *testing.T) {
 			if entry.ParseStatus != "supported_generated" && entry.ParseStatus != "supported_custom" {
 				t.Fatalf("uncovered syntax route: %+v", entry)
 			}
-			tok, err := registry.ParseLine(entry.Example, entry.Package)
+			parserPackage := entry.ParserPackage
+			if parserPackage == "" {
+				parserPackage = entry.Package
+			}
+			tok, err := registry.ParseLine(entry.Example, parserPackage)
 			if err != nil || tok == nil {
 				t.Fatalf("claimed generated parser rejected %q: %v", entry.Example, err)
 			}
@@ -84,11 +89,11 @@ func TestCatalogueSupportRoutes(t *testing.T) {
 				t.Fatalf("dispatcher returned %T, report claims %s", tok, entry.Parser)
 			}
 			node, ok := tok.(Node)
-			if !ok || node.TokenName() != entry.Token || node.PackageName() != entry.Package || node.TokenKind() != entry.Kind {
+			if !ok || node.TokenName() != entry.Token || node.PackageName() != parserPackage || node.TokenKind() != entry.Kind {
 				t.Fatalf("generated token metadata differs: %T %+v", tok, tok)
 			}
 			if entry.ParseStatus == "supported_custom" {
-				doc, err := ParseDocument(strings.NewReader(entry.DocumentExample), WithRegistry(registry), WithPackage(entry.Package), WithStrict(true))
+				doc, err := ParseDocument(strings.NewReader(entry.DocumentExample), WithRegistry(registry), WithPackage(parserPackage), WithStrict(true))
 				if err != nil || doc == nil || len(doc.Tokens) != 1 || len(doc.Diagnostics) != 0 {
 					t.Fatalf("claimed document handler failed: %+v, %v", doc, err)
 				}
