@@ -1,8 +1,8 @@
 # Headless CLI
 
 Build `go build -o gtroff ./cmd/gtroff` or install with
-`go install github.com/arran4/golang-gtroff/cmd/gtroff@latest`. The new command has
-no groff, browser, font, terminal, GUI or CGO requirement. The existing `cmd/lex`
+`go install github.com/arran4/golang-gtroff/cmd/gtroff@latest`. The command has
+no groff, browser, font, terminal, GUI or CGO requirement. The `cmd/lex`
 command is preserved as a compatibility token-dump utility.
 
 ```sh
@@ -95,42 +95,6 @@ can leave a partial stream and exits 3. Input uses the AST's documented source,
 line, node and depth bounds. Callers must check the exit code before consuming
 an export as validated input.
 
-## Implementation and verification
-
-Command dispatch is generated at build time using `go-subcommand` (`gosubc` v0.0.32),
-pinned in `internal/tools/tools.go` and executed via `go generate ./...`.
-`cmd/gtroff/main.go` wires process arguments, build values, streams and an
-explicit file opener into the generated command root, while preserving the
-injected `cli.Run` compatibility API for embedded test scenarios. Tests inject
-readers/writers and an in-memory filesystem rather than replacing process
-globals. A separate built-executable test verifies real files, stdin, output,
-exit codes, build metadata, selections, raster rendering and no includes.
-There are no GUI dependencies in the headless `gtroff` binary.
-
-The `md2png` generated `go-subcommand` main was inspected for command/version and
-exit plumbing. This repository has no existing command generator. A small
-standard-library dispatcher avoids a command-generator dependency; no generated
-main was edited or copied. The module now requires Go 1.26 for patched HTML/font
-dependencies. HTML render is documented separately; image/view/server commands
-remain subsequent implementations.
-
-Embedded `testdata/cli/*.txtar` scenarios contain `args.json`, optional
-`stdin.1` or `input/NAME`, and exact `stdout.txt`, `stderr.txt`, `exit.txt`
-expectations. CRLF is stored as actual bytes. JSON is actual command output,
-parsed and cross-checked against a fresh source AST. Normal tests do not rewrite
-expectations. Refresh explicitly, then review the diff:
-
-```sh
-go test . -run '^TestCLIScenarios$' -update-cli
-go test ./...
-go test ./internal/cli -run '^$' -fuzz '^FuzzCLIInspection$' -fuzztime=10s
-```
-
-This phase depends on AST PR #32, itself stacked on unmerged parser PR #19 at
-`75d60db`. Parser issues #3–#17 remain separate contracts; see
-[the AST dependency notes](ast.md#parser-dependencies). No includes or evaluator
-capabilities are exposed. The semantic man model in #22 is the next phase.
-
 ## Bounded source inspection
 
 `gtroff sources [--no-includes] [--root DIR] [FILE]` inspects safely bounded local
@@ -152,3 +116,7 @@ raw source, grep and CSV/TSV records. [Grammar, source attribution and limits](q
 requirements with positioned evidence. It shares bounded include resolution and
 `--no-includes`, supports explicit declarative `--rules` files and text/JSON/JSONL
 reports, and does not execute roff or render. [Capability and rule contracts](analyze.md).
+
+## Other commands
+
+See [extraction](extract.md), [lint](lint.md), [rendering](html.md), [images](images.md), [conversion](convert.md), [server](serve.md), and [viewer](viewer.md). Use `gtroff help COMMAND` for options.

@@ -188,12 +188,3 @@ CLI exit codes: 0 complete, 1 strict diagnostics, 2 usage/selector errors,
 3 input/output/resource/cancellation failures. Named output is never written on a
 failed operation. If an input cannot be opened and no snapshot exists, the CLI
 reports the failure without inventing records.
-
-Tests exercise all formats, exact CRLF/invalid bytes, repeated terms, included
-heading context, opaque/unknown/malformed source, unsupported semantics, strict
-partial reports, filtered/stale query results, callback/writer failures, budgets,
-cancellation and original-file protection. Nineteen CLI TXTAR scenarios include
-JSONL summaries and quoted CSV descriptions; executable tests verify the actual
-generated command and atomic boundary. The existing licensed environ(7) snippet
-checks real source/text provenance; synthetic ENVIRONMENT examples demonstrate the
-generic term/description workflow without claiming a full external corpus crawl.

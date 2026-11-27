@@ -1,6 +1,6 @@
 # Practical command-line workflows
 
-The examples describe the currently merged **headless** CLI. Build the executable from the repository root:
+Build the headless CLI from the repository root:
 
 ```sh
 go build -o /tmp/gtroff ./cmd/gtroff
@@ -38,8 +38,6 @@ Selectors include `section:HEADING`, `node:ID` and structural `path:/0/1`. Obtai
 
 The HTML exporter escapes source text and produces a standalone page. Conversion does not promise byte-identical results for unsupported syntax; check diagnostics and retain the original document.
 
-## For agents and batch jobs
+## Batch jobs
 
-Prefer structured `validate`/`ast` JSON and preserve stdout/stderr separation and exit status. Include invalid flags, incomplete documents, read errors and unknown syntax in test coverage. Do not assume the planned generated CLI and agent command inventory in [issue #59](https://github.com/arran4/golang-gtroff/issues/59) already exists.
-
-Read [CLI contracts](cli.md), [conversion](convert.md) and [development](development.md).
+Use JSON output for programmatic inspection and check the process exit status. See [CLI reference](cli.md) for error and output contracts.

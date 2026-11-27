@@ -203,25 +203,6 @@ with O(projected nodes × selector steps) structural work and no exponential
 ancestor backtracking. Text work is separately charged, including overlapping
 container extraction. Dense ancestor chains have deterministic work-budget tests.
 
-Tests include equivalent Go/parser queries, quoted/invalid selectors, include
-provenance, repeated headings, subsections, opaque material, malformed/partial
-source, CRLF, invalid UTF-8 byte predicates, cancellation, resource limits,
-serialization/short writes, ten CLI TXTAR scenarios and an actual generated-binary
-smoke. The existing licensed `testdata/environ_snippet.7` checks real environ(7)
-paragraph/reference selection; the representative ENVIRONMENT fixtures demonstrate
-term/description extraction without environment-specific library logic. No full
-Great-Library-of-Environ crawl is claimed from these fixtures.
-
-Run opt-in reproducible benchmarks with:
-
-```sh
-go test ./query -run '^$' -bench . -benchmem
-```
-
-They construct deterministic 10/1,000-definition documents, check result counts,
-and measure parsing plus complete stateless execution (including projection).
-Compare on the same Go/toolchain/CPU; no absolute timing CI threshold is imposed.
-
 For term/description records, copied semantic blocks, heading context and explicit
 atomic output, use [extraction](extract.md). `extract.FromQuery` consumes an ordered
 query result/subset with the original source snapshot. Extraction JSON/JSONL are

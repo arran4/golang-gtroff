@@ -89,8 +89,6 @@ go test ./...
 The generator builds every artifact through explicit CLI input/output capabilities
 before writing any file. A source error prevents a refresh. `--write` is the only
 refresh mode; default checks report missing/stale outputs without modifying them.
-Existing full-font HTML is about 830 KiB because it embeds four licensed fonts;
-the new AST is about 15 KiB and the new raster snapshots total about 40 KiB.
 The original input files are never generated. Semantic model JSON has its own
 `-update-man` contract. Native viewer captures have a separate opt-in procedure
 in [viewer.md](viewer.md), because window-system pixels are platform dependent.
@@ -109,7 +107,3 @@ HTML import/export, raster layout, HTTP and viewer controller. For example:
 go test . -run '^$' -fuzz '^FuzzParseAST$' -fuzztime 15s
 go test ./convert -run '^$' -fuzz '^FuzzHTMLImport$' -fuzztime 15s
 ```
-
-These conventions follow [TXTAR v2](https://arran4.github.io/blog/post/2026/018-txtar-patterns-for-agents-v2/),
-[executable scenarios](https://arran4.github.io/blog/post/2026/046-scenarios-as-executable-application-state/)
-and [explicit golden updates](https://arran4.github.io/blog/post/2026/034-golden-test-update-convention/).

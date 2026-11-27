@@ -15,7 +15,7 @@ Caller-provided custom Go tokens and their metadata methods are trusted code.
 
 See [the executable example](../evaluator_example_test.go) and
 [TXTAR cases](../testdata/evaluation). These changes repair bounded execution and
-error visibility under [#13](https://github.com/arran4/golang-gtroff/issues/13);
+error visibility;
 the supported core includes composable state, aliases and positional macro arguments.
 This is a documented subset, not a full roff interpreter or typesetter.
 
@@ -171,10 +171,3 @@ with the same index/path convention. Inspect it even when the error is nil.
 sharing the cumulative step allowance. The compatibility `env.ExpandText(text)`
 returns the original string on failure and records an error diagnostic. Use the
 context variant when failures must be handled directly.
-
-Refresh TXTAR expectations only with explicit approval of the new output:
-
-```sh
-go test . -run '^TestEvaluationScenarios$' -update-evaluation
-go test . -run '^(TestEvaluation|TestEvaluate)'
-```

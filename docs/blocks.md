@@ -154,20 +154,4 @@ and is separate from flat document definition capture. Other AST display/list
 blocks retain their existing structural rules. AST byte/node/line/depth controls
 also apply, including line-length checks inside opaque payloads.
 
-This implements capture/registration work under #5/#12/#14. It does not provide
-preprocessor rendering, arbitrary parser callbacks consuming a reader, roff
-copy-mode evaluation or execution of a macro named by an end delimiter.
-Catalogue syntax coverage does not complete the broader #12/#13 execution scope.
-
-Nineteen small TXTAR scenarios cover exact source, headers, all built-in families,
-nesting, mismatches, strict recovery, custom capture and bounds. Separate tests
-exercise callback/registration failures, snapshots, concurrency, include
-inheritance, reader faults, unresolved boundaries and mutation isolation. A
-separate evaluation scenario verifies that variant bodies do not execute. Fixtures
-refresh only with:
-
-```sh
-go test . -run '^TestBlockScenarios$' -update-blocks
-go test ./...
-go run ./cmd/gen -check
-```
+Block capture does not perform preprocessor rendering, execute copy mode, or call macros named by end delimiters.

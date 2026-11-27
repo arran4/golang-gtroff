@@ -162,25 +162,3 @@ field, but generated parsers no longer use them. `String()` still uses legacy
 formatting and has no universal round-trip guarantee; use checked formatting
 when typed-field preservation matters, and `Source()`/document source snapshots
 when exact source spelling matters.
-
-This is a follow-up for [#7](https://github.com/arran4/golang-gtroff/issues/7),
-not closure of its full grammar/fidelity scope. Seventeen binding TXTAR cases
-check expected fields independently of serialization. Invalid syntax/arity is
-checked separately in both document modes. Every generated dispatch example is
-checked for canonical field equality; all 271 fixed catalogue routes reject
-surplus fields. Generator fixtures reject malformed and conflicting policies.
-
-Seven small argument TXTAR scenarios cover bytes, indices, quoting, comments,
-invalid bytes and partial errors; a document scenario verifies arity recovery.
-Raw/gap/tail reconstruction, legacy-wrapper agreement, checked formatting and
-malformed cases have independent assertions and fuzz targets. Normal tests never
-rewrite expectations. Explicit refresh commands are:
-
-```sh
-go test . -run '^TestArgumentSourceScenarios$' -update-arguments
-go test . -run '^TestDocumentSourceScenarios$' -update-document
-go test ./...
-```
-
-`input.args` fixture files encode one argument string plus the archive's final
-LF, which the harness removes once; `input.hex` represents exact arbitrary bytes.

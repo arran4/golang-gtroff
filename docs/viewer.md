@@ -29,23 +29,15 @@ only explicit TTF/OTF paths, capped at 2 MiB per face. Defaults remain bundled G
 faces. The input closes before the window opens, so rendering never rereads a
 file or follows a source reference.
 
-## Verified platform matrix
+## Platforms
 
-| Target | Backend / CGO | Evidence and status |
-| --- | --- | --- |
-| Linux amd64 | Shiny X11, CGO=0 | Built and executed under Xvfb; native input, pixels, resize, full/selected pages and close verified. This is the verified desktop target. |
-| Windows amd64 | Shiny Win32, CGO=0 | Cross-build passed on Linux. Runtime/interactive desktop unverified; available as a preview build. |
-| macOS amd64, CGO=0 | Explicit unsupported-backend stub | Cross-build passed; it reports the missing native backend. This is not a GUI support claim. |
-| macOS with native CGO | Shiny default OpenGL/GLFW backend | Backend source is enabled and a native CI build lane is configured. Local cross-build probe failed at the Linux compiler's unsupported Apple `-arch` option; no local native build/runtime is claimed. |
+| Platform | Requirements |
+| --- | --- |
+| Linux | X11 or XWayland, valid DISPLAY/Xauthority; CGO-free |
+| Windows | Shiny Win32 backend; experimental |
+| macOS | Native Apple SDK/compiler and CGO; experimental |
 
-Linux requires an X server or XWayland and a valid DISPLAY/Xauthority connection.
-It does not require native Xlib/GLFW linkage: the tested binary uses the pure-Go
-X11 driver. There is no native Wayland backend in this implementation. Windows
-uses the Shiny Windows backend. macOS requires its native compiler/SDK/frameworks;
-unsupported OS/build combinations return a clear backend error while help/version
-still work. Experimental Shiny/mobile dependencies are pinned in `desktop/go.mod`.
-Ordinary unit tests never open a display. Hosted CI results are reported separately
-from local cross-build and Xvfb execution evidence.
+There is no native Wayland backend. The packaged viewer configuration targets Linux amd64/X11. Unsupported backend combinations report an error without opening a window.
 
 ## Reading and controls
 
@@ -104,62 +96,3 @@ need its own display/buffer storage, and callers retaining frames consume extra
 memory. Oversized viewport events fail before allocating a buffer. `Load` sessions retain original bytes through `Session.Source()` independently of
 the raster plan; `NewSession` accepts a plan without claiming a raw snapshot.
 Viewing never writes source or canonical text.
-
-## Tests and native smoke
-
-Root `testdata/viewer/*.txtar` scenarios capture readable gesture/state/rectangle
-expectations, including invalid geometry and closed state. Approve refreshes
-explicitly with `go test . -run '^TestViewerScenarios$' -update-viewer`.
-Controller/session/adapter/CLI tests need no display. Root tests also continue to
-exercise the semantic conversion loops and raster fixtures unchanged.
-
-On a Linux X11 test machine, install Xvfb, xauth and xdotool only as test tools:
-
-```sh
-cd desktop
-CGO_ENABLED=0 xvfb-run -a -s '-screen 0 1600x1200x24 -nolisten tcp' \
-  go test ./cmd/gtroff-view -run '^TestX11Executable$' -count=1 -gui-smoke
-```
-
-The smoke test launches the actual binary with the synthetic man fixture, finds
-its new X11 window by `_NET_WM_NAME`, sends native wheel/key/drag/resize input and
-reads pixels back from that window. Each observed frame must match the expected
-controller/session frame before advancing. It verifies full and named-section
-views, next/previous pages, fit, notes, help and process close. The test owns its
-process/window and does not manipulate existing viewer windows. It waits for
-observable state rather than assuming startup sleeps succeeded.
-
-The [captured Linux screenshot](../examples/gtroff-view-linux.png) is a genuine
-X11 client-window capture after resize, fit, page switch and notes. It was visually
-inspected after capture from the running viewer.
-To approve a new screenshot artifact, pass
-`-screenshot /absolute/path/to/examples/gtroff-view-linux.png` to that explicit
-smoke command, then inspect the image before committing. Normal tests do not
-refresh screenshots. On failure, that explicit path may also receive
-`.actual.png`/`.expected.png` debug captures. Native CI has a separate X11 smoke
-lane and optional module build/unit lanes; headless jobs stay independent.
-
-For a manual smoke on each additional desktop before claiming runtime support:
-open `examples/man-tool.1` with `--width 800 --page-height 700`; read all pages,
-scroll/drag, zoom at a pointer, fit, resize the real window, switch pages, open
-notes/help and close. Repeat with `--section OPTIONS` and an unknown macro input
-with warnings. Record OS/architecture/backend/CGO and capture an actual window.
-A successful cross-build alone does not satisfy this runtime procedure.
-
-## Optional release candidate
-
-The separate root `.goreleaser-view.yaml` produces only the locally executed
-Linux amd64/X11/CGO-free distribution. It never participates in headless linking.
-Windows and macOS viewer artifacts are not advertised or packaged. Full CI lanes
-may attempt their native source builds as optional checks.
-
-After extracting a candidate archive, test that exact executable rather than
-rebuilding it:
-
-```sh
-CGO_ENABLED=0 xvfb-run -a -s '-screen 0 1600x1200x24 -nolisten tcp' go test ./cmd/gtroff-view -run '^TestX11Executable$' -count=1 -gui-smoke -gui-binary /absolute/path/to/gtroff-view
-```
-
-Run from `desktop`. The explicit `-gui-binary` path selects the existing candidate;
-without it the test retains its usual build-and-smoke behavior. See the
-[release graph, gates and verification scope](releasing.md).
