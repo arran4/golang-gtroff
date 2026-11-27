@@ -97,6 +97,7 @@ Commands:
   skills    Discover and export portable agent recipes
   analyze   Classify syntax and processing requirements
   lint      Apply structural documentation policy
+  diff      Compare source-aware documentation revisions
   render    Export a semantic man page to HTML or paginated images
   convert   Convert supported HTML and man structure
   serve     Browse and search explicit man-page directories over HTTP
@@ -204,6 +205,8 @@ func Run(args []string, e Environment) int {
 		return analyzeCommand(args, e)
 	case "lint":
 		return lintCommand(args, e)
+	case "diff":
+		return diffCommand(args, e)
 	case "validate", "ast":
 		return inspectCommand(command, args, e)
 	case "man":
@@ -238,6 +241,8 @@ func commandHelp(e Environment, command string) int {
 		return writeString(e, analyzeHelp)
 	case "lint":
 		return writeString(e, lintHelp)
+	case "diff":
+		return writeString(e, diffHelp)
 	case "convert":
 		return writeString(e, convertHelp)
 	case "serve":
@@ -407,6 +412,7 @@ func runInspect(command string, o inspectOptions, files []string, e Environment)
 //	skills    Discover and export portable agent recipes
 //	analyze   Classify syntax and processing requirements
 //	lint      Apply structural documentation policy
+//	diff      Compare source-aware documentation revisions
 //	render    Export a semantic man page to HTML or paginated images
 //	convert   Convert supported HTML and man structure
 //	serve     Browse and search explicit man-page directories over HTTP

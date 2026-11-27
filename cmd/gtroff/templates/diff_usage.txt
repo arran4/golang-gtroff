@@ -1,0 +1,9 @@
+
+Usage: gtroff diff [OPTIONS] BEFORE AFTER
+
+Semantic view compares existing man content projections; source view compares bytes.
+Known formatting-only edits are ignored in semantic view. Opaque source and
+ambiguous duplicate identities remain explicit. Named roots resolve bounded
+local includes; incomplete input does not become invented content removals.
+Comparison never executes macros or external commands and never writes files.
+Exit codes: 0 equal, 1 changed/ambiguous/strict, 2 usage, 3 I/O/resource failure.

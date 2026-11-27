@@ -1,0 +1,35 @@
+Documentation diff scenario: definitions.
+-- args.json --
+["diff", "before.1", "after.1"]
+-- input/before.1 --
+.TH TOOL 1
+.SH ENVIRONMENT
+.TP
+.B OLD
+Old.
+.TP
+.B HOME
+Old directory.
+-- input/after.1 --
+.TH TOOL 1
+.SH ENVIRONMENT
+.TP
+.B NEW
+New.
+.TP
+.B HOME
+New directory.
+-- stdout.txt --
+diff: different (assessment=man-content-projection complete=true changes=3 ambiguities=0)
+before: "before.1" sources=1 objects=4
+after: "after.1" sources=1 objects=4
+1 added definition "NEW" [confidence=projected-content moved=false content-changed=false]: identity has no counterpart in the inspected before snapshot
+  after "after.1":3:1 source=1 [27,43) value="[{\"kind\":\"flow\",\"text\":\"New.\"}]"
+2 removed definition "OLD" [confidence=projected-content moved=false content-changed=false]: identity has no counterpart in the inspected after snapshot
+  before "before.1":3:1 source=1 [27,43) value="[{\"kind\":\"flow\",\"text\":\"Old.\"}]"
+3 changed definition "HOME" [confidence=projected-content moved=false content-changed=true]: compared content payload changed
+  before "before.1":6:1 source=1 [43,70) value="[{\"kind\":\"flow\",\"text\":\"Old directory.\"}]"
+  after "after.1":6:1 source=1 [43,70) value="[{\"kind\":\"flow\",\"text\":\"New directory.\"}]"
+-- stderr.txt --
+-- exit.txt --
+1

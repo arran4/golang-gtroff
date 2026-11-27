@@ -197,3 +197,8 @@ JSONL summaries and quoted CSV descriptions; executable tests verify the actual
 generated command and atomic boundary. The existing licensed environ(7) snippet
 checks real source/text provenance; synthetic ENVIRONMENT examples demonstrate the
 generic term/description workflow without claiming a full external corpus crawl.
+
+The [documentation diff](diff.md) consumer reuses Document records and shared work
+accounting. `Record.MetadataOrigin` is a copied existing man-model origin, so
+metadata can retain the actual title-line span outside a selected content subtree.
+`Report.WorkUnits` is nonserialized accounting for composed operations.

@@ -1,0 +1,19 @@
+Documentation diff scenario: malformed-source.
+-- args.json --
+["diff", "--view", "source", "before.1", "after.1"]
+-- input/before.1 --
+.TH
+-- input/after.1 --
+.TH TOOL
+-- stdout.txt --
+diff: different (assessment=exact-source-bytes complete=true changes=1 ambiguities=0)
+before: "before.1" sources=1 objects=1
+after: "after.1" sources=1 objects=1
+1 changed source "$root" [confidence=source-bytes moved=false content-changed=true]: compared content payload changed
+  before "before.1":1:1 source=1 [0,4) value=".TH\n"
+  after "after.1":1:1 source=1 [0,9) value=".TH TOOL\n"
+before "before.1":1:1: input error syntax: fitting TokenMacroTH arguments: , missing required arguments: got 0, minimum 2
+after "after.1":1:1: input error syntax: fitting TokenMacroTH arguments: TOOL, missing required arguments: got 1, minimum 2
+-- stderr.txt --
+-- exit.txt --
+1

@@ -37,6 +37,7 @@ type Heading struct {
 // NormalizedText folds whitespace without changing case. HTML is populated only
 // when explicitly requested and is produced by the existing man HTML renderer.
 type Record struct {
+	MetadataOrigin *man.Origin         `json:"metadataOrigin,omitempty"`
 	Semantic       bool                `json:"semantic"`
 	SchemaVersion  int                 `json:"schemaVersion"`
 	Index          int                 `json:"index"`
@@ -80,6 +81,10 @@ type Report struct {
 	Records       []Record            `json:"records"`
 	Diagnostics   []source.Diagnostic `json:"diagnostics,omitempty"`
 	HTMLPrepared  bool                `json:"htmlPrepared"`
+
+	// WorkUnits records charged selection/construction work for composed callers.
+	// It is execution accounting and is omitted from serialized reports.
+	WorkUnits int `json:"-"`
 }
 
 // Options controls selection/construction, not serialization. Query options
