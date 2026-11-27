@@ -163,11 +163,11 @@ func (r *Registry) RegisterBlock(h BlockHandler) {
 }
 
 func (r *Registry) documentHandler(cmd, pkg string) (CustomHandler, BlockHandler, error) {
-	snapshot := r.snapshot()
+	handlers, blocks := r.snapshotHandlers()
 	var line CustomHandler
 	var block BlockHandler
 	count := 0
-	for _, h := range snapshot.handlers {
+	for _, h := range handlers {
 		if nilInterface(h) {
 			return nil, nil, fmt.Errorf("%w: nil registration", ErrInvalidHandler)
 		}
@@ -176,7 +176,7 @@ func (r *Registry) documentHandler(cmd, pkg string) (CustomHandler, BlockHandler
 			line = h
 		}
 	}
-	for _, h := range snapshot.blocks {
+	for _, h := range blocks {
 		if nilInterface(h) {
 			return nil, nil, fmt.Errorf("%w: nil block registration", ErrInvalidHandler)
 		}
@@ -198,8 +198,9 @@ func (r *Registry) documentHandler(cmd, pkg string) (CustomHandler, BlockHandler
 // predicates (including duplicate registrations) return ErrAmbiguousHandler
 // before Parse is called. Nil handlers/tokens return ErrInvalidHandler.
 func (r *Registry) DispatchCustom(cmd, args, pkg string) (Token, bool, error) {
+	handlers, _ := r.snapshotHandlers()
 	var selected CustomHandler
-	for _, h := range r.snapshot().handlers {
+	for _, h := range handlers {
 		if nilInterface(h) {
 			return nil, true, fmt.Errorf("%w: nil registration", ErrInvalidHandler)
 		}
@@ -232,13 +233,21 @@ func (r *Registry) ParseLinePermissive(line, pkg string) (Token, error) {
 	return parseLineWithRegistry(line, pkg, true, r)
 }
 
-func (r *Registry) snapshot() *Registry {
+// snapshotHandlers copies registrations under the lock, then releases it before
+// callers invoke handler code. Dispatch needs the slices, not another Registry
+// wrapper; parser-entry snapshots below still own their mutable registry state.
+func (r *Registry) snapshotHandlers() ([]CustomHandler, []BlockHandler) {
 	if r == nil {
-		return NewRegistry()
+		return nil, nil
 	}
 	r.mu.RLock()
 	defer r.mu.RUnlock()
-	return &Registry{handlers: append([]CustomHandler(nil), r.handlers...), blocks: append([]BlockHandler(nil), r.blocks...)}
+	return append([]CustomHandler(nil), r.handlers...), append([]BlockHandler(nil), r.blocks...)
+}
+
+func (r *Registry) snapshot() *Registry {
+	handlers, blocks := r.snapshotHandlers()
+	return &Registry{handlers: handlers, blocks: blocks}
 }
 
 func registryForOptions(o ParserOptions) *Registry {
