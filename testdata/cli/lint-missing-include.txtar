@@ -1,0 +1,22 @@
+Lint scenario: missing-include.
+-- args.json --
+["lint", "main.1"]
+-- input/main.1 --
+.TH TOOL 1
+.SH NAME
+tool \- example tool
+.SH SYNOPSIS
+.B tool
+.SH DESCRIPTION
+Description.
+.so missing.roff
+-- stdout.txt --
+lint: documents=1 findings=1 suppressed=0 complete=true fail-on=error failed=false
+document 1: main.1 (profile=man input-invalid=false)
+  source 1 main.1:8:1: input warning missing: include missing: open missing.roff: file does not exist
+  source 1 main.1:8:1: input warning semantic: unsupported semantics preserved: .so
+document 1 source 1 main.1:8:1: warning source.unresolved-include [structural]: include "missing.roff" could not be inspected (missing)
+  suggestion: Provide the allowed local source or explicitly disable includes for a single-file policy.
+-- stderr.txt --
+-- exit.txt --
+0

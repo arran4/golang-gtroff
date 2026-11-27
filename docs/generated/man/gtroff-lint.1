@@ -1,0 +1,47 @@
+.\" Generated from gtroff command help; do not edit.
+.TH "GTROFF-LINT" 1 "" "golang-gtroff" "User Commands"
+.SH NAME
+\&gtroff-lint
+.SH SYNOPSIS
+.nf
+\&Usage: gtroff lint [OPTIONS] [FILE ...]
+\&
+\&Apply structural man documentation policy to one file or an explicit collection.
+\&Sources, parser diagnostics, capability analysis and lint findings stay distinct.
+\&Named files resolve bounded local includes; stdin needs an explicit --root.
+\&Rules do not execute roff or external programs and never modify source files.
+\&
+\&  --format text|json|jsonl  Default: text; JSONL summary then findings/suppressions
+\&  --rules FILE             Explicit schema-version-1 JSON policy
+\&  --enable IDS             Comma-separated rule IDs to enable (including optional)
+\&  --disable IDS            Comma-separated rule IDs to disable; disable wins
+\&  --required HEADINGS      Comma-separated required sections; config [] disables
+\&  --fail-on auto|error|warning|info|never  Default: error, warning with --strict
+\&  --strict                 Warning threshold, stricter conventions/capabilities,
+\&                           and rejection of all source diagnostics
+\&  --closed-world           Check .MR targets only within a complete named collection
+\&  --no-includes            Inspect one source per input, retaining references
+\&  --root DIR               Allowed root; default: each input's directory
+\&  --package man|ms|roff    Default parser context: man; profile detected separately
+\&  --max-bytes COUNT        Collection captured bytes; default: 8388608
+\&  --max-nodes COUNT        Collection input AST nodes; default: 100000
+\&  --max-files COUNT        Collection source occurrences; default: 256
+\&  --max-depth COUNT        Include depth; default: 16, ceiling 128
+\&  --max-documents COUNT    Root document cap; default: 256
+\&  --max-lint-nodes COUNT   Collection analysis AST nodes; default: 200000
+\&  --max-findings COUNT     Emitted findings including suppressed; default: 100000
+\&  --max-work COUNT         Shared charged work; default: 67108864
+\&
+\&Default required sections: NAME, DESCRIPTION; SYNOPSIS warning for manual 1/8.
+\&Strict adds SYNOPSIS for manual 2/3 and unsupported optional-man warnings.
+\&Foreign ms/mdoc/mixed profiles skip man conventions with an info finding.
+\&Incomplete/dynamic source downgrades missing sections to heuristic warnings.
+\&References outside a collection are allowed unless --closed-world is explicit.
+\&Suppress with real source comments: .\e\(dq gtroff-lint-disable RULE[,RULE]
+\&Use enable or disable-next-line similarly; all addresses every registered rule.
+\&Suppressions are file-local, retained in reports, and cannot hide input errors.
+\&Exit codes: 0 passes threshold, 1 policy/input invalid, 2 usage/configuration,
+\&3 input/output/resource/cancellation failure; partial reports when available.
+.fi
+.SH SEE ALSO
+.MR man 7

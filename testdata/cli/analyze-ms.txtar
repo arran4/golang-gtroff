@@ -1,0 +1,23 @@
+test: explanatory non-executing feature analysis
+-- args.json --
+["analyze"]
+-- stdin.1 --
+.TL
+Title
+.AU
+Author
+-- stdout.txt --
+profile: ms (confidence=high)
+reason: package-specific source spellings, without evaluating redefinitions
+sources: 1; bytes: 21; nodes: 9; physical lines: 4; enumeration complete: true
+capabilities: syntax and optional man interpretation assessed separately; rendering not assessed
+flags: conditional=false include=false evaluation=false preprocessor=false side-effect-syntax=false unknown=false opaque=false partial-source=false
+requirements: advanced-interpretation
+features: control=2 text=2
+controls: .AU=1 .TL=1
+escapes:
+source 1: <stdin> (profile=ms depth=0 bytes=21 eof=true)
+diagnostics: 0
+-- stderr.txt --
+-- exit.txt --
+0

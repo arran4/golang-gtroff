@@ -1,0 +1,21 @@
+Lint scenario: strict-warning.
+-- args.json --
+["lint", "--strict"]
+-- stdin.1 --
+.TH TOOL 1
+.SH NAME
+tool \- example tool
+.SH SYNOPSIS
+.B tool
+.SH DESCRIPTION
+Description.
+.SH NAME
+tool \- repeated
+-- stdout.txt --
+lint: documents=1 findings=1 suppressed=0 complete=true fail-on=warning failed=true
+document 1: <stdin> (profile=man input-invalid=false)
+document 1 source 1 <stdin>:8:1: warning man.duplicate-section [structural]: required section "NAME" repeats
+  related document 1 source 1 <stdin>:2:1: first heading
+-- stderr.txt --
+-- exit.txt --
+1

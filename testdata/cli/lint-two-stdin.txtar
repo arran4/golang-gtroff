@@ -1,0 +1,9 @@
+Lint scenario: two-stdin.
+-- args.json --
+["lint", "-", "-"]
+-- stdout.txt --
+-- stderr.txt --
+gtroff: stdin may be used at most once
+Run 'gtroff help' for usage.
+-- exit.txt --
+2

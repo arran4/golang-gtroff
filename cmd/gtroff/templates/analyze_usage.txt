@@ -1,0 +1,8 @@
+
+Usage: gtroff analyze [OPTIONS] [FILE]
+
+Inventory source features and explain syntax/semantic/include capability facts.
+Named files resolve bounded local includes; stdin needs explicit --root.
+Profile confidence is lexical evidence, not successful execution or rendering.
+JSON/JSONL preserve detailed source evidence; text defaults to a concise summary.
+Exit codes: 0 complete, 1 strict diagnostics, 2 usage/rules, 3 I/O/resource failure.

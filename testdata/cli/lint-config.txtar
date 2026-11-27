@@ -1,0 +1,17 @@
+Lint scenario: config.
+-- args.json --
+["lint", "--rules", "policy.json"]
+-- stdin.1 --
+.TH TOOL 1
+.SH ENVIRONMENT
+.TP
+.B HOME
+Directory.
+-- input/policy.json --
+{"schemaVersion":1,"policy":{"requiredSections":["ENVIRONMENT"]}}
+-- stdout.txt --
+lint: documents=1 findings=0 suppressed=0 complete=true fail-on=error failed=false
+document 1: <stdin> (profile=man input-invalid=false)
+-- stderr.txt --
+-- exit.txt --
+0

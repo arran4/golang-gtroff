@@ -1,0 +1,15 @@
+Lint scenario: foreign.
+-- args.json --
+["lint"]
+-- stdin.1 --
+.TL
+Title
+.AU
+Author
+-- stdout.txt --
+lint: documents=1 findings=1 suppressed=0 complete=true fail-on=error failed=false
+document 1: <stdin> (profile=ms input-invalid=false)
+document 1 source 1 <stdin>:1:1: info profile.man-policy [heuristic]: man section/definition conventions were skipped for profile ms
+-- stderr.txt --
+-- exit.txt --
+0

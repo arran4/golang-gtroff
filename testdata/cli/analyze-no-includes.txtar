@@ -1,0 +1,24 @@
+test: explanatory non-executing feature analysis
+-- args.json --
+["analyze", "--no-includes", "main.1"]
+-- input/main.1 --
+.TH TOOL 1
+.so common
+-- input/common --
+child
+-- stdout.txt --
+profile: man (confidence=high)
+reason: package-specific source spellings, without evaluating redefinitions
+sources: 1; bytes: 22; nodes: 5; physical lines: 2; enumeration complete: true
+capabilities: syntax and optional man interpretation assessed separately; rendering not assessed
+flags: conditional=false include=true evaluation=false preprocessor=false side-effect-syntax=false unknown=false opaque=false partial-source=false
+requirements: advanced-interpretation, source-resolution
+features: control=2 include=1
+controls: .TH=1 .so=1
+escapes:
+source 1: main.1 (profile=man depth=0 bytes=22 eof=true)
+include main.1:2:1: common [disabled] -> 0
+diagnostics: 2
+-- stderr.txt --
+-- exit.txt --
+0

@@ -1,0 +1,31 @@
+Lint scenario: collection.
+-- args.json --
+["lint", "--closed-world", "a.1", "b.1"]
+-- input/a.1 --
+.TH TOOL 1
+.SH NAME
+tool \- example tool
+.SH SYNOPSIS
+.B tool
+.SH DESCRIPTION
+Description.
+.MR other 1
+.MR absent 3
+-- input/b.1 --
+.TH OTHER 1
+.SH NAME
+tool \- example tool
+.SH SYNOPSIS
+.B tool
+.SH DESCRIPTION
+Description.
+-- stdout.txt --
+lint: documents=2 findings=1 suppressed=0 complete=true fail-on=error failed=false
+collection reference check: checked
+document 1: a.1 (profile=man input-invalid=false)
+document 2: b.1 (profile=man input-invalid=false)
+document 1 source 1 a.1:9:1: warning reference.local-target [semantic]: manual reference "absent(3)" has no title/section target in the declared closed collection
+  suggestion: Include the target document, correct the reference, or use an open collection policy.
+-- stderr.txt --
+-- exit.txt --
+0
